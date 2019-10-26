@@ -1,0 +1,2725 @@
+#AREA Whispering Woods~
+#AUTHORS Oren~
+#VERSION 4
+#RANGES 5 15 1 95
+#OLC_RANGES 14300 14399
+#RESETMSG You hear the wind whisper through the trees.~
+
+#FLAGS AFLAG_AUTOSAVE
+
+
+#HELPS
+1 "WHISPERING WOODS"~
+{120}                                 Whispering Woods
+{300}
+The Whispering Woods lie on the Eastern Continent.  It is said to be a place of
+mystery and magic, and one that could provide an adventurer with some riddles to
+solve yielding useful rewards.  The young can travel to the Whispering Woods
+through the obelisk in Roterodamum.  Older travellers can find their own way.
+~
+
+0 $~
+
+
+#MOBILES
+#14300
+spirit M14300~
+a spirit~
+A whispering spirit is floating here.~
+This spirit is semi-translucent and hovers just off the ground.  The spirit
+wears tattered rags and looks very sad.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_BLIND|AFF_FLYING
+0 S
+10 BODY_HEAD BODY_CLAW 1d25+50 1d10+2
+5000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14301
+rabbit M14301~
+a rabbit~
+A rabbit scampers around here.~
+This little rabbit scampers around here happily.  Its fur is gray and it is
+most likely looking for carrots or other food.
+~
+ACT_SMART|ACT_BODY
+AFF_BLIND
+0 S
+5 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_HAND 1d6+20 1d5+2
+1000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 20~
+mpechoat $n {070}You chop off one of the rabbit's feet!
+mpechoaround $n {070}$n chops off one of the rabbit's feet!
+mpoload 14324
+~
+|
+#14302
+fox M14302~
+a fox~
+A fox is here looking for prey.~
+This fox has red fur with a white stripe on his tail.  He looks hungry and
+may be looking for rabbits.
+~
+ACT_BODY
+AFF_SNEAK|AFF_HASTE
+0 S
+7 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_HAND|BODY_FOOT BODY_MOUTH 1d12+30 1d7+2
+2000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14303
+deer M14303~
+a deer~
+A white tailed deer is here looking for food.~
+This white-tailed, young doe has a soft, brown coat.  You wonder if its parents
+are around.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND
+0 S
+5 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_HORN 1d6+20 1d5+2
+2500 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14304
+raccoon M14304~
+a raccoon~
+A raccoon is here foraging for food.~
+This raccoon looks to be quite the rascal, his black circles around his eyes
+making him look like a bandit.  He has grey fur and a striped tail.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND
+0 S
+5 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_TAIL|BODY_CLAW BODY_MOUTH|BODY_CLAW 1d6+20 1d5+2
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#14305
+tree goblin M14305~
+a tree goblin~
+A tree goblin is here, looking mean.~
+This tree goblin has green skin and wears a fox skin tunic as his clothing.
+He looks mean and doesn't like your presence here.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND
+0 S
+15 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_MOUTH|BODY_HAND|BODY_FOOT 1d56+105 1d15+3
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#14306
+salmon M14306~
+a salmon~
+A salmon is struggling to swim upstream here.~
+This salmon is about a foot long and has a red belly.  It struggles on the
+current, returning to its spawning ground.
+~
+ACT_BODY|ACT_RACE
+AFF_BLIND
+0 S
+10 BODY_HEAD|BODY_EYE BODY_MOUTH 1d25+51 1d10+2
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14307
+micah traveller M14037~
+Micah the Traveller~
+A dusty traveller is here.~
+This dusty traveller wears travelling gear and carries a backpack which he rests
+on the rock near him.  He has a long gnarled staff which serves as his walking
+stick.  He wears an old grey cap on his head.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+20 BODY_HEAD BODY_LEG|BODY_HAND 1d100+182 1d20+4
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 100~
+sit i14303
+~
+>delay_prog 1~
+sniff 
+say Damn, I WISH I still had my lucky rabbit's foot...
+~
+>speech_prog wish foot~
+if quest (0,4,$n) == 0
+  say Yeah, $n, I used to have a nice, lucky rabbit's foot.
+  say But I lost it in my travels.
+  say If you happen to find a rabbit's foot, and you don't need it..
+  say I'd be say very grateful if you could give it to me.
+  pout 
+  mpmset $n quest 0 4 1
+endif
+~
+>give_prog i14324~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  mpjunk i14324
+  say Wow!  Thank you ever so much $n!!
+  say Now my good luck can return finally!!
+  say Here, take this as a token of my appreciation!
+  mpoload 14325
+  give i14325 $n
+endif
+~
+>group_greet_prog 75~
+say Good day $r!
+say Welcome to the Whispering Woods.
+say Can I interest you in some of my goods?
+~
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 0
+  mpdelay self 8 1 $n
+endif
+~
+|
+#14308
+girl heather M14308~
+Heather~
+A young girl is here, playing.~
+This young girl has blonde hair the color of cornsilk, done up in pigtails.  She
+is wearing a blue dress which she has soiled from the dirt she is playing in.
+Her blue eyes sparkle as she smiles, noticing you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+5 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND 1d6+20 1d5+2
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (16,8,$n) == 0
+  sniff 
+endif
+~
+>speech_prog sad~
+if quest (16,8,$n) == 5
+  mpmset $n quest 16 8 6
+  sniff 
+  say Yes!  I'm sad!
+  cry 
+  say I lost my boat in the river!!!
+  say Will you help me get it back $n?
+endif
+~
+>speech_prog yes~
+if quest (16,8,$n) == 6
+  mpmset $n quest 16 8 7
+  say Great thanks soooo much $n!
+  say Last I saw it I was playing down by Roaring Brook and it floated down the brook and its gone!
+  say You can take my brother's raft if you need it.
+  say He always leaves it by the brook!
+  say Please find my boat!
+  mpecho {070}Heather goes back to her sulking...
+endif
+~
+>give_prog i14323~
+if quest (16,8,$n) == 7
+or quest (16,8,$n) == 6
+  mpmset $n quest 16 8 8
+  mpjunk i14323
+  mpecho {070}Heather holds the boat high in the air then hugs it.
+  say Thanks $n!
+  hug $n
+  say I'm so happy you returned my boat!
+  say Now I can play with it again!!
+  say You should try to see why brother is so sad as well he's been sulking all day!
+  say Thanks again!
+  mpecho {070}Heather goes back to playing in the yard.
+endif
+~
+|
+#14309
+cat M14309~
+a cat~
+A cat is skulking around here.~
+This cat has grey, matted fur.  He hisses at you as you examine him.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+3 BODY_HEAD|BODY_TAIL|BODY_CLAW BODY_CLAW 1d2+13 1d3+2
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14310
+Ethel M14310 woman~
+Ethel~
+A middle aged woman is here, cooking.~
+This woman is middle aged and has brown hair, pulled back into a bun at the nape
+of her neck.  Her face is careworn, but she smiles at  you as you enter.  She is
+wearing a light blue dress with a white apron tied over it to protect it from
+stains as she cooks.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+10 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND 1d25+51 1d10+2
+1000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (16,8,$n) == 11
+  mpmset $n quest 16 8 12
+  say Thank you ever so much for helping my family out.
+  say Its a great burden off my shoulders now that they are not grumpy anymore!
+  say Here take these gifts for all the help.
+  mpoload 14336
+  mpoload 14337
+  give i14336 $n
+  give i14337 $n
+  smile $n
+else
+  say Hello, $n.
+  say Are you hungry?
+endif
+~
+>speech_prog hungry yes~
+say Okay, let me whip you up something to eat!
+cast 'feast'
+~
+>speech_prog help~
+if quest (16,8,$n) == 0
+  mpmset $n quest 16 8 1
+  say Great!
+  say My husband and both my kids are depressed for one reason or another.
+  sigh 
+  say Why don't you go ask my husband why he is sad?
+  say That would be a great help for me, because I'm ever so busy around the house.
+  say I don't have time to tend to such things.
+  mpecho Ethel goes back to her work in the kitchen.
+endif
+~
+>rand_prog 10~
+if quest (16,8,$r) == 0
+  say My family is all depressed...
+  say Do you think you can HELP them out $r?
+endif
+~
+|
+#14311
+Jonas man m14311~
+Jonas~
+A middle aged man is here.~
+This man has dark hair and eyes, with a droopy black mustache.  He wears a brown
+robe and black pantaloons, and sits comfortably, reading a book.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+15 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 1d56+105 1d15+3
+2000 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 100~
+sit chair
+~
+>greet_prog 100~
+if quest (16,8,$n) == 0
+  pout 
+endif
+~
+>speech_prog sad~
+if quest (16,8,$n) == 1
+  say Yeah I'm a bit sad $n...
+  mpechoat $n {070}Jonas looks up at you.
+  mpechoaround $n {070}Jonas looks up at $n.
+  say I hurt my back out in the woods and I still have one more elm tree to cut.
+  say Do you think you can HELP me out and cut that tree down for me??
+  say If you could I would most definately cheer up!
+  mpmset $n quest 16 8 2
+endif
+~
+>speech_prog help~
+if quest (16,8,$n) == 2
+  mpmset $n quest 16 8 3
+  say Great $n.
+  say I owe you one, grab my axe, I think its in the shed.
+  say Then find the largest elm in the woods and chop it down.
+  say Bring back the kindling for the fire and give it to me.
+  say I can handle the rest.
+  smile $n
+  sit chair
+  mpecho {070}Jonas grimaces because of his aching back...
+endif
+~
+>give_prog i14335~
+if quest (16,8,$n) == 4
+  mpjunk i14335
+  mpecho {070}Jonas puts the kindling in a basket near him.
+  say Thanks a lot $n!
+  say This saved me a whole lot of work and really made my day!
+  say I thank you again!
+  say If I were you I'd go see what is wrong with Heather, she has seemed sad lately as well.
+  mpmset $n quest 16 8 5
+endif
+~
+|
+#14312
+troll M14312~
+a troll~
+A warty troll stands here growling.~
+This green, warty troll stands here, hunched over.  He is wearing nothing but a
+suit of hide armor and helmet.  His eyes are half-closed, as if he is thinking
+about taking a little snooze.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+-250 S
+22 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_HAND|BODY_FOOT 1d121+219 1d22+4
+10000 0
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#14313
+mule M14313~
+a mule~
+A mule stands here munching on grass.~
+This mule is quite the old nag, with a swayed back from all the heavy loads it
+has carried over the years.  It munches happily on some grass and barely lifts
+its head as you enter.
+~
+ACT_SENTINEL|ACT_MOUNT|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14314
+moose M14314~
+a moose~
+A moose is here, grazing.~
+This large moose has a pair of huge antlers, covered in soft fur.  He has a
+shaggy brown coat and looks as if he weighs about a ton!
+~
+ACT_SENTINEL|ACT_MOUNT|ACT_SMART|ACT_BODY
+0
+0 S
+15 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG BODY_HORN 1d56+105 1d15+3
+3500 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14315
+druidess M14315~
+a druidess~
+A druidess stands here, ready to aid you.~
+This lovely woman wears a gown of soft, muted earth tones, and wears a necklace
+of berries and a small wreath of holly in her silken blonde hair, which she
+wears in neat braids that fall below her shoulders.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>give_prog i14311~
+if quest (4,4,$n) == 2
+  mpjunk i14311
+  mpmset quest $n 4 4 3
+  say Wow, thank you very much $n!  I love the flower!
+  mpecho {070}The druidess puts the flower in her hair.
+  say Here take this for all the hard work you have done!
+  kiss $n
+  mpoload 14328
+  give i14328 $n
+endif
+~
+>greet_prog 25~
+if quest (4,4,$n) == 0
+  tell $n I wish I had a beautiful flower...
+endif
+~
+>rand_prog 10~
+mpechoat $r {070}The druidess sends forth magic to aid you!
+mpquiet on
+if rand (20)
+  cast 'bless' $r
+else
+  if rand (20)
+    cast 'giant strength' $r
+  else
+    if rand (20)
+      cast 'sanctuary' $r
+    else
+      if rand (20)
+        cast 'righteous fury' $r
+      else
+        cast 'heal' $r
+      endif
+    endif
+  endif
+endif
+mpquiet off
+~
+|
+#14316
+loon M14316~
+a loon~
+A loon is swimming here.~
+This loon is swimming around looking for fish to eat.  It has black feathers
+with specks of grey about its coat.
+~
+ACT_SMART|ACT_BODY
+AFF_BLIND
+0 S
+15 BODY_HEAD|BODY_TORSO|BODY_BEAK BODY_BEAK 1d56+105 1d15+3
+1200 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14317
+whirlpool M14317~
+a whirlpool~
+A whirlpool is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpdelay self 2 1
+~
+>delay_prog 1~
+if existsroom (plr)
+  if rand (50)
+    mpechoat $t {070}The whirlpool swirls you around and around!
+    mpechoaround $t {070}The whirlpool swirls $t around and around!
+  else
+    mpechoat $t {070}The whirlpool sucks you under!
+    mpechoaround $t {070}The whirlpool sucks $t under the water!
+    mptransfer $t 14378
+  endif
+  mpdelay self 2 1
+~
+|
+#14318
+ghost M14318~
+a ghost~
+A ghost is here.~
+It is translucent, although you can feel its cool, observing presence.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+say Hellllllo, $r I can take you back to the surface...
+say Just say PLEASE and I will do it!
+~
+>speech_prog please~
+say Okay, here it goes $n!
+mpecho {070}The ghost utters the words, 'i evol stellum'
+mpechoat $n {070}You are transported back to the surface.
+mpechoaround $n {070}$n is transported back to the surface.
+mptransfer $n 14300
+~
+|
+#14319
+Jimbo M14319 boy~
+Jimbo~
+A small boy is here leaning against the wall.~
+This small boy has touseled brown hair and bright brown eyes.  He wears nice
+clothing that he has gotten very dirty, like most little boys do. He looks like
+he's upset about something.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+5 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND 1d6+20 1d5+2
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (16,8,$n) == 0
+  sniff 
+endif
+~
+>speech_prog sad~
+if quest (16,8,$n) == 8
+  mpmset $n quest 16 8 9
+  mpecho {070}Jimbo scuffs his feet.
+  say AWww, yeah I've been pretty upset lately, as you can see...
+  say That damn troll took my ball!!
+  say He lives in the mountains way up north but my parents won't let me go get it.
+  say Can you help me get it $n?
+endif
+~
+>speech_prog yes~
+if quest (16,8,$n) == 9
+  mpmset $n quest 16 8 10
+  say Thanks $n!!
+  say If you can find my ball I will definately be happy again!!
+  say Remember he lives in the mountains!
+  mpecho {070}Jimbo goes back to his sulking...
+endif
+~
+>give_prog i14332~
+if quest (16,8,$n) == 10
+  mpmset $n quest 16 8 11
+  mpjunk i14332
+  mpecho {070}Jimbo bounces his ball up and down, happily.
+  say Thank you ever so much $n!
+  say Now I can play with my ball and be happy again!!
+  say I think my mom wants to see you and thank you for all your help!
+  mpecho {070}Jimbo continues to bounce his ball...
+endif
+~
+|
+#0
+
+
+#SHOPS
+14307 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#14300
+magic spring~
+a magic spring~
+A bubbling spring is here.~
+This magical spring is filled with yellow liquid, bubbling up from below.  The
+liquid seems very cool and would make a nice refreshing drink.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_LEMONADE 0 0 0 0 0
+1 10 1
+#14301
+stone bench~
+a stone bench~
+A stone bench is carved from a large rock lies here.~
+This stone bench was handcarved from an enormous rock jutting out from the
+ground. It can seat many people wanting to take a rest.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+20 0 FURNITURE_REST_ON|FURNITURE_SIT_ON 200 0 0 0 0
+1 10 1
+#14302
+log raft~
+a log raft~
+A raft made from logs lies here.~
+This raft is made from 6 large logs tied together securely with hemp rope.  It
+feels fairly sturdy and would be good enough for travelling on water.
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10 1
+#14303
+rock ~
+a rock~
+A large rock rests here.~
+This rock has a smooth surface and has been worn down from years of erosion.
+It would be a nice place to take a load off and rest.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+10 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 10 0 0 0 0
+1 10 1
+#14304
+chair~
+a chair~
+A comfortable chair is here.~
+This wooden chair is padded with feathers and covered in a soft green felt
+material.  It looks very comfortable.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_REST_IN|FURNITURE_SIT_IN|FURNITURE_STAND_IN 150 0 0 0 0
+1 10 1
+#14305
+bed~
+a bed~
+A comfortable bed is here.~
+This comfy bed looks very sturdy, with huge oak posts and a thick eiderdown
+crazyquilt.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+4 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#14306
+axe~
+an axe~
+A sturdy wood axe is lying here.~
+This wooden axe is used to chop down trees.  It has a burnished handle striped
+in red, and a nice sharp edge on it.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 1 2 0 0 0 0 0
+1 10 1
+#14307
+barrel~
+a barrel~
+An old barrel sits here.~
+This old wooden barrel is made of oak, and is banded in rusted steel.  It has
+seen better days but is still useable.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+1000 CONT_CLOSEABLE 0 10 0 0 0 0
+1 10 95
+#14308
+cabinet~
+a cabinet~
+A wooden cabinet is against the wall here.~
+This cabinet is made of ash, and is carved with chrysanthemums.  It is where
+supplies are stored.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+1000 CONT_CLOSEABLE|CONT_CLOSED 0 20 0 0 0 0
+1 10 95
+#14309
+rocking horse~
+a rocking horse~
+A rocking horse is here.~
+This rocking horse is made for a child to sit on and play.  The horse depicted
+is a white stallion with a happy expression on its face.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SIT_ON 1 0 0 0 0
+1 10 1
+#14310
+withered flower~
+a withered flower~
+A large withered flower is dying here.~
+This large flower was once a lovely blossom but now is withered.  It could use some {140}water {300}and {130}sunlight{300}.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 water
+OPROG_PLAYER_QUEST_IF 4 4 = 0 2 3
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14326 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+{070}You have already watered...
+~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 14300 4 4 1
+mpechoat self {070}You water the flower and it begins to look healthy...
+mpechoat self {070}You discard the empty can.
+mpjunk i14326
+~
+P 5
+TRIG_VOID
+OPROG_ECHO
+{070}You need something to water the flower with!
+~
+P 6
+TRIG_ROOM_UNKNOWN 100 light
+OPROG_PLAYER_QUEST_IF 4 4 = 1 7 8
+P 7
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14327 9 10
+P 8
+TRIG_VOID
+OPROG_ECHO
+{070}Light what?
+~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 14300 4 4 2
+mpechoat self {070}You light the lantern acting like sunlight for the flower!
+mpechoat self {070}The flower begins to flourish again!
+mpechoat self {070}Its so pretty you decide to pick it!
+mpechoat self {070}You discard the lantern...
+mpoload 14311
+mpjunk i14327
+mppurge i14310
+~
+P 10
+TRIG_VOID
+OPROG_ECHO
+{070}You need something to light first!
+~
+#14311
+flower~
+a beautiful flower~
+A beautiful, healthy flower grows here.~
+{170}                      .----.--.
+{170}                     :         )
+{170}               .- - -.\       /.- -- .
+{170}               >       `.   .'       <
+{170}              (        {130} .- -.{170}         )
+{170}               `- -.--  {130}`- -'{170}  --.- -'
+{170}                 (        :        )           _ _ .-:
+{170}                  ---.    :    .---        .--  .--  }
+{170}                      --.-^-.-- \_      .-  .--   .-
+{120}                               \ \{170}'     \ '_ _ --
+{120}                                `.`.    //
+{120}                       . - - --.__`.`-.//
+{120}                   .--   . - -  }- - --.--.
+{120}                 .' .--      .--       :/--.--./:
+{120}                /_-_ _ . - -                 --.--._
+{120}                                                 --.<
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14312
+cauldron~
+a cauldron~
+A cauldron is here full of bubbling liquid.~
+This iron cauldron is very large, and has seen a lot of use.  It's full of
+bubbling green liquid that seems to be some sort of oozing slime.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_SLIME 0 0 0 0 0
+1 10 1
+#14313
+scroll light~
+a scroll of light~
+A scroll is lying here.~
+This scroll is rolled up and tied with a piece of string.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 215 47 23 0 0 0 0
+1 1000 10
+S 1 'shield'
+S 2 'continual light'
+S 3 'bless'
+#14314
+potion light~
+a potion of light~
+A yellow potion is lying here.~
+This potion is the color of captured sunlight and gleams in a glass vial.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 215 47 23 0 0 0 0
+1 1000 10
+S 1 'shield'
+S 2 'continual light'
+S 3 'bless'
+#14315
+scroll essence~
+a scroll of essence~
+A scroll lies here.~
+This scroll is rolled up and bound in a string.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 178 243 253 0 0 0 0
+1 1200 10
+S 1 'pass door'
+S 2 'tongues'
+S 3 'understand'
+#14316
+potion essence~
+a potion of essence~
+A blue potion lies here.~
+This potion is the color of a spring sky and shines in a glass vial.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 178 243 253 0 0 0 0
+1 1200 10
+S 1 'pass door'
+S 2 'tongues'
+S 3 'understand'
+#14317
+magic box~
+a magic box~
+A magic box is here.~
+This magic box is made from cedar and has intricate designs etched into it.
+This box is fashioned from cedar, giving off a fresh, clean scent.  It is carved
+with intricate patterns.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 CONT_CLOSEABLE 0 45 0 0 0 0
+1 10 1
+E
+designs~
+The designs depict several woodland animals pictures.
+~
+#14318
+silver chain~
+a silver chain~
+A silver chain lies here.~
+This chain looks as it were created from the silvery droplets of rain that fall
+from the heavens.  It would make a nice gift for a friend.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+3 0 0 0 0 0 0 0
+1 150 3
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_STR 1 0
+#14319
+leather chaps~
+a pair of leather chaps~
+A pair of chaps are here.~
+The chaps are made from soft, supple suede.  They are dark brown and just the
+right size.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+3 0 0 0 0 0 0 0
+2 200 3
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+A APPLY_INT 1 0
+#14320
+walking stick~
+a walking stick~
+A stick is lying here.~
+The stick almost looks as if it grew from the ground, and is carved with vines.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 1 1 WEAPON_POUND 0 0 0 0
+1 2000 2
+A APPLY_HIT 5 0
+A APPLY_INT 1 0
+A APPLY_AC -5 0
+#14321
+scroll seeing~
+a scroll of seeing~
+A scroll is here.~
+This scroll is written on fine parchment and tied with a string.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 65 64 9 0 0 0 0
+1 1500 10
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'armor'
+#14322
+potion seeing~
+a potion of seeing~
+A red potion lies here.~
+This potion is the color of poppies and shines softly in a glass vial.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 65 64 9 0 0 0 0
+1 1500 10
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'armor'
+#14323
+toy boat~
+a toy boat~
+A toy boat lies on the ground here.~
+This small toy looks exactly like a sea galleon, with sails and ropes, all in
+miniature.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14324
+rabbits foot~
+a rabbit's foot~
+A rabbit's foot lies here.~
+This rabbit's foot is small and covered in soft, white fur.  Someone
+superstitious would certainly believe this would bring them good luck.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+1 10 5
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+A APPLY_INT 1 0
+#14325
+wooden bracer~
+a wooden bracer~
+A wooden bracer lies here.~
+This wooden bracer seems to be magically enchanted.  It is made from some sort
+of strange wood that you have never seen before.  It fits perfectly on your
+wrist.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+3 1000 10
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+#14326
+watering can~
+a watering can~
+A watering can is here.~
+This watering can is made of anodized aluminum and has daisies painted on it.
+It is obviously to be used for watering plants, and is full of water.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#14327
+lantern~
+a lantern~
+A lantern is here.~
+The lantern is made of copper, with panes of glass dimmed by much use.  It is
+used to light dark areas.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 0 -1 0 0 0 0 0
+1 10 5
+A APPLY_INT 1 0
+#14328
+string acorns~
+a string of acorns~
+A string of acorns lies here.~
+This piece of string is strung with many small acorns.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+2 1000 10
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+#14329
+troll hide armor~
+troll hide~
+Some troll hide lies here.~
+This hide is made of very tough skin -- so tough that it could be worn as armor.
+It is brown and dried stiff, with small tears in it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+10 10000 15
+A APPLY_DEX 1 0
+A APPLY_WIS 1 0
+A APPLY_INT 1 0
+#14330
+hide cap~
+a hide cap~
+A cap made from troll hide is here.~
+This cap is made from troll hide and is quite durable.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+4 10000 15
+A APPLY_DEX 1 0
+A APPLY_WIS 1 0
+A APPLY_INT 1 0
+#14331
+bone sceptre~
+a bone sceptre~
+A bone sceptre lies here.~
+This bone sceptre has a few etchings on its side.  It has a stone skull mounted
+on the tip of the sceptre shaft which is made from some large humanoid's arm
+bone.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 0 0 0 0 0 0 0
+3 10000 10
+E
+runes~
+{010}B O N E
+~
+A APPLY_WIS 2 0
+A APPLY_CON 2 0
+#14332
+ball~
+a small ball~
+A small ball is here.~
+The ball is made of green rubber and is obviously a child's toy.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14333
+scroll recall~
+a scroll of recall~
+A scroll of recall is here.~
+This scroll will help you {010}recall{300} to safety!
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14334
+tree ~
+a tree~
+A large elm tree stands here.~
+This mighty elm tree stands prominently in the woods, its large branches raised
+in a graceful canopy.  It is quite old and has been here a long time.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 chop
+OPROG_PLAYER_QUEST_IF 16 8 = 3 2 3
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14306 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+Huh?  'chop' is not a command.
+~
+P 4
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 33 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+{070}You need something to chop with!
+~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You chop down the mighty tree with one big blow!  The axe breaks in the effort, Ooops!
+mpjunk i14306
+mpmset self questr 14300 16 8 4
+mpechoat self {070}The mighty tree falls down and you chop it in to kindling!
+mpechoat self {070}You pick up some kindling to give to Jonas.
+mpoload 14335
+mppurge i14334
+~
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You chop into the tree but only cut it partially...
+mpmadd self currmove -25
+mpmset self wait 2
+~
+#14335
+kindling~
+some kindling~
+A pile of kindling lies here.~
+This pile of kindling would start a nice fire.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#14336
+pewter ring~
+a pewter ring~
+A ring lies here.~
+This ring is made from pure pewter.  It is a simple band that has a few designs
+of ivy criss-crossing on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+1 15000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_CON 2 0
+#14337
+frost blade~
+a frost blade~
+A icy blade lies here.~
+This blade is made of some sort of frozen material, other than ice.  The hilt is
+made from some hard wood but the blade is cold to the touch.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 7 WEAPON_SLICE 0 0 0 0
+3 15000 15
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#0
+
+
+#ROOMS
+#14300
+Grassy Meadow~
+You are in a grassy meadow.  Golden strands of grain flow in the wind as you
+walk through here.  A crude footpath leads north and south.  A lone maple tree
+grows here a bit to the east.  It smells of thick pollen here which can irritate
+those with sensitive noses.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A field can be seen north.~
+~
+0 -1 14301
+DDIR_SOUTH
+A grassy pathway leads on.~
+~
+0 -1 14379
+#14301
+Clearing~
+You are in a clearing from the fields.  There are a dozen or so trees around
+here providing shade from the sun during the day.  Many smooth stones jut out
+from the ground in this clearing.  You can see a pathway leading to the east
+while the fields continue on in the other directions.  The woods can be seen
+to the northwest down over a small hill.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A pathway leads on.~
+~
+0 -1 14302
+DDIR_SOUTH
+A meadow can be seen to the south.~
+~
+0 -1 14300
+DDIR_WEST
+Some fields can be seen west.~
+~
+0 -1 14303
+#14302
+Narrow Pathway~
+This narrow pathway leads east and west.  Fairly dense foliage is on each
+side of the path.  Several varieties of colorful flowers can be seen
+surrounding the path.  You can hear the sounds of the wilderness all over as
+you walk down the path.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A roadway is east.~
+~
+0 -1 14309
+DDIR_WEST
+A clearing can be seen in the distance.~
+~
+0 -1 14301
+#14303
+Golden Fields~
+You are standing in a field of golden strands of grain.  The dried grass and
+grain make the countryside seem to look golden.  There is a faint path
+through the field that one could follow.  The woods can be see to the north.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A clearing can be seen in the distance.~
+~
+0 -1 14301
+DDIR_WEST
+The fields continue on.~
+~
+0 -1 14304
+#14304
+Golden Fields~
+You are standing in a field of golden strands of grain.  The dried grass and
+grain make the countryside seem to look golden.  There is a faint path
+through the field that one could follow.  The woods can be see to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The fields continue onward.~
+~
+0 -1 14305
+DDIR_EAST
+The fields continue onward.~
+~
+0 -1 14303
+#14305
+Before the Woods~
+You are standing before a large forest.  This must be the Whispering Woods, as
+they are known in these parts.  The trees in the forest are very tall and the
+trunks are very wide.  You can tell by your first glance that these woods are
+very old.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+The woods lie to the north.~
+~
+0 -1 14306
+DDIR_SOUTH
+Golden fields can be seen south.~
+~
+0 -1 14304
+#14306
+Entering the Woods~
+You find yourself in a lush forest of tall trees.  The trees are very large and
+their trunks are as wide as a frost giant.  There are a lot forest critters
+running around.  You feel a strange presence all around you as you walk through
+the woods.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14308
+DDIR_SOUTH
+Fields can be seen to the south.~
+~
+0 -1 14305
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14307
+#14307
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them.  It
+seems as if everything is alive in these woods.  Wild animals scamper around the
+woods, not fearful of your presence.  You can hear strange noises from all
+around you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14326
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14306
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14331
+#14308
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them.  It
+seems as if everything is alive in these woods.  Wild animals scamper around the
+woods, not fearful of your presence.  You can hear strange noises from all
+around you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A magical grove is to the north.~
+~
+0 -1 14322
+DDIR_EAST
+The forest continues on.~
+~
+0 -1 14327
+DDIR_SOUTH
+The forest continues on.~
+~
+0 -1 14306
+DDIR_WEST
+The forest continues on.~
+~
+0 -1 14326
+#14309
+A Marble Road~
+You are on a road made from marble stones.  The road is bright white and
+shows few signs of dirt from travellers.  It is almost as if the road itself
+is magical.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The road continues onward.~
+~
+0 -1 14310
+DDIR_WEST
+A path continues on.~
+~
+0 -1 14302
+#14310
+A Marble Road~
+You are on a road made from marble stones.  The road is bright white and
+shows few signs of dirt from travellers.  It is almost as if the road itself
+is magical.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+The road continues onward.~
+~
+0 -1 14311
+DDIR_WEST
+The road continues onward.~
+~
+0 -1 14309
+#14311
+A Marble Road~
+You are on a road made from marble stones.  The road is bright white and
+shows few signs of dirt from travellers.  It is almost as if the road itself
+is magical.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+A dooryard lies east of here.~
+~
+0 -1 14312
+DDIR_SOUTH
+The road continues onward.~
+~
+0 -1 14310
+#14312
+Before a Stone Hut~
+You are in the doorway of a small stone hut.  The hut lies directly to the north
+and is made from stacked granite stones.  It has a straw thatched room with a
+stone chimney that billows smoke.  A small wooden shed lies to the east.  The
+door of the hut is open for visitors to stop by.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A stone hut lies to the north.~
+~
+0 -1 14313
+DDIR_EAST
+Shed Door~
+Shed Door~
+EX_ISDOOR|EX_CLOSED -1 14321
+DDIR_WEST
+A road can be seen to the west.~
+~
+0 -1 14311
+#14313
+Entrance to the Stone Hut~
+You are in the entryway of this hut.  There are a few archways leading north,
+east.  The exit of the hut is south.  This room has rack on the wall where
+cloaks and overcoats hang.  A bearskin rug lies in the middle of the room on the
+floor.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see another room of the hut north.~
+~
+0 -1 14315
+DDIR_EAST
+You see another room east.~
+~
+0 -1 14314
+DDIR_SOUTH
+~
+~
+0 -1 14312
+#14314
+Living Room~
+You are in the living chamber of the hut. There are a few chairs in which you
+can sit and relax.  There is a small wooden table in the center of the room and
+a candle inserted into a bottle lighting it.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A staircase is in the distance.~
+~
+0 -1 14316
+DDIR_WEST
+The entrway lies west.~
+~
+0 -1 14313
+#14315
+Kitchen~
+You are in the kitchen of the hut.  There is a large stone cooking pit on the
+north wall.  A cabinet lies on the west wall near a window.  A few barrels of
+dried goods are next to the cabinet.  A long wooden table takes up the center of
+the chamber where someone could prepare a meal.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A stairway is to the east.~
+~
+0 -1 14316
+DDIR_SOUTH
+The entrway to the hut is south.~
+~
+0 -1 14313
+#14316
+Staircase~
+You are standing before a wooden stairway that winds upward to the second floor
+of the hut.  There are a few decorative paintings on the wall here as well.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The living room lies to the south.~
+~
+0 -1 14314
+DDIR_WEST
+The kitchen lies to the west.~
+~
+0 -1 14315
+DDIR_UP
+A stairway leads up.~
+~
+0 -1 14319
+E
+paintings~
+The paintings depict landscape scenes of mountains overlooking a mighty lake.
+~
+#14317
+Bedroom~
+You are in a bedroom of the hut.  There is a bed on the west wall and a chest at
+the foot of the bed that seems to be locked.  There are a few toys lying around
+the room, making you believe this is a child's bedroom.  There is a chest of
+drawers on the southern wall of the room below a window.  A child's rocking
+horse sits near the center of the room.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 14319
+#14318
+Hallway~
+You are in a narrow hallway going east and west.  There is a room to the south
+here that may be a bedroom.  There are a few torches mounted on the wall
+lighting this hallway.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A hallway winds onward.~
+~
+0 -1 14319
+DDIR_SOUTH
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 14320
+#14319
+Hallway~
+You are in a narrow hallway going east and west.  There is a room to the south
+here that may be a bedroom.  There are a few torches mounted on the wall
+lighting this hallway.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 14317
+DDIR_WEST
+A hallway winds on.~
+~
+0 -1 14318
+DDIR_DOWN
+~
+~
+0 -1 14316
+#14320
+Bedroom~
+You are in the master bedroom of the hut.  There is a bed on the south wall
+with flanking bedstands on each side of it.  There is a large chest of drawers
+on the east wall where clothing may be kept.  There is a small table with a
+washpan on the west wall.  A large circular mirror hangs on the west wall over
+the table.  There is a painting hanging over the bed.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 14318
+E
+painting~
+The painting depicts a large galleon travelling on rough sea waters.
+~
+E
+mirror~
+The mirror has a bronze frame and you can see your reflection in it...
+How dashing you are!
+~
+#14321
+A Shed~
+You find yourself in a wooden shed.  The shed is used for storing tools and
+other things the owners of the hut don't want in their home.  There are a few
+sacks and barrels lying in the corner sealed up.  It is quite musty in here
+and hard to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Shed Door~
+Shed Door~
+EX_ISDOOR|EX_CLOSED -1 14312
+#14322
+Sacred Grove~
+You are standing in a sacred grove.  You feel a powerful and protective magical
+presence.  The bubbling spring surrounded by a circle of stones seems to be
+emitting magical power. There is a stone bench here where adventurers can rest.
+This truly is the pinnacle of peace in the whispering woods.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_FOREST
+DDIR_NORTH
+The woods continues on.~
+~
+0 -1 14325
+DDIR_EAST
+The woods continues on.~
+~
+0 -1 14324
+DDIR_SOUTH
+The woods continues on.~
+~
+0 -1 14308
+DDIR_WEST
+The woods continues on.~
+~
+0 -1 14323
+#14323
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+A magical grove is east.~
+~
+0 -1 14322
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14326
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14333
+#14324
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14336
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14338
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14327
+DDIR_WEST
+A magical grove is west.~
+~
+0 -1 14322
+#14325
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14336
+DDIR_SOUTH
+A magical grove is south.~
+~
+0 -1 14322
+#14326
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14323
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14308
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14307
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14328
+#14327
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14324
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14339
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14308
+#14328
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals around.  There is an icy feeling in
+your bones as you venture deeper.  The trees in this part of the woods almost
+seem alive.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14333
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14326
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14331
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14329
+#14329
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all the
+trees are watching your every move.  The trees are very old and tall.  You can
+hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14328
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14330
+#14330
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all the
+trees are watching your every move.  The trees are very old and tall.  You can
+hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.  You feel a
+strange presence west of here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14329
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14331
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14335
+DDIR_WEST
+Its very dark to the west.~
+~
+0 -1 14332
+#14331
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals around.  There is an icy feeling in
+your bones as you venture deeper.  The trees in this part of the woods almost
+seem alive.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14328
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14307
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14334
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14330
+#14332
+Dark Part of the Woods~
+This is the darkest part of the forest.  The trees totally cover the sky so
+virtually no light gets in here at all.  Most of the ground plants here are
+withered or dead.  You don't see signs of any animals prowling around here
+either.  This part of the woods is desolate.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14330
+#14333
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals.  There is an icy feeling in your
+bones as you venture deeper.  The trees in this part of the woods almost seem
+alive.  You see some strange footprints here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A faint path leads on.~
+~
+0 -1 14342
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14323
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14328
+E
+footprints~
+The footprints seem to lead through the brush to the north.
+~
+#14334
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all the
+trees are watching your every move.  The trees are very old and tall.  You can
+hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14331
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14335
+#14335
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all the
+trees are watching your every move.  The trees are very old and tall.  You can
+hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14330
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14334
+#14336
+Whispering Woods~
+You are in the Whispering Woods.  The trees have a magical aura about them. It
+seems like everything is alive here.  Wild animals scamper around the woods, not
+fearful of your presence.  You can hear strange noises from all around you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14337
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14324
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14325
+#14337
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals.  There is an icy feeling in your
+bones as you venture deeper.  The trees in this part of the woods almost seem
+alive.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14341
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14338
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14336
+#14338
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals.  There is an icy feeling in your
+bones as you venture deeper.  The trees in this part of the woods almost seem
+alive.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14337
+DDIR_EAST
+The woods continue on.~
+~
+0 -1 14340
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14339
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14324
+#14339
+Deep in the Woods~
+You find yourself deeper in the Whispering Woods.  It is noticeably darker here.
+You don't hear or see the scampering animals.  There is an icy feeling in your
+bones as you venture deeper.  The trees in this part of the woods almost seem
+alive.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14338
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14327
+#14340
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all of
+the trees are watching your every move.  The trees are very old and tall.  You
+can hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+The woods continue on.~
+~
+0 -1 14341
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14338
+#14341
+Deeper in the Woods~
+You are now travelling very deep in the Whispering Woods.  You feel like all of
+the trees are watching your every move.  The trees are very old and tall.  You
+can hear rustling from within the tree tops as if someone or something is hiding
+there!  You get an eerie feeling about this part of the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14340
+DDIR_WEST
+The woods continue on.~
+~
+0 -1 14337
+#14342
+Hidden Pathway~
+You are walking on an overgrown trail that is almost hidden from sight.  The
+trail winds onward leading in to and out of the forest.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_SOUTH
+The woods continue on.~
+~
+0 -1 14333
+DDIR_WEST
+A pathway leads west.~
+~
+0 -1 14343
+#14343
+Pathway~
+This pathway is sparsely wooded and is overgrown with tall grass.  You can hear
+a babbling brook of some sort to the west.  The tall trees of the Whispering
+Wood can be seen to the southeast.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The pathway leads onward.~
+~
+0 -1 14342
+DDIR_WEST
+A beach can be seen west.~
+~
+0 -1 14344
+#14344
+Rocky Shore~
+You are standing before a brook that can been seen off to the west.  The ground
+here is made up of large granite stones leading up to the brook and back towards
+the woods to the east.  A few trees grow up from in between the massive rocks.
+The rocks are a bit slippery here due to water splashing on them.  A few birds
+feed on fish.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+A path leads onward.~
+~
+0 -1 14343
+DDIR_WEST
+A brook can be seen in the distance.~
+~
+0 -1 14345
+#14345
+Roaring Brook~
+You are on a small brook.  The current is noticeable, but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees making
+this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The brook winds onward.~
+~
+0 -1 14354
+DDIR_EAST
+A rocky shore can be seen east.~
+~
+0 -1 14344
+DDIR_SOUTH
+The brook winds onward.~
+~
+0 -1 14346
+#14346
+Roaring Brook~
+You are on a small brook.  The current is noticeable, but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees making
+this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The brook winds onward.~
+~
+0 -1 14345
+DDIR_WEST
+The brook winds onward.~
+~
+0 -1 14347
+#14347
+Roaring Brook~
+You are on a small brook.  The current is noticeable, but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees making
+this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+The brook winds onward.~
+~
+0 -1 14346
+DDIR_SOUTH
+The brook winds onward.~
+~
+0 -1 14348
+#14348
+Roaring Brook~
+You are on a small brook.  The current is noticeable, but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees making
+this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The brook winds onward.~
+~
+0 -1 14347
+DDIR_WEST
+The brook winds onward.~
+~
+0 -1 14349
+#14349
+Roaring Brook~
+You are on a small brook.  The current is noticeable, but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees making
+this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+The brook winds onward.~
+~
+0 -1 14348
+DDIR_WEST
+Some rapids can be seen west.~
+~
+0 -1 14350
+#14350
+Rough Water~
+You are on a small brook.  The current is noticeable but not too strong.  The
+brook makes a roaring sound as it flows, probably why it is known as Roaring
+Brook.  The water gets a bit rougher to the west.  You might need a boat to
+continue that way.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+The brook winds onward.~
+~
+0 -1 14349
+DDIR_WEST
+Some heavy rapids can be seen.~
+~
+0 -1 14351
+#14351
+Rapids~
+You are in rough rapids!  Sharp rocks jut out of the brook that could cause
+problems for anyone trying to traverse this part of the brook.  The current
+is much stronger here than any other part of the brook you've seen.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+Rough water on the brook can be seen.~
+~
+0 -1 14350
+DDIR_WEST
+More rough water lies west.~
+~
+0 -1 14352
+#14352
+Before the Whirlpool~
+You are in rough water in the brook.  The current here is very strong, pulling
+you south toward a large, swirling whirlpool!  This could be very dangerous.  Be
+careful!
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+Some rapids can be seen.~
+~
+0 -1 14351
+DDIR_SOUTH
+You see a whirlpool!~
+~
+0 -1 14353
+#14353
+Whirlpool~
+You are in a whirlpool!   It is sucking you under!
+~
+0 ROOM_NO_MOB SECT_OCEAN
+#14354
+Roaring Brook~
+You are on a small brook.  The current is noticeable but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees,
+making this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The brook winds onward.~
+~
+0 -1 14355
+DDIR_SOUTH
+The brook winds onward.~
+~
+0 -1 14345
+#14355
+Roaring Brook~
+You are on a small brook.  The current is noticeable but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees,
+making this a small oasis.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The brook winds onward.~
+~
+0 -1 14356
+DDIR_SOUTH
+The brook winds onward.~
+~
+0 -1 14354
+#14356
+Roaring Brook~
+You are on a small brook.  The current is noticeable but not too strong.  The
+brook makes a roaring sound as it flows, which is probably why it is known as
+Roaring Brook.  Woods surround each side of the brook with its tall trees,
+making this a small oasis.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+You can see a pond to the north.~
+~
+0 -1 14357
+DDIR_SOUTH
+The brook winds onward.~
+~
+0 -1 14355
+#14357
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 14358
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14359
+DDIR_SOUTH
+The brook mouth is south of here.~
+~
+0 -1 14356
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14360
+#14358
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14361
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 14357
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14362
+#14359
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.  A
+beach lies to the east.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 14361
+DDIR_EAST
+A muddy beach can be seen.~
+~
+0 -1 14366
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14357
+#14360
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 14362
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14357
+#14361
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 14359
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14358
+#14362
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 14363
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14358
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 14360
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14365
+#14363
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 14362
+DDIR_WEST
+The pond continues.~
+~
+0 -1 14364
+#14364
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14363
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 14365
+#14365
+On a Pond~
+You are floating on a small pond.  The pond is crystal clear and you can almost
+see to its bottom.  You also see the occasional fish jumping out of the water.
+It is serene here, and would make a nice swimming hole or place to bathe.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 14364
+DDIR_EAST
+The pond continues.~
+~
+0 -1 14362
+#14366
+Muddy Beach~
+You are standing on a muddy beach of sorts.  The forest lies directly to the
+east while the pond is right to your west.  There a few rocks jutting out of the
+ground here, which are the only solid places to stand, unless you wish to sink a
+bit into the mud.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+A pathway can be seen east.~
+~
+0 -1 14367
+DDIR_WEST
+The pond lies to the west.~
+~
+0 -1 14359
+#14367
+Wooded Pathway~
+This wooded pathway seems to be rarely travelled upon.  You notice you are on a
+gradual incline going up to the northeast.  You can see a large mountain in the
+distance to the east.  There seems to be less animal life in this part of the
+woods.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The pathway continues onward.~
+~
+0 -1 14368
+DDIR_WEST
+A muddy beach can be seen to the west.~
+~
+0 -1 14366
+#14368
+Winding Pathway~
+You find yourself on a winding pathway that is going uphill to the northeast.
+The pathway itself seems rarely travelled and is a bit overgrown with brush
+and saplings.  A large mountain can be seen north of here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The pathway winds onward.~
+~
+0 -1 14369
+DDIR_WEST
+The pathway winds onward.~
+~
+0 -1 14367
+#14369
+Winding Pathyway~
+You find yourself on a winding pathway that is going uphill to the northeast.
+The pathway itself seems rarely travelled and is a bit overgrown with brush
+and saplings.  A large mountain can be seen north of here.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Some foothills are seen east.~
+~
+0 -1 14370
+DDIR_SOUTH
+The pathway winds onward.~
+~
+0 -1 14368
+#14370
+Climbing some Foothills~
+You are walking through some foothills.  To the north the foothills ascend to
+higher elevations.  There are scarse trees and brush as you go higher.  The
+mountain can be seen to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The hills continue on.~
+~
+0 -1 14371
+DDIR_WEST
+A pathway lies west.~
+~
+0 -1 14369
+#14371
+Hilly Pathway~
+You are walking on a hilly path ascending to the north.  There are few trees
+here, and the ground is mostly made of rocks and rubble as you wander. You can
+hear the occasional squawk of a large bird of prey as you continue on.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The mountain can be seen to the north.~
+~
+0 -1 14372
+DDIR_SOUTH
+The hills continue on.~
+~
+0 -1 14370
+#14372
+Steep Path~
+You are standing before a steep path that climbs up the mountain to the north.
+The mountain is passable but will need some nice climbing skills. The pathway to
+the south leads back down the mountain.  A strong wind blows as you ponder which
+way to go.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+The hills continue downward.~
+~
+0 -1 14371
+DDIR_UP
+The cliff leads upward.~
+~
+0 -1 14373
+#14373
+Climbing the Cliff~
+You are scaling this steep pathway that leads up the side of the mountain. A
+small ledge is visible up above you, and the foothills can be seen below.  The
+wind is blowing very hard up here, so make sure you keep your grip!
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+The steep path heads up further.~
+~
+0 -1 14374
+DDIR_DOWN
+The cliff leads downward.~
+~
+0 -1 14372
+#14374
+Ledge~
+You are scaling this steep pathway that leads up the side of the mountain. A
+small ledge is visible up above you, and the foothills can be seen below.  The
+wind is blowing very hard up here, so make sure you keep your grip!
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+A cave opening is to the north.~
+~
+0 -1 14375
+DDIR_DOWN
+The steep path leads down the mountain side.~
+~
+0 -1 14373
+#14375
+Entrance to a Cave~
+This cave entrance is very damp and cold and you can see your breath as you
+enter. The cave continues to the north where it gets quite dark. It would be a
+good idea to bring a light to see as you explore.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The cave continues to the north.~
+~
+0 -1 14376
+DDIR_SOUTH
+A ledge is to the south.~
+~
+0 -1 14374
+#14376
+Dark Cave~
+You are standing in a large, damp cave.  There are several stalagmites hanging
+here with sharp points and some glowing fungus on the north wall.  There also
+seems to be a small campsite here, as if someone may be living in this cave.
+A pile of rubble blocks the exit to the east.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+A cave hidden behind some rubble is east.~
+~
+EX_HIDDEN -1 14377
+DDIR_SOUTH
+The cave's mouth is south.~
+~
+0 -1 14375
+#14377
+Hidden Cave~
+You are in a small cave that branches off from the main cavern.  A pile of
+rubble hides the exit here, but is easily passable.  It seems there was once a
+cave-in here, blocking any further progress.  Some large mushrooms grow here
+that are emitting a bad aroma.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_WEST
+The cave is to the west.~
+~
+0 -1 14376
+#14378
+Underground Cave~
+You find yourself in an underground cave beneath the whirlpool.  There is some
+driftwood and other various items that were sucked down into the whirlpool over
+the years.  A few empty bottles are here, as well as some bones.
+~
+0 ROOM_NO_MOB SECT_DEEP_EARTH
+DDIR_EAST
+A narrow tunnel leads east.~
+~
+0 -1 14380
+#14379
+Grassy Path~
+You find yourself on a grassy pathway.  Tall grass surrounds the path, standing
+about 2 feet tall.  The pathway is a bit overgrown itself.  From your inspection
+you can tell that this path is not well kept or seldom trod upon.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A grassy path continues on.~
+~
+0 -1 14300
+DDIR_SOUTH
+~
+~
+0 -1 17449
+#14380
+Cavern~
+You are in a deep underground cavern.  You can hear the pounding sounds of the
+water hitting the rocks above you.  The cavern seems to come to an end here.
+There is a glowing light coming from the east wall.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_WEST
+A narrow tunnel leads west.~
+~
+0 -1 14378
+#0
+
+
+#RESETS
+O 14300 100 14322
+O 14301 100 14322
+M 14300 100 14331
+M 14300 100 14331
+M 14300 100 14328
+M 14300 100 14328
+M 14300 100 14333
+M 14300 100 14333
+M 14300 100 14333
+M 14300 100 14339
+M 14300 100 14339
+M 14300 100 14338
+M 14300 100 14338
+M 14300 100 14338
+M 14300 100 14339
+M 14300 100 14328
+M 14300 100 14331
+M 14301 100 14308
+M 14304 100 14308
+M 14303 100 14308
+M 14301 100 14306
+M 14303 100 14306
+M 14304 100 14306
+M 14301 100 14326
+M 14303 100 14326
+M 14304 100 14326
+M 14302 100 14323
+M 14302 100 14323
+M 14304 100 14325
+M 14303 100 14325
+M 14301 100 14325
+M 14300 100 14336
+M 14300 100 14336
+M 14300 100 14336
+M 14302 100 14336
+M 14302 100 14336
+M 14304 100 14324
+M 14303 100 14324
+M 14301 100 14324
+M 14304 100 14327
+M 14303 100 14327
+M 14301 100 14327
+M 14301 100 14307
+M 14304 100 14307
+M 14303 100 14307
+M 14305 100 14330
+M 14305 100 14330
+M 14305 100 14330
+M 14305 100 14329
+M 14305 100 14329
+M 14305 100 14329
+M 14305 100 14335
+M 14305 100 14335
+M 14305 100 14335
+M 14305 100 14334
+M 14305 100 14334
+M 14305 100 14334
+M 14305 100 14341
+M 14305 100 14341
+M 14305 100 14341
+M 14305 100 14340
+M 14305 100 14340
+M 14305 100 14340
+M 14306 100 14345
+M 14306 100 14345
+M 14306 100 14354
+M 14306 100 14354
+M 14306 100 14355
+M 14306 100 14355
+M 14306 100 14346
+M 14306 100 14346
+M 14306 100 14347
+M 14306 100 14347
+M 14306 100 14348
+M 14306 100 14348
+M 14306 100 14349
+M 14306 100 14349
+M 14306 100 14350
+M 14306 100 14350
+O 14302 100 14344
+O 14303 100 14301
+M 14307 100 14301
+G 14333 100 0
+G 14322 100 0
+G 14321 100 0
+G 14320 100 0
+G 14319 100 0
+G 14318 100 0
+G 14317 100 0
+G 14316 100 0
+G 14315 100 0
+G 14314 100 0
+G 14313 100 0
+D 14312 DIR_EAST  DOOR_CLOSED
+M 14308 100 14312
+M 14309 100 14312
+D 14321 DIR_WEST  DOOR_CLOSED
+M 14310 100 14315
+O 14304 100 14314
+M 14311 100 14314
+D 14317 DIR_NORTH DOOR_CLOSED
+O 14305 100 14317
+D 14320 DIR_NORTH DOOR_CLOSED
+O 14305 100 14320
+D 14319 DIR_SOUTH DOOR_CLOSED
+D 14318 DIR_SOUTH DOOR_CLOSED
+O 14307 100 14321
+P 14326 100 14307
+O 14306 100 14321
+O 14308 100 14315
+P 14327 100 14308
+O 14309 100 14317
+O 14310 100 14332
+M 14312 100 14376
+G 14331 100 0
+E 14329   1 WEAR_BODY
+E 14330   1 WEAR_HEAD
+O 14312 100 14376
+M 14313 100 14301
+M 14314 100 14342
+M 14315 100 14322
+M 14316 100 14357
+M 14316 100 14360
+M 14316 100 14362
+M 14316 100 14365
+M 14316 100 14364
+M 14316 100 14363
+M 14316 100 14358
+M 14316 100 14361
+M 14316 100 14359
+M 14317 100 14353
+M 14318 100 14380
+O 14323 100 14380
+O 14332 100 14377
+O 14334 100 14337
+M 14319 100 14313
+M 14302 100 14337
+M 14302 100 14337
+M 14302 100 14337
+M 14306 100 14351
+M 14306 100 14351
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

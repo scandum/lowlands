@@ -1,0 +1,3662 @@
+#AREA Kytar~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 15 30 1 95
+
+
+#HELPS
+0 KYTAR~
+{120}
+                                    Kytar
+{300}
+Kytar is located on the Northwest side of the Central Continent.  Within the
+city you will find all sorts of fabulous things to do, and places to go.
+The city contains all the usual shops, guilds, and homes, along with a
+temple, a city hall, a jail, and a connection to Griffon Airlines.  There
+is also a 14-part quest to complete.  I recommend visiting the General Store
+and buying a map first.
+
+Warning: Killers/Thieves and fighting are not tolerated on the temple steps.
+~
+
+0 $~
+
+
+#MOBILES
+#19200
+guard cityguard gate~
+a Cityguard~
+A cityguard stands here, guarding the gate.~
+The cityguard towers over you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+800 S
+20 0 0 1d100+301 4d3+10
+7308 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n The guard looks at you.
+if quest (0,4,$n) > 0
+  if quest (0,4,$n) < 14
+    tell $n Murderer!
+    mpkill $n
+  endif
+endif
+if quest (0,4,$n) == 14
+  tell $n Greetings, $n.
+  mpquiet on
+  mpoload 19202
+  unlock gate
+  open gate
+  mpjunk i19202
+  mpquiet off
+  mpechoat $n The gates open at your arrival.
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 0
+  tell $n You have been marked an enemy of the city.
+  mpechoat $n With his last ounce of strength, he sends you to jail!
+  mpmset $n quest 0 4 1
+  mptransfer $n 19200
+  mpat 19200 mpforce $n look
+  mpecho $n has been sent to jail!
+endif
+~
+|
+#19201
+guard cityguard wandering~
+a Cityguard~
+A cityguard wanders the city here.~
+The cityguard towers over you.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+800 S
+20 0 0 1d100+301 4d3+10
+7308 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) > 0
+  if quest (0,4,$n) < 14
+    say I know that face!  You're an enemy of the city!
+    mpkill $n
+  endif
+endif
+~
+>speech_prog p I'm on a mission for the mayor.~
+if quest (0,4,$n) > 10
+  if quest (0,4,$n) < 14
+    peace 
+    say My apologies.
+    bow 
+  endif
+endif
+~
+|
+#19202
+guard cityguard captain~
+the Cityguard Captain~
+A cityguard captain watches over the jail cell here.~
+The cityguard captain towers over you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+800 S
+30 0 0 1d272+499 1d33+7
+91076 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19203
+mayor fle~
+Fle~
+The mayor of this city sets here at his desk.~
+The mayor seems intent on his work, totally ignorant of you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+35 0 0 1d361+669 1d38+9
+135295 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) > 0
+  if quest (0,4,$n) < 4
+    say Ack!  You slayed one of my guards!  They cost 50 gold each!
+  endif
+endif
+~
+>give_prog i19233~
+if quest (0,4,$n) == 3
+  emote reads the note.
+  say At last!  She DOES love me!
+  mpoload 19218
+  say Give her this ring.
+  give ring $n
+  mpjunk i19218
+  say After you give it to her, return to me and tell me what she said.
+  mpmset $n quest 0 4 4
+else
+  say I've seen this note before.
+endif
+mpjunk i19233
+~
+>speech_prog p she said yes.~
+if quest (0,4,$n) == 5
+  say Excellent!
+  say I have an errand for you then.
+  say Tell the baker: The mayor is getting married and needs a cake.
+  mpmset $n quest 0 4 6
+else
+  say Who said yes?
+endif
+~
+>speech_prog p everything will be ready.~
+if quest (0,4,$n) == 10
+  say Great!  One last thing though.
+  say Tell a priest: The mayor is getting married.
+  mpmset $n quest 0 4 11
+  say If any guards try to stop you, say: I'm on a mission for the mayor.
+else
+  say Ready for what?
+endif
+~
+>speech_prog p everything is set for the wedding.~
+if quest (0,4,$n) == 13
+  say You have done a wonderful job.
+  say From now on, the gates of the city are open to you.
+  say May your journeys be fruitful till the end of your days.
+  mpmset $n quest 0 4 14
+  emote pauses for a second.
+  say I do have one last thing for you.
+  mpquiet on
+  mpoload 19235
+  mpoload 19234
+  mpoload 19229
+  mpoload 19204
+  mpoload 19204
+  mpoload 19202
+  put all i19235
+  mpquiet off
+  emote rummages behind his desk for a second.
+  give i19235 $n
+else
+  say What wedding?
+endif
+~
+|
+#19204
+secretary ellen~
+Ellen~
+The mayor's secretary sits at her desk here.~
+The secretary looks young, attractive, and wears no rings.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+250 S
+25 0 0 1d1+499 3d7+10
+5023 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p What can you tell me about relationships?~
+if quest (0,4,$n) == 2
+  say I've never really been in a good relationship.  The only man I
+  say find attractive in this city is the mayor, but he doesn't seem
+  say to have the courage to ask me out.
+  emote gets a note from her purse.
+  say I have an idea.  How about you give him this note for me.
+  mpoload 19233
+  give note $n
+  say I've had that note for years.  Please don't fail me.
+  mpmset $n quest 0 4 3
+endif
+~
+>greet_prog 100~
+if quest (0,4,$n) == 3
+  say What's wrong?  Did you lose the note?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 3
+  say I'll write another.
+  mpoload 19233
+  give note $n
+  mpjunk i19233
+  say Please try to be more careful this time.
+else
+  say Yes, what?
+endif
+~
+>give_prog i19218~
+if quest (0,4,$n) == 4
+  mpmset $n quest 0 4 5
+  say You gave him my note!
+  hug $n
+  say You can tell the mayor: She said yes.
+else
+  say I've already pledged myself to waiting for the mayor.
+endif
+mpjunk i19218
+~
+|
+#19205
+guildmaster~
+Your Guildmaster~
+Your guildmaster is here, ready to help you practice.~
+Your guildmaster is a young woman.  You wonder how she could be an adept.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+50 0 0 1d756+1469 1d55+17
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#19206
+master trainer reniart~
+Reniart~
+The master trainer stands here, ready to train you.~
+The master trainer is the largest man you've ever seen.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19207
+mortician naicitrom~
+Naicitrom~
+The mortician of this magnificent city stands here.~
+The mortician is wearing a white, blood-stained apron.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19208
+word magician~
+Word~
+The magician of this magnificent city stands here.~
+The magician is dressed in the traditional robes of a wizard.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p The mayor needs candles for his wedding.~
+if quest (0,4,$n) == 7
+  say I'll be sure to make them.
+  say Tell the bartender to: Prepare wine for the mayor's wedding.
+  mpmset $n quest 0 4 8
+else
+  say What wedding?
+endif
+~
+|
+#19209
+jeweler emong~
+Emong~
+The jeweler of this magnificent city stands here.~
+The jeweler stands behind a glass display case, rubbing his palms together.
+He's wearing an engraved wedding ring.  Maybe he'll engrave yours.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i19218~
+if sex ($n) != 2
+  say You are not female.  I cannot engrave this for you.
+  give i19218 $n
+else
+  say So, you want your wedding ring engraved?
+  say It'll cost 3,000 gold.
+  if gold ($n) < 3000
+    say You don't have that much.
+    give i19218 $n
+  else
+    mpmadd $n gold -3000
+    mpechoat $n You give him 3,000 coins.
+    say Thanks.  It'll just take a minute.
+    mpjunk i19218
+    mpoload 19236
+    mposet i19236 short a diamond wedding ring of $n
+    give i19236 $n
+    say Have a nice day!
+  endif
+endif
+~
+>give_prog i19219~
+if sex ($n) != 1
+  say You are not male.  I cannot engrave this for you.
+  give i19219 $n
+else
+  say So, you want your wedding band engraved?
+  say It'll cost 3,000 gold.
+  if gold ($n) < 3000
+    say You don't have that much.
+    give i19219 $n
+  else
+    mpmadd $n gold -3000
+    mpechoat $n You give him 3,000 coins.
+    say Thanks.  It'll just take a minute.
+    mpjunk i19219
+    mpoload 19237
+    mposet i19237 short a gold wedding band of $n
+    give i19237 $n
+    say Have a nice day!
+  endif
+endif
+~
+|
+#19210
+ned~
+Ned~
+Ned, a fellow inmate, stands chained against the wall here.~
+Ned looks pretty worn.  You wonder what kind of torture he's been through.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+25 0 0 1d182+331 1d27+5
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 25~
+if quest (0,4,$r) == 1
+  tell $r Hey $r.  What are you in for?
+endif
+~
+>speech_prog p I killed a guard.~
+if quest (0,4,$n) > 1
+  say I know.
+else
+  say That's not so bad.  I tried to date the mayor's secretary.
+  say The mayor was furious.  He's secretly been in love with her
+  say for years.  You should ask her the question:
+  say What can you tell me about relationships?
+  mpmset $n quest 0 4 2
+endif
+~
+>speech_prog murder killing~
+if quest (0,4,$n) > 1
+  say I know.  You killed a guard.
+else
+  say That's not so bad.  I tried to date the mayor's secretary.
+  say The mayor was furious.  He's secretly been in love with her
+  say for years.  You should ask her the question:
+  say What can you tell me about relationships?
+  mpmset $n quest 0 4 2
+endif
+~
+>speech_prog p What are you in for?~
+if quest (0,4,$n) > 1
+  tell $n You know well why I'm in here.
+else
+  say I tried to date the mayor's secretary.  The mayor was furious.
+  say He's secretly been in love with her for years.  You should ask
+  say her the question: What can you tell me about relationships?
+  mpmset $n quest 0 4 2
+endif
+~
+>greet_prog 100~
+if quest (0,4,$n) != 1
+  say You shouldn't be here.
+endif
+~
+|
+#19211
+baker cro~
+Cro~
+The baker of this magnificent city stands here.~
+The baker is not covered in flour, as you might expect.  He has a large
+stomach and a wonderful smile.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p the mayor is getting married and needs a cake.~
+if quest (0,4,$n) == 6
+  say Of course he needs a cake.  I knew he'd get married someday.
+  say Now go tell the magician: The mayor needs candles for his wedding.
+  mpmset $n quest 0 4 7
+else
+  say You don't have any proof of that.
+endif
+~
+|
+#19212
+armorer ergo~
+Ergo~
+The armorer of this magnificent city stands here.~
+The armorer is dressed in great platemail.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p the mayor will need a new suit for his wedding.~
+if quest (0,4,$n) == 9
+  say A new suit for the mayor?  Fabulous.  A customer who can pay!
+  say Tell the mayor: Everything will be ready.
+  mpmset $n quest 0 4 10
+else
+  say If there was a wedding, I'd have heard about it.
+endif
+~
+|
+#19213
+weaponsmith gnilflah~
+Gnilflah~
+The weaponsmith of this magnificent city stands here.~
+The weaponsmith is tall, with large muscles, and carries a greatsword
+in a scabbard strapped behind his back.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19214
+storekeeper namuh~
+Namuh~
+The general storekeeper of this magnificent city stands here.~
+The general storekeeper is dressed in plain clothes, and has a moustache.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19215
+bartender frawd~
+Frawd~
+The bartender of this magnificent city stands here.~
+The bartender isn't as tall as most citizens here.  Maybe he's foreign.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p prepare wine for the mayor's wedding.~
+if quest (0,4,$n) == 8
+  say A wedding?  Splendid.
+  say I just love weddings.  All the people, all the food, all the wine.
+  wink 
+  say Tell the armorer: The mayor will need a new suit for his wedding.
+  mpmset $n quest 0 4 9
+else
+  say They mayor's getting married?  Yeah, right.
+endif
+~
+|
+#19216
+healer ratyk~
+Ratyk~
+The healer of this magnificent city stands here.~
+The healer is dressed in white flowing robes.  She's very beautiful.
+She doesn't seem all that old.  Maybe late thirties.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+30 0 0 1d272+499 1d33+7
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 80~
+if rand (35)
+  emote utters the words 'smlaer latrom'
+endif
+mpquiet on
+if rand (20)
+  cast 'cure serious' $r
+endif
+if rand (20)
+  cast 'cure blindness' $r
+endif
+if rand (30)
+  cast 'bless' $r
+endif
+if rand (30)
+  cast 'armor' $r
+endif
+if rand (30)
+  cast 'refresh' $r
+endif
+mpquiet off
+~
+>speech_prog p the mayor is getting married.~
+if quest (0,4,$n) == 12
+  shout The mayor is getting married.
+  tell $n Go tell the mayor: Everything is set for the wedding.
+  mpmset $n quest 0 4 13
+else
+  tell $n Are you sure?
+endif
+~
+|
+#19217
+carland~
+Carland~
+Carland, a resident of the city, relaxes in his house here.~
+Carland looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19218
+christopher~
+Christopher~
+Christopher, a resident of the city, relaxes in his house here.~
+Christopher looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19219
+cameron~
+Cameron~
+Cameron, a resident of the city, relaxes in his house here.~
+Cameron looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19220
+corrie~
+Corrie~
+Corrie, a resident of the city, relaxes in his house here.~
+Corrie looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19221
+oliver~
+Oliver~
+Oliver, a resident of the city, relaxes in his house here.~
+Oliver looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19222
+offilius~
+Offilius~
+Offilius, a resident of the city, relaxes in his house here.~
+Offilius looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#19223
+ondren~
+Ondren~
+Ondren, a resident of the city, relaxes in his house here.~
+Ondren looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19224
+orthid~
+Orthid~
+Orthid, a resident of the city, relaxes in his house here.~
+Orthid looks like your average human.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+25 0 0 1d182+331 1d27+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19225
+citizen~
+a Citizen~
+A citizen of this magnificent city wanders the streets here.~
+The citizen looks like your everyday human female.
+~
+ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 0 0 1d156+283 1d25+5
+17354 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#19226
+priest~
+a Priest~
+A priest of this magnificent city kneels here, praying.~
+The priest is dressed in white robes, and has his eyes fixed
+on the pinnacle of the temple.  The priest would be quite
+overjoyed if you were to donate some money.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+25 0 0 1d1+499 3d7+10
+15023 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>bribe_prog 1~
+say Thank you, my child.
+cast bless $n
+~
+>speech_prog p the mayor is getting married.~
+if quest (0,4,$n) == 11
+  say Splendid.  Tell that to Ratyk.
+  mpmset $n quest 0 4 12
+else
+  say Wonderful news.
+endif
+~
+|
+#19227
+pit donation~
+an ethereal donation pit~
+An ethereal donation pit stands here.  You can't see it.~
+Nice description, eh?
+~
+ACT_SENTINEL|ACT_RACE
+AFF_PROTECT_EVIL|AFF_ETHEREAL
+0 S
+25 0 0 1d182+331 1d27+5
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 75~
+mpquiet on
+get all
+put all pit
+drop all
+mpquiet off
+~
+|
+#19228
+janitor~
+a Janitor~
+A janitor wanders the road here, attempting to keep the city clean.~
+The janitor has a worn look on his face.  He's probably been doing
+this job for a long time without a break.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+250 S
+25 0 0 1d1+499 3d7+10
+5023 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 75~
+get all
+~
+>bribe_prog 100~
+drop all
+say Enjoy!
+~
+|
+#19229
+bill~
+Bill~
+Bill, the scruffy-looking nerf herder, stands here awaiting a sale.~
+Bill is a human.  He's quite tall.  There's a nick on his chin from getting
+scratched by a nerf.  He's wearing dark pants and leather jacket and boots.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+25 0 0 1d182+331 1d27+5
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19230
+nerf~
+a nerf~
+A nerf is here, with a stupid expression on its face.~
+Nerfs are domesticated herbivores, cared for by tenders called nerf herders.
+These animals are grown as a meat source, though their pelts have a variety
+of uses. 
+~
+0
+AFF_CHARM
+0 S
+5 0 0 1d6+20 1d5+2
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#19231
+sentinel temple~
+a Temple Sentinel~
+A temple sentinel stands here, unseen.~
+The sentinel was constructed by the gods, to maintain law in the temple.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_ETHEREAL
+0 S
+40 0 0 1d484+912 1d44+11
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+tell $n You have defiled this sacred ground!
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+~
+|
+#0
+
+
+#SHOPS
+19207 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19208 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL  100  50  0 23
+19209 ITEM_TYPE_TREASURE ITEM_TYPE_KEY ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19211 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19212 ITEM_TYPE_ARMOR ITEM_TYPE_BOAT ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19213 ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19214 ITEM_TYPE_LIGHT ITEM_TYPE_FURNITURE ITEM_TYPE_CONTAINER ITEM_TYPE_BOAT ITEM_TYPE_DRINK_CON  100  50  0 23
+19215 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+19229 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#19200
+pit donation~
+a marble donation pit~
+A large marble donation pit has been constructed here.~
+Type "look in pit" to observe contents.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10000 0 -1 0 0 0 0 0
+1 10 700
+#19201
+fountain~
+the fountain~
+A beautiful marble fountain has been constructed here.~
+The fountain has clear blue water.  It looks extremely refreshing.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#19202
+key gate gatekey kytar~
+a gate key~
+A key lies on the ground here.~
+This key is marked with the emblem of kytar on it.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+19202 0 0 0 0 0 0 0
+1 10 1
+#19203
+key jail cell kytar~
+a jail cell key~
+A key lies on the ground here.~
+This key is marked with the emblem of kytar on it.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+19203 0 0 0 0 0 0 0
+1 10 1
+#19204
+rations travel~
+travel rations~
+A bunch of travel rations lie on the ground here.~
+The rations look 100% edible, but they have a foul smell.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+36 0 0 0 0 0 0 0
+3 99 5
+#19205
+scroll recall~
+a recall scroll~
+A recall scroll lies on the ground here.~
+The scroll reads:
+
+   Type '/', 'recall', or 'recite recall' to use.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 266 0 0 0 0 0 0
+1 1000 5
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19206
+scroll detect invis invisible~
+a scroll of detect invisible~
+A scroll of detect invisible lies on the ground here.~
+You see nothing special, just recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 65 0 0 0 0 0 0
+1 300 5
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19207
+scroll remove curse~
+a scroll of remove curse~
+A scroll of remove curse lies on the ground here.~
+You see nothing special, just recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 200 0 0 0 0 0 0
+1 700 5
+S 1 'remove curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19208
+scroll armor~
+an armor scroll~
+An armor scroll lies on the ground here.~
+You see nothing special, just recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 9 0 0 0 0 0 0
+1 100 5
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19209
+scroll identify~
+a scroll of identify~
+A scroll of identify lies on the ground here.~
+You see nothing special, just recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 143 0 0 0 0 0 0
+1 5000 5
+S 1 'identify'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19210
+wand magic~
+a magic wand~
+A magic wand lies on the ground here.~
+The wand looks strange.  It occasionally seems to change color and shift
+its weight.  Using it could be quite an experience.
+~
+ITEM_TYPE_WAND
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+11 5 5 113 0 0 0 0
+4 500 10
+S 3 'fly'
+P 1
+TRIG_TICK 50
+OPROG_IF OIF_RANDOM_PERCENT < 25 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOSET i19210 value3 1~
+P 3
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 25 4 5
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOSET i19210 value3 2~
+P 5
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 25 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOSET i19210 value3 26~
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOSET i19210 value3 56~
+#19211
+potion blue detect invis invisible~
+a blue potion of detect invisible~
+A blue potion of detect invisible lies on the ground here.~
+You see nothing special, just quaff it.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 65 0 0 0 0 0 0
+1 300 5
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19212
+potion green remove curse~
+a green potion of remove curse~
+A green potion of remove curse lies on the ground here.~
+You see nothing special, just quaff it.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 200 0 0 0 0 0 0
+1 700 5
+S 1 'remove curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19213
+potion orange armor~
+an orange armor potion~
+An orange armor potion lies on the ground here.~
+You see nothing special, just quaff it.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 9 0 0 0 0 0 0
+1 100 5
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19214
+shield guard kytar~
+a Kytarian guard's shield~
+A Kytarian guard's shield rests on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+5 0 0 0 0 0 0 0
+10 1000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_CON 2 0
+#19215
+ring guard kytar~
+a Kytarian guard's ring~
+A Kytarian guard's ring lies half-buried in the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+1 500 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_INT 2 0
+#19216
+flail guard kytar~
+a Kytarian guard's flail~
+A Kytarian guard's flail lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_FLAIL 3 6 WEAPON_BLAST 0 0 0 0
+3 1025 15
+#19217
+breastplate guard kytar~
+a Kytarian guard's breastplate~
+A Kytarian guard's breastplate lies on the ground here, trampled upon.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+10 2000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+#19218
+diamond ring wedding~
+a diamond wedding ring~
+A diamond wedding ring lies abandoned on the ground here.~
+The ring is beautiful.  It's got three diamonds set in a gold band.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+1 200000 25
+#19219
+gold band wedding~
+a gold wedding band~
+A gold wedding band lies on abondoned on the ground here.~
+The band is beautiful.  It's 100% gold and highly polished.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+1 200000 25
+#19220
+firewater shot~
+a shot of firewater~
+A shot of firewater lies discarded on the ground here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_FIREWATER 0 0 0 0 0
+1 10 1
+#19221
+beer mug~
+a mug of beer~
+A mug of beer lies on the ground here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+3 3 LIQ_BEER 0 0 0 0 0
+3 20 1
+#19222
+shield wooden~
+a small wooden shield~
+A small wooden shield lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+2 0 0 0 0 0 0 0
+5 35 5
+A APPLY_DAMROLL 1 0
+A APPLY_DAMROLL 1 0
+A APPLY_CON 1 0
+#19223
+sword short shortsword~
+a small shortsword~
+A small shortsword lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 4 WEAPON_STAB 0 0 0 0
+3 60 5
+#19224
+dagger~
+a small dagger~
+A small dagger lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 13 WEAPON_PIERCE 0 0 0 0
+2 45 5
+#19225
+warhammer war hammer~
+a warhammer~
+A warhammer lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 2 8 WEAPON_CRUSH 0 0 0 0
+5 100 10
+A APPLY_DAMROLL 1 0
+#19226
+boots leather pair~
+a pair of leather boots~
+A pair of leather boots lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+4 50 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DEX 1 0
+#19227
+vest leather~
+a leather vest~
+A leather vest lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+5 75 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DEX 1 0
+#19228
+coif leather~
+a leather coif~
+A leather coif lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+5 0 0 0 0 0 0 0
+3 60 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_WIS 1 0
+#19229
+waterskin skin water~
+a waterskin~
+A small waterskin lies on the ground here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 20 LIQ_WATER 0 0 0 0 0
+3 30 1
+#19230
+lantern copper~
+a copper lantern~
+A copper lantern lies on the ground here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+60 0 24 0 0 0 0 0
+3 35 5
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+A APPLY_INT 1 0
+#19231
+sign~
+a sign~
+There's a sign posted on the wall in here.~
+The sign reads:
+           *=======================================================*
+           |                        Welcome!                       |
+           |-------------------------------------------------------|
+           | Type "list" to see the list of items you can buy.     |
+           | Type "list all" to see the entire selection of items. |
+           | Type "buy <item name>" to buy an item from the shop.  |
+           | Type "sell <item name>" to sell an item of yours.     |
+           | Type "value <item name>" to find your item's worth.   |
+           | Type "identify <item name>" to find an item's stats.  |
+           *=======================================================*
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#19232
+map citymap kytar~
+a map of the city of Kytar~
+A map of the city of Kytar lies here.~
+*===========================*  *==============================================*
+|    _ _ _ ___   _______    |  |                                              |
+|   |a| | |b _|  _ _   _|   |  |              The City of Kytar               |
+|   |_  |_   c|  _|_   _|   |  |                                              |
+|   |  _ _ _ _   _|_ d _|   |  | a - Jail Cell          i - Armor Shop        |
+|   | |e|f|g|h|   |_   _|   |  | b - Mayor's Office     j - Weaponsmith       |
+|              ___   ___    |  | c - Secretary's Desk   k - General Store     |
+|   | |i|j|k|l|         |   |  | d - Guild Street       l - Bar               |
+|   | | | | | |  _| |_  |   |  | e - Magic Shop         m - Citizens' Houses  |
+|   |     m      _ n _  |   |  | f - Jewelry Shop       n - Temple of Kytar   |
+|   | |_|_|_|_|   | |   |   |  | g - Griffon Bank                             |
+|   |_________   _______|   |  | h - Bakery             Presto   11-Feb-1996  |
+|                           |  |                                              |
+*===========================*  *==============================================*
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 77 1
+#19233
+note secretary~
+a note from the secretary~
+A note written by the mayor's secretary lies here.~
+The note is sealed.  You cannot read it.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#19234
+cake slice wedding~
+a slice of wedding cake~
+A slice of wedding cake lies abandoned here.~
+This slice is from the Mayor of Kytar's wedding cake.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+12 0 0 0 0 0 0 0
+1 10 5
+#19235
+sack brown ruck rucksack~
+a brown rucksack~
+A brown rucksack lies on the ground here.~
+The rucksack looks like a great place to store your gear.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+140 CONT_CLOSEABLE -1 0 0 0 0 0
+10 500 5
+#19236
+diamond ring wedding~
+a diamond wedding ring~
+A diamond wedding ring lies abandoned on the ground here.~
+The ring is beautiful.  It's got three diamonds set in a gold band.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+1 10 25
+A APPLY_CON 1 0
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE 10
+#19237
+gold band wedding~
+a gold wedding band~
+A gold wedding band lies on abandoned on the ground here.~
+The band is beautiful.  It's 100% gold and highly polished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+1 10 25
+A APPLY_WIS 1 0
+A APPLY_INT 1 0
+A APPLY_DAMROLL 1 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE 10
+#19238
+turkey roasted~
+a roasted turkey~
+A roasted turkey lies abandoned on the ground here.~
+The turkey comes from Kytar.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+3 150 5
+#19239
+danish cherry~
+a cherry danish~
+A cherry danish lies abandoned on the ground here.~
+The danish comes from Kytar.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+16 0 0 0 0 0 0 0
+3 60 5
+#19240
+apple fritter~
+an apple fritter~
+An apple fritter lies abandoned on the ground here.~
+The fritter comes from Kytar.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+3 30 1
+#19241
+garden salad~
+a garden salad~
+A garden salad lies abandoned on the ground here.~
+The salad comes from Kytar.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+12 0 0 0 0 0 0 0
+3 50 1
+#0
+
+
+#ROOMS
+#19200
+Jail Cell~
+The jail cell is very drab.  It probably hasn't been cleaned in quite
+some time.  The only door is to the south.  On the other side you can
+see the Captain's Office.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19203 19210
+#19201
+Cityguard's Office~
+This office has two desks.  One against the east wall, and one against the
+west.  There's a weapons cabinet leaning against the north wall.  The only
+exit from this room is to the south, where you see the entrance to the
+cityguard headquarters.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19211
+#19202
+Deputy Mayor's Office~
+This room is a mess.  From what you've been told, the deputy mayor left
+a few months ago to establish relationships with the cities of the central
+continent.  He hasn't been heard from since he left.  Rumors say he was
+killed by bandits on the roads, but his body was never recovered.  The only
+way out that you can see is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19212
+#19203
+Mayor's Office~
+This is a most extravagent office.  The mayor's desk stands perfectly centered
+in the room.  There is a great stain-glassed window in the north wall.  It
+appears to be depicting a judge with a gavel, perhaps to symbolize the justice
+that a mayor is responsible for upholding.  The exit is south, but to the east
+you can see the mayor's personal library.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 19204
+DDIR_SOUTH
+~
+~
+0 -1 19213
+#19204
+The Mayor's Library~
+The east and south walls of the room have a couple bookcases.  The north wall
+is empty.  There is a couch leaning against the north wall.  To the west you
+can see the mayor's office.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19203
+#19205
+Inside the North Gate~
+Welcome to Kytar!  You're standing inside the city, near the north gate.
+There isn't a whole lot to see at the moment though.  To the east you can see
+guild street, and to the south you can follow serpent road to main street,
+where you can find the shops, including a map of the city at the general store.
+Walking north will take you outside the city's walls.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19300
+DDIR_EAST
+~
+~
+0 -1 19206
+DDIR_SOUTH
+~
+~
+0 -1 19215
+#19206
+Serpent Road~
+You are near the eastern end of serpent road, where it connects with guild
+street.  To the west you can see the northern city entrance.  Other than
+that, nothing here appears to be of any importance.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19207
+DDIR_WEST
+~
+~
+0 -1 19205
+#19207
+Serpent Road~
+You are very near the eastern end of serpent road.  A little ways to the
+west you can see the northern entrance to the city.  To your immediate north
+and south you can see a couple walls.  Further east and south is guild street.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19208
+DDIR_WEST
+~
+~
+0 -1 19206
+#19208
+Serpent Road~
+You are standing on the eastern end of serpent road.  East of you is the
+necromancer's guild.  The other guilds are located to the south.  Serpent road
+continues to the west, and runs alongside the northern entrance to the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19209
+DDIR_SOUTH
+~
+~
+0 -1 19218
+DDIR_WEST
+~
+~
+0 -1 19207
+#19209
+Guild of the Warlock~
+This room appeared darker from the outside.  Inside it is lit by strange,
+glowing balls of light.  They're not hot to the touch, like fire would be.
+There are a couple of bookshelves set into the northern wall, which probably
+contain more knowledge of darker magic than you will ever possess.  The exit
+is to the west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_WLC SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19208
+#19210
+Cityguard Captain's Office~
+You've entered the cityguard captain's office.  There isn't a lot to see,
+not even a desk.  Just a chair leaning against the west wall, so apparently
+the captain can keep an eye on his prisoners.  To the north is the cell,
+and the entrance to the building is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19203 19200
+DDIR_EAST
+~
+~
+0 -1 19211
+#19211
+Cityguard Headquarters~
+You're standing in the entrance to the cityguard's headquarters.  This
+building also houses the prisoners of the city.  To the north you can see
+where the cityguards do their work.  To the west is a small room with one
+chair in it.  The jail cell is also located to the west.  To the south you
+can see serpent road.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19201
+DDIR_SOUTH
+~
+~
+0 -1 19221
+DDIR_WEST
+~
+~
+0 -1 19210
+#19212
+Small Lobby~
+You find yourself standing in a small lobby outside the deputy mayor's office.
+There is plush furniture here, where people wait to talk to the mayor.  To
+the east you can see the entrance to city hall, and further east is the
+secretary's desk.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19202
+DDIR_EAST
+~
+~
+0 -1 19213
+#19213
+City Hall~
+Welcome to city hall!  The building is made of strong rock cemented together,
+where it houses all the offices required to maintain order in a city as vast
+as Kytar.  To the east is the secretary's desk.  North is the mayor's office,
+and off to the west is a small lobby outside the deputy mayor's office.  To
+the south you can see serpent road.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19203
+DDIR_EAST
+~
+~
+0 -1 19214
+DDIR_SOUTH
+~
+~
+0 -1 19223
+DDIR_WEST
+~
+~
+0 -1 19212
+#19214
+Front Desk~
+This is where the mayor's secretary works.  She has a small desk placed in
+the middle of the room, facing west.  Behind her are a few cabinets where
+she stores all her files.  West is the only exit to the room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19213
+#19215
+Serpent Road~
+You're standing on serpent road just south of the northern city gates.  Off to
+the east is the city's training yard.  To the south you can see main street a
+short ways off.  Southwest serpent road continues toward the city hall.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19205
+DDIR_EAST
+~
+~
+0 -1 19216
+DDIR_SOUTH
+~
+~
+0 -1 19225
+#19216
+Training Yard~
+The training yard looks pretty standard.  One man runs the place, Reniart.
+Whatever help you require to improve yourself, he should be able to help.
+The exit is to the west, but you should often return here when needed.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19215
+#19217
+Guild of the Marauder~
+You've entered the Marauder's Guild.  Here a lot of crafty arts are taught,
+such as how to change targets in the middle of combat, and also how to pick
+locks and steal from your friends and enemies.  To the east you can see Guild
+Street, which is the only exit to this Guild.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_MAR SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 19218
+#19218
+Guild Street~
+You're standing at the northern end of Guild Street, where it connects with
+the eastern end of serpent road.  Off to your west you can see the Marauder's
+Guild, and off to your east is the Druid's Guild.  Guild Street
+continues on to the south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19208
+DDIR_EAST
+~
+~
+0 -1 19219
+DDIR_SOUTH
+~
+~
+0 -1 19228
+DDIR_WEST
+~
+~
+0 -1 19217
+#19219
+Guild of the Druid~
+You have entered the Druid's Guild.  Here your Guildmaster will instruct you in
+your training as a Druid of nature.  Pay close attention.  The only exit is
+west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_DRU SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19218
+#19220
+Serpent Road~
+You're on Serpent Road just a short distance away from the western entrance
+of the city, which is to the south.  To your immediate north is the wall to
+the jail.  Serpent Road continues to the east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19221
+DDIR_SOUTH
+~
+~
+0 -1 19230
+#19221
+Serpent Road~
+You're on Serpent Road just south of the cityguard headquarters.  To the east
+and west you see more of Serpent Road.  A short ways east you can find the
+city hall, where the mayor resides.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19211
+DDIR_EAST
+~
+~
+0 -1 19222
+DDIR_WEST
+~
+~
+0 -1 19220
+#19222
+Serpent Road~
+You're on a very boring stretch of Serpent Road.  To the east is the town hall,
+and to the west you can find the entrance to the cityguard headquarters.  Other
+than that, there's nothing important to see here.  Other than the graffiti
+written on the wall of the shop to your south.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19223
+DDIR_WEST
+~
+~
+0 -1 19221
+E
+wall graffiti~
+The graffiti reads:
+                          Presto was here.
+~
+#19223
+Serpent Road~
+You're standing on Serpent Road outside the city hall, which is to the north.
+The shops of Main Street are to the south, but you'll have to walk around to
+get to them.  The road continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19213
+DDIR_EAST
+~
+~
+0 -1 19224
+DDIR_WEST
+~
+~
+0 -1 19222
+#19224
+Serpent Road~
+This is a busy part of Serpent Road.  It is very well traveled, since citizens
+often walk between the shops and the city hall, and this stretch of the road
+is along the quickest route.  The road continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19225
+DDIR_WEST
+~
+~
+0 -1 19223
+#19225
+Serpent Road~
+You're at an intersection in the road.  To the east is the morgue.  It doesn't
+look like a very exciting place.  To the west the road passes between the
+shops and the city hall.  To your north you can see the northern city gate,
+and to your south you can see Main Street, which is where all the shops are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19215
+DDIR_EAST
+~
+~
+0 -1 19226
+DDIR_SOUTH
+~
+~
+0 -1 19235
+DDIR_WEST
+~
+~
+0 -1 19224
+#19226
+Morgue~
+This is one dreary place.  A few tables located here are covered with bodies
+of the departed.  You notice one of them seems to be missing a head.  Ouch!
+But several of the tables are still bare, and you hope you'll never have to
+lie on them.  The exit is west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19225
+#19227
+Guild of the Ninja~
+As you enter, a small bookshelf slides aside, and your Guildmaster steps out,
+holding a large knife.  You soon learn that surprise is the key to being an
+effective ninja.  Your Guildmaster can teach you how to approach your prey using
+stealth, and at the right time, strike the fatal blow.  The exit is east.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_NIN SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 19228
+#19228
+Guild Street~
+You're standing on Guild Street, and you are far from shocked to find that you
+are surrounded by guilds!  To your east is the guild'' guild, and to the
+west is the ninja's guild.  The street continues to the north and south,
+where you can find more guilds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19218
+DDIR_EAST
+~
+~
+0 -1 19229
+DDIR_SOUTH
+~
+~
+0 -1 19238
+DDIR_WEST
+~
+~
+0 -1 19227
+#19229
+Guild of the Shaman~
+You've just entered a lightly painted room.  There's not a lot to see.
+Leaning against the north wall are a bunch of bookshelves loaded with tomes
+and medicines for healing.  Against the south wall are tomes detailing the
+art of protecting yourself and friends.  The exit is west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_SHA SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19228
+#19230
+Serpent Road~
+You're at the very western end of Serpent Road.  To your immediate south is
+the Main Street of the city, where all the shops are located.  Serpent Road
+continues to the north, where it runs along the cityguard headquarters and
+the city hall.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19220
+DDIR_SOUTH
+~
+~
+0 -1 19240
+#19231
+Word's Magic Shop~
+The magic shop is not extremely large, but it has huge quantities of magical
+items, such as scrolls and potions.  There is a counter against the east wall,
+where the shopkeeper stands watching over his goods.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19241
+#19232
+Emong's Jewelry Shop~
+The jewelry shop seems pretty scarce.  The counter displays only a few items
+for sale, and they aren't cheap.  The shopkeeper informs you the items are
+well worth the cost, and for a price, he will engrave any wedding rings you
+buy from him.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19242
+#19234
+Cro's Bakery~
+The bakery smells wonderful.  Here you can find bountiful foods to satisfy
+your hunger.  The baker specializes in pastries, and recommends you try his
+cherry danishes, or at least his apple fritters.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19244
+#19235
+Serpent Road~
+You're standing on the southeastern end of serpent road.  Further south it
+connects with main street.  To the east is the Inn.  To the northwest is
+the city hall and the cityguard headquarters.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19225
+DDIR_EAST
+~
+~
+0 -1 19236
+DDIR_SOUTH
+~
+~
+0 -1 19245
+#19236
+Inn~
+Ahh, you've reached the inn.  Here you can relax and recuperate from your
+travels.  A clerk behind a counter to the north welcomes you and hopes you
+enjoy your stay.  The rooms are well furnished and very comfortable.  Main
+street is south, and serpent road lies to the west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19246
+DDIR_WEST
+~
+~
+0 -1 19235
+#19237
+Guild of the Warrior~
+You've entered the guild of warriors.  Your guildmaster will instruct and train
+you in your effort to become mighty and ingenious.  Good luck!  Your exit is
+east.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_WAR|ROOM_ALLOW_GLA SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 19238
+#19238
+Guild Street~
+You're on the southern end of guild street.  To your east is the illusionist's
+guild, and to the west is the ranger's guild.  Guild street continues to the
+north, where it houses all the other guilds.  Main street is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19228
+DDIR_EAST
+~
+~
+0 -1 19239
+DDIR_SOUTH
+~
+~
+0 -1 19248
+DDIR_WEST
+~
+~
+0 -1 19237
+#19239
+Guild of the Sorcerer~
+You've entered the guild'' guild.  You think.  Appearances can be very
+deceiving, as you have learned amongst your travels, and you don't take
+anything for granted anymore.  A voice deep inside of you says "This is the
+place."  The exit is west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_SOR SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 19238
+#19240
+Inside the West Gate~
+Welcome to Kytar!  You're standing inside the city, near the west gate.
+Off to your east you see the main street of the city.  It appears to be
+lined with shops, including a map of the city at the general store.
+Walking west will take you outside the city's walls.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19230
+DDIR_EAST
+~
+~
+0 -1 19241
+DDIR_SOUTH
+~
+~
+0 -1 19250
+DDIR_WEST
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19301
+#19241
+Main Street~
+Welcome to main street!  You're standing on the western end of main street, not
+far from the city's western entrance.  To your north is the magic shop, and to
+your south is the armor shop.  The road continues to the east, where the other
+shops of the city are located.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19231
+DDIR_EAST
+~
+~
+0 -1 19242
+DDIR_SOUTH
+~
+~
+0 -1 19251
+DDIR_WEST
+~
+~
+0 -1 19240
+#19242
+Main Street~
+You're on main street between the jewelry shop, to the north, and the weapons
+shop, to the south.  The sounds coming from the forges in the weapons shop are
+quite loud here.  Main street continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19232
+DDIR_EAST
+~
+~
+0 -1 19243
+DDIR_SOUTH
+~
+~
+0 -1 19252
+DDIR_WEST
+~
+~
+0 -1 19241
+#19243
+Main Street~
+You're on main street between Griffon Bank & Travel, to the north, and the
+general store, to the south.  From here you can observe griffons taking people
+to their destinations throughout the realm.  Main street continues to the
+east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 16006
+DDIR_EAST
+~
+~
+0 -1 19244
+DDIR_SOUTH
+~
+~
+0 -1 19253
+DDIR_WEST
+~
+~
+0 -1 19242
+#19244
+Main Street~
+You're at the edge of the shopping district on main street.  You're very near
+the exact center of the city.  To your north is the bakery, and to the south
+is the bar.  The road continues to the east and west.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19234
+DDIR_EAST
+~
+~
+0 -1 19245
+DDIR_SOUTH
+~
+~
+0 -1 19254
+DDIR_WEST
+~
+~
+0 -1 19243
+#19245
+Main Street~
+You're standing on main street, just east of the shopping district.  To the
+north you can see serpent road winding it's way through the city.  To the
+northeast is the inn, where you can rest for the night.  Main street continues
+to the east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19235
+DDIR_EAST
+~
+~
+0 -1 19246
+DDIR_WEST
+~
+~
+0 -1 19244
+#19246
+Main Street~
+You're on main street just south of the Inn.  From here it looks very quiet,
+and tranquil too.  Serpent road is just to the northwest of your location.
+The entrance to the temple square is just to your southeast.  Main street
+continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19236
+DDIR_EAST
+~
+~
+0 -1 19247
+DDIR_WEST
+~
+~
+0 -1 19245
+#19247
+Main Street~
+You're on main street just north of the entrance to the temple square.  To
+the northeast you can see guild street, where you can learn all the tools of
+your trade.  To your west you can see the shopping district, along with the
+inn, just to the northwest.  Main street continues to the east and west
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19248
+DDIR_SOUTH
+~
+~
+0 -1 19257
+DDIR_WEST
+~
+~
+0 -1 19246
+#19248
+Main Street~
+Welcome to main street!  You're on main street just inside the eastern city
+entrance.  To your immediate north is guild street, where you can learn
+everything you would need to survive in the wilderness.  To your southwest
+is the temple square.  Main street continues to the west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19238
+DDIR_EAST
+~
+~
+0 -1 19249
+DDIR_WEST
+~
+~
+0 -1 19247
+#19249
+Inside the East Gate~
+Welcome to Kytar!  You're standing inside the city, near the east gate.
+Off to your west you see the main street of the city.  It appears to be
+lined with shops, including a map of the city at the general store.
+Walking east will take you outside the city's walls.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19302
+DDIR_WEST
+~
+~
+0 -1 19248
+#19250
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, until it hits the corner of the city, and then it heads east,
+until it collides with the temple square.  This road is named after the bird,
+which was one of the first animals spotted in this area.  To your north is
+western city entrance.  The road continues to the south.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19240
+DDIR_SOUTH
+~
+~
+0 -1 19260
+#19251
+Ergo's Armor Shop~
+You've entered the armor shop.  Here you can find items that will help enhance
+your chances of survival in the wilderness, and may also impress a potential
+mate.  Occasionally the armorer will tailor a suit for the wealthy of the city.
+The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19241
+#19252
+Gnilflah's Weapons Shop~
+Clang!  Clang!  Clang!  Crack!  Sh%$#*!  That's the customary sound you find
+here in the weapons shop.  The items, when they do turn out, are worth every
+gold piece, but since the weaponsmith is a perfectionist, the many items just
+don't make the grade.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19242
+#19253
+Namuh's General Store~
+Welcome to the general store.  Here's where you can find many useful, but not
+absolutely necessary, pieces of equipment.  The shop is well organized, and
+you feel no pressure to buy anything.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19243
+#19254
+Frawd's Bar~
+This is your typical bar.  There are drunks here, drunks there, and even drunks
+way over there.  Some are discussing their heroic deeds.  Some are discussing
+their evil deeds.  Finally, some are just trying to pick fights.  The exit is
+to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19244
+#19255
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19256
+DDIR_SOUTH
+~
+~
+0 -1 19265
+#19256
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19257
+DDIR_SOUTH
+~
+~
+0 -1 19266
+DDIR_WEST
+~
+~
+0 -1 19255
+#19257
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  To your north is main
+street, and to your south are steps to the top of the temple.  To the east
+and west is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19247
+DDIR_EAST
+~
+~
+0 -1 19258
+DDIR_SOUTH
+~
+~
+0 -1 19267
+DDIR_WEST
+~
+~
+0 -1 19256
+#19258
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19259
+DDIR_SOUTH
+~
+~
+0 -1 19268
+DDIR_WEST
+~
+~
+0 -1 19257
+#19259
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19269
+DDIR_WEST
+~
+~
+0 -1 19258
+#19260
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19250
+DDIR_SOUTH
+~
+~
+0 -1 19270
+#19261
+Carland's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19271
+#19262
+Christopher's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19272
+#19263
+Cameron's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19273
+#19264
+Corrie's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19274
+#19265
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19255
+DDIR_EAST
+~
+~
+0 -1 19266
+DDIR_SOUTH
+~
+~
+0 -1 19275
+#19266
+Northwest Corner of Temple~
+You're standing in a corner of the temple.  This is where priests come to
+pray and pay homage to the gods of the realm.  The ground here is considered
+sacred, and fighting between the factions of Order and the factions of Chaos
+is highly discouraged.  Exits are north and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19256
+DDIR_WEST
+~
+~
+0 -1 19265
+#19267
+North Temple Steps~
+Here you stand on the magnificent steps of the temple of Kytar.  This is the
+most sacred of ground on the entire continent.  Defiling it would be an act
+of treason against the gods.  The top of the temple is south.  The temple
+square is north.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19257
+DDIR_SOUTH
+~
+~
+0 -1 19277
+#19268
+Northeast Corner of Temple~
+You're standing in a corner of the temple.  This is where priests come to
+pray and pay homage to the gods of the realm.  The ground here is considered
+sacred, and fighting between the factions of Order and the factions of Chaos
+is highly discouraged.  Exits are north and east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19258
+DDIR_EAST
+~
+~
+0 -1 19269
+#19269
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19259
+DDIR_SOUTH
+~
+~
+0 -1 19279
+DDIR_WEST
+~
+~
+0 -1 19268
+#19270
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the north and south.  To the east is
+residential road, where the citizens are housed.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19260
+DDIR_EAST
+~
+~
+0 -1 19271
+DDIR_SOUTH
+~
+~
+0 -1 19280
+#19271
+Residential Street~
+This is residential street.  Obviously this is where several citizens reside.
+Their homes look quite fancy compared to the usual cities, and you are quite
+tempted to enter and see how residents of Kytar live.  The road runs east to
+west, and the homes are to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19261
+DDIR_EAST
+~
+~
+0 -1 19272
+DDIR_SOUTH
+~
+~
+0 -1 19281
+DDIR_WEST
+~
+~
+0 -1 19270
+#19272
+Residential Street~
+This is residential street.  Obviously this is where several citizens reside.
+Their homes look quite fancy compared to the usual cities, and you are quite
+tempted to enter and see how residents of Kytar live.  The road runs east to
+west, and the homes are to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19262
+DDIR_EAST
+~
+~
+0 -1 19273
+DDIR_SOUTH
+~
+~
+0 -1 19282
+DDIR_WEST
+~
+~
+0 -1 19271
+#19273
+Residential Street~
+This is residential street.  Obviously this is where several citizens reside.
+Their homes look quite fancy compared to the usual cities, and you are quite
+tempted to enter and see how residents of Kytar live.  The road runs east to
+west, and the homes are to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19263
+DDIR_EAST
+~
+~
+0 -1 19274
+DDIR_SOUTH
+~
+~
+0 -1 19283
+DDIR_WEST
+~
+~
+0 -1 19272
+#19274
+Residential Street~
+This is residential street.  Obviously this is where several citizens reside.
+Their homes look quite fancy compared to the usual cities, and you are quite
+tempted to enter and see how residents of Kytar live.  The road runs east to
+west, and the homes are to the north and south.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19264
+DDIR_EAST
+~
+~
+0 -1 19275
+DDIR_SOUTH
+~
+~
+0 -1 19284
+DDIR_WEST
+~
+~
+0 -1 19273
+#19275
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking north and south
+you see is more of the temple square.  To the east are steps to the temple,
+and to the west is residential road.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19265
+DDIR_EAST
+~
+~
+0 -1 19276
+DDIR_SOUTH
+~
+~
+0 -1 19285
+DDIR_WEST
+~
+~
+0 -1 19274
+#19276
+West Temple Steps~
+Here you stand on the magnificent steps of the temple of Kytar.  This is the
+most sacred of ground on the entire continent.  Defiling it would be an act
+of treason against the gods.  The top of the temple is east.  The temple
+square is west.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19277
+DDIR_WEST
+~
+~
+0 -1 19275
+#19277
+Temple of Kytar~
+This is the Temple of Kytar!  It has been declared the Northern Continents
+most magnificent construction.  Its beauty and power have been admired
+throughout the realm.  Pilgrimages take place every day to the temple, from
+every corner of the known realm.  Rumor says the gods do not war upon this
+ground, as they consider it their equal in wonder.  Exits lead in the four
+cardinal directions.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19267
+DDIR_EAST
+~
+~
+0 -1 19278
+DDIR_SOUTH
+~
+~
+0 -1 19287
+DDIR_WEST
+~
+~
+0 -1 19276
+#19278
+East Temple Steps~
+Here you stand on the magnificent steps of the temple of Kytar.  This is the
+most sacred of ground on the entire continent.  Defiling it would be an act
+of treason against the gods.  The top of the temple is west.  The temple
+square is east.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19279
+DDIR_WEST
+~
+~
+0 -1 19277
+#19279
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19269
+DDIR_SOUTH
+~
+~
+0 -1 19289
+DDIR_WEST
+~
+~
+0 -1 19278
+#19280
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19270
+DDIR_SOUTH
+~
+~
+0 -1 19290
+#19281
+Oliver's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19271
+#19282
+Offilius' House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19272
+#19283
+Ondren's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19273
+#19284
+Orthid's House~
+This is the home of a resident of the city.  The house is well-furnished, and
+it looks quite comfortable.  Since most of the commoners don't have the money
+to pay for a residence inside the city, you can understand that the owner of
+this property must be quite wealthy.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 19274
+#19285
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19275
+DDIR_EAST
+~
+~
+0 -1 19286
+DDIR_SOUTH
+~
+~
+0 -1 19295
+#19286
+Southwest Corner of the Temple~
+You're standing in a corner of the temple.  This is where priests come to
+pray and pay homage to the gods of the realm.  The ground here is considered
+sacred, and fighting between the factions of Order and the factions of Chaos
+is highly discouraged.  Exits are south and west.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19296
+DDIR_WEST
+~
+~
+0 -1 19285
+#19287
+South Temple Steps~
+Here you stand on the magnificent steps of the temple of Kytar.  This is the
+most sacred of ground on the entire continent.  Defiling it would be an act
+of treason against the gods.  The top of the temple is south.  The temple
+square is north.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19277
+DDIR_SOUTH
+~
+~
+0 -1 19297
+#19288
+Southeast Corner of the Temple~
+You're standing in a corner of the temple.  This is where priests come to
+pray and pay homage to the gods of the realm.  The ground here is considered
+sacred, and fighting between the factions of Order and the factions of Chaos
+is highly discouraged.  Exits are south and east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19289
+DDIR_SOUTH
+~
+~
+0 -1 19298
+#19289
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19279
+DDIR_SOUTH
+~
+~
+0 -1 19299
+DDIR_WEST
+~
+~
+0 -1 19288
+#19290
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the north and east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19280
+DDIR_EAST
+~
+~
+0 -1 19291
+#19291
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the west and east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19292
+DDIR_WEST
+~
+~
+0 -1 19290
+#19292
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the west and east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19293
+DDIR_WEST
+~
+~
+0 -1 19291
+#19293
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the west and east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19294
+DDIR_WEST
+~
+~
+0 -1 19292
+#19294
+Falcon Road~
+You're on falcon road, one of the longer roads of the city.  This road runs
+straight south, from the western city entrance, until it hits the corner of
+the city, and then it heads east, until it collides with the temple square.
+This road is named after the bird, which was one of the first animals spotted
+in this area.  The road continues to the west.  East is the temple square.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19295
+DDIR_WEST
+~
+~
+0 -1 19293
+#19295
+Inside the South Gate~
+Welcome to Kytar!  You're standing inside the city, near the south gate.
+This is the main city entrance, as you are also standing in the southwest
+corner of the temple square, where the healer of the city, Ratyk, resides.
+To your west is falcon road, which will take you to main street, near the
+shops.  Walking south will take you outside the city's walls.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19285
+DDIR_EAST
+~
+~
+0 -1 19296
+DDIR_SOUTH
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19303
+DDIR_WEST
+~
+~
+0 -1 19294
+#19296
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19286
+DDIR_EAST
+~
+~
+0 -1 19297
+DDIR_WEST
+~
+~
+0 -1 19295
+#19297
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.  To your north are steps leading to the
+top of the temple.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19287
+DDIR_EAST
+~
+~
+0 -1 19298
+DDIR_WEST
+~
+~
+0 -1 19296
+#19298
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19288
+DDIR_EAST
+~
+~
+0 -1 19299
+DDIR_WEST
+~
+~
+0 -1 19297
+#19299
+Temple Square~
+You're standing in temple square.  There isn't a lot to see except the place
+responsible for the name ... the Temple.  It stands here in the city as proof
+of the miraculous deeds skilled hands can accomplish.  Looking around, all
+you see is more of the temple square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19289
+DDIR_WEST
+~
+~
+0 -1 19298
+#19300
+Outside the North Gate of Kytar~
+You're standing outside the city of Kytar, the largest city on the continent.
+Its central location has made it very popular, and therefore it must be
+guarded, as it also contains the greatest temple of worship known.  The city
+lies to the south.  Wilderness lies off to the north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 17000
+DDIR_SOUTH
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19205
+#19301
+Outside the West Gate of Kytar~
+You're standing outside the city of Kytar, the largest city on the continent.
+Its central location has made it very popular, and therefore it must be
+guarded, as it also contains the greatest temple of worship known.  The city
+lies to the east.  Wilderness lies off to the west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19240
+DDIR_WEST
+~
+~
+0 -1 17002
+#19302
+Outside the East Gate of Kytar~
+You're standing outside the city of Kytar, the largest city on the continent.
+Its central location has made it very popular, and therefore it must be
+guarded, as it also contains the greatest temple of worship known.  The city
+lies to the west.  Wilderness lies off to the east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19318
+DDIR_WEST
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19249
+#19303
+Outside the South Gate of Kytar~
+You're standing outside the city of Kytar, the largest city on the continent.
+Its central location has made it very popular, and therefore it must be
+guarded, as it also contains the greatest temple of worship known.  The city
+lies to the north.  Wilderness lies off to the south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 19202 19295
+DDIR_SOUTH
+~
+~
+0 -1 17312
+#19304
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19303
+DDIR_SOUTH
+~
+~
+0 -1 19305
+#19305
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19304
+DDIR_SOUTH
+~
+~
+0 -1 19306
+#19306
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19305
+DDIR_SOUTH
+~
+~
+0 -1 19307
+#19307
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19306
+DDIR_SOUTH
+~
+~
+0 -1 19308
+#19308
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19307
+DDIR_WEST
+~
+~
+0 -1 19309
+#19309
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 19308
+DDIR_SOUTH
+~
+~
+0 -1 19310
+#19310
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19309
+DDIR_SOUTH
+~
+~
+0 -1 19311
+#19311
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19310
+DDIR_SOUTH
+~
+~
+0 -1 19312
+#19312
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19311
+DDIR_EAST
+~
+~
+0 -1 19313
+#19313
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19314
+DDIR_WEST
+~
+~
+0 -1 19312
+#19314
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19313
+DDIR_SOUTH
+~
+~
+0 -1 19315
+#19315
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19314
+DDIR_EAST
+~
+~
+0 -1 19316
+#19316
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19317
+DDIR_WEST
+~
+~
+0 -1 19315
+#19317
+Road to Kytar~
+This is the road to Kytar.  It's a long road, with sparse trees along the
+route, offering shade to the weary traveler.  At the end of the road is
+the largest city of the northern continent, Kytar.  The road also connects
+with the crossroads near Ocean City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19316
+DDIR_EAST
+~
+~
+0 -1 11867
+#19318
+A Path in the Wilderness~
+This is a path east of the city of Kytar.  It leads off into the wilderness.
+A short distance away is Bill's Nerf Farm, where you can buy a nerf to take
+along on your adventures.  Its closeness to the city has made it a popular
+attraction.  The city is west.  To the east you see more wilderness.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+~
+~
+0 -1 19319
+DDIR_WEST
+~
+~
+0 -1 19302
+#19319
+A Path in the Wilderness~
+This is a path east of the city of Kytar.  It leads off into the wilderness.
+A short distance away is Bill's Nerf Farm, where you can buy a nerf to take
+along on your adventures.  Its closeness to the city has made it a popular
+attraction.  The city is west.  To the east you see more wilderness.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+~
+~
+0 -1 19320
+DDIR_EAST
+~
+~
+0 -1 19323
+DDIR_WEST
+~
+~
+0 -1 19318
+#19320
+Trail to Bill's Nerf Farm~
+You're outside Bill's Nerf Farm.  Already you can smell the nerfs.  They have
+an odor similar to fresh cut deer meat.  In fact, you catch yourself beginning
+to drool a little.  A path in the wilderness is to the south, and the farm
+is to the north.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+~
+~
+0 -1 19321
+DDIR_SOUTH
+~
+~
+0 -1 19319
+#19321
+Bill's Nerf Farm~
+This is Bill's Nerf Farm, where anyone with a little money can purchase their
+own nerf, and the prices are pretty good.  Bill lives in a little cottage here,
+and the nerfs are located in a large pen to the north, where they graze at
+their own leisure.  Bill seems like a nice guy, and you get the impression he
+wouldn't try to rip you off.  The trail back to the city lies to the south.
+~
+0 ROOM_INDOORS|ROOM_PET_SHOP SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 19320
+#19322
+Nerf Holding Pen~
+This is a pretty boring place.  All you see are nerfs!
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#19323
+A Path in the Wilderness~
+This is a path east of the city of Kytar.  It leads off into the wilderness.
+A short distance away is Bill's Nerf Farm, where you can buy a nerf to take
+along on your adventures.  Its closeness to the city has made it a popular
+attraction.  The city is west.  To the east you see more wilderness.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+~
+~
+0 -1 17007
+DDIR_WEST
+~
+~
+0 -1 19319
+#0
+
+
+#RESETS
+D 19205 DIR_NORTH DOOR_CLOSED_LOCKED
+D 19240 DIR_WEST  DOOR_CLOSED_LOCKED
+D 19249 DIR_EAST  DOOR_CLOSED_LOCKED
+D 19295 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 19300 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 19301 DIR_EAST  DOOR_CLOSED_LOCKED
+D 19302 DIR_WEST  DOOR_CLOSED_LOCKED
+D 19303 DIR_NORTH DOOR_CLOSED_LOCKED
+D 19200 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 19210 DIR_NORTH DOOR_CLOSED_LOCKED
+O 19200   1 19277
+O 19201   1 19245
+O 19231   8 19226
+O 19231   8 19231
+O 19231   8 19232
+O 19231   8 19234
+O 19231   8 19251
+O 19231   8 19252
+O 19231   8 19253
+O 19231   8 19254
+M 19200 100 19205
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19240
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19249
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19295
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19300
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19301
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19302
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19200 100 19303
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19202 100 0
+M 19201 100 19218
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+M 19201 100 19220
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+M 19201 100 19246
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+M 19201 100 19289
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+M 19201 100 19292
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+M 19202 100 19210
+E 19215 100 WEAR_FINGER_L
+E 19217 100 WEAR_BODY
+E 19214 100 WEAR_SHIELD
+E 19216 100 WEAR_WIELD
+G 19203 100 0
+M 19203 100 19203
+G 19202 100 0
+M 19204 100 19214
+M 19205 100 19209
+M 19205 100 19217
+M 19205 100 19219
+M 19205 100 19227
+M 19205 100 19229
+M 19205 100 19237
+M 19205 100 19239
+M 19206 100 19216
+M 19207 100 19226
+G 19206 100 0
+G 19211 100 0
+M 19208 100 19231
+G 19211 100 0
+G 19212 100 0
+G 19213 100 0
+G 19205 100 0
+G 19206 100 0
+G 19207 100 0
+G 19208 100 0
+G 19209 100 0
+G 19210 100 0
+M 19209 100 19232
+G 19218 100 0
+G 19219 100 0
+M 19210 100 19200
+G 19203 100 0
+M 19211 100 19234
+G 19204 100 0
+G 19238 100 0
+G 19239 100 0
+G 19240 100 0
+G 19241 100 0
+G 19229 100 0
+M 19212 100 19251
+G 19222 100 0
+G 19226 100 0
+G 19227 100 0
+G 19228 100 0
+M 19213 100 19252
+G 19223 100 0
+G 19224 100 0
+G 19225 100 0
+M 19214 100 19253
+G 19230 100 0
+G 19229 100 0
+G 19235 100 0
+G 19232 100 0
+M 19215 100 19254
+G 19220 100 0
+G 19221 100 0
+M 19216 100 19277
+M 19217 100 19261
+M 19218 100 19262
+M 19219 100 19263
+M 19220 100 19264
+M 19221 100 19281
+M 19222 100 19282
+M 19223 100 19283
+M 19224 100 19284
+M 19225 100 19222
+M 19225 100 19238
+M 19225 100 19255
+M 19225 100 19270
+M 19225 100 19294
+M 19226 100 19266
+M 19226 100 19268
+M 19226 100 19286
+M 19226 100 19288
+M 19227 100 19277
+M 19228 100 19218
+M 19228 100 19220
+M 19228 100 19296
+M 19229 100 19321
+M 19230 100 19322
+M 19231 100 19267
+M 19231 100 19276
+M 19231 100 19278
+M 19231 100 19287
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

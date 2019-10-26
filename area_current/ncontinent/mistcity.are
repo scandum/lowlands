@@ -1,0 +1,2539 @@
+#AREA Mist City~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 30 50 1 95
+
+
+#HELPS
+0 'MIST CITY'~
+{128}                                Mist City
+{308}
+This City is the second area in the Isle of Mist trilogy, which consists
+of The Isle of Mist, Mist City, and King Menos' Maze.  This area was created 
+by Presto 8-24-94 and is centered on the Isle of Mist.  A map of the city
+is located in the area.
+~
+
+0 $~
+
+
+#MOBILES
+#10900
+city guard mist~
+a Mist City Guard~
+A guard of this illustrious city stands here.~
+This is the strangest guard you have ever seen. In fact, you can almost
+see right through him!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_HUNT
+500 S
+60 0 0 1d900+1774 1d60+19
+33333 0
+POS_STANDING POS_STANDING SEX_MALE
+#10901
+citizen mist~
+a Mist City Citizen~
+A citizen of this illustrious city stands here.~
+This is the strangest citizen you have ever seen.  In fact, you can almost
+see right through him!
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_PROTECT_EVIL
+0 S
+40 0 0 1d400+706 6d7+5
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 10~
+say Hi, $n
+~
+>fight_prog 50~
+if quest (0,10,$n) > 1000
+  flee 
+endif
+~
+>death_prog 100~
+mpmadd $n quest 0 20 1
+if quest (0,20,$n) > 0
+  mpcalculate $x % 100
+  if number ($X) == 0
+    if quest (0,20,$n) > 0
+      mpechoat $n {118}You've killed your $xth citizen here.
+~
+|
+#10902
+chango wife woman~
+Chango's Wife~
+A woman is here, cleaning the house.~
+This woman is quite beautiful, for a gnome.  You wonder who she is.
+Could she be Chango's housekeeper, or his mother?  You may never know.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_PROTECT_EVIL
+0 S
+70 0 0 10d100+3500 10d7+20
+139624 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 10~
+emote calls out for Chango's help.
+~
+|
+#10903
+owner restaurant~
+the Restaurant Owner~
+A man is here, selling the most delicious foods.~
+This man is wearing the standard baker's clothing, only it seems to have
+a gray tint to it.  Maybe it's just your eyes playing tricks on you.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 0d0+10000 0d0+100
+11111 0
+POS_STANDING POS_STANDING SEX_MALE
+#10904
+owner magician~
+the Mist City Magician~
+A man is here, selling and purchasing magical items.~
+This wizard is dressed completely in gray.  His eyes seem able to penetrate
+into the deepest recesses of your mind.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 0d0+10000 0d0+100
+11111 0
+POS_STANDING POS_STANDING SEX_MALE
+#10905
+man healer~
+the Mist City Healer~
+A man, clad all in gray, is standing here, wondering if you need healed.~
+This man will cast heal on you, but not for free.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 0d0+10000 0d0+100
+11111 0
+POS_STANDING POS_STANDING SEX_MALE
+>bribe_prog 100~
+cast 'heal' $n
+~
+|
+#10906
+man weaponsmith~
+the Mist City Weaponsmith~
+The weaponsmith of this illustrious city wonders if you need a new weapon.~
+This man has the biggest muscles you have ever seen.  Maybe you should
+buy something and leave the shop before he crushes your puny body.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 0d0+10000 0d0+100
+11111 0
+POS_STANDING POS_STANDING SEX_MALE
+#10907
+man armorer~
+the Mist City Armorer~
+There is a man here working on a suit of platemail.~
+This armorer seems to have the most delicate and fastest hands you have
+ever laid eyes on.  Is it possible he made all the armor here?
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 0d0+10000 0d0+100
+11111 0
+POS_STANDING POS_STANDING SEX_MALE
+#10908
+drunk party citizen~
+a Drunk Citizen~
+A citizen is here partying.  He seems drunk.~
+This citizen seems to need a good night's sleep.  He's bound to have
+one hell of a hangover when he wakes up though.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+0
+-100 S
+50 0 0 1d625+1197 1d50+13
+12345 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+tell $n Want a beer, dude?
+~
+>speech_prog sure ok yes~
+if cancarry ($n)
+  mpoload 10905
+  give beer $n
+~
+|
+#10909
+glorius~
+Glorius~
+Glorius is here, awaiting her execution.~
+Glorius looks so young, and beautiful.  You wonder what she did to
+deserve death.  It might be rude to ask, "What did you do?"  But since
+she's chained to the wall, I guess it wouldn't hurt anything.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p What did you do?~
+say I escaped from King Menos' maze.
+say Would you like to help me escape from here?
+~
+>speech_prog sure yes ok~
+say The executioner has the keys to the shackles I'm wearing.
+~
+>give_prog i10923~
+say Thanks!
+mpjunk i10923
+emote unlocks the shackles.
+say At last I am FREE!
+cackle 
+mpecho Before your eyes, Glorius morphs into a Mist Dragon!
+mpmload 10917
+mppurge self
+~
+|
+#10910
+executioner~
+the Executioner~
+The Executioner is here, grinning at you.~
+This is the most dreaded man in the city, better not anger him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_HUNT
+-1000 S
+95 0 0 0d0+10000 0d0+100
+163347 0
+POS_STANDING POS_STANDING SEX_MALE
+#10911
+menos king~
+King Menos~
+King Menos is here, sitting in his throne.~
+So this is the ruler of the Isle of Mist, very interesting.  He's clad
+entirely in gray.  You should try not to offend him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_HUNT
+0 S
+80 0 0 300d29+1000 1d80+33
+155662 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+tell $n Greetings, $n.
+~
+>fight_prog 70~
+cast fireball $r
+~
+>fight_prog 10~
+say You shall die for your treachery!
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#10912
+pirahna giant fish~
+a Giant Pirahna~
+A giant pirahna swimming here thinks you look delicious.~
+This has got to be the most viscious fish you have ever encountered.  Let's
+see if the rumor holds up that they can clean a man's bones in under a minute.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+AFF_HUNT
+-50 S
+15 0 0 0d0+200 1d15+9
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpkill $r
+~
+|
+#10913
+jouster competitor~
+a Jousting Competitor~
+A jouster is here, awaiting his turn.~
+This is the strangest jouster you've ever seen.  In fact, you can
+almost see right through him!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_HUNT
+200 S
+55 0 0 1d756+1469 1d55+16
+30000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10914
+horse~
+a Jouster's Horse~
+A horse belonging to a jouster is eating grass here.~
+This is just a normal gray horse.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_HUNT
+0 S
+40 0 0 1d1+1018 5d5+15
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#10915
+mortician~
+the Mortician~
+The mortician of Mist City is here selling corpses.~
+The mortician is covered in blood, from operating on corpses.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d65+22
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10916
+child mist~
+a Mist City Child~
+A child of this illustrious city stands here.~
+This is the strangest child you have ever seen.  In fact, you can almost
+see right through him!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_PROTECT_EVIL
+0 S
+25 0 0 15d30+200 3d6+10
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#10917
+dragon mist~
+a Mist Dragon~
+An angry Mist Dragon.~
+This mist dragon does not appear happy at being locked in King Menos'
+dungeon.  He looks like he wishes to get revenge.
+~
+ACT_MOUNT|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+60 0 0 500d8+0 1d60+19
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+mpkill menos
+~
+|
+#0
+
+
+#SHOPS
+10903 ITEM_TYPE_DRINK_CON ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  111  50  0 23
+10904 ITEM_TYPE_LIGHT ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_CONTAINER  111  50  0 23
+10906 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  111  50  0 23
+10907 ITEM_TYPE_ARMOR ITEM_TYPE_BOAT ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+10915 ITEM_TYPE_CORPSE_PC ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  111  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#10900
+dinner scroll~
+a dinner scroll~
+A scroll in the shape of a mushroom lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+20 49 49 50 0 0 0 0
+1 3705 19
+S 1 'create food'
+S 2 'create food'
+S 3 'create spring'
+#10901
+plate eggs bacon~
+a plate of bacon and eggs~
+A plate with bacon and eggs lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 25 1
+#10902
+smoked salmon~
+a smoked salmon~
+A smoked salmon lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+20 0 0 0 0 0 0 0
+2 50 1
+#10903
+baked rotisserie turkey~
+a rotisserie gold turkey~
+A baked turkey lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+2 50 1
+#10904
+glass lemonade~
+a glass of lemonade~
+A glass of lemonade lies here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_LEMONADE 0 0 0 0 0
+1 15 1
+#10905
+mug beer~
+a mug of beer~
+A frosty mug of beer lies here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_BEER 0 0 0 0 0
+1 10 1
+#10906
+staff fly~
+a staff of fly~
+A staff is here, levitating over the ground.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 5 5 113 0 0 0 0
+5 75000 17
+S 3 'fly'
+#10907
+staff invis invisible~
+a staff of invisibility~
+Something here has taken on the shape of a staff.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 5 5 167 0 0 0 0
+5 75000 17
+S 3 'mass invis'
+#10908
+scroll light~
+a scroll of light~
+A scroll with an inner light lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+20 47 47 47 0 0 0 0
+1 25000 19
+S 1 'continual light'
+S 2 'continual light'
+S 3 'continual light'
+#10909
+fountain~
+a cool, refreshing fountain~
+A cool, refreshing fountain has been built here.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#10910
+claw gray mist dragon~
+a mist dragon's claw~
+A deep-gray claw lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 4 8 WEAPON_CLAW 0 0 0 0
+5 100000 38
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+#10911
+whip gray mist~
+a mist whip~
+A deep-gray whip lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 5 7 WEAPON_WHIP 0 0 0 0
+5 1000000 37
+#10912
+menos mist axe~
+king Menos' Axe~
+An extremely large deep-gray axe lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 15 2 WEAPON_SLICE 0 0 0 0
+20 500000 80
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 5 0
+#10913
+sword mist~
+a mist sword~
+A deep-gray sword emblazoned with the emblem of mist city lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 6 6 WEAPON_SLASH 0 0 0 0
+10 300000 54
+E
+emblem sword~
+The Emblem of Mist City:
+			     __________
+			    / __    __ \
+			   / /  \  /  \ \
+			  / / /\ \/ /\ \ \
+			 / / /  \  /  \ \ \
+			/ /_/    \/    \_\ \
+			\  ______________  /
+			 \ \  ________  / /
+			  \ \ \      / / /
+			   \ \ \    /_/ /
+			    \ \ \  __  /
+			     \ \ \/ / /
+			      \ \  / /
+			       \ \/ /
+			        \  /
+			         \/		      created by Presto 8-24-94
+~
+A APPLY_HITROLL 5 0
+#10914
+gray suit chain chainmail mist~
+a mist suit of chainmail~
+A deep-gray suit of chainmail lies here.  It bears the emblem of mist city.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+15 5000000 75
+E
+emblem suit~
+The Emblem of Mist City:
+			     __________
+			    / __    __ \
+			   / /  \  /  \ \
+			  / / /\ \/ /\ \ \
+			 / / /  \  /  \ \ \
+			/ /_/    \/    \_\ \
+			\  ______________  /
+			 \ \  ________  / /
+			  \ \ \      / / /
+			   \ \ \    /_/ /
+			    \ \ \  __  /
+			     \ \ \/ / /
+			      \ \  / /
+			       \ \/ /
+			        \  /
+			         \/		      created by Presto 8-24-94
+~
+A APPLY_WIS 3 0
+A APPLY_INT 3 0
+#10915
+bracer mist gray~
+a mist bracer~
+A deep-gray bracer lies here.  It bears the emblem of mist city.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+16 0 0 0 0 0 0 0
+5 2000000 75
+E
+emblem bracer~
+The Emblem of Mist City:
+			     __________
+			    / __    __ \
+			   / /  \  /  \ \
+			  / / /\ \/ /\ \ \
+			 / / /  \  /  \ \ \
+			/ /_/    \/    \_\ \
+			\  ______________  /
+			 \ \  ________  / /
+			  \ \ \      / / /
+			   \ \ \    /_/ /
+			    \ \ \  __  /
+			     \ \ \/ / /
+			      \ \  / /
+			       \ \/ /
+		                \  /
+			         \/		      created by Presto 8-24-94
+~
+A APPLY_MANA 50 0
+#10916
+map mist city~
+a map of mist city~
+A map of Mist City lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 50 1
+E
+map~
+__ ____________ __ __ __ __ The Map of Mist City __ __ __ __ __ __ __ __ __ __ 
+  /     moat   \
+ /  __________  \                                         LEGEND:
+|  /          \  |     north edition
+| |  **    **  | |           =                         A - Armor Shop
+| | ****  **** | |           =                         G - Gate to City 
+| | ****  **** | |  ====north=road==   *** *** ***     H - Healer's
+| |  ********  | |  =        =     =   *R* *M* *H*     M - Magic Shop
+| |   ******   | |  =   __  ***   ***  *** *** ***     MS- Main Square
+| |   ******   ---  =  |  | ***   ***   =   =   =  *** R - Restaurant
+| |   CASTLE===========|MS| ***   ***   =markets===*Z* W - Weapons Shop
+| |   ******   ---  =  |__|  \homes/    =   =   =  *** Z - Morgue
+| |   ******   | |  =                   =  *** ***          ____
+| |  ********  | |  ======south=road=====  *W* *A*         /    \
+| | ****  **** | |  =        =             *** ***        / /\/\ \
+| | ****  **** | |  =        =                            \ ____ /
+| |  **    **  | |  =       park                           \\   /
+|  \__________/  |  =                                       \\ /
+ \     moat     /   =                                        \/
+  \____________/   /G\       created by Presto 8/24/94
+~
+#10917
+lance mist~
+a mist lance~
+A deep-gray lance lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 11 3 WEAPON_PIERCE 0 0 0 0
+15 70000 57
+A APPLY_HITROLL 5 0
+#10918
+shield mist gray~
+a mist city guard's shield~
+A deep-gray shield lies here.  It bears the emblem of mist city.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+17 0 0 0 0 0 0 0
+5 20000 73
+E
+emblem shield~
+The Emblem of Mist City:
+			     __________
+			    / __    __ \
+			   / /  \  /  \ \
+			  / / /\ \/ /\ \ \
+			 / / /  \  /  \ \ \
+			/ /_/    \/    \_\ \
+			\  ______________  /
+			 \ \  ________  / /
+			  \ \ \      / / /
+			   \ \ \    /_/ /
+			    \ \ \  __  /
+			     \ \ \/ / /
+			      \ \  / /
+			       \ \/ /
+			        \  /
+			         \/		      created by Presto 8-24-94
+~
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+#10919
+scroll pass~
+a scroll of pass door and something more~
+A scroll lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 178 110 0 0 0 0 0
+1 3729 31
+S 1 'pass door'
+S 2 'flamestrike'
+S 3 '-1 slot'
+#10920
+scroll recall~
+a scroll of recall~
+A recall scroll lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+21 266 0 0 0 0 0 0
+1 1000 22
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10921
+scroll detect invisible~
+a scroll of detect invisible~
+A scroll of detect invisible lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+21 65 0 0 0 0 0 0
+1 1000 22
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10922
+potion detect invisible blue~
+a blue potion of detect invisible~
+A blue potion of detect invisible lies on the ground here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+21 65 0 0 0 0 0 0
+1 1000 22
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10923
+key shackles~
+a key~
+The key to Glorius' shackles is here.~
+This key can be used to set Glorius free!
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#10900
+The Northwest Corner of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the 
+bottom, along with all the creatures here to guard it!
+Exits are east and south.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+You see more of the moat.~
+~
+0 -1 10901
+DDIR_SOUTH
+You see more of the moat.~
+~
+0 -1 10910
+#10901
+The Northern Side of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the
+bottom, along with all the creatures here to guard it!
+Exits are east and west.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+You see more of the moat.~
+~
+0 -1 10902
+DDIR_WEST
+You see more of the moat.~
+~
+0 -1 10900
+#10902
+The Northeast Corner of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the 
+bottom, along with all the creatures here to guard it!
+Exits are west and south.
+~
+0 0 SECT_LAKE
+DDIR_SOUTH
+You see a bridge over the moat.~
+~
+0 -1 10912
+DDIR_WEST
+You see more of the moat.~
+~
+0 -1 10901
+#10903
+The North Road of Mist City~
+The road here is made of gray cobblestones.  Other than a few citizens running
+here and there, the street is completely deserted.
+The road continues east and south.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the road.~
+~
+0 -1 10904
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 10913
+#10904
+The North Road of Mist City~
+The road here is made of gray cobblestones.  
+The road continues east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the road.~
+~
+0 -1 10905
+DDIR_WEST
+You see the road.~
+~
+0 -1 10903
+#10905
+The North Road of Mist City~
+The road here is made of gray cobblestones.  You can see a house to the south.
+The road continues east and west.  To the north is the entrance to an edition.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see an edition.~
+~
+0 -1 10971
+DDIR_EAST
+You see the road.~
+~
+0 -1 10906
+DDIR_SOUTH
+You see a small gray house.~
+~
+0 -1 10915
+DDIR_WEST
+You see the road.~
+~
+0 -1 10904
+#10906
+The North Road of Mist City~
+The road here is made of gray cobblestones.  There is a house to the south.
+The road continues to the west.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+You see a small gray house.~
+~
+0 -1 10916
+DDIR_WEST
+You see the road.~
+~
+0 -1 10905
+#10907
+The Restaurant in Mist City~
+It really smells great in here.  Maybe you should buy something.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the street.~
+~
+0 -1 10917
+#10908
+The Magic Shop in Mist City~
+You've never been in a shop this neat.  You can see a lot of potions
+and scrolls stacked neatly behind the counter.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the street.~
+~
+0 -1 10918
+#10909
+The Healer's Store in Mist City~
+You can see many beds scattered about the room.  There are blood stains on
+a few of them.  You start to wonder if this healer isn't a fraud.  Only one
+way to find out, and it's not cheap.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the street.~
+~
+0 -1 10919
+#10910
+The Moat Behind the Castle~
+This is the cleanest moat you have ever been in.  You can even see the
+bottom, along with all the creatures here to guard it!
+The exits are north and south.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see more of the moat.~
+~
+0 -1 10900
+DDIR_SOUTH
+You see more of the moat.~
+~
+0 -1 10920
+#10911
+At the Gate of Mist Castle~
+The castle in front of you is very large, made of gray stone, and almost
+completely surrounded by a layer of mist.  There is a large gate here.
+The exit is east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the bridge over the moat.~
+~
+0 -1 10912
+DDIR_WEST
+You see the castle.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 10931
+#10912
+The Bridge Over the Moat~
+You are standing on a bridge.  It is made of gray stone.  To the west you
+see a large castle.  It looks like a very interesting place to vist.
+Exits lead north, east, south and west.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+You see the moat.~
+~
+0 -1 10902
+DDIR_EAST
+You see a road.~
+~
+0 -1 10913
+DDIR_SOUTH
+You see the moat.~
+~
+0 -1 10922
+DDIR_WEST
+You see a small stretch of land before the castle.~
+~
+0 -1 10911
+#10913
+An Intersection in Mist City~
+You are standing in an intersection in Mist City.  It is made entirely of
+gray cobblestones.  There isn't much activity going on here.  You can,
+however see the main square of the city to the east.
+Exits are north, south and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the road.~
+~
+0 -1 10903
+DDIR_EAST
+You see the main square.~
+~
+0 -1 10914
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 10923
+DDIR_WEST
+You see a bridge over a moat.~
+~
+0 -1 10912
+#10914
+Mist City Square~
+You are standing in the main square of mist city.  This square is the place
+where the citizens gather to hold all their town meetings.  This is also where
+any executions take place.
+The exit is west.
+~
+0 0 SECT_CITY
+DDIR_WEST
+You see a road.~
+~
+0 -1 10913
+#10915
+Chango's House~
+You have entered Chango's house.  You can tell by all the books scattered
+everywhere that he is a well-educated man.  He probably taught himself.
+There is even a chemistry set on a table in the corner.
+The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 10905
+#10916
+A Gray Stone House~
+You have no idea who's house this is, but yet you have entered it!
+It's a good thing too.  There is a party going on!  What luck you must have!
+The exit it north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 10906
+#10917
+The Market Street of Mist City~
+You have entered the busiest part of town.  Market Square.  To the north
+you can see a very cool restaurant.  Is that your stomach rumbling?
+The street continues east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the restaurant.~
+~
+0 -1 10907
+DDIR_EAST
+You see market street.~
+~
+0 -1 10918
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 10927
+DDIR_WEST
+~
+~
+0 -1 16000
+#10918
+The Market Street of Mist City~
+There are shops to the north and south of you.  The road continues to
+the east and west.  Happy shopping.  =)
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a magic shop.~
+~
+0 -1 10908
+DDIR_EAST
+You see market street.~
+~
+0 -1 10919
+DDIR_SOUTH
+You see a weapons shop.~
+~
+0 -1 10928
+DDIR_WEST
+You see market street.~
+~
+0 -1 10917
+#10919
+The Market Street in Mist City~
+There are shops to the north and south of you.  The street continues
+back to the west.  To the east is the morgue.  Happy shopping.  =)
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small building with a red cross on the front.~
+~
+0 -1 10909
+DDIR_EAST
+You see the morgue.~
+~
+0 -1 10973
+DDIR_SOUTH
+You see an armor shop.~
+~
+0 -1 10929
+DDIR_WEST
+You see market street.~
+~
+0 -1 10918
+#10920
+The Southwest Corner of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the
+bottom, along with all the creatures here to guard it!
+Exits are north and east.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see more of the moat.~
+~
+0 -1 10910
+DDIR_EAST
+You see more of the moat.~
+~
+0 -1 10921
+#10921
+The South Side of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the
+bottom, along with all the creatures here to guard it!
+Exits are east and west.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+You see more of the moat.~
+~
+0 -1 10922
+DDIR_WEST
+You see more of the moat.~
+~
+0 -1 10920
+#10922
+The Southeast Corner of the Moat~
+This is the cleanest moat you have ever been in.  You can even see the
+bottom, along with all the creatures here to guard it!
+Exits are north and west.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see a bridge over the moat.~
+~
+0 -1 10912
+DDIR_WEST
+You see more of the moat.~
+~
+0 -1 10921
+#10923
+Inside the Gate of Mist City~
+You are standing in a large intersection.  The roads go north and east.
+On the road east you can make out a lot of traffic.  
+Back south is the main gate.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the road.~
+~
+0 -1 10913
+DDIR_EAST
+You see the road.~
+~
+0 -1 10924
+DDIR_SOUTH
+You see the road.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 10930
+#10924
+The Southern Road of Mist City~
+This is an extremely busy street.  Citizens are moving in every direction.
+You may want to see what's keeping them so busy.
+The road continues east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the road.~
+~
+0 -1 10925
+DDIR_WEST
+You see an intersction.~
+~
+0 -1 10923
+#10925
+The Southern Road of Mist City~
+This is an extremely busy street.  Citizens are moving in every direction.
+You may want to see what's keeping them so busy.
+The road continues east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the road.~
+~
+0 -1 10926
+DDIR_SOUTH
+You see a small trail.~
+~
+0 -1 10975
+DDIR_WEST
+You see the road.~
+~
+0 -1 10924
+#10926
+The Southern Road of Mist City~
+This is an extremely busy street.  Citizens are moving in every direction.
+You may want to see what's keeping them so busy.
+The road continues east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the road.~
+~
+0 -1 10927
+DDIR_WEST
+You see the road.~
+~
+0 -1 10925
+#10927
+The Southern Road of Mist City~
+This is an extremely busy street.  Citizens are moving in every direction.
+You may want to see what's keeping them so busy.
+The road continues north and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see another street.~
+~
+0 -1 10917
+DDIR_WEST
+You see the road.~
+~
+0 -1 10926
+#10928
+The Weapons Shop in Mist City~
+There are so many sharp weapons in here that it seems the air has been cut
+in half.  (Maybe it's just the furnace using up all the oxygen.)  Anyway,
+there is a man here selling weapons.  It would be wise not to offend him.
+The exit is back north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the street.~
+~
+0 -1 10918
+#10929
+The Armor Shop in Mist City~
+CCCCCLLLLLAAAAANNNNNGGGGG!!!!!  What is that clanging noise?!?!?!  It has
+to be the loudest sound you have ever heard.  Oh, it's only the armorer
+pounding out some dents in a suit of armor.  Maybe you should hurry up and 
+buy something before you go deaf.  The exit is north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the street.~
+~
+0 -1 10919
+#10930
+Before the Gate of Mist City~
+You have entered a city.  Not a very large one, but a city none-the-less.
+There is a big sign here.  Go ahead and read it.
+The gate is south.  An intersection is north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see an intersection.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 10923
+DDIR_SOUTH
+~
+~
+0 -1 10766
+E
+sign~
+The sign:
+                        ------------------------
+                       |  Welcome to Mist City  |
+                       | ====================== |
+                       | (= Have a nice day! =) |
+                       | ====================== |
+                       | made by Presto 8-24-94 |
+                        ------------------------
+                                 |    |
+                                 |    |
+                            \//__|____|__\\/
+~
+#10931
+Inside the Gate of Mist Castle~
+Though the outside of the castle is gray, the entire inside seems to be
+made of brilliant white marble bricks.  You can hear screaming coming from
+the north, and a dead silence seams to exist to the west.
+The gate is back to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see stairs.~
+~
+0 -1 10932
+DDIR_EAST
+You see the gate.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 10911
+DDIR_WEST
+You see the court.~
+~
+0 -1 10942
+#10932
+Stairs Leading Down~
+These stairs are just plain ordinary steps.  They go down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a room inside the gates.~
+~
+0 -1 10931
+DDIR_DOWN
+You see only darkness.~
+~
+0 -1 10933
+#10933
+The Dungeon~
+Wow is it black in here!
+The exit is back up.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_UP
+You see stairs.~
+~
+0 -1 10932
+#10934
+Atop the Northwest Tower~
+The view is terrible.  There is too much mist!  Better go down or you
+might fall over the edge.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+You see the base of the tower.~
+~
+0 -1 10938
+#10935
+Atop the Northeast Tower~
+The view is terrible.  There is too much mist!  Better go down or you
+might fall over the edge.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+You see the base of the tower.~
+~
+0 -1 10940
+#10936
+Atop the Southwest Tower~
+The view is terrible.  There is too much mist!  Better go down or you
+might fall over the edge.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+You see the base of the tower.~
+~
+0 -1 10944
+#10937
+Atop the Southeast Tower~
+The view is terrible.  There is too much mist!  Better go down or you
+might fall over the edge.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+You see the base of the tower.~
+~
+0 -1 10946
+#10938
+The Base of the Northwest Tower~
+There are winding steps leading up.
+The other exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a room between the towers.~
+~
+0 -1 10939
+DDIR_UP
+You see the top of the tower.~
+~
+0 -1 10934
+#10939
+A Room Between the North Towers~
+This is a staging area for the jousters' horses.
+Exits are south, east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the base of a tower.~
+~
+0 -1 10940
+DDIR_SOUTH
+You see the court.~
+~
+0 -1 10941
+DDIR_WEST
+You see the base of a tower.~
+~
+0 -1 10938
+#10940
+The Base of the Northeast Tower~
+There are winding stairs here leading up.
+The other exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a room between the towers.~
+~
+0 -1 10939
+DDIR_UP
+You see the top of the tower.~
+~
+0 -1 10935
+#10941
+The North End of the Court~
+You are standing at the north end of the court.  Some competitors in a 
+jousting tournament are here, awaiting their turn.
+Exits are north and south.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a room between the towers.~
+~
+0 -1 10939
+DDIR_SOUTH
+You see the center court.~
+~
+0 -1 10942
+#10942
+The Center Court of Mist Castle~
+You are standing in the center of a large court.  To the west you can
+see the king's throne room.  The entrance is east.  The court continues
+north and south.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the court.~
+~
+0 -1 10941
+DDIR_EAST
+You see a room inside the gate.~
+~
+0 -1 10931
+DDIR_SOUTH
+You see the court.~
+~
+0 -1 10943
+DDIR_WEST
+You see the throne room.~
+~
+0 -1 10947
+#10943
+The South End of the Court~
+You are standing at the south end of a huge court. Some competitors in a
+jousting tournament are here, awaiting their turn. 
+Exits are north and south.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the center court.~
+~
+0 -1 10942
+DDIR_SOUTH
+You see a room between the towers.~
+~
+0 -1 10945
+#10944
+The Base of the Southwest Tower~
+There are winding steps leading up.
+The other exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a room between the towers.~
+~
+0 -1 10945
+DDIR_UP
+You see the top of the tower.~
+~
+0 -1 10936
+#10945
+A Room Between the South Towers~
+This is a staging area for the jousters' horses.
+Exits are north, east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the court.~
+~
+0 -1 10943
+DDIR_EAST
+You see the base of a tower.~
+~
+0 -1 10946
+DDIR_WEST
+You see the base of a Tower.~
+~
+0 -1 10944
+#10946
+The Base of the Southeast Tower~
+There are steps leading up.
+The other exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a room between the towers.~
+~
+0 -1 10945
+DDIR_UP
+You see the top of the tower.~
+~
+0 -1 10937
+#10947
+The Throne Room of Mist Castle~
+There is a huge throne against the west wall.  Statues line the north and
+south walls.  There is a huge dragon's head mounted over the throne.
+The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the castle court.~
+~
+0 -1 10942
+DDIR_DOWN
+You see the throne.~
+throne~
+EX_ISDOOR|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 10948
+E
+dragon head~
+The head is aimed toward the entrance you walked through with it's mouth
+gaping open.  Good thing it's dead!
+~
+E
+statues~
+The statues are all man-size and wearing crowns.  They are probably statues
+of the past kings of the castle.
+~
+#10948
+A Tunnel~
+Wow!  A secret tunnel.  Might as well see where it leads.
+Exits are up and west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the tunnel.~
+~
+0 -1 10949
+DDIR_UP
+You see the throne room.~
+throne~
+EX_ISDOOR -1 10947
+#10949
+A Tunnel~
+The tunnel continues.  Its blackness deepens.  Does it ever end?
+It continues east and west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the tunnel.~
+~
+0 -1 10948
+DDIR_WEST
+You see the tunnel.~
+~
+0 -1 10950
+#10950
+A Tunnel~
+The tunnel continues.  Its blackness deepens.  Does it ever end?
+It continues east and west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the tunnel.~
+~
+0 -1 10949
+DDIR_WEST
+It's too dark!~
+~
+0 -1 10951
+#10951
+Some Stairs~
+You have stumbled upon some steps in the tunnel.  They seem to be made of
+stone, but you can't be sure in this darkness.
+The stairs lead up.  The tunnel continues east and west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the tunnel.~
+~
+0 -1 10950
+DDIR_WEST
+You see the tunnel.~
+~
+0 -1 10952
+DDIR_UP
+You see the stairs.~
+~
+0 -1 10953
+#10952
+A Tunnel~
+The tunnel continues.  Its blackness deepens.  Does it ever end?
+It continues east and west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the tunnel.~
+~
+0 -1 10952
+DDIR_WEST
+You see the tunnel.~
+~
+0 -1 10952
+DDIR_DOWN
+You see a dark room.~
+~
+0 -1 11250
+#10953
+The Stairs~
+The stairs continue up.  It's not quite so dark anymore (you think).
+Maybe you should keep following them.  They continue down too.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see some light shining into a cave.~
+~
+0 -1 10954
+DDIR_DOWN
+You see the blackness where the steps began.~
+~
+0 -1 10951
+#10954
+A Short Cave~
+The stairs have led you to a small cave.  Its walls are gray and it smells
+of pine.  The main entrance is east.  There is a big tree out there that
+must have been hiding it from the other side.
+The stairs lead back down.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You can make out a small clearing.~
+~
+0 -1 10717
+DDIR_DOWN
+You see the stairs.~
+~
+0 -1 10953
+#10955
+A Sanctum of Chaos~
+This room is very dark.  Against the north wall there is a sacrifical altar 
+with the remains of a dead Order follower on it.  The entrance is down.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+You see a residence.~
+~
+0 -1 10956
+#10956
+Gandolf's House~
+When Gandolf isn't off fighting the forces of Order, or helping someone
+out, he spends quiet afternoons in his house reading his favorite novels.
+Don't be alarmed if you see citizens here.  Everyone is welcome.
+The exit is back south.  There is a small room up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the residential area.~
+~
+0 -1 10962
+DDIR_UP
+You see a dark room.~
+~
+0 -1 10955
+#10957
+Majesto's House~
+When Majesto isn't off fighting the forces of evil, or helping someone
+out, he spends quiet afternoons in his house reading his favorite novels.
+Don't be alarmed if you see citizens here.  Everyone is welcome.
+The exit is back south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the residential area.~
+~
+0 -1 10963
+#10958
+Presto's House~
+When Presto isn't off designing new areas for the realm, or answering someone's
+questions on the correct methods of designing areas, or just looking for people
+to throw in prison, he spends quiet afternoons in his house reading his 
+favorite novels.  Don't be alarmed if you see citizens here.  Everyone is 
+welcome.  The exit is back south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the center of the north edition.~
+~
+0 -1 10967
+#10959
+A Sanctum of Order~
+This room is very bright.  Against the north wall there is a sacrifical
+altar with the remains of a dead Chaos follower on it.  The entrance is
+to the down.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+You see a residence.~
+~
+0 -1 10961
+#10960
+A Residence in Mist City~
+This residence is made of grey stones.  There a fireplace in the northeast
+corner.  To the south is more of the residential section of Mist City.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the residential area of Mist City.~
+~
+0 -1 10964
+#10961
+A Residence~
+This residence is made of grey stones.  There a fireplace in the northeast
+corner.  To the south is more of the residential section of Mist City.
+There is a small room up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the residential area of Mist City.~
+~
+0 -1 10965
+DDIR_UP
+You see a bright room.~
+~
+0 -1 10959
+#10962
+North Edition of Mist City~
+This is the residential area of mist city.  There are residences everywhere.
+Feel free to walk around and explore the houses.  Everyone is friendly here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see Gandolf's house.~
+~
+0 -1 10956
+DDIR_EAST
+You see more of the edition.~
+~
+0 -1 10963
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 10966
+#10963
+North Edition of Mist City~
+This is the residential area of mist city.  There are residences everywhere.
+Feel free to walk around and explore the houses.  Everyone is friendly here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see Majesto's house.~
+~
+0 -1 10957
+DDIR_EAST
+You see the center of the residential area.~
+~
+0 -1 10967
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 10968
+DDIR_WEST
+You see more of the edition.~
+~
+0 -1 10962
+#10964
+North Edition of Mist City~
+This is the residential area of mist city.  There are residences all around.
+Feel free to walk around and explore the houses.  Everyone is friendly here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 10960
+DDIR_EAST
+You see more of the residential area.~
+~
+0 -1 10965
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 10970
+DDIR_WEST
+You see the center of the north edition.~
+~
+0 -1 10967
+#10965
+North Edition of Mist City~
+This is the residential area of mist city.  There are residences all around.
+Feel free to walk around and explore the houses.  Everyone is friendly here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 10961
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 10972
+DDIR_WEST
+You see more of the edition.~
+~
+0 -1 10964
+#10966
+A Residence in Mist City~
+This residence is made of grey stones.  There a fireplace in the northeast
+corner.  To the north is more of the residential section of Mist City.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the edition.~
+~
+0 -1 10962
+#10967
+The Center of the North Edition of Mist City~
+This is the residential area of mist city.  There are residences all around.
+Feel free to walk around and explore the houses.  Everyone is friendly here.
+The town meeting hall for the residences is up.  To the north you can see a
+light glowing in the window of Presto's House.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+You see Presto's House.~
+~
+0 -1 10958
+DDIR_EAST
+You see more of the edition.~
+~
+0 -1 10964
+DDIR_SOUTH
+You see the entrance to the edition off in the distance.~
+~
+0 -1 10969
+DDIR_WEST
+You see more of the edition.~
+~
+0 -1 10963
+DDIR_UP
+You see the Town Hall of Mist City.~
+~
+0 -1 10974
+#10968
+A Residence in Mist City~
+This residence is made of grey stones.  There a fireplace in the northeast
+corner.  To the north is more of the residential section of Mist City.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the edition.~
+~
+0 -1 10963
+#10969
+The North Edition of Mist City~
+To the north you'll find several residences belonging to citizens of this city.
+Have fun looking around.  South will take yoy to the north road of Mist City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the center of the edition.~
+~
+0 -1 10967
+DDIR_SOUTH
+You see the main entrance to the edition.~
+~
+0 -1 10971
+#10970
+A Residence in Mist City~
+This residence is made of grey stones.  There a fireplace in the southeast
+corner.  To the north is more of the residential section of Mist City.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the edition.~
+~
+0 -1 10964
+#10971
+The Entrance to the Edition of Mist City~
+North is the housing edition of Mist City.  Several citizens dwell there.
+There are also death-set rooms for Order and Chaos followers.  Among the 
+several houses located in the edition are ones belonging to Presto, Majesto, 
+and Gandolf.  All are well known and respected members of the Mist City 
+community.  The central city is back south.  Enjoy your stay.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the edition.~
+~
+0 -1 10969
+DDIR_SOUTH
+You see the North Road of Mist City.~
+~
+0 -1 10905
+#10972
+A Residence in Mist City~
+This residence is made of grey stones.  There a fireplace in the northeast
+corner.  To the north is more of the residential section of Mist City.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the edition.~
+~
+0 -1 10965
+#10973
+The Morgue~
+This is the morgue of Mist City.  Hopefully you never have to require its
+services, but if you do, it's here for your use.  The exit is west.
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+You see the Market Street of Mist City.~
+~
+0 -1 10919
+#10974
+The Town Hall of Mist City~
+This room is large and spacious.  There are several rows of seats for players
+to sit down on.  Down is the center of the north edition of Mist City.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+You see the north edition of Mist City.~
+~
+0 -1 10967
+#10975
+A Park Trail~
+You're standing on a small little trail.  On both sides there are beautiful
+flowers blooming in several different hues.  To the south there is a little
+bend in the trail.  To the north is the southern road of Mist City.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the southern road.~
+~
+0 -1 10925
+DDIR_SOUTH
+You see a bend in the trail.~
+~
+0 -1 10976
+#10976
+A Bend in the Trail~
+The trail takes a quick bend here to the east.  To the north you can see the
+trail leading up to the southern road of Mist City.  After a short distance
+to the east, however, the trail turns south again.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the trail.~
+~
+0 -1 10975
+DDIR_EAST
+You see a bend in the trail.~
+~
+0 -1 10977
+#10977
+A Bend in the Trail~
+The trail takes a quick bend here to the south.  To the west you can see a
+short bend in the trail.  To the south you can see the park entrance off in 
+the distance.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+You see the trail.~
+~
+0 -1 10978
+DDIR_WEST
+You see a bend in the trail.~
+~
+0 -1 10976
+#10978
+A Park Trail~
+You stand on the trail right before the entrance to the park.  There is a
+short flowery terrace before the park that really makes it look like a
+wonderful place to visit.  To the north is a bend in the trail.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a bend in the trail.~
+~
+0 -1 10977
+DDIR_SOUTH
+You see the park entrance.~
+~
+0 -1 10979
+#10979
+The Park Entrance~
+Welcome to the park in Mist City!  There is a wonderful fountain to the
+southwest.  The guard headquarters is west.  A playground is off to the
+northeast, and you can wade in the lagoon to southeast.  Enjoy your stay.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the park trail.~
+~
+0 -1 10978
+DDIR_EAST
+You see a paved trail.~
+~
+0 -1 10988
+DDIR_WEST
+You see a cobblestone trail.~
+~
+0 -1 10980
+#10980
+A Cobblestone Trail~
+You're on a short trail through the park of Mist City.  This trail is made
+entirely of grey cobblestones.  To the west is the guard headquarters.  East
+is the entrance to the park, and to the south you can see a fountain off
+in the distance.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the park entrance.~
+~
+0 -1 10979
+DDIR_SOUTH
+You see a trail to the fountain.~
+~
+0 -1 10983
+DDIR_WEST
+You see entrance of the guards' headquarters.~
+~
+0 -1 10981
+#10981
+The Guards' Headquarters~
+You enter a sparkling, brilliant building.  The sign over the door says:
+'The Guard Building and City Lock-Up'  To the south you can see a prison
+cell.  It doesn't look very clean.  In fact, there's a slight odor emanating
+from the cell.  It smells a bit like decaying flesh.  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the park trail.~
+~
+0 -1 10980
+DDIR_SOUTH
+You see the prison cell.~
+~
+0 -1 10982
+#10982
+The Prison Cell~
+OUCH!!!!  That wasn't decaying flesh, it was flesh being incinerated!
+The exit is north.  You better hurry.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_LAVA
+DDIR_NORTH
+You see the entrance to the guards' headquarters.~
+~
+0 -1 10981
+#10983
+A Cobblestone Trail~
+This trail leads just a bit further to a beautiful fountain off to the south.
+There are brilliant rows of tulips, roses, and other flowers lining the trail.
+To the north you see a 'T' junction in the trail.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the trail.~
+~
+0 -1 10980
+DDIR_SOUTH
+You see the fountain.~
+~
+0 -1 10984
+#10984
+Standing at the Fountain~
+Before you sets a beautiful stone fountain.  It appears to be carved from a 
+single slab of rock.  There are small little paths leading to the east, south,
+and west that are lined with picnic tables.  To the north is the cobblestone
+trail leading back to the park entrance.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+You see a cobblestone trail leading back to the park entrance.~
+~
+0 -1 10983
+DDIR_EAST
+You see a trail lined with picnic tables.~
+~
+0 -1 10987
+DDIR_SOUTH
+You see a trail lined with picnic tables.~
+~
+0 -1 10986
+DDIR_WEST
+You see a trail lined with picnic tables.~
+~
+0 -1 10985
+#10985
+A Picnic Area~
+You've left the fountain and entered one of the picnic areas surrounding it.
+There are several picnic tables here that look like the perfect place to
+eat your food and take a break from all the death and destruction that seems
+to follow you around.  East is the fountain.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the fountain.~
+~
+0 -1 10984
+#10986
+A Picnic Area~
+You've left the fountain and entered one of the picnic areas surrounding it.
+There are several picnic tables here that look like the perfect place to
+eat your food and take a break from all the death and destruction that seems
+to follow you around.  North is the fountain.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the fountain.~
+~
+0 -1 10984
+#10987
+A Picnic Area~
+You've left the fountain and entered one of the picnic areas surrounding it.
+There are several picnic tables here that look like the perfect place to
+eat your food and take a break from all the death and destruction that seems
+to follow you around.  West is the fountain.
+~
+0 0 SECT_CITY
+DDIR_WEST
+You see the fountain.~
+~
+0 -1 10984
+#10988
+A Paved Trail~
+You find yourself wandering on a nicely paved trail.  There are trees running
+along both sides of the trail.  They're quite healthy.  Off in the distance
+to the east you can see a small playground.  The trail continues east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the playground off in the distance.~
+~
+0 -1 10993
+DDIR_WEST
+You see the entrance to the park.~
+~
+0 -1 10979
+#10989
+The Northwest Corner of the Playground~
+There are a bunch of swings here.  The kids must really love having this
+place to play.  As a matter of fact, those swings look pretty damn tempting.
+Why not have a seat and take a break for a while.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the playground.~
+~
+0 -1 10990
+DDIR_SOUTH
+You see the entrance to the playground.~
+~
+0 -1 10992
+#10990
+The Northeast Corner of the Playground~
+In this corner of the playground you find a huge slide.  It's made of solid
+steel, and it's wide enough for about four people to slide down at once.
+You estimate the height to about thirty feet.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+You see more of the playground.~
+~
+0 -1 10991
+DDIR_WEST
+You see more of the playground.~
+~
+0 -1 10989
+#10991
+The Southeast Corner of the Playground~
+Here you find yourself gaping in awe at one of your favorite childhood
+playground activitees.  There is a large merry-go-round right in front of you.
+The temptation is pretty tremendous to hop on and take a spin.  There's
+nothing to hold you back.  Go for it!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the playground.~
+~
+0 -1 10990
+DDIR_WEST
+You see the entrance to the playground.~
+~
+0 -1 10992
+#10992
+The Entrance to the Playground~
+Welcome to the Playground of Mist City!  There are wonderful activities to do
+all around you.  Don't get too carried away, though.  Someone, or something,
+is just crying for you to slaughter it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the playground.~
+~
+0 -1 10989
+DDIR_EAST
+You see more of the playground.~
+~
+0 -1 10991
+DDIR_SOUTH
+You see a trail leading to the lagoon.~
+~
+0 -1 10993
+#10993
+A Paved Trail~
+You're on a paved trail in the park of Mist City.  At the moment you're standing
+in a 'T' junction that leads to the north, south, and west.  To the north you
+can hear children laughing as they enjoy the playground.  To the south you can
+hear the gentle roar of waves rolling into the lagoon, and to the west is the
+entrance to the park.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the entrance to the playground.~
+~
+0 -1 10992
+DDIR_SOUTH
+You see a trail leading to the lagoon.~
+~
+0 -1 10994
+DDIR_WEST
+You see the entrance to the park a short distance away.~
+~
+0 -1 10988
+#10994
+The Lagoon Trail~
+You're on a trail that leads to the lagoon, to the south.  There really isn't
+that much to see here.  There's a 'T' junction in the trail to the north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the 'T' junction.~
+~
+0 -1 10993
+DDIR_SOUTH
+You see more of the lagoon trail.~
+~
+0 -1 10995
+#10995
+The Lagoon Trail~
+To the east you can see a pretty expansive lagoon.  A small sign staked in
+the ground states: "Swim at your own risk!" and another states: "No 
+lifeguard on duty!"  What the hell do these mean?  The water looks calm
+enough.  The trail continues to the north.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+You see the lagoon trail.~
+~
+0 -1 10994
+DDIR_EAST
+You see the lagoon.~
+~
+0 -1 10996
+#10996
+The Northwest Corner of the Lagoon~
+Well, there didn't seem to be anything in here from a distance, but all that
+changed pretty damn quick.  There's a ton of pirahna here, and they're headed
+right toward you!
+~
+0 0 SECT_LAKE
+DDIR_EAST
+You see more of the lagoon.~
+~
+0 -1 10997
+DDIR_SOUTH
+You see more of the lagoon.~
+~
+0 -1 10999
+DDIR_WEST
+You see the lagoon trail.~
+~
+0 -1 10995
+#10997
+The Northeast Corner of the Lagoon~
+The water is clear here, which allows you to see the horde of pirahna
+streaking through the water straight for you!
+~
+0 0 SECT_LAKE
+DDIR_EAST
+You see mist.~
+~
+0 -1 10704
+DDIR_SOUTH
+You see more of the lagoon.~
+~
+0 -1 10998
+DDIR_WEST
+You see more of the lagoon.~
+~
+0 -1 10996
+#10998
+The Southeast Corner of the Lagoon~
+The water is clear here, which allows you to see the horde of pirahna 
+streaking through the water straight for you!
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see more of the lagoon.~
+~
+0 -1 10997
+DDIR_EAST
+You see mist.~
+~
+0 -1 10701
+DDIR_WEST
+You see more of the lagoon.~
+~
+0 -1 10999
+#10999
+The Southwest Corner of the Lagoon~
+The water is clear here, which allows you to see the horde of pirahna
+streaking through the water straight for you!
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see more of the lagoon.~
+~
+0 -1 10996
+DDIR_EAST
+You see more of the lagoon.~
+~
+0 -1 10998
+#0
+
+
+#RESETS
+M 10704 100 10934
+M 10704 100 10935
+M 10704 100 10936
+M 10704 100 10937
+M 10911 100 10947
+E 10705   2 WEAR_LIGHT
+E 10706   2 WEAR_FINGER_L
+E 10707   2 WEAR_FINGER_R
+E 10708   2 WEAR_NECK_A
+E 10709   2 WEAR_NECK_B
+E 10710   2 WEAR_BODY
+E 10711   2 WEAR_HEAD
+E 10712   2 WEAR_LEGS
+E 10713   2 WEAR_FEET
+E 10714   2 WEAR_HANDS
+E 10715   2 WEAR_ARMS
+E 10716   2 WEAR_SHIELD
+E 10717   2 WEAR_ABOUT
+E 10718   2 WEAR_WAIST
+E 10719   2 WEAR_WRIST_L
+E 10720   2 WEAR_WRIST_R
+E 10912   1 WEAR_WIELD
+E 10721   2 WEAR_DUAL_WIELD
+M 10909 100 10933
+M 10910 100 10914
+G 10923 100 0
+M 10900 100 10930
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10930
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10930
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10931
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10947
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10947
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10947
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10941
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10943
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10927
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10927
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10919
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10901 100 10904
+M 10901 100 10904
+M 10901 100 10903
+M 10901 100 10903
+M 10901 100 10906
+M 10901 100 10923
+M 10901 100 10924
+M 10901 100 10925
+M 10901 100 10926
+M 10901 100 10926
+M 10901 100 10917
+M 10901 100 10917
+M 10901 100 10918
+M 10901 100 10918
+M 10901 100 10919
+M 10902 100 10915
+G 10916 111 0
+M 10903 100 10907
+G 10900 111 0
+G 10901 111 0
+G 10902 111 0
+G 10903 111 0
+G 10904 111 0
+G 10905 111 0
+M 10904 100 10908
+G 10906 111 0
+G 10907 111 0
+G 10908 111 0
+G 10919 111 0
+G 10920 111 0
+M 10905 100 10909
+M 10906 100 10928
+G 10910 111 0
+G 10911 111 0
+M 10907 100 10929
+G 10914 111 0
+G 10915 111 0
+M 10915 100 10973
+G 10922 111 0
+G 10921 111 0
+M 10908 100 10916
+M 10908 100 10916
+M 10908 100 10916
+M 10908 100 10916
+M 10912 100 10900
+M 10912 100 10900
+M 10912 100 10900
+M 10912 100 10900
+M 10912 100 10900
+M 10912 100 10901
+M 10912 100 10901
+M 10912 100 10901
+M 10912 100 10901
+M 10912 100 10901
+M 10912 100 10902
+M 10912 100 10902
+M 10912 100 10902
+M 10912 100 10902
+M 10912 100 10902
+M 10912 100 10910
+M 10912 100 10910
+M 10912 100 10910
+M 10912 100 10910
+M 10912 100 10910
+M 10912 100 10920
+M 10912 100 10920
+M 10912 100 10920
+M 10912 100 10920
+M 10912 100 10920
+M 10912 100 10921
+M 10912 100 10921
+M 10912 100 10921
+M 10912 100 10921
+M 10912 100 10921
+M 10912 100 10922
+M 10912 100 10922
+M 10912 100 10922
+M 10912 100 10922
+M 10912 100 10922
+M 10913 100 10941
+E 10917   4 WEAR_WIELD
+M 10913 100 10941
+E 10917   4 WEAR_WIELD
+M 10913 100 10943
+E 10917   4 WEAR_WIELD
+M 10913 100 10943
+E 10917   4 WEAR_WIELD
+M 10914 100 10939
+M 10914 100 10939
+M 10914 100 10945
+M 10914 100 10945
+O 10909   3 10907
+O 10909   3 10967
+O 10909   3 10984
+M 10901 100 10956
+M 10901 100 10956
+M 10901 100 10957
+M 10901 100 10957
+M 10901 100 10958
+M 10901 100 10958
+M 10901 100 10960
+M 10901 100 10960
+M 10901 100 10961
+M 10901 100 10961
+M 10901 100 10962
+M 10901 100 10963
+M 10901 100 10964
+M 10901 100 10965
+M 10901 100 10966
+M 10901 100 10966
+M 10901 100 10968
+M 10901 100 10968
+M 10901 100 10969
+M 10901 100 10970
+M 10901 100 10970
+M 10901 100 10972
+M 10901 100 10972
+M 10901 100 10985
+M 10901 100 10986
+M 10901 100 10987
+M 10901 100 10994
+M 10901 100 10988
+M 10901 100 10992
+M 10900 100 10976
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10977
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10981
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10981
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10981
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10992
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10900 100 10994
+E 10913 100 WEAR_WIELD
+E 10918 100 WEAR_SHIELD
+M 10912 100 10996
+M 10912 100 10996
+M 10912 100 10996
+M 10912 100 10996
+M 10912 100 10996
+M 10912 100 10997
+M 10912 100 10997
+M 10912 100 10997
+M 10912 100 10997
+M 10912 100 10997
+M 10912 100 10998
+M 10912 100 10998
+M 10912 100 10998
+M 10912 100 10998
+M 10912 100 10998
+M 10912 100 10999
+M 10912 100 10999
+M 10912 100 10999
+M 10912 100 10999
+M 10912 100 10999
+M 10916 100 10989
+M 10916 100 10989
+M 10916 100 10989
+M 10916 100 10990
+M 10916 100 10990
+M 10916 100 10990
+M 10916 100 10991
+M 10916 100 10991
+M 10916 100 10991
+D 10930 DIR_NORTH DOOR_CLOSED
+D 10923 DIR_SOUTH DOOR_CLOSED
+D 10911 DIR_WEST  DOOR_CLOSED
+D 10931 DIR_EAST  DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

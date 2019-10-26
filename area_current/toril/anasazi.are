@@ -1,0 +1,3854 @@
+#AREA Anasazi~
+#AUTHORS Daith Minmay Superdave~
+#VERSION 4
+#RANGES 35 65 1 95
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 Anasazi~
+{128}
+                                   Anasazi
+{308}
+Long ago the small village of Anasazi was infested with evil. A great wizard
+came and brought with him his great knowledge of weaponry and chemistry. He
+forged a powerful weapon and gave it to the villagers. Once the villagers had
+rid the city of the evil presence he destroyed the weapon. Rumor has it, that
+it still exists somewhere in that small village.
+~
+
+0 $~
+
+
+#MOBILES
+#18400
+ethmoboutside~
+an ethereal mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 1~
+mpecho You hear the sound of wind blowing through the trees.
+~
+|
+#18401
+Agnes~
+Agnes~
+Madame Agnes is here in a trance.~
+You look at this strange mystical woman and notice an old cloak wrapped around
+her body, and the large golden earring in her ears.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog bucket~
+say Now where would I get a bucket?
+~
+>speech_prog hoe~
+say You're looking for a ho?
+say I think you want veronica dear.
+~
+>speech_prog fertilizer~
+say Uh, where would I get fertilizer?
+~
+>all_greet_prog 100~
+if quest (0,4,$n) == 2
+  if !delayed ($i)
+    say Ah, you are back....
+    say Master Aved had good news for you I hope?
+    break
+  endif
+endif
+if hasobjnum ($n) == 18406
+  if !delayed ($i)
+    say Good, I see you have found the blade of the flask.
+    mpforce $n say Yes, but there is still another piece.
+    mpmset self quest 0 4 15
+    mpdelay self 4 1 $n
+    break
+  endif
+endif
+if quest (0,4,$n) == 5
+  say Glad to see you again $n I hope I can be of help to
+  say you in your future.
+  smile 
+  break
+endif
+tell $n would you like me to tell you your future?
+~
+>speech_prog no~
+say Have a good day then.
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho $I lowers her head and enters a deep trance.
+    case 2
+      mpecho The room begins to shake and the wind picks up.
+    case 3
+      mpecho Her crystal ball begins to glow brightly.
+    case 4
+      mpecho $I looks into her crystal ball.
+      say You have traveled far, and defeated many enemies.
+      say But yet you are not happy with your self.
+    case 5
+      mpforce $t say No, I'm not really happy with myself.
+    case 6
+      say I know of something that will remedy that.
+      mpforce $t say Oh really?
+    case 7
+      say Yes, a long time ago a mighty weapon was forged by a great priest
+      say He made this weapon using his great knowledge of chemistry.
+      say It is rumored that he still lives near here.
+    case 8
+      mpecho $I awakens from her trance.
+      mpforce $t say Do you know where I could find him?
+    case 9
+      say Yes
+      mpecho $I gets an old map from behind her table.
+      say Take this $t, it will help you find him.
+      mpoload 18402
+      give i18402 $t
+      mpjunk i18402
+      mpmset $t quest 0 4 1
+    case 10
+      say You must go now, I need my rest.
+      mptransfer $t 18428
+      break
+    case 11
+      say Hmmm....maybe I could try something.
+      mpecho $I looks deep into her crystal ball.
+    case 12
+      mpecho The ball glows faintly with an eerie light, and clouds up.
+    case 13
+      say Ahhh, there is one of the pieces you seek!
+      say It is buried deep within the graveyard of Midian.
+      break
+    case 15
+      say I know, Aved's daughter was here looking for you.
+      say I think she might know where it is. You should go to her.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 6 1 $X
+~
+>speech_prog midian~
+if quest (0,4,$n) == 2
+  say Yes, it is an old mystical town not to far from here.
+  mpforce $n say Well if its there, ill find it!
+  mpmset $n quest 0 4 3
+  say Take this, you will need it.
+  mpoload 18403
+  give i18403 $n
+  say Good journey.
+~
+>speech_prog yes~
+if !delayed ($i)
+  if quest (0,4,$n) == 0
+    mpmset self quest 0 4 1
+    mpdelay self 1 1 $n
+    break
+  endif
+  if quest (0,4,$n) == 2
+    mpforce $n say He said you might know where one of the pieces is.
+    mpmset self quest 0 4 11
+    mpdelay self 2 1 $n
+    break
+  endif
+endif
+~
+|
+#18402
+tentacle tim~
+Tentacle Tim~
+Tentacle Tim is here commanding his Dancing Squid.~
+You see a tall Dutch man before you.  His hair is short and he has a small
+beard.  He is dressed in a large suit of tight black leather.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 1~
+say I am the mack daddy of squid!
+~
+>speech_prog bucket~
+say Nope, I don't have one?
+~
+>speech_prog hoe~
+say You're looking for a ho?
+say I think you are looking for veronica then.
+~
+>speech_prog fertilizer~
+if quest (20,4,$n) == 3
+  say Ah, I have just what you need!
+  say Here, take this bucket of rotten squid!
+  mpoload 18430
+  give i18430 $n
+  drop i18430
+  say If you don't know how to use it, ask one of the gardeners about it.
+  mpmset $n quest 20 4 4
+else
+  say Nope, I don't have any.
+endif
+~
+|
+#18403
+Veronica~
+Veronica~
+Veronica is here servicing you.~
+Before you is a young beautiful woman. Her hair is black as night and her
+eyes spy your every move. She is wearing a small silk teddy made of black
+lace, her creamy white thighs can hardly be seen under her thigh high black
+stockings.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog hoe~
+say Ho?  Who you calling a ho?
+if quest (16,4,$n) == 7
+  mpforce $n say I said hoe!  H O E, hoe!
+  say Oh!  I thought you were calling me an H O ho!
+  say I just happen to have one on me hehe.
+  mpoload 18418
+  say But you have to buy it from me!
+  mpmset $n quest 16 4 8
+endif
+~
+>speech_prog bucket~
+if quest (16,4,$n) == 11
+  say You again, and now you want a bucket.
+  say Lucky for you, I just happen to have this watering can.
+  say But you have to buy it from me!
+  mpoload 18425
+  mpmset $n quest 16 4 12
+endif
+~
+>speech_prog fertilizer~
+say I'm afraid I don't have any of that.
+~
+|
+#18404
+Mulder~
+Mulder~
+Sensei Mulder is here training his pupils.~
+You see a tall handsome young man before you. He is wise in the ways of
+fighting and is willing to teach you.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i18406~
+mpjunk i18406
+if quest (24,1,$n) == 0
+  mpoload 18404
+  say Hmm, this blade looks a little dull.
+  emote takes the blade and sharpens the edge.
+  say But, it belongs to me now fool!
+  say I am willing to sell it to you however
+  say for a nominal fee...
+  mpmset $n quest 24 1 1
+else
+  laugh 
+endif
+~
+>speech_prog bucket~
+say Now where would I get a bucket?
+~
+>speech_prog hoe~
+say You're looking for a ho?
+say I suggest you find veronica then.
+~
+>speech_prog fertilizer~
+say Uh, where would I get fertilizer?
+~
+|
+#18405
+small boy~
+a small boy~
+A small boy is playing here.~
+The young child is young of age and is covered in dirt.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 0 0 1d1+2150 2d8+45
+49011 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+smile 
+~
+|
+#18406
+small girl~
+a small girl~
+A small girl is playing here.~
+The small girl appears to be about 9 years old. her hair is pulled back in a
+ponytail.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 0 0 1d1+2150 2d8+45
+48529 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>group_greet_prog 10~
+smile 
+~
+|
+#18407
+male anasazi cit~
+a male citizen~
+A male citizen of Anasazi is here.~
+You see a young man before you, he is probably on his way to work by the he
+is dressed.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+65 0 0 1d1000+2500 1d50+35
+86235 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 10~
+say Welcome to our village.
+~
+|
+#18408
+female citizen~
+a female citizen~
+A female citizen of Anasazi is here.~
+The young female before you has blond hair and blue eyes. She is doing her
+daily chores and looking for her kids.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 0 0 1d1+2150 1d39+29
+76889 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>group_greet_prog 10~
+say Enjoy your stay here.
+~
+|
+#18409
+ethmobvill~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 1~
+mpecho You hear the sound of childish laughter in the distance.
+~
+|
+#18410
+ninamob~
+Nina~
+The beautiful maiden Nina is here wandering the halls.~
+A lovely young woman stands before you. She is the only daughter of the
+powerful wizard who rules this realm. Her eyes are deep blue and her hair
+is dark as night, her pale moonlike skin can be seen through the skimpy gown
+she is wearing.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+125 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+12500 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 33~
+if quest (0,4,$i) > 0
+  if hasobjnum ($i) == 18400
+    if quest (0,4,$i) == 1
+      mpforce $c say Damn, I was really hoping to find it here.
+      mpforce $c say Madame Agnes told me to come here.
+    endif
+    if quest (0,4,$i) == 2
+      say She did?
+    endif
+    if quest (0,4,$i) == 3
+      break
+    endif
+    if quest (0,4,$i) == 4
+      say I know where the other piece is.
+      mpforce $c say You do? Will you show me?
+    endif
+    if quest (0,4,$i) == 5
+      say Yes I will.
+      say Let me know when you are 'ready' to go.
+    endif
+    if quest (0,4,$i) == 6
+      break
+    endif
+    if quest (0,4,$i) == 7
+      south 
+      mpecho $I waves her hands in the air.
+      say This is the den of my house.  I decorated it myself.
+      giggle 
+    endif
+    if quest (0,4,$i) == 8
+      south 
+      say My father built this house long ago.  Though it is old,
+      say I still find it quite cozy.
+    endif
+    if quest (0,4,$i) == 9
+      mpmset self quest 0 4 0
+      say It is in there.
+      mpecho $I points to the well.
+      mpecho You climb into the well to look for yourself.
+      mptransfer pcs 18468
+      mpgoto 18465
+      break
+    endif
+    if quest (0,4,$i) == 10
+      mpmset self quest 0 4 0
+      say When I was a little girl I found it while playing.
+      say I knew my father would be mad so I threw it in the well.
+      say Go now, take the pieces to him.
+      break
+    endif
+    mpmadd self quest 0 4 1
+  endif
+endif
+~
+>speech_prog others~
+if quest (0,4,$n) == 1
+  if quest (0,4,$i) == 0
+    say Yes, many people come searching for the flask he made.
+    say I can tell you right now he does not have it. So you
+    say might as well go back where you came.
+    mpmset self quest 0 4 1
+    mposet i18400 name $n i18400
+  endif
+endif
+~
+>speech_prog yes~
+if quest (0,4,$i) == 3
+  if quest (0,4,$i) == 3
+    say Oh, well maybe you should go see my father, if she sent you
+    say you must have good intentions.
+    mpmset self quest 0 4 0
+    break
+  endif
+endif
+if quest (0,4,$n) == 2
+  say I will do what I can to help you.
+  say come back later and I will have some information for you.
+endif
+~
+>speech_prog ready~
+if quest (0,4,$i) == 6
+  rescale 18410 $n 95
+  mpforce $n follow ninamob
+  say Okay, here we go!
+  mpmset self quest 0 4 7
+endif
+~
+>all_greet_prog 100~
+tell $n Hello
+if quest (0,4,$n) == 1
+  if quest (0,4,$i) == 0
+    sigh 
+    mpforce $n say What's wrong M'lady?
+    say You are here to bother my father like all the others.
+  endif
+  break
+endif
+if quest (0,4,$n) == 2
+  say $n, did my father agree to help you?
+endif
+if hasobjnum ($n) == 18406
+  if quest (0,4,$n) == 3
+    if quest (0,4,$i) == 0
+      hug $n
+      say There you are! I have been looking all over for you.
+      mpforce $n say You have, why?
+      mpmset self quest 0 4 4
+      mpmset $n quest 0 4 4
+      mposet i18400 name $n i18400
+      break
+    endif
+  endif
+endif
+if quest (0,4,$n) == 3
+  say I need more time, come back later.
+  break
+endif
+if hasobjnum ($n) == 18407
+  say Sorry, I had to leave.
+  say I just didn't want my father to get mad.
+  mpforce $n say How did you know where the other piece was?
+  mpmset self quest 0 4 10
+  break
+endif
+if quest (0,4,$n) == 5
+  say Hi $n I hope you've been well, enjoy the flask.
+endif
+~
+|
+#18411
+avedmob~
+Aved~
+Master Aved is here ruling his realm.~
+Before you is a old wise man, he is a little bit shorter than you and is known
+for his unique magical powers.  He seems quite handsome for a man his age, and
+his good looks have been inherited by his daughter Nina.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if hasobjnum ($n) == 18407
+  if hasobjnum ($n) == 18406
+    say Good work, I see you have retrieved both pieces.
+    mpforce $n say Yes Master Aved, I have.
+    say Quickly give me the pieces.
+    break
+  endif
+endif
+tell $n Welcome to my lair.  How can I help you?
+mpmset self quest 29 1 0
+~
+>speech_prog yes~
+if quest (0,4,$n) == 1
+  if quest (0,4,$i) == 0
+  or quest (0,4,$i) == 4
+    say I created it to stop the evil that was taking over the village.
+    say With the flask the villagers ridded the Village of all that
+    say was unwanted.
+    mposet i18400 name $n i18400
+    mpmset self quest 0 4 1
+  endif
+endif
+~
+>rand_prog 33~
+if quest (0,4,$i) > 0
+  if hasobjnum ($i) == 18400
+    if quest (0,4,$i) == 1
+      say Many assassins used to hang out here and do whatever they
+      say pleased.  The Villagers were too weak to defend themselves
+      say so I made the Flask.
+    endif
+    if quest (0,4,$i) == 2
+      say After the village had won the battle there was no reason to
+      say keep such a powerful weapon around. so I tried to destroy it.
+    endif
+    if quest (0,4,$i) == 3
+      say Instead of it being completely destroyed it shattered into
+      say two pieces.
+    endif
+    if quest (0,4,$i) == 4
+      break
+    endif
+    if quest (0,4,$i) == 5
+      say I heard Madame Agnes in Anasazi might know where one piece is.
+    endif
+    if quest (0,4,$i) == 6
+      mpforce $c say Oh, I will go to her then.
+      say Wait, I'm not done talking yet!
+    endif
+    if quest (0,4,$i) == 7
+      say once you have found both pieces, bring them to me and I will
+      say help you put it back together.
+    endif
+    if quest (0,4,$i) == 8
+      mpforce $c say Thanks for all the help.
+    endif
+    if quest (0,4,$i) == 9
+      say It is my pleasure $c.
+      say Now get going.  You don't want any of the pieces to fall
+      say into the wrong hands.
+      mpmset $c quest 0 4 2
+      mpmset self quest 0 4 0
+      break
+    endif
+    mpmadd self quest 0 4 1
+  endif
+endif
+~
+>speech_prog pieces~
+if quest (0,4,$i) == 4
+  mpmset self quest 0 4 5
+  mpforce $n say Do you know where any of them are?
+endif
+~
+>speech_prog flask~
+if quest (0,4,$n) == 1
+  say Ahh, you seek the flask?.
+endif
+~
+>give_prog i18406~
+if quest (0,4,$n) == 4
+  mpecho $I utters the words 'noitnmad'
+  mpecho The blade of Damnation fills with rage!
+else
+  give i18406 $n
+  say Why are you giving that to me?
+endif
+~
+>give_prog i18407~
+if hasobjnum ($i) == 18406
+  if quest (0,4,$n) == 4
+    mpecho $I utters the words 'reyemnelre'
+    mpmset quest $n 0 4 5
+    mpecho The grip and blade fuse together causing a loud boom!
+    mpecho The grip soothes the blades rage.
+    say You have done well my son, take this you have earned it.
+    mpjunk i18407
+    mpjunk i18406
+    mpoload 18405
+    give i18405 $n
+    mpmset $n quest 24 1 1
+    break
+  endif
+else
+  say give me the blade first.
+  give i18407 $n
+endif
+if quest (0,4,$n) == 5
+  say It's good to see you again my friend.
+  say But I'm really busy maybe we can talk later.
+  smile $n
+endif
+~
+>speech_prog crown~
+if hasobjnum ($n) == 4835
+  if quest (12,4,$n) == 0
+    say You seek the crown?  Who sent you?
+    mpmset $n quest 12 4 1
+  endif
+endif
+~
+>speech_prog p Father Collins~
+if hasobjnum ($n) == 4835
+  if quest (12,4,$n) == 1
+    say Oh he did did he?  I don't believe you.
+    say return to him and get me some proof.
+    say Until you give me some 'proof', I refuse to help.
+    mpmset $n quest 12 4 2
+    mpmset self quest 29 1 1
+  endif
+endif
+~
+>speech_prog proof~
+if quest (12,4,$n) == 2
+  if quest (29,1,$i) == 1
+    say I told you to get me some proof!
+  else
+    say So the old buffoon wants proof first eh?
+    say Here, take this and give it to him.
+    mpoload 18490
+    give i18490 $n
+    mpmset $n quest 12 4 3
+  endif
+endif
+~
+>give_prog i18399~
+if quest (12,4,$n) == 3
+  mpmset $n quest 12 4 4
+  mpecho $I opens the letter and reads it.
+  say So, you really were sent by Father Collins.
+  say I used to possess the crown which you seek.
+  say But I gave it to Xenobia, the Queen of the Amazons.
+  if sex ($n) == 1
+    say Since you are a man, you can perhaps persuade
+    say her to give it to you.
+  else
+    say Hmm, you will have to disguise yourself as a man
+    say and try to seduce Xenobia to give you the crown.
+  endif
+  say Take this, it might help.
+  mpoload 18491
+  give i18491 $n
+  mpmset $n quest 12 4 5
+  mpjunk i18399
+endif
+~
+|
+#18412
+ethmobpath~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 1~
+mpecho The wind blows the dust lightly across your face.
+~
+|
+#18413
+ethmobmist~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 1~
+mpecho The mist rises a little but not enough for you to see.
+~
+|
+#18414
+ethmobhouse~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 1~
+mpecho The roaring sound of boiling chemicals fills the room.
+~
+|
+#18415
+keeper well~
+the keeper of the well~
+A large beast stands here in the shadows.~
+You see nothing but two small red eyes piercing out at you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1056+2111 2d8+45
+116235 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Well well well, intruders!
+say You will have to defeat me to get the piece you seek.
+rescale 18415 $n 133
+~
+>death_prog 100~
+say No!!! You have defeated me!!!!
+mpoload 18407
+~
+|
+#18416
+ethtransfermob1~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 15~
+mpechoat $r You are swept deeper into the well by a swift current.
+mpechoaround $r $r is swept deeper into the well by a swift current.
+mptransfer $r 18471
+~
+|
+#18417
+rotting corpse~
+a rotting corpse~
+A large rotting corpse is here.~
+You see a corpse with torn clothing, infested with maggots and other bugs,
+he reaches out for you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1056+2111 1d65+22
+86235 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+rescale 18417 $n 133
+tell $n You will have to defeat me to get the piece you seek.
+~
+>death_prog 100~
+mpoload 18406
+~
+|
+#18418
+gardener~
+a gardener~
+A gardener is here working his crops.~
+You see a middle aged man before you. He is dirty from his work, and is drenched
+in sweat.  He looks pretty knowledgeble about plants and how to grow harvest
+them.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+84 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1764+3721 1d84+36
+166235 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (16,4,$n) == 15
+  mpmset $n quest 16 4 0
+  if quest (20,4,$n) == 0
+    mpmset $n quest 20 4 1
+    mpecho $I looks up into the sky.
+    say Hmm, I see you have managed to grow the beanstalk.
+    say You must be a great gardener to have done that!
+    say Here, take these special seeds.
+    mpoload 18420
+    give i18420 $n
+    drop i18420
+    say See if you can find a good spot to plant them in.
+  endif
+endif
+if quest (16,4,$n) == 12
+  if hasobjnum ($n) == 18425
+    say Ah, I see you have a watering can, how cute.
+    say Now all you have to do is water the beans
+    say for two days and they will grow!
+    say Make sure you water only when the sun is at its highest.
+    mpmset $n quest 16 4 13
+  endif
+endif
+if quest (16,4,$n) == 10
+  mpmset $n quest 16 4 11
+  mpforce $n say I planted the beans, but they won't grow.
+  say Ah, you need to water them that's why.
+  say Ask around for a bucket then water the beans.
+endif
+if quest (16,4,$n) == 5
+  if hasobjnum ($n) == 18419
+    say What strange beans you have! If you had a hoe
+    say you could maybe plant them in this magical garden!
+    mpmset $n quest 16 4 6
+  endif
+endif
+~
+>rand_prog 1~
+say $r Please do not trample the garden.
+~
+>speech_prog hoe~
+if quest (16,4,$n) == 6
+  mpmset $n quest 16 4 7
+  say Yes, a hoe.  Ask around in the shops.
+  say Perhaps someone can sell or give you one.
+endif
+~
+>speech_prog garden~
+say This is a magical garden!  All sorts of strange
+say plants will grow here.
+~
+>speech_prog fertilizer~
+if quest (20,4,$n) == 2
+  say Hmm, I suppose you will need some fertilizer for the seeds.
+  say I'm afraid I'm all out, but do ask around and see if you
+  say can find some.
+  mpmset $n quest 20 4 3
+endif
+~
+>speech_prog bucket squid~
+if quest (20,4,$n) == 4
+  say Ah, I see you have a bucket of dead rotten squid!
+  say That stuff is good fertilizer.  All you have to do is
+  say hold the bucket over what you want to fertilize, and
+  say it will automatically fertilize the plants.
+  say It only works on a rainy day however, but a few hours
+  say of fertilization should be enough to grow your plants!
+endif
+~
+|
+#18419
+strange man~
+a strange man~
+A strange man is standing here.~
+He not only looks strange, but odd, wearing a torn, tattered cloth around his
+pale body.  Dead leaves seem to be clinging to his long hair, covered just a
+little by a floppy brimmed hat.  A squirrel is perched on his shoulder and
+quickly dives into one of his pockets.  You look a bit closer, and are startled
+by his brilliant blue eyes and a strangely, sweet smile.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SNEAK
+0 S
+60 BODY_HEAD|BODY_TORSO BODY_CLAW 1d900+1774 1d60+19
+118529 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (16,4,$n) == 3
+  if hasobjnum ($n) == 18414
+  or hasobjnum ($n) == 18415
+    say Hello there!  I see you have some food!
+  endif
+else
+  if hasobjnum ($n) == 18419
+    say I hope you can find use for those beans.
+  else
+    say Hello there stranger!
+  endif
+endif
+~
+>speech_prog hello~
+if quest (16,4,$n) == 0
+  mpmset $n quest 16 4 1
+  say It is nice to see such friendly people around here.
+  say I just wandered into this small village not to long ago.
+  say I was looking for someone to trade with.
+else
+  say Hello there $n!
+endif
+~
+>speech_prog trade~
+if quest (16,4,$n) == 1
+  mpmset $n quest 16 4 2
+  say Yes, I am very hungry and have no food nor money.
+  say All I have to trade with are these magic beans.
+endif
+~
+>speech_prog beans~
+if quest (16,4,$n) == 2
+  mpmset $n quest 16 4 3
+  say Yes, they are supposed to be magical beans.
+  say But I havent found any use for them.
+  say I noticed a shop near here, but I have no money.
+  say If you would buy me one of the two food items he sells
+  say I would be happy to give you these beans.
+endif
+~
+>give_prog i18414~
+say Thank you very much.
+mpecho The strange man scarfs down the food.
+mpjunk all
+if quest (16,4,$n) == 3
+  mpmset $n quest 16 4 5
+  say Here are the beans I promised you.
+  mpoload 18419
+  give i18419 $n
+  drop i18419
+  say I must go now. Thanks again.
+  mpecho With a blink of an eye, the strange man is gone.
+  mppurge self
+endif
+~
+>give_prog i18415~
+say Thank you very much.
+mpecho The strange man scarfs down the food.
+mpjunk all
+if quest (16,4,$n) == 3
+  mpmset $n quest 16 4 5
+  say Here are the beans I promised you.
+  mpoload 18419
+  give i18419 $n
+  drop i18419
+  say I must go now. Thanks again.
+  mpecho With a blink of an eye, the strange man is gone.
+  mppurge self
+endif
+~
+|
+#18420
+elistan weever~
+Elistan the weever~
+Elistan the weever is here looking in the mirror.~
+You see a nice young woman before you. She is wearing a small apron and is
+humming while she sews.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+60 BODY_HEAD|BODY_TORSO BODY_CLAW 1d900+1774 1d60+19
+36889 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 1~
+say Why does it have to be so big?
+~
+>speech_prog big~
+say Oh nothing, its just my friends are always teasing me
+say about how large my rump is.
+~
+>all_greet_prog 100~
+if rand (25)
+  say Hello $N, Welcome to my wonderful shop.
+endif
+if quest (20,4,$n) == 8
+  if hasobjnum ($n) == 18431
+    say What a strange plant you have there.
+    say If you want, I can perhaps make something out of its leaves.
+  endif
+endif
+~
+>give_prog i18431~
+if quest (20,4,$n) == 8
+  mpjunk i18431
+  mpmset $n quest 20 4 9
+  mpecho $i carefully cuts the leaves of the strange plant.
+  mpecho $i weaves the resulting plant matter into a fine belt!
+  say There, all finished.
+  mpoload 18421
+  say You may purchase this fine creation of mine now!
+  mpforce $n list
+endif
+~
+|
+#18421
+ethmobconnect~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p A magical giant beanstalk sprouts before your eyes!~
+connect up 18490
+doorset up desc Up from here you see a large beanstalk.
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#18450
+skeletal knight crownmob~
+a skeletal knight~
+A skeletal knight sits on a throne here.~
+The flesh of this long dead hero has long since rotted away.  All that
+remains are his bones and armor.  He wears a shining crown upon his head
+and you think about taking it from his skull.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+-1000 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+7613 1d1+133
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 1
+  if quest (4,4,$i) == 2
+    say You are a coward and do not deserve the Crown!
+    say A real hero would have stayed and fought with me!
+    mpmset self quest 0 30 0
+    rescale 18450 $n 110
+    mpmset $n quest 12 4 8
+    mptransfer $n 9755
+  else
+    mpmadd self quest 4 4 1
+  endif
+  break
+else
+  if quest (12,4,$n) == 5
+    rescale 18450 $n 110
+    say Hmm, you must be here to take my crown.
+    say Only a great hero, may possess this, and if
+    say You can defeat me, it is yours.
+    say Attack me when you're ready, but fight me solo!
+    say Everyone else leave here at once!
+    break
+  endif
+else
+  if quest (12,4,$n) == 6
+    tell $n Farewell champion, use the crown well
+  else
+    tell $n You are not worthy to be here!
+    tell $n Begone!
+  endif
+  mptransfer $n 9755
+endif
+~
+>death_prog 100~
+mpquiet on
+cast 'cure blindness'
+mpquiet off
+mpmset self quest 0 30 0
+if quest (12,4,$n) == 5
+  if pcsinroom () == 1
+    mpmset $n quest 12 4 6
+    mpoload 18450
+    mpecho Your crushing blow knocks the crown from the knight's skull.
+    mptransfer $n 18432
+    mpgoto 18432
+  else
+    say Fool!  I told you to fight me solo!
+    mpecho $I fades into nothingness, taking the crown with him.
+  endif
+else
+  say $n, you are not worthy of this crown!
+endif
+~
+>fight_prog 100~
+mpmset self quest 0 1 1
+if pcsinroom () > 1
+  say I warned you to fight me solo! Now you will pay!
+  mass acid
+endif
+~
+>kill_prog 100~
+rescale 18450 $n 110
+mpat $n mpechoat $n You are too weak to deserve this crown!
+mpmset self quest 0 1 1
+~
+|
+#0
+
+
+#SHOPS
+18402 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_PILL ITEM_TYPE_FOOD ITEM_TYPE_STAFF  100  50  0 23
+18403 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_PILL ITEM_TYPE_ARMOR ITEM_TYPE_TRASH  100  50  0 23
+18404 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+18420 ITEM_TYPE_POTION ITEM_TYPE_ARMOR ITEM_TYPE_PILL ITEM_TYPE_FOOD ITEM_TYPE_SCROLL  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#18400
+crystalball~
+a crystal ball~
+A crystall ball lies here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18401
+fountain~
+a small fountain~
+A small fountain is here.~
+You see a small fountain that could easily quench your thirst.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#18402
+map old~
+an old map~
+An old piece of parchment has been left here.~
+{078}
+               __________________________________________________
+               @_________________________________________________)
+                \                                               \
+                 |    N                                          |
+                 |  W{308}-|-{078}E            n w n e s n w e n           |
+                 |    S                                          |
+                 |                                               |
+                 |                                               |
+                 |                                               |
+                  \_______________________________________________\
+                   @_______________________________________________)
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18403
+old shovel~
+a rusty old shovel~
+A small rusty old shovel has been left here.~
+The small shovel is covered in rust and dirt. As you look closer it has the
+letters 'excavate' engraved on to it.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+C
+shovel~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 excavate
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4929 3 15
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE > 50 4 20
+P 4
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 10 5 8
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPGOTO 18472~
+P 5
+TRIG_VOID
+OPROG_ECHO
+The shovel breaks, breaks through the ground, and you fall in.~
+P 5
+TRIG_VOID
+OPROG_JUNK
+P 8
+TRIG_VOID
+OPROG_ECHO
+You dig furiously, but must dig more.~
+P 8
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -50
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the shovel in order to excavate!~
+P 15
+TRIG_VOID
+OPROG_ECHO
+You dig a bit, and realize there is nothing here.~
+P 15
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 20
+TRIG_VOID
+OPROG_ECHO
+You are too tired to excavate.~
+#18404
+blade damnation~
+the Damnation Blade~
+A small piece of hell is here.~
+The small blade of the once powerful flask is made of pure rage.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 53 WEAPON_PIERCE 0 0 0 0
+5 1000000 36
+A APPLY_HIT -30 0
+#18405
+erlenmeyer flask~
+the Erlenmeyer Flask~
+An old powerful weapon has been left here.~
+The large powerful flask glows brightly and burns with rage.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 66 WEAPON_SLICE 0 0 0 0
+5 500000 46
+A APPLY_HIT -25 0
+#18406
+blade~
+the Damnation Blade~
+A small piece of hell is here.~
+The small blade of the once powerful flask is made of pure rage.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 1 WEAPON_PIERCE 0 0 0 0
+5 500000 36
+A APPLY_HIT -30 0
+#18407
+ivory grip~
+the Ivory grip~
+A small piece of hell is here.~
+The small piece of the flask seems to hum as you hold it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+5 500000 30
+A APPLY_HIT 20 0
+#18408
+well~
+a large stone well~
+A large stone well is here.~
+You see a large well that could easily quench your thirst.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 101
+#18409
+recall scroll~
+a scroll of recall~
+A recall scroll is here.~
+You see a recall scroll
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#18410
+coprophage~
+a Coprophage~
+Something small is crawling here.~
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 65 64 148 0 0 0 0
+1 50000 35
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'infravision'
+#18411
+garter belt~
+a garter belt~
+A small piece of lace is here.~
+The garter is small black and lacey, you wish you had someone you put it on.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+4 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_INT 2 0
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+#18414
+fried gerbil~
+a fried gerbil~
+A small burned animal is here.~
+This small ball of fur seems to of been deep fried. Its smell is rank and
+appears to be a few years old.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18415
+roasted wombat~
+a roasted wombat~
+A small crusty animal is here..~
+This poor creature was roasted alive. Wonder how he tastes?
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18416
+sign~
+a large Sign~
+A large Sign is here.~
+Welcome to the small peaceful village of Anasazi.
+
+Population 111
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#18417
+beanstalk~
+a large beanstalk~
+A large beanstalk has grown here reaching into the sky.~
+A large green beanstalk is here. It appears to be a hundred feet tall.
+Maybe you should see where it leads.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1000 10 1
+#18418
+hoe~
+a dirty hoe~
+A dirty hoe is laying here.~
+The small hoe should be in a garden somewhere.  The metal blade is
+made of a poor quality metal, and the wooden handle is quite shoddy
+as well.  You wonder how many times you can 'hoe' with this before
+it breaks from wear and tear.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+WEAPONTYPE_WEAPON 1 30 WEAPON_SLICE 0 0 0 0
+5 500000 30
+C
+hoe~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 hoe
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE > 50 3 20
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_SECTOR = SECT_FIELD 4 11
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18481 5 7
+P 5
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 16 4 = 8 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 16 4 9
+mpechoaround self $ hoes the ground and makes a nice little hole for planting.
+mpechoat self You hoe the ground and make a nice little hole for planting.
+mpjunk i18418~
+P 7
+TRIG_VOID
+OPROG_ECHO
+You hoe the field, but fail to make a nice hole for planting.~
+P 7
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the hoe in order to hoe!~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You can only hoe in the fields!~
+P 20
+TRIG_VOID
+OPROG_ECHO
+You are too tired to hoe at the moment.~
+#18419
+beans~
+a small handfull of beans~
+A small group of beans have been left here.~
+The beans are small and are many different colors.  Perhaps you can find
+a nice place to 'plant' them.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_COMMAND 100 plant
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_SECTOR = SECT_FIELD 4 11
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18481 5 7
+P 5
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 16 4 = 9 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 16 4 10
+mpechoaround self $ plants the beans in the ground.
+mpechoat self You plant the beans in the ground.
+mpjunk i18419~
+P 7
+TRIG_VOID
+OPROG_ECHO
+You need to dig a hole before you can plant the beans.~
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the beans in order to plant them.~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You can only plant beans in a field silly!~
+#18420
+small normal seed~
+a small seed~
+A small seed has been left here.~
+This is simply a normal looking seed.  Perhaps you can plant them somewhere.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_COMMAND 100 plant
+OPROG_PLAYER_QUEST_IF 20 4 = 1 2 20
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18486 3 21
+P 3
+TRIG_VOID
+OPROG_ECHO
+You plant the seeds into the ground.  Now you need fertilizer.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 20 4 2
+mpjunk i18420~
+P 20
+TRIG_VOID
+OPROG_ECHO
+These aren't your seeds to plant!~
+P 21
+TRIG_VOID
+OPROG_ECHO
+This isn't a good spot to plant the seeds.~
+#18421
+hemp belt woven~
+a hemp belt~
+A small woven belt is here.~
+It is a small tan belt made of hemp.  It has been finely woven by a master
+weaver.  It gives off a strange tantalizing aroma as well.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+15 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_MANA 150 0
+#18422
+seedling~
+a small seedling~
+A small seedling has grown here.~
+A small seedling is here, and looks in need of water.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1000 10 1
+#18423
+small plant~
+a small plant~
+A small plant has grown here.~
+A small plant is here, and looks in need of water.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1000 10 1
+#18424
+large plant~
+a large plant~
+A large plant has grown here.~
+A large plant is here, and looks ready to harvest.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1000 10 1
+#18425
+watering can~
+a small watering can~
+A small watering can has been left here.~
+This is simply a small tin can with a tiny spout, with a little
+water in the bottom of it.  Perhaps you can use this to water the
+plants in the garden.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 1
+P 1
+TRIG_UNKNOWN 100 water
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_SECTOR = SECT_FIELD 3 11
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18481 4 12
+P 4
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 5 25
+P 5
+TRIG_VOID
+OPROG_IF OIF_TIME_OF_DAY = 12 6 20
+P 6
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 16 4 > 12 7 21
+P 7
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 16 4 = 13 8 9
+P 8
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 8
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $ waters the planted beans.
+mpechoat self You water the planted beans.
+mpmset self questr 18400 16 4 14~
+P 9
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 16 4 = 14 15 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+How do you expect to water anything if you aren't holding the can?~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You can only water plants in a field silly!~
+P 12
+TRIG_VOID
+OPROG_ECHO
+What are you trying to water here?~
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 16 4 15
+mppurge i18417
+mpmload 18421
+mpecho          *** A magical giant beanstalk sprouts before your eyes! ***
+mpoload 18417
+mpjunk i18425~
+P 20
+TRIG_VOID
+OPROG_ECHO
+The time is not right to water plants.~
+P 21
+TRIG_VOID
+OPROG_ECHO
+You don't know what, when or where to water.~
+P 22
+TRIG_TICK 50
+OPROG_IF OIF_TIME_OF_DAY = 12 0 26
+P 25
+TRIG_VOID
+OPROG_IF OIF_TIME_OF_DAY = 12 30 26
+P 26
+TRIG_VOID
+OPROG_QUEST_SET 0 1 0
+P 30
+TRIG_VOID
+OPROG_ECHO
+You have already watered the plants today!~
+#18426
+spinning wheel~
+a spinning wheel~
+A spinning wheel sits here waiting to be used.~
+Its a small wooden wheel, with a fine thread run throughout it.
+It is used to make thread.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#18427
+green cloth~
+a small green cloth~
+A small green cloth has been left here.~
+It's a small piece of green cloth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+1 10000 2
+A APPLY_WIS 1 0
+#18428
+blue cloth~
+a small blue cloth~
+A small blue cloth has been left here.~
+Its a small piece of blue cloth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+1 10000 2
+A APPLY_INT 1 0
+#18429
+purple cloth~
+a small purple cloth~
+A small purple cloth has been left here.~
+Its a small piece of purple cloth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+1 10000 2
+A APPLY_CON 1 0
+#18430
+bucket dead rotten squid~
+a bucket of dead rotten squid.~
+A bucket full of dead rotten squid sits on the ground.~
+This bucket full of dead rotten squid permeates the air with its foul
+rotten stench.  However, the decomposing squid carcasses make for good
+fertilizer if properly used.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 50
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18486 3 0
+P 3
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 4 0
+P 4
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 4 = 4 5 6
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 20 4 5
+mpechoaround self $ uses the bucket and fertilizes the seeds!
+mpechoat self You use the bucket and fertilize the seeds!
+mpoload 18422
+look~
+P 6
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 4 = 5 7 8
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 20 4 6
+mpecho The seedling grows a little more!
+mppurge i18422
+mpoload 18423
+look~
+P 8
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 4 = 6 9 10
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 18400 20 4 7
+mpecho The plant seems ready to 'harvest' now!
+mppurge i18423
+mpoload 18424
+look~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The plant looks ready to 'harvest'.~
+P 20
+TRIG_UNKNOWN 100 harvest
+OPROG_IF OIF_USER_ROOM_NUM = 18486 22 21
+P 21
+TRIG_VOID
+OPROG_ECHO
+There is nothing to harvest here.~
+P 22
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 4 < 7 23 24
+P 23
+TRIG_VOID
+OPROG_ECHO
+The plant is not ready for harvesting.~
+P 24
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $ harvests the strange plant.
+mpechoat self You harvest the strange plant.
+mppurge i18424
+mpoload 18431
+mpmset self questr 18400 20 4 8
+mpjunk i18430~
+#18431
+large plant harvested~
+a large plant~
+A large harvested plant has been dropped here.~
+This large plant gives off a strange smell from its leaves.  It is a greenish
+brown in color, and smelling it makes you feel funny.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+1 0 0 0 0 0 0 0
+1 10 1
+#18450
+crown ancients glowing~
+the Crown of the Ancients~
+A glowing crown lights up the room.~
+This magnificent runed crown gives off a strange magical glow.  A large
+blue star sapphire is inset into the front, with a few smaller gemstones
+around the rest of the crown.  It must have belonged to an ancient king,
+but you do not know the history behind this magnificent artifact.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_DAMROLL 10 0
+A APPLY_HITROLL 5 0
+A APPLY_MANA -75 0
+#18451
+crown fake~
+Crown of the Ancients~
+Crown of the Ancients is here.~
+hey how did you get this
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+0 0 0 0 0 0 0 0
+1 1000000 95
+#18452
+ARMOR fake~
+Ancient Breastplate of Crom~
+Ancient Breastplate of Crom is here.~
+hey how did you get this
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+0 0 0 0 0 0 0 0
+1 1000000 95
+#18453
+SHIELD fake~
+Shield of Minerva~
+Shield of Minerva is here.~
+hey how did you get this
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+0 0 0 0 0 0 0 0
+1 1000000 95
+#18454
+SWORD fake~
+Sword of the Ancients~
+Sword of the Ancients is here.~
+hey how did you get this
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 1 50 WEAPON_SLICE 0 0 0 0
+1 1000000 95
+#18490
+letter~
+a letter~
+a sealed letter has been left here.~
+This is a private letter from Master Aved to Father Collins.
+You are tempted to open it up and read it, but you do not.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18491
+love potion strangely glowing~
+a love potion~
+a strangely glowing potion has been left here.~
+This potion can be quite dangerous to the opposite sex, for
+once opened, you can use it to 'seduce' whomever you desire!
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 90
+P 1
+TRIG_UNKNOWN 100 seduce
+OPROG_IF OIF_USER_ROOM_NUM = 14665 2 10
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_SEX = SEX_MALE 3 5
+P 3
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 4 11
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpforce xenobia mpmset self quest 20 4 1
+mpechoaround self $ opens up the love potion and drinks it.
+mpechoat self You open up the love potion and drink it.
+say I feel great!~
+P 5
+TRIG_VOID
+OPROG_ECHO
+Only a man should use this!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The target of your seduction is not here.~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You have to hold the potion.~
+#18492
+old shovel~
+a rusty old shovel~
+A small rusty old shovel has been left here.~
+The small shovel is covered in rust and dirt. As you look closer it has the
+letters 'excavate' engraved on to it.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 90
+C
+shovel~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 excavate
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18432 3 15
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE > 50 4 20
+P 4
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 10 5 8
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPGOTO 18469
+mpecho You fall into a hole in the ground, which magically seals up!
+mpjunk i18492~
+P 8
+TRIG_VOID
+OPROG_ECHO
+You dig furiously, but must dig more.~
+P 8
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -50
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the shovel in order to excavate!~
+P 15
+TRIG_VOID
+OPROG_ECHO
+You dig a bit, and realize this isn't the right spot.~
+P 15
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 20
+TRIG_VOID
+OPROG_ECHO
+You are too tired to excavate.~
+#18497
+junk~
+~
+is here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18498
+junk~
+~
+is here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#18499
+junk~
+~
+is here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#18400
+Along the outskirts of Anasazi~
+You continue onward down the path, stopping for a moment to admire the
+beautiful plant life. Birds in the trees above you sing almost familiar
+tunes, as if they were singing your favorite song just for you. The blue
+sky above twinkles in between the leafy branches of the tall trees.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18423
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18422
+#18401
+Along the outskirts of Anasazi~
+A soft breeze blows gently through the branches, bringing with it the sounds
+and fragrances of the small village Anasazi. You can hear young children
+playing in the distance. Small animals scurry about around your feet, and
+then scamper back into the bushes that grow along the path..
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18402
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18423
+#18402
+Along the outskirts of Anasazi~
+You are standing on a small grassy path that surrounds the quiet little
+Village of Anasazi.  To the east you can see the entrance of this quaint
+little village. To the west the path continues onward.  You can smell the
+fragrant flowers that grow around the path tickling your nose.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see the entrance of the village.~
+~
+0 -1 18403
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18401
+#18403
+The Entrance to Anasazi~
+Before you lies the entrance to the peaceful village of Anasazi. The smell
+of freshly baked bread and pastries fill the air, rushing at you from inside
+the village. A humble little sign is posted here.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 16226
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18404
+DDIR_SOUTH
+To the south you see inside the village.~
+~
+0 -1 18424
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18402
+#18404
+Along the outskirts of Anasazi~
+You are walking along a small grassy path that surrounds Anasazi. To the west
+is the entrance to the village.  Fragrant blossoms are budding on the small
+branches of the trees along the side of the path. The village seems to emit
+happiness and warmth, as if inviting you to walk to the entrance and come in
+and stay a while.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see  a small path around the village.~
+~
+0 -1 18405
+DDIR_WEST
+To the west you see the entrance to the village.~
+~
+0 -1 18403
+#18405
+Along the outskirts of Anasazi~
+The path continues on, circling the village like a halo. The gentle breeze
+brushes against your face forcing you to smile for a brief moment. You can
+catch a small glimpse between the trees of the small buildings and homes
+within the village.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18406
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18404
+#18406
+Along the outskirts of Anasazi~
+The weeds around the path grow taller as you continue along the path. You can
+sense the small animals hiding in the tall grass, peering out at you
+curiously. The warm air caresses your body as you continue onward.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18405
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18407
+#18407
+Along the outskirts of Anasazi~
+You continue onward down the path, stopping for a moment to admire the
+beautiful plant life. Birds in the trees above you sing almost familiar
+tunes, as if they were singing your favorite song just for you. The blue
+sky above twinkles in between the leafy branches of the tall trees.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18406
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18408
+#18408
+Along the outskirts of Anasazi~
+More and more lovely flowers grow along the path as you continue. The sweet
+warm air is so calming it almost tempts you to lie back in the grass and take
+a nap. Resisting the temptation to indulge yourself you continue on your way.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18409
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18407
+#18409
+Along the outskirts of Anasazi~
+The path continues on, circling the village like a halo. The gentle breeze
+brushes against your face forcing you to smile for a brief moment. You can
+catch a small glimpse between the trees of the small buildings and homes
+within the village.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18408
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18410
+#18410
+Along the outskirts of Anasazi~
+The path continues, twisting and swirling as if it was a coiling snake about
+to strike. Small children play are playing or collecting berries from the
+many unique shrubs and bushes that grow along this path.  You hear small
+birds singing in the trees, and you can hear the twigs amongst the path
+crackling under your feet.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18409
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18411
+#18411
+Along the outskirts of Anasazi~
+The foliage seems to densen a few feet in front of you. More sounds of
+laughter and merriment from the village reach your ears. It's beginning to
+smell of rain: you might want to hurry inside the village to seek shelter
+before the thundershowers start.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18410
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18412
+#18412
+Along the outskirts of Anasazi~
+You continue down the path, the warm, humid air is wissping at your cheeks. A
+small rabbit hops along in front of you paying no mind to your presence. You
+step through the weeds, continuing on your journey.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18411
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18413
+#18413
+Along the outskirts of Anasazi~
+The path seems obstructed by a fallen tree. Carefully you climb over the
+limbs and trunk being cautious not to stumble and fall. In the distance you
+hear the everyday noises of the cheerful village. You finally get to the
+other side of the fallen tree, and continue down the path.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18412
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18414
+#18414
+Along the outskirts of Anasazi~
+The sun glints between the clouds above, giving a sort of luster to the
+greenery along the path. Flowers adorn many of the small bushes and trees
+adding a brilliant splash of color to the scenery. Birds frolic about in the
+tree limbs above your head, singing their familiar song.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18413
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18415
+#18415
+Along the outskirts of Anasazi~
+More lush foliage adorns the path you are traveling. For a brief moment the
+branches thin out a bit, allowing you to catch a small glimpse of the
+buildings and streets full with the residents of Anasazi. The sun glints off
+the rooftops as if the rooftops themselves are shining.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18414
+DDIR_SOUTH
+To the south you see a small garden.~
+~
+0 -1 18473
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18416
+#18416
+Along the outskirts of Anasazi~
+The wooded path continues. Many flowering shrubs hold small blossoms nestled
+in their leaves. Animals scamper around and run back and forth around your
+feet. You push aside small twigs as you journey onward around the town.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18415
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18417
+#18417
+Along the outskirts of Anasazi~
+The path continues through a thick patch of thistles. You carefully step
+onwards as the thistles catch at your clothing. Small twigs snap under your
+feet, making loud crackling sounds as you walk. You begin to grow tired,
+but the lively sounds of the village give you strength to push on.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18416
+DDIR_WEST
+To the west you see a small path around the village.~
+~
+0 -1 18418
+#18418
+Along the outskirts of Anasazi~
+More small animals are playing here, scampering in and out of the thick
+shrubs and the trees growing alongside the trail. The smell of fresh spring
+rain fills the humid air. You can hear children from the village playing
+in the distance.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18419
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18417
+#18419
+Along the outskirts of Anasazi~
+Many different kinds of flowers grow here, as if someone had walked along the
+path planting seeds in their spare time. Their lovely fragrance delighting
+your senses as you journey onward around Anasazi. Up ahead you can see the
+path continuing around the village.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18420
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18418
+#18420
+Along the outskirts of Anasazi~
+Sparrows dive down from the tree limbs to eat small seeds along the path,
+only to fly away again startled by your heavy footsteps on the grassy path.
+Through the branches you can now just barely see the small village of Anasazi
+as you continue deeper and deeper into the brush around the town.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18421
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18419
+#18421
+Along the outskirts of Anasazi~
+You continue onward down the path, stopping for a moment to admire the
+beautiful plant life. Birds in the trees above you sing almost familiar
+tunes, as if they were singing your favorite song just for you. The blue
+sky above twinkles in between the leafy branches of the tall trees.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18422
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18420
+#18422
+Along the outskirts of Anasazi~
+The path continues, twisting and swirling as if it was a coiling snake about
+to strike. Small children play are playing or collecting berries from the
+many unique shrubs and bushes that grow along this path.  You hear small
+birds singing in the trees, and you can hear the twigs amongst the path
+crackling under your feet.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a small path around the village.~
+~
+0 -1 18400
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18421
+#18423
+Along the outskirts of Anasazi~
+The sun glints between the clouds above, giving a sort of luster to the
+greenery along the path. Flowers adorn many of the small bushes and trees
+adding a brilliant splash of color to the scenery. Birds frolic about in the
+tree limbs above your head, singing their familiar song.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path around the village.~
+~
+0 -1 18401
+DDIR_SOUTH
+To the south you see a small path around the village.~
+~
+0 -1 18400
+#18424
+Nisei St~
+You have entered the village and continue down the main street of the town.
+Children playing hide and seek in the middle of the village, stopping only for
+a moment to look up and smile at you before the continue with  their childhood
+game. To the south are some small shops and businesses.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see the entrance of the village.~
+~
+0 -1 18403
+DDIR_SOUTH
+To the south you see some small shops and businesses.~
+~
+0 -1 18425
+#18425
+Nisei St~
+As you enter the village you notice the small shops around you. Small children
+play about the street as if you were not there. The smell of freshly baked
+bread fills the warm air of the village. The sound of laughter can be heard as
+you walk down this peaceful street.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see the begining of this street.~
+~
+0 -1 18424
+DDIR_EAST
+To the east you see a small shop of some kind.~
+~
+0 -1 18426
+DDIR_SOUTH
+To the south you see some small shops and businesses.~
+~
+0 -1 18428
+DDIR_WEST
+To the west you see a small shop of some kind.~
+~
+0 -1 18427
+#18426
+Captain Squid and the Shrimp Shack Shooters Stop and Dine~
+You have entered an odd little restaurant that has a sign posted that boasts of
+its reputation of having the best entertainment and dining in the realms. As
+you read the sign it says:
+
+  {118}Appearing tonight! Tentacle Tim and his Magnificent Dancing Squid.{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_CITY
+DDIR_WEST
+To the west you see Nisei St.~
+~
+0 -1 18425
+#18427
+Veronica's Place~
+As you enter this small dim building you notice many women lounging around the
+room barely clothed and laughing to each other as you walk in. The room is
+full of expensive looking paintings and decor, candles sparsely light the
+small room.  There is music in the background and a small bar that lines the
+far wall.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+To the east you see Nisei St.~
+~
+0 -1 18425
+#18428
+Nisei St~
+The small village seems about as happy as it could get. You hear the sounds of
+the children scurrying throughout the town. The small cobblestone street seems
+worn with travel, for being such a small village there is a lot of people here.
+You can see small shops to the east and west of you and more of the village
+to south.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of Nisei St.~
+~
+0 -1 18425
+DDIR_EAST
+To the east you see a small shop of some kind.~
+~
+0 -1 18429
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 18431
+DDIR_WEST
+To the west you see a small shop of some kind.~
+~
+0 -1 18430
+#18429
+Agnes' Fortune Telling~
+You walk into an old musty shop, the wall are covered with large draping and
+you see many astrological symbols mounted on the walls.  Star charts and
+lightly lit candles fill the room. There is a small counter to the left of
+the room and a small table with two chairs in the middle.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_CITY
+DDIR_WEST
+To the west you see more of the village.~
+~
+0 -1 18428
+#18430
+Mulder's School of arts~
+As you enter this large room you notice a few people sitting at desks and
+reading old scrolls. On the other side of the room there are large mats place
+on the floor with people practicing their combat skills. Rows of weapons line
+the far wall and large bookshelves cover the western wall.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_CITY
+DDIR_EAST
+To the east you see more of the village.~
+~
+0 -1 18428
+#18431
+Nisei St~
+The small cobblestone street continues through the village. The smell of
+happiness is in the air. Many people wander the streets as they do their daily
+chores. The sound of footsteps clack in your ears. From this room you can make
+out the center of Anasazi.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18428
+DDIR_SOUTH
+To the south you see the center of this small village.~
+~
+0 -1 18432
+DDIR_WEST
+To the west you see a small shop of some kind.~
+~
+0 -1 18496
+#18432
+The Center of Anasazi~
+The center of this village sports a large beautiful fountain. Standing here,
+you can see down the main two streets of this village. To the east and west of
+here is the residential are of the village. People stop for a second and drink
+from the large fountain, then continue on their way.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18431
+DDIR_EAST
+To the east you see more of the village.~
+~
+0 -1 18433
+DDIR_SOUTH
+To the south you see a small path.~
+~
+0 -1 18445
+DDIR_WEST
+To the west you see more of the village.~
+~
+0 -1 18439
+#18433
+Quagmire St~
+This street leads to the residential section of the village. All around you
+are small houses made from many different things. The houses are small but
+look like they serve there purpose. Small children are playing in the street
+here, while their parents do their daily work.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small house.~
+~
+0 -1 18434
+DDIR_EAST
+To the east you see more of the village.~
+~
+0 -1 18436
+DDIR_SOUTH
+To the south you see a small house.~
+~
+0 -1 18435
+DDIR_WEST
+To the west you see the center of this small village.~
+~
+0 -1 18432
+#18434
+A small house~
+You enter a small house of one of the residents here, the place is fairly neat
+and has been kept clean. There are family relics on shelves against the wall,
+and a there is a small table in the middle of the room.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see more of the village.~
+~
+0 -1 18433
+#18435
+A small house~
+The small house you have entered is poorly furnished and needs to be painted.
+A small fireplace is burning in the far right corner and to the left you see a
+few empty chairs.  A wall of books lines the back wall as if the people who
+live here are of some intelligence.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18433
+#18436
+Quagmire St~
+The small road the separates the homes of these fine people continues.
+Children play on the street and smile as you walk by them. The sound of birds
+singing can be heard in the air, and the smell of the warm summer air is
+flowing throughout the small village.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small house.~
+~
+0 -1 18437
+DDIR_SOUTH
+To the south you see a small house.~
+~
+0 -1 18438
+DDIR_WEST
+To the west you see more of the village.~
+~
+0 -1 18433
+#18437
+A small house~
+You enter a small residence of one of the people of this town. The walls are
+made of wood and the floor is carpeted. There are some small potted flowers
+in front of a large window in the front of the room. A few small chairs are
+lined up on one side of the room with a large table separating them.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see more of the village.~
+~
+0 -1 18436
+#18438
+A small house~
+This small house is well furnished and has a large rug on the floor in the
+center of the room. You can see a small fire cooking some meat at the back of
+the room. On the right side of the room is where the people sleep, three small
+beds are there and they are neatly made.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18436
+#18439
+Quagmire St~
+You are on a small street in the village. Houses surround you on either side
+and the sound of birds singing hovers in the air. The small cobblestones
+slightly move and you step on them showing the street is worn and well
+traveled.  Many people pass you on your way, as they go to work or as they
+look for their children.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small house.~
+~
+0 -1 18441
+DDIR_EAST
+To the east you see the center of this small village.~
+~
+0 -1 18432
+DDIR_SOUTH
+To the south you see a small house.~
+~
+0 -1 18440
+DDIR_WEST
+To the west you see more of the village.~
+~
+0 -1 18442
+#18440
+A small house~
+The small house you are in is very old and needs to be cleaned. The walls are
+covered in plaster and the floor is made of small stones. A small fireplace
+keeps the house warm, the smell of burning wood fills the air.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18439
+#18441
+A small house~
+You enter a small house of one of the residents here, the place is fairly
+neat and has been kept clean. There are family relics on shelves against the
+wall, and a there is a small table in the middle of the room.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see more of the village.~
+~
+0 -1 18439
+#18442
+Quagmire st~
+This small street leads you though the residential area of the small village.
+Small houses are to the north and south and the road dead ends to the west.
+Small children hardly notice you as you pass by.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small house.~
+~
+0 -1 18443
+DDIR_EAST
+To the east you see more of the village.~
+~
+0 -1 18439
+DDIR_SOUTH
+To the south you see a small house.~
+~
+0 -1 18444
+#18443
+A small house~
+You are in a small house off of Quagmire street. The floor is made of hard wood
+and the walls are covered in plaster. There is a small table in the middle of
+the room and a few small chairs scattered about. Wood is burning is a small
+fireplace to the left of the room and to the right you see small baskets lining
+the wall.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see more of the village.~
+~
+0 -1 18442
+#18444
+A small house~
+The house you have entered seems quite small, it has a large expensive looking
+rug on the floor and a few small chairs near the back of the room. To the left
+is a small stove with some unwashed pots and pans on it. To the east of the
+rooms are a few articles of unwashed clothing sitting in a small basket.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18442
+#18445
+A small path out of the village~
+This small path leads south outside the village. The path is small and is
+covered with dust, there are small shrubs growing on either side of the
+trail. The path is barely visible due to the lack of travel it undertakes.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the village.~
+~
+0 -1 18432
+DDIR_SOUTH
+To the south you see a small path.~
+~
+0 -1 18446
+#18446
+A small path out of the village~
+As you continue along the path you notice the lack of animal life. The dust
+filled path affects your sinus's and causes you to sneeze. The wind is
+blowing stronger as you move farther down the path.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see a small path.~
+~
+0 -1 18445
+DDIR_SOUTH
+To the south you see a small path.~
+~
+0 -1 18447
+#18447
+A small mountain path~
+This small mountain path begins to get steeper and harder to climb. The shrubs
+are slowly disappearing as you get further up the path. You start to get
+tired but you continue on.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the path.~
+~
+0 -1 18446
+DDIR_SOUTH
+To the south you see more of the path.~
+~
+0 -1 18448
+#18448
+A small mountain path~
+The path continues on, you can barely see the small village behind you. The
+terrain is rocky and the path up the mountain get steeper and steeper. You
+almost slip, but the you regain your balance.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see more of the path.~
+~
+0 -1 18447
+DDIR_SOUTH
+To the south you see more of the path.~
+~
+0 -1 18449
+#18449
+A small mountain path~
+This small path slowly comes to an end, you think. The path is slowly being
+covered with a fog like mist. You can hardly see the path below your feet.
+To the north you see nothing but the overwhelming fog.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the south you see a small mountain path.~
+~
+0 -1 18448
+DDIR_UP
+Up from here you can see nothing because of the mist.~
+~
+0 -1 18450
+#18450
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18451
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18451
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18452
+#18452
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18453
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18453
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18454
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18454
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18455
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18455
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18456
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18456
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18457
+#18457
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18458
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18458
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see nothing because of the mist.~
+~
+0 -1 18459
+DDIR_EAST
+To the east you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18450
+DDIR_WEST
+To the west you see nothing because of the mist.~
+~
+0 -1 18450
+#18459
+Lost in the mist~
+Lost in the overwhelming mist. Its impossible to even see your outstretched
+hand in front of you. You are haunted by the deathly silence in the mist.
+You begin to wonder if you will ever find you way out of this dense
+atmosphere.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+To the north you see the entrance to a small house.~
+~
+0 -1 18460
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18449
+#18460
+The entrance to small house~
+Before you lies a small house made of stone. The house appears to have been
+built inside of a mountain. There are no windows, only one large steel door.
+The house appears to have been here for a long time, the person who lives
+here must be old.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+To the north you see the den.~
+~
+0 -1 18462
+DDIR_SOUTH
+To the south you see nothing because of the mist.~
+~
+0 -1 18459
+#18461
+The kitchen~
+This is a very small and unused kitchen. There is a small stove in one corner
+and pots and pans are neatly hanging over one of the counters. There is a
+small table with two chairs in the middle of the room.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_WEST
+To the west you see the den.~
+~
+0 -1 18462
+#18462
+The den~
+This is the main room of this small little house, it is neatly kept and
+doesn't seem to be occupied. There is a large stone fireplace, and a small
+row of wood to one side of the room and a small table with a burning candle
+on it to the other.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+To the north you see a long hallway.~
+~
+0 -1 18465
+DDIR_EAST
+To the east you see a small kitchen.~
+~
+0 -1 18461
+DDIR_SOUTH
+To the south you see the entrance to a small house.~
+~
+0 -1 18460
+#18463
+A small bedroom~
+This small bedroom appears unused, there is a small bed in the center of the
+room and a few small cloaks laid upon it. There is a small table on the right
+side of the bed with what appears to be a lamp of some sort on it.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+To the east you see a long hallway.~
+~
+0 -1 18465
+#18464
+A small bedroom~
+This small bedroom is nice in appearance. The smell of fresh flowers fills
+this room, a few small dresses are laid out on the bed in the center of the
+room. There is a small table to one side of the bed with a vase of freshly
+picked flowers on it.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_WEST
+To the west you see a long hallway.~
+~
+0 -1 18465
+#18465
+A long hallway~
+The lengthy hall you have entered seems to run the length of the house. The
+large stone walls are cold to the touch and are quite solid. To the east and
+west of this hall are two small bedrooms.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+To the north you see a long hallway.~
+~
+0 -1 18466
+DDIR_EAST
+To the east you see a small bedroom.~
+~
+0 -1 18464
+DDIR_SOUTH
+To the south you see the den.~
+~
+0 -1 18462
+DDIR_WEST
+To the west you see a small bedroom.~
+~
+0 -1 18463
+#18466
+A long hallway~
+The large hall continues on and leads to the north. A large red carpet covers
+the floor and a few paintings line the walls. You hear sounds coming from the
+north, and you smell an odd smell in the air.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+To the north you see the inner chamber.~
+~
+0 -1 18467
+DDIR_SOUTH
+To the south you see a long hallway.~
+~
+0 -1 18465
+#18467
+The inner chamber~
+As you enter the chamber the smell of chemicals tickles your nose. Large
+tables covered with vials of many different colored liquids. Shelves of old
+scrolls and books that contain all the secrets of the universe line the four
+walls. There is a small case to the side of the room where the mighty flask
+used to be stored. The roar of boiling chemicals echoes off the stone walls of
+this chamber.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_SOUTH
+To the south you see a long hallway.~
+~
+0 -1 18466
+#18468
+Inside the well~
+You are in a small well made of stone, the water is just deep enough to cover
+your feet. Large patches of moss grow along the sides and rim of the well, a
+small frog croaks at you then swims away.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_UP
+Up above you can see the blue sky overhead.~
+~
+0 -1 18460
+#18469
+Inside an ancient tomb~
+You stand within the ancient tomb of an ancient king.  Magical torches which
+shine with eternal light slowly flicker, causing many shadows to dance across
+the walls.  The tomb is surprisingly clean, with no evidence of any visitors.
+You see no exits, except for a faintly glowing room towards the north.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18470
+#18470
+Inside a burial chamber~
+You are inside of a strange room, which appears to be some sort of burial
+chamber.  An ancient throne sits at the far end of the room, and upon the
+throne sits a skeleton.  Flickering torches upon the walls cast an eerie
+light about the room, and you think about what you will do next.
+~
+0 ROOM_DARK|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 18469
+#18471
+At the bottom of the well~
+Deep inside the well, water rests at your throat. The smell of mold, and
+death fills the air. The walls are covered with a dark green fungas, you
+try to clinb up it, but it is to slick. As you look around you realise
+you are not alone.
+~
+0 ROOM_DARK|ROOM_PRIVATE|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_UP
+~
+~
+0 -1 18468
+#18472
+Inside an old coffin~
+You appear to be in an old coffin made of wood. The wood is old and rotting,
+bugs infest the torn clothes of the dead victim that lies here. As you look
+closer you realise that corpse just might not be dead. 
+~
+0 ROOM_DARK|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 4929
+#18473
+Standing before the Garden~
+Before you, there is a small garden. Rows of vegetables and other plants line
+the garden to the north and south. There is a small fence around the garden,
+its made of wood and looks quite sturdy. You can hear the sound of the
+gardners working their crop.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small path.~
+~
+0 -1 18415
+DDIR_SOUTH
+To the south you see a small garden.~
+~
+0 -1 18474
+#18474
+Inside the Garden~
+Standing on fertile ground, you walk carefully not to trample any of the
+vegetables or herbs growing here. Small rows of seedlings and small plants
+fill the garden.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see the entrance to the garden.~
+~
+0 -1 18473
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18475
+DDIR_SOUTH
+To the south you see a small garden.~
+~
+0 -1 18478
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18476
+#18475
+Inside the Garden~
+The small garden seems peaceful and quiet. The sound of singing birds and
+working gardeners fills the air. The small plants and herbs line the garden
+in their home of fertile soil.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_SOUTH
+To the south you see a small garden.~
+~
+0 -1 18479
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18474
+#18476
+Inside the Garden~
+The small garden was made here because of its fertile soil. The people of
+Ansazi work this garden to feed their children and families. The sun shines
+dimly through the clouds.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18474
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18477
+#18477
+Inside the Garden~
+Walking through the garden you notice many differnt types of vegetables and
+other small plants growing here. There is a small wooden fence around the
+area that is protecting the crops from all aspects of life.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18476
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18478
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18482
+#18478
+Inside the Garden~
+The fertile soil you walk upon is moist and filled with vitamins. The people
+of Anasazi cultivated this land long ago. Small birds perch along the fence,
+watching the gardners do their work.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18474
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18479
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18481
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18477
+#18479
+Inside the Garden~
+Standing on fertile ground, you walk carefully not to trample any of the
+vegetables or herbs growing here. Small rows of seedlings and small plants
+fill the garden.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18475
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18480
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18478
+#18480
+Inside the Garden~
+Standing in the gardens of Anasazi, you notice how quiet and calm everyone is
+as they walk about doing their chores. The sky is covered in dense clouds, still
+allowing the sun to shine through.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18479
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18485
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18481
+#18481
+Inside the Garden~
+The garden surrounds you in all directions. You slowly walk through trying not
+to upset the people working here, and try not to trample any of the plants.
+Looking around you notice something isn't quite right about this room, the
+plants here seem overgrown.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18478
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18484
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18482
+#18482
+Inside the Garden~
+Standing on fertile ground, you walk carefully not to trample any of the
+vegetables or herbs growing here. Small rows of seedlings and small plants
+fill the garden.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18477
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18481
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18483
+#18483
+Inside the Garden~
+The small garden is hidden from the outside by its small ivy covered wooden
+fence. From afar it looks like brush, but inside it is the main food supply
+for the people of Anasazi.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18482
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18484
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18486
+#18484
+Inside the Garden~
+The garden's beauty catches your eye for a split second, but you shake it off.
+Looking around the garden,you notice everything is perfect. The sun is shining
+just enough through the clouds to help the plants grow.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18481
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18485
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18487
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18483
+#18485
+Inside the Garden~
+Small plants and vegetables line the gardens perfectly cut grooves.  The
+gardeners walk gently over the crop, trying not to harm it with large
+foot steps.  The sky appears to still be quite cloudy.  Where the intense
+heat comes from is not traceable.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18488
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18484
+#18486
+Inside the Garden~
+Standing in the southwestern corner of the garden, you notice the gardeners
+doing their daily chores of hoeing, planting, watering and picking the food
+they grow. A small wooden fence curves here to protect the garden.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18483
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18487
+#18487
+Inside the Garden~
+The small garden was made here because of its fertile soil. The people of
+Ansazi work this garden to feed their children and families. The sun shines
+dimly through the clouds.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18484
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18488
+DDIR_WEST
+To the west you see more of the garden.~
+~
+0 -1 18486
+#18488
+Inside the Garden~
+You are standing in the southeastern corner of the garden. The small wooden
+fence turns here and heads west, lining the garden so neatly. The gardeners
+continue working, slightly glancing at you then turning away to finish the
+work they have left to do.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18485
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18487
+#18489
+Inside the Garden~
+The garden surrounds you in all directions. You slowly walk through trying not
+to upset the people working here, and try not to trample any of the plants.
+Looking around you notice something isnt quite right about this room, the
+plants here seem overgrown.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18478
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18484
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18482
+#18490
+Climbing the beanstalk~
+Trenching up the enormous beanstalk makes you tired. Step by step you
+continue on, hoping to discover what is at the end. Below you, is the
+garden which led you here, above you, there is a strange glowing light
+radiating.
+~
+0 ROOM_DARK|ROOM_SOLITARY|ROOM_NO_RECALL SECT_FOREST
+DDIR_UP
+Up from here you see a large beanstalk.~
+~
+0 -1 18491
+DDIR_DOWN
+As you look down you see the garden.~
+~
+0 -1 18481
+#18491
+Climbing the beanstalk~
+Trenching up the enormous beanstalk makes you tired. Step by step you
+continue on, hoping to discover what is at the end. Below you, is the
+garden which led you here, above you, there is a strange glowing light
+radiating.
+~
+0 ROOM_DARK|ROOM_SOLITARY|ROOM_NO_RECALL SECT_FOREST
+DDIR_UP
+Up from here you see a large beanstalk.~
+~
+0 -1 18492
+DDIR_DOWN
+As you look down you see the garden.~
+~
+0 -1 18490
+#18492
+Atop the beanstalk~
+Standing atop this overgrown beanstalk, you notice above that it comes
+to an end. Just below you can see the stalk winding down to the ground.
+Above you peek through the clouds into another world.
+~
+0 ROOM_DARK|ROOM_SOLITARY|ROOM_NO_RECALL SECT_FOREST
+DDIR_UP
+Up from here you see a break through the clouds.~
+~
+0 -1 9755
+DDIR_DOWN
+As you look down you see the garden.~
+~
+0 -1 18491
+#18493
+Inside the Garden~
+The garden surrounds you in all directions. You slowly walk through trying not
+to upset the people working here, and try not to trample any of the plants.
+Looking around you notice something isnt quite right about this room, the
+plants here seem overgrown.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18478
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18484
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18482
+#18494
+Inside the Garden~
+The garden surrounds you in all directions. You slowly walk through trying not
+to upset the people working here, and try not to trample any of the plants.
+Looking around you notice something isn't quite right about this room, the
+plants here seem overgrown.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18478
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18484
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18482
+#18495
+Inside the Garden~
+The garden surrounds you in all directions. You slowly walk through trying not
+to upset the people working here, and try not to trample any of the plants.
+Looking around you notice something isn't quite right about this room, the
+plants here seem overgrown.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+To the north you see a small garden.~
+~
+0 -1 18478
+DDIR_EAST
+To the east you see a small garden.~
+~
+0 -1 18480
+DDIR_SOUTH
+To the south you see more of the garden.~
+~
+0 -1 18484
+DDIR_WEST
+To the west you see a small garden.~
+~
+0 -1 18482
+#18496
+The clothing shop~
+You are in a small clothing shop. There are many types of cloth and
+thread neatly placed around the room. In the center of the room is a
+large spinning wheel. A small asortment of buttons and needles lie in
+a tray beside the spindel.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see a small road.~
+~
+0 -1 18431
+#0
+
+
+#RESETS
+M 18401 100 18429
+G 18400  99 0
+M 18402 100 18426
+G 18410  99 0
+G 18414  99 0
+G 18415  99 0
+M 18403 100 18427
+G 18409 999 0
+G 18411  99 0
+M 18404 100 18430
+M 18400 100 18401
+M 18405   5 18402
+M 18406   5 18402
+M 18407   5 18402
+M 18408   5 18402
+M 18400 100 18402
+M 18400 100 18403
+M 18405   5 18404
+M 18406   5 18404
+M 18407   5 18404
+M 18408   5 18404
+M 18400 100 18404
+M 18400 100 18405
+M 18400 100 18406
+M 18405   5 18407
+M 18406   5 18407
+M 18407   5 18407
+M 18408   5 18407
+M 18400 100 18407
+M 18400 100 18408
+M 18400 100 18409
+M 18400 100 18410
+M 18405   5 18411
+M 18406   5 18411
+M 18407   5 18411
+M 18408   5 18411
+M 18400 100 18411
+M 18400 100 18412
+M 18400 100 18413
+M 18400 100 18414
+M 18405   5 18415
+M 18406   5 18415
+M 18407   5 18415
+M 18408   5 18415
+M 18400 100 18415
+M 18400 100 18417
+M 18400 100 18418
+M 18405   5 18419
+M 18406   5 18419
+M 18407   5 18419
+M 18408   5 18419
+M 18400 100 18419
+M 18400 100 18420
+M 18400 100 18421
+M 18405   5 18422
+M 18406   5 18422
+M 18407   5 18422
+M 18408   5 18422
+M 18400 100 18422
+M 18400 100 18423
+M 18409 100 18433
+M 18409 100 18436
+M 18405   5 18442
+M 18406   5 18442
+M 18407   5 18442
+M 18408   5 18442
+M 18409 100 18442
+O 18401   1 18432
+M 18410 100 18465
+G 18400  99 0
+M 18411 100 18467
+G 18400  99 0
+M 18412 100 18445
+M 18412 100 18446
+M 18412 100 18447
+M 18412 100 18448
+M 18412 100 18449
+M 18413 100 18450
+M 18413 100 18451
+M 18413 100 18452
+M 18413 100 18453
+M 18413 100 18454
+M 18413 100 18455
+M 18413 100 18456
+M 18413 100 18457
+M 18413 100 18458
+M 18413 100 18459
+M 18414 100 18467
+M 18415 100 18471
+M 18417 100 18472
+M 18418 100 18474
+M 18418 100 18475
+M 18418 100 18476
+M 18418 100 18477
+M 18418 100 18478
+M 18418 100 18479
+M 18418 100 18480
+M 18418 100 18481
+M 18418 100 18482
+M 18418 100 18483
+M 18418 100 18484
+M 18418 100 18485
+M 18418 100 18486
+M 18418 100 18487
+M 18418 100 18488
+M 18418 100 18489
+M 18416 100 18468
+G 18417  99 0
+G 18422  99 0
+G 18423  99 0
+G 18424  99 0
+O 18408   1 18460
+O 18416   1 18403
+O 18426   1 18496
+M 18419 100 18432
+M 18420 100 18496
+G 18427   1 0
+G 18428   1 0
+G 18429   1 0
+M 18450 100 18470
+E 18451  10 WEAR_HEAD
+E 18452  10 WEAR_BODY
+E 18453  10 WEAR_SHIELD
+E 18454  10 WEAR_WIELD
+M 18405   5 18443
+M 18406   5 18443
+M 18407   5 18443
+M 18408   5 18443
+M 18405   5 18444
+M 18406   5 18444
+M 18407   5 18444
+M 18408   5 18444
+M 18405   5 18441
+M 18406   5 18441
+M 18407   5 18441
+M 18408   5 18441
+M 18405   5 18440
+M 18406   5 18440
+M 18407   5 18440
+M 18408   5 18440
+M 18409 100 18439
+M 18405   5 18434
+M 18406   5 18434
+M 18407   5 18434
+M 18408   5 18434
+M 18405   5 18435
+M 18406   5 18435
+M 18407   5 18435
+M 18408   5 18435
+M 18405   5 18437
+M 18406   5 18437
+M 18407   5 18437
+M 18408   5 18437
+M 18405   5 18438
+M 18406   5 18438
+M 18407   5 18438
+M 18408   5 18438
+M 18405   5 18431
+M 18406   5 18431
+M 18407   5 18431
+M 18408   5 18431
+M 18405   5 18425
+M 18406   5 18425
+M 18407   5 18425
+M 18408   5 18425
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

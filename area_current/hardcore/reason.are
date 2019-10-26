@@ -1,0 +1,2618 @@
+#AREA The Test of Reason~
+#AUTHORS Order~
+#VERSION 4
+#RANGES 1 95 1 95
+#OLC_RANGES 27000 27099
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#MOBILES
+#27000
+puzzle master~
+the Puzzle Master~
+The Puzzle Master stands here, twiddling dials and punching buttons.~
+It appears to have its multiple hands full trying to take care of a fraction
+of Order's responsibilities.  You probably shouldn't disturb it.  Unless you
+want to give it a gold coin to start your quest.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_TRUESIGHT
+0 S
+99 0 0 1d1+9999 10d10+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>repop_prog 100~
+mpat 27000 mpoload 27000 r
+mpat 27000 mposet i27000 sactimer 0
+~
+>speech_prog rule rules~
+say To become a follower of Order, and join the Order of Reason, you will need to complete 2 out of 4 quests successfully.
+say To start each quest, you will need to come to me and give me some money, just as you just did.
+say As soon as you fail 3 quests, you will no longer be able to attempt one.
+~
+>rand_prog 10~
+if inroom ($i) != 27025
+  mpgoto 27025
+  say Darnit...what happened there.  Gimme a coin and shut it.
+endif
+~
+>bribe_prog 1~
+emote casts a glance in your direction.
+emote fiddles skillfully with the dials and buttons that surround it.
+if whichgod ($n) != 0
+  say Hey, you're already a follower.  Get out of here!
+  mptransfer $n 9799
+  break
+endif
+if reinc ($n) == 0
+  say You must reincarnate before you can persue the quests of Reason.
+  break
+endif
+if level ($n) < 10
+  say You can't participate until you have a tad more experience.
+  mptransfer $n 9799
+  break
+endif
+if level ($n) > 99
+  say You aren't allowed to persue the quests of Reason at your level.
+  mptransfer $n 9799
+  break
+endif
+if quest (0,4,$n) == 2
+  mpoload 51
+  give i51 $n
+  say Welcome to the Order of Reason, $n!
+  mpforce $n wear i51
+  bow $n
+  say Remember to keep the rules of the Order, and, NEVER tell anyone anything about how to complete ANY quests in this area.
+  mptransfer $n 9799
+  break
+endif
+if quest (4,4,$n) > 3
+  say Sorry, you've failed too many quests.
+  mptransfer $n 9799
+  break
+endif
+if pcsinarea () > 1
+  say Sorry, only one in this area at a time.
+  mptransfer all 9799
+  break
+endif
+if quest (4,4,$n) == 0
+  say To become a follower of Order, and join the Order of Reason, you will need to complete 2 out of 4 quests successfully.
+  say To start each quest, you will need to come to me and give me some money, just as you just did.
+  say As soon as you fail 3 quests, you will no longer be able to attempt one.
+endif
+if quest (0,4,$n) == 1
+  say You have completed 1 quest successfully.
+endif
+if quest (4,4,$n) == 1
+  say You have failed 1 quest.
+endif
+if quest (4,4,$n) > 1
+  say You have failed $x quests.
+endif
+if hasobjnum ($n) != 27001
+  mpoload 27001
+  give i27001 $n
+endif
+if numberrange (1,9) > 0
+  mpmset self quest 0 4 $x
+endif
+mppurge area
+mpzset quest 0 32 0
+mpat 27000 mpoload 27000 r
+mpat 27000 mposet i27000 sactimer 0
+switch quest (0,4,$i)
+  case 1
+    if quest (8,1,$n) == 0
+      mpmset $n quest 8 1 1
+      say Hmm...I think you might need one of these.
+      mpoload 27012
+      give i27012 $n
+      mpat 27073 mpoload 27011 r
+      mpat 27073 mposet sword sactimer 0
+      mpgoto 27013
+    endif
+  case 2
+    if quest (10,1,$n) == 0
+      mpmset $n quest 10 1 1
+      mpat 27063 mpmload 27004
+      mpat 27063 mpmload 27004
+      mpat 27063 mpmload 27004
+      mpat 27063 mpmload 27004
+      mpat 27063 mpmload 27004
+      mpat 27008 mpmload 27005
+      mpat 27008 mpmload 27006
+      mpat 27036 mpmload 27007
+      mpat 27036 mpmload 27007
+      mpat 27061 mpmload 27007
+      mpat 27061 mpmload 27007
+      mpat 27060 mpmload 27008
+      mpat 27060 mpmload 27008
+      mpat 27009 mpmload 27008
+      mpat 27009 mpmload 27008
+      rescale 27004 $n 50
+      rescale 27005 $n 50
+      rescale 27006 $n 50
+      rescale 27007 $n 50
+      rescale 27008 $n 50
+      mpgoto 27058
+    endif
+  case 3
+    if quest (11,1,$n) == 0
+      mpmset $n quest 11 1 1
+      mpat 27005 mpmload 27008
+      mpat 27007 mpmload 27009
+      mpat 27003 mpmload 27010
+      mpgoto 27005
+    endif
+  case 4
+    if quest (12,1,$n) == 0
+      mpmset $n quest 12 1 1
+      mpat 27089 mpoload 27005 r
+      mpat 27089 mpmload 27013
+      mpat 27088 mpoload 27006 r
+      mpat 27094 mpoload 27007 r
+      mpat 27087 mpoload 27008 r
+      mpat 27096 mpoload 27009 r
+      mpat 27092 mpoload 27009 r
+      mpat 27093 mpmload 27011
+      mpgoto 27091
+    endif
+  case 5
+    if quest (13,1,$n) == 0
+      mpmset $n quest 13 1 1
+      mpat 27082 mpmload 27012
+      mpgoto 27082
+    endif
+  case 6
+    if quest (14,1,$n) == 0
+      mpmset $n quest 14 1 1
+      mpat 27020 mpmload 27014
+      mpat 27054 mpmload 27014
+      mpgoto 27051
+    endif
+  case 7
+    if quest (15,1,$n) == 0
+      mpmset $n quest 15 1 1
+      mpat 27019 mpmload 27001
+      mpgoto 27017
+    endif
+  case 8
+    if quest (16,1,$n) == 0
+      mpmset $n quest 16 1 1
+      mpat 27001 mpmload 27002
+      rescale 27002 $n 100
+      mpgoto 27001
+    endif
+  case 9
+    if quest (17,1,$n) == 0
+      mpmset $n quest 17 1 1
+      mpgoto 27016
+      mpmload 27003
+    endif
+endswitch
+if inroom ($i) == 27025
+  say Sorry, I'll need another coin to select a quest for you.
+  break
+endif
+mptransfer $n
+mpmadd $n quest 4 4 1
+say Good luck with your quest!
+mpgoto 27025
+~
+|
+#27001
+ethereal door~
+an ethereal door~
+An ethereal door stands in the eastern wall.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog 0 1 2 3 4 5 6 7 8 9~
+mpecho The lock responds to numbers said in a group.  Such as "10 60 2"
+~
+>speech_prog m 11 3 7~
+mpecho Cool, you figured it out!
+mpecho You have completed this quest.
+mpmadd $n quest 0 4 1
+mpmadd $n quest 4 4 -1
+mpmset $n quest 15 1 1
+mptransfer $n 9799
+~
+|
+#27002
+order~
+Order~
+Order the God of Reason stands here.~
+You see nothing special about Order.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HASTE
+0 S
+100 0 0 1d2500+5510 1d100+52
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpmadd self quest 0 4 1
+switch quest (0,4,$i)
+  case 2
+    say Hello mortal.
+    bow 
+  case 4
+    stare 
+  case 6
+    snicker 
+  case 8
+    say Can I see your weapon $R?  It looks very interesting.
+  case 10
+    smile 
+  case 11
+    wear all
+  case 12
+    say If you haven't figured it out already, you need to kill me in order to complete this quest.
+    point $r
+  case 14
+    twiddle 
+endswitch
+~
+>death_prog 100~
+say All right!  You have shown yourself to be a worthy opponent!
+mpmadd $r quest 0 4 1
+mpmadd $r quest 4 4 -1
+mpechoat $n You have completed this quest.
+mptransfer $r 9799
+~
+|
+#27003
+canison comedian reas03~
+Canison the comedian~
+A short, chubby fellow stands here in front of a crowd of people.~
+He's short, overweight, and has long hair.  He stares intently at you as you
+stare at him and snorts as your attention waivers.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+25 0 0 1d156+470 1d1+20
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 75~
+if quest (18,1,$i) == 0
+  say I will give you a riddle.  You will need to say a SINGLE word that will solve the riddle.  You will be given 5 riddles.  Failing more than 3 of these riddles means failure of the quest.  If you give up on a riddle, say the word "pass".
+  mpmset self quest 18 1 1
+endif
+if quest (14,4,canison) > 0
+  break
+endif
+if numberrange (1,10) > 0
+  mpmset self quest 14 4 $x
+  switch quest (14,4,$i)
+    case 1
+      if quest (0,1,$i) != 1
+        say Which one of the three would see most clearly in total darkness?  A leapard, a bat, or an owl?
+        mpmset self quest 0 1 1
+        break
+      endif
+    case 2
+      if quest (1,1,$i) != 1
+        say What runs fore to aft on one side of a ship, and aft to fore on the other side?  (Besides a drunken sailor.)
+        mpmset self quest 1 1 1
+        break
+      endif
+    case 3
+      if quest (2,1,$i) != 1
+        say There is a word in which the first two letters signify a male, the first three signify a female, the first four signify a great man, and the whole word, a great woman.  What is the word?
+        mpmset self quest 2 1 1
+        break
+      endif
+    case 4
+      if quest (3,1,$i) != 1
+        say The maker doesn't want it, the buyer doesn't use it, and the user doesn't see it.  What is it?
+        mpmset self quest 3 1 1
+        break
+      endif
+    case 5
+      if quest (4,1,$i) != 1
+        say When the day after tomorrow is yesterday, today will be as far from Wednesday as today was from Wednesday when the day before yesterday was tomorrow.  What is the day after this day?
+        mpmset self quest 4 1 1
+        break
+      endif
+    case 6
+      if quest (5,1,$i) != 1
+        say King Henry the VIII gave his wife a bottomless container to put flesh and blood in.  What did he give her?
+        mpmset self quest 5 1 1
+        break
+      endif
+    case 7
+      if quest (6,1,$i) != 1
+        say Psycho was cleaning out his old barn.  He was dragging things out into the yard and filling containers with useless items he had collected over the years.  At one point, he rolled an old barrel out of the barn (the barrel weighed 44 pounds). Psycho put something in the barrel and when he was finished, it weighed less.
+        say What could it have been?
+        mpmset self quest 6 1 1
+        break
+      endif
+    case 8
+      if quest (7,1,$i) != 1
+        say Name one eight letter word that has: kst in the middle, in the beginning, and at the end.
+        mpmset self quest 7 1 1
+        break
+      endif
+    case 9
+      if quest (8,1,$i) != 1
+        say Often talked of, never seen,
+        say Ever coming, never been,
+        say Daily looked for, never here,
+        say Still approaching, coming near,
+        say Thousands for it's visit wait
+        say But alas for their fate,
+        say Tho' they expect me to appear,
+        say They will never find me here.
+        say ------What is this poem about?
+        mpmset self quest 8 1 1
+        break
+      endif
+    case 10
+      if quest (9,1,$i) != 1
+        say Four men sat down to play,
+        say They played all night 'till break of day,
+        say They played for gold and not for fun
+        say With separate scores for everyone.
+        say When they came to square accounts,
+        say They all had made quite fair amounts.
+        say Can you the paradox explain,
+        say If no one lost, how could all gain?
+        mpmset self quest 9 1 1
+        break
+    endswitch
+    mpmset self quest 14 4 0
+  endif
+~
+>speech_prog pass~
+mpmset self quest 14 4 0
+mpmadd self quest 10 2 1
+if quest (10,2,$i) > 3
+  say Oh no!  You failed too many of the riddles!
+  shake 
+  mptransfer $n 9799
+else
+  say Ok...let me think of another riddle...
+endif
+~
+>speech_prog neither none~
+if quest (14,4,$i) == 1
+  say That's right...In TOTAL darkness, it's impossible to see anything.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog name~
+if quest (14,4,$i) == 2
+  say Yep, the name of the ship is the correct answer.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog heroine~
+if quest (14,4,$i) == 3
+  say How did you guess that?  Heroine: HE,HER,HERO,HEROINE
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog coffin crypt~
+if quest (14,4,$i) == 4
+  say Yep, a coffin.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog thursday~
+if quest (14,4,$i) == 5
+  say Correct: Thursday is the day after this day.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog ring band~
+if quest (14,4,$i) == 6
+  say Of course it was a ring...what else could it be?
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog hole~
+if quest (14,4,$i) == 7
+  say You betcha!  That old stand-by answer for a riddle.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog inkstand~
+if quest (14,4,$i) == 8
+  groan 
+  say Eh?  You got it...you must be weird.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog tomorrow future~
+if quest (14,4,$i) == 9
+  say If you guessed "future"...the actual answer was "tomorrow", but, I'll give it to you anyway.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog musicians music musician instruments instrument band~
+if quest (14,4,$i) == 10
+  say That's right...I never said anything about them playing cards.
+  mpmset self quest 14 4 0
+  mpmadd self quest 12 2 1
+endif
+~
+>speech_prog ~
+if quest (14,4,$i) != 0
+  say Nope...wrong answer...
+  say You have failed that riddle.
+  mpmset self quest 14 4 0
+  mpmadd self quest 10 2 1
+endif
+if quest (10,2,$i) >= 3
+  say Oh no!  You failed too many of the riddles!
+  shake 
+  mpmset self quest 0 31 0
+  mptransfer $n 9799
+endif
+if quest (12,2,$i) >= 2
+  say All right!
+  say You answered 2 of the riddles correctly!
+  mpmadd $n quest 0 4 1
+  mpmset $n quest 4 4 -1
+  mpechoat $n You have completed this quest.
+  mptransfer $n 9799
+endif
+~
+|
+#27004
+wild boar~
+A wild boar~
+A wild boar stares wildly about, looking for something to charge at.~
+The boar looks like a large pig.  It's fully four feet tall at the shoulders
+and doesn't look like it likes your face.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+5 0 0 1d6+27 1d1+5
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+mpecho Order appears and looks at you sternly.
+mpecho {038}Order says 'You have slain one of my prize animals...you have failed this test!'
+mptransfer $n 9799
+~
+|
+#27005
+doe deer~
+a beautiful doe~
+A beautiful doe stands here defending her fawn.~
+She is tall and beautiful.  Her hooves don't just look graceful though.
+~
+ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+5 0 0 1d6+27 1d1+5
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+mpecho Order appears and looks at you sternly.
+mpecho {038}Order says 'You have slain one of my prize animals...you have failed this test!'
+mptransfer $n 9799
+~
+|
+#27006
+fawn deer~
+a young fawn~
+A wobbly-kneed deer stands here, looking around curiously.~
+The fawn is the spitting image of Bambi.
+~
+ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+5 0 0 1d6+27 1d1+5
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpecho Order appears and looks at you sternly.
+mpecho {038}Order says 'You have slain one of my prize animals...you have failed this test!'
+mptransfer $n 9799
+~
+|
+#27007
+jaguar cat~
+a silent jaguar~
+A large cat stands here, slinking about hungrily.~
+This cat looks lean, mean, and clean.  Apparently it hasn't had anything to
+eat for quite a while.
+~
+ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+5 0 0 1d6+27 1d1+5
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpecho Order appears and looks at you sternly.
+mpecho {038}Order says 'You have slain one of my prize animals...you have failed this test!'
+mptransfer $n 9799
+~
+|
+#27008
+snake~
+a slithering snake~
+A snake slithers hither and thither.~
+This snake eats your kind for lunch.  And, incidently, isn't it about noon
+now?
+~
+ACT_SENTINEL|ACT_WEAK
+AFF_SNEAK
+0 S
+15 0 0 1d56+105 1d15+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 25~
+mpecho A slithering snake moves its head from side to side, hissing.
+if existsroom (rat)
+  mppurge rat
+  mpecho The snake lunges forward and devours the rat.
+  mpecho The snake, a wild look in its eye, slithers off into the hedge!
+  mpzset quest 4 1 1
+  mppurge self
+endif
+~
+>death_prog 100~
+mpecho Order appears and looks at you sternly.
+mpecho {038}Order says 'You have slain one of my prize animals...you have failed this test!'
+mptransfer $n 9799
+~
+|
+#27009
+rat~
+a large sneaky-looking rat~
+A large sneaky-looking rat stands here nibbling on a piece of bread.~
+This rat is larger than the ones you recall having seen before.  It doesn't
+scurry away when you approach it, in fact, it stares you straight in the eyes
+for a moment, as if challenging you.
+~
+ACT_SENTINEL|ACT_SCAVENGER
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+10 0 0 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27010
+old lady~
+an old lady~
+An old lady reclines here in her comfortably decorated hut.~
+The lady appears to have been very beautiful in the not-so-distant past.  You
+can't help noticing how lovely and long her fingers are.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+25 0 0 1d1+400 1d1+25
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  say Hello there.  Welcome to my humble abode.
+  say It's not often that I get visitors in these parts.  Especially strong ones.
+  mpechoat $r $I eyes your physique closely.
+  say Sit down and chat for a spell.
+  mpmset self quest 0 1 1
+  break
+endif
+if quest (1,1,$i) == 0
+  emote gets a perturbed look on her face.
+  say Every time I think of that nasty rat, it almost makes me puke.
+  mpmset self quest 1 1 1
+  break
+endif
+if quest (2,1,$i) == 0
+  mpmset self quest 2 1 1
+  smile $r
+  say Have you had a chance to look at my yard?  It's very pretty this time of year.
+endif
+~
+>speech_prog finger fingers~
+say I guess they are like that because of long years playing the piano.
+~
+>speech_prog piano~
+ponder 
+say Oh..do you really want to hear about my music?
+~
+>speech_prog music~
+emote gets a nostalgic look in her eye...
+say Yes, I was once a celebrated Pianist.
+say I've also tried to learn how to play the flute, but I can't seem to over-come the say frustation of learning a new instrument.
+say Maybe I started too late.
+emote sniffs softly, almost unnoticably.
+~
+>speech_prog rat~
+emote gets a very perturbed look on her face.
+say I wish someone would get rid of it.
+~
+>speech_prog flute~
+if quest (3,1,$i) == 0
+  mpmset self quest 3 1 1
+  sigh 
+  say What, my flute?  Ah...
+  ponder 
+  say You know, I'm quite annoyed with this thing...why don't you take it?
+  mpoload 27004
+  give i27004 $n
+else
+  say Why don't you learn to play it?
+endif
+~
+>speech_prog snake~
+say Oscar is a good pet.  He doesn't have that nasty hair problem that cats do, you know.
+say Just a skin here or there every so often and he's set for another year of low-maintenance.
+~
+|
+#27011
+large troll~
+a large, ugly troll~
+A large, ugly troll stands here, daring you to kill him.~
+This guy sure is ugly.  As you watch, tiny wounds on his arms slowly vanish.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_SANCTUARY|AFF_PROTECT_EVIL
+0 S
+99 0 0 1d1+9811 1d1+100
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>hitprcnt_prog 75~
+emote grunts as his wounds heal themselves.
+restore self
+~
+|
+#27012
+old man hermit~
+a hermit~
+An old man with a thoughtful look on his face reclines here.~
+This old man makes George Burns look like a teenager.  He has more wrinkles
+than you would ever want to count.  He appears to know large amounts about
+everything imaginable.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+99 0 0 1d1+9000 1d99+99
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if rand (50)
+  emote writes out three letters on the ground but erases them before you can read them.
+else
+  say I declare that if you had the answer to this quest, you would know the answer to this quest.
+endif
+~
+>speech_prog esp e.s.p.~
+say You must have it then, here is the completion of this quest.
+mpmadd $n quest 0 4 1
+mpmadd $n quest 4 4 -1
+mptransfer $n 9799
+~
+|
+#27013
+ethereal cannon~
+an ethereal cannon~
+An ethereal cannon stands here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+10 0 0 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>trigger_prog fire~
+mpquiet on
+get all i27005
+mpquiet off
+if hasobjnum ($i) == 27013
+and hasobjnum ($i) == 27009
+  mpecho Fire appears in the pipe and sets off the black powder...KBOOOOOOM!!!
+  mpecho You hear a loud roar from the other end of the field.
+  mpjunk all
+  mpgoto 27093
+  mpoload 27014
+  give i27014 troll
+  slay troll
+else
+  mpquiet on
+  put all i27005
+  mpquiet off
+  mpecho You try to light the materials in the pipe, but none of them are flamable by themselves.
+~
+|
+#27014
+pattern of order~
+the Pattern of Order~
+The Pattern of Order stands here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+10 0 0 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+mpdamage $r 500 1500 raw power
+peace $r
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#27000
+sign~
+a sign~
+A sign has been placed against the wall here.~
+The rules you must obey once you perform a quest of Reason:
+  1) Do not tell anyone anything about the quest.
+  2) Be nice to fellow followers of Order.
+  3) Resist the whims of Chaos and his minions.
+
+Things you need to know in order to start a quest of Reason:
+
+  1) Bow to be transported to the Puzzle Master for your quest assignment.
+  2) Resign if you want to give up on a quest.
+  3) Some of the quests require you to use abnormal commands, like "gut fish".
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 0
+#27001
+writ paper~
+a writ of Reason~
+A writ of paper is flopping around in the breeze.~
+It's a piece of paper saying that you are participating in a quest of Reason.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 0
+>unknown_prog mix combine~
+if inroom ($i) >= 27086
+and inroom ($i) <= 27096
+  if hasobjnum ($i) == 27006
+  and hasobjnum ($i) == 27007
+  and hasobjnum ($i) == 27008
+    mpjunk i27006
+    mpjunk i27007
+    mpjunk i27008
+    mpechoat self You mix all the ingredients together and produce a black powdery substance.
+    mpoload 27013
+  else
+    mpechoat self You aren't carrying all of the ingredients.
+  endif
+endif
+~
+>unknown_prog fire ignite light~
+if inroom ($i) == 27089
+  mptrigger cannon fire
+~
+>rand_prog 100~
+if inarea ($i) != 27000
+  mpechoat self $O fades out of existence.
+  mpjunk $o
+  break
+endif
+if inroom ($i) == 27042
+  mpmadd self quest 0 4 1
+  mpmadd self quest 4 4 -1
+  mpgoto 9799
+  mpechoat self You have completed this quest.
+endif
+if inroom ($i) >= 27003
+and inroom ($i) <= 27007
+  if areaquest (4,1,$o) == 1
+    mpechoat self You have solved this quest...the old lady thanks you.
+    mpzset quest 4 1 0
+    mpmadd self quest 0 4 1
+    mpmadd self quest 4 4 -1
+    mpgoto 9799
+  endif
+endif
+if inroom ($i) == 27061
+  mpechoat self The object of this quest was to present you with many 'easy kills' to see if you would attack them.  Killing any of Order's animals would have resulted in your immediate failure.
+  mpmadd self quest 0 4 1
+  mpmadd self quest 4 4 -1
+  mpgoto 9799
+  mpechoat self You have completed this quest.
+endif
+~
+|
+#27002
+skeleton bones pile~
+a pile of bones~
+A pile of bones sits here, contemplating eternity.~
+The pile appears to have belonged to a person of small stature, a gnome or
+halfing possibly.
+~
+ITEM_TYPE_FURNITURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 5000 0
+#27003
+skeleton bones~
+the skeleton of an ogre~
+The skeleton of an ogre leans against the wall, glaring at any who pass.~
+The ogre's skeleton appears to be fairly fresh, no more than a year old.
+~
+ITEM_TYPE_FURNITURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 10 1000 0 0
+1 10 0
+#27004
+flute~
+a long, silvery flute~
+A shiny flute made of pure silver lies here.~
+The flute appears to be made of pure sterling silver.  It must sound
+beautiful.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 1 2500 0 0
+1 10 0
+>unknown_prog play~
+if wearloc ($o) == wear_none
+  mpechoat self Perhaps you should hold the flute before you try to play it?
+  break
+endif
+if existsroom (snake)
+  mpechoat self You put the flute up to your lips and a beautifly haunting melody proceeds from it.  The snake suddenly looks somewhat enraptured with you.
+  mpforce snake follow $i
+else
+  mpechoat self You put the flute up to your lips and a beautifly haunting melody proceeds from it.  What's so hard about this?
+endif
+~
+>rand_prog 100~
+if inarea ($i) != 27000
+  mpechoat self $O fades out of existence.
+  mpjunk $o
+endif
+~
+|
+#27005
+pipe sewer~
+a sewer pipe~
+A sewer pipe projects from the ground here, pointing towards the rising sun.~
+The pipe projects out of the ground and rises to about waist height.  Looking
+into the opening of the pipe, you realize that the pipe is only hollow for
+four feet from the opening, where it appears to have been sealed with some
+sort of concrete.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10 0 0 0 0 0 0 0
+1 10 0
+#27006
+rock yellow sulpher~
+a yellow rock~
+A rock of some yellow substance lies here.~
+The rock crumbles very easily, it wouldn't make a very good weapon.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 0
+#27007
+rock black charcoal~
+a piece of black rock~
+A piece of black rock rests on the ground here.~
+The rock is hard, yet brittle.  Breaking off a piece produces a puff of
+black smoke that smells like burnt wood.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 0
+#27008
+substance white saltpeter niter~
+a white substance~
+A white substance clings to the rocks here.~
+It's a white solid with a crystalline structure.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 0
+#27009
+gravel rocks~
+a pile of loose gravel~
+A pile of loose gravel covers a small section of ground.~
+The stones are small and gray.  Many of them have sharp edges.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 0
+#27010
+pick~
+a rusty old pick~
+An old, rusty pick is wedged here.~
+The pick is completely covered in rust.  Evidently, its handle is not made
+of wood.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 4 3 WEAPON_BLAST 0 0 0 0
+15 10 10
+>rand_prog 100~
+if inarea ($i) != 27000
+  mpechoat self $O fades out of existence.
+  mpjunk $o
+~
+|
+#27011
+sword chaos-slayer~
+a chaos-slayer~
+A long, very sharp sword lies here.~
+The sword can only be described as devastating.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 12 WEAPON_SLASH 0 0 0 0
+1 10 60
+>get_prog 100~
+mpmadd self quest 0 4 1
+mpmadd self quest 4 4 -1
+mpechoat self You have completed this quest.
+mpgoto 9799
+~
+|
+#27012
+boat~
+a boat~
+A boat has been left here.~
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+75 400 0
+E
+boat~
+The boat looks large enough for one person.
+~
+>drop_prog 100~
+mpgoto 27059
+mpechoat self You hold your breath as you fall into the depths!
+mpquiet on
+cast 'breath water'
+mpquiet off
+~
+|
+#27013
+powder powdery substance~
+a pile of dark powder~
+A bit of dark powder forms a pile here.~
+The powder is so dark that it's virtually black.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_DARK
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#27014
+skin trollskin pile~
+the skin of a troll~
+A pile of rank-smelling skin lies here.~
+The pile appears to have come off of a VERY tough creature.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+17 0 0 0 0 0 0 0
+25 10 63
+>rand_prog 1~
+if wearloc ($o) != wear_none
+  mpmadd self currhp 50
+endif
+~
+|
+#0
+
+
+#ROOMS
+#27000
+Entrance to the Test of Reason~
+If you wish to leave here, you must either recall or commit suicide.  Do not go
+any further if you do not wish to start a quest towards joining the Order of
+Reason.
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_CITY
+>unknown_prog bow~
+mpgoto 27025
+mpechoat self Wow!  That never made your head spin that much before!
+~
+>command_prog recall~
+mpgoto 9799
+mpechoat self Wow!  That never made your head spin that much before!
+~
+|
+#27001
+Order's other workshop, the more private one.~
+Lights, dials, and many wierd gadgets combine to give this room an ambiance not
+generally associated with Reason.
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_CITY
+E
+ambiance~
+Somehow you get the impression that something isn't right here.
+~
+#27003
+A cottage.~
+You are standing inside a small cottage that is packed from wall to wall and
+floor to roof with that type of stuff which aged people always seem to find
+indisposable.  A quick appraisal tells you that none of the stuff is really
+worth anything to an adventurer like yourself.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27004
+#27004
+A patio in front of a cottage.~
+The ground is paved with large, closely matched flat stones.  At the edge of
+patio, a neatly trimmed hedge blocks any passage to the east and south.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27005
+DDIR_WEST
+~
+~
+0 -1 27003
+#27005
+A small playground.~
+There are diversified contraptions scattered across this small open section of
+yard.  Each one obviously serving some bizarre thirst for amusement.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27006
+DDIR_SOUTH
+~
+~
+0 -1 27004
+E
+contraption contraptions~
+The contraptions are mutilated pieces of metal that have been
+twisted into shapes that are somewhat interesting--to the average
+cold-blooded belly-crawler.  Maybe if you were to lay down and
+take a peek at them from the ground-looking-up perspective, you
+might get some insight into snake psyches.
+~
+#27006
+An expanse of lawn.~
+The lawn spreads from your feet in every direction.  The grass is short, thick,
+and neat.  Every bush and tree in sight is well- groomed and literally bursting
+with colors.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27007
+DDIR_WEST
+~
+~
+0 -1 27005
+#27007
+The Hedge.~
+The hedge stands as neat and perfect as the rest of the yard.  However, upon
+closer inspection you notice that a small section of hedge has been left
+ungroomed for a couple of weeks.  Nothing to sneer at, but a noticable gap in
+the otherwise superb gardening evidenced by the remainder of the yard.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27006
+#27008
+Glade in the Forest of Reason.~
+You are standing in a large opening in the forest.  The trees are impenetrable
+in all directions save one.  The trees seem to be some sort of low-growing
+evergreen mixed in with some towering oaks.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27009
+#27009
+Path through the Forest of Reason.~
+Light shade falls across this path through the Forest of Reason.  Any trace of
+fear is erradicated by the gentle stroke of the leaves being tickled by the
+breeze.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 27058
+DDIR_WEST
+~
+~
+0 -1 27008
+#27010
+Path through the Forest of Reason.~
+This path appears to have been made by wild animals roving to and fro throughout
+the forest.  Of course, there does appear to be a steady semblance of order
+underlying the layout of the path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27011
+DDIR_SOUTH
+~
+~
+0 -1 27060
+#27011
+Overlook of the ravine.~
+The path continues from the forest and crawls over the overgrown boulders to
+enter the ravine that sprawls out below you.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27010
+DDIR_DOWN
+~
+~
+0 -1 27061
+#27012
+Northwest corner of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 27013
+DDIR_SOUTH
+~
+~
+0 -1 27039
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27013
+North edge of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 27014
+DDIR_SOUTH
+~
+~
+0 -1 27040
+DDIR_WEST
+~
+~
+0 -1 27012
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27014
+Northeast corner of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_SOUTH
+~
+~
+0 -1 27041
+DDIR_WEST
+~
+~
+0 -1 27013
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27016
+A small, deserted Tavern.~
+This is a small room with tables scattered about in a pattern that could vaguely
+be referred to as a semblance of order.  All of the tables are empty.  There are
+no waitresses or waiters in sight.  Any sounds from the kitchen are purely
+imaginary.  One side of the room contains a stage that, in contrast, gives the
+room a feeling of vastness.
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_CITY
+E
+stage~
+The stage can't be examined because the current occupant blocks out
+any view that may have existed if the stage were unoccupied.
+~
+#27017
+The west end of a hallway~
+You are in a large, well-lit hallway that runs east to west.  There is a
+painting on each of the walls nearest you.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27018
+E
+w west~
+Abstract is a weak term to use for this piece.  It gives you the
+impression of globs of nasty colors.  The signature of "Picallo" is the
+only thing you can get your mind to lock onto.
+~
+E
+s south~
+The southern wall is covered with many random dots of different colors.
+Further inspection reveals that there are groups of dots that are repeated
+along the horizontal axis of the wall.  After looking at the pattern and
+trying to make heads or tails of it for well over a quarter of an hour, you
+give up and turn your strained eyes elsewhere.
+~
+E
+n north~
+Pastel drawings of many machines cover various places along the northern
+wall.  The machine designs all appear to be geared towards flight.
+~
+#27018
+The center of a hallway~
+You are in a hallway leading from the east to the west.  The northern and
+southern walls each support fine samples of abstract artwork.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27019
+DDIR_WEST
+~
+~
+0 -1 27017
+E
+plaque~
+"Tzu"
+~
+E
+s south~
+This abstract mural heralds the creation of weaponry.  All sorts of
+weapons of every type hold their place in this work of art.  A plaque
+occupies the space below the mural.
+~
+E
+n north~
+A bright, colorful depiction of the over-throw of Chaos in stained-glass
+occupies a long stretch of the northern wall.  Order appears in the eastern
+end of the piece, creating all from nothing, while Chaos and his deformed
+minions are playing ignorantly in their own destruction.
+~
+#27019
+The eastern end of a hallway~
+The hallway begins here and leads to the west.  There is a door to the east
+which supports a large combination lock.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27018
+E
+handle~
+Upon close examination, you detect an inscription traced along the edge
+of the handle.  Luckily, it's in your native language:
+  "I have seen many come and go
+   but few have been able to tell
+   me the three measures of artists
+   in a single breaths."
+~
+E
+e east lock door ear~
+The lock on the door to the east appears to be shaped in the form of a
+large ear.  There is no apparent means of inserting a key or even twisting
+the odd-shaped handle.
+~
+E
+s south~
+The water-color matte covering this entire wall reminds you of sunshine
+on a cloudy day, of a playful fawn skipping across a field of bright green
+grass, of finding a nugget of gold wedged inside your Christmas stocking
+...the name "Humphrejkil" occupies the lower, left-hand side of the
+painting.
+~
+E
+n north~
+The painting here depicts an unarmed person walking through the midst of
+a large, hostile army.  The person appears to be unscathed.  There is no
+visible sign of arthorship on this piece.
+~
+#27020
+The End of the Pattern of Order~
+Although this is the end of the Pattern, you somehow feel that the Pattern has
+not been completed within your being.  As the Pattern within you starts to break
+apart, you realize that now that the Pattern is a part of you, you cannot remain
+whole without it.
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_DEEP_EARTH
+#27021
+On the Pattern of Order~
+The power radiating from the Pattern is so strong here, that you can't discern
+which direction is exerting more force on you.  The flames are now playfully
+combing through your hair.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27022
+DDIR_SOUTH
+~
+~
+0 -1 27043
+DDIR_WEST
+~
+~
+0 -1 27020
+>command_prog north~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog east~
+south 
+~
+>command_prog south~
+west 
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27022
+On the Pattern of Order~
+Now that you've lost your second wind, you can feel the Pattern tearing up your
+insides and replacing them in the image of itself.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27023
+DDIR_WEST
+~
+~
+0 -1 27021
+>command_prog north~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog east~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog south~
+west 
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27023
+On the Pattern of Order~
+You seem to be catching your second wind.  This Pattern seems to be becoming a
+part of you.  The flames around your legs are licking at your waist now.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 27045
+DDIR_WEST
+~
+~
+0 -1 27022
+>command_prog north~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog east~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog south~
+west 
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27025
+The Control-Room of Reason~
+There are all kinds of buttons, dials, lights, and philtres lining the consoles
+surrounding you.
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+The way out~
+~
+0 -1 27000
+E
+buttons dials lights philtres consoles~
+You start to examine the nearest console.  A large sign attracts your
+eye:  "Achtung Verboten!  Stay back!  P11/750 trained personnel only!"
+~
+#27026
+On a path.~
+You are on a path that Y's here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27028
+DDIR_EAST
+~
+~
+0 -1 27027
+DDIR_SOUTH
+~
+~
+0 -1 27030
+#27027
+The top of the second ladder.~
+The top of the second ladder appears through the earth below you, and if you
+stand right next to it, you can see down onto the ground that is at the bottom
+of it.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27026
+DDIR_DOWN
+~
+~
+0 -1 27085
+E
+ladder second~
+The ladder leads down into the ground to the earth below the one
+you are standing on.
+~
+#27028
+On a path.~
+You are on a path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27029
+DDIR_SOUTH
+~
+~
+0 -1 27026
+#27029
+A dead-end in the path.~
+The path you were on ends here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27028
+#27030
+On a path.~
+You are on a path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27026
+DDIR_EAST
+~
+~
+0 -1 27031
+#27031
+A dead-end in the path.~
+The path you were on ends here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27030
+#27032
+On a path.~
+You are on a path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27033
+DDIR_SOUTH
+~
+~
+0 -1 27084
+#27033
+A dead-end in the path.~
+The path you were on ends here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27032
+#27039
+Southwest corner of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 27012
+DDIR_EAST
+~
+~
+0 -1 27040
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27040
+Southern edge of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 27013
+DDIR_EAST
+~
+~
+0 -1 27041
+DDIR_WEST
+~
+~
+0 -1 27039
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27041
+Southeast corner of a dark-blue lagoon.~
+The water in this lagoon is a very dark shade of blue.
+~
+0 ROOM_NO_SAVE SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 27014
+DDIR_WEST
+~
+~
+0 -1 27040
+E
+down depths deep water d~
+As you peer into the depths you think that you can see a large,
+dark shape or two.
+~
+#27042
+The End of the Pattern of Reason~
+The Pattern of Order has at last come to an end.  You feel elated beyond
+anything you have ever experienced.  Searching within yourself, you can trace
+the Pattern throughout reality and your own existence.  You feel reborn and
+wiser than a mortal.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27043
+>command_prog east~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+|
+#27043
+On the Pattern of Reason~
+The force pushing you back has become almost unbearable.  You cannot even seem
+to lift your foot, and, when you can, placing it back down seems to involve
+pushing it through a layer of concrete to reach the floor.  You can no longer
+imagine the concept of time, the Pattern is everything and always.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 27021
+DDIR_WEST
+~
+~
+0 -1 27042
+>command_prog north~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog east~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog south~
+west 
+~
+>command_prog west~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+|
+#27044
+On the Pattern of Order~
+The blue flames around your feet are flaring up to your waist and your foreward
+struggle begins to feel like walking through cement.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27045
+DDIR_SOUTH
+~
+~
+0 -1 27053
+>command_prog north~
+east 
+~
+>command_prog east~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog south~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27045
+On the Pattern of Order~
+The Pattern divides here.  You could either walk to the North along the Pattern
+or to the South.  There is much more resistance coming from the Northern
+direction.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 27023
+DDIR_SOUTH
+~
+~
+0 -1 27054
+DDIR_WEST
+~
+~
+0 -1 27044
+>command_prog north~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog east~
+south 
+~
+>command_prog south~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog west~
+north 
+~
+|
+#27051
+The beginning of the Pattern of Order~
+You sense that there are strange forces at work in this place.  Looking around,
+you notice that there is a pattern inscribed in the floor from which immense
+amounts of power emminate.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27052
+E
+pattern floor~
+You recall a poem recited to you as a young child by an ancient scribe:
+
+  The pattern of Order
+  Will lead you to power
+  But missteps will cost you
+  The whole ten step sha-bang
+
+Many forces are tugging you in conflicting directions.  You feel very
+disoriented, as if your perspective were somehow shifted to the right.
+~
+>command_prog north~
+east 
+~
+>command_prog east~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog south~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27052
+On the Pattern of Order~
+Small blue flames snap up from the pattern where the soles of your feet come in
+contact with it.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 27053
+DDIR_WEST
+~
+~
+0 -1 27051
+>command_prog north~
+east 
+~
+>command_prog east~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog south~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog west~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+|
+#27053
+On the Pattern of Order~
+The flames around your feet now extend to your ankles.  Your steps are becoming
+harder and harder to take.
+~
+0 ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 27044
+DDIR_WEST
+~
+~
+0 -1 27052
+>command_prog north~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog east~
+mpmadd self quest 20 4 1
+if quest (20,4,$i) > 5
+  mpgoto 27054
+  mpechoat self You slip off of the pattern and it consumes you!
+else
+  mpechoat self You almost stepped off of the Pattern, but manage to recover your balance.
+endif
+~
+>command_prog south~
+mpgoto 27054
+mpechoat self You attempt to move backwards and the Pattern consumes you!
+~
+>command_prog west~
+north 
+~
+|
+#27054
+On the Pattern of Order~
+As the force pushing you back dissipates and the flames around your feet
+diminish, your mind begins to expand beyond its natural limits...
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_DEEP_EARTH
+#27058
+A Clearing.~
+This clearing is bordered by a thick and tall forest.  The two trails that lead
+into the forest appear invitingly shady.   There is a sign here.
+~
+0 ROOM_NO_MOB|ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27009
+DDIR_EAST
+~
+~
+0 -1 27059
+E
+sign~
++-----------------------------------------------------+
+| WELCOME TO THE FOREST OF REASON.		      |
+| ENJOY THE ANIMALS I HAVE CREATED FOR THIS RESERVE.  |
+|                                                     |
+|	       -ORDER                                 |
++-----------------------------------------------------+
+    |_|                                         |_|
+~
+#27059
+A trail through the forest.~
+This part of the trail appears to be well used.  There are signs of many animals
+passing from side to side of the trail.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27060
+DDIR_WEST
+~
+~
+0 -1 27058
+#27060
+Overlooking the ravine.~
+A crack in the ground below you contains a trail that leads into a ravine that
+spreads across the south and to the east.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27010
+DDIR_WEST
+~
+~
+0 -1 27059
+DDIR_DOWN
+~
+~
+0 -1 27063
+#27061
+In the Ravine.~
+The ravine is hardly more than a crack in the earth from this vantage point.
+However, the ravine appears to be much broader in the south.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 27064
+DDIR_UP
+~
+~
+0 -1 27011
+#27062
+A covey hole.~
+This small hidey-hole brings to a sharp conclusion the grandure that is the
+ravine.  There are signs that something lives here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27063
+#27063
+The Grand 'ole Ravine.~
+You are now standing in the midst of a wild and wonderful ravine.  The sharply
+sloping walls lead to a large, open flat area which is sprinkled with small
+shrubs growing flowers of many tints and hues.  A small stream flows from the
+top of one wall, through the shrubery and into a pool nestled in the center of
+the southern face of the ravine.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27064
+DDIR_WEST
+~
+~
+0 -1 27062
+DDIR_UP
+~
+~
+0 -1 27060
+#27064
+A bend in the Ravine.~
+The ravine takes a sharp bend here.  The northern pointing spur is barely wide
+enough to walk through.  The western section could contain a small fortress, if
+need be.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27061
+DDIR_WEST
+~
+~
+0 -1 27063
+#27066
+Bow of a sunken ship.~
+The bow of the ship used to have a prow-carving of a beautiful maiden, but now
+the carving is little more than a heap of rot.  The rail along the edge has all
+but dissolved; hatch-covers sprawl across gaping holes in the deck.  Some cloth
+stretches from the edge here to the mast to the east.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 27069
+DDIR_EAST
+~
+~
+0 -1 27067
+E
+carving prow~
+The carving is barely recognizable.  As you look closer, schools of small fish
+swim out of what used to be the eyes of the carving.
+~
+E
+cloth sail~
+The cloth is what remains of the sail.  It looks tough enough to withstand a
+sneeze or two.
+~
+E
+stick sticks rod rods~
+They appear to have been handles to some sort of tools when the seas were
+younger.  You think that you see a pick that could possibly still be useful.
+Perhaps you should reach out and get it.
+~
+E
+hatch-covers covers hatch cover~
+The hatch-covers are still (mostly) covering some of the large holes in the
+deck.  Some of them have loose sticks and rods sticking out of them at wild
+angles.
+~
+E
+hole holes~
+The holes, from what you can see past the hatch-covers, are large and dark.  Who
+knows what could be creaping around in the depths of the ship.
+~
+>command_prog get~
+if name ($0) == pick
+  if areaquest (5,1,$i) == 0
+    mpechoat self You reach out, break the pick loose, and add it to your belongings.
+    mpoload 27010
+    mpzset quest 5 1 1
+  else
+    mpechoat self You already broke loose the pick.
+  endif
+else
+  get $0
+~
+|
+#27067
+Center of the deck of a sunken ship.~
+The deck must have once been strewn with debris, but that was centuries ago.
+Now, the only remaining debris is made of iron and attached to the deck.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 27070
+DDIR_EAST
+~
+~
+0 -1 27068
+DDIR_WEST
+~
+~
+0 -1 27066
+E
+sail sails net rope nets ropes~
+Hmmm, that must have been in the debris that is here no more.
+~
+E
+iron debris~
+The pieces of iron are tie points for the ropes which (used to)
+hold the sails and climbing nets in place.
+~
+#27068
+Center deck of a sunken ship.~
+Standing here, you realize that this was not that big of a ship.  The mast does
+tower above you with the streamers of remaining sail trailing off into the
+darkness around you.  The deck appears to be more solid here.  Your progress to
+the east is blocked by the raised portion of the deck which houses the cabins of
+the ship's officers.  The entrance has long since swollen shut into its
+close-fitting frame.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_WEST
+~
+~
+0 -1 27067
+E
+deck plank~
+There is a loose plank in the deck near the entrance to the officer's cabins.
+Perhaps you should get it.
+~
+E
+entrance frame~
+The door looks very solid.
+~
+>command_prog get~
+if name ($0) == plank
+  if hasobjnum ($i) == 27010
+    mpgoto 27071
+    mpechoat self You take the pick and work away at the plank...after a few swings, the plank gives way and you tumble into the interior of the ship.
+  else
+    mpechoat self You can't seem to budge the plank, perhaps you look for some tool to help you.
+  endif
+else
+  get $0
+~
+|
+#27069
+North of a sunken ship.~
+Barnacles appear to be a major decoration fettish for the designer of the ship
+to the south.  All kinds of sea weeds weave in and out of holes which have
+rotted out of the ships hull.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 27070
+DDIR_SOUTH
+~
+~
+0 -1 27066
+#27070
+North of a sunken ship.~
+The hull to the south is in an extreme state of disrepair.  Coral ridges rise on
+the north and east sides.  Holes in the eastern ridge let through drafts of VERY
+chilly water.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_SOUTH
+~
+~
+0 -1 27067
+DDIR_WEST
+~
+~
+0 -1 27069
+#27071
+Entrance to a large cabin.~
+The place where you fell looks like it could be part of the captain's cabin.
+The cabin continues to the east amidst the clutter of (formerly) fancy
+furniture.  The door to the west is bulging with the weight of something in the
+hall beyond.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 27072
+E
+door buldge~
+It looks quite strained...the ceiling above it doesn't look so hot either.
+~
+E
+furniture cabin~
+The decorations reflect a Spanish motif.
+~
+#27072
+Center of the large cabin.~
+At the center of the cabin, you find a large, elaborate dresser against the
+north wall.  All of the dresser drawers are strewn about the floor.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 27073
+DDIR_WEST
+~
+~
+0 -1 27071
+E
+drawer drawers dresser~
+You see nothing of interest in any of the drawers.
+~
+#27073
+At a large poster bed.~
+A large, four-poster bed stands here with a skeleton resting under the tatters
+of bedding draped across it.  What used to be a small end-table lays at the foot
+of the bed.
+~
+0 ROOM_NO_SAVE SECT_UNDER_WATER
+DDIR_WEST
+~
+~
+0 -1 27072
+E
+bed table end-table bedding skeleton~
+It doesn't look all that interesting.
+~
+#27077
+Southeast corner of a large clearing.~
+This clearing extends north and east from where you are standing.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27082
+DDIR_EAST
+~
+~
+0 -1 27078
+DDIR_SOUTH
+~
+~
+0 -1 27079
+#27078
+Southeast corner of a large clearing.~
+This clearing extends north and west from where you are standing.  A smaller
+clearing breaks off of this large one from the south edge of the southwest
+corner.  A ladder is here, leading you into the trees above.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27083
+DDIR_WEST
+~
+~
+0 -1 27077
+DDIR_UP
+~
+~
+0 -1 27085
+#27079
+A small clearing.~
+This small clearing appears to have been reshaped into something resembling a
+dwelling.  Various clay pots and wicker baskets spring out of the grass in an
+orderly fashion across the southern edge of the clearing.  A fire occupies a
+deeply charred ring of rocks near the center of eastern edge of the clearing.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27077
+#27080
+A dead-end in the path.~
+The path you were on ends here.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27081
+#27081
+On a path.~
+You are on a path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27085
+DDIR_WEST
+~
+~
+0 -1 27080
+#27082
+Northwest corner of a large clearing.~
+This clearing extends south and east from where you are standing.  A smaller
+clearing breaks off of this large one from the south edge of the southwest
+corner.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27083
+DDIR_SOUTH
+~
+~
+0 -1 27077
+#27083
+Northeast corner of a large clearing.~
+This clearing extends south and west from where you are standing.  A smaller
+clearing breaks off of this large one from the south edge of the southwest
+corner.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 27078
+DDIR_WEST
+~
+~
+0 -1 27082
+#27084
+On a path.~
+You are on a path.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27032
+DDIR_EAST
+~
+~
+0 -1 27085
+#27085
+The top of the first ladder.~
+The top of the first ladder appears through the earth below you, and if you
+stand right next to it, you can see down onto the ground that is at the bottom
+of it.  Another ladder leads up from here into the tree that over-shadows you.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 27081
+DDIR_WEST
+~
+~
+0 -1 27084
+DDIR_UP
+~
+~
+0 -1 27027
+DDIR_DOWN
+~
+~
+0 -1 27078
+E
+ladder second~
+The ladder leads up into the trees above you.  Or does it?
+~
+E
+ladder first~
+The ladder leads down into the ground to the earth below the one
+you are standing on.
+~
+#27086
+Northwest corner of an ancient battlefield.~
+There are many tattered sheets of canvas sprawled across the small mounds of
+earth that pepper this portion of the field.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27087
+DDIR_SOUTH
+~
+~
+0 -1 27090
+#27087
+Northern edge of an ancient battlefield.~
+The pile of rocks that occupy this section of the field are not too out of place
+considering the large cliff that blocks the entire northern edge of the battle
+field.  The rocks are HUGE and have deep shadows underneath them.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27088
+DDIR_SOUTH
+~
+~
+0 -1 27091
+DDIR_WEST
+~
+~
+0 -1 27086
+#27088
+Northeastern corner of an ancient battlefield.~
+Many large, multicolored rocks form a large pile in this section of the field.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 27092
+DDIR_WEST
+~
+~
+0 -1 27087
+#27089
+A grassy slope.~
+You are standing on a very green slope of grass.  From here, you can see the
+entire eastern edge of the ancient battlefield.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 27090
+#27090
+A grassy field near the western edge of an ancient battlefield.~
+The grass here is very, very green.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27086
+DDIR_EAST
+~
+~
+0 -1 27091
+DDIR_SOUTH
+~
+~
+0 -1 27094
+DDIR_WEST
+~
+~
+0 -1 27089
+#27091
+A small hill.~
+Standing at the top of this small hill gives you a good view of the ancient
+battlefield that surrounds you.  The only other good vantage points that you
+could reach would be at the center of both the eastern and western edges of the
+field.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27087
+DDIR_EAST
+~
+~
+0 -1 27092
+DDIR_SOUTH
+~
+~
+0 -1 27095
+DDIR_WEST
+~
+~
+0 -1 27090
+#27092
+An expanse of gravel.~
+You are standing in the middle of a large expanse of gravel.  Very little
+vegetation has penetrated the layer of rocks that cover the ground.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27088
+DDIR_EAST
+~
+~
+0 -1 27093
+DDIR_SOUTH
+~
+~
+0 -1 27096
+DDIR_WEST
+~
+~
+0 -1 27091
+#27093
+The eastern edge of the expanse of gravel.~
+The gravel ends here, up against a large, granite cliff.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 27092
+#27094
+The southwestern corner of an ancient battlefield.~
+You are standing in the midst of the remains of a once great forest.  Now, the
+only witness to its former greatness is the charred remains of six to twelve
+foot diameter trunks.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27090
+DDIR_EAST
+~
+~
+0 -1 27095
+#27095
+The southern edge of an ancient battlefield.~
+The grass here is nearly as green as that which can be seen in the western
+regions of this battlefield.  Of course, you probably wouldn't believe it if you
+hadn't seen the western fields for yourself.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27091
+DDIR_EAST
+~
+~
+0 -1 27096
+DDIR_WEST
+~
+~
+0 -1 27094
+#27096
+Southeastern corner of an ancient battlefield.~
+The remains of many large tents litter the ground about your feet.  It would
+appear that someone has beat you to the wealth that must have once occupied the
+tents.
+~
+0 ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 27092
+DDIR_WEST
+~
+~
+0 -1 27095
+#0
+
+
+#RESETS
+M 27000   1 27025
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

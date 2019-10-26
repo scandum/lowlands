@@ -1,0 +1,1762 @@
+#AREA Olympus~
+#AUTHORS Generic~
+#VERSION 4
+#RANGES 5 30 1 95
+#OLC_RANGES 900 999
+#FLAGS AFLAG_NOTELEPORT
+
+
+#HELPS
+-1 OLYMPUS~
+{138}                                   Olympus
+{308}
+This is the haven of the great Greek gods and Godesses. There are many
+mysterious and magical wonders here. Beware of the gods of war though,
+because they may be tougher than you think.
+{148}
+Revamped by Haxl (03/03/97)
+~
+
+0 $~
+
+
+#MOBILES
+#901
+zeus god~
+Zeus~
+Zeus sits here on a throne.~
+You see before you the greatest of the Olympians.  It seems as if he could
+destroy you with a thought.  Every glance penetrates deep into your soul.
+You now know what true fear is. Maybe instead of fighting him you should
+seek the aid of the gods.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+9
+28713 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+if ispc ($n)
+  if quest (2,2,$n) == 0
+    say Greetings mortal
+    say What do you seek here?
+~
+>speech_prog p I seek the aid of the gods~
+say Well at the moment I am quite busy, but you can go ask Hera for help.
+say Tell her I sent you.
+mpmset $n quest 2 2 1
+~
+|
+#902
+prometheus~
+Prometheus~
+Prometheus is here, playing with a match.~
+This mortal risked the wrath of Zeus to give the gift of fire to humans.  He
+looks up at you and smiles.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+31 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 31d31+310 1d30+9
+24774 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#903
+hermes~
+Hermes~
+Hermes is busy, delivering a message.~
+This is the messenger of the Gods.  He wears a winged helm and boots, and
+darts from place to place.  He looks very busy, and it seems as if he doesn't
+even notice your presence.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_IMP_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+564 1d35+8
+29407 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+cast teleport
+~
+|
+#904
+poseidon~
+Poseidon~
+Poseidon is dining here.~
+He is the brother of Zeus himself, chosen to rule the seas.  He must be
+visiting Mount Olympus.  He nods at you and motions for you to enter and
+have a seat.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+9
+32262 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 45~
+emote calls forward the power of the sea.
+mpquiet on
+cast 'acid blast' $n
+mpquiet off
+emote utters the words 'safqascasio'.
+~
+|
+#905
+apollo~
+Apollo~
+Apollo is here, playing a tune.~
+This jovial God is strumming on a lyre.  He smiles at you and asks you to
+join him.  You notice a dangerous looking bow by his side, however, and think
+that he knows more than music.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+34 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 34d34+340 1d34+9
+40000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#906
+ares~
+Ares~
+Ares is here, kicking your ass.~
+The God of War is here, studying some maps.  He scowls at you as you enter
+and says 'I am very busy.  What do you want?'
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+9
+31518 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if ispc ($n)
+  if quest (2,2,$n) == 3
+    if quest (10,3,$n) == 0
+      grin $n
+      say Hera send you to kill me did she not!?
+      say She knows that you cannot beat me!
+      say Why die for her? I have a better deal for you!
+      say Do you ACCEPT my offer or would you like to DIE?
+    endif
+  endif
+endif
+~
+>speech_prog accept~
+if quest (2,2,$n) == 3
+  if quest (10,3,$n) == 0
+    mpmset $n quest 10 3 1
+    say Slay Hera for me and I will let you pick something
+    say from my collection. That is better that Hera's
+    say deal is it not? Now go and dont fail me!
+    say After you kill her, come back and say: REWARD
+  endif
+endif
+~
+>speech_prog reward~
+if ispc ($n)
+  if quest (10,3,$n) == 2
+    mpmset $n quest 10 3 3
+    say Well done! Now, what do you wish to have from
+    say my private collection? I have a gauntlet and
+    say a robe. The GAUNTLET is good for fighters
+    say and the ROBE is good for mages.
+  endif
+endif
+~
+>speech_prog gauntlet~
+if quest (10,3,$n) == 3
+  mpmset $n quest 10 3 4
+  say Very well than, the gauntlet it is.
+  cast 'giant strength' $n
+  mpoload 908
+  give i908 $n
+  say There you go.
+endif
+~
+>speech_prog robe~
+if quest (10,3,$n) == 3
+  mpmset $n quest 10 3 4
+  say Very well than, the robe it is.
+  cast 'giant strength' $n
+  mpoload 924
+  give i924 $n
+  say There you go.
+endif
+~
+>death_prog 100~
+if quest (2,2,$n) == 3
+  if quest (10,3,$n) == 0
+    mpmset $n quest 4 2 1
+    tell $n Thou has crossed the gods, beware.....
+  endif
+endif
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+>speech_prog die~
+cackle 
+say So be it!
+mpkill $n
+~
+|
+#907
+athena~
+Athena~
+Athena is relaxing here.~
+Zeus' favorite daughter is sitting on a couch eating grapes.  She smiles at
+you and invites you to join her.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+33 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 33d33+330 1d33+9
+37468 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 55~
+say Sit down and join me, $n.
+say Who knows, You may even enjoy it.
+~
+|
+#908
+hephaestus smith~
+Hephaestus~
+Hephaestus the Smith is here, crafting a fine weapon.~
+This God is the only one who is not physically perfect.  He is lame and very
+ugly.  You get the impression that he is kind, however, and would go out of his
+way to help you.  He is attended by three golden maidens.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+33 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 33d33+330 1d33+9
+37141 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+emote bangs on an anvil with a huge hammer.
+mpasound You hear a hammer banging in the distance.
+~
+|
+#909
+handmaid golden~
+a Golden Maiden~
+A Handmaid of gold is here, assisting the smith.~
+As you gaze upon this creation, you realize that she is made from solid
+gold.  She seems to be very lifelike as she assists the smith in his work.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+15 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d56+172 1d15+9
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+giggle 
+~
+|
+#910
+soldier~
+a Soldier~
+A soldier is here, assisting Ares.~
+This man is waiting on Ares.  Although he does not look very strong, you
+realize that Ares would not have any weaklings working for him.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+20 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d100+301 1d20+9
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+emote jumps up into the air and lands behind you.
+kick 
+~
+|
+#911
+musician apprentice~
+an apprentice musician~
+A musician is here, learning from Apollo.~
+This man has mastered his first profession, and is now studying music from the
+immortal Apollo.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+8 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d16+55 1d8+4
+2500 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+emote plays a mysterious tune.
+~
+|
+#912
+boy serving servant~
+a serving boy~
+A servant is here, feeding Athena her grapes.~
+This boy is truly lucky to be able to serve Athena herself.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+1000 S
+6 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d9+35 1d5+3
+500 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#913
+hound dog war~
+a hound of war~
+A large hound snarls at you.~
+This great beast can barely be called a dog.  It has been bred to cause fear
+on the battle field, and you have no doubt that it does its job well.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+-600 S
+20 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d100+301 1d20+9
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if quest (10,3,$n) == 0
+    if quest (6,4,$n) < 14
+      mpmadd $n quest 6 4 1
+      emote howls to the god of war.
+    endif
+  endif
+endif
+~
+|
+#914
+Odin~
+Odin~
+Odin is resting here.~
+As you gaze at Odin, you realize how insignificant you truly are.  He towers
+over you, and is so intent on his activities that he barely recognizes your
+presence.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+9
+44478 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#915
+grocer greengrocer julius~
+Julius the Green Grocer~
+Julius the Green Grocer stands here.~
+This jovial man has devoted his life to selling fruit and other foods to the
+inhabitants of this city.  Although he may seem like a wimp, it would be wise
+not to underestimate him.  He smiles warmly at you and shows you his selection
+of delicious looking foods.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+30 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d225+680 1d30+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#916
+alchemist~
+the Alchemist~
+The ancient, wizened Alchemist stands here.~
+Skilled in all manner of magic, as well as the ancient art of alchemy, he
+stands ready to supply the citizens here (but not you) with all manner of
+arcane supplies.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+34 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d289+878 1d34+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#917
+clive~
+Clive the Weapons Master~
+Clive the Weapons Master is practicing with his bow and axe.~
+Clive looks VERY big and VERY tough.  All those years in the army must have
+paid off.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+30 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 30d30+300 1d30+9
+24276 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#918
+armourer samuel~
+Samuel the Armourer~
+Samuel the Armourer glares at you.~
+Samuel looks just like Clive the Weapons Master: VERY big and VERY tough.
+He doesn't like what you've been doing in his city.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+20 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d8+400 1d20+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#919
+ra sun god~
+Ra the Sun God~
+Ra the Egyptian Sun God is resting here.~
+Ra is very bright!  It hurts your eyes to look at him, so you can tell little
+about his appearance.  What you can tell, however, suggests that he is no one
+to be trifled with.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+9
+46370 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#920
+chimera~
+a chimera~
+A chimera prowls the cell.~
+This bizarre creature has three heads - one of a goat, one of a lion, and one
+of a dragon.  It growls at you as you enter the cell, then suddenly attacks!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+-1000 S
+20 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 20d20+200 1d20+9
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#921
+hera~
+Hera~
+Hera is here.~
+Hera, the wife of Zeus is here.  She smiles at you as you enter and invites you
+to rest and sit for a while.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+35 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d306+931 1d35+10
+34166 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (2,2,$n) == 1
+  smile $n
+  say What can I do for you, $n ?
+else
+  pat $n
+endif
+~
+>speech_prog p Zeus sent me~
+if quest (2,2,$n) == 1
+  chuckle 
+  say He is always rather busy is he not?
+  mpmset $n quest 2 2 2
+  ponder 
+  say Well I can give you a small QUEST to do....
+else
+  say No he did not!
+  say Begone with thee!
+endif
+~
+>speech_prog reward~
+if quest (4,2,$n) == 1
+  if quest (6,4,$n) > 2
+    say You have served me well $n
+    say Here is your reward, may you live a prosperous life
+    mpoload 928
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give power $n
+    drop power
+    mpjunk all
+    mpmset $n quest 4 2 0
+    mpmset $n quest 6 4 0
+    smile 
+  else
+    if quest (4,2,$n) == 1
+      if quest (6,4,$n) < 3
+        say Don't forget to kill those infernal Hounds of his.
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog quest~
+if quest (2,2,$n) == 2
+  mpmset $n quest 2 2 3
+  say Well there is a scourge running around this lovely city and it goes by the
+  say name of Ares. Kill him and his three warhounds and I shall be endebted
+  say to thee.
+  say When you are finished, come back to me and say: REWARD
+endif
+~
+>death_prog 100~
+if quest (10,3,$n) == 1
+  mpmset $n quest 10 3 2
+endif
+~
+|
+#922
+roc~
+a roc~
+A roc is here.~
+This is a giant bird.  It looks at you quizzically, then makes a noise and
+looks away.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+0 S
+15 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d56+172 1d15+9
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#923
+citizen resident~
+a citizen~
+A citizen of this town is strolling down the street here.~
+He looks happy and carefree.  He smiles and tips his hat to you.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+4 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d4+21 1d4+2
+69 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+emote brushes past you.
+~
+|
+#924
+pegasus horse~
+a pegasus~
+A large horse with wings is here.~
+This horse is snow white with large wings.  Although it doesn't look very
+threatening, it seems as though it would be dangerous if provoked.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+0 S
+8 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d16+55 1d8+3
+800 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#925
+cook~
+a Cook~
+A cook is here, hard at work.~
+This man looks as is he has been spending WAY too much time in the kitchen.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+1000 S
+5 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d6+27 1d5+3
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#926
+jailer~
+the Jailer~
+The jailer is here, watching for intruders.~
+He looks as though he has spent a lot of time underground, guarding the
+prisoners.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_FLYING|AFF_TONGUES
+0 S
+23 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d1+574 1d23+9
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+915 ITEM_TYPE_LIGHT ITEM_TYPE_TREASURE ITEM_TYPE_TRASH ITEM_TYPE_CONTAINER ITEM_TYPE_FOOD  120  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#900
+aegis plate~
+the Aegis~
+A powerful breast plate has been left here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+50 300000 18
+A APPLY_STR 1 0
+#901
+hammer thunder bolt thunderbolt~
+the Thunder Bolt~
+A huge hammer has been carelessly dropped here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 6 5 WEAPON_CRUSH 0 0 0 0
+24 200000 29
+#902
+helmet winged~
+a Winged Helmet~
+A helmet with small wings lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+11 0 0 0 0 0 0 0
+5 150000 25
+A APPLY_DEX 2 0
+#903
+spear ares~
+the Spear of Ares~
+A wicked spear rests on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 5 5 WEAPON_STAB 0 0 0 0
+18 200000 20
+#904
+sandals winged~
+a pair of winged sandals~
+A pair of well made winged sandals float here.~
+Small wings sprout from the sides of the sandals, making them look rather
+peculiar.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+5 100000 10
+A APPLY_DEX 1 524288
+#905
+staff ivory~
+an ivory staff~
+An ivory staff.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 3 3 210 0 0 0 0
+8 70000 12
+S 3 'sanctuary'
+#906
+trident poseidon~
+poseidon's Trident~
+A huge three pronged spear lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 3 8 WEAPON_STAB 0 0 0 0
+16 100000 22
+A APPLY_WIS 2 0
+#907
+bow silver~
+a silver bow~
+A silver bow.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SHORTBOW 6 1 WEAPON_WHIP 0 0 0 0
+15 40000 2
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+#908
+gauntlets flaming~
+flaming gauntlets~
+A pair of metal gauntlets flame here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+6 60000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_DEX 2 0
+#909
+vial potion ambrosia~
+ambrosia~
+A vial of ambrosia lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+20 69 134 54 0 0 0 0
+1 20000 25
+S 1 'dispel evil'
+S 2 'heal'
+S 3 'cure critical'
+#910
+necklace glowing~
+a glowing necklace~
+A necklace with an inner glow lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+7 0 0 0 0 0 0 0
+2 10000 20
+A APPLY_MANA 25 0
+#911
+ring sapphire~
+a sapphire ring~
+A sapphire ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+1 40000 25
+A APPLY_WIS 2 0
+A APPLY_DAMROLL 3 0
+A APPLY_CON 2 0
+#912
+shield glowing~
+a brightly glowing shield~
+A shield lies here, filling the room with its aura.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+9 0 0 0 0 0 0 0
+10 200000 16
+A APPLY_WIS 1 0
+#913
+axe notched~
+a notched axe~
+A notched axe.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 4 4 WEAPON_SLICE 0 0 0 0
+12 10000 11
+#914
+grapes~
+a bunch of grapes~
+A bunch of grapes.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 50 1
+#915
+fan~
+a fan made of peacock feathers~
+A fan made of peacock feathers.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#916
+lute~
+a lute~
+A lute.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#917
+nugget gold~
+a gold nugget~
+A gold nugget lies gleaming here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10000 1
+#918
+apple~
+an apple~
+An apple is here.~
+The apple seems perfect except for a small blemish.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+40 0 0 55 0 0 0 0
+1 63914 44
+E
+blemish~
+The blemish seems to have a grin.
+~
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 'cure light'
+#919
+pear~
+a pear~
+A pear is here.~
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+24 0 0 119 0 0 0 0
+1 1000 29
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 'giant strength'
+#920
+orange~
+a orange~
+A orange is here.~
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+24 0 0 9 0 0 0 0
+1 1000 29
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 'armor'
+#921
+kiwi~
+a kiwi~
+A kiwi is here.~
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+24 0 0 56 0 0 0 0
+1 1000 29
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 'cure poison'
+#922
+amulet~
+the Amulet of Ra~
+A sun shaped medallion is lying here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+9 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_MANA 50 0
+#923
+sun sword~
+the Sword of the Sun~
+A beautiful sword with the rising sun etched on the pommel is lying here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 30 WEAPON_SLASH 0 0 0 0
+20 1000000 22
+#924
+robe blue~
+a blue robe~
+A deep blue robe is on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+10 50000 18
+A APPLY_DEX 1 0
+A APPLY_INT 1 0
+A APPLY_WIS 1 0
+#925
+hat~
+a wide brimmed hat~
+A hat is lying here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+3 0 0 0 0 0 0 0
+5 5000 3
+A APPLY_WIS 1 0
+#926
+nectar~
+nectar~
+A vial of nectar is lying here.~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+16 210 119 9 0 0 0 0
+1 80000 15
+S 1 'sanctuary'
+S 2 'giant strength'
+S 3 'armor'
+#927
+key cell~
+a Cell key~
+A key has been left here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#928
+scroll power~
+a scroll of power~
+A scroll lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10000 31
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+A APPLY_INT 3 0
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#929
+shimmering gateway~
+a shimmering gateway~
+A shimmering gateway stands here.~
+~
+ITEM_TYPE_PORTAL
+0
+0
+-1 0 GATE_STEP_THROUGH 28915 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#900
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#901
+Mountain~
+You are climbing a large mountain which towers over Ofcol.  The path
+continues up the mountain, but part of it is gone.  There is no way to
+continue by land.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 17493
+DDIR_UP
+~
+~
+0 -1 902
+#902
+Mountain~
+You are making your way up the mountain.  The rigorous climb has left you
+tired, and you are ready to take a break.
+~
+0 0 SECT_AIR
+DDIR_UP
+~
+~
+0 -1 903
+DDIR_DOWN
+~
+~
+0 -1 901
+#903
+Mountain~
+You have finally reached the top of the mountain.  The air here is so thin
+that you must gasp for breath.  To the north, you see what seems to be the
+entrance to a city.
+~
+0 0 SECT_AIR
+DDIR_NORTH
+~
+~
+0 -1 904
+DDIR_DOWN
+~
+~
+0 -1 902
+#904
+Entrance~
+You are at the entrance to a huge city.  As you look around, you realize
+that the inhabitants of this city must be very wealthy indeed - you have never
+seen a city with such beautiful buildings.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 905
+DDIR_SOUTH
+~
+~
+0 -1 903
+#905
+Zeus Street~
+You are walking down a huge street.  You notice that there are not many
+people in this town.  On a corner, you see a sign marked 'Zeus Street'.
+To the west, you see a small store.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The street continues.~
+~
+0 -1 906
+DDIR_SOUTH
+~
+~
+0 -1 904
+DDIR_WEST
+~
+~
+0 -1 924
+#906
+Zeus Street~
+You are walking down what appears to be the main street of this city.
+You see large residences to the east and west, while the street continues
+to the north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 907
+DDIR_EAST
+~
+~
+0 -1 925
+DDIR_SOUTH
+The street continues.~
+~
+0 -1 905
+DDIR_WEST
+~
+~
+0 -1 926
+#907
+Zeus Street~
+You are on the main street of this town, called Zeus street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 908
+DDIR_SOUTH
+~
+~
+0 -1 906
+DDIR_WEST
+~
+~
+0 -1 927
+#908
+Zeus Street~
+You are still on the main thoroughfare of this town.  To the north, you see
+a large castle.  To the east there is a smaller road, while there is some sort
+of store to the west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 909
+DDIR_EAST
+~
+~
+0 -1 928
+DDIR_SOUTH
+~
+~
+0 -1 907
+#909
+Castle Entryway~
+You are in the entryway of a large castle.  It is very beautiful, with
+large paintings and a lovely carpet.  You hear jovial laughter to the north,
+while smaller corridors branch off to the east and west.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 910
+DDIR_EAST
+~
+~
+0 -1 915
+DDIR_SOUTH
+~
+~
+0 -1 908
+DDIR_WEST
+~
+~
+0 -1 911
+#910
+Throne Room~
+You stop dead in your tracks as you enter this room.  Before you is Zeus,
+in all his glory, sitting on a huge golden throne.  You had thought him to be
+just a myth, but here he is ... you wonder who else lives in this castle.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 923
+DDIR_SOUTH
+~
+~
+0 -1 909
+DDIR_DOWN
+~
+throne trapdoor~
+EX_ISDOOR|EX_CLOSED -1 918
+E
+throne~
+This huge golden throne looks as if it has been here for ages.  As you study it
+carefully, you notice that it is not firmly attached to the floor ... perhaps
+you could slide it?
+~
+#911
+Western Wing~
+You are in the western wing of the castle.  You see the entrance to the
+east, while this hallway continues to the west.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 909
+DDIR_WEST
+~
+~
+0 -1 912
+#912
+Western Wing~
+You are in the western wing of the castle.  The hallway continues to the
+north, while there are private rooms to the west and south.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 913
+DDIR_EAST
+~
+~
+0 -1 911
+DDIR_SOUTH
+~
+~
+0 -1 930
+DDIR_WEST
+~
+~
+0 -1 929
+#913
+Western Wing~
+You are in the western wing of the castle.  This hallway continues to the
+south, and you hear pots and pans rattling to the north.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 914
+DDIR_SOUTH
+~
+~
+0 -1 912
+#914
+Kitchen~
+You have entered the kitchen of this castle, and it is a hotbed of
+activity.  Servants are bustling about, preparing food for the Gods themselves.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 913
+#915
+Eastern Wing~
+You are in the eastern wing of the castle.  The hall continues to the
+east, while the entrance is back to the west.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 916
+DDIR_WEST
+~
+~
+0 -1 909
+#916
+Eastern Wing~
+You are in the eastern wing of the castle.  The hall turns to the north
+here, while there are private rooms to the east and the south.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 917
+DDIR_EAST
+~
+~
+0 -1 931
+DDIR_SOUTH
+~
+~
+0 -1 932
+DDIR_WEST
+~
+~
+0 -1 915
+#917
+Eastern Wing~
+You are in the eastern wing of the castle.  You hear animals to the north,
+while the hallway continues to the south.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 933
+DDIR_SOUTH
+~
+~
+0 -1 916
+#918
+Dungeon~
+You are in Zeus's Dungeon.  You wonder what creatures are so terrible that
+even mighty Zeus fears them enough to imprison them.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 919
+DDIR_UP
+~
+trapdoor throne~
+EX_ISDOOR -1 910
+#919
+Dungeon~
+You are in Zeus's Dungeon.  There are cells to the north, west, and east.
+From the east and west, you hear guttural noises.  From the north, nothing ...
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 920
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 922
+DDIR_SOUTH
+~
+~
+0 -1 918
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 921
+#920
+Cell~
+You are in a small, cramped, dirty cell.  It is a horrid place.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 919
+#921
+Cell~
+You are in a small, cramped, dirty cell.  It is a horrid place.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 919
+#922
+Cell~
+You are in a small, cramped, dirty cell.  It is a horrid place.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 927 919
+#923
+Stairway~
+You have come to a large stairway leading up.  To the south, you see the
+throne room of Zeus.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 910
+DDIR_UP
+~
+~
+0 -1 939
+#924
+Bakery~
+You are in the small store which supplies the residents of this town with
+their food.  It smells wonderful in here!
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 905
+#925
+Residence~
+You are in the residence of one of the inhabitants of this town.  She
+looks vaguely familiar, but you can't place her name ...
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 906
+#926
+Residence~
+You are in the residence of one of the inhabitants of this town.  He looks
+vaguely familiar, but you can't place his name ...
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 906
+#927
+Mystic Shop~
+You are in the store which provides the citizens here with whichever
+arcane objects they may need.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 907
+#928
+Ares Street~
+You are on a smaller road which branches off from the main street.  On a
+sign, you notice that the name of this road is Ares Street.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 934
+DDIR_WEST
+~
+~
+0 -1 908
+#929
+Guest Quarters~
+You have entered private quarters which are reserved for visitors to the
+castle.  You nearly faint as you recognize the occupant of this chamber as Odin
+himself, patron God of Midgaard.  He must be visiting Zeus.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 912
+#930
+Storage Room~
+You are in a storage room of the castle.  There isn't much here, just a
+few boxes filled with old junk.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 912
+#931
+Guest Quarters~
+You have entered a room reserved for visitors to this castle.  You are
+amazed as you recognize the occupant - Ra, the Egyptian Sun God.  He must be
+visiting Zeus.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 916
+#932
+Storage Room~
+You are in a storage room of the castle.  There isn't much here, just a lot
+of dust.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 916
+#933
+Stable~
+You are in the stable of the castle.  Rather than the horses which you
+expected to find, it is filled with a wide variety of creatures which you
+thought were mythical.  Obviously, you were wrong.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 917
+#934
+Ares Street~
+You have reached the end of Ares Street.  To the south you see an armoury,
+while there is a weapons shop to the east.  To the north, you hear the sounds
+of a blacksmith.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 937
+DDIR_EAST
+~
+~
+0 -1 936
+DDIR_SOUTH
+~
+~
+0 -1 935
+DDIR_WEST
+~
+~
+0 -1 928
+#935
+Armoury~
+This small store is almost empty.  It seems as if there is not much here,
+but the shopkeeper doesn't want to do business with you anyways.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 934
+#936
+Weapon Shop~
+You have entered a small store with a modest selection of weapons.  You
+get the feeling that there is not a very wide selection here, but the
+shopkeeper doesn't want to do business with you anyways.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 934
+#937
+Smithy~
+This large room is so noisy, you can barely hear yourself think.  All the
+occupants are hard at work, crafting high quality weapons and armor.  Something
+is strange about the west wall, although you can't quite tell what it is.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 934
+DDIR_WEST
+You see a concealed door!~
+door concealed~
+EX_ISDOOR|EX_CLOSED -1 938
+#938
+The Planning Room~
+You have entered a large room dominated by a huge table with a large map
+on it.  Several men are gathered around the table, studying the map carefully.
+You hear the barking of dogs to the north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 954
+DDIR_EAST
+~
+~
+0 -1 937
+#939
+Second Floor~
+You are on the second floor of this castle.  You are numb from your
+discoveries on the first floor, and wonder what secrets the upper floor of this
+castle holds.  Hallways extend in all directions, and you see a small, closed
+hatch above you.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 940
+DDIR_EAST
+~
+~
+0 -1 943
+DDIR_SOUTH
+~
+~
+0 -1 941
+DDIR_WEST
+~
+~
+0 -1 942
+DDIR_UP
+You see a sign on the hatch.  It reads 'Private Property. No trespassing!'~
+hatch~
+EX_ISDOOR|EX_CLOSED -1 948
+DDIR_DOWN
+~
+~
+0 -1 923
+#940
+Northern Hall~
+You are in the northern hallway.  There is a private room to the north,
+and the stairs leading down are to the south.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 947
+DDIR_SOUTH
+~
+~
+0 -1 939
+#941
+Southern Hall~
+You are in the southern hallway.  There is a private room to the south,
+and the stairs leading down are to the north.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 939
+DDIR_SOUTH
+~
+~
+0 -1 944
+#942
+Western Hall~
+You are in the western hallway.  There is a private room to the west, and
+the stairs leading down are to the east.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 939
+DDIR_WEST
+~
+~
+0 -1 945
+#943
+Eastern Hall~
+You are in the eastern hallway.  There is a private room to the east, and
+the stairs leading down are to the west.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 946
+DDIR_WEST
+~
+~
+0 -1 939
+#944
+Bed Room~
+You are in the bed room of a God!  This one seems to be empty.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 941
+#945
+Bed Room~
+You are in the bed room of a God!
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 942
+#946
+Bed Room~
+You are in the bed room of a God!
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 943
+#947
+Bed Room~
+You are in the bed room of a God!
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 940
+#948
+Hall of Gods~
+You have entered the most sacred of places, the hall of true Gods.  If you
+are a mortal, it would probably be a good idea to leave NOW!  Exits leave in
+all directions.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_DOWN
+~
+~
+0 -1 939
+#954
+The Believer~
+A voice whispers, 'before the time has passed, enjoy your life.'
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 938
+#0
+
+
+#RESETS
+M 915 100 924
+G 914  10 0
+G 918  10 0
+G 919  10 0
+G 920  10 0
+G 921  10 0
+M 916 100 927
+G 905   1 0
+G 909   1 0
+G 910   1 0
+G 926   1 0
+M 917 100 936
+G 907   1 0
+G 913   1 0
+M 918 100 935
+M 914 100 929
+E 925 100 WEAR_HEAD
+M 901 100 910
+E 900 100 WEAR_BODY
+E 901 100 WEAR_WIELD
+G 926 100 0
+G 909  10 0
+M 902 100 920
+M 920 100 921
+M 920 100 922
+M 907 100 925
+E 910 100 WEAR_NECK_A
+E 905 100 WEAR_DUAL_WIELD
+G 926 100 0
+G 909  10 0
+M 905 100 926
+E 907 100 WEAR_WIELD
+G 926 100 0
+G 909  10 0
+M 923 100 904
+M 923 100 905
+M 923 100 906
+M 923 100 907
+M 923 100 908
+M 923 100 928
+M 923 100 934
+M 925 100 914
+M 925 100 914
+M 926 100 918
+G 927  10 0
+M 912 100 925
+E 915 100 WEAR_DUAL_WIELD
+G 914 100 0
+M 912 100 925
+E 915 100 WEAR_DUAL_WIELD
+G 914 100 0
+M 911 100 926
+E 916 100 WEAR_DUAL_WIELD
+G 921 100 0
+M 911 100 926
+E 916 100 WEAR_DUAL_WIELD
+G 921 100 0
+M 919 100 931
+E 922 100 WEAR_NECK_A
+E 923 100 WEAR_WIELD
+M 922 100 933
+M 922 100 933
+M 924 100 933
+M 924 100 933
+M 908 100 937
+E 912 100 WEAR_SHIELD
+G 926 100 0
+G 909  10 0
+M 909 100 937
+G 917 100 0
+M 909 100 937
+G 917 100 0
+M 906 100 938
+E 903 100 WEAR_WIELD
+G 926 100 0
+G 909  10 0
+M 910 100 938
+E 913 100 WEAR_WIELD
+G 919 100 0
+M 910 100 938
+E 913 100 WEAR_WIELD
+G 919 100 0
+M 921 100 945
+E 911 100 WEAR_FINGER_L
+G 926 100 0
+G 909  10 0
+M 904 100 946
+E 906 100 WEAR_WIELD
+G 926 100 0
+G 909  10 0
+M 903 100 947
+E 904 100 WEAR_FEET
+E 902 100 WEAR_HEAD
+G 926 100 0
+G 909  10 0
+M 913 100 954
+M 913 100 954
+M 913 100 954
+D 910 DIR_DOWN  DOOR_CLOSED
+D 937 DIR_WEST  DOOR_CLOSED
+D 939 DIR_UP    DOOR_CLOSED
+D 919 DIR_NORTH DOOR_CLOSED_LOCKED
+D 919 DIR_EAST  DOOR_CLOSED_LOCKED
+D 919 DIR_WEST  DOOR_CLOSED_LOCKED
+D 920 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 922 DIR_WEST  DOOR_CLOSED_LOCKED
+D 921 DIR_EAST  DOOR_CLOSED_LOCKED
+O 929 100 948
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

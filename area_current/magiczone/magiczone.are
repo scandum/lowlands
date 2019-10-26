@@ -1,0 +1,6069 @@
+#AREA Magic Zone~
+#AUTHORS Mazrim~
+#VERSION 4
+#RANGES 1 95 1 95
+
+
+#HELPS
+-1 MAGICZONE~
+{138}                               The Magic Zone
+{308}
+The Magic Zone was created from a meld of the works of Robert Jordan
+(the Wheel of Time series), David Eddings (the Belgariad, the Mallorean,
+the Elenium, and the Tamuli), L.E. Modesitt, Jr (the books of Recluce), and
+some of my own twisted adventures in three years of playing Rifts(tm) the
+role-playing game.
+
+  {128}(A) {058}People I'd like to thank.
+  {128}(B) {058}Related Areas
+  {128}(C) {058}Equipment
+{a}MAGICZONE1
+{b}MAGICZONE2
+{c}MAGICZONE3
+~
+
+-1 MAGICZONE1~
+{308}
+I would like to take this opportunity to thank all the people who made the
+creation of this area possible, twisted as some of the ideas may be...
+
+  Robert Jordan, for writing the totally awesome Wheel of Time series
+
+  David Eddings, for writing the excellent books informally known as
+  'the Sparhawk books', and 'the Belgarion books' :)
+
+  L.E. Modesitt, Jr., for writing the books of Recluce...which gave me
+  new and valuble insights into the realms of order and chaos.
+
+  Nuts, Belgarath, Polgara, for his real-life fetishes which inspired
+  me to create certain mobs and objects.
+
+  Tamara, Bolts, Indiglo, for even more real-life fetishes which
+  inspired me to create more of the aforementioned mobs and objects.
+
+  Kenaras (not giving his RL name to protect him *grin*), for all his
+  valuable assistance with various fixes to try to get the area past
+  the area checker without having it bitch at me.
+
+  John, for his fascination with weaponry...and his reminder that
+  Glocks rule.
+
+  Chaste and Presto, for being patient with my questions about area
+  coding.
+
+  and me, of course, for having the sheer genius to combine all the many
+  ideas contained into the area you are reading this file for.
+  (hey, I'm usually not arrogant, so I feel I'm entitled to this
+  little bit of arrogance) :) Besides...I've spent enough time
+  writing this area.
+
+  Revised by Scandum  May 2001
+
+  {128}(-) {058}Return
+{-}MAGICZONE
+~
+
+-1 MAGICZONE2~
+{138}                                Related Areas
+{308}
+  The City of Eternity
+  The Tower of Time (still under development)
+  The Aiel Wastes (still in its conceptual stages)
+
+  {128}(-) {058}Return
+{-}MAGICZONE
+~
+
+-1 MAGICZONE3~
+{138}                                  Equipment
+{308}
+I tried to make most of the eq in the Zone both fair, and decent. Due to the
+fact that I think object programs are _*really* f***ing cool_, I made some of
+the items do some cool things. I'm particularly pleased with the Helm of the
+Wolf. Do check it out.
+
+  {128}(-) {058}Return
+{-}MAGICZONE
+~
+
+0 $~
+
+
+#MOBILES
+#27200
+ghwerig troll-dwarf~
+Ghwerig, the Troll-Dwarf~
+The infamous Troll-Dwarf Ghwerig stands here, glaring at you in rage for
+having intruded in his domain...~
+This is the *UGLIEST* Troll you have ever seen...or smelled, for that matter,
+and that is saying a *LOT*.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+50 BODY_HEAD|BODY_TORSO|BODY_ARM BODY_HEAD|BODY_TORSO|BODY_ARM 1d625+1197 1d1+45
+0 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+say Talk to Ghwerig, blue-rose! Ghwerig lonely!
+~
+>rand_prog 30~
+mpecho $I snarls viciously at you.
+~
+>fight_prog 20~
+mpecho $I swings his club, narrowly missing you.
+growl 
+~
+>fight_prog 35~
+mpecho $I smashes his club into a nearby pile of gems.
+mpecho Dozens of gemstones pelt you like tiny missiles!
+cast 'earthquake'
+mpecho $I chuckles cruelly.
+~
+>death_prog 100~
+mpquiet on
+remove bhelliom
+remove club
+mpquiet off
+drop bhelliom
+drop club
+mpecho $I howls in despair as he falls into the chasm.
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#27201
+green aes sedai~
+the Aes Sedai~
+An Aes Sedai of the Green Ajah looks at you curiously here.~
+The woman you see before you is wearing a green dress, has a gold ring on
+her finger, and looks at you with interest.  She is rather attractive, and
+has an ageless look to her.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+55 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 2d50+2800 2d4+50
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpechoat $n An Aes Sedai looks at you curiously.
+mpechoat $n {168}An Aes Sedai smiles at you enigmatically.
+mpechoat $n An Aes Sedai says 'Hello there, $n.'
+~
+>speech_prog hello~
+say If you are in need of healing, I would recommend
+say that you try to find one of the Yellow Sisters.
+say Would you like to know about this realm?
+~
+>speech_prog yes~
+say Well, I am afraid that I don't know much in terms
+say of history, but I do know that the crown city is
+say protected by a powerful mage-lord, and that there
+say are mercenaries who will weave spells of defense
+say upon you. If it's history you are interested in,
+say you may want to speak with a Sister of the Brown Ajah.
+~
+>speech_prog ajah~
+say Well, we Aes Sedai are divided into seven Ajahs,
+say each of which has a different purpose and philosophy.
+say The Blues are concerned with justice, the Whites are
+say philosophers, the Browns are seekers of knowledge,
+say while the Yellows are healers. Reds look for men who
+say can channel, Grays are mediators, and we Greens are warriors.
+~
+>hitprcnt_prog 25~
+mpecho $I concentrates for a moment.
+cast 'heal'
+~
+>fight_prog 100~
+if position ($r) == POS_FIGHTING
+  if rand (25)
+    mpecho $I concentrates for a moment.
+    cast 'harm' $r
+  else
+    if rand (33)
+      mpecho Fire gathers around $I's hand.
+      cast 'fireball' $r
+    else
+      if rand (50)
+        mpecho $I raises an arm to the sky.
+        say I summon the forces of nature!
+        cast 'acid blast' $r
+      else
+        kick 
+      endif
+    endif
+  endif
+endif
+~
+|
+#27202
+brown aes sedai~
+the Aes Sedai~
+An Aes Sedai of the Brown Ajah looks at you curiously here.~
+The woman you see before you is wearing a brown dress, has a gold ring on
+her finger, and looks at you thoughtfully.  She has a distant look on her
+seemingly ageless face.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+55 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 2d50+2800 2d4+50
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+mpechoat $n An Aes Sedai looks at you curiously.
+mpechoat $n {168}An Aes Sedai smiles at you enigmatically.
+mpechoat $n An Aes Sedai says 'Hello there, $n.'
+tell $n Do you seek knowledge, $n?
+~
+>speech_prog yes seek knowledge~
+mpecho $I looks pleased.
+say Well, what would you like to know about?
+say History, perhaps? Or maybe about Lord Hunter?
+~
+>speech_prog history lord hunter~
+say Well, the Lord Hunter has a great deal to do
+say with many things. It was he who created the Zone
+say and taught many of magics prevalent in the Zone.
+say Some say he is immortal, and knows all.
+say While he never confirms his exact age, it is known
+say that he is at least 2000 years old, as he is in many
+say works of art and many books, some of which date back that far.
+say It is rumored that he is the master of magics beyond
+say anything the world knows, and that he can even master
+say time itself, as he never seems to age.
+say He built the defenses of the Zone, as well as the Tower of Time.
+say I suspect that he may have even helped create some of the
+say creatures of this realm, although no one knows how.
+~
+>speech_prog tower time~
+say The Tower of Time is truly a strange place. No one knows
+say truly knows everything about it, as some floors and rooms
+say deny access to all except for the Lord Hunter and the Traveller.
+say What is known, however, is that many of the Zone's defenses
+say arise from that place, that the Traveller first came from
+say the Tower during the Invasion, and that there are supposed
+say to be rooms which have Portals to other worlds...
+say other dimensions, although none but the Lords have ever
+say entered those rooms. There are rooms which lead to various
+say points in the Zone, however, and there may even be
+say connections to other points in this world.
+~
+>speech_prog dimensions~
+say Well, in a sense, this is not the same dimension as
+say the rest of the world... the entrance to the Zone is
+say a dimensional rip: A tear in the fabric of space, which
+say helps prevent certain evils from infesting this realm.
+say It is said that some worlds host great evils, which would
+say prey upon us, enslave us, but for this 'shift'.
+say Unfortunately, more mundane evils may enter.
+~
+>speech_prog traveller~
+say The Traveller is said to be at least as powerful as
+say the Lord Hunter, and that he is even more dangerous
+say than Lord Hunter, as well as being even more knowledgeable
+say in magic, although he is not here as often.
+mpecho $I looks around nervously.
+say It is fortunate that the Traveller is benevolent to us...
+say Lord Hunter is said to have once said that the two of
+say them have literally destroyed worlds... although this
+say has never been confirmed.  What is known is that
+say the Traveller helped develop the weapons and armor
+say made here, especially cuendillar...
+~
+>speech_prog invasion~
+say About 1500 years ago, mages from another world attempted
+say to overthrow the Lord Hunter and enslave us all...
+say and the mages nearly won, except that Lord Hunter called
+say upon the Traveller, who helped save our home.
+say In return, we aid the Lords in their pursuit of knowledge.
+~
+>speech_prog defenses~
+say Well, the defenses are mainly mundane in nature,
+say such as the mage-warriors who patrol the city, and
+say the Guardians who defend the realm.
+~
+>speech_prog knowledge~
+say The Lord Hunter is always searching for new knowledge,
+say and is said to reward those who help him.
+~
+>speech_prog cuendillar~
+say Cuendillar, also known as heart stone, is made with
+say the One Power, and once forged, is indestructable.
+say Neither magic nor brute force can damage it...unfortunately,
+say it also tends to be somewhat heavy. It is said that
+say some cuendillar may have been made into armor...Lord
+say Hunter would probably know more than I, although the
+say Traveller would certainly know,  as he is the one who
+say helped create the stuff...as well as the heron-mark
+say blades.
+~
+>speech_prog heron-mark blades~
+say Well, to put it simply, the heron-mark blade is the
+say weapon of a blademaster. They are made of the highest
+say quality metals. Some were even forged with the One Power,
+say and those blades are indestructible. The edge
+say never dulls, and the blade will never corrode or break.
+~
+>rand_prog 25~
+mpecho $I looks thoughtful.
+mpecho $I writes in a book.
+~
+>rand_prog 40~
+mpecho $I smiles enigmatically.
+~
+>fight_prog 50~
+if position ($r) == POS_FIGHTING
+  if rand (25)
+    cast 'colour spray' $r
+  else
+    if rand (33)
+      cast 'earthquake'
+    else
+      if rand (50)
+        cast 'acid blast' $r
+      else
+        kick 
+      endif
+    endif
+  endif
+endif
+~
+|
+#27203
+yellow aes sedai~
+the Aes Sedai~
+An Aes Sedai of the Yellow Ajah looks at you curiously here.~
+The woman you see before you is wearing a yellow dress, has a gold ring on
+her finger, and looks at you with interest.  She is rather attractive, and
+has a strangely ageless look to her face.
+~
+ACT_WIMPY|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+500 S
+65 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 2d50+2800 2d4+50
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+mpechoat $n An Aes Sedai looks at you curiously.
+mpechoat $n {168}An Aes Sedai smiles enigmatically at you.
+mpechoat $n An Aes Sedai says 'Hello there, $n.'
+~
+>rand_prog 30~
+cast heal $r
+~
+|
+#27204
+ethereal VoidGuy1~
+the Ethereal VoidGuy~
+The Ethereal VoidGuy floats here.~
+He is here to complete the 'nexus teleport' program that the leyline nexus
+has begun.
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+120 0 0 1d3600+12681 1d1+199
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 100~
+if quest (0,1,$i) == 0
+  mpecho {168}There is a sudden brilliant flash of light below you!
+else
+  if rand (33)
+    mpechoat $r {168}Through the rift that has opened below you, you see a strange Void.
+    mpechoat $r {168}As you fall through the rift, everything goes dark. . .
+    mptransfer $r 1
+    mpat 1 mpforce $r sleep
+    mpechoat 1 A rift opens in the middle of the Void.
+    mpechoat 1 In a brilliant flash of light a body falls to the ground.
+  else
+    if rand (50)
+      mpechoat $r {168}Through the rift that has opened below you, you can see...
+      mpechoat $r {168}the familiar sight of the fountain in the City of Eternity!
+      mpechoat 27372 A rift opens in mid-air.
+      mpechoat 27372 In a brilliant flash of light a body falls to the ground.
+      mptransfer $r 27372
+    else
+      mpechoat $r {168}Through the rift that has opened below you, you can see...
+      mpechoat $r {168}the familiar sight of the fountain in Roterodamum!
+      mpechoat $r {168} As you fall through the rift, everything goes dark. . .
+      mpechoat 9755 A rift opens in mid-air.
+      mpechoat 9755 Amidst a brilliant light, a body falls to the ground.
+      mptransfer $r 9755
+    endif
+  endif
+endif
+mpmadd $i quest 0 1 1
+~
+|
+#27205
+warder~
+the Warder~
+A Warder stands here, protecting his Aes Sedai.~
+The Warder blends into the background...you can hardly see him...and when
+you can, you are intimidated...
+~
+ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_FLYING|AFF_STEALTH|AFF_HUNT
+500 S
+75 BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 3d100+4200 2d6+60
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27206
+priest Order~
+the Order Priest~
+A Priest of Order kneels here, worshipping Order.~
+The Priest of Order is dressed in pure black. He also appears to be somewhat
+of a mage...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d100+4200 1d10+66
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if level ($n) > 96
+  bow $n
+  say Welcome, $n.
+  say The enforcers of the Realms are always welcome here.
+  say If you would like to proceed on, merely say "Hail Order"
+  break
+endif
+if whichgod ($n) == god_neutral
+  pat $n
+  say Isn't this place beautiful?  So simple yet elegant...
+  say You should join Order's ranks and learn the power of the Skies...
+  cheer 
+  break
+endif
+if whichgod ($n) == god_order
+  bow $n
+  say Always good to see a fellow follower of Lord Order.
+  tell $n If you would like to proceed on, merely say "Hail Order"
+endif
+~
+>speech_prog p Hail Order~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  tell $n As you say, $n, so it shall be...
+  tell $n Enter the Temple's Inner Sanctum!
+  mpechoat $n {168}You disappear suddenly!
+  mpechoaround $n $n disappears suddenly!
+  mptransfer $n 27323
+  break
+else
+  laugh $n
+  say Surely you don't expect me to let you proceed any further...
+  break
+endif
+~
+>speech_prog equipment~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  tell $n I see that you've been talking with the armorer.
+  tell $n Yes, I can enhance floating equipment.
+  tell $n All you have to do is EXPOSE the gear to the essence of Order,
+  tell $n then bring it to me for blessing...
+endif
+~
+>speech_prog blessing bless~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  tell $n If you have exposed the equipment
+  tell $n give it to me for further blessing
+endif
+~
+>rand_prog 10~
+mpecho $I prays to Order.
+~
+>give_prog I27261~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  mpecho $I places the gauntlets of Order on the altar.
+  mpecho $I raises his hands in the air, and an aura surrounds them.
+  shout I summon the forces of Order to empower these gauntlets!
+  mpecho $I mutters the words of a spell.
+  mpecho {178}Bolts of pure lightning leap from $I's hands to the gauntlets.
+  mpecho The gauntlets of Order are enveloped by energy.
+  mpecho The emblem of air appears on each of the gauntlets.
+  mpecho $I lowers his arms as the energy dissipates.
+  say Order's Will has been done.
+  mpjunk I27261
+  mpoload 27251
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27251 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it!
+  mpjunk I27261
+  mpecho $I places the gauntlets on the altar and mutters a brief spell.
+  mpecho The gauntlets disintegrate.
+endif
+~
+>give_prog I27262~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  mpecho $I places the helm of Order on the altar.
+  mpecho $I raises his hands in the air, and an aura surrounds them.
+  shout I summon the forces of Order to empower this helm!
+  mpecho $I mutters the words of a spell.
+  mpecho Bolts of pure lightning leap from $I's hands to the helm.
+  mpecho The helm of Order is enveloped by energy.
+  mpecho The emblem of air appears on the helm.
+  mpecho $I lowers his arms as the energy dissipates.
+  say Order's Will has been done.
+  mpjunk I27262
+  mpoload 27252
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27252 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it!
+  mpjunk I27262
+  mpecho $I places the helm on the altar and mutters a brief spell.
+  mpecho The helm disintegrates.
+endif
+endif
+~
+>give_prog I27263~
+if level ($n) > 96
+or whichgod ($n) == god_order
+  mpecho $I places the amulet of Order on the altar.
+  mpecho $I raises his hands in the air, and an aura surrounds them.
+  shout I summon the forces of Order to empower this amulet!
+  mpecho $I mutters the words of a spell.
+  mpecho Bolts of pure lightning leap from $I's hands to the amulet.
+  mpecho The amulet of Order is enveloped by energy.
+  mpecho The emblem of air appears on the amulet.
+  mpecho $I lowers his arms as the darkness dissipates.
+  say Order's Will has been done.
+  mpjunk I27263
+  mpoload 27253
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27253 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it!
+  mpjunk I27263
+  mpecho $I places the amulet on the altar and mutters a brief spell.
+  mpecho The amulet disintegrates.
+endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+|
+#27207
+priest Chaos~
+the Chaos Priest~
+A Priest of Chaos kneels here, worshipping Chaos.~
+The Priest of Chaos is dressed in pure white. He also appears to be somewhat
+of a mage...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d100+4200 1d10+66
+60233 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if level ($n) > 96
+  bow $n
+  say Welcome, $n.
+  say The enforcers of the Realms are always welcome here.
+  tell $n If you would like to proceed on, merely say "Hail Chaos"
+endif
+if whichgod ($n) == god_chaos
+  bow $n
+  say Always good to see a fellow follower of Lord Chaos.
+  tell $n If you would like to proceed on, merely say "Hail Chaos"
+endif
+if whichgod ($n) == god_neutral
+  pat $n
+  say Isn't this place beautiful?  So intricate and elegant...
+  say You should join the ranks of Chaos, and learn of the power of fire..
+  cackle 
+endif
+~
+>speech_prog p Hail Chaos~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  tell $n As you say, $n, so it shall be...
+  tell $n Enter the Temple's Inner Sanctum!
+  mpechoat $n {168}You disappear suddenly!
+  mpechoaround $n $n disappears suddenly!
+  mptransfer $n 27331
+else
+  laugh $n
+  say Surely you don't expect me to let you proceed any further...
+endif
+~
+>speech_prog equipment~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  tell $n I see that you've been talking with the armorer.
+  tell $n Yes, I can enhance flaming equipment.
+  tell $n All you have to do is EXPOSE the gear to the essence of Chaos,
+  tell $n then bring it to me for blessing...
+endif
+~
+>speech_prog blessing bless~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  tell $n If you have exposed the equipment
+  tell $n give it to me for further blessing
+endif
+~
+>rand_prog 20~
+mpecho $I prays to Chaos.
+~
+>give_prog I27258~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  mpecho $I places the gauntlets of Chaos on the altar.
+  mpecho $I raises his hands in the air, and white fire surrounds them.
+  shout I summon the forces of Chaos to empower these gauntlets!
+  mpecho $I mutters the words of a spell.
+  mpecho Bolts of white fire leap from $I's hands to the gauntlets.
+  mpecho The gauntlets of Chaos are enveloped by white fire.
+  mpecho The emblem of fire appears on each of the gauntlets.
+  mpecho $I lowers his arms as the fire dissipates.
+  say Chaos's Will has been done.
+  mpjunk I27258
+  mpoload 27248
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27248 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it!
+  mpjunk I27258
+  mpecho $I places the gauntlets on the altar and mutters a brief spell.
+  mpecho The gauntlets disintegrate.
+endif
+endif
+~
+>give_prog I27259~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  mpecho $I places the helm of Chaos on the altar.
+  mpecho $I raises his hands in the air, and white fire surrounds them.
+  shout I summon the forces of Chaos to empower this helm!
+  mpecho $I mutters the words of a spell.
+  mpecho Bolts of white fire leap from $I's hands to the helm.
+  mpecho The helm of Chaos is enveloped by white fire.
+  mpecho The emblem of Chaos appears on the helm.
+  mpecho $I lowers his arms as the fire dissipates.
+  say Chaos's Will has been done.
+  mpjunk I27259
+  mpoload 27249
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27249 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it.
+  mpjunk I27259
+  mpecho $I places the helm on the altar and mutters a brief spell.
+  mpecho The helm disintegrates.
+endif
+~
+>give_prog I27260~
+if level ($n) > 96
+or whichgod ($n) == god_chaos
+  mpecho $I places the amulet of Chaos on the altar.
+  mpecho $I raises his hands in the air, and white fire surrounds them.
+  shout I summon the forces of Chaos to empower this amulet!
+  mpecho $I mutters the words of a spell.
+  mpecho Bolts of white fire leap from $I's hands to the amulet.
+  mpecho The amulet of Chaos is enveloped by white fire.
+  mpecho The emblem of Chaos appears on the amulet.
+  mpecho $I lowers his arms as the fire dissipates.
+  say Chaos's Will has been done.
+  mpjunk I27260
+  mpoload 27250
+  say Here you go.
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give I27250 $n
+else
+  say HEY! How the hell did you GET THIS?!
+  say You have absolutely NO business having this.
+  say I'm confiscating it!
+  mpjunk I27260
+  mpecho $I places the amulet on the altar and mutters a brief spell.
+  mpecho The amulet disintegrates.
+endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+|
+#27208
+mage warrior~
+the Mage-Warrior~
+A Mage-Warrior stands here vigilantly, maintaining the peace.~
+A Mage-Warrior has a faint glow of power about him, and a peaceful, yet
+alert expression on his face.  His weapons are liberally covered with
+runes, as his armor.  His weapons have a bright blue flame enveloping them.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+350 S
+50 BODY_HEAD|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_HAND 1d625+1197 1d1+39
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpecho $I looks around calmly.
+~
+>greet_prog 30~
+tell $n Greetings. I hope that you obey the law.
+tell $n If not, I will have to take you in.
+mpechoat $n {168}$I fixes you with a cool, steady look.
+~
+>fight_prog 10~
+if position ($r) == POS_FIGHTING
+  cast 'colour spray' $r
+endif
+~
+>fight_prog 30~
+if position ($r) == POS_FIGHTING
+  if hasobjnum ($i) == 27204
+    mpecho $I levels his sword at $r.
+    mpecho $I utters the words 'iqusa lemplaazdo'.
+    mpecho A firebolt surges off the blade!
+    mpquiet on
+    cast 'fireball' $r
+    mpquiet off
+  endif
+endif
+~
+>speech_prog p I have a license to kill~
+if hasobjnum ($n) == 27225
+  nod $n
+  peace 
+else
+  mpecho $I laughs scornfully.
+  say I think not.
+endif
+~
+>death_prog 20~
+scream 
+mpecho $I raises his arms skyward.
+shout I shall RETURN from the next life!
+mpecho The Mage-Warrior's eyes flare an incandescent white!
+mpmload 27201
+mpquiet on
+remove all
+drop all
+mpforce spirit get all
+mpforce spirit wear all
+mpquiet off
+~
+|
+#27209
+spirit warrior~
+the Spirit-Warrior~
+A Spirit-Warrior stands here, maintaining peace and security.~
+A Spirit-Warrior, summoned from the afterlife stands here, surrounded by
+a faintly glowing blue nimbus. There is an aura of power radiating from
+him.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+600 S
+60 0 BODY_TORSO|BODY_LEG|BODY_HAND 1d900+1774 1d1+55
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpecho $I looks around calmly.
+~
+>rand_prog 40~
+mpecho {168}$I looks at you, seemingly into the depths of your soul.
+~
+>greet_prog 30~
+tell $n Greetings. I hope that you obey the law.
+tell $n If not, I will have to take you in.
+mpechoat $n {168}$I fixes you with a cool, steady look.
+~
+>fight_prog 10~
+if position ($r) == POS_FIGHTING
+  cast 'colour spray' $r
+endif
+~
+>fight_prog 30~
+if position ($r) == POS_FIGHTING
+  if hasobjnum ($i) == 27204
+    mpecho $I levels his sword at $r.
+    mpecho $I utters the words 'iqusa lemplaazdo'.
+    mpecho A firebolt surges off the blade!
+    mpquiet on
+    cast 'fireball' $r
+    mpquiet off
+  endif
+endif
+~
+>speech_prog p I have a license to kill~
+if hasobjnum ($n) == 27225
+  nod $n
+  peace 
+else
+  mpecho $I laughs scornfully.
+  say I think not.
+endif
+~
+>death_prog 100~
+shout You will pay for this with your very soul, infidel!
+cast 'energy drain' $r
+mpecho The Spirit-Warrior glows brightly, then fades away.
+mpecho The Spirit-Warrior returns to the afterlife from which he was summoned.
+~
+|
+#27210
+manwe armorer~
+Order's Armorer~
+Order's Armorer stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in blue, and wears an amulet around his
+neck.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpecho {168}$I looks at you.
+say You have some nice stuff...
+say but if you want something better, talk to the priest about equipment.
+~
+|
+#27211
+Order alchemist~
+Order's Alchemist~
+Order's Alchemist stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in blue, and projects a sense of calm and
+power.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27212
+manwe supplier~
+Order's Supplier~
+Order's Supplier stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in blue.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27213
+manwe procurer~
+Order's Procurer~
+Order's Procurer stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in blue.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27214
+demise armorer~
+Chaos's Armorer~
+Chaos's Armorer stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in black, and wears an amulet around his
+neck.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpecho {168}$I looks at you.
+say You have some nice stuff...
+say but if you want something better, talk to the priest about equipment.
+grin 
+~
+|
+#27215
+demise alchemist~
+Chaos's Alchemist~
+Chaos's Alchemist stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in black, and projects a sense of excitement
+and power.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27216
+demise supplier~
+Chaos's Supplier~
+Chaos's Supplier stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in black.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#27217
+demise procurer~
+Chaos's Procurer~
+Chaos's Procurer stands behind the counter, ready to assist you.~
+This fellow is dressed entirely in black.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27218
+guardian~
+a Guardian~
+A Guardian of the Zone stands here, watching you carefully.~
+The Guardian projects a feeling of calm...and you suspect that while the
+Guardian is a rather kind, gentle fellow...there's an iron will beneath that
+kind exterior...
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY
+0 S
+80 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d1+4999 1d80+33
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p I have a license to kill~
+if hasobjnum ($n) == 27225
+  nod $n
+  peace 
+else
+  mpecho $I laughs scornfully.
+  say I think not.
+endif
+~
+|
+#27219
+villager~
+a villager~
+A villager wanders around here, smiling happily.~
+The villager looks like he's quite content.
+~
+ACT_WIMPY|ACT_BODY|ACT_RACE
+0
+300 S
+55 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d756+1469 1d55+16
+35000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27220
+lesser servant manwe~
+the lesser servant of Order~
+A lesser servant of Order stands here, ready to protect.~
+The lesser servant of Order has a human-shaped body of energy.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+45 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d506+956 3d4+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27221
+greater servant manwe~
+the greater servant of Order~
+A greater servant of Order stands here, ready to protect.~
+The greater servant of Order is a human-shaped body of energy.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+70 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d1+3599 3d4+55
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27222
+angel manwe~
+the angel of manwe~
+An angel of Order hovers here, ready to protect.~
+The angel of Order is a human-shaped body of energy...you think...the form
+keeps changing.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+87 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d1+7299 1d87+38
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27223
+lesser servant demise~
+the lesser servant of Chaos~
+A lesser servant of Chaos stands here, ready to protect.~
+The lesser servant of Chaos is a human-shaped body of energy.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+45 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d506+956 3d4+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27224
+greater servant demise~
+the greater servant of Chaos~
+A greater servant of Chaos stands here, ready to protect.~
+The greater servant of Chaos is a human-shaped body of energy.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+70 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d1+3599 3d4+55
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27225
+angel demise~
+the angel of Chaos~
+An angel of Chaos hovers here, ready to protect.~
+The angel of Chaos is a human-shaped body of energy...you think...the form
+keeps changing.
+~
+ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_SANCTUARY|AFF_CHARM|AFF_FLYING|AFF_PASS_DOOR|AFF_STEALTH
+0 S
+87 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d1+7299 1d87+38
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27226
+leylinedude~
+the ley line dude~
+The ley line dude will eshift you when you walk in...~
+You shouldn't be able to see this guy...
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+9999 1d95+46
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 50~
+mpmset self mana 1000
+mpquiet on
+cast 'energy shift' $n
+mpquiet off
+mpechoat $n {168}You feel the ley line's energy flow through you.
+~
+|
+#27227
+leylinenexusdude~
+the ley line nexus dude~
+The ley line nexus dude will eshift you when you walk in...~
+You shouldn't be able to see this guy...
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_ETHEREAL
+0 S
+120 0 0 1d1+14999 1d120+73
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpmset self quest 0 6 0
+if hasobjnum ($n) == 27226
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 4 10
+else
+  mpmset $i quest 5 1 1
+  mpmset $i quest 1 4 10
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,4,$i) == 7
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 5
+    mpecho {168}You feel slightly nauseous.
+    mpecho A glowing blue-white mist begins to appear. . .
+    mpecho {168}You feel as if you are falling.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho The very fabric of space and time begins to warp.
+    mpecho Tongues of strange blue-white energy emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy frame a rift, and with a flash of light, a Gate appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho {168}As tongues of energy reach out for you, your mage-focus glows.
+    mpecho {168}Your mage-focus shunts the power away from you.
+    mpecho {168}Your mage-focus helps prevent an accidental teleportation!
+    mpecho {168}Aren't you glad you bought that focus?
+    mpmset $i quest 0 5 0
+    break
+  endif
+  mpmadd $i quest 1 4 -1
+endif
+if quest (5,1,$i) == 1
+  if quest (1,4,$i) == 7
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 5
+    mpecho {168}You feel slightly nauseous.
+    mpecho A glowing blue-white mist begins to appear. . .
+    mpecho {168}You feel as if the ground has dropped from underneath you.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho The very fabric of space and time begins to warp.
+    mpecho Tongues of strange blue-white energy emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy frame a rift.
+    mpecho With a flash of light, a Gate appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho Wierd, red tendrils of energy emerge from the Gate.
+    mpecho The red tendrils pull you into the Void beyond.
+    mpecho {168}You fall into eternity.
+    mptransfer all 27356
+    mpat 27356 mpforce all look
+  endif
+  mpmadd self quest 1 4 -1
+endif
+~
+|
+#27228
+shady looking man~
+the shady-looking man~
+A shady-looking man looks around nervously.~
+This man is not someone you would want to meet in a dark alley.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+95 BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG 1d1+9999 1d95+46
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n A shady-looking man looks at you.
+if hasobjnum ($n) == 27225
+  nod $n
+else
+  tell $n Would you be interested in a license to
+  tell $n kill, $n?
+  tell $n It only costs ten thousand gold coins.
+endif
+~
+>speech_prog yes~
+say Well, a license to kill will keeps the guards
+say from attacking you
+say Helpful only if you intend to kill things...
+~
+>bribe_prog 10000~
+mpjunk i3
+if hasobjnum ($n) == 27225
+  say Sorry, you've already got one...
+  mpmadd $n gold 10000
+  say Here's your money back.
+  mpechoat $n $I gives you a full refund.
+else
+  mpecho $I counts the money carefully.
+  mpecho $I fills out a license to kill.
+  mpoload 27225
+  give i27225 $n
+  smile 
+  say Enjoy your license.
+  say If you get attacked, simply say:
+  say I have a license to kill
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+|
+#27229
+mercernary mage~
+the Mercernary mage~
+A mercernary mage stands here, studying the flows of magic.~
+This is your average merc mage. He's really not all that extraordinary looking,
+but he has lots of experience in spell-casting.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d120+73
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 75~
+smile $n
+say Have you seen the ley lines?
+~
+>fight_prog 10~
+if position ($r) == POS_FIGHTING
+  say I don't *THINK* so, punk!
+  cast 'fireball' $r
+endif
+~
+>speech_prog yes~
+nod 
+say Excellent. You may have felt power there...
+say This is to be expected...
+say a ley line is a 'river' of magical energy...
+say When they meet, they form what is called a nexus
+say This can mean that you can tap a wealth of power
+say At this nexus, however, there is a price
+say The price is that the nexus is unstable
+say Occasionally, a rift can form and suck you in
+say vaulting you into ports unknown!
+say There is way around this though...
+~
+>speech_prog around~
+say You need a focus, like the one I wear.
+say Unfortunately, you don't have one
+say and I don't have a spare...
+say If you were to get the components
+say I would gladly make you one...
+say for a small fee.
+~
+>speech_prog fee~
+say 100 gold coins.
+say It's not much for such a useful thing now, is it?
+say But again, I need the right components first
+~
+>speech_prog components~
+say First, you will need a chain to hang the mount for the focus.
+say The focus needs to be some sort of stone...
+say preferably a good one.
+say You also need something which is both gold and not gold.
+say For the mount itself, a piece of
+say some precious metal would be good.
+say When you have the components, come find me
+say and tell me: 'I am ready'
+~
+>speech_prog p I am ready~
+say Wonderful.
+say Now give me the mount,
+say the focus,
+say the gold which is not gold,
+say and the chain.
+say In that order, please.
+say If you get the order wrong, just say: 'I goofed. I'm a fool.'
+smile 
+~
+>speech_prog p I goofed. I'm a fool.~
+snicker 
+say This sort of thing happens.
+say Don't get upset, just do it again.
+mpmset $n quest 4 3 0
+drop all
+~
+>speech_prog spells defense~
+grin $n
+say Yes, I will gladly cast some defensive spells on you...
+say for 50 gold coins
+say If you want me to do so, then say: 'Spell me up!'
+~
+>speech_prog p Spell me up!~
+if gold ($n) >= 50
+  nod $n
+  mpechoat $n You give 50 coins to $I.
+  mpmadd $n gold -50
+  cast 'armor' $n
+  cast 'shield' $n
+  cast 'mirror image' $n
+  cast 'sanctuary' $n
+  cast 'bless' $n
+else
+  say Sorry, but you can't afford that...
+  grin 
+endif
+~
+>give_prog I27232~
+if quest (4,3,$n) == 0
+  mpmset $n quest 4 3 1
+  say Now the focus, please.
+endif
+~
+>give_prog I27231~
+if quest (4,3,$n) == 1
+  mpmset $n quest 4 3 2
+  say Now the gold which is not gold, please.
+endif
+~
+>give_prog I27227~
+if quest (4,3,$n) == 2
+  mpmset $n quest 4 3 3
+  say And the chain, please.
+endif
+~
+>give_prog I27230~
+if quest (4,3,$n) == 3
+  mpmset $n quest 4 3 4
+  say That's everything. The money please?
+endif
+~
+>bribe_prog 100~
+mpjunk all
+if quest (4,3,$n) == 4
+  mpecho $I quickly counts the gold.
+  nod 
+  say Ok...here goes!
+  mpecho $I summons the forces of earth magic!
+  mpecho $I mounts the amber in the gold setting.
+  mpecho $I releases the earth magic into the small grey stone.
+  mpecho $I fuses the stones with the mount.
+  mpecho $I hangs the mounted focus onto the chain.
+  mpecho The amber begins to glow softly.
+  mpoload 27226
+  mpquiet on
+  cast 'giant strength' $n
+  cast 'remove curse'
+  mpquiet off
+  give I27226 $n
+  say I hope it serves you well.
+  bow 
+  mpmset $n quest 4 3 0
+  mpquiet on
+  drop all
+  get all
+  mpquiet off
+else
+  say What did you want?
+  say Good thing I'm honest.  Here's your money back.
+  mpecho $I gives some money to $n.
+  mpmadd $n gold 100
+  mpjunk i3
+endif
+~
+>death_prog 100~
+mpecho $I snarls in rage.
+shout DIE!!! I CALL THE *FINAL STRIKE* UPON THEE!!!
+shout YOU WILL PERISH IN FLAMES!!!
+mpecho $I unleashes a burst of energy through his mage-focus.
+mpecho $I's mage-focus flares like a new-born sun.
+mpecho $I disappears in a flash of light.
+mpareaecho {178}You see a blindingly brilliant flash of light!
+mpecho {118}The mage-focus shimmers then detonates with a massive explosion!
+mpquiet on
+mass acid blast
+mass blind
+mpquiet off
+mpareaecho {168}You hear a thunderous detonation!
+mpquiet on
+cast earthquake
+mpjunk all
+mpquiet off
+~
+|
+#27230
+wolfbrother~
+the Wolfbrother~
+A Wolfbrother is looking around warily.~
+This man has golden eyes...they look very much like the eyes of a wolf.
+He seems very, well, wolflike to you. He's also dressed somewhat like a
+Warder...he certainly has the hard determination of one.
+~
+ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_PASS_DOOR|AFF_STEALTH|AFF_HUNT
+200 S
+75 BODY_HEAD|BODY_TORSO|BODY_ARM BODY_MOUTH|BODY_TORSO|BODY_ARM 3d120+5100 2d6+72
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho $I throws his head back and howls.
+~
+>rand_prog 20~
+growl 
+~
+|
+#27231
+priest death~
+the priest of Death~
+A priest of Death walks here, alone and without cause.~
+The Priest of Death is dressed in pure gray. He also appears to be somewhat
+of a mage. He looks particularly sad, possibly due to the absence of his
+deity. Yet he seems oddly hopeful.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_TORSO|BODY_LEG|BODY_ARM BODY_TORSO|BODY_LEG|BODY_ARM 1d100+4200 1d10+66
+60233 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 15~
+mpecho $I prays for Death to come.
+sniff 
+~
+|
+#27239
+camille herbalist~
+Camille~
+Camille the Herbalist stands here, counting pretty pink pills.~
+Camille is a short woman with deep brown eyes. She has a pleasant expression
+on her face.
+~
+ACT_SENTINEL|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#27240
+eric blacksmith~
+Eric the Blacksmith~
+Eric the village blacksmith stands at an anvil, making a horseshoe.~
+Eric is a tall man with a very muscular build.
+~
+ACT_SENTINEL|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d2256+7613 1d1+149
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27241
+shifter1~
+a Shifter~
+A strange man wearing odd armor is here.~
+This man has the most peculiar clothing on. He's wearing things that glow
+with strange light and have assorted runes and arcane symbols on them. The
+more you look at him, the more certain you are that he is not of this
+world.  He has some truly bizarre weaponry on him--he even has something
+that looks like a crossbow without the bow.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 0 0 1d2256+7613 1d1+99
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n {168}You feel the faint presence of some strange magic here.
+if quest (0,1,$i) == 0
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 4 10
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,4,$i) == 5
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho Tongues of blue-white energy begin to emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy form a circle.
+    mpecho {178}With a flash of light, a Portal appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho {168}You lose conciousness as you are sucked into the Portal.
+    mptransfer all 27200
+    mpquiet on
+    mpat 27200 mpforce pcs sleep
+    wake 
+    mpquiet off
+    mpmset $i quest 0 1 0
+    mpmset $i quest 1 4 0
+  endif
+  mpmadd $i quest 1 4 -1
+endif
+~
+>fight_prog 100~
+cast mass acid blast
+say Now, that's ENOUGH!!!
+peace 
+~
+|
+#27242
+shifter2~
+a Shifter~
+A strange man wearing odd armor is here.~
+This man has the most peculiar clothing on. He's wearing things that glow with
+strange light and have assorted runes and arcane symbols on them. The more you
+look at him, the more certain you are that he is not of this world.  He has
+some truly bizarre weaponry on him--he even has something that looks like a
+crossbow without the bow.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 0 0 1d2256+7613 1d1+99
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n {168}You feel the faint presence of some strange magic here.
+if quest (0,1,$i) == 0
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 4 10
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,4,$i) == 5
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho Tongues of blue-white energy begin to emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy form a circle.
+    mpecho {178}With a flash of light, a Portal appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho {168}You lose conciousness as you are sucked into the Portal.
+    mptransfer all 27200
+    mpquiet on
+    mpat 27200 mpforce pcs sleep
+    wake 
+    mpquiet off
+    mpmset $i quest 0 1 0
+    mpmset $i quest 1 4 0
+  endif
+  mpmadd $i quest 1 4 -1
+endif
+~
+>fight_prog 100~
+cast mass acid blast
+say Now, that's ENOUGH!!!
+peace 
+~
+|
+#27243
+shifter3~
+a Shifter~
+A strange man wearing odd armor is here.~
+This man has the most peculiar clothing on. He's wearing things that glow with
+strange light and have assorted runes and arcane symbols on them. The more you
+look at him, the more certain you are that he is not of this world.  He has
+some truly bizarre weaponry on him--he even has something that looks like a
+crossbow without the bow.
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 0 0 1d2256+7613 1d1+99
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n {168}You feel the faint presence of some strange magic here.
+if quest (0,1,$i) == 0
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 4 10
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,4,$i) == 5
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho Tongues of blue-white energy begin to emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy form a circle.
+    mpecho {178}With a flash of light, a Portal appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho {168}You lose conciousness as you are sucked into the Portal.
+    mptransfer all 27200
+    mpquiet on
+    mpat 27200 mpforce pcs sleep
+    wake 
+    mpquiet off
+    mpmset $i quest 0 1 0
+    mpmset $i quest 1 4 0
+  endif
+  mpmadd $i quest 1 4 -1
+endif
+~
+>fight_prog 100~
+cast mass acid blast
+say Now, that's ENOUGH!!!
+peace 
+~
+|
+#27244
+shifter4~
+a Shifter~
+A strange man wearing odd armor is here.~
+This man has the most peculiar clothing on. He's wearing things that glow with
+strange light and have assorted runes and arcane symbols on them. The more you
+look at him, the more certain you are that he is not of this world.  He has
+some truly bizarre weaponry on him--he even has something that looks like a
+crossbow without the bow.
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 0 0 1d2256+7613 1d1+99
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n {168}You feel the faint presence of some strange magic here.
+if quest (0,1,$i) == 0
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 4 10
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,4,$i) == 5
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,4,$i) == 3
+    mpecho Tongues of blue-white energy begin to emerge from mid-air.
+  endif
+  if quest (1,4,$i) == 1
+    mpecho The bolts of energy form a circle.
+    mpecho {178}With a flash of light, a Portal appears.
+  endif
+  if quest (1,4,$i) == 0
+    mpecho {168}You lose conciousness as you are sucked into the Portal.
+    mptransfer all 27200
+    mpquiet on
+    mpat 27200 mpforce pcs sleep
+    wake 
+    mpquiet off
+    mpmset $i quest 0 1 0
+    mpmset $i quest 1 4 0
+  endif
+  mpmadd $i quest 1 4 -1
+endif
+~
+>fight_prog 100~
+cast mass acid blast
+say Now, that's ENOUGH!!!
+peace 
+~
+|
+#27245
+ethereal riftguy1~
+RiftGuy1~
+The RiftGuy sits here, shifting one end of this rift around the world.~
+You shouldn't be able to see this guy.
+~
+ACT_SENTINEL|ACT_RACE|ACT_UNDEAD
+AFF_ETHEREAL
+0 S
+120 0 0 1d3600+12681 1d1+199
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  mpmset $i quest 0 1 1
+  mpmset $i quest 1 6 40
+endif
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  if quest (1,6,$i) == 35
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,6,$i) == 33
+    mpecho The view beyond the rift begins to shimmer.
+  endif
+  if quest (1,6,$i) == 31
+    mpecho The Portal collapses, and begins to reform.
+    connect west -1
+  endif
+  if quest (1,6,$i) == 30
+    connect west 17617
+    mpecho The portal restabilizes.
+    mpecho {168}You can see a mountain peak off in the distance.
+  endif
+  if quest (1,6,$i) == 25
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,6,$i) == 23
+    mpecho The view beyond the rift begins to shimmer.
+  endif
+  if quest (1,6,$i) == 21
+    mpecho The Portal collapses, and begins to reform.
+    connect west -1
+  endif
+  if quest (1,6,$i) == 20
+    connect west 17663
+    mpecho The portal restabilizes.
+    mpecho {168}You can see some frozen wastes off in the distance.
+  endif
+  if quest (1,6,$i) == 15
+    mpecho {168}You hear a faint crackling sound.
+    mpecho {168}The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,6,$i) == 13
+    mpecho The view beyond the rift begins to shimmer.
+  endif
+  if quest (1,6,$i) == 11
+    mpecho The Portal collapses, and begins to reform.
+    connect west -1
+  endif
+  if quest (1,6,$i) == 10
+    connect west 17485
+    mpecho The portal restabilizes.
+    mpecho {168}You can see a large forest off in the distance.
+  endif
+  if quest (1,6,$i) == 5
+    mpecho {168}You hear a faint crackling sound.
+    mpecho The hair on the back of your neck begins to rise.
+  endif
+  if quest (1,6,$i) == 3
+    mpecho The view beyond the rift begins to shimmer.
+  endif
+  if quest (1,6,$i) == 1
+    mpecho The Portal collapses, and begins to reform.
+    connect west -1
+  endif
+  if quest (1,6,$i) == 0
+    connect west 17405
+    mpecho The portal restabilizes.
+    mpecho {168}You can see a large cloud off in the distance.
+    mpmset $i quest 0 1 0
+  endif
+  mpmadd $i quest 1 6 -1
+endif
+~
+|
+#27246
+wolf helm ethereal~
+the ethereal wolf helm invis caster~
+This ethereal casts invis on dudes~
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 25~
+mppurge self
+~
+>act_prog brilliantly!~
+if isaffected ($n) == invis
+  mpquiet on
+  cast invis $n
+  mpquiet off
+  if isaffect ($n) == invis
+    mpechoat $n {168}You fade out of existance.
+  endif
+endif
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+27210 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+27211 ITEM_TYPE_SCROLL ITEM_TYPE_POTION ITEM_TYPE_PILL ITEM_TYPE_STAFF ITEM_TYPE_WAND  100  50  0 23
+27212 ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING  100  50  0 23
+27214 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+27215 ITEM_TYPE_SCROLL ITEM_TYPE_POTION ITEM_TYPE_PILL ITEM_TYPE_STAFF ITEM_TYPE_WAND  100  50  0 23
+27216 ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING  100  50  0 23
+27239 ITEM_TYPE_SCROLL ITEM_TYPE_POTION ITEM_TYPE_PILL ITEM_TYPE_STAFF ITEM_TYPE_WAND  100  50  0 23
+27240 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#27200
+glowing sign~
+a glowing sign~
+A sign is here, floating in midair.~
+{038}        _/------------------------------------------------\_
+       /  /----------------------------------------------\  \
+       | |{078}           Welcome to the Magic Zone        {038}    | |
+       | |{078}           This area was designed by        {038}    | |
+       | |{078}                 *MAZRIM/SABER*             {038}    | |
+       | |{078} Things in this area were based on the works of{038} | |
+       | |{078}         Robert Jordan, David Eddings,         {038} | |
+       | |{078}             and Mercedes Lackey.              {038} | |
+       \_ \----------------------------------------------/ _/
+         \------------------------------------------------/
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+1000 1000 1
+#27201
+roadsign sign~
+a roadsign~
+A roadsign is here, rooted firmly into the ground.~
+{038}               _/---------------------------------\_
+              /  /-------------------------------\  \
+              | | {078}North: The Thalesian Mountains  {038}| |
+              | | {078}East: The City of Eternity      {038}| |
+              | | {078}South: Emond's Field            {038}| |
+              \_ \-------------------------------/ _/
+                \------------\      /--------------/
+                              \    /
+                               |  |
+                               |  |
+                               |  |
+             {028}             \|/{038}  /  \   {028}      \/
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1000 1000 1
+#27202
+small sign~
+a small sign~
+There is a small, glowing sign here.~
+{038}                  _/----------------------------\_
+                 /  /--------------------------\  \
+                 | |  {078}Welcome to Emond's Field  {038}| |
+                 | |  {078}Please enjoy your visit   {038}| |
+                 | |  {078}here, but please, leave   {038}| |
+                 | |  {078}our citizens in peace.    {038}| |
+                 \_ \--------------------------/ _/
+                   \----------------------------/
+                               \____/
+                                |  |
+                                |  |
+                                |__|
+                    {028} \/ {038}       /____\ {028} \|/
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+1000 1000 1
+#27203
+crystal plate battle armor~
+crystal plate battle armor~
+The crystal plate battle armor of the Mage-Warrior lies here, glowing
+and humming faintly.~
+The crystal plate armor has some softly glowing runes on the front of it,
+and it hums with a life of its own.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+20 100000 65
+A APPLY_HIT -30 0
+A APPLY_HITROLL 4 0
+#27204
+sword flaming blue fire~
+a flaming sword of blue fire~
+The sword flickers with blue fire.~
+The rune-engraved hilt projects a blade of magical blue fire at your touch.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 6 9 WEAPON_SLASH 0 0 0 0
+10 100000 60
+#27205
+bhelliom blue-rose~
+the Bhelliom~
+The Bhelliom glows with an unearthly blue light.~
+This is an exquistely carved sapphire rose...and it is glowing a deep blue.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+250 0 -1 0 0 0 0 0
+10 500000 75
+A APPLY_MANA 100 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 75
+P 2
+TRIG_VOID
+OPROG_ECHO
+The Bhelliom's glow pulses.~
+#27206
+helm wolf~
+the Helm of the Wolf~
+There is a helm sculpted in the shape of a wolf's head here.~
+The helm has a faintly flickering light coming from the eyes. There are also
+three small words inscribed in the helm: 'torliat', 'psilyad', and
+'ripugh'.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+30 500000 75
+E
+eyes light~
+The eyes of the helm appear to be made of some kind of glowing crystal.
+~
+A APPLY_MANA 75 0
+A APPLY_SAVING_SPELL -5 0
+P 1
+TRIG_UNKNOWN 100 psilyad
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The Helm's eyes flare brilliantly!~
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 27246
+mpechoaround self $I's Helm's eyes flare brilliantly!~
+P 16
+TRIG_UNKNOWN 100 torliat
+OPROG_IF OIF_WEAR_LOC = WEAR_HEAD 17 20
+P 17
+TRIG_VOID
+OPROG_ECHO
+You hear a wolf howl in the distance.~
+P 17
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self long A glowing wolf-shaped nimbus is here.~
+P 17
+TRIG_VOID
+OPROG_ECHO
+You feel your shape blur.~
+P 18
+TRIG_UNKNOWN 100 ripugh
+OPROG_IF OIF_WEAR_LOC = WEAR_HEAD 19 20
+P 19
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self {168}You hear a wolf howling in the distance.~
+P 19
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self long NULL~
+P 19
+TRIG_VOID
+OPROG_ECHO
+You feel your shape return to normal.~
+P 20
+TRIG_VOID
+OPROG_ECHO
+You are not wearing the Helm of the Wolf.~
+#27207
+construction sign~
+a large construction sign~
+A construction sign is here.~
+{038}                /---------------------------\
+               / /-------------------------\ \
+               | |      Coming Soon...     | |
+               | |                         | |
+               | |  *********************  | |
+               | |  * The Tower of Time *  | |
+               | |  *********************  | |
+               | |                         | |
+               | |    New mobs, eq, and    | |
+               | |         *QUESTS*        | |
+               \ \-------------------------/ /
+                \---------------------------/
+                    |  |             |  |
+                    |__|             |__|
+   {028}   \|/      {038}    /    \           /    \ {028}|/
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+1000 1000 1
+#27208
+iron-bound stone club~
+a heavy iron-bound stone club~
+A rather nasty looking stone club bound with iron bands lies here.~
+This club is rather heavy, and previously belonged to Gwherig.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 5 7 WEAPON_CRUSH 0 0 0 0
+25 100000 50
+#27209
+faintly glowing village fountain~
+a faintly glowing fountain.~
+Here, you see a simple, yet elegant fountain.~
+This fountain is surprisingly deep and clear. For some reason, the water
+has a faint blue-white glow to it....
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1000 1000 1
+#27210
+serpent ring~
+serpent ring of the Aes Sedai~
+A golden ring glints in the light.~
+This ring is masterfully sculpted...it looks rather like a snake eating its
+own tail.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+3 80000 55
+A APPLY_MANA 60 0
+#27211
+gauntlets chaotic~
+a pair of faintly chaotic gauntlets~
+A pair of armored gloves hum faintly with chaotic energies.~
+These gauntlets have been forged from some strange white metallic
+substance. They appear empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+7 0 0 0 0 0 0 0
+15 50000 55
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL 3 0
+A APPLY_HITROLL 2 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27331 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the gauntlets.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the gauntlets in the Chaos fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Chaos energies.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the gauntlets as they steep in the power of Chaos.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27258~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27212
+helm chaotic~
+a faintly chaotic helm~
+A helm lying on the ground hums faintly with chaotic energies.~
+This helm has been forged from some strange white metal. It appears
+empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+15 50000 55
+A APPLY_DEX 1 0
+A APPLY_HIT 25 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27331 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the helm.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the helm in the Chaos fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Chaos energies.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the helm as it steeps in the power of Chaos.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27259~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27213
+amulet chaotic~
+a faintly chaotic amulet~
+An amulet lying on the ground hums faintly with magic and chaotic energies.~
+This amulet is made of some strange, faintly glowing white crystal. It
+appears empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+7 0 0 0 0 0 0 0
+10 50000 55
+A APPLY_INT 1 0
+A APPLY_MANA 50 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27331 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the amulet.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the amulet in the Chaos fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Chaos energies.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the amulet as it steeps in the power of Chaos.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27260~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27214
+gauntlets Order orderly~
+a pair of faintly ordered gauntlets~
+A pair of armored gloves hum faintly with ordered energies.~
+These gauntlets have been forged from some strange black metallic
+substance. They appear empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+7 0 0 0 0 0 0 0
+15 50000 55
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL 3 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27323 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the gauntlets.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the gauntlets in the Order fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Order energy.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the gauntlets as they steep in the power of Order.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27261~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27215
+helm Order Orderly~
+a faintly ordered helm~
+A helm lying on the ground faintly hums with ordered energies.~
+This helm has been forged from some strange black metal. It appears
+empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+15 50000 55
+A APPLY_HIT 25 0
+A APPLY_DEX 1 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27323 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the helm.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the helm in the Order fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Order energy.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the helm as it steeps in the power of Order.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27262~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27216
+amulet Order orderly~
+a faintly ordered amulet~
+An amulet lying on the ground hums faintly with magic and ordered energies.~
+This amulet is made of some strange, faintly glowing black crystal. It
+appears empty and unfinished.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+7 0 0 0 0 0 0 0
+10 50000 55
+A APPLY_MANA 50 0
+A APPLY_INT 1 0
+P 3
+TRIG_UNKNOWN 100 expose
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 5
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27323 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+You can't do that while wearing the amulet.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You can't do that here.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+You immerse the amulet in the Order fountain.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You open yourself to the flow of Order energy.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+Energies flood into the amulet as it steeps in the power of Order.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27263~
+P 9
+TRIG_VOID
+OPROG_JUNK
+#27217
+cracked gauntlets Chaos~
+the cracked gauntlets of Chaos~
+A pair of armored gloves hum discordantly.~
+These gauntlets have been forged from some strange white metallic substance.
+There are many fine cracks in the gloves, and there is some discoloration to
+the metal...almost as if the gauntlets had been subjected to extreme stress.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+15 50000 25
+A APPLY_DAMROLL 3 0
+A APPLY_SAVING_SPELL 4 0
+A APPLY_HITROLL 3 0
+#27218
+cracked helm Chaos~
+a cracked helm of Chaos~
+A helm lying on the ground hums discordantly.~
+This helm has been forged from some strange white metal. There are numerous
+hairline cracks in the helm, and there is some discoloration to the
+metal...almost as if the helm had been subjected to extreme stress.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+15 50000 25
+A APPLY_DEX 1 0
+A APPLY_HIT 20 0
+#27219
+shattered amulet Chaos~
+a shattered amulet of Chaos~
+An amulet lying on the ground hums discordantly.~
+This amulet is made of some strange glowing white crystal. The crystal has a
+rather nasty-looking flaw in it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+6 0 0 0 0 0 0 0
+10 50000 25
+E
+flaw~
+The flaw in the crystal is from the crystal's having been subjected to
+extreme stress.
+~
+A APPLY_INT 1 0
+A APPLY_MANA 30 0
+#27220
+cracked gauntlets Order~
+the cracked gauntlets of Order~
+A pair of armored gloves hum discordantly.~
+These gauntlets have been forged from some strange black metallic substance.
+There are many fine cracks in the gloves, and there is some discoloration to
+the metal...almost as if the gauntlets had been subjected to extreme stress.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+15 50000 25
+A APPLY_SAVING_SPELL 4 0
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 3 0
+#27221
+cracked helm Order~
+a cracked helm of Order~
+A helm lying on the ground hums discordantly.~
+This helm has been forged from some strange black metal. There are numerous
+hairline cracks in the helm, and there is some discoloration to the
+metal...almost as if the helm had been subjected to extreme stress.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+6 0 0 0 0 0 0 0
+15 50000 25
+A APPLY_DEX 1 0
+A APPLY_HIT 20 0
+#27222
+shattered amulet Order~
+a shattered amulet of Order~
+An amulet lying on the ground hums discordantly.~
+This amulet is made of some strange glowing black crystal. The crystal has a
+rather nasty-looking flaw in it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+6 0 0 0 0 0 0 0
+10 100000 25
+E
+flaw~
+The flaw in the crystal is from the crystal's having been subjected to
+extreme stress.
+~
+A APPLY_MANA 30 0
+A APPLY_INT 1 0
+#27223
+Chaos priest robe~
+a Chaos Priest's robe~
+A white, shimmering robe of an intricate cut lies on the ground.~
+The robe bears the emblem of Chaos on its upper arms.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+15 0 0 0 0 0 0 0
+10 100000 75
+A APPLY_WIS 3 0
+A APPLY_STR 3 0
+#27224
+Order priest robe~
+an Order Priest's robe~
+A black robe of a simple cut lies on the ground.~
+The robe bears the emblem of Order on its upper arms.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+15 0 0 0 0 0 0 0
+10 100000 75
+A APPLY_STR 3 0
+A APPLY_WIS 3 0
+#27225
+license kill~
+a license to kill~
+A piece of glowing parchment lies on the ground.~
+This document grants you the right to be a killer in the City of Eternity,
+the Magic Zone, and the Tower of Time. You can 'revoke' it at any time.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 60
+#27226
+mage focus~
+a mage-focus~
+An amber-colored crystal in a platinum mount lies here on the ground.~
+This is the finest gemstone that you have ever seen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+15 0 0 0 0 0 0 0
+2 500000 75
+A APPLY_DEX 2 0
+A APPLY_MANA 100 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The mage-focus glows softly.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 100
+#27227
+smooth stone~
+a smooth stone~
+A small, smooth gray stone lies here in the moss.~
+This stone is amazingly smooth, and speckled with tiny flecks of gold...or
+is it gold? In any case, it's really quite pretty.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10000 75
+E
+flecks~
+The flecks of gold almost seem to be glowing...what's this? There are runes on
+the bottom that spell the word 'nurid'.
+~
+P 1
+TRIG_UNKNOWN 50 nurid
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+The stone shakes but nothing happens. Perhaps you should hold it first.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The flecks flare brilliantly, and the stone vanishes in a flash of light!~
+P 3
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 50 4 5
+P 4
+TRIG_VOID
+OPROG_ECHO
+A small ring falls into your hand.~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27244~
+P 4
+TRIG_VOID
+OPROG_JUNK
+P 5
+TRIG_VOID
+OPROG_ECHO
+A small band falls into your hand.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27245~
+P 5
+TRIG_VOID
+OPROG_JUNK
+#27228
+suit titanium battlearmor~
+a suit of titanium battlearmor~
+A suit of silvery metal lies here on the ground.~
+This armor is surprisingly lightweight and strong...
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+18 0 0 0 0 0 0 0
+10 500000 80
+#27229
+titanium leggings~
+titanium leggings~
+A pair of silvery leggings lie here on the ground.~
+These leggings are remarkably lightweight and strong...
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+18 0 0 0 0 0 0 0
+10 500000 80
+#27230
+silver chain~
+a silver chain~
+A finely worked silver chain lies here on the ground.~
+This is a finely worked silver chain.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+1 50000 40
+A APPLY_MANA 50 0
+#27231
+faceted amber~
+a piece of faceted amber~
+A piece of beautifully faceted amber sits here, shining in the light.~
+This is surely the largest and most beautiful piece of amber that you have
+ever seen. The color is rich and the stone is as clear as air...absolutely
+flawless. It seems to glow, to capture the light. It is warm to the touch.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 1000000 60
+A APPLY_WIS 3 0
+#27232
+twisted piece platinum~
+a twisted piece of platinum~
+A twisted piece of platinum lies here.~
+This is very high quality platinum. It looks like it once served as a mounting
+for a large gem at some point.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+6 100000 60
+#27233
+huge pile gold~
+a huge pile of gold~
+A huge pile of gold sits here, glittering in the light.~
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+1000 0 0 0 0 0 0 0
+1 1000 60
+#27234
+pretty pink pill~
+a pretty pink pill~
+A pretty pink pill lies here on the ground.~
+This pill is the prettiest shade of pink you have ever seen. There is writing
+on it.
+~
+ITEM_TYPE_PILL
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 61 134 0 0 0 0 0
+1 100000 55
+E
+writing~
+The words say:
+	Pretty Pink Pill(tm)
+	Mfg. by SPONGE! Labs
+	olympia.ucr.edu/sponge
+	***CHECK IT OUT!!!***
+~
+S 1 'detect evil'
+S 2 'heal'
+S 3 '-1 slot'
+P 1
+TRIG_TICK 4
+OPROG_ECHO
+You feel filled with love and the desire to hug someone.~
+#27235
+heron-mark blade sword~
+a heron-mark blade~
+A high-quality sword with a heron engraved on the base of the blade lies here.~
+This is a sword of exceptional quality. It is definitely an old blade, but
+for some reason, it is as sharp as the day it was made. There is a heron
+engraved on the base of the blade.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 8 7 WEAPON_SLASH 0 0 0 0
+15 1000000 65
+#27236
+skull ring death~
+a Skull Ring of Death~
+A ring with a grinning skull on it lies here.~
+This ring has a grinning skull on it, and has been forged from some strange
+gray metal. It's eyes seem to flicker between a glowing blood red and black.
+The ring is suffused with feelings of pain, suffering, and death. Some
+runes along its surface seem to indicate that the command 'feedback' will
+cause the ring to somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+5 100000 75
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_SAVING_SPELL -5 0
+P 1
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -100
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -100
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 6 0
+P 6
+TRIG_VOID
+OPROG_ECHO
+The Skull Ring shrieks insanely as the forces of Death strike you.~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The Skull Ring shrieks insanely as the forces of Death strike $I.~
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 6
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 6
+TRIG_VOID
+OPROG_ECHO
+The Skull Ring cracks.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 0
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27239~
+P 7
+TRIG_VOID
+OPROG_JUNK
+#27237
+skull helm death~
+a Skull Helm of Death~
+A helm in the shape of a grinning skull lies here.~
+This helm looks like a skull, and has been forged from a strange gray metal.
+The skull's eyes shift color from a glowing blood red to a black which seems
+to suck in the surrounding light. Some runes along its surface seem to
+indicate that the command 'feedback' will cause the helm to somehow
+weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+15 100000 75
+A APPLY_HIT 50 0
+A APPLY_DEX 3 0
+P 1
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC = WEAR_HEAD 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -100
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -100
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC = WEAR_HEAD 6 0
+P 6
+TRIG_VOID
+OPROG_ECHO
+The Skull Helm shrieks insanely as the forces of Death strike you.~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The Skull Helm shrieks insanely as the forces of Death strike $I.~
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 6
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 6
+TRIG_VOID
+OPROG_ECHO
+The Skull Helm cracks.~
+P 6
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 0
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27240~
+P 7
+TRIG_VOID
+OPROG_JUNK
+#27242
+pool water~
+a pool of water~
+There is a small pool of water from the waterfall here.~
+This pool of water is constantly refilling with clear, cold water.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1000 1000 1
+#27243
+treasure~
+treasure~
+~
+This is an immense pile of treasure.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10 CONT_CLOSEABLE -1 0 0 0 0 0
+1000 10000 1
+#27244
+small grey golden ring~
+a small grey ring~
+A ring of stone and metal lies here.~
+This ring is looks like it is made of stone, yet it feels like metal.
+There are small golden flecks throughout the ring.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+3 0 0 0 0 0 0 0
+5 1000 2
+A APPLY_WIS 1 0
+#27245
+small grey golden band~
+a small grey band~
+A band of stone and metal lies here.~
+This band is looks like it is made of stone, yet it feels like metal.
+There are small golden flecks throughout the band.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+3 0 0 0 0 0 0 0
+5 1000 2
+A APPLY_CON 1 0
+#27246
+wolfpotion1~
+potion of the Wolf~
+A glowing vial lies here.~
+This glowing vial is the same color as a wolf's eyes.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 150 0 0 0 0 0 0
+1 10 75
+S 1 'invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#27247
+wolfscroll1~
+scroll of the Wolf~
+A glowing scroll lies here.~
+This scroll has the emblem of a wolf on it.
+The wolf seems to be staring at you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 150 0 0 0 0 0 0
+1 10 75
+S 1 'invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#27248
+blessed gauntlets Chaos~
+the blessed gauntlets of Chaos~
+A pair of armored gloves hum with chaotic energies.~
+These gauntlets have been forged from some strange white metallic substance,
+and they radiate the very essence of Chaos. Some runes along its surface
+seem to indicate that the command 'feedback' will cause the gauntlets to
+somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+15 100000 85
+A APPLY_SAVING_SPELL -6 0
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 5 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the gauntlets when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed gauntlets of Chaos shriek insanely as the forces of Chaos strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed gauntlets of Chaos shriek insanely as the forces of Chaos strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed gauntlets of Chaos crack.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27217~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27249
+blessed helm Chaos~
+a blessed helm of Chaos~
+A helm lying on the ground hums with chaotic energies.~
+This helm has been forged from some strange white metal, and it radiates the
+very essence of Chaos. Some runes along its surface seem to indicate that
+the command 'feedback' will cause the helm to somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+15 100000 85
+A APPLY_DEX 3 0
+A APPLY_HIT 50 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the helm when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed helm of Chaos shrieks insanely as the forces of Chaos strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed helm of Chaos shrieks insanely as the forces of Chaos strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed helm of Chaos cracks.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27218~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27250
+blessed amulet Chaos~
+blessed amulet of Chaos~
+An amulet lying on the ground hums with magic and chaotic energies.~
+This amulet is made of some strange glowing white crystal, and it radiates
+the very essence of Chaos. The emblem of Chaos has has been etched on the
+face. Some runes along its surface seem to indicate that the command 'feedback'
+will cause the amulet to somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+10 100000 85
+A APPLY_INT 2 0
+A APPLY_MANA 100 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_CHAOS 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the amulet when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed amulet of Chaos shrieks insanely as the forces of Chaos strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed amulet of Chaos shrieks insanely as the forces of Chaos strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed amulet of Chaos cracks.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27219~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27251
+blessed gauntlets Order~
+blessed gauntlets of Order~
+A pair of armored gloves hum with ordered energies.~
+These gauntlets have been forged from some strange black metallic substance,
+and they radiate the very essence of Order. Some runes along its surface seem
+to indicate that the command 'feedback' will cause the gauntlets to
+somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+15 100000 85
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 5 0
+A APPLY_SAVING_SPELL -6 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the gauntlets when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed gauntlets of Order shriek insanely as the forces of Order strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed gauntlets of Order shriek insanely as the forces of Order strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed gauntlets of Order crack.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27220~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27252
+blessed helm Order~
+blessed helm of Order~
+A helm lying on the ground hums with ordered energies.~
+This helm has been forged from some strange black metal, and it radiates
+the very essence of Order. Some runes along its surface seem to indicate
+that the command 'feedback' will cause the helm to somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+15 100000 85
+A APPLY_DEX 3 0
+A APPLY_HIT 50 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the helm when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed helm of Order shrieks insanely as the forces of Order strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed helm of Order shrieks insanely as the forces of Order strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed helm of Order cracks.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27221~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27253
+blessed amulet Order~
+the blessed amulet of Order~
+An amulet lying on the ground hums with magic and ordered energies.~
+This amulet is made of some strange glowing black crystal, and it radiates
+the very essence of Order. Some runes along its surface seem to indicate
+that the command 'feedback' will cause the amulet to somehow weaken.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+10 100000 85
+A APPLY_MANA 100 0
+A APPLY_INT 2 0
+P 6
+TRIG_UNKNOWN 100 feedback
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_ORDER 9 0
+P 8
+TRIG_VOID
+OPROG_ECHO
+You can't wear the amulet when you do that.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_WHICH_GOD = GOD_NEUTRAL 10 0
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed amulet of Order shrieks insanely as the forces of Order strike you.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO The blessed amulet of Order shrieks insanely as the forces of Order strike $I.~
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -300
+P 10
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -300
+P 10
+TRIG_VOID
+OPROG_ECHO
+That REALLY HURT!!!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+The blessed amulet of Order shatters.~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27222~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#27254
+license kill~
+a license to kill~
+A piece of glowing parchment lies on the ground.~
+This document grants you the right to be a killer in the City of Eternity,
+the Magic Zone, and the Tower of Time.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 60
+#27255
+license shredder~
+~
+A shredder of licenses lies here on the ground...~
+Hey! You shouldn't even know that you've been given this!! PUNK!!!
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 60
+#27256
+Chaos fountain~
+a fountain of Chaos~
+A strange fountain of white tinged with red flows here.~
+You've never really ever seen anything quite like this...the discordant energies
+almost seem to be flowing from the earth...
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+#27257
+Order fountain~
+a fountain of Order~
+A strange fountain of pure darkness flows here.~
+You've never really ever seen anything quite like this...the ordered energies almost
+seem to be flowing from the earth...
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+#27258
+gauntlets Chaos~
+the gauntlets of Chaos~
+A pair of armored gloves hum with chaotic energies.~
+These gauntlets have been forged from some strange white metallic substance.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+15 100000 75
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#27259
+helm Chaos~
+the helm of Chaos~
+A helm lying on the ground hums with chaotic energies.~
+This helm has been forged from some strange white metal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+15 100000 75
+A APPLY_DEX 2 0
+A APPLY_HIT 40 0
+#27260
+amulet Chaos~
+the amulet of Chaos~
+An amulet lying on the ground hums with magic and chaotic energies.~
+This amulet is made of some strange glowing white crystal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+10 100000 75
+A APPLY_MANA 75 0
+A APPLY_INT 1 0
+#27261
+gauntlets Order~
+the gauntlets of Order~
+A pair of armored gloves hum with ordered energies.~
+These gauntlets have been forged from some strange black metallic substance.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+15 100000 75
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#27262
+helm Order~
+the helm of Order~
+A helm lying on the ground hums with ordered energies.~
+This helm has been forged from some strange black metal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+15 100000 75
+A APPLY_DEX 2 0
+A APPLY_HIT 40 0
+#27263
+amulet Order~
+the amulet of Order~
+An amulet lying on the ground hums with magic and ordered energies.~
+This amulet is made of some strange glowing black crystal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+10 100000 75
+A APPLY_MANA 75 0
+A APPLY_INT 1 0
+#0
+
+
+#ROOMS
+#27200
+Between Dimensions~
+You are standing in a gentle blue-white light, you see no walls or
+ceiling, only the light, and you feel strangely peaceful here. It is
+really the strangest sensation...floating in the middle of nothingness,
+yet still being able to move around.
+~
+0 ROOM_NO_MOB|ROOM_MAZE SECT_INSIDE
+DDIR_EAST
+To the east, you see a break in the light, and in the break, you see a
+well-paved highway.~
+~
+0 -1 27210
+DDIR_WEST
+To the west, you see a break in the light, and in the break, you see a
+dirt road. This leads to the Roads of the Realm. The location seems to
+flicker and shift from time to time, though.~
+~
+0 -1 17405
+#27201
+Village street~
+You are standing in the middle of a small dirt road in a small, quaint
+village. There is a low wooden sidewalk running along the west side of the
+street. There is a high wooden wall running behind the houses to the west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+To the north, you see some more of the dirt street.~
+~
+0 -1 27202
+DDIR_EAST
+To the west, you see a faintly glowing fountain.~
+~
+0 -1 27205
+DDIR_SOUTH
+To the south, you see some more of the dirt street.~
+~
+0 -1 27203
+#27202
+Village street~
+You are standing in the middle of a small dirt street in a small, quaint
+village. There is a low wooden sidewalk running along the west side of the
+street. You see a high wooden wall running behind the buildings to the west
+and to the north.
+~
+0 0 SECT_CITY
+DDIR_EAST
+To the east, you see some more of the dirt street.~
+~
+0 -1 27204
+DDIR_SOUTH
+To the south, you see some more of the dirt street.~
+~
+0 -1 27201
+#27203
+Village street~
+You are standing in the middle of a small dirt street in a small quaint
+village. There is a low wooden sidewalk running along the west side of the
+street. There is a high wooden wall running along the west side of the street,
+and to the south. There is a small planter filled with healing herbs sitting on
+a windowsill here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+To the north, you see some more of the dirt street.~
+~
+0 -1 27201
+DDIR_EAST
+To the east, you see the village gates.~
+~
+0 -1 27206
+DDIR_WEST
+To the west, you see the village herbalist's shop.~
+~
+0 -1 27345
+#27204
+Village street~
+You are standing in the middle of a small dirt street in a small, quaint
+village. There is a low wooden sidewalk running along the northern side of
+the street. There is a high wooden wall running along the north side of the
+street, behind the sturdily built inn you see here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+To the east, you see some more of the dirt street.~
+~
+0 -1 27208
+DDIR_SOUTH
+To the south, you see a faintly glowing fountain.~
+~
+0 -1 27205
+DDIR_WEST
+To the west, you see some more of the dirt street.~
+~
+0 -1 27202
+E
+inn~
+The inn has been very carefully built. You think that it would take a small
+army to knock it down.
+~
+#27205
+Village square~
+This is the center of a very peaceful village. As you look around, you see a
+high wall surrounding the town, really quite comforting, actually, to know
+that this place is safe...you feel quite relaxed here.
+You can sense a faint tinge of power about this place...
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+To the north, you see some more of the dirt street.~
+~
+0 -1 27204
+DDIR_EAST
+To the east, you see some more of the dirt street.~
+~
+0 -1 27207
+DDIR_SOUTH
+To the south, you see the village gates.~
+~
+0 -1 27206
+DDIR_WEST
+To the west, you see some more of the dirt street.~
+~
+0 -1 27201
+#27206
+Village gates~
+This is the only break you have seen to this point in the high wooden
+palisade which surrounds this little village. You do not think that there are
+any guards watching the entrance. You definitely feel as though you are being
+watched though.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+To the north, you see a faintly glowing fountain.~
+~
+0 -1 27205
+DDIR_EAST
+To the east, you see some more of the dirt street.~
+door~
+EX_ISDOOR -1 27209
+DDIR_SOUTH
+To the south, you see a road.~
+~
+0 -1 27210
+DDIR_WEST
+To the west, you see some more of the dirt street.~
+~
+0 -1 27203
+E
+gate~
+The wooden gate is bound with iron and magic...you would not want to have to
+force your way past it, it would take quite a bit of effort.
+~
+#27207
+Village street~
+You are standing in the middle of a small dirt street in a small, quaint
+village. There is a low wooden sidewalk running along the northern and
+eastern sides of the street. There is a high wooden wall running along the
+northern and eastern sides of the street, behind the cozy-looking houses that
+you see here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+To the south, you see some more of the dirt street.~
+~
+0 -1 27208
+DDIR_WEST
+To the west, you see some more of the dirt street.~
+~
+0 -1 27204
+#27208
+Village street~
+You are standing in the middle of a small dirt street in a small, quaint
+village. There is a low wooden sidewalk running along the eastern side of the
+street. A high wooden wall runs along the street, behind the smithy that you
+see here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+To the east, you see the smithy.~
+~
+0 -1 27346
+DDIR_WEST
+To the west, you see a faintly glowing fountain.~
+~
+0 -1 27205
+E
+smithy~
+As you glance in the smithy, you feel a wave of hot air flowing out through the
+doors. You can hear the sounds of bellows pumping, and the ring of steel being
+worked.
+~
+#27209
+Village street~
+You are standing in the middle of a small dirt street in a small, quaint
+village. There is a low wooden sidewalk running along the southen and eastern
+sides of the corner here. A high wooden wall runs behind the houses that you
+see here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+To the north, you see some more of the dirt street.~
+~
+0 -1 27208
+DDIR_WEST
+To the west, you see the village gates.~
+~
+0 -1 27206
+#27210
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+To the north, you see the village gate.~
+door~
+EX_ISDOOR -1 27206
+DDIR_EAST
+To the east, the Highway continues.~
+~
+0 -1 27211
+DDIR_WEST
+You see a portal emitting a faint blue-white light...~
+~
+0 -1 27200
+E
+gate~
+The wooden gate is bound with iron and magic...you would not want to have to
+force your way past it, it would take quite a bit of effort.
+~
+#27211
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+There is a low hedge running alongside the southern edge of the road.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+To the east, the Highway continues..~
+~
+0 -1 27212
+DDIR_WEST
+To the west, the Highway continues.~
+~
+0 -1 27210
+#27212
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+There is a low hedge running alongside the southern edge of the road.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+To the east, the Highway continues.~
+~
+0 -1 27213
+DDIR_WEST
+To the west, the Highway continues.~
+~
+0 -1 27211
+#27213
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+To the north, the Highway continues.~
+~
+0 -1 27214
+DDIR_WEST
+To the west, the Highway continues.~
+~
+0 -1 27212
+#27214
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+There is a small babbling brook to the west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+To the north, the highway continues.~
+~
+0 -1 27215
+DDIR_SOUTH
+To the south, the Highway continues.~
+~
+0 -1 27213
+E
+small babbling brook~
+This brook is crystal clear...and it feels like icemelt.
+~
+#27215
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+The way forks here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+To the north, you see an road leading away from the Highway.~
+~
+0 -1 27222
+DDIR_EAST
+To the east, the Highway continues.~
+~
+0 -1 27216
+DDIR_SOUTH
+To the south, the Highway continues.~
+~
+0 -1 27214
+#27216
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+A large oak tree is near the northern side of the road.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+To the east, the Highway continues.~
+~
+0 -1 27217
+DDIR_WEST
+To the west, the Highway continues..~
+~
+0 -1 27215
+#27217
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+~
+0 0 SECT_FIELD
+DDIR_WEST
+To the west, the Highway continues.~
+~
+0 -1 27216
+DDIR_UP
+The Highway continues up a hill.~
+~
+0 -1 27218
+#27218
+A hilltop~
+You are standing on top of a grassy hilltop. The air here is clear, and you can
+see for leagues in every direction. You think that you see a glow to the east.
+There are a series of small rocks positioned around a larger one.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+To the east, you see some more of the hill.~
+~
+0 -1 27219
+DDIR_DOWN
+Below, you see the Highway.~
+~
+0 -1 27217
+E
+small large rocks~
+The rocks are all relatively flat, although they stand about 2-3 feet high.
+The large rock has a discolored splotch in the center, and you can see the
+remains of a campfire in the center of the splotch.
+~
+#27219
+A hilltop~
+As you reach the top of the hill, you are amazed at the sight below you...
+you see ley lines crossing, pools of mage-energy, and a city ahead of you...
+a city surrounded by a lake which is bridged to the shore by four rather
+unsubstantial-looking, but beautiful, bridges.  The lake has a blue-white
+glow to it that you can see even from here.  The city is truly a sight to
+behold, as it has a timeless quality about it...and it seems to glow with
+all sorts of beautiful colors...
+~
+0 0 SECT_HILLS
+DDIR_WEST
+To the west, you see some more of the hilltop.~
+~
+0 -1 27218
+DDIR_DOWN
+Below, you see the bottom of the hill.~
+~
+0 -1 27220
+#27220
+The bottom of the hill~
+You are standing at the base of a large hill. There is a fresh scent
+here...the scent of life. As you look around, you can't help but be
+amazed at the variety of plants that you see here.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+To the east, you see the Road.~
+~
+0 -1 27221
+DDIR_UP
+Above you, you see the hilltop.~
+~
+0 -1 27219
+#27221
+Lord's Highway~
+This is a well-maintained road, not paved, yet still in surprisingly good
+condition.  You have heard stories of how this road is patrolled by the
+Guardians of this realm, and that the Guardians tolerate no violence here...
+The Highway seems to blend into a new road to the east. You feel a bit of
+regret at the possibility of leaving this fine road...it is one of the nicest
+that you have had the chance to travel in quite some time.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The road to the City of Eternity.~
+~
+0 -1 27239
+DDIR_WEST
+The side of the hill.~
+~
+0 -1 27220
+#27222
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+To the north, you see a rough road.~
+~
+0 -1 27223
+DDIR_SOUTH
+To the south, you see the Lord's Highway.~
+~
+0 -1 27215
+#27223
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road. You hear the sound of running water. It is faint,
+however.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+To the south, you see a rough road.~
+~
+0 -1 27222
+DDIR_WEST
+To the west, you see some more of the rough road.~
+~
+0 -1 27224
+#27224
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road. You hear the sound of running water nearby.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+To the north, you see some more of the rough road.~
+~
+0 -1 27225
+DDIR_EAST
+To the east, you see some more of the rough road.~
+~
+0 -1 27223
+#27225
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road. There is some faint mist coming from the north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+You see a mist flowing from here.~
+~
+0 -1 27347
+DDIR_EAST
+To the east, you see some more of the rough road.~
+~
+0 -1 27226
+DDIR_SOUTH
+To the south, you see some more of the rough road.~
+~
+0 -1 27224
+#27226
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road. You hear the sound of running water nearby.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+To the east, you see some more of the rough road.~
+~
+0 -1 27227
+DDIR_WEST
+To the west, you see some more of the rough road.~
+~
+0 -1 27225
+#27227
+A rough road~
+You are standing on a rough road which leads to the Thalesian mountains. To
+either side of the road, you see hills and shrubbery, blocking passage other
+than along the road. You hear the faint sound of running water. There is a
+strangely carved rock here.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+To the north, you see the Thalesian foothills.~
+~
+0 -1 27228
+DDIR_WEST
+To the east, you see some more of the rough road.~
+~
+0 -1 27226
+E
+strangely carved rock~
+There appears to be a carving of a Troll's face in the rock. Regardless
+of what the carving is of, it is absolutely hideous!
+~
+#27228
+Thalesian foothills~
+You stand before the foothills of the Thalesian mountain range. If these are
+the foothills, you're not sure that you want to hike through the mountains.
+The smallest of these 'hills' is higher than most houses!
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+To the south, you see the end of the rough road.~
+~
+0 -1 27227
+DDIR_UP
+You see a rocky path leading into the Thalesian mountains.~
+~
+0 -1 27229
+#27229
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+You see some more of the mountains.~
+~
+0 -1 27230
+DDIR_DOWN
+You see the rocky path leading into the Thalesian mountains.~
+~
+0 -1 27228
+#27230
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross. There
+is a mountain goat off in the distance, watching you.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+You see some more of the mountains.~
+~
+0 -1 27229
+DDIR_WEST
+You see some more of the mountains.~
+~
+0 -1 27231
+E
+mountain goat~
+This goat has incredible balance. You doubt that you could keep up with him,
+even if you wanted to try.
+~
+#27231
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross. You
+hear the echo of some small stones knocking against each other.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+You see some more of the mountains.~
+~
+0 -1 27230
+DDIR_UP
+The path in the mountains rises here.~
+~
+0 -1 27232
+#27232
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+You see some more of the mountains.~
+~
+0 -1 27233
+DDIR_DOWN
+The path drops down here.~
+~
+0 -1 27231
+#27233
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross. There
+appears to be a drop in the path here. Finally! A direction other than up! :)
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+You see more mountains here.~
+~
+0 -1 27232
+DDIR_DOWN
+The path drops here.~
+~
+0 -1 27234
+#27234
+Thalesian mountains~
+You are on a path in the Thalesian mountains. The path is fortunately rather
+level, although there is the occasional small rock in the way. The mountains
+to either side of you, while passable, look rather forbidding to cross. You
+see a very faint shimmer below you.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_UP
+The path rises here~
+~
+0 -1 27233
+DDIR_DOWN
+The cave entrance opens into the bowels of the mountain range.~
+shimmer illusion~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 27235
+E
+shimmer illusion~
+There seems to be something not quite right about this rock face...it looks
+like an illusion of some sort.
+~
+#27235
+A cave~
+You are in a dark cave. Stalactites hang from the ceiling here, water slowly
+dripping from them. Some of the formations that you see here are remarkably
+beautiful.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_NORTH
+The cave continues to the north.~
+~
+0 -1 27236
+DDIR_UP
+The cave entrance leads outside.~
+illusion~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 27234
+#27236
+A cave~
+The cave ceiling is definitely getting lower here, and you can see the
+occasional glint of quartz and other assorted crystals which are embedded in
+the cave walls.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+The cave continues to the south.~
+~
+0 -1 27235
+DDIR_DOWN
+There is a glint of metal below you.~
+~
+0 -1 27237
+#27237
+A spacious cavern~
+This particular chamber of the cave system is absolutely immense! It seems to
+be stuffed to the gills with assorted gemstones, precious metals, and
+treasure. Whoever lives in this cave has been living here for a *very* long
+time. You catch a whiff of a foul stench coming from the west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+There is a sound of falling water to the west.~
+~
+0 -1 27238
+DDIR_UP
+The cave path leads up.~
+~
+0 -1 27236
+E
+treasure gems metals~
+You are stunned by the sheer amount of riches here. Selling even a fraction
+of what is here would completely destroy the value of countless gems, gold,
+silver, and platinum.
+~
+#27238
+Ghwerig's lair~
+Ghwerig's lair has bits of treasure scattered all over. The water that you
+heard is coming from a large waterfall, possibly part of the one that you
+saw on your way up here. Phew...where's that stink coming from?
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+There is a glint of gold to the east.~
+~
+0 -1 27237
+#27239
+Road to the City of Eternity~
+This road is paved with a strange gray material, unlike anything you have
+ever seen...strong and durable, yet slightly giving. There is a faint white
+mist on the road, rising about halfway to your knees from the surface.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The road to the City of Eternity continues...~
+~
+0 -1 27240
+DDIR_WEST
+The Lord's Highway ends...~
+~
+0 -1 27221
+#27240
+Road to the City of Eternity~
+This road is paved with a strange gray material, unlike anything you have
+ever seen...strong and durable, yet slightly giving. There is a faint white
+mist on the road, rising about halfway to your knees from the surface.
+You see a lake coming up ahead.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The bridge to the City of Eternity...~
+~
+0 -1 27241
+DDIR_WEST
+The road to the City of Eternity continues...~
+~
+0 -1 27239
+#27241
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A mist-shrouded lake...~
+~
+0 -1 27299
+DDIR_EAST
+The bridge to the City of Eternity continues...~
+~
+0 -1 27242
+DDIR_SOUTH
+A mist-shrouded lake...~
+~
+0 -1 27301
+DDIR_WEST
+The road to the City of Eternity continues...~
+~
+0 -1 27240
+#27242
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it. There is a
+cat sitting on the bridge, at looking something in the misty lake forlornly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A mist-shrouded lake...~
+~
+0 -1 27300
+DDIR_EAST
+The gates of the City of Eternity are here.~
+~
+0 -1 27360
+DDIR_SOUTH
+A mist-shrouded lake...~
+~
+0 -1 27302
+DDIR_WEST
+The bridge to the City of Eternity continues...~
+~
+0 -1 27241
+E
+cat~
+The cat is your typical tabby cat, but he has a rather intelligent look about
+him. He's wearing a collar with a rune engraved on it. Perhaps he is a
+familiar for some wizard.
+~
+#27243
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it. You feel a
+faint tingle of power coming from the bridge.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The bridge to the City of Eternity continues...~
+~
+0 -1 27283
+DDIR_EAST
+A mist-shrouded lake...~
+~
+0 -1 27295
+DDIR_SOUTH
+The gates to the City of Eternity are here.~
+~
+0 -1 27459
+DDIR_WEST
+A mist-shrouded lake...~
+~
+0 -1 27294
+#27244
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27245
+DDIR_SOUTH
+The bridge to the City of Eternity.~
+~
+0 -1 27283
+#27245
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. There is a slight climb up ahead.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27244
+DDIR_UP
+The path winds through the woods...~
+~
+0 -1 27246
+#27246
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. You can see the faint glow of the City of Eternity
+from up here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27247
+DDIR_DOWN
+The path winds through the woods...~
+~
+0 -1 27245
+#27247
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. The path forks here.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27248
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27246
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27249
+#27248
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. Something feels not quite right here...the plant life
+is somewhat twisted, growing almost in a pattern, and there seems to be an
+awful lot of white in the soil here...
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Entrance to the Temple of Chaos.~
+~
+0 -1 27329
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27247
+E
+pattern plant life~
+The plants seem to be forming...an emblem of Chaos!!!
+~
+#27249
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. The City's glow is almost undetectable from here.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27247
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27250
+#27250
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27249
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27251
+#27251
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. There is a small tree here, striving to reach the
+sun.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27250
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27252
+#27252
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. A mossy rock lies in the shade of the northern side
+of the path.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27251
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27253
+E
+mossy rock~
+There appears to be a clear pool of water next to the rock.
+~
+#27253
+End of a woodland path~
+The clean, neat path through the woods seems to have come to an end here.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27252
+#27254
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it. You see a
+tower reaching to the sky off in the distance.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A mist-shrouded lake...~
+~
+0 -1 27307
+DDIR_EAST
+The bridge to the City of Eternity continues...~
+~
+0 -1 27284
+DDIR_SOUTH
+A mist-shrouded lake...~
+~
+0 -1 27309
+DDIR_WEST
+Entrance to the City of Eternity.~
+~
+0 -1 27384
+E
+tower~
+The tower almost seems to glow with power.
+~
+#27255
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. A playful squirrel stops to look at you.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27256
+DDIR_WEST
+The bridge to the City of Eternity.~
+~
+0 -1 27284
+E
+small playful squirrel~
+He's really a cute little bugger. He almost seems to be studying you, as if
+he were watching you for someone.
+~
+#27256
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. There is a faint glow coming from the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27257
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27258
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27255
+#27257
+A dead end in the woods~
+You are standing in a pleasantly shaded clearing in the woods.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27256
+#27258
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. It looks like there may be a bit of a climb ahead of
+you...
+~
+0 0 SECT_FIELD
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27256
+DDIR_UP
+A small grassy hilltop.~
+~
+0 -1 27259
+#27259
+A grassy knoll~
+This is a grassy knoll that overlooks the valley. To the west, you see the
+shining City of Eternity. To the east, a tower rises above the trees. There is a
+strange blue-white glow coming from the southwest.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+A path winds through the woods...~
+~
+0 -1 27260
+DDIR_DOWN
+A path winds through the woods...~
+~
+0 -1 27258
+E
+glow~
+This glow looks like it is coming from a giant mage-light.
+~
+#27260
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. There are small clearings to the west and the south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27261
+DDIR_SOUTH
+A small grassy hilltop.~
+~
+0 -1 27274
+DDIR_WEST
+A small grassy hilltop.~
+~
+0 -1 27259
+#27261
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27262
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27260
+#27262
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27263
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27261
+#27263
+End of a woodland path~
+This is the end of the neat woodland path. There is a strangely beautiful
+tower ahead of you. A strangely glowing barrier prohibits you from continuing
+any farther to the east..or the north...or south, for that matter. The only
+way back is to the west.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27262
+#27264
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Entrance to the City of Eternity.~
+~
+0 -1 27460
+DDIR_EAST
+A mist-shrouded lake...~
+~
+0 -1 27315
+DDIR_SOUTH
+The bridge to the City of Eternity continues...~
+~
+0 -1 27285
+DDIR_WEST
+A mist-shrouded lake...~
+~
+0 -1 27314
+#27265
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The bridge to the City of Eternity.~
+~
+0 -1 27285
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27287
+DDIR_DOWN
+A strange river of energy...~
+~
+0 -1 27276
+#27266
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27267
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27287
+#27267
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees. There appears to be a lot of black oak trees around here.
+There's hardly any light-colored plants here, for that matter. This place
+doesn't seem sickly, however...in fact, you don't know if you have ever seen
+such healthy plants. The only wierd thing is, they almost seem to form a
+symbol.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27268
+DDIR_SOUTH
+Entrance to the Temple of Order...~
+~
+0 -1 27321
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27266
+E
+symbol~
+It's the emblem of Order!!!
+~
+#27268
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a large animal moving through
+the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27269
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27267
+#27269
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27268
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27270
+DDIR_DOWN
+A strange river of energy...~
+~
+0 -1 27281
+#27270
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. There is a small jaybird here, eating some seeds in a
+tree.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27271
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27269
+#27271
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27272
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27270
+#27272
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27286
+DDIR_EAST
+You see a quiet woodland stretching out to the east.~
+~
+0 -1 42291
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27271
+#27273
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush. It would seem that you may need to climb a bit here.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27286
+DDIR_UP
+A small grassy hilltop.~
+~
+0 -1 27274
+#27274
+A grassy knoll~
+This is a grassy knoll that overlooks the valley. To the west, you see the
+shining City of Eternity. To the east, a tower rises above the trees. There is a
+strange blue-white glow coming from the southwest. There is a large hawk
+circling way up in the sky.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A path winds through the woods...~
+~
+0 -1 27260
+DDIR_DOWN
+A path winds through the woods...~
+~
+0 -1 27273
+E
+glow~
+This glow looks like it is coming from a giant mage-light.
+~
+#27275
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_SOUTH
+The ley line flows on...~
+~
+0 -1 27276
+#27276
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+The ley line flows on...~
+~
+0 -1 27275
+DDIR_SOUTH
+The light flickers fitfully to the south...~
+~
+0 -1 27278
+DDIR_UP
+A path winds through the woods...~
+~
+0 -1 27265
+#27277
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+The light flickers fitfully to the east.~
+~
+0 -1 27278
+#27278
+A ley line nexus~
+This is the point where the two ley lines intersect...the result...a place
+where the forces of magic are increased threefold.  There seems to be some
+sort of dimensional rip, however...it seems to change everytime...perhaps
+it is unstable.  If this is the case, you may want to leave soon...*VERY*
+soon, before you end up God knows where...
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+The ley line flows on...~
+~
+0 -1 27276
+DDIR_EAST
+The ley line flows on...~
+~
+0 -1 27279
+DDIR_SOUTH
+The ley line flows on...~
+~
+0 -1 27282
+DDIR_WEST
+The ley line flows on...~
+~
+0 -1 27277
+#27279
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+The ley line flows on...~
+~
+0 -1 27280
+DDIR_WEST
+The light flickers fitfully to the west...~
+~
+0 -1 27278
+#27280
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+The ley line flows on...~
+~
+0 -1 27288
+DDIR_WEST
+The ley line flows on...~
+~
+0 -1 27279
+#27281
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_WEST
+The ley line flows on...~
+~
+0 -1 27288
+DDIR_UP
+A path winds through the woods...~
+~
+0 -1 27269
+#27282
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+The light flickers fitfully to the north.~
+~
+0 -1 27278
+#27283
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A path winds through the woods...~
+~
+0 -1 27244
+DDIR_EAST
+A mist-shrouded lake...~
+~
+0 -1 27291
+DDIR_SOUTH
+The bridge to the City of Eternity continues...~
+~
+0 -1 27243
+DDIR_WEST
+A mist-shrouded lake...~
+~
+0 -1 27290
+#27284
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A mist-shrouded lake...~
+~
+0 -1 27308
+DDIR_EAST
+Nothing special here...~
+~
+0 -1 27255
+DDIR_SOUTH
+A mist-shrouded lake...~
+~
+0 -1 27310
+DDIR_WEST
+The bridge to the City of Eternity...~
+~
+0 -1 27254
+#27285
+Bridge to the City of Eternity~
+The bridge is constructed of a material that has a slight translucence to it,
+and glows a faint bluish-white color. It appears to be delicate and etherial,
+but it has a feel of unbelivable strength and resilience to it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The bridge to the City of Eternity...~
+~
+0 -1 27264
+DDIR_EAST
+A mist-shrouded lake...~
+~
+0 -1 27319
+DDIR_SOUTH
+Nothing special here...~
+~
+0 -1 27265
+DDIR_WEST
+A mist-shrouded lake...~
+~
+0 -1 27318
+#27286
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path winds through the woods...~
+~
+0 -1 27273
+DDIR_SOUTH
+The path winds through the woods...~
+~
+0 -1 27272
+#27287
+A woodland path~
+This is a clean, neat path through the woods. There are various shrubs and
+trees on either side of the path. You hear the occasional sound of a cheerful
+bird in the trees, and the faint rustling of a small, furry animal moving
+through the underbrush.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The path winds through the woods...~
+~
+0 -1 27266
+DDIR_WEST
+The path winds through the woods...~
+~
+0 -1 27265
+#27288
+Walking along a ley line~
+You are standing inside of a river of magical energy which floats above the
+ground.  The ley line is *HUGE*, spanning a width of 30 feet and reaching
+up to 20 feet into the air.  It seems to run on for miles...
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+The ley line flows on...~
+~
+0 -1 27281
+DDIR_WEST
+The ley line flows on...~
+~
+0 -1 27280
+#27289
+On the lake~
+The lake has a faintly glowing mist floating on its surface...
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27290
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27293
+#27290
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 27283
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27294
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27289
+#27291
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27292
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27295
+DDIR_WEST
+~
+~
+0 -1 27283
+#27292
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27296
+DDIR_WEST
+Nothing special here...~
+~
+0 -1 27291
+#27293
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27289
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27294
+#27294
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27290
+DDIR_EAST
+~
+~
+0 -1 27243
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27293
+#27295
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27291
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27296
+DDIR_WEST
+~
+~
+0 -1 27243
+#27296
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27292
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27295
+#27297
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27298
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27299
+#27298
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27300
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27297
+#27299
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27297
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27300
+DDIR_SOUTH
+~
+~
+0 -1 27241
+#27300
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27298
+DDIR_SOUTH
+~
+~
+0 -1 27242
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27299
+#27301
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 27241
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27302
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27303
+#27302
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow. A dark
+fish-shaped shadow darts around in the water. You hear the wistful meow of a
+cat as the fish jumps out of the water.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 27242
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27304
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27301
+#27303
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27301
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27304
+#27304
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27302
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27303
+#27305
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27306
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27307
+#27306
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27308
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27305
+#27307
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27305
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27308
+DDIR_SOUTH
+~
+~
+0 -1 27254
+#27308
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27306
+DDIR_SOUTH
+~
+~
+0 -1 27284
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27307
+#27309
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 27254
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27310
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27311
+#27310
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 27284
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27312
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27309
+#27311
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27309
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27312
+#27312
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27310
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27311
+#27313
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27314
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27317
+#27314
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 27264
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27318
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27313
+#27315
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27316
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27319
+DDIR_WEST
+~
+~
+0 -1 27264
+#27316
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27320
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27315
+#27317
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27313
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27318
+#27318
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27314
+DDIR_EAST
+~
+~
+0 -1 27285
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27317
+#27319
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27315
+DDIR_EAST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27320
+DDIR_WEST
+~
+~
+0 -1 27285
+#27320
+On the lake~
+This is an extraordinarily beautiful lake. The water is crystal clear for the
+first two feet or so, then deepens to a dark blue. There is a thin silvery
+mist which hangs above the water...a mist which seems to glow.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The mist-shrouded lake stretches on...~
+~
+0 -1 27316
+DDIR_WEST
+The mist-shrouded lake stretches on...~
+~
+0 -1 27319
+#27321
+Entrance to the Temple of Order~
+This room has a simple elegance to it. The walls, floor, and ceiling are
+made from stone so black, it almost seems to suck light into it. The only
+other color that you see is silver, which is what the giant emblem of Order
+that is engraved in the floor seems to be made of.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+A path winds through the woods...~
+~
+0 -1 27267
+DDIR_WEST
+The Altar of Order.~
+~
+0 -1 27322
+#27322
+The Altar of Order~
+You see a room adorned with ivory and peuter statues. Symbols of Order,
+some old and some new, are engraved upon all items here: statuettes,
+seals, bricks, stones. The air seems thick with the tenets of Order's
+religion: logic, reason and law.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Entrance to the Temple of Order.~
+~
+0 -1 27321
+#27323
+A hallway in the Temple of Order~
+This pathway leads to shops of the sect of Order. The torches here burn a
+white light of amazing heat and luminescence.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Order's Armory...~
+~
+0 -1 27325
+DDIR_EAST
+Order's Supply Depot...~
+~
+0 -1 27324
+DDIR_SOUTH
+Order's Pet Store...~
+~
+0 -1 27327
+DDIR_WEST
+Order's Magic Shop...~
+~
+0 -1 27326
+DDIR_DOWN
+Entrance to the Temple of Order.~
+~
+0 -1 27321
+#27324
+Order's Supply Depot~
+This shop is strong in the forces of Order. A glow seems to emanate from
+all items here, a seeming reminder of the beauty that can come from the
+tenets of enthalpy.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Nothing special here...~
+~
+0 -1 27323
+#27325
+Order's Armory~
+The weapons and armor on the shelves hum with a pure tone, one that falls
+in line with the ethos of Orderian worshippers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Nothing special here...~
+~
+0 -1 27323
+#27326
+Order's Magic Shop~
+There are scrolls, staves, wands, pills, and potions for the servants of
+Order here...all made by the Priests of Order for defending and aiding
+the followers of Order.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Nothing special here...~
+~
+0 -1 27323
+#27327
+Order's Pets~
+There are servants of Order here, ready to aid the followers of Order in
+their fight.
+~
+0 ROOM_INDOORS|ROOM_PET_SHOP SECT_INSIDE
+DDIR_NORTH
+Nothing special here...~
+~
+0 -1 27323
+#27328
+Order petstore backroom~
+You shouldn't be here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+#27329
+Entrance to the Temple of Chaos~
+This room is decorated with extremely complex patterns of gold-etched runes.
+The walls, ceiling, and floor are made from stone which is a brilliant white.
+At the same time, however, you think that you see chaotic fractal patterns
+made from light of every hue...it is almost like looking at an oil slick...
+very disorienting. There is a giant emblem of Chaos engraved in the floor.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+The Altar of Chaos.~
+~
+0 -1 27330
+DDIR_WEST
+A path winds through the woods...~
+~
+0 -1 27248
+#27330
+The Altar of Chaos~
+You see a room adorned with ebony and peuter statues. Symbols of Chaos,
+some old and some new, are engraved upon all items here: statuettes,
+seals, bricks, stones. The air seems thick with the tenets of Chaos's
+religion: entropy, destruction and confusion.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Entrance to the Temple of Chaos.~
+~
+0 -1 27329
+#27331
+A hallway in the Temple of Chaos~
+This pathway leads to shops of the sect of Chaos. The torches here burn
+with an intense red light that gives off an amazing wave of heat.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Chaos's Armory...~
+~
+0 -1 27333
+DDIR_EAST
+Chaos's Supply Depot...~
+~
+0 -1 27332
+DDIR_SOUTH
+Chaos's Pet Store...~
+~
+0 -1 27335
+DDIR_WEST
+Chaos's Magic Shop...~
+~
+0 -1 27334
+DDIR_DOWN
+Entrance to the Temple of Chaos.~
+~
+0 -1 27329
+#27332
+Chaos's Supply Depot~
+This shop is strong in the forces of Chaos. A cloud of entropy hangs over
+all items here, a cloud which both curses and blesses its holder at the
+same time.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Nothing special here...~
+~
+0 -1 27331
+#27333
+Chaos' Armory~
+The weapons and armor on the shelves glow with shifting light...they are
+truly blessed by the Priests of Chaos...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Nothing special here...~
+~
+0 -1 27331
+#27334
+Chaos' Magic Shop~
+There are scrolls, staves, wands, pills, and potions for the servants of
+Chaos here...all made by the Priests of Chaos for defending and aiding
+the followers of Chaos.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Nothing special here...~
+~
+0 -1 27331
+#27335
+Chaos' Pets~
+There are servants of Chaos here, ready to aid the followers of Chaos in
+their fight.
+~
+0 ROOM_INDOORS|ROOM_PET_SHOP SECT_INSIDE
+DDIR_NORTH
+Nothing special here...~
+~
+0 -1 27331
+#27336
+Chaos petstore backroom~
+You shouldn't be here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+#27345
+Herbalist shop~
+This is the village herbalist's shop.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The village street...~
+~
+0 -1 27203
+#27346
+Village smithy~
+This is the village smithy. It's really hot in here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The village street...~
+~
+0 -2 27208
+#27347
+A thundering waterfall~
+You look up, and see a good-sized waterfall here, pouring down from a cleft
+in the rocks down into a sort of tunnel in the rock that you would guess feeds
+some sort of lake or river.
+~
+0 ROOM_SAFE SECT_MOUNTAIN
+DDIR_SOUTH
+A rough road winds past the waterfall.~
+~
+0 -1 27225
+#27353
+Loading Room Alpha~
+This is Loading Room Alpha...for guardian mob loading...how the hell
+did you get in here?
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Portal to Lord's Highway.~
+~
+0 -1 27212
+DDIR_EAST
+Portal to Lord's Highway.~
+~
+0 -1 27215
+DDIR_SOUTH
+Portal to Lord's Highway.~
+~
+0 -1 27239
+DDIR_WEST
+Portal to Northern Bridge to the City of Eternity.~
+~
+0 -1 27243
+DDIR_UP
+Portal to Eastern Bridge to the City of Eternity.~
+~
+0 -1 27254
+DDIR_DOWN
+Portal to Southern Bridge to the City of Eternity.~
+~
+0 -1 27264
+#27354
+Loading Room Beta~
+This is Loading Room Beta...for mage-warrior loading...how the hell
+did you get in here?
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Portal to Woodland Path (Northern sector)~
+~
+0 -1 27244
+DDIR_EAST
+Portal to Woodland Path (Northern sector)~
+~
+0 -1 27247
+DDIR_SOUTH
+Portal to Woodland Path (Eastern sector)~
+~
+0 -1 27256
+DDIR_WEST
+Portal to Woodland Path (Southern sector)~
+~
+0 -1 27266
+DDIR_UP
+Portal to Woodland Path (near Grassy Knoll)~
+~
+0 -1 27260
+DDIR_DOWN
+Portal to Woodland Path (Southeastern sector)~
+~
+0 -1 27272
+#27355
+Loading Room Gamma~
+This is Loading Room Gamma...for Aes Sedai and Warder loading...how the hell
+did you get in here?
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Portal to Lord's Highway~
+~
+0 -1 27213
+DDIR_EAST
+Portal to Lord's Highway~
+~
+0 -1 27240
+DDIR_SOUTH
+Portal to Woodland Path (Northern sector)~
+~
+0 -1 27245
+DDIR_WEST
+Portal to Woodland Path (Eastern sector)~
+~
+0 -1 27255
+DDIR_UP
+Portal to Woodland Path (Southern sector)~
+~
+0 -1 27268
+DDIR_DOWN
+Portal to Woodland Path (near Tower of Time entrance)~
+~
+0 -1 27262
+#27356
+The Void~
+All about you is void, and nothingness.  You look off into Eternity, and
+see nothing.  For that matter, you hear nothing, and the only feeling that
+you have is that you are falling.  As you flail around, you find that you
+are unable to tell which way is up, as there is *NOTHING* here that you
+can use for reference.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#0
+
+
+#RESETS
+M 27241 100 17405
+M 27242 100 17485
+M 27243 100 17617
+M 27244 100 17663
+M 27200 100 27238
+E 27208 999 WEAR_HOLD
+E 27205 999 WEAR_WIELD
+M 27204 100 27356
+M 27206 100 27322
+E 27224 999 WEAR_BODY
+E 27253 999 WEAR_NECK_A
+M 27207 100 27330
+E 27223 999 WEAR_BODY
+E 27250 999 WEAR_NECK_A
+M 27210 100 27325
+G 27214 999 0
+G 27215 999 0
+G 27216 999 0
+M 27211 100 27326
+M 27212 100 27324
+M 27213 100 27327
+M 27220 100 27328
+M 27221 100 27328
+M 27222 100 27328
+M 27214 100 27333
+G 27211 999 0
+G 27212 999 0
+G 27213 999 0
+M 27215 100 27334
+M 27216 100 27332
+M 27217 100 27335
+M 27223 100 27336
+M 27224 100 27336
+M 27225 100 27336
+M 27231 100 27263
+E 27236 999 WEAR_FINGER_L
+E 27237 999 WEAR_HEAD
+E 27228 999 WEAR_BODY
+M 27239 100 27345
+G 27234 999 0
+M 27240 100 27346
+M 27229 100 27257
+E 27226 999 WEAR_NECK_A
+M 27226 100 27275
+M 27226 100 27277
+M 27226 100 27279
+M 27226 100 27288
+M 27227 100 27278
+M 27228 100 27242
+G 27225   1 0
+M 27230 100 27273
+E 27206   1 WEAR_HEAD
+E 27235  10 WEAR_WIELD
+M 27201 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27201 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27201 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27202 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27202 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27202 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27203 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27203 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27203 100 27355
+E 27210   9 WEAR_FINGER_L
+M 27205 100 27355
+E 27235  10 WEAR_FINGER_L
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27205 100 27355
+E 27235  10 WEAR_HEAD
+M 27208 100 27354
+E 27203   5 WEAR_BODY
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+M 27208 100 27354
+E 27203   5 WEAR_BODY
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+M 27208 100 27354
+E 27203   5 WEAR_BODY
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+G 27231   2 0
+M 27208 100 27354
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+M 27208 100 27354
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+M 27208 100 27354
+E 27204   8 WEAR_HEAD
+E 27230   6 WEAR_NECK_A
+M 27209 100 27354
+E 27203   5 WEAR_BODY
+E 27204   8 WEAR_HEAD
+M 27209 100 27354
+E 27203   5 WEAR_BODY
+E 27204   8 WEAR_HEAD
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27218 100 27353
+E 27228   8 WEAR_BODY
+E 27229   8 WEAR_LEGS
+M 27219 100 27202
+M 27219 100 27203
+M 27219 100 27206
+M 27219 100 27207
+M 27219 100 27208
+M 27219 100 27209
+M 27245 100 27200
+O 27200   1 27200
+O 27201   1 27215
+O 27202   1 27210
+O 27207   1 27263
+O 27209   1 27205
+O 27227   1 27253
+O 27232   1 27237
+O 27243   1 27237
+P 27233   1 27243
+O 27242   1 27347
+O 27256   1 27331
+O 27257   1 27323
+D 27234 DIR_DOWN  DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,2567 @@
+#AREA Underdark~
+#AUTHORS Jaxom Blythe~
+#VERSION 4
+#RANGES 35 65 1 95
+
+
+#HELPS
+0 UNDERDARK~
+{128}
+                                  Underdark
+{308}
+The Underdark is an enormous system of tunnels and caverns deep beneath the
+continent of Toril with some tunnels even stretching beyond to other
+continents.  Drow City is located here and while they think they rule the
+Underdark, they are much mistaken.  No one creature or race dominates here.
+Rumour has it that in can be reached through a famous tavern in Waterdeep.
+
+~
+
+0 $~
+
+
+#MOBILES
+#1200
+scout drow male~
+a Drow Scout~
+A male drow scouts here.~
+{108}He is a fairly typical male drow with ebony skin and white hair.  He wears
+the piwafwi of a scout, one of the lowest ranking warriors.  He is very good
+at his job however as you can barely see him hiding in the shadows.
+~
+ACT_BODY|ACT_RACE
+AFF_STEALTH
+-500 S
+30 BODY_LEG 0 1d225+410 1d1+21
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#1201
+carrion crawler~
+a Carrion Crawler~
+A carrion crawler scavenges here.~
+It looks like a cross between a giant green worm and a cephalopod, with
+several tenticles at the mouth and dozens of legs.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+40 BODY_LEG BODY_TENTACLE 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+mpecho The carrion crawler discovers your presence and decides you are food!
+mpkill $r
+~
+|
+#1202
+cave fisher~
+a Cave Fisher~
+A cave fisher hangs from a filament here.~
+It has a hard insect-like shell with eight legs.  The front pair of legs
+have pincers which look deadly and it has a long snout.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+45 BODY_LEG 0 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 80~
+mpechoat $n As you enter the cavern, you are caught by a sticky strand.
+mpechoat $n The cave fisher drops from the ledge and attacks!
+mpkill $n
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#1203
+duergar gray dwarf~
+a Duergar~
+A gray dwarf is here.~
+He is very skinny with a dark gray complexion.  He wears gray clothes
+similar in color to his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+-500 S
+50 BODY_LEG BODY_HEAD 1d625+1197 1d50+13
+10000 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#1204
+pech~
+a Pech~
+A pech works the stone here.~
+He is thin with long arms and legs.  He has broad hands and feet and pale
+yellowish skin beneath reddish brown hair.  You notice his eyes have no
+pupils.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+500 S
+45 BODY_LEG 0 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 40~
+mpecho The Pech calls upon the earth for aid!
+cast earthquake $n
+~
+>speech_prog dirt earth~
+if level ($n) < 45
+  say You seek earth from the very deep?
+  mpoload 1207
+  give earth $n
+endif
+~
+>death_prog 100~
+if class ($n) == class_elementalist
+  if level ($n) < 45
+    mpechoat $n The pech gives you a disappointed look as he dies.
+    mpechoaround $n The pech gives $n a disappointed look as he dies.
+    say A fellow worshipper of the elements only had to ask and I would give!
+    mpoload 1207
+  endif
+endif
+~
+|
+#1205
+shrieker mushroom~
+a Shrieker~
+A large mushroom is here.~
+It is a large mushroom about two feet tall.  It seems to be moving as you
+watch it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+40 0 0 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 80~
+mpechoat $n At your approach the mushroom emits a piercing shriek!
+mpasound You hear a piercing shriek coming from nearby.
+~
+|
+#1206
+hook horror~
+a Hook Horror~
+A hook horror stalks here.~
+It is about nine feet tall with a grey exoskeleton like an insects.
+Its front limbs end in twelve inch hooks.  Its head is shaped like a
+vulture and its eyes are multifaceted.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-500 S
+55 BODY_LEG BODY_CLAW 1d756+1469 1d55+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpecho The hook horror lumbers up to you, clicking and clacking at you.
+mpasound You can here an eerie clacking sound, echoing along the tunnels.
+~
+|
+#1207
+illithid mind flayer M1207~
+an Illithid~
+A mind flayer floats here.~
+It is about six feet tall with mauve skin that glistens with slime.
+Its head looks like an octopus with pupiless eyes and four tenticles
+around the mouth which is similar to that of a lamprey.  You notice that
+it only has three fingers and a thumb on each hand.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-500 S
+60 BODY_LEG BODY_TENTACLE 1d900+1774 1d60+19
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,3,$n) == 2
+  mpecho The Illithid senses you are a threat and attacks!
+  mpkill $n
+endif
+~
+>fight_prog 40~
+mpechoat $n You reel back as the Illithid's mind blast burns your mind.
+mpasound $n Your mind tingles from the blast of a nearby Illithid.
+mpquiet on
+cast 'energy drain' $n
+mpquiet off
+~
+>death_prog 100~
+mpat 1271 mpecho The illithid-brain trembles at the death of an illithid.
+~
+|
+#1208
+yellow mold fungus~
+Yellow Mold~
+A yellow fungus grows here.~
+It is pale yellow in color with a furry texture.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+55 0 0 1d756+1469 1d55+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 40~
+mpechoat $n The fungus emits a cloud of spores which you inhale.
+mpquiet on
+cast 'acid blast' $n
+mpquiet off
+~
+|
+#1209
+myconid fungus man~
+a Myconid~
+A fungus man sits here.~
+It resembles a walking toadstool in human form.  It is purple in color
+with wide feet and stubby hands.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+40 BODY_LEG 0 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1210
+piercer stalactite~
+a Piercer~
+A stalactite hangs from the ceiling here.~
+It looks like a limestone growth on the ceiling, or a stalactite.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+35 0 0 1d306+564 1d1+23
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 33~
+mpechoat $r The piercer drops from the ceiling straight toward you!
+mpechoaround $r The piercer drops toward $r.
+mpkill $r
+~
+|
+#1211
+quaggoth~
+a Quaggoth~
+A Quaggoth roams here.
+~
+It is a large humanoid with long shaggy white hair covering its whole
+body.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+65 BODY_LEG 0 1d1056+2111 1d65+22
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#1212
+rust monster~
+a Rust Monster~
+A rust monster is here.~
+It is about five feet long and three feet high.  It is armor plated
+with two antenae.  It smells like wet rusted metal.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+70 BODY_LEG BODY_TENTACLE 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 10~
+mpquiet on
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+mpforce $n remove armor
+mpforce $n give armor rust
+mpquiet off
+if hasobj ($i) == armor
+  mpjunk armor
+  mpechoat $n The rust monster has eaten your armor!
+else
+  mpquiet on
+  mpforce $n remove helm
+  mpforce $n give helm rust
+  mpquiet off
+  if hasobj ($i) == helm
+    mpjunk helm
+    mpechoat $n The rust monster has eaten your helm!
+  endif
+endif
+~
+|
+#1213
+umber hulk~
+an Umber Hulk~
+An umber hulk waddles toward you.~
+It is eight feet tall and five feet wide.  It is very muscular beneath
+its scaly hide and it has eight inch mandibles jutting from its mouth.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_RACE
+0
+0 S
+70 BODY_LEG 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1214
+purple worm~
+a Purple Worm~
+A purple worm burrows here.~
+It is eight feet in diameter and over a hundred feet long.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_RACE
+0
+0 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1215
+mindless slave~
+a mindless slave~
+A mindless slave massages the Illithid Brain.~
+It is a goblin with a blank stare.  It looks as though its will has been
+stolen from it, or maybe as if its brains had been devoured.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+30 BODY_LEG 0 1d225+410 1d1+21
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 30~
+mpechoat $n The slave gives you a blank look.
+~
+>rand_prog 10~
+mpecho The slave mindlessly massages the many tissues of the illithid-brain.
+~
+>death_prog 80~
+mpecho You see a spark of what the slave once was as he dies.
+~
+|
+#1216
+illithid brain~
+the Illithid Brain~
+The brain that controls all illithid is here.~
+It looks like an enormous brain with veins pulsing just under the surface.
+There are hundreds of folds within its surface and it looks a bit slimy.
+When you look closer at the illithid brain you can see tadpoles swimming
+in the brine in which the brain lies.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho The brain pulses as it gives a command to one of its many followers.
+~
+>all_greet_prog 100~
+if quest (0,3,$n) == 2
+  mpecho The brain calls for help as it senses your presence.
+  mpmload 1207
+  mpmload 1207
+  mpmload 1207
+  mpecho Mind Flayer reinforcements arrive and attack.
+  mpforce M1207 mpkill $n
+  mpmset $n quest 0 3 3
+endif
+~
+>death_prog 100~
+if quest (0,3,$n) == 3
+  mpecho The brain collapses in on itself as it dies.
+  mpoload 1202
+  mpmset $n quest 0 3 4
+endif
+~
+|
+#1217
+myconid leader fungus man large~
+the Myconid Leader~
+A large fungus man sits here.~
+It resembles a walking toadstool in human form.  It is purple in color
+with wide feet and stubby hands.  It is also the largest myconid you have
+ever seen and the others seem to pay it a lot of respect.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+50 BODY_LEG 0 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (0,3,$n) == 0
+  if race ($n) == race_drow
+    cringe $n
+  else
+    say Greetings surface dweller.
+    say Say that you will do me a service and I will let you live.
+  endif
+endif
+~
+>speech_prog yes yep sure ok~
+if quest (0,3,$n) == 0
+  say The Illithid have encroached on our territory.
+  say Elminate them.  You may find someone that knows
+  say how this may be accomplished.
+  mpmset $n quest 0 3 1
+endif
+~
+>give_prog i1202~
+if quest (0,3,$n) == 4
+  say You have earned your life.
+  mpoload 1206
+  mpoload 1205
+  give i1206 $n
+  give i1205 $n
+  say Take these and leave us in peace.
+  give i1202 $n
+  say And discard of that as well.
+  mpmset $n quest 0 3 5
+  mpjunk all
+else
+  give i1202 $n
+  say What do i want with that?
+  mpjunk all
+endif
+~
+|
+#1218
+svirfneblin deep gnome~
+a svirfneblin~
+A deep gnome digs at the rock here.~
+He is very short and thin with a gnarled frame that belies his strength.
+His skin is rock colored and eyes are grey.  He is also completely bald.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+1000 S
+50 BODY_LEG 0 1d625+1197 1d50+13
+100000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog illithid mind~
+if quest (0,3,$n) == 1
+  say You seek to destroy the Mind Flayer's community?
+  say Very well I will tell you how as it benefits all
+  say denizens of the Underdark.
+  mpecho The deep gnome pauses before continuing.
+  say Simply kill the brain that controls them and you
+  say have destroyed them all
+  mpmset $n quest 0 3 2
+else
+  say Why do you seek knowledge of the Illithid?
+endif
+~
+|
+#1219
+apprentice muiral~
+Muiral~
+The apprentice, Muiral glares at you menacingly.~
+He has to upper body of a human and the lower parts of a huge spider.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 0
+  say So, a little hedge wizard thinks $e can do what
+  say Halaster's apprentices have not!  You will learn
+  say the error of your thoughts!
+  mpmset $n quest 3 5 1
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (3,5,$n) == 1
+  mpmset $n quest 3 5 2
+  mpecho Muiral whispers as he dies, 'Talastria will teach you yet.'
+endif
+~
+|
+#1220
+talastria apprentice~
+Talastria~
+The apprentice, Talastria glides toward you.~
+She appears to be a beautiful young human woman wearing green silk.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 2
+  say Muiral has failed to teach you to obey your betters.
+  say I will not fail!
+  mpmset $n quest 3 5 3
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (3,5,$n) == 3
+  say Orannon!  Help me my brother.
+  mpmset $n quest 3 5 4
+endif
+~
+|
+#1221
+orannon apprentice~
+Orannon~
+The apprentice, Orannon doesn't seem to notice you.~
+He is dressed in expensive clothes and appears well groomed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 4
+  say You will die for killing my sister!
+  mpmset $n quest 3 5 5
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (3,5,$n) == 5
+  mpmset $n quest 3 5 6
+  mpecho Orannon utters under his breath, 'I always knew Arcturia would survive me.'
+endif
+~
+|
+#1222
+arcturia apprentice~
+Arcturia~
+The apprentice, Arcturia looks at you icily~
+She is a blond human woman whos look makes you shiver.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 6
+  cackle 
+  say You have done well eliminating my competition.
+  say Death shall be your reward!
+  mpmset $n quest 3 5 7
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (3,5,$n) == 7
+  mpecho Arcturia whispers as she dies, 'This leaves only Trobriand'
+  mpmset $n quest 3 5 8
+endif
+~
+|
+#1223
+trobriand apprentice~
+Trobriand~
+The apprentice, Trobriand is here.~
+He looks like he is completely encased in metal armor though on looking
+you can see that the metal is actually a part of him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 8
+  say I alone remain of Halaster's apprentices.
+  say I will do my duty to him and keep you from disturbing him.
+  mpmset $n quest 3 5 9
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (3,5,$n) == 9
+  mpmset $n quest 3 5 10
+  say I was so close to finding Halaster!
+  mpoload 1208
+endif
+~
+|
+#1224
+halaster mad mage~
+Halaster~
+The mad mage capers here.~
+He is scrawny and a bit hunched over though it is hard to tell whether he
+does so on purpose or is physically bent.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+70 0 0 1d1225+2484 1d70+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,5,$n) == 10
+  say You disturb me, $n!
+  say What will it take to get rid of you?
+  mpmset $n quest 3 5 11
+else
+  say You disturb my rest! Begone!
+  mptransfer $n 1250
+endif
+~
+>speech_prog magic mage apprentice~
+if quest (3,5,$n) == 11
+  say I don't have the time for that! Here!
+  mpoload 1209
+  give i1209 $n
+  mpoload 1210
+  give i1210 $n
+  mpmset $n quest 12
+  say Now go!
+  mptransfer $n 1200
+endif
+~
+>fight_prog 50~
+if rand (30)
+  cast 'acid blast' $n
+else
+  if rand (30)
+    cast 'energy drain'$n
+  else
+    if rand (30)
+      cast fireball $n
+    else
+      cast banish $n
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpecho The mad mage's death causes such an explosion of magic you find
+mptransfer pcs 1250
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#1200
+fungus patch~
+a patch of fungus~
+A patch of fungus grows here.~
+{028}It is a small patch of green fungus that almost looks edible.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 50 5
+#1201
+fungus patch~
+a patch of fungus~
+A patch of fungus grows here.~
+{028}It is a small patch of red fungus that almost looks edible.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+1 0 0 0 0 0 0 0
+1 50 5
+#1202
+piece illithid brain mind~
+a piece of illithid brain~
+A piece of slimy brain lies here.~
+It is a piece of brain from an illithid elder-brain.  It is dripping
+with a briny fluid.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 50 1
+#1203
+pech pick~
+a pech pick~
+A Pech pick lies here.~
+It is a pick that a Pech would use to work the stone of the Underdark.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 2 4 WEAPON_STAB 0 0 0 0
+1 4000 25
+#1204
+drow scout knife~
+a drow scout's knife~
+A small dark knife lies here.~
+It is a small knife made of a dark metal that the drow commonly use.  The
+markings on its hilt indicate it was issued to a scout.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_DARK|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 12 WEAPON_STAB 0 0 0 0
+1 4000 20
+C
+knife~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA
+#1205
+decayed leg plates half rotten~
+decayed leg plates~
+A pair of half rotten leg plates are here.~
+The were once a polished steel but time and the atmosphere they were in
+has reduced these leg plates to almost nothing
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+1 5000 50
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 6 0
+A APPLY_CON -3 0
+P 1
+TRIG_TICK 5
+OPROG_APPLY OAPPLY_HIT -20
+P 1
+TRIG_VOID
+OPROG_ECHO
+You dont feel well as you get a smell of your leg plates.~
+P 2
+TRIG_DAMAGE 5
+OPROG_GOD_COMMAND
+mpquiet on 
+ cast poison 
+ mpquiet off~
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your opponent retches at the smell of your leg plates.~
+#1206
+decayed belt half rotten~
+a decayed belt~
+A half rotten belt are here.~
+It was once oiled leather, but time and the atmosphere it was in
+has reduced this belt to almost nothing.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+1 5000 50
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 6 0
+A APPLY_CON -3 0
+P 1
+TRIG_TICK 5
+OPROG_APPLY OAPPLY_HIT -20
+P 1
+TRIG_VOID
+OPROG_ECHO
+You dont feel well as you get a smell of your belt.~
+P 2
+TRIG_DAMAGE 5
+OPROG_GOD_COMMAND
+mpquiet on 
+ cast poison 
+ mpquiet off~
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your opponent retches at the smell of your belt.~
+#1207
+earth clump~
+a clump of earth~
+A clump of earth has been spilled here.~
+It is a round clump of earth from deep within the Underdark.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 30
+P 1
+TRIG_UNKNOWN 100 mix
+OPROG_IF OIF_USER_ROOM_NUM = 28459 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+Nothing happens.  You must not be in the presence of an elemental.~
+P 3
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 225 5 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+You do not have the water to mix with it.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i225 
+ mpmset self questr 28400 10 4 6~
+P 5
+TRIG_VOID
+OPROG_ECHO
+You mix the water into the earth.~
+P 5
+TRIG_VOID
+OPROG_JUNK
+#1208
+ring ruby horned~
+a horned ring~
+A ring with a large ruby is here.~
+It is a gold ring with two gold prongs holding a huge ruby.  The name
+'Halaster' is engraved on the inside.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+13 0 0 0 0 0 0 0
+1 5000 50
+A APPLY_MANA 60 0
+P 1
+TRIG_UNKNOWN 100 Halaster
+OPROG_IF OIF_USER_POSITION ! POS_SITTING 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You cannot teleport while fighting.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_AREA = 1200 5 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+You cannot do that outside the Underdark.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround $ $ flickers and disappears. 
+mptransfer $ 1291 mpechoat $ You blink as you find yourself somewhere else. 
+look~
+#1209
+shield halaster's~
+Halaster's shield~
+A shield lies here forgotten.~
+It radiates an aura of power though you do wonder what kind of mage would
+use a shield.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+13 0 0 0 0 0 0 0
+1 5000 50
+A APPLY_MANA 60 0
+#1210
+sash halaster's~
+Halaster's sash~
+A sash lies here forgotten.~
+It is a dirty silk sash but it radiates such an aura of power that you are
+unable to keep from wearing it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+13 0 0 0 0 0 0 0
+1 5000 50
+A APPLY_MANA 60 0
+#0
+
+
+#ROOMS
+#1200
+Undermountain~
+{108}The tunnels of Undermountain dig through the bowels of Mount Waterdeep.
+This tunnel is only about eight feet high and winds and turns as it slowly
+goes deeper towards the Underdark.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_WEST
+~
+~
+0 -1 1201
+DDIR_UP
+~
+~
+0 -1 8083
+DDIR_DOWN
+~
+~
+0 -1 8088
+#1201
+Undermountain~
+You are deep within the bowels of Mount Waterdeep, not far from the infamous
+Underdark.  If I was you I wouldn't venture towards the Underdark. Only the
+most evil of creatures resides there, and deep within the Underdark, lies the
+city of the drow, a city of pure evil.  I would head back to the sunlit lands
+above and enjoy an ale in one of the many taverns in Waterdeep.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 1200
+DDIR_SOUTH
+~
+~
+0 -1 1202
+#1202
+Undermountain~
+You are in a long dark tunnel.  Far above you, you can see a faint
+pinpoint of light.  You have to assume this is the entrance from
+Mount Waterdeep.  To your south it seems like the tunnel goes on
+forever, disappearing into the deep dark of the underground.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1201
+DDIR_SOUTH
+~
+~
+0 -1 1203
+#1203
+Undermountain~
+The dark is so intense that you feel like it is trying to reach
+into your soul.  The feeling of evil is all pervading.  You can hear
+in the distance the sound of dripping water.  Loose rocks give out
+under your feet as you make your way warily along the tunnel.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1202
+DDIR_SOUTH
+~
+~
+0 -1 1204
+#1204
+Undermountain~
+The tunnel seems endless as you make your way along it.  You tread
+warily as you have heard of the deserved reputation of the Underdark.
+It is a place where evil roams free, and no one creature rules.  Here
+it is literally the survival of the fittest.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1203
+DDIR_UP
+~
+~
+0 -1 8005
+#1205
+Undermountain~
+Above you is the shaft of the well that leads to the Yawning Portal
+in Waterdeep.  Above you is a safe haven.  Before you
+is the uncertainty of survival deep within the Underdark.  If you
+listen very carefully you may here the sounds of revelry in the Yawning
+Portal Inn above you.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1206
+DDIR_WEST
+~
+~
+0 -1 1204
+DDIR_UP
+~
+~
+0 -1 8086
+#1206
+Undermountain~
+You are deep under Mount Waterdeep.  Nearby is the Underdark itself.
+Perhaps you should reconsider going into the Underdark and return to
+the safety of Waterdeep.  You could partake of an ale with mates in
+the Yawning Portal Inn, and a meal prepared by the wonderful cooks there.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1207
+DDIR_SOUTH
+~
+~
+0 -1 1205
+#1207
+Undermountain~
+The tunnel leads to a dead end to the south.  Perhaps south is safest, as
+heading east takes you closer to the depths of the Underdark.  And all who
+travel the realms know that the underdark is only for the very brave or
+the foolhardy.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 1208
+DDIR_SOUTH
+~
+~
+0 -1 1206
+#1208
+Undermountain~
+The tunnel makes its way with many a twist and a wind.  If you don't
+take care it wont take much for you to become disorientated, and instead
+of being deep beneath Mount Waterdeep you will end up in the dreaded
+Underdark, where evil prevails and good is almost unheard of.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 1209
+DDIR_WEST
+~
+~
+0 -1 1207
+#1209
+Undermountain~
+You have long since left the safety of Waterdeep, and the darkness fills
+your senses.  Even for those races where darkness is their haven, these
+tunnels would seem very dark.  You start to long for the sight of the sun
+and the blue skies of the world above.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 1210
+DDIR_SOUTH
+~
+~
+0 -1 1208
+#1210
+Undermountain~
+Below you is the Underdark.  Do you take the step down into one of
+the most notoriously dangerous places of Toril?  Or do you travel back
+down the tunnel to the relative safety of Waterdeep?  Perhaps you
+can go even further and head on to Tethyr and enjoy a bath at the Foaming
+Sands Bath House.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_WEST
+~
+~
+0 -1 1209
+DDIR_DOWN
+~
+~
+0 -1 1211
+#1211
+Large cavern in the Underdark~
+This is one of the larger caverns in the Underdark spanning hundreds of
+feet across and about a hundred feet high.  Tunnels lead from it in all
+directions.  The walls are slightly damp here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1212
+DDIR_SOUTH
+~
+~
+0 -1 1217
+DDIR_UP
+~
+~
+0 -1 1210
+#1212
+Large cavern in the Underdark~
+You have entered an enormous cavern.  You can not see the opposite side
+of the chamber and you can only barely see the ceiling.  Dark holes spot
+the sides of this cavern as numerous tunnels exit toward destinations
+unknown.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1218
+DDIR_EAST
+~
+~
+0 -1 1227
+DDIR_SOUTH
+~
+~
+0 -1 1216
+DDIR_WEST
+~
+~
+0 -1 1211
+#1213
+Large cavern in the Underdark~
+To your south lies the lair of a rust monster.  I would think twice before
+heading into there.  The rust monster feeds on the rust of metal.  And it will
+turn your metal armour into rust to feed its appetites.  And if it must kill you
+to get your armour, then so be it.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1217
+DDIR_EAST
+~
+~
+0 -1 1215
+DDIR_SOUTH
+~
+~
+0 -1 1214
+#1214
+Rust Monsters Lair~
+On the ground lies pools of a rust, the remains of many a brave or foolish
+warriors armour.  The rust monster with its very touch can disintergrate
+any metal armour that you are wearing.  If it kills you it probably wont bother
+eating your corpse as its only real appetite is rusted metal.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1213
+#1215
+Large cavern in the Underdark~
+This is one of the larger caverns in the Underdark spanning hundreds of
+feet across and about a hundred feet high.  Tunnels lead from it in all
+directions.  The walls are slightly damp here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1216
+DDIR_SOUTH
+~
+~
+0 -1 1228
+DDIR_WEST
+~
+~
+0 -1 1213
+#1216
+Large cavern in the Underdark~
+You have entered an enormous cavern.  You can not see the opposite side
+of the chamber and you can only barely see the ceiling.  Dark holes spot
+the sides of this cavern as numerous tunnels exit toward destinations
+unknown.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1212
+DDIR_SOUTH
+~
+~
+0 -1 1215
+DDIR_WEST
+~
+~
+0 -1 1217
+#1217
+Large cavern in the Underdark~
+This is one of the larger caverns in the Underdark spanning hundreds of
+feet across and about a hundred feet high.  Tunnels lead from it in all
+directions.  The walls are slightly damp here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1211
+DDIR_EAST
+~
+~
+0 -1 1216
+DDIR_SOUTH
+~
+~
+0 -1 1213
+#1218
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1219
+DDIR_EAST
+~
+~
+0 -1 1226
+DDIR_SOUTH
+~
+~
+0 -1 1212
+#1219
+Tunnel in the Underdark~
+The walls of the tunnels are covered with slimes and moulds.  Do not be
+totally disgusted as too many of the Underdark's herbivorous inhabitants
+these represent a good meal.  However take care as not all slimes and moulds
+are edible or if they are edible are not good for ones digestion.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1290
+DDIR_EAST
+~
+~
+0 -1 1220
+DDIR_SOUTH
+~
+~
+0 -1 1218
+#1220
+Tunnel in the Underdark~
+The walls of this tunnel seem like some parts have been smoothed out.  It
+seems that a Pech has been working the stone here.  The peck use picks and
+hammers to work the stone and defend themselves.  Pechs being of the earth
+are said to be able to 'communicate' with the stone itself.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1221
+DDIR_WEST
+~
+~
+0 -1 1219
+#1221
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1223
+DDIR_EAST
+~
+~
+0 -1 1222
+DDIR_SOUTH
+~
+~
+0 -1 1220
+#1222
+Tunnel in the Underdark~
+Moulds and fungus line the walls of this cavern.  Take care as some species
+of fungus have adapted themselves to be a warning system to the rest of the
+Underdark.  Shrieker mushrooms will release a high pitched squeal if disturbed,
+alerting the rest of the underdark to the presence of a fool who treads too
+heavily.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1224
+DDIR_WEST
+~
+~
+0 -1 1221
+#1223
+Cave fisher's lair~
+You have entered a small cave formed by the dead end of the tunnel.  You
+notice that there is a ledge high above you but it look inaccessable to
+most creatures.  There is what was once living materiel scattered here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1221
+#1224
+Tunnel in the Underdark~
+The stone of this tunnel has been worked on till it is smooth to the touch.
+You would assume that a Pech, earth elemental, is the reason for this.
+They love to work and talk to the stone, and shape it.  In battle Pech's
+can get the earth and stone to work with them.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1222
+DDIR_EAST
+~
+~
+0 -1 1258
+DDIR_SOUTH
+~
+~
+0 -1 1225
+#1225
+Tunnel intersection~
+Tunnels lead off in all directions.  None of which I am sure lead to the safety
+of the world above.  You long for the sight of the sun, moon and stars.  It
+seems like forever since you felt the touch of the wind on your face.  You would
+even welcome the freezing touch of an icy night.  The shadows in this tunnel
+seem to move.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1224
+DDIR_EAST
+~
+~
+0 -1 1259
+DDIR_SOUTH
+~
+~
+0 -1 1241
+DDIR_WEST
+~
+~
+0 -1 1226
+#1226
+Tunnel in the Underdark~
+Stalegmites and stalectites adorn this tunnel.  Are all of them as they seem?
+Some species in the Underdark have adapted themselves to be inconspicuous so
+as to attack the unwary.  One such would be the Piercer, resembling a
+stalactite hanging from a cave roof.  There it hangs patiently till its prey
+moves beneath it, then dropping from the ceiling and impaling its prey.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1225
+DDIR_WEST
+~
+~
+0 -1 1218
+#1227
+Umber hulk's lair~
+The tunnel you were following has been opened up from the side from a small
+cavern.  You see the remains of what looks like a purple worm inside the
+cavern, and you also see a few human skulls.  You notice scratch marks along
+all the walls here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_WEST
+~
+~
+0 -1 1212
+#1228
+Tunnel in the Underdark~
+These tunnels are regularily patroled by the drow of the city of the drow.
+The drow would like to think that they rule the Underdark, but they are
+arrogant.  No one species rules the Underdark, though the drow are one of the
+stronger species that roams.  Take care that you don't incur the wrath of a
+drow, and you are taken as a slave or perhaps worse killed.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1215
+DDIR_EAST
+~
+~
+0 -1 1240
+#1229
+Mind Flayer's Cavern~
+The cavern here has been worked on by the slaves of the Illithid who live here.
+The Illithid are also known as Mind Flayers for they fight their victim by
+attacking the mind, and devouring the brain.  The illithid keep some victims
+as slaves by taking away their will.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1230
+DDIR_SOUTH
+~
+~
+0 -1 1272
+#1230
+Mind Flayer's Cavern~
+Within this Cavern lives an Illithid community.  For every Illithid there is
+one to two slaves, performing the menial tasks for the Illithids.  They can
+communicate with any intelligent creature with innate telepathy.  They have
+no spoken language although they often accompany their thoughts with hissing
+and the eager lashing of their tenticles.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1231
+DDIR_SOUTH
+~
+~
+0 -1 1269
+DDIR_WEST
+~
+~
+0 -1 1229
+#1231
+Tunnel intersection~
+This is a small round chamber formed by the intersection of several tunnels.
+You realise that a monster could come for you from any direction right now
+and would not be able to face all directions at once, but then you also
+realise that it would be easy to run from as well.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1240
+DDIR_EAST
+~
+~
+0 -1 1245
+DDIR_SOUTH
+~
+~
+0 -1 1233
+DDIR_WEST
+~
+~
+0 -1 1230
+#1232
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1233
+DDIR_EAST
+~
+~
+0 -1 1234
+DDIR_WEST
+~
+~
+0 -1 1270
+#1233
+Tunnel in the Underdark~
+This tunnel runs fairly strait but it gets very small at some points.
+It narrows down to about three feet high and three wide but luckily widens
+after that to a more navigatable size.  While crawling through this tight
+spot in the corridor would not be a good time for a monster to attack.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1231
+DDIR_SOUTH
+~
+~
+0 -1 1232
+#1234
+Tunnel in the Underdark~
+The walls of this tunnel are damp and covered with mold.  You wonder if
+breathing the air here could be bad for your health and are determined
+to get clear of this section of tunnel as quickly as possible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1268
+DDIR_EAST
+~
+~
+0 -1 1235
+DDIR_WEST
+~
+~
+0 -1 1232
+#1235
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1236
+DDIR_WEST
+~
+~
+0 -1 1234
+#1236
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1239
+DDIR_EAST
+~
+~
+0 -1 1237
+DDIR_WEST
+~
+~
+0 -1 1235
+#1237
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1238
+DDIR_WEST
+~
+~
+0 -1 1236
+#1238
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1237
+DDIR_WEST
+~
+~
+0 -1 1239
+#1239
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1238
+DDIR_SOUTH
+~
+~
+0 -1 1236
+#1240
+Tunnel intersection~
+This is a small round chamber formed by the intersection of several tunnels.
+You realise that a monster could come for you from any direction right now
+and would not be able to face all directions at once, but then you also
+realise that it would be easy to run from as well.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1244
+DDIR_SOUTH
+~
+~
+0 -1 1231
+DDIR_WEST
+~
+~
+0 -1 1228
+#1241
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1225
+DDIR_SOUTH
+~
+~
+0 -1 1242
+#1242
+Tunnel in the Underdark~
+This tunnel runs fairly strait but it gets very small at some points.
+It narrows down to about three feet high and three wide but luckily widens
+after that to a more navigatable size.  While crawling through this tight
+spot in the corridor would not be a good time for a monster to attack.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1241
+DDIR_EAST
+~
+~
+0 -1 1261
+DDIR_SOUTH
+~
+~
+0 -1 1243
+#1243
+Tunnel in the Underdark~
+The walls of this tunnel are damp and covered with mold.  You wonder if
+breathing the air here could be bad for your health and are determined
+to get clear of this section of tunnel as quickly as possible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1242
+DDIR_SOUTH
+~
+~
+0 -1 1244
+#1244
+Tunnel in the Underdark~
+The walls of this tunnel are formed of very jagged stone and you can still
+see marks on the walls where picks and other tools must have been used to
+extend this tunnel.  You wonder if the creator of this tunnel is still
+around.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1243
+DDIR_WEST
+~
+~
+0 -1 1240
+#1245
+Tunnel in the Underdark~
+The tunnel here has some odd formations along the walls almost as though
+the stone has been melted and recooled.  You wonder if perhaps there is a
+volcanic pool nearby or even worse if there is some creature than has the
+power to melt stone near.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1246
+DDIR_WEST
+~
+~
+0 -1 1231
+#1246
+Tunnel in the Underdark~
+The walls here look have been freshly excavated.  You even see residue of
+what the miners were after.  There are small flecks of ruby along the walls
+of the tunnel.  You wonder at the wealth of gems that must have been in these
+walls.  You also wonder if any of that wealth remains.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1247
+DDIR_SOUTH
+~
+~
+0 -1 1267
+DDIR_WEST
+~
+~
+0 -1 1245
+#1247
+Tunnel in the Underdark~
+The floor of this tunnel has seen the tramp of many feet.  Most of the prints
+in the dust seem to all head in one direction though.  You wonder what has
+cause so many people to pass this way and also what has caused so many people
+to not return.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1263
+DDIR_EAST
+~
+~
+0 -1 1248
+DDIR_SOUTH
+~
+~
+0 -1 1246
+#1248
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1249
+DDIR_SOUTH
+~
+~
+0 -1 1266
+DDIR_WEST
+~
+~
+0 -1 1247
+#1249
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1262
+DDIR_EAST
+~
+~
+0 -1 1250
+DDIR_SOUTH
+~
+~
+0 -1 1248
+#1250
+Tunnel in the Underdark~
+This tunnel runs fairly strait but it gets very small at some points.
+It narrows down to about three feet high and three wide but luckily widens
+after that to a more navigatable size.  While crawling through this tight
+spot in the corridor would not be a good time for a monster to attack.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1251
+DDIR_SOUTH
+~
+~
+0 -1 1264
+DDIR_WEST
+~
+~
+0 -1 1249
+#1251
+Tunnel in the Underdark~
+The walls of this tunnel are damp and covered with mold.  You wonder if
+breathing the air here could be bad for your health and are determined
+to get clear of this section of tunnel as quickly as possible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1252
+DDIR_SOUTH
+~
+~
+0 -1 1250
+#1252
+Tunnel in the Underdark~
+The walls of this tunnel are formed of very jagged stone and you can still
+see marks on the walls where picks and other tools must have been used to
+extend this tunnel.  You wonder if the creator of this tunnel is still
+around.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1273
+DDIR_EAST
+~
+~
+0 -1 1283
+DDIR_SOUTH
+~
+~
+0 -1 1251
+DDIR_WEST
+~
+~
+0 -1 1253
+#1253
+Tunnel in the Underdark~
+The tunnel here has some odd formations along the walls almost as though
+the stone has been melted and recooled.  You wonder if perhaps there is a
+volcanic pool nearby or even worse if there is some creature than has the
+power to melt stone near.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1254
+DDIR_EAST
+~
+~
+0 -1 1252
+DDIR_SOUTH
+~
+~
+0 -1 1262
+#1254
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1255
+DDIR_SOUTH
+~
+~
+0 -1 1253
+DDIR_WEST
+~
+~
+0 -1 1259
+#1255
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1256
+DDIR_SOUTH
+~
+~
+0 -1 1254
+#1256
+Tunnel in the Underdark~
+This tunnel runs fairly strait but it gets very small at some points.
+It narrows down to about three feet high and three wide but luckily widens
+after that to a more navigatable size.  While crawling through this tight
+spot in the corridor would not be a good time for a monster to attack.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1255
+DDIR_WEST
+~
+~
+0 -1 1257
+#1257
+Purple worm's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1256
+#1258
+Purple worm's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_WEST
+~
+~
+0 -1 1224
+#1259
+Tunnel in the Underdark~
+The walls of this tunnel are damp and covered with mold.  You wonder if
+breathing the air here could be bad for your health and are determined
+to get clear of this section of tunnel as quickly as possible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1254
+DDIR_WEST
+~
+~
+0 -1 1225
+#1260
+Orannon's lair~
+The tunnel you were following has been opened up from the side from a small
+cavern.  You see the remains of what looks like a purple worm inside the
+cavern, and you also see a few human skulls.  You notice scratch marks along
+all the walls here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1261
+#1261
+Tunnel in the Underdark~
+The walls of this tunnel are formed of very jagged stone and you can still
+see marks on the walls where picks and other tools must have been used to
+extend this tunnel.  You wonder if the creator of this tunnel is still
+around.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1260
+DDIR_EAST
+~
+~
+0 -1 1262
+DDIR_WEST
+~
+~
+0 -1 1242
+#1262
+Tunnel in the Underdark~
+The tunnel here has some odd formations along the walls almost as though
+the stone has been melted and recooled.  You wonder if perhaps there is a
+volcanic pool nearby or even worse if there is some creature than has the
+power to melt stone near.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1253
+DDIR_SOUTH
+~
+~
+0 -1 1249
+DDIR_WEST
+~
+~
+0 -1 1261
+#1263
+Arcturia's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1247
+#1264
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1250
+DDIR_SOUTH
+~
+~
+0 -1 1265
+#1265
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1264
+DDIR_EAST
+~
+~
+0 -1 1284
+#1266
+Umber hulk's lair~
+The tunnel you were following has been opened up from the side from a small
+cavern.  You see the remains of what looks like a purple worm inside the
+cavern, and you also see a few human skulls.  You notice scratch marks along
+all the walls here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1248
+#1267
+Purple worm's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1246
+#1268
+Rust monster's Lair~
+On the ground lies pools of a rust, the remains of many a brave or foolish
+warriors armour.  The rust monster with its very touch can disintergrate
+any metal armour that you are wearing.  If it kills you it probably wont bother
+eating your corpse as its only real appetite is rusted metal.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1234
+#1269
+Mind Flayer's Cavern~
+You are in the Cavern of an Illithid community.  They are also known as Mind
+Flayers.  Mind Flayers have no family structure.  Their social activities
+include eating, communicating with the elder-brain, and debating on the best
+tactics to conquer the Underdark.  For amusement, they inflict pain on their
+captives and force slaves to fight gladiatorial games.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1230
+DDIR_SOUTH
+~
+~
+0 -1 1270
+DDIR_WEST
+~
+~
+0 -1 1272
+#1270
+Mind Flayer's Cavern~
+You are deep within the Underdark in the middle of an Illithid community.
+Illithids are arrogant, viewing all over species only as cattle to feed upon.
+They prefer to eat the brains of thinking creatures.  Take care you don't
+think too much!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1269
+DDIR_WEST
+~
+~
+0 -1 1271
+#1271
+Mind Flayer's Cavern~
+You are in the centre of the Illithid Community.  The centre of any Illithid
+Community is the elder brain.  You see a pool of briny fluid that contains the
+brains of the communities dead mind flayers.  Due to the mental powers of
+illithids, the elder-brain is still sentinent, and the telepathic union of its
+brains rules the community.  The elder-brain has a range of 2-5 miles, depending
+on its age and size.  It does not attack but telepathically warns the mind
+flayers of the presence of thinking creatures.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1272
+DDIR_EAST
+~
+~
+0 -1 1270
+#1272
+Mind Flayer's Cavern~
+You are deep within the Mind Flayers Community.  Mind Flayers live about 125
+years.  They are warm-blooded amphibians, and spend their first 10 years of
+life as a tadpole, swimming in the elder-brain pool until they either die
+(which most do) or grown into adult illithids.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1229
+DDIR_EAST
+~
+~
+0 -1 1269
+DDIR_SOUTH
+~
+~
+0 -1 1271
+#1273
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1276
+DDIR_EAST
+~
+~
+0 -1 1274
+DDIR_SOUTH
+~
+~
+0 -1 1252
+#1274
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1275
+DDIR_WEST
+~
+~
+0 -1 1273
+#1275
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1274
+DDIR_WEST
+~
+~
+0 -1 1276
+#1276
+Small cavern in the Underdark~
+You have entered a cavern formed by the ending of a large tunnel.  The
+tunnel has widened into a large room about a hundred feet across.  The
+ceiling rises about thirty feet above you and you see no other tunnels
+leading from this cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1277
+DDIR_EAST
+~
+~
+0 -1 1275
+DDIR_SOUTH
+~
+~
+0 -1 1273
+#1277
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1278
+DDIR_SOUTH
+~
+~
+0 -1 1276
+#1278
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1279
+DDIR_WEST
+~
+~
+0 -1 1277
+#1279
+Tunnel in the Underdark~
+This tunnel runs fairly strait but it gets very small at some points.
+It narrows down to about three feet high and three wide but luckily widens
+after that to a more navigatable size.  While crawling through this tight
+spot in the corridor would not be a good time for a monster to attack.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1280
+DDIR_WEST
+~
+~
+0 -1 1278
+#1280
+Purple worm's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1279
+#1281
+Trobriand's lair~
+The tunnel you have been following has ended in a huge culdisac.
+The floor of the culdisac is worn smooth and you see the remains of whatever
+lairs here's last meal.  There are lots of remains and you wonder what could
+have eaten something that big.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1282
+#1282
+Tunnel in the Underdark~
+The walls of this tunnel are damp and covered with mold.  You wonder if
+breathing the air here could be bad for your health and are determined
+to get clear of this section of tunnel as quickly as possible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1281
+DDIR_WEST
+~
+~
+0 -1 1283
+#1283
+Tunnel in the Underdark~
+The walls of this tunnel are formed of very jagged stone and you can still
+see marks on the walls where picks and other tools must have been used to
+extend this tunnel.  You wonder if the creator of this tunnel is still
+around.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1282
+DDIR_WEST
+~
+~
+0 -1 1252
+#1284
+Tunnel in the Underdark~
+The tunnel here has some odd formations along the walls almost as though
+the stone has been melted and recooled.  You wonder if perhaps there is a
+volcanic pool nearby or even worse if there is some creature than has the
+power to melt stone near.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1285
+DDIR_SOUTH
+~
+~
+0 -1 1289
+DDIR_WEST
+~
+~
+0 -1 1265
+#1285
+Tunnel in the Underdark~
+The walls here look have been freshly excavated.  You even see residue of
+what the miners were after.  There are small flecks of ruby along the walls
+of the tunnel.  You wonder at the wealth of gems that must have been in these
+walls.  You also wonder if any of that wealth remains.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1286
+DDIR_SOUTH
+~
+~
+0 -1 1284
+#1286
+Tunnel in the Underdark~
+This small tunnel winds through the underdark.  Its height rises and falls
+between a cramped five feet high to a spacious twenty feet.  A similar
+shift takes place with the width of the tunnel.  You notice that there is
+no debris along the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1288
+DDIR_EAST
+~
+~
+0 -1 1287
+DDIR_SOUTH
+~
+~
+0 -1 1285
+#1287
+Tunnel in the Underdark~
+This tunnel is about thirty feet high and fairly round.  You notice that
+the sides of this tunnel have been worn smooth by something and that there
+is little to no rubbish or debris in the tunnel.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_WEST
+~
+~
+0 -1 1286
+#1288
+Umber hulk's lair~
+The tunnel you were following has been opened up from the side from a small
+cavern.  You see the remains of what looks like a purple worm inside the
+cavern, and you also see a few human skulls.  You notice scratch marks along
+all the walls here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1286
+#1289
+Muiral's lair~
+You have entered a small cave formed by the dead end of the tunnel.  You
+notice that there is a ledge high above you but it look inaccessable to
+most creatures.  There is what was once living materiel scattered here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 1284
+#1290
+Talastria's Lair~
+On the ground lies pools of a rust, the remains of many a brave or foolish
+warriors armour.  The rust monster with its very touch can disintergrate
+any metal armour that you are wearing.  If it kills you it probably wont bother
+eating your corpse as its only real appetite is rusted metal.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_SOUTH
+~
+~
+0 -1 1219
+#1291
+Shadowed alcove~
+This dark alcove is bare except for the thick coating of dust on the floor.
+An arch leads into another room which is slightly lit you can only assume
+that you are still somewhere in the Underdark.
+~
+0 ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_EAST
+~
+~
+0 -1 1292
+#1292
+Halaster's abode~
+This cavern is cluttered with all sorts of magical devices.  Most of them
+look to be used for research though a great number seem to be weapons of
+varions sorts.  The light is dim here but that is just as well as the
+room doesn't look like it's been cleaned in centuries.
+~
+0 ROOM_INDOORS SECT_DEEP_EARTH
+DDIR_WEST
+~
+~
+0 -1 1291
+#0
+
+
+#RESETS
+M 1200 100 1231
+E 1204 100 WEAR_WIELD
+M 1200 100 1228
+E 1204 100 WEAR_WIELD
+M 1200 100 1244
+E 1204 100 WEAR_WIELD
+M 1200 100 1232
+E 1204 100 WEAR_WIELD
+M 1200 100 1225
+E 1204 100 WEAR_WIELD
+M 1200 100 1247
+E 1204 100 WEAR_WIELD
+M 1201 100 1218
+M 1201 100 1235
+M 1201 100 1264
+M 1201 100 1254
+M 1202 100 1223
+M 1220 100 1289
+M 1203 100 1253
+M 1203 100 1252
+M 1203 100 1251
+M 1203 100 1250
+M 1204 100 1220
+E 1203 100 WEAR_WIELD
+M 1204 100 1246
+M 1204 100 1224
+E 1203 100 WEAR_WIELD
+M 1204 100 1233
+M 1205 100 1243
+M 1205 100 1222
+M 1205 100 1248
+M 1205 100 1282
+M 1206 100 1278
+M 1206 100 1255
+M 1206 100 1234
+M 1206 100 1285
+M 1207 100 1229
+M 1207 100 1230
+M 1207 100 1269
+M 1207 100 1270
+M 1207 100 1272
+M 1208 100 1219
+M 1208 100 1245
+M 1208 100 1265
+M 1208 100 1277
+M 1209 100 1273
+M 1209 100 1274
+M 1209 100 1275
+M 1209 100 1276
+M 1209 100 1236
+M 1209 100 1237
+M 1209 100 1239
+M 1210 100 1226
+M 1210 100 1261
+M 1210 100 1256
+M 1210 100 1279
+M 1211 100 1241
+M 1211 100 1259
+M 1211 100 1221
+M 1211 100 1262
+M 1212 100 1214
+M 1212 100 1268
+M 1219 100 1290
+M 1213 100 1227
+M 1213 100 1288
+M 1213 100 1266
+M 1221 100 1260
+M 1214 100 1267
+M 1214 100 1280
+M 1223 100 1281
+M 1222 100 1263
+M 1214 100 1257
+M 1214 100 1258
+M 1215 100 1271
+M 1215 100 1271
+M 1215 100 1271
+M 1216 100 1271
+M 1217 100 1238
+M 1218 100 1287
+M 1224 100 1292
+O 1200 100 1213
+O 1201 100 1215
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

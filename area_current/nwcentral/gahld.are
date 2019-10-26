@@ -1,0 +1,2932 @@
+#AREA Gahld~
+#AUTHORS Order~
+#VERSION 4
+#RANGES 5 25 1 95
+#OLC_RANGES 6400 6499
+#FLAGS AFLAG_NOCASTLE
+
+
+#HELPS
+0 GAHLD~
+{128}                                    Gahld
+{308}
+Gahld is a small kingdom located somewhere on the north west part of the
+main continent.  It is rumored a decrepit old castle where the king once
+lived can be found there.  But a disastrous catastrophy killed every
+living creature in the kingdom centuries ago.  Ever since no living
+creature has dared to return since the castle is inhabitted by the
+ghosts of its long dead owners and creatures of evil.
+
+{148}Main programs changed from hard code to area code by Scandum in june 2001
+~
+
+0 $~
+
+
+#MOBILES
+#6400
+Ghoul follower~
+the ghastly Ghoul~
+A terribly ugly Ghoul stands here, looking for fresh corpses.~
+The long, lizard-like tongue of this undead creature hangs loosely between
+its deadly fangs.  Although there is fresh meat hanging from the blood-tainted
+fangs, this Ghoul looks famished.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_WIMPY|ACT_SMART
+AFF_DETECT_INVIS|AFF_SNEAK|AFF_HIDE
+-1000 S
+8 0 0 1d12+55 3d3+3
+1000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#6401
+Ghoul leader~
+the ghastly Ghoul Leader~
+A charismatic Ghoul leads a pack of Ghouls around.~
+The long, lizard-like tongue of this undead creature hangs loosely between
+its deadly fangs.  Although there is fresh meat hanging from the fangs,
+this Ghoul looks famished.  Somehow, this Ghoul looks a bit less ugly than
+the others in the group.
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_SNEAK
+-1000 S
+8 0 0 1d12+60 3d3+3
+1200 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 50~
+if isgood ($n)
+  mpecho {038}A lizardy voice says 'I love killing good things!'
+  mpkill $n
+else
+  if level ($n) > 10
+    if level ($n) < 30
+      mpecho {038}A lizardy voice says 'I prefer killing good things..'
+      mpecho {038}A lizardy voice says 'But a corpse IS a corpse!'
+      mpkill $n
+    endif
+  endif
+endif
+~
+|
+#6402
+Huecuva~
+the Guardian Huecuva~
+A Huecuva stands here, literally dripping disease.~
+You've seen pots of spaghetti that look like this.  It appears to be a large
+skeleton wrapped in many tattered rags.  You doubt, however, that the red
+goop clinging to it is spaghetti sauce.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+5 0 0 1d6+27 2d3+0
+1000 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+#6403
+knight ghost M6403~
+the ghost of a black knight~
+A black knight sits mounted on his steed, ready to charge.~
+The knight's visor hides his undoubtedly gruesome face.  He sits high upon
+his charger steed, seemingly intent on studying something barely discernible
+on the south end of the field.  An evil presence pervades his being and the
+steed beneath him.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_FLYING
+-1000 S
+20 0 0 1d12+400 1d1+18
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 40~
+mpmadd self quest 0 8 1
+if quest (0,6,$i) == 50
+  if existsarea (M6404)
+    mpecho The black knight rears his steed and takes off in a thunder of sound to his destiny in the south.
+    mpgoto 6409
+    mpat 6410 mpecho The white knight rears his steed and takes off in a thunder of sound to his destiny in the north.
+    mptransfer M6404
+    if rand (50)
+      mpecho The black knight arrives suddenly.
+      mpforce M6404 mpecho The white knight arrives suddenly.
+    else
+      mpforce M6404 mpecho The white knight arrives suddenly.    
+      mpecho The black knight arrives suddenly.
+    endif
+  else
+    mpmset self quest 0 8 0
+  endif
+endif
+if quest (0,6,$i) == 52
+  if rand (50)
+    mpkill M6404
+  else
+    mpforce M6404 mpkill M6403
+  endif
+  mpmset M6404 quest 0 8 50
+endif
+if quest (0,6,$i) == 60
+  mpecho The black knight heads toward the king's stand in the east.
+  mpgoto 6412
+  mpecho The black knight arrives suddenly.
+endif
+if quest (0,6,$i) == 62
+  mpecho $I bows before his non-existant king.
+  mpgoto 6408
+endif
+~
+>rand_prog 10~
+mpecho The black knight removes his visor, revealing nothing!
+~
+|
+#6404
+knight ghost M6404~
+the ghost of a white knight~
+A white knight sits mounted on his steed, ready to charge.~
+The knight's visor hides his undoubtedly gruesome face.  He sits high upon
+his charger steed, seemingly intent on studying something barely discernible
+on the north end of the field.  An essence of good fills this ghost with being.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_FLYING
+1000 S
+20 0 0 1d12+400 1d1+18
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 40~
+if quest (0,6,$i) >= 50
+  mpmadd self quest 0 5 1
+endif
+if quest (0,6,$i) == 60
+  mpecho The white knight heads toward the king's stand in the east.
+  mpgoto 6412
+  mpecho The white knight arrives suddenly.
+endif
+if quest (0,6,$i) == 62
+  mpecho $I bows before his non-existant king.
+  mpgoto 6408
+endif
+~
+>rand_prog 10~
+mpecho The white knight removes his visor, revealing maggots!
+~
+|
+#6405
+commoner ghost~
+the ghost of a commoner~
+A commoner is here, intently watching the fights occurring in the field.~
+Like the commoner he was, this ghost is dressed in cheap clothing and carries
+little gold.  His eyes light up with greed at the the aura of life which
+surrounds you.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS
+0 S
+10 0 0 1d25+81 1d1+8
+200 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+mpecho $I reveils his face in its entirety!
+~
+|
+#6406
+noble ghost~
+the ghost of a noble~
+A noble is here, intently watching the fights occurring in the field.~
+This ghost is dressed in fine ethereal silk and carries a heavy leather
+purse.  She knows that no one would have the gall to attack her in front of
+all these ghosts.  With a flip of her flaxen hair, she continues to ignore
+your existence.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS
+-1000 S
+12 0 0 1d36+113 1d1+12
+6020 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+mpecho $I reveils $l true appearance!
+~
+|
+#6407
+mummy irritated~
+the irritated mummy~
+An extremely irritated mummy stands here moaning loudly.~
+Like all of it's kind, this mummy is wrapped in cloth from head to toe.  But,
+you've probably never seen one made out of mop strings before.
+~
+ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+12 0 0 1d12+147 3d4+0
+2000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho $I suddenly strikes you as horribly terrifying!
+~
+|
+#6408
+shadow indefinite~
+an indefinite shadow~
+Shadows flicker back and forth...almost as if they are living.~
+You think you see nothing hiding like a shadow.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HIDE
+-1000 S
+6 0 0 1d9+35 1d6+1
+200 0
+POS_STANDING POS_STANDING SEX_MALE
+#6409
+King ghost~
+the ghost of a King~
+A regal and majestic King stands here.~
+Looking a bit closer, you notice that you can see right through him!  He does
+look abnormally solid for a ghost.  He must have had a strong spirit in life.
+~
+ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+21 0 0 1d110+332 1d1+14
+17248 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+if rand (25)
+  if quest (0,4,$r) == 0
+    say I do believe I've lost my precious coin.
+    say If you see it, would you please return it to me?
+  else
+    if rand (33)
+      hug queen
+    else
+      if rand (50)
+        kiss queen
+      else
+        say I wish my wife loved me...
+        sniff 
+      endif
+    endif
+  endif
+endif
+if quest (0,4,$r) == 3
+  mpmset $r quest 0 4 4
+  say I have taken to haunting this castle because
+  say my own blood employed the help of a deceitful
+  say magician.
+  mpecho {008}
+  say The magician became a lich and drained all of
+  say the life from my great grandson and his subjects.
+  mpecho {008}
+  say I wish to be avenged, but all I have been able
+  say to do is haunt this room..
+  mpecho {008}
+  say Something will not let me venture forth.
+endif
+if quest (0,4,$r) == 5
+  mpmset $r quest 0 4 6
+  say I heard the Lich's death cry my friend.
+  say Take this gift please.
+  say I can travel to here after in peace now.
+  mpoload 6419
+  give i6419 $r
+  mpecho The king fades out of existance..
+  mppurge self
+endif
+~
+>give_prog I6400~
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  say Thank you $n!
+  say I will cherish it forever!
+  wear i6400
+  say and here is a little token of my gratitude.
+  mpjunk all
+  mpoload 6407
+  mpecho The ghost of a king stops using a golden sceptre.
+  give i6407 $n
+endif
+~
+>give_prog I6408~
+if quest (0,4,$n) == 2
+  mpmset $n quest 0 4 3
+  say At last!
+  say A token of love from my long dead wife!
+  say Here is my beloved coin in exchange for
+  say this wonderous gift!
+  mpjunk all
+  mpoload 6418
+  give i6418 $n
+endif
+~
+|
+#6410
+Queen ghost~
+the ghost of a Queen~
+A Queen stands here.  Stunning you with her beauty.~
+Is it your imagination or can you see the wall through her?
+~
+ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+19 0 0 1d90+272 1d1+15
+5000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 20~
+if rand (25)
+  mpecho The Queen reveals her true appearance!
+  mpforce $r scream
+  mpecho The Queen recaptures her beauty.
+else
+  if rand (33)
+    mpecho The Queen fusses with her hair.
+  else
+    if rand (50)
+      say There is no powder-room in this castle.
+      say And my nose is shiny!
+      pout 
+    else
+      slap king
+    endif
+  endif
+endif
+~
+>give_prog I6407~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  say Thank you $n!
+  say Now I'll rule the kingdom!
+  say And here's you a worthless trinket from
+  say my beloved.
+  mpjunk all
+  mpoload 6408
+  give i6408 $n
+endif
+~
+|
+#6411
+servant wraith~
+a wraith of a servant~
+An ugly servant stands here ready to serve you death.~
+The only way you can tell this is a servant is through the cut of its clothes,
+all of its features are heinously marred.  The wraith glares coldly.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_CLASS
+AFF_DETECT_INVIS
+-1000 S
+10 0 0 1d25+81 1d1+8
+50 0
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_NECROMANCER
+#6412
+Vampire blood-thirsty~
+the blood-thirsty Vampire~
+A thirsty-looking Vampire lays atop the coffin here.~
+You wonder why his face is so white.  The coffin he is laying upon is
+interesting to look at...lots of pretty colors.  Your thoughts are coming
+slowly.  What is happening to your mind you wonder?  You begin saying "I don't
+care" over and over under your breath.  Your eyes stare blankly ahead.  You
+calmly notice that the fangs of this Vampire look particularly nasty.  You feel
+like sleeping.
+~
+ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+16 0 0 1d12+200 2d5+5
+1000 0
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#6413
+bat Vampire~
+a nasty Vampire bat~
+A nasty Vampire bat flutters around, looking for a neck to bite!~
+Nasty little varmint.  It's fangs are razor sharp and blood-crusted.
+~
+ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+16 0 0 1d1+170 6d3+0
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#6414
+termite~
+a hungry termite~
+A hungry little termite is gnawing on a piece of wood.~
+This termite is fairly large.  It could possibly even enjoy the taste of flesh
+upon occasion.  Returning your gaze, a look of gladness slowly penetrate its
+tiny face.
+~
+ACT_AGGRESSIVE|ACT_SMART
+0
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#6415
+mouse~
+a mouse~
+A cute little mouse runs back and forth across the floor.~
+This mouse is small and white.  It doesn't appear capable of causing much harm.
+~
+ACT_SMART
+0
+1000 S
+1 0 0 1d12+5 1d4+0
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#6416
+Noble ghost~
+a ghost of a Noble~
+An almost invisible Noble sits here, waiting to be served.~
+This is definitely a ghost, you can barely see him.  His features are sharply
+angular, as if his creator had not taken the time to fashion him more smoothly.
+~
+ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+12 0 0 1d36+113 1d1+11
+2000 0
+POS_STANDING POS_STANDING SEX_MALE
+#6417
+Wench ghost~
+a ghost of a serving Wench~
+A serving wench hurries about, catering food and beverages.~
+With lips puckered tightly, this ghost seems intent on doing her job.  You
+probably would not want to try to stop her.
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+10 0 0 1d25+81 1d1+9
+25 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#6418
+Spectre ancient king~
+the Spectre of an Ancient King~
+An Ancient King stands here, defending this castle against the forces of evil.~
+With his long, flowing beard and his intense eyes, this King humbles you into
+silence.  His appearance suggest righteousness and virtue.  You do notice that
+his form fades in and out in a slow, pulsating rhythm.  He seems to be trying
+to say something.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+14 0 0 1d12+200 2d4+7
+5734 0
+POS_STANDING POS_STANDING SEX_MALE
+#6419
+Penanggalan penny~
+a Penanggalan~
+Penny the Deaconess stands here.~
+Wait a second, Penny looks a bit weird.  You can't determine why you think she
+looks weird, so you dismiss the idea.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+8 0 0 1d16+55 2d5+1
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#6420
+head penanggalan's~
+a Penanggalan's head~
+A gruesome head lays here, rolling about while looking for something to kill.~
+Yep, this is the former Penny's former head.  It cackles at you as it fights.
+Strangely enough, there is no blood flowing out the head or the body.  Maybe
+Penny wasn't a player after all?
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+8 0 0 1d16+55 2d5+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#6421
+guard ghost~
+a ghost of a castle guard~
+A castle guard stand at attention here.~
+"Hmmm, this guard is almost transparent," you think to yourself.  He does look
+splendid in his bright and shiny suit of armor.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+15 0 0 1d56+172 1d1+13
+500 0
+POS_STANDING POS_STANDING SEX_MALE
+#6422
+noble ghost~
+a ghost of a noble~
+A ghost of a noble is sleeping here...shhhh.~
+Yep, he really is asleep.  Otherwise, he resembles the Nobles loitering in the
+Audience hall.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+12 0 0 1d36+113 1d1+10
+2000 0
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#6423
+ghost~
+the ghost~
+A ghost sits here, waiting for a hand-out.~
+He doesn't looked to have had a bath in centuries.  His clothes are VERY raddy.
+~
+ACT_SMART
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+12 0 0 1d36+70 1d1+11
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+#6424
+Lich mage~
+the powerful Lich~
+A white-faced mage stands here.  Obviously angry at your intrusion.~
+The Lich was at one time a very powerful magician in the service of the king.
+However, he allowed his own power to overcome him and he became indifferent to
+the dealings of mere mortals, including the king.  Many years ago, he devised
+and executed a scheme by which he could become nearly immortal at the expense
+of all other sentient lives in the kingdom.
+~
+ACT_SENTINEL|ACT_SMART|ACT_CLASS
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+100 0 0 1d1+10000 1d300+1
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_NECROMANCER
+>fight_prog 66~
+if rand (5)
+  say Who are you?
+  say I thought I killed everyone!
+  say Nevermind, you'll be dead soon enough.
+  mass 'energy drain'
+else
+  if rand (10)
+    mass 'vampiric touch'
+  else
+    if rand (50)
+      if quest (0,1,$i) == 0
+        mpecho {008}
+        mpechoat $r {118}The Powerful Lich's drains your life to further his magic!
+        mpechoaround $r The Powerful Lich drains $r's life to further his magic!
+        mpecho {008}
+        mpmadd $r currhp -1000
+        mpmset self quest 0 1 1
+      else
+        if quest (0,1,$i) == 1
+          mpecho {108}The Powerful Lich is surrounded by a dark aura.
+          restore self
+          mpmset self quest 0 1 0
+        endif
+      endif
+    else
+      mpecho {008}
+      mpechoat $r {118}The Powerful Lich drains your magic to further his life!
+      mpechoaround $r The Powerful Lich drains $n's magic to further his life!
+      mpecho {008}
+      mpmadd $r currmana -2000
+      restore self
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 4
+  mpmset $n quest 0 4 5
+  mpareaecho {078}The castle walls tremble under the Lich's death cry.
+  mppurge self
+endif
+~
+|
+#6425
+guardian wight~
+a guardian wight~
+A guardian wight stands here, ready to kill all takers.~
+The wight seems happy enough to let you look around, but it growls whenever
+anyone even tries to get something.  Obviously it is very possessive.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS|AFF_HIDE
+-1000 S
+8 0 0 1d16+55 1d1+8
+500 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#6426
+healer~
+the healer~
+A healer is here.~
+Although retired from adventuring, the healer still lends a hand to fellow
+followers of Order.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+90 0 0 1d2450+5385 1d99+51
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#6400
+coin unique cherish~
+a unique coin~
+A shiny coin lies here, seemingly abandoned.~
+The unique coin seems to have a small clasp on it and you just might be able
+to break it open.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+250 0 -1 0 0 0 0 0
+1 10000 15
+E
+fish etching~
+The fish appears to be of the Staccer variety.
+~
+E
+coin~
+The coin appears to be made of a copper alloy; it is very shiny.  Both sides
+of the coin depict the same fish.  However, on one side the fish appears
+many times larger.
+~
+E
+staccer~
+You know, the fish that can expand up to 5 times its normal size.
+~
+A APPLY_SAVING_BREATH -2 0
+A APPLY_SAVING_PARA -2 0
+#6401
+crack cracks~
+crack~
+You now see that the moat has a draw-bridge over it.~
+~
+ITEM_TYPE_CONTAINER
+0
+0
+1 0 -1 0 0 0 0 0
+999 10 6
+#6403
+wine barrel~
+a barrel of fine wine~
+A barrel of fine wine is laying undisturbed.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+80 80 LIQ_WINE 0 0 0 0 0
+20 25 1
+E
+barrel wine~
+This barrel seems to hold a lot of wine.
+~
+#6404
+darkale ale barrel~
+a barrel of darkale~
+A barrel of darkale sits here, ready to be downed.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+80 80 LIQ_DARKALE 0 0 0 0 0
+20 20 1
+E
+barrel darkale ale~
+The barrel looks to contain darkale.
+~
+#6407
+sceptre golden~
+a golden sceptre~
+An elegantly decorated, golden sceptre has been abandoned here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_MYTHICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 0 -1 0 0 0 0 0
+10 5000 15
+E
+sceptre golden~
+The golden sceptre has many elegant designs molded into its handle.
+~
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+A APPLY_CON 2 0
+#6408
+scarab ruby~
+a ruby scarab~
+A beautiful ruby scarab lies here, as if it has escaped from its master.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 5000 14
+E
+ruby scarab~
+The scarab is in the shape of a little beetle and is made of a single ruby.
+It has a chain attached to it so the user can wear it as a necklace.
+~
+A APPLY_WIS -1 0
+A APPLY_CON 3 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+You shiver uncontrollably.~
+P 3
+TRIG_COMMAND 100 say
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 4 0
+P 4
+TRIG_VOID
+OPROG_ECHO
+Something will not let you speak.~
+#6409
+fangs teeth vampire~
+a set of vampire fangs~
+Two sharp, deadly-looking fangs lie here.~
+The fangs look SHARP!
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 3 WEAPON_PIERCE 0 0 0 0
+2 4000 12
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#6410
+stick wood maple~
+a lovely stick of wood~
+A stick of polished maple lies here.~
+It appears to be a staff of some sort.
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 10 3 39 0 0 0 0
+5 5000 12
+S 3 'charm person'
+#6411
+knife paring~
+a paring knife~
+A short, yet sharp and thin, knife lies here.~
+The knife looks like it would be great for slicing grapefruit.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 4 WEAPON_PIERCE 0 0 0 0
+3 50 9
+#6412
+sword ancient broad broadsword~
+an ancient broadsword~
+An ancient and rusty broadsword lies abandoned.~
+The sword appears to be very ancient; however, the rust seems to enhance
+rather than degrade it.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 2 WEAPON_SLASH 0 0 0 0
+15 10000 10
+A APPLY_AC -2 0
+A APPLY_HITROLL 2 0
+#6413
+key chair-shaped chair~
+a chair-shaped key~
+A large, blocky key lies here.~
+The key has a molded chair as a handle.  The chair seems very plush, and is
+not something most people could afford.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+1 0 -1 0 0 0 0 0
+10 10 10
+#6414
+band fire~
+a band of fire~
+A glowing band of fire floats inches above the ground.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST|ITEM_WEAR_WRIST
+10 -1 -1 0 0 0 0 0
+1 10000 25
+E
+band fire~
+The band glows firey red.  Almost as if it is made of pure fire.
+~
+A APPLY_AC -10 0
+A APPLY_DEX 2 0
+A APPLY_SAVING_SPELL -4 0
+#6415
+lance cedar~
+a long, cedar lance~
+A long, cedar lance has been left here to rot.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 1 25 WEAPON_PIERCE 0 0 0 0
+22 10000 16
+E
+lance cedar~
+The lance looks old but battle-worthy.  The many large, menacing splinters
+running up and down its tremendous length make you shiver.
+~
+A APPLY_HITROLL 1 0
+#6416
+caldron boiling oil~
+a caldron of boiling oil~
+A caldron full of boiling-hot oil rests here.~
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 1 1 103 0 0 0 0
+1 8000 4
+E
+caldron boiling oil~
+The caldron is somehow able to keep the oil boiling.
+~
+S 3 'fireball'
+#6417
+heap huge gold~
+a huge heap of gold~
+Your eyes bug out at the amount of gold stored here!~
+~
+ITEM_TYPE_MONEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+1000 0 0 0 0 0 0 0
+170 200 10
+E
+gold heap huge~
+It's very shiny...you are overcome with greed!
+~
+#6418
+coin unique~
+a unique coin~
+A shiny coin lies here, seemingly abandoned.~
+The unique coin seems to have a small clasp on it and you just might be able
+to break it open.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+150 CONT_CLOSEABLE|CONT_CLOSED 6418 0 0 0 0 0
+1 1000000 15
+E
+fish etching~
+The fish appears to be of the Staccer variety.
+~
+E
+coin~
+The coin appears to be made of a copper alloy; it is very shiny.  Both sides
+of the coin depict the same fish.  However, on one side the fish appears
+many times larger.
+~
+E
+staccer~
+You know, the fish that can expand up to 5 times its normal size.
+~
+A APPLY_SAVING_PARA -2 0
+A APPLY_SAVING_ROD -2 0
+A APPLY_DAMROLL 3 0
+#6419
+coin unique~
+a unique coin~
+A shiny coin lies here, seemingly abandoned.~
+The unique coin seems to have a small clasp on it and you just might be able
+to break it open.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_MYTHICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+250 CONT_CLOSEABLE|CONT_CLOSED 6400 0 0 0 0 0
+1 10000000 90
+E
+fish etching~
+The fish appears to be of the Staccer variety.
+~
+E
+coin~
+The coin appears to be made of a copper alloy; it is very shiny.  Both sides
+of the coin depict the same fish.  However, on one side the fish appears
+many times larger.
+~
+E
+staccer~
+You know, the fish that can expand up to 5 times its normal size.
+~
+A APPLY_SAVING_BREATH -3 0
+A APPLY_SAVING_PARA -3 0
+A APPLY_DAMROLL 10 0
+#6464
+scythe~
+the Scythe of Death~
+The Scythe of Death rests heavily upon the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 11 2 WEAPON_SLICE 0 0 0 0
+15 10000 20
+#0
+
+
+#ROOMS
+#6400
+A gloomy side road~
+This portion of the road appears to be a transition between the brightly-lit
+city street to the north and the gloomy road disappearing amidst over-hanging
+trees to the east.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+The southern End of the eastern Wall Road.~
+~
+0 -1 17006
+DDIR_EAST
+The gloomy road.~
+~
+0 -1 6401
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+ground road~
+The road leads east into the gloom.
+~
+E
+foliage~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.
+~
+E
+gloom~
+The gloom is dark.
+~
+#6401
+A gloomy road~
+Vegetation has grown in an arch here, totally blocking out any light that may
+be in the sky.  The road appears to be in good repair despite the dark brown
+stains scattered across its surface in various places.  You notice many places
+to hide and wait in ambush.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+A turn in the gloomy road.~
+~
+0 -1 6402
+DDIR_WEST
+A gloomy side road.~
+~
+0 -1 6400
+E
+foliage vegetation arch~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.
+~
+E
+ambush hiding place~
+You see nothing waiting in ambush.  Don't let your imagination run too wild.
+~
+E
+gloom~
+The gloom is dark.
+~
+E
+dark brown stains surface~
+The stains appear red in color, are roughly circular, and average five feet
+in diameter.
+~
+E
+ground road~
+The road leads south through the gloom and west into open ground.
+~
+#6402
+A turn in the gloomy road~
+Nothing appears to have changed, except you are farther from the entrance
+and have reached a turn in the road.  Many little cubby holes splotch the
+foliage.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+A gloomy road.~
+~
+0 -1 6401
+DDIR_WEST
+Another turn in the road.~
+~
+0 -1 6403
+E
+foliage vegetation arch~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.
+~
+E
+ground road~
+The road leads west and north through the gloom.
+~
+E
+dark brown stains surface~
+The stains appear red in color, are roughly circular, and average five feet
+in diameter.
+~
+E
+gloom~
+The gloom is dark.
+~
+E
+turn~
+The road leads further into gloom in the west and back towards the lighted
+entrance in the north.
+~
+E
+ambush hiding place cubby holes~
+You see nothing waiting in ambush.  Don't let your imagination run too wild.
+~
+#6403
+Another turn in the gloomy road~
+This turn aims the road towards the south again.  east leads further into
+the gloom.  You seem to have an uneasy feeling about all the vegetation
+surrounding you.  For some unknown reason, this room is lighted.
+~
+0 0 SECT_CITY
+DDIR_EAST
+A turn in the gloomy road.~
+~
+0 -1 6402
+DDIR_SOUTH
+The end of the gloomy road.~
+~
+0 -1 6404
+E
+ground road~
+The road leads east through the gloom and south to its end.
+~
+E
+ambush hiding place cubby holes~
+You see nothing waiting in ambush.  Don't let your imagination run too wild.
+~
+E
+foliage vegetation arch~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.  The foliage seems to be thinning towards the south.
+~
+E
+gloom~
+The gloom is dark.
+~
+E
+turn~
+The road leads further into gloom in the east and towards its lighted end in
+the south.
+~
+E
+dark brown stains surface~
+The stains appear red in color, are roughly circular, and average five feet
+in diameter.
+~
+#6404
+The end of the gloomy road.~
+The dim light which filters down through the loose foliage from the overcast
+sky appears incredibly bright compared to the dark gloom which swallows the
+road to the north.  The road leads into a vast field of grass in the south.
+A decrepit old castle looms in the distance.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+Another turn in the road.~
+~
+0 -1 6403
+DDIR_SOUTH
+The beginning of the open road.~
+~
+0 -1 6405
+E
+ambush hiding place cubby holes~
+There are no hiding places here.
+~
+E
+foliage vegetation~
+It is made of many different varieties of vegetation randomly knit into
+a formidable barrier.  The foliage overhead seems to be thinning towards
+the south.
+~
+E
+gloom~
+The gloom is dark.
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+decrepit old castle~
+The castle looks like it has been untended for ages.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.  The east end of
+the field appears to have some sort of construction on it.
+~
+E
+moat~
+The castle seems to have a moat around it.  You wonder if you can reach the
+castle or not.
+~
+E
+ground road~
+The road leads north into the gloom and south towards a castle.
+~
+#6405
+The beginning of the open road.~
+The road of oppressive gloom to the north greatly contrasts with this open and
+neatly bricked road leading to the castle in the south.  A large field opens
+to the east.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+The end of the gloomy road.~
+~
+0 -1 6404
+DDIR_EAST
+The north end of the open field.~
+~
+0 -1 6408
+DDIR_SOUTH
+The open road.~
+~
+0 -1 6406
+E
+crack cracks~
+The cracks are small, you think there is something like this in France.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.  The east end of
+the field appears to have some sort of construction on it.
+~
+E
+foliage vegetation~
+It is made of many different varieties of vegetation randomly knit into
+a formidable barrier.
+~
+E
+ground road~
+The road leads north into the gloom and south towards a castle.  The road
+is made out of many blue bricks.
+~
+E
+blue bricks brick~
+The bricks appear to be made from fine European blue clay.  They are laid
+very closely, with only fine cracks between them.
+~
+E
+blue bricks brick~
+The bricks appear to be made from fine European blue clay.
+~
+E
+decrepit old castle~
+The castle looks like it has been untended for ages.
+~
+E
+gloom~
+The gloom is dark.
+~
+E
+moat~
+The castle seems to have a moat around it.  You wonder if you can reach the
+castle or not.
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+#6406
+The open road.~
+The road you are on travels north into the woods and south towards a castle.
+Although the road's size indicates large volumes of travelers, its bricks do
+not appear to have seen much wear in recent times.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+The beginning of the open road.~
+~
+0 -1 6405
+DDIR_EAST
+The middle of the open field.~
+~
+0 -1 6409
+DDIR_SOUTH
+At the draw-bridge.~
+~
+0 -1 6407
+E
+decrepit old castle~
+The castle looks like it has been untended for ages.
+~
+E
+foliage vegetation~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.
+~
+E
+ground road~
+The road leads north towards the distant forest and south towards a castle.
+It is made out of many blue bricks.
+~
+E
+blue bricks~
+The bricks appear to be made from fine European blue clay.  They are laid
+very closely, with only fine cracks between them.
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.  The east end of
+the field appears to have some sort of construction on it.
+~
+E
+moat~
+The castle seems to have a moat around it.
+~
+E
+crack cracks~
+The cracks are small, you think there is something in one of the cracks!
+~
+#6407
+At the draw-bridge.~
+You are at the south end of an open road.  The road leads south onto a large,
+wooden drawbridge which spans the moat between you and the looming castle.
+To the north, the road appears to merge with a dark forest and a field opens
+to the east.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+The open road.~
+~
+0 -1 6406
+DDIR_EAST
+The south end of the open field.~
+~
+0 -1 6410
+DDIR_SOUTH
+The Drawbridge.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 6414
+E
+draw-bridge draw bridge~
+The draw-bridge spans the moat.  It should hold for ages to come.
+~
+E
+ground road~
+The road leads north towards a dark forest and south onto the drawbridge.
+~
+E
+foliage vegetation~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.  The foliage appears to be trying to span the moat.
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.  The east end of
+the field appears to have some sort of construction on it.
+~
+E
+moat~
+The moat appears deep and murky.  For a split second you think you see
+something surface, then it vanishes, and you wonder if you saw anything.
+~
+E
+looming castle~
+The castle looks like it has been untended for ages.
+~
+#6408
+The north end of the open field.~
+You take a deep breath of air as you enjoy the feeling of being out in the
+open.  The grass here appears short, as if cut for some sporting event.  There
+are several spectator stands along the east end of the field.  The castle
+to the south overlooks this field.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The commoners' stands.~
+~
+0 -1 6411
+DDIR_SOUTH
+The center of the open field.~
+~
+0 -1 6409
+DDIR_WEST
+The beginning of the open road.~
+~
+0 -1 6405
+E
+commoners' stands~
+Lots of seats arranged in ascension.  You get the impression that they are
+jammed with people, but can't seem to isolate a distinct image.
+~
+E
+moat~
+The castle seems to have a moat around it.  You wonder if you can reach the
+castle or not.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+E
+castle~
+The castle looks like it has been untended for ages.
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.
+~
+E
+foliage vegetation~
+It is made of many different varieties of vegetation randomly knit into a
+formidable barrier.
+~
+#6409
+The center of the open field.~
+You take a deep breath of air as you enjoy the feeling of being out in the
+open.  The grass here appears short, as if cut for some sporting event.  There
+are several spectator stands along the east end of the field.  The castle
+to the south overlooks this field.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The north end of the open field.~
+~
+0 -1 6408
+DDIR_EAST
+The King's grandstand.~
+~
+0 -1 6412
+DDIR_SOUTH
+The south end of the open field.~
+~
+0 -1 6410
+DDIR_WEST
+The open road.~
+~
+0 -1 6406
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+kings grandstand~
+This set of seats have plush cushions and deep shading.  They are empty.
+~
+E
+moat~
+The castle seems to have a moat around it.  You wonder if you can reach the
+castle or not.
+~
+E
+castle~
+The castle looks like it has been untended for ages.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.  It looks like many battles
+have been fought in this very place.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+#6410
+The south end of the open field.~
+You take a deep breath of air as you enjoy the feeling of being out in the
+open.  The grass here appears short, as if cut for some sporting event.  There
+are several spectator stands along the east end of the field.  The castle
+appears to loom ominously over you.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The center of the open field.~
+~
+0 -1 6409
+DDIR_EAST
+The nobles' grandstand.~
+~
+0 -1 6413
+DDIR_WEST
+At the draw-bridge.~
+~
+0 -1 6407
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.
+~
+E
+castle stone~
+At this distance, it is easy to see the signs of neglect.  The very stone
+which the castle is made of is deteriorating in many spots.  Mold and
+mildew have claimed much of northern face.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+E
+draw-bridge draw bridge~
+The draw-bridge spans the moat to the south and west.
+~
+E
+moat~
+The moat appears deep and murky.
+~
+E
+mold mildew~
+It's green icky stuff.
+~
+E
+nobles' stands~
+Lots of seats arranged in ascension and with moderate cushioning.  You get
+the impression that they are jammed with people, but can't seem to isolate
+a distinct image.
+~
+#6411
+The commoners' stands.~
+There are no frills to this set of seats.  They do face the combat field and
+you can sit on them, but that's all you can say for them.  You see many
+wispy presenses, a few of which are quite discernible.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The King's grandstand.~
+~
+0 -1 6412
+DDIR_WEST
+The north end of the open field.~
+~
+0 -1 6408
+E
+wispy presenses~
+They appear to be ghosts.  But they aren't corporeal enough to pose a threat.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+E
+hills hard rock wall~
+Composed of tough granite, the hills to the east could be riddled with caves.
+~
+E
+seats stands~
+You wouldn't want to sit on that bed of splinters!
+~
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+#6412
+The King's grandstand.~
+This set of seats has all the frills: plush velvet pillowing, heavy purple
+awning, and huge, human-powered fans.  Whoever was able to sit in this area
+must have had powerful influence with the king himself.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The commoners' stands.~
+~
+0 -1 6411
+DDIR_SOUTH
+The nobles' stands.~
+~
+0 -1 6413
+DDIR_WEST
+The center of the open field.~
+~
+0 -1 6409
+E
+seats stands~
+Oooo, so soft.  You feel like resting here indefinitely.
+~
+E
+hills hard rock wall~
+Composed of tough granite, the hills to the east could be riddled with caves.
+~
+E
+kings grandstand~
+This set of seats have plush cushions and deep shading.  They are empty.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+#6413
+The nobles' stands.~
+This set of seats is quite livable.  No splinters and molded seats.  Not
+plush, but many times better than what the commoners get.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The King's grandstand.~
+~
+0 -1 6412
+DDIR_WEST
+The south end of the open field.~
+~
+0 -1 6410
+E
+sky overcast~
+Despite the weather elsewhere in this game, the sky here is always overcast.
+~
+E
+ground grass~
+The grass is shortly cropped and densely grown.
+~
+E
+vast field~
+The field is bordered on the south by the castle moat, on the east by a few
+low hills, and on the north and west by some dense foliage.
+~
+E
+hills hard rock wall~
+Composed of tough granite, the hills to the east could be riddled with caves.
+~
+E
+seats stands~
+Not cushioned, but molded to fit the behind.  Very nice.
+~
+#6414
+north end of Drawbridge~
+Just as you start trusting the support of the drawbridge underfoot, a beam
+cracks loudly and sags noticably when you step on it.  You suddenly wish you
+had stayed off of the bridge.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+At the Drawbridge~
+gate~
+EX_ISDOOR|EX_CLOSED -1 6407
+DDIR_SOUTH
+south end of Drawbridge~
+~
+0 -1 6415
+E
+bridge drawbridge beam~
+Closer inspection of the bridge yields many termite holes and rotten planks.
+~
+#6415
+south end of Drawbridge~
+Just as you start trusting the support of the drawbridge again, another beam
+cracks loudly and sags noticably when you step on it.  You suddenly wish (even
+more than before) that you had stayed off of the bridge.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+north end of Drawbridge~
+~
+0 -1 6414
+DDIR_SOUTH
+Great hall~
+gate~
+EX_ISDOOR|EX_CLOSED -1 6416
+E
+bridge drawbridge beam~
+Closer inspection of the bridge yields many termite holes and rotten planks.
+~
+#6416
+northeast corner of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.  The
+hall doesn't appear to have been used recently...at least not by living beings.
+There is an open storage area to the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+On the Drawbridge~
+gate~
+EX_ISDOOR|EX_CLOSED -1 6415
+DDIR_EAST
+Open storage area~
+~
+0 -1 6418
+DDIR_SOUTH
+Great hall~
+~
+0 -1 6419
+DDIR_WEST
+Great hall~
+~
+0 -1 6417
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6417
+northwest corner of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.  The
+hall doesn't appear to have been used recently...at least not by living beings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Great hall~
+~
+0 -1 6416
+DDIR_SOUTH
+Great hall~
+~
+0 -1 6420
+DDIR_UP
+Base of the northwest tower~
+~
+0 -1 6425
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6418
+Open storage area~
+At one time this little room might have been used to store travel and
+associated gear, but now it is dark and desolate.  A great hall opens to the
+west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Great hall~
+~
+0 -1 6470
+DDIR_WEST
+Great hall~
+~
+0 -1 6416
+DDIR_UP
+Base of northeast tower~
+~
+0 -1 6426
+#6419
+Center of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.  The
+hall doesn't appear to have been used recently...at least not by living beings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great hall~
+~
+0 -1 6416
+DDIR_EAST
+Great hall~
+~
+0 -1 6470
+DDIR_SOUTH
+Great hall~
+~
+0 -1 6422
+DDIR_WEST
+Great hall~
+~
+0 -1 6420
+E
+broad spiralling staircase~
+Just your normal, everyday, 50 foot wide spiralling staircase.
+~
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6420
+west end of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.
+The hall doesn't appear to have been used recently...at least not by living
+beings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great hall~
+~
+0 -1 6417
+DDIR_EAST
+Great hall~
+~
+0 -1 6419
+DDIR_SOUTH
+Great hall~
+~
+0 -1 6423
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6421
+Utility closet~
+Various mechanizations of laundry tasks rest here, ready for the next load of
+dirty clothing.  A long, thin stick leans against the wall in the northwest
+corner of the closet.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+EX_CLOSED -1 6424
+E
+long thin stick corner~
+It appears to have been the handle to a mop.  You wonder what could have
+happened to the mop-head.
+~
+E
+mechanizations laundry~
+They appear to be large wash-buckets with attached golems; however, they don't
+seem to have any life left in them.
+~
+#6422
+southeast corner of great hall~
+You are in a great hall, which encompasses over two-thirds of the castle's
+first floor.  A tremendous chandelier hangs threateningly over most of the
+hall.  The hall doesn't appear to have been used recently...at least not by
+living beings.  This area appears to have had more use than the other parts of
+the great hall.  You hear the clank and clatter of pots to the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great hall~
+~
+0 -1 6419
+DDIR_EAST
+Kitchen~
+~
+0 -1 6424
+DDIR_WEST
+Great hall~
+~
+0 -1 6423
+DDIR_DOWN
+Cellar~
+trapdoor trap~
+EX_ISDOOR|EX_CLOSED -1 6431
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6423
+southwest corner of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.  The
+hall doesn't appear to have been used recently...at least not by living beings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great hall~
+~
+0 -1 6420
+DDIR_EAST
+Great hall~
+~
+0 -1 6422
+DDIR_UP
+Base of southwest tower~
+~
+0 -1 6427
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6424
+Kitchen~
+A tremendous oven dominates this room.  It would seem that whatever was cooked
+here, it was in mass quantities.  A dumbwaiter is mounted in the southern wall,
+just beside the entrance to a closet of some sort.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great hall~
+~
+0 -1 6470
+DDIR_SOUTH
+Utility closet~
+closet~
+EX_ISDOOR|EX_CLOSED -1 6421
+DDIR_WEST
+Great hall~
+~
+0 -1 6422
+DDIR_UP
+Base of southeast tower~
+~
+0 -1 6428
+E
+dumbwaiter~
+It appears to be some sort of contraption designed to take items and transport
+them to another room.  Food perhaps?
+~
+E
+tremendous oven~
+It's HUGE!
+~
+#6425
+Base of northwest tower~
+This is the base of one of the four towers which serve the castle in support.
+It is very dark in here...even your light-source cannot dispel all of the
+shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6450
+DDIR_DOWN
+Great hall~
+~
+0 -1 6417
+#6426
+Base of northeast tower~
+This is the base of one of the four towers which serve the castle in support.
+It is very dark in here...even your light-source cannot dispel all of the
+shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6451
+DDIR_DOWN
+Open storage area~
+~
+0 -1 6418
+#6427
+Base of southwest tower~
+This is the base of one of the four towers which serve the castle in support.
+It is very dark in here...even your light-source cannot dispel all of the
+shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6452
+DDIR_DOWN
+Great hall~
+~
+0 -1 6423
+#6428
+Base of southeast tower~
+This is the base of one of the four towers which serve the castle in support.
+It is very dark in here...even your light-source cannot dispel all of the
+shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6453
+DDIR_DOWN
+Kitchen~
+~
+0 -1 6424
+#6429
+Landing~
+A spiralling staircase leads up. To the west is a great hall. Many murals are
+painted on the tapestry which decorates the wall to the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Great hall~
+~
+0 -1 6470
+DDIR_UP
+Stairs going up~
+~
+0 -1 6430
+E
+tapestry murals~
+You stand in awe as you observe the rise to power of an ancient king unfold in
+the story of the tapestry.  Who could this king have been?  You feel the
+material of the tapestry and realize that it is more ancient than you had
+originally thought.
+~
+#6430
+Another landing~
+Having ascended so many steps, you are glad to reach another landing.  Stairs
+lead up and down.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Large, ornate curtains~
+~
+EX_CLOSED -1 6445
+DDIR_UP
+~
+~
+0 -1 6441
+DDIR_DOWN
+Stairs going down~
+~
+0 -1 6429
+#6431
+Cellar~
+You have entered the castle cellar.  No telling what went on in this area.  You
+faintly smell the aroma of delicate wine, although you cannot see any here.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+crypt tomb~
+EX_ISDOOR|EX_CLOSED -1 6432
+DDIR_EAST
+Storeroom~
+Storeroom door~
+EX_ISDOOR|EX_CLOSED -1 6434
+DDIR_WEST
+Wine cellar~
+Cellar wine~
+EX_ISDOOR|EX_CLOSED -1 6433
+DDIR_UP
+Great hall~
+trapdoor trap~
+EX_ISDOOR|EX_CLOSED -1 6422
+#6432
+Crypt~
+This appears to have been a burial chamber.  Many long-ago burned-out torches
+line the walls.  A coffin lies here, giving the room an even more ominous aura.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Cellar entrance~
+crypt tomb~
+EX_ISDOOR|EX_CLOSED -1 6431
+E
+coffin~
+Looks all right.  It does appear that something has been using the coffin for
+a bed recently.
+~
+#6433
+Wine cellar~
+This used to be an elegant wine cellar.  However, years and pesky little
+critters have caused the wine-racks to collapse, breaking any bottles encased
+in them.  But, you think, not all wines are contained in bottles.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Cellar entrance~
+Cellar wine~
+EX_ISDOOR|EX_CLOSED -1 6431
+#6434
+Storeroom~
+This appears to be a storage room for various kingdom-management materials.
+However, mice seem to have ruled this area.  Almost all of the paper has been
+turned into quaint, little mouse homes, rendering it less than useless.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Cellar entrance~
+Storeroom door~
+EX_ISDOOR|EX_CLOSED -1 6431
+E
+homes~
+Very small and ugly.  It would seem that mice are poor architects.
+~
+#6440
+Another landing~
+This is a large landing connecting the stairs spiralling down to the east and
+those spiralling up to the south.  To the north you can see a set of large
+doors which appear to have been shut for countless ages.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Steep stairs going up~
+~
+0 -1 6441
+#6441
+Small landing~
+This landing leads up to the north and down to the south.  The stairs here are
+steeper than the ones on the other spiralling stairway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 6461
+DDIR_DOWN
+~
+~
+0 -1 6430
+#6442
+Audience chamber~
+When someone wished to address the king, this is where they did it.  Several
+long tables face the throne up on it's dias.  Ghost's of many nobles appear to
+be seated at the tables, but only a hand full are clearly discernible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Throne~
+~
+0 -1 6444
+DDIR_EAST
+Audience chamber~
+~
+0 -1 6445
+DDIR_WEST
+Audience chamber~
+~
+0 -1 6443
+E
+tables~
+The tables are long and thin.  All of the tables face the throne.  It appears
+that nobles would sit at the outside edges to be served by wenches running
+about and serving on the inside.
+~
+E
+dias throne~
+The throne rests high above the tables.  A very commanding position.
+~
+#6443
+Audience chamber~
+When someone wished to address the king, this is where they did it.  Several
+long tables face the throne up on it's dias.  Ghost's of many nobles appear to
+be seated at the tables, but only a hand full are clearly discernible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Audience chamber~
+~
+0 -1 6446
+DDIR_EAST
+Audience chamber~
+~
+0 -1 6442
+DDIR_SOUTH
+Large, regal doors~
+doors~
+EX_ISDOOR|EX_CLOSED -1 6448
+E
+tables~
+The tables are long and thin.  All of the tables face the throne.  It appears
+that nobles would sit at the outside edges to be served by wenches running
+about and serving on the inside.
+~
+E
+dias throne~
+The throne rests high above the tables.  A very commanding position.
+~
+#6444
+Throne~
+The throne is a large and glorious construction.  Many faux jewels decorate its
+golden surfaces with sparkling wonder.  You can't help but notice that the
+throne is empty.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Throne~
+throne~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 6413 6458
+DDIR_EAST
+Audience chamber~
+~
+0 -1 6447
+DDIR_SOUTH
+Audience chamber~
+curtains~
+EX_ISDOOR -1 6442
+DDIR_WEST
+Audience chamber~
+~
+0 -1 6446
+E
+faux jewels~
+You are appalled to find that these jewels are invaluable.  You wonder where
+the trully valuable valuables are kept.
+~
+#6445
+Audience chamber~
+When someone wished to address the king, this is where they did it.  Several
+long tables face the throne up on it's dias.  Ghost's of many nobles appear to
+be seated at the tables, but only a hand full are clearly discernible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Audience chamber~
+~
+0 -1 6447
+DDIR_EAST
+Large, ornate curtains~
+curtains~
+EX_ISDOOR|EX_CLOSED -1 6430
+DDIR_SOUTH
+Small, soft-colored doors~
+doors~
+EX_ISDOOR|EX_CLOSED -1 6449
+DDIR_WEST
+Audience chamber~
+~
+0 -1 6442
+E
+tables~
+The tables are long and thin.  All of the tables face the throne.  It appears
+that nobles would sit at the outside edges to be served by wenches running
+about and serving on the inside.
+~
+E
+dias throne~
+The throne rests high above the tables.  A very commanding position.
+~
+#6446
+Audience chamber~
+When someone wished to address the king, this is where they did it.  Several
+long tables face the throne up on it's dias.  Ghost's of many nobles appear to
+be seated at the tables, but only a hand full are clearly discernible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Throne~
+~
+0 -1 6444
+DDIR_SOUTH
+Audience chamber~
+~
+0 -1 6443
+E
+tables~
+The tables are long and thin.  All of the tables face the throne.  It appears
+that nobles would sit at the outside edges to be served by wenches running
+about and serving on the inside.
+~
+E
+dias throne~
+The throne rests high above the tables.  A very commanding position.
+~
+#6447
+Audience chamber~
+When someone wished to address the king, this is where they did it.  Several
+long tables face the throne up on it's dias.  Ghost's of many nobles appear to
+be seated at the tables, but only a hand full are clearly discernible.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Audience~
+~
+0 -1 6445
+DDIR_WEST
+Throne~
+~
+0 -1 6444
+E
+tables~
+The tables are long and thin.  All of the tables face the throne.  It appears
+that nobles would sit at the outside edges to be served by wenches running
+about and serving on the inside.
+~
+E
+dias throne~
+The throne rests high above the tables.  A very commanding position.
+~
+#6448
+Kings bed chamber~
+Wow!  This king sure lived well.  His bed is magnificent, spread in silk and
+stuffed with the finest feathers money can buy.  You feel like resting on it,
+but something in the room prevents you.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Large, regal doors~
+doors~
+EX_ISDOOR|EX_CLOSED -1 6443
+DDIR_EAST
+A secret passageway!~
+passageway secret~
+EX_ISDOOR|EX_CLOSED -1 6454
+DDIR_UP
+Trap door~
+trap~
+EX_ISDOOR|EX_CLOSED -1 6462
+E
+bed~
+Just look, and you will see.
+~
+#6449
+The Queen's bed chamber~
+Not quite as spectacular as the kings bed chamber, but you wish you could do as
+well.  The furniture appears to be made from teak and is very delicate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Small, soft-colored doors~
+doors~
+EX_ISDOOR|EX_CLOSED -1 6445
+E
+teak furniture~
+Very rare and priceless.  Who would have dared brave the harsh seas to import
+these treasures.
+~
+#6450
+northwest tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6475
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6425
+#6451
+northeast tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6476
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6426
+#6452
+southwest tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6477
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6427
+#6453
+southeast tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6478
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6428
+#6454
+Secret passageway~
+Wow!  A secret passageway!  You wonder where it leads.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+King's bed chamber~
+~
+0 -1 6448
+DDIR_DOWN
+Secret passageway~
+~
+0 -1 6455
+#6455
+Secret passageway~
+The passageway turns down here, you think it might lead to the cellar.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 6454
+DDIR_DOWN
+Secret passageway~
+~
+0 -1 6456
+#6456
+Secret passageway~
+You were wrong...it doesn't lead to the cellar.  It continues as a passageway
+to the north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Secret passageway~
+~
+0 -1 6457
+DDIR_UP
+Secret passageway~
+~
+0 -1 6455
+#6457
+Secret passageway~
+You wonder to yourself if you have, in fact, reached the end of this long
+passageway.  Above you is a small exit.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Secret passageway~
+~
+0 -1 6456
+DDIR_UP
+King's grandstand~
+~
+0 -1 6419
+#6458
+Treasury~
+This room seems too large to be hidden behind that throne.  It's so large, that
+you wonder at the amount of treasure it must have contained in the past.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The Throne~
+throne~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 6413 6444
+#6460
+Small landing~
+This landing leads down to the north and up to the south.  The stairs here are
+steeper than the ones on the other spiralling stairway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Steep stairs leading down~
+~
+0 -1 6440
+DDIR_SOUTH
+Steep stairs leading up~
+~
+0 -1 6461
+#6461
+East end of Narrow hall~
+You are in a narrow hallway leading to the west.  east of you is a set of
+stairs spiralling down to the previous floor.  Several doors of different types
+line the north and south walls.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 6441
+DDIR_SOUTH
+An evil looking doorway~
+doorway evil~
+EX_ISDOOR|EX_CLOSED -1 6464
+DDIR_WEST
+Narrow hall~
+~
+0 -1 6463
+#6462
+Dainty room~
+You are struck with a sense of awe at the richness of the furniture in this
+room.  Many subtle hints lead you to believe that this bedroom once belonged to
+a fair maiden.  What purpose could she have served?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+A dainty door~
+dainty door~
+EX_ISDOOR|EX_CLOSED -1 6465
+DDIR_DOWN
+Trap door~
+trap~
+EX_ISDOOR|EX_CLOSED -1 6448
+E
+more~
+I'm sorry, you are hopeless.
+~
+E
+hints~
+A box labeled "Trojan" lies upon a desk.  A picture of what could have been the
+king is mounted on the wall.  The ceiling is a mirror.  Need any more hints?
+~
+E
+furniture~
+Almost as rare and priceless as the Queen's.  Where would a mere maiden get
+that kind of cash?
+~
+#6463
+Center of narrow hall~
+You are in a narrow hallway leading north and east.  Several doors of
+different types line the walls.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Narrow hall~
+~
+0 -1 6466
+DDIR_EAST
+Narrow hall~
+~
+0 -1 6461
+DDIR_SOUTH
+An oaken door~
+oaken~
+EX_ISDOOR|EX_CLOSED -1 6467
+DDIR_WEST
+An iron door~
+iron~
+EX_ISDOOR|EX_CLOSED -1 6465
+#6464
+A mage's laboratory~
+Many vials of unholy substances litter the broad tables which take up the
+majority of the room here.  It appears as if something has lived here for
+countless ages.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+An evil looking doorway~
+doorway evil~
+EX_ISDOOR|EX_CLOSED -1 6461
+E
+broad tables vials unholy substances~
+Yep, that's what they are alright.
+~
+#6465
+Indescript room~
+No words can describe this room...as a matter of fact, there is nothing to
+describe.  This room is total empty.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+An iron door~
+iron door~
+EX_ISDOOR|EX_CLOSED -1 6463
+DDIR_SOUTH
+A dainty door~
+door dainty~
+EX_ISDOOR|EX_CLOSED -1 6462
+#6466
+north end of narrow hall~
+You are in a narrow hallway leading to the south.  Several doors of different
+types line the east and west walls.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+An ivory door~
+door ivory~
+EX_ISDOOR|EX_CLOSED -1 6469
+DDIR_SOUTH
+Narrow hall~
+~
+0 -1 6463
+DDIR_WEST
+A broad doorway~
+doorway broad~
+EX_ISDOOR|EX_CLOSED -1 6468
+#6467
+Descript room~
+Unlike the room on the opposite side of the hall, this room has character
+and flavor.  The characters could be Addams' and the flavor smells like blood.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+An oaken door~
+door oaken~
+EX_ISDOOR|EX_CLOSED -1 6463
+#6468
+Grandiose room~
+Everyone who enters here has to catch their breath in awe.  The large, oak-
+wood bed is placed strategically to catch the stunningly beautiful scene
+available through the window which is the western wall.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A broad doorway~
+doorway broad~
+EX_ISDOOR|EX_CLOSED -1 6466
+E
+stunningly beautiful scene window western~
+You hold your breath as you soak in the beauty.
+~
+E
+large, oakwood bed~
+Looks solid and sturdy.  It should hold a pair of elephants if you ever needed
+for it to.
+~
+#6469
+Typical room~
+This room could be described in two words: "Not atypical."
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+An ivory door~
+door ivory~
+EX_ISDOOR|EX_CLOSED -1 6466
+#6470
+East end of great hall~
+You are in a great hall.  It encompasses over two-thirds of the castle's first
+floor.  A tremendous chandelier hangs threateningly over most of the hall.
+Broad stairs leads up to the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 6418
+DDIR_EAST
+Broad stairs~
+~
+0 -1 6429
+DDIR_SOUTH
+~
+~
+0 -1 6424
+DDIR_WEST
+~
+~
+0 -1 6419
+E
+chandelier~
+The Chandelier is ENORMOUS.  You decide you would rather be elsewhere when it
+finally falls.
+~
+#6475
+northwest tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+On the north wall~
+~
+0 -1 6479
+DDIR_SOUTH
+On the west wall~
+~
+0 -1 6480
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6483
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6450
+#6476
+northeast tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+On the east wall~
+~
+0 -1 6481
+DDIR_WEST
+On the north wall~
+~
+0 -1 6479
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6484
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6451
+#6477
+southwest tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+On the west wall~
+~
+0 -1 6480
+DDIR_EAST
+On the south wall~
+~
+0 -1 6482
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6485
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6452
+#6478
+southeast tower~
+This is the inside of a castle tower...you're not quite sure where it's
+located, but you know that stairs still lead up and down from here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+On the east wall~
+~
+0 -1 6481
+DDIR_WEST
+On the south wall~
+~
+0 -1 6482
+DDIR_UP
+Stairs spiralling up~
+~
+0 -1 6486
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6453
+#6479
+On the north wall~
+The wind is harsh and cold atop the castle's rock wall.  From this point you can
+see the majority of the surrounding areas.  The city of Midgaard is to the
+west, a large river flows through it.  To the north the land gets hilly, and you
+think you can see a large shrine on the eastern face of one of the larger
+hills.  Woods surround the Castle on all sides except this one.  A large field
+is immediately north and you can look down upon the ant-like beings crawling
+across it.  To the immediate east are a range of hills which lead into yet
+another forest.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+northeast tower~
+~
+0 -1 6476
+DDIR_WEST
+northwest tower~
+~
+0 -1 6475
+#6480
+On the west wall~
+A thick mist obscures any view possible from this vantage point.  You shiver
+as you think of what could be hidden.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+northwest tower~
+~
+0 -1 6475
+DDIR_SOUTH
+southwest tower~
+~
+0 -1 6477
+#6481
+On the east wall~
+The wind is harsh and cold atop the castle's rock wall.  The city of Midgaard
+is to the west, a large river flows through it.  To the north the land gets
+hilly, almost mountainous.  Woods dominate the area just below this wall.
+Although you can see some traces of what looks to be a swamp beginning to
+the south.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+northeast tower~
+~
+0 -1 6476
+DDIR_SOUTH
+southeast tower~
+~
+0 -1 6478
+#6482
+On the south wall~
+A thick mist obscures any view possible from this vantage point.  You shiver
+as you think of what could be hidden.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+southeast tower~
+~
+0 -1 6478
+DDIR_WEST
+southwest tower~
+~
+0 -1 6477
+#6483
+Top of northwest tower~
+You never realized how quaint the city looks from this high.  Of course,
+specific details are lacking...but you choose to ignore this fact.  This area
+looks like it could be easily defended.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+A huge, thick door.~
+door huge thick~
+EX_ISDOOR|EX_CLOSED -1 6487
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6475
+#6484
+Top of northeast tower~
+You seem to be standing on the top of a tower in the middle of a batch of low-
+flying clouds.  This area looks like it could be easily defended.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+A huge, thick door.~
+door huge thick~
+EX_ISDOOR|EX_CLOSED -1 6488
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6476
+#6485
+Top of southwest tower~
+You seem to be standing on the top of a tower in the middle of a batch of low-
+flying clouds.
+~
+0 0 SECT_CITY
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6477
+#6486
+Top of southeast tower~
+You seem to be standing on the top of a tower in the middle of a batch of low-
+flying clouds.
+~
+0 0 SECT_CITY
+DDIR_DOWN
+Stairs spiralling down~
+~
+0 -1 6478
+#6487
+The armory~
+You have entered a long-unused armory.  All the weapons here have rusted away
+long ago.  Only something preserved by magic could still be usable.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A huge, thick door~
+door huge thick~
+EX_ISDOOR|EX_CLOSED -1 6483
+#6488
+The secondary armory~
+You have entered a long, low room carpeted with a layer of red dust.  Many
+racks line the walls and appear to have held various instruments of war, but
+now they are empty.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A large, thick door~
+door large thick~
+EX_ISDOOR|EX_CLOSED -1 6484
+#0
+
+
+#RESETS
+M 6402 100 6404
+M 6401 100 6403
+M 6400 100 6403
+M 6400 100 6403
+M 6400 100 6403
+M 6400 100 6403
+M 6403 100 6408
+M 6404 100 6410
+M 6405 100 6411
+M 6406 100 6413
+M 6407 100 6421
+M 6408 100 6425
+M 6408 100 6426
+M 6408 100 6427
+M 6408 100 6428
+M 6409 100 6417
+E 6407   1 WEAR_LIGHT
+M 6410 100 6418
+E 6408   1 WEAR_HOLD
+M 6411 100 6424
+M 6411 100 6416
+M 6412 100 6432
+E 6409   1 WEAR_HOLD
+G 6410   1 0
+M 6414 100 6433
+M 6414 100 6433
+M 6414 100 6433
+M 6414 100 6433
+M 6414 100 6433
+M 6415 100 6434
+M 6415 100 6434
+M 6416 100 6442
+E 6411   5 WEAR_WIELD
+M 6417 100 6447
+M 6417 100 6446
+M 6418 100 6448
+E 6412   2 WEAR_WIELD
+M 6419 100 6458
+M 6419 100 6458
+M 6419 100 6458
+M 6419 100 6458
+M 6419 100 6458
+M 6421 100 6479
+M 6421 100 6479
+M 6421 100 6480
+M 6421 100 6481
+M 6421 100 6482
+M 6422 100 6468
+M 6422 100 6467
+M 6424 100 6464
+E 6414   1 WEAR_WAIST
+E 6464   1 WEAR_WIELD
+M 6423 100 6464
+M 6421 100 6483
+M 6421 100 6484
+M 6421 100 6485
+M 6421 100 6486
+M 6425 100 6487
+M 6425 100 6487
+M 6425 100 6487
+M 6425 100 6487
+M 6425 100 6487
+O 6401   1 6406
+P 6400   2 6401
+O 6403   1 6433
+O 6404   5 6433
+O 6417   5 6458
+O 6416   2 6487
+O 6416   2 6487
+D 6407 DIR_SOUTH DOOR_CLOSED
+D 6414 DIR_NORTH DOOR_CLOSED
+D 6415 DIR_SOUTH DOOR_CLOSED
+D 6416 DIR_NORTH DOOR_CLOSED
+D 6424 DIR_SOUTH DOOR_CLOSED
+D 6422 DIR_DOWN  DOOR_CLOSED
+D 6431 DIR_UP    DOOR_CLOSED
+D 6431 DIR_NORTH DOOR_CLOSED
+D 6432 DIR_SOUTH DOOR_CLOSED
+D 6431 DIR_EAST  DOOR_CLOSED
+D 6434 DIR_WEST  DOOR_CLOSED
+D 6431 DIR_WEST  DOOR_CLOSED
+D 6433 DIR_EAST  DOOR_CLOSED
+D 6443 DIR_SOUTH DOOR_CLOSED
+D 6448 DIR_NORTH DOOR_CLOSED
+D 6444 DIR_NORTH DOOR_CLOSED_LOCKED
+D 6458 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 6445 DIR_SOUTH DOOR_CLOSED
+D 6449 DIR_NORTH DOOR_CLOSED
+D 6448 DIR_EAST  DOOR_CLOSED
+D 6462 DIR_NORTH DOOR_CLOSED
+D 6462 DIR_DOWN  DOOR_CLOSED
+D 6461 DIR_SOUTH DOOR_CLOSED
+D 6464 DIR_NORTH DOOR_CLOSED
+D 6463 DIR_SOUTH DOOR_CLOSED
+D 6467 DIR_NORTH DOOR_CLOSED
+D 6463 DIR_WEST  DOOR_CLOSED
+D 6465 DIR_EAST  DOOR_CLOSED
+D 6466 DIR_EAST  DOOR_CLOSED
+D 6469 DIR_WEST  DOOR_CLOSED
+D 6466 DIR_WEST  DOOR_CLOSED
+D 6468 DIR_EAST  DOOR_CLOSED
+D 6483 DIR_SOUTH DOOR_CLOSED
+D 6487 DIR_NORTH DOOR_CLOSED
+D 6484 DIR_SOUTH DOOR_CLOSED
+D 6488 DIR_NORTH DOOR_CLOSED
+D 6430 DIR_WEST  DOOR_CLOSED
+D 6445 DIR_EAST  DOOR_CLOSED
+D 6465 DIR_SOUTH DOOR_CLOSED
+D 6448 DIR_UP    DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

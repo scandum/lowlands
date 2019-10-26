@@ -1,0 +1,2452 @@
+#AREA The Air~
+#AUTHORS Manwe~
+#VERSION 4
+#RANGES 10 50 10 95
+#OLC_RANGES 9000 9099
+#RESETMSG You feel the wind blowing through your hair.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_NORIP|AFLAG_NOSUMMON
+
+
+#HELPS
+0 MANWE~
+{138}
+                                   Manwe
+{308}
+Manwe is the Lord of the Winds, the skies fall under his command.
+In order to follow Manwe you must be between level 10 and 50 and venture
+high into the Air, which is located on the eastern continent.
+
+  {128}(A) {058}The Air
+{a}'THE AIR'
+~
+
+0 'THE AIR'~
+{128}
+                                   The Air
+{308}
+The Air is a peaceful sky, a sanctity for all Air followers.  One will find
+a village and a helpful mayor who will be able to answer your questions. It
+is rumoured that seekers of Eru find solice here.
+
+  {128}(-) {058}Return
+{-}MANWE
+~
+
+0 MANWEGODCHAINCOMMANDS~
+{058}  Call-Wind -- for a restore once every 4 hours
+       Warp -- for an instant teleportation to the Air
+ Check-Wind -- to see if you can call upon the Power of Wind
+  Show-Tick -- to see your gust of wind charging after each restore
+{308}
+~
+
+0 $~
+
+
+#MOBILES
+#9000
+eru~
+Eru Iluvatar~
+Eru Iluvatar shimmers alone here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 5
+  mpechoat $n The sound of Eru fills your mind, your body... your very soul.
+  mpechoaround $n $N is suddenly overwhelmed.
+  say You are indeed well come, $N...
+  say It is a turbulent time in the realms, as I am sure you will
+  say agree. You were chosen to bear a simple torch and by doing
+  say so, show your determination to follow through a task.
+  mpechoat $n Eru Iluvator reaches deeper into your being for a moment.
+  say And it is clear to me now that my faith was not misplaced.
+  say You need only speak aloud the name of your lord to continue.
+  mpmset $n quest 0 4 6
+  break
+endif
+if quest (0,4,$n) >= 6
+  mpechoat $n The sound of Eru in your mind asks again for the name of your lord...
+endif
+~
+>speech_prog p manwe~
+if quest (0,4,$n) >= 6
+  nod 
+  mpquiet on
+  cast 'fly' $n
+  mpquiet off
+  if quest (0,4,$n) == 6
+    mpechoat $n Find the lady of your lord and sing her name.
+  endif
+  mpechoat $n You float up the mountain face on a gust of wind!
+  mptransfer $n 9029
+  mpat 9029 mpforce $n look
+  mpat 9029 mpechoaround $n $N appears in a gust of wind.
+endif
+~
+|
+#9001
+Manwe M9001~
+Manwe Sulimo~
+Manwe Sulimo sings with the wind here.~
+The weight of responsibility placed upon this mighty ruler by his people
+is not evident in his appearance. Dressed in simple, tight-fitting jerkin
+and breeches, he looks very comfortable and at ease with himself. The gentle
+smile on his lips and wrinkles leave you feeling welcome and respected.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_FLYING
+0 S
+99 0 0 85d85+5000 10d10+95
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>social_prog shake~
+if inroom ($i) == 9031
+  say The pleasure is all mine, $N.
+  say You have met my wife, of course...
+  smile M9002
+  mpforce $n say Yes, and I've met Ulmo at the docks!
+  mpmset self quest 0 3 1
+~
+>rand_prog 80~
+if inroom ($i) == 9031
+  if quest (0,3,$i) == 1
+    say You have heard of the Three Themes from my wife, Varda.
+    say One of our number have recently harmonised several new
+    say variations. These songs of power have yet to be fully
+    say understood by the council.
+    mpecho Manwe Sulimo pauses for a moment.
+    mpmadd self quest 0 3 1
+    break
+  endif
+  if quest (0,3,$i) == 2
+    say My estranged son, Melkor, has heard part of one of the
+    say variations. Not enough to cause any serious damage.
+    say Still, we cannot risk him gaining access before we
+    say have a better understanding of what we sing.
+    mpecho Manwe Sulimo pauses again as the room focuses.
+    mpmadd self quest 0 3 1
+    break
+  endif
+  if quest (0,3,$i) == 3
+    say You are to perform one final task before you can be
+    say inducted into our ranks as a loyal follower.
+    say Are you ready to help us tame the variations?
+    mpmadd self quest 0 3 1
+    break
+  endif
+  if quest (3,3,$i) == 1
+    mpecho Manwe Sulimo moves closer to his wife and begins a song.
+    mpecho Varda Queen of Light harmonises with her husband.
+    mpecho Ulmo of the waters joins them and raises the volume.
+    mpmadd self quest 3 3 1
+    break
+  endif
+  if quest (3,3,$i) == 2
+    mpecho As the sound swells, the air about you is charged with power.
+    mpmload 9019
+    mpforce M9019 say You will never get away with this, Manwe!
+    growl M9019
+    slay M9019
+    mpmadd self quest 3 3 1
+    break
+  endif
+  if quest (3,3,$i) == 3
+    say Sorry you had to witness that little episode.
+    mpecho Manwe Sulimo raises his hands and a glow forms about him.
+    mpecho The harmony being weaved about you suddenly makes sense.
+    mpmadd self quest 3 3 1
+    break
+  endif
+  if quest (3,3,$i) == 4
+    say If you still wish to follow me, repeat after me:
+    say I pledge my soul to thee
+    mpmadd self quest 3 3 1
+    break
+  endif
+endif
+~
+>speech_prog sure yes yup ok nods~
+if inroom ($i) == 9031
+  if quest (0,4,$n) == 9
+    say Then let us begin...
+    mpmset self quest 3 3 1
+    mpmset $n quest 0 4 10
+    break
+  endif
+endif
+~
+>speech_prog p I pledge my soul to thee~
+if quest (0,4,$n) == 10
+  if whichgod ($n) != god_neutral
+    say You have already chosen your path, $N.
+    mpmset $n quest 0 4 0
+    slaughter $n
+    break
+  endif
+  if level ($n) > 50
+    say Alas, $N, you are too great a level to join our ranks.
+    say Please visit again in your next reincarnation.
+    mpmset $n quest 0 4 0
+    break
+  endif
+  if level ($n) < 10
+    say Alas, $N, you are too low a level to join our ranks.
+    say Level some more and come back soon!
+    break
+  endif
+  mpquiet on
+  mpoload 58
+  cast 'giant' $n
+  mpquiet off
+  give i58 $n
+  echo {158}The air is charged with energy as $N adds his voice to the wind.
+  mpmset $n quest 0 4 11
+  say Meet me in the Royal chambers, $n.
+  mpecho Varda Queen of Light follows her husband and Ulmo out of the Council Hall.
+  mppurge M9002
+  mppurge M9003
+  mppurge self
+endif
+~
+|
+#9002
+varda M9002~
+Varda Queen of Light~
+Queen of the Light, Varda shines here.~
+The stars themselves shine from her eyes as she returns your gaze and seems
+to reach into your soul. She smiles at you and looks down with a flush to
+her cheeks. You are a little overwhelmed in her presence, and the knowledge
+that she stands with Manwe on all things leaves you feeling content.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_FLYING
+1000 S
+99 0 0 85d85+5000 10d10+95
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog varda~
+if quest (0,4,$n) == 6
+  mpechoat $n The Queen of the Light and beloved of Manwe Sulimo looks up at you.
+  say You have a beautiful voice, $N.
+  say Have you ever thought of joining the Ainur?
+  say It is of no matter... you are well come here.
+else
+  smile $n
+endif
+~
+>speech_prog p Ainur~
+if quest (0,4,$n) == 6
+  say The Ainur are spirits brought forth from the
+  say consciousness of Eru and kindled with the
+  say Flame Imperishable - much like your torch.
+else
+  smile $n
+endif
+~
+>speech_prog p Flame Imperishable~
+if quest (0,4,$n) == 6
+  say The flame was just the catalyst, for they
+  say sang his Themes of Creation with such power
+  say and harmony that it is said the very realms
+  say themselves will end when they finish.
+  shiver 
+else
+  smile $n
+endif
+~
+>speech_prog p Themes of Creation~
+if quest (0,4,$n) == 6
+  mpecho Varda Queen of Light closes her eyes for a moment and smiles contentedly.
+  say There are three themes:
+  say - Arda Unmarred
+  say - Arda Healed
+  say The final Arda is that which is unsung.
+else
+  smile $n
+endif
+~
+>speech_prog p Arda~
+if quest (0,4,$n) == 6
+  say Ah... yes. That brings us to the reason you have
+  say chosen to be here. My husband, Manwe Sulimo will
+  say be with us shortly. We are meeting in the main
+  say Council Hall when Ulmo arrives.
+  say Would you greet him at the docks for me, please?
+  mpmset $n quest 0 4 7
+else
+  smile $n
+endif
+~
+>speech_prog sure yes yup ok nods~
+if quest (0,4,$n) == 7
+  nod $n
+  say Thank you, $N. See you soon.
+endif
+if quest (0,4,$n) == 9
+  smile $n
+endif
+~
+>greet_prog 100~
+if quest (0,4,$n) == 8
+  say I'll meet you down in the Council Hall, $n.
+  mptransfer $n 9033
+  mpat 9033 mpechoaround $n $N stumbles down the stairs amidst some confusion.
+endif
+~
+|
+#9003
+ulmo M9003~
+Ulmo of the waters~
+Lord of the Seas, Ulmo is here.~
+This barrel-chested man strides about confidently and appears to be in good
+humour. He is dressed in a heavy cloak that covers a tunic as blue as the
+deepest ocean. His eyes reflect the sun and the bronzed colour of his skin
+tells you this man is more comfortable out of doors than inside.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_FLYING
+0 S
+99 0 0 85d85+5000 10d10+95
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>social_prog smile~
+if quest (0,4,$n) >= 7
+  say Ola, $N!
+  say My Lady of the Light suggested you would be here to
+  say greet me. She did say that we should hurry, though.
+  say I'll meet you in the Council Hall.
+  nod $n
+endif
+~
+>rand_prog 80~
+if inroom ($i) == 9027
+  mpmadd self quest 0 1 1
+  if quest (0,1,$i) == 0
+    mppurge self
+  endif
+endif
+~
+>speech_prog p Yes, and I've met Ulmo at the docks!~
+chuckle $n
+say Indeed, but we are here for a more serious matter.
+~
+|
+#9004
+mayor head towns person~
+the head towns person~
+The head towns person looks about importantly.~
+Full of importance and responsibility, this village elder struts about with
+all the pomp and self-importance of a civic official. He smiles a lot and has
+a word to say to everyone. You feel that he has kissed more babies and shaken
+more hands than anyone else for miles about.
+~
+ACT_SMART
+0
+351 S
+25 0 0 10d20+400 4d5+5
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog eru~
+if quest (0,4,$n) == 1
+  mpechoat $n The Mayor looks confused and gazes into the distance.
+  say Oh... yes, he said to meet him on the mountain.
+  say There was something else... I can't remember what!
+  mpmset $n quest 0 4 2
+  ponder 
+endif
+~
+>greet_prog 100~
+if rand (75)
+  if quest (0,4,$n) == 0
+    mpechoat $n The Mayor turns and looks up as you arrive.
+    say You are indeed well come, $n.
+    mpmset $n quest 0 4 1
+    say We have all been expecting you for some time now
+    say Eru has provided some instructions for you...
+  endif
+endif
+if quest (0,4,$n) == 3
+  mpechoat $n The Mayor looks a little out of breath as he notices you.
+  say I'm sorry it took me so long, $n.
+  say Eru instructed me to give you a ceremonial flame
+  say that you were to carry to him.
+  say I am afraid that I cannot find where we usually
+  say store them! Would you be prepared to fetch the
+  say materials to make a new one?
+  mpmset $n quest 0 4 4
+endif
+if quest (0,4,$n) == 4
+  if quest (4,4,$n) == 15
+    if quest (8,2,$n) == 0
+      say You have all the parts we need to proceed.
+      mpechoat $n The Mayor looks at you expectantly - and waits patiently.
+      mpechoaround $n The Mayor shifts about uncomfortably in $n's presence.
+      mpmset $n quest 8 2 1
+    endif
+  endif
+endif
+~
+>speech_prog materials yes~
+if quest (0,4,$n) == 4
+  if quest (4,4,$n) < 15
+    nudge $n
+    say Good for you, $N.
+    say You will need to collect the following:
+    say A length of wood, some pitch and some cloth.
+  endif
+endif
+~
+>give_prog i9001~
+if quest (8,2,$n) >= 1
+  mpechoat $n The Mayor looks closely at the pitch and smiles in satisfaction.
+  mpechoaround $n The Mayor looks casually at the pitch and smiles grimly.
+  if quest (10,1,$n) == 0
+    mpmset $n quest 10 1 1
+    mpjunk all
+  else
+    say I don't need this at the moment, $N.
+    give i9001 $n
+    mpquiet on
+    drop all
+    mpquiet off
+  endif
+else
+  say I don't need this at the moment, $N.
+  give i9001 $n
+  mpquiet on
+  drop all
+  mpquiet off
+endif
+if quest (10,3,$n) == 7
+  if quest (0,4,$n) == 4
+    mpecho The Mayor mumbles something and waves his hands arcanely for a moment.
+    mpoload 9000
+    mpmset $n quest 0 4 5
+    mpmset $n quest 8 2 2
+    mpquiet on
+    cast 'giant' $n
+    mpquiet off
+    give i9000 $n
+    say Eru is waiting for you, $N.
+  endif
+endif
+~
+>give_prog i9002~
+if quest (8,2,$n) >= 1
+  mpechoat $n The Mayor looks closely at the length of wood and nods in satisfaction.
+  mpechoaround $n The Mayor looks casually at the length of wood and nods grimly.
+  if quest (11,1,$n) == 0
+    mpmset $n quest 11 1 1
+    mpjunk all
+  else
+    say I don't need this at the moment, $N.
+    give i9001 $n
+    mpquiet on
+    drop all
+    mpquiet off
+  endif
+else
+  say I don't need this at the moment, $N.
+  give i9002 $n
+  mpquiet on
+  drop all
+  mpquiet off
+endif
+if quest (10,3,$n) == 7
+  if quest (0,4,$n) == 4
+    mpecho The Mayor mumbles something and waves his hands arcanely for a moment.
+    mpoload 9000
+    mpmset $n quest 0 4 5
+    mpmset $n quest 8 2 2
+    mpquiet on
+    cast 'giant' $n
+    mpquiet off
+    give i9000 $n
+    say Eru is waiting for you, $N.
+  endif
+endif
+~
+>give_prog i9004~
+if quest (8,2,$n) >= 1
+  mpechoat $n The Mayor runs his fingers through the wool and nods in satisfaction.
+  mpechoaround $n The Mayor massages the wool through his fingers and nods grimly.
+  if quest (12,1,$n) == 0
+    mpmset $n quest 12 1 1
+    mpjunk all
+  else
+    say I don't need this at the moment, $N.
+    give i9001 $n
+    mpquiet on
+    drop all
+    mpquiet off
+  endif
+else
+  say I don't need this at the moment, $N.
+  give i9004 $n
+  mpquiet on
+  drop all
+  mpquiet off
+endif
+if quest (10,3,$n) == 7
+  if quest (0,4,$n) == 4
+    mpecho The Mayor mumbles something and waves his hands arcanely for a moment.
+    mpoload 9000
+    mpmset $n quest 0 4 5
+    mpmset $n quest 8 2 2
+    mpquiet on
+    cast 'giant' $n
+    mpquiet off
+    give i9000 $n
+    say Eru is waiting for you, $N.
+  endif
+endif
+~
+>speech_prog proceed parts~
+if quest (8,2,$n) == 1
+  say Yes... you have all the parts now.
+  say Would you give them to me please?
+endif
+~
+>give_prog i9003~
+say Hmmm... that's not quite what I meant.
+say See if the Weaver can help you make some cloth.
+give i9003 $n
+drop i9003
+smile 
+~
+|
+#9005
+man townsman~
+the townsman~
+The townsman wanders here.~
+This middle-aged man stands before you dressed in simple clothes and wearing
+moccasins on his feet. He looks busy, but after a while you realise he has
+nothing better to do than wander aimlessly around and around all day.
+~
+ACT_SMART
+0
+0 S
+19 0 0 10d10+255 3d4+5
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#9006
+woman townswoman~
+the townswoman~
+The townswoman bustles about here.~
+Wearing a simple smock, this middle-aged woman has a fresh look about her.
+The smell of clean clothes and clean skin permeates the air about her and
+reminds you of wash day back home. She watches those about her as they pass
+in the street and smiles more often than not at those she passes.
+~
+ACT_SMART
+0
+0 S
+19 0 0 8d11+234 3d5+6
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#9007
+blacksmith smith M9007~
+the blacksmith~
+The blacksmith pounds metal here.~
+His arms are the size of small tree trunks and as hairy as a sheep. This
+man has dedicated his life to his job of beating and contorting metal to
+do his bidding. As you glance at him, you glimpse beads of sweat dripping
+down his forehead. The scars on his hands are long healed, and he seems
+oblivious to the obvious heat from the forge as he works.
+~
+ACT_SENTINEL|ACT_SMART
+0
+450 S
+22 0 0 8d21+300 5d5+10
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 4
+  if quest (4,1,$n) == 0
+    mpechoat $n The smith curses under his breath as he drops some pitch.
+    mpechoaround $n The smith seems upset by something.
+    mpquiet on
+    mpoload 9001
+    drop i9001
+    mpmset $n quest 4 1 1
+    mpquiet off
+  endif
+endif
+~
+>rand_prog 5~
+if rand (50)
+  mpecho The Blacksmith pounds some metal into submission.
+else
+  mpecho Sweat pours off the Blacksmith as he plunges the metal into water.
+endif
+~
+|
+#9008
+tree~
+a tree~
+A solitary tree struggles to exist here.~
+The trunk of this small tree has been bent by the wind. The leaves are
+small and many are speckled in some kind of black rot. Whilst this tree
+is alive, it is not thriving and probably won't survive another winter.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HASTE
+0 S
+100 BODY_TWIG|BODY_TRUNK BODY_ROOT|BODY_TWIG|BODY_TRUNK 1d2500+5510 1d100+52
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (0,4,$n) == 4
+  if whichgod ($n) == god_neutral
+    if level ($n) < 50
+      rescale self $n 200
+      berserk 
+~
+>death_prog 50~
+if quest (0,4,$n) == 4
+  if quest (5,1,$n) == 0
+    mpoload 9002 r
+    mpmset $n quest 5 1 1
+~
+|
+#9009
+windRestoreEthereal M9009~
+the windRestoreEthereal~
+A windRestoreEthereal mob shimmers in the air here.~
+This mob is used by the manwe god chain to cast the various spells on the
+player using the 'call-wind' command. The player is restored and some
+spells will be cast on them. There is also a very small chance that the
+players long description will be changed - this is just for a bit of fun,
+but if it does happen (and they have more than 1mil gp) then their gold
+may be set to zero. Following a god has it's rewards and it's costs!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p wind restore please~
+mpgoto $n
+mpquiet on
+restore $n
+cast 'cure poison' $n
+cast 'cure blindness' $n
+cast 'cure critical' $n
+cast 'remove curse' $n
+if rand (80)
+  cast 'bless' $n
+endif
+if rand (60)
+  cast 'sanctuary' $n
+endif
+if rand (30)
+  cast 'mirror' $n
+endif
+mpquiet off
+mpechoat $n You feel the Power of Wind singing through you!
+mpechoaround $n $N sings with the Wind!
+if rand (3)
+  if rand (50)
+    mpmset $n long (Avatar) $n embodies the glory of Manwe.
+  else
+    mpmset $n long (Prophet) $n sings the glory of Manwe.
+  endif
+  mpechoat $n You feel reborn as Manwe Sulimo touches your very soul!!!
+  if rand (1)
+    if gold ($n) >= 1000000
+      mpechoat $n You give of yourself completely and utterly.
+      mpechoaround $n $N sacrifices all $s gold to Manwe Sulimo!
+      mpmset $n gold 0
+    endif
+  endif
+  mpechoaround $n $N looks awe-struck as Manwe marks $m as his own.
+endif
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#9010
+etherealWindWarp M9010~
+the ethereal wind warp~
+The ethereal wind warp shimmers in the wind here.~
+~
+ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p wind warp please~
+if inroom ($n) == 9035
+  mppurge self
+  break
+endif
+mpgoto $n
+mpechoat $n A whirlwind carries you away.
+mpechoaround $n A whirlwind carries $n away.
+mptransfer $n 9035
+mpat 9035 mpechoaround $n $N appears in a whirlwind.
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#9011
+sheep flossy~
+a woolly sheep~
+A woolly sheep bleats suspiciously here.~
+Short, four-legged and covered in white fluffy wool, this beautiful
+animal stomps about eating grass and looks forward to the attentions
+of his friendly farmhand.
+~
+0
+0
+1000 S
+19 0 0 10d10+255 3d8+1
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>social_prog grope~
+if rand (50)
+  mpecho Flossy looks back and with a toss of her head breathes heavily.
+else
+  mpecho Flossy flares her nostrils and concentrates for a moment.
+endif
+mpasound You hear muffled sounds of fumbling close by.
+~
+>all_greet_prog 25~
+mpechoat $n The sheep stamps her foot aggressively at you.
+mpechoaround $n The sheep stamps her foot aggressively at $n.
+~
+>rand_prog 5~
+mpecho The sheep baaaaaahhhhs...
+mpasound You hear a sheep moaning in the distance.
+~
+|
+#9012
+Ulmo_eth~
+an Ulmo loader~
+An Ulmo loading ethereal sifts here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 7
+  mpechoat $n Just as you arrive at the dock, you see an important figure coming toward you.
+  mpmload 9003
+  mpforce $n smile M9003
+  mpmset $n quest 0 4 8
+endif
+~
+|
+#9013
+Council_eth~
+a Council loader~
+A Council loading ethereal sifts here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 8
+  mpmload 9001
+  mpmload 9002
+  mpmload 9003
+  mpforce $n shake M9001
+  mpmset $n quest 0 4 9
+endif
+~
+|
+#9014
+woman weaver~
+a weaving woman~
+An experienced weaver works steadily here. ~
+This old woman has a wrinkled brow and leathery skin grown tough from
+years spend working with dyes and gathering wool from the fields. She
+has a look of intense concentration about her as she passes the shuttle
+from one hand, through a loom and to the other.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+680 S
+25 0 0 10d20+350 3d7+5
+0 0
+POS_SITTING POS_SITTING SEX_FEMALE
+>greet_prog 100~
+if quest (0,4,$n) == 4
+  if quest (6,2,$n) == 0
+    mpechoat $n The weaver looks up at you through murky eyes and judges you.
+    mpechoaround $n The weaver leers at $N.
+    say I know you are looking for some cloth, but without
+    say the proper materials, I cannot make what you need.
+    mpecho The weaver returns to her tedious labour.
+  endif
+endif
+if hasobjnum ($n) == 9003
+  if quest (0,4,$n) == 4
+    if quest (6,2,$n) == 2
+      mpechoat $n The weaver looks up at you and smiles as she sees the wool you collected.
+      mpechoaround $n The weaver smiles lewdly at $N.
+      say If you give me that wool, $N...
+      say I will make you the cloth you desire.
+    endif
+  endif
+endif
+~
+>speech_prog materials cloth~
+if quest (0,4,$n) == 4
+  if quest (6,2,$n) == 0
+    say If you can find me some wool, I will be have no
+    say problem making the special cloth you need.
+  endif
+endif
+~
+>give_prog i9003~
+if quest (0,4,$n) == 4
+  if quest (6,2,$n) == 2
+    mpechoat $n The weaver looks up at you with a smile.
+    mpechoaround $n The weaver looks at $n with lust in her eyes.
+    say You have done a fine job, $n.
+    say I have kept my part of the bargain too.
+    mpquiet on
+    mpjunk all
+    mpoload 9004
+    cast 'giant' $n
+    mpquiet off
+    give felt $n
+    mpmset $n quest 6 1 1
+    say Now... if you don't mind?
+    mpecho The weaver returns to her labours.
+  else
+    say What do I care for this?
+    drop all
+  endif
+else
+  say What do I care for this?
+  drop all
+endif
+~
+>give_prog i9004~
+mpecho The weaver inspects the cloth closely.
+say A fine cloth indeed... you should keep it, though.
+give i9004 $n
+mpquiet on
+drop all
+mpquiet off
+~
+|
+#9015
+farmhand~
+a farmhand~
+A wiry farmhand toils away in the fields.~
+The weather has taken it's toll on this young man. His fingers are short
+and stumpy, and it appears that he has lost several already. He wears a
+pair of long overalls and nothing else (unless you count the straw clenched
+between his yellowing teeth). Rumour has it that he has a rather unhealthy
+relationship with his sheep.
+~
+ACT_SMART
+AFF_TRUESIGHT
+0 S
+19 0 0 10d11+240 3d4+6
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog wool~
+if quest (0,4,$n) == 4
+  if quest (7,1,$n) == 0
+    if quest (6,1,$n) == 0
+      mpechoat $n The farmhand looks at you sideways.
+      mpechoaround $n The farmhand sizes $N up.
+      say Sure I got some wool on me.
+      chuckle 
+      pat sheep
+      say I'm sure flossy won't mind if you take some.
+      mpquiet on
+      mpoload 9003
+      cast 'giant' $n
+      give wool $n
+      mpmset $n quest 7 1 1
+      drop all
+      mpquiet off
+      mpechoat $n The farmhand gives you a tuft of wool and a greasy smile.
+      mpecho The farmhand goes back to work with a longing glance at his sheep.
+    endif
+  endif
+endif
+~
+>speech_prog flossy~
+chuckle 
+say I respect her and she respects me. That's all.
+blush 
+~
+>rand_prog 5~
+if isnight ()
+  grope sheep
+endif
+~
+>entry_prog 20~
+mpecho The farmhand licks his lips and looks around for stray sheep.
+~
+>greet_prog 100~
+if quest (0,4,$n) == 4
+  if quest (7,1,$n) == 0
+    if quest (6,1,$n) == 0
+      say Hello, $n. I'm out collecting wool. You?
+    endif
+  endif
+endif
+~
+|
+#9016
+mayor_eth~
+a Mayor loader~
+A Mayor loading ethereal sifts here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 2
+  mpechoat $n The head towns person rushes up to you, out of breath.
+  mpechoat $n As he runs back to the village he beckons you follow him.
+  mpechoaround $n The Mayor rushes around and heads back to town.
+  mpmset $n quest 0 4 3
+endif
+~
+|
+#9017
+Torch_eth~
+a torch blower~
+A torch blowing ethereal mob sifts here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if hasobjnum ($n) == 9000
+  break
+else
+  if quest (0,4,$n) >= 5
+    break
+  endif
+  mpechoat $n A force of air pushes you back down.
+  mptransfer $n 9017
+  mpat 9017 mpechoaround $n $N returns looking rather startled!
+endif
+~
+|
+#9018
+Pitch_eth~
+a pitch loading mob~
+A pitch loading ethereal sifts quietly here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 75~
+if quest (0,4,$n) == 4
+  if quest (4,1,$n) == 0
+    mpechoat $n You notice the docks are covered with pitch from boat repairs.
+    mpquiet on
+    mpoload 9001
+    drop i9001
+    mpmset $n quest 4 1 1
+    mpquiet off
+  endif
+endif
+~
+|
+#9019
+melkor M9019~
+a devotee of Melkor~
+A twisted devotee of Melkor schemes here.~
+This greasy individual has a scar on his face and looks weak and sickly.
+He has betrayed his master and followed the false promises of Manwe's
+estranged son, Melkor. His hooked nose and leering smile do nothing to
+instill trust and confidence.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_STEALTH
+-1000 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#9020
+Manwe_eth~
+a Manwe loading ethereal~
+A Manwe loading ethereal sifts about here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 11
+  mpechoat $n The voice of Manwe whispers 'Say my name, and you will access my chapel'
+endif
+~
+>speech_prog p Manwe~
+if quest (0,4,$n) >= 11
+  mpechoaround $n $N glows with energy and is blown through the wall.
+  mpechoat $n You are filled with energy as you are thrown through the wall!
+  mptransfer $n 9035
+  mpat 9035 mpechoaround $n $N flies through the wall before your very eyes!
+endif
+~
+|
+#9021
+priestess~
+a Priestess of Manwe~
+A Priestess of Manwe serves faithfully here.~
+This gorgeous young woman stands before you clothed in a flowing gown
+made of pure white. She has devoted her life to serving the master that
+you both share. She can serve you in many ways if you were only to ask...
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_FLYING
+1000 S
+99 0 0 85d85+5000 10d10+95
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if whichgod ($n) != god_manwe
+  mptransfer $n 9755
+endif
+~
+>act_prog p looks at you.~
+mpechoat $n The Priestess whispers 'How shall this humble servant of the'
+mpechoat $n The Priestess whispers 'Lord Manwe Sulimo serve you $n?'
+~
+>speech_prog serve~
+mpechoaround $n The Priestess smiles at $n and whispers something in $s ear.
+mpechoat $n
+mpechoat $n The Priestess whispers 'Spells  - to be gifted by magic'
+mpechoat $n The Priestess whispers 'Cursed  - to get curses removed'
+mpechoat $n The Priestess whispers 'Dispel  - to get spells removed'
+~
+>speech_prog spells~
+if level ($n) < 31
+  mpquiet on
+  cast 'restore' $n
+  cast 'sanctuary' $n
+  cast 'giant strength' $n
+  cast 'bless' $n
+  cast 'enhanced heal' $n
+  cast 'enhanced rest' $n
+  cast 'enhanced revive' $n
+  mpquiet off
+~
+>speech_prog dispel~
+mpquiet on
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+mpquiet off
+mpechoaround $n $n is cleansed by the sound of Air.
+mpechoat $n You are cleansed by the sound of Air.
+~
+>speech_prog cursed~
+if isaffected ($n) == curse
+  mpechoat $n You feel better.
+endif
+if isaffected ($n) == poison
+  mpechoat $n A warm feeling runs through your body.
+endif
+if isaffected ($n) == blindness
+  mpechoat $n Your vision returns!
+endif
+mpquiet on
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'cure poison' $n
+cast 'cure blindness' $n
+mpquiet off
+mpechoaround $n $n is filled with the harmony of Air.
+mpechoat $n You are filled with the harmony of Air.
+~
+>rand_prog 1~
+mpecho A magical buffet appears before your eyes... a gift from Manwe himself.
+cast 'feast'
+~
+|
+#9022
+undertaker~
+the undertaker~
+A dull and boring undertaker waits here.~
+This dull and boring individual speaks in a monotone voice and looks
+flatly about as he fidgets with his work clothes. His skin is pale and
+almost translucent with all the time he has spent inside tending the
+dead about him. If it weren't for him blinking, you might assume that
+he had joined those who he works so hard to preserve.
+~
+ACT_SENTINEL|ACT_TRAIN
+AFF_TRUESIGHT|AFF_FLYING
+0 S
+10 0 0 8d12+35 2d5+4
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#9023
+grim~
+Grim the shop keep~
+Grim the shop keep stands here keen to help.~
+This efficient man is here to help you in any way he can. He looks up
+as you walk in and returns a smile as you look at him. A simple man with
+trusting eyes, he keeps himself as clean as he does the shop about him.
+~
+ACT_SENTINEL|ACT_PRACTICE
+AFF_TRUESIGHT|AFF_FLYING
+0 S
+10 0 0 8d12+35 2d5+4
+19509 0
+POS_STANDING POS_STANDING SEX_MALE
+#9024
+godCheck_eth~
+a gust of wind~
+A gust of wind blocks access to the wrong followers here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if whichgod ($n) == god_neutral
+or whichgod ($n) == god_manwe
+  break
+else
+  mpechoat $n A force of air pushes you back.
+  mptransfer $n 9755
+  mpat 9755 mpechoaround $n $N appears as is by magic!
+endif
+~
+|
+#9025
+angel~
+the guardian angel~
+The Angel is protecting Manwe's domain.~
+The Angel looks both terrific and beautiful, in more than one aspect does it
+resemble the power and nature of Manwe, God of Air.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_FLYING
+0 S
+99 0 0 85d85+5000 10d10+95
+666 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if name ($n) == Manwe
+  hug Manwe
+  shout His Holiness has arrived!
+  mpechoaround $n The Angel sings, in a clear voice, the deeds of Manwe Sulimo.
+  mpechoat $n The Angel sings, in a clear voice, of all your righteous deeds.
+endif
+~
+>fight_prog 100~
+say You have forced my hand this day, $N.
+mpecho The Angel seeks inner guidance for a moment.
+slaughter $n
+restore self
+~
+|
+#0
+
+
+#SHOPS
+9023 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_TREASURE ITEM_TYPE_TRASH ITEM_TYPE_CONTAINER  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#9000
+ceremonial flame~
+the ceremonial flame~
+The ceremonial flame splutters quietly here.~
+A solid rod of dark wood has been fashioned into a torch. One end has been
+covered with a mixture of pitch and felt cloth, while the handle itself is
+engraved with figures of wind and images of music. The whole seems more
+than the parts, it appears.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 100000 10
+A APPLY_WIS 2 0
+A APPLY_CON 2 0
+A APPLY_INT 2 0
+#9001
+pitch~
+some sticky pitch~
+Some black sticky pitch lies in a blob here.~
+There isn't much else that can describe this slowly oozing tar... it's
+black and sticky... and it doesn't smell very nice.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#9002
+stick wood~
+a length of wood~
+A straight branch of wood has dropped here.~
+This branch of wood is particularly long and straight. The dark complexion
+of the wood and the fine grain of the bark suggest that this branch is
+destined to more than just the fire.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#9003
+wool tuft~
+some wool~
+A tuft of white wool has fallen here.~
+The harsh fibre has tangled itself together forming a grey mass of wool. This
+wool has would probably be more at home attached to a thistle or fence wire.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#9004
+cloth felt absorbant~
+some absorbant cloth~
+A wad of absorbant felt cloth has been left here.~
+Fine as well as heavy strands of wool fibre have been treated and molded
+in such a way as to provide a very dense and absorbant white cloth.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#9005
+wad tobacco~
+a wad of tobacco~
+A wad of dried leaves blows around here.~
+Freshly shredded from a tall plant with broad aromatic leaves, this wad of
+tobacco leaves you feeling a strange desire.
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+A APPLY_INT -1 0
+#9006
+winegum gum~
+a winegum~
+A soft blob of gelatin has been dropped here.~
+This pretty sweet is chewy and tastes of some kind of fruit.
+~
+ITEM_TYPE_PILL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+19 113 132 0 0 0 0 0
+1 1729 10
+A APPLY_MOVE -10 0
+S 1 'fly'
+S 2 'haste'
+S 3 '-1 slot'
+#9007
+rolling device~
+a rolling device~
+A small device with rollers rests here.~
+A couple of long rollers and a loop of fine canvas form a basic means
+to roll cigarettes in a relatively standard fashion.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+0 0 0 0 0 0 0 0
+1 1595 10
+A APPLY_INT 1 0
+#9008
+paper rolling~
+a rolling paper~
+A thin sliver of white rice paper flaps about here.~
+This paper is incredibly thin and appears too small to be of any practical use
+for anything at all. There are some fine lines that appear as a watermark when
+you put the paper to the light. You could try using this to {128}roll{308} a cigarette.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+17 0 132 0 0 0 0 0
+1 95 10
+S 1 '-1 slot'
+S 2 'haste'
+S 3 '-1 slot'
+P 1
+TRIG_UNKNOWN 100 roll
+OPROG_IF_HAS_OBJECT 9005 2 4
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 9007 3 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+You insert the paper into the rolling device and roll a perfect cigarette!~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $I fumbles around for a while and produces a ragged cigarette. 
+ mpoload 9011 
+ mpjunk i9005 
+ mpjunk i9008~
+P 4
+TRIG_VOID
+OPROG_ECHO
+You don't have any tobacco to roll with. Have you checked your pouch?~
+P 5
+TRIG_VOID
+OPROG_ECHO
+You don't have the skill to roll without a rolling device.~
+#9009
+sweet fizzy~
+a sweet fizzy drink~
+A bottle of sweet fizzy drink has been forgotten here.~
+This cleverly constructed bottle appears to have a colourful liquid with
+little bubbles in it. You wonder quietly at the point of such a thing.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+19 0 132 0 0 0 0 0
+1 295 10
+S 1 '-1 slot'
+S 2 'haste'
+S 3 '-1 slot'
+#9010
+tobacco pouch~
+a tobacco pouch~
+A leather tobacco pouch flops about here.~
+This is little more than a flap of deer skin folded and crudely stitched
+into a pouch. Some waterproofing has been added to the seams and the outside
+of this container. This would be ideal to store herbs and tobacco, with the
+opening flap allowing you to take out a small wad of {128}tobacco{308} without effort.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+201 CONT_CLOSEABLE 0 0 0 0 0 0
+1 18818 15
+A APPLY_STR 2 0
+P 1
+TRIG_UNKNOWN 100 tobacco
+OPROG_OBJECT_QUEST_IF 0 4 < 6 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+You carefully take out a wad of tobacco.~
+P 2
+TRIG_VOID
+OPROG_QUEST_ADD 0 4 1
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 9005~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You check your tobacco pouch, but find it empty.~
+#9011
+cigarette~
+a cigarette~
+A small tube packed with leaves has been dropped here.~
+Some shredded leaves have been carefully wrapped in a very thin paper and
+then somehow glued together in an almost seamless join. Both ends of the
+tube are open and you can clearly see the aromatic leaves within. This is
+a good example of cigarette. You might {128}light{308} one end or the other.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+1 10 10
+A APPLY_INT 2 0
+P 1
+TRIG_TICK 70
+OPROG_OBJECT_QUEST_IF 0 4 > 0 4 99
+P 2
+TRIG_UNKNOWN 100 light
+OPROG_OBJECT_QUEST_IF 0 4 = 0 3 98
+P 3
+TRIG_VOID
+OPROG_ECHO
+You light the cigarette with a flourish - and inhale deeply.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $i lights a cigarette and puffs some smoke at you. 
+ mpmset $i long (Buzzing) $ is smoking a cigarette casually here.~
+P 3
+TRIG_VOID
+OPROG_QUEST_SET 0 4 1
+P 4
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 4 > 6 5 6
+P 5
+TRIG_VOID
+OPROG_ECHO
+You take a final drag on the cigarette - and flick the butt away.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $I takes a final puff and flicks the butt to the ground. 
+ mpmset self long NULL 
+ mpoload 9023 room~
+P 5
+TRIG_VOID
+OPROG_JUNK
+P 6
+TRIG_VOID
+OPROG_ECHO
+You take another puff on your cigarette and blow smoke all about you.~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $I takes another puff and is enveloped in white smoke.~
+P 6
+TRIG_VOID
+OPROG_QUEST_ADD 0 4 1
+#9012
+chain office~
+a chain of office~
+A gaudy gold chain rests heavily here.~
+Heavy and cold, this simple chain of gold plated iron is a symbol of the
+weight of responsibility the wearer owes their community.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+6 0 0 0 0 0 0 0
+5 500000 10
+A APPLY_INT 1 0
+A APPLY_WIS 1 0
+#9013
+brown jacket~
+a brown jacket~
+A plain brown jacket has been dropped here.~
+This is a basic tweed style cloth jacket that has been hand dyed brown.
+A large oval patch of cloth has been sewn to each sleeve where the elbow
+would normally appear when worn.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_BODY
+7 0 0 0 0 0 0 0
+3 560 10
+#9014
+gown moonlight~
+the gown of moonlight~
+A silky gown that twinkles in the light rests here.~
+Cool to the touch, this fine silky gown shimmers as you touch it. The folds
+of the gown create tiny shimmers of light that twinkles about you. This is
+a fine garment indeed.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+1 150000 50
+A APPLY_MANA 50 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_SEX = SEX_MALE 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+You feel that this is too feminine a garment for you to wear.~
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+remove i9014~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You shiver a little as you suddenly feel more feminine.~
+#9015
+brown trousers~
+some brown trousers~
+A pair of smart looking brown trousers are creased here.~
+A pair of work trousers have been spotlessly cleaned, hand dyed and pressed
+to appear almost formal. The crotch looks a little thin, and the hems have
+been let down recently.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+7 0 0 0 0 0 0 0
+2 450 10
+A APPLY_DEX 1 0
+#9016
+brown shoes~
+some brown shoes~
+A pair of polished brown shoes stands here.~
+Dark brown leather has been used to form some very smart looking shoes.
+The scuffs at the toe of both shoes indicate some recent neglect.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+7 0 0 0 0 0 0 0
+2 640 10
+A APPLY_DAMROLL 1 0
+#9017
+anvil~
+the anvil~
+A large metal anvil is positioned here.~
+Made from cast iron, this crude anvil has been beaten so many times that parts
+of it are shiny. A rounded area near one end makes it possible to create
+curves in metal if you know what you are doing.
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+2000 9017 101
+#9018
+loom~
+the loom~
+A large rack of strings stands here.~
+This is a common type of loom made from hand cut wood and some crudely made
+hooks and nails. Many strings have been attached to it and you see several
+shuttles with different coloured wool somehow confused with the whole device.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+900 9018 101
+#9019
+bench~
+the bench~
+A crude wooden bench waits patiently here.~
+Made from hand cut wood, this bench was placed here for the benefit of the
+townsfolk and weary travellers. The seat has been polished by many years of
+constant use.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+2 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON 500 0 0 0 0
+2000 9019 101
+#9020
+smock~
+a brown smock~
+A shapeless smock made from brown material is crumpled here.~
+This simple work dress has been cut from hand dyed brown cloth. An attempt
+to add some embroidered flowers has created an unattractive splash of colour
+at the front of the dress.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+7 0 0 0 0 0 0 0
+2 6500 10
+A APPLY_HITROLL 1 0
+#9021
+apron leather~
+a blacksmith's apron~
+A heavy apron of blackened leather is settled here.~
+This apron is stiff and covered in scorch marks from years of hard labour.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+7 0 0 0 0 0 0 0
+5 10000 10
+A APPLY_STR 1 0
+#9022
+airberry~
+a delicious airberry~
+A delicious looking sky blue airberry floats here.~
+Moist and full of air, this tasty airberry desires nothing but to be eaten.
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+48 0 0 0 0 0 0 0
+1 10 1
+A APPLY_AC 2 0
+#9023
+butt~
+a cigarette butt~
+A discarded cigarette butt has been flicked here.~
+A small wad of compressed fabric has been used to filter cigarette smoke and
+then casually dropped after use. It has a brown stain on it and smells bad.
+~
+ITEM_TYPE_PILL
+ITEM_FLAG_DARK
+ITEM_WEAR_TAKE
+10 132 0 0 0 0 0 0
+1 10 10
+S 1 'haste'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#9099
+flag righteousness~
+a flag of righteousness~
+A flag of righteousness flaps in the wind here.~
+A length of darkened wood has been polished to a perfectly smooth finish.
+Silver has been used to attach a hefty pommel to one end, whilst a flag of
+fine white silk is attached to the other end - flapping gently in the breeze.
+The flag seems to glow with purity and righteousness... almost making you
+feel righteous yourself!
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 1000000 95
+A APPLY_AC -15 0
+A APPLY_MANA 40 0
+#0
+
+
+#ROOMS
+#9000
+The approach~
+As you approach the village, you realise how well protected this entrance is!
+There is no way past here save through the narrow pass before you. You look
+up and see a steep cliff face on one side and a sheer drop to the ground far
+below you. The wind breezes through your hair and makes your cloak flap.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+The village opens up ahead of you.~
+~
+0 -1 9001
+DDIR_SOUTH
+A seldom used path to an altar.~
+~
+0 -1 3054
+#9001
+The village~
+Rough cobbles have been laid in the past to prevent too much mud from splashing
+around, although it looks like this was a fruitless exercise. Ruts in the road
+from carts and carriages have created an uneven surface that borders on just
+plain dangerous. The buildings about you are made from roughly finished stone,
+and most of the doors are shut firmly against strangers.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The street enters the village.~
+~
+0 -1 9006
+DDIR_EAST
+A quiet residential part of the village.~
+~
+0 -1 9002
+DDIR_SOUTH
+The well guarded entrance to the village.~
+~
+0 -1 9000
+#9002
+The village~
+To the east you can see a long avenue of trees whilst to the west you see
+more of the village with cobbled road and bustling townsfolk. In the distance
+to the north you can see some fields and further away, a mountain. Most of
+the houses here are closed to strangers.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The street continues into the village.~
+~
+0 -1 9005
+DDIR_EAST
+An avenue of trees leading to a forest.~
+~
+0 -1 9003
+DDIR_WEST
+The street leads to the village entrance.~
+~
+0 -1 9001
+#9003
+The forest~
+Nature has taken over somewhat here. The ground is muddy and many different
+weeds are jostling for position about you. You can still see the sky above
+you, but the canopy is definitely providing a lot of shelter here. You
+notice how peaceful it is here.
+~
+0 ROOM_NO_MOB|ROOM_SOLITARY SECT_FOREST
+DDIR_EAST
+The forest gets thicker ahead.~
+~
+0 -1 9004
+DDIR_WEST
+The forest ends abruptly as the village begins.~
+~
+0 -1 9002
+#9004
+The forest~
+The canopy above you has closed up almost forming a false ceiling way above
+you. You can hear the occasional bird winging through the trees, but the
+loudest thing you can hear is silence. The ground about you is uneven and
+the sparse vegetation at the forest floor is pale through lack of sun.
+~
+0 ROOM_DARK|ROOM_SOLITARY SECT_FOREST
+DDIR_WEST
+The trees thin out and the forest ends.~
+~
+0 -1 9003
+#9005
+The village~
+This part of the village seems a lot less busy. There is a small civic park
+here with a crude bench to rest on. The ground about you appears to be more
+even and less muddy. You catch parts of conversations wafting through the air
+and blowing past you. To the west you can see an intersection.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is some activity at a building entrance ahead.~
+~
+0 -1 9010
+DDIR_SOUTH
+A quiet residential part of the village.~
+~
+0 -1 9002
+DDIR_WEST
+The street continues between some buildings ahead.~
+~
+0 -1 9006
+#9006
+The village~
+Rough cobbles have been laid in the past to prevent too much mud from splashing
+around, although it looks like this was a fruitless exercise. Ruts in the road
+from carts and carriages have created an uneven surface that borders on just
+plain dangerous. To the west is an winding street with several older houses
+leaning into one another.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The street continues along the village.~
+~
+0 -1 9009
+DDIR_EAST
+You can see a small civic park ahead.~
+~
+0 -1 9005
+DDIR_SOUTH
+The street leads to the village entrance.~
+~
+0 -1 9001
+DDIR_WEST
+The street dives off to the west.~
+~
+0 -1 9007
+#9007
+The village~
+Rough cobbles have been laid in the past to prevent too much mud from splashing
+around, although it looks like this was a fruitless exercise. Ruts in the road
+from carts and carriages have created an uneven surface that borders on just
+plain dangerous. You can hear banging and cursing from a large building to the
+north and you can see the main town centre to the east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A large building with an imposing courtyard.~
+~
+0 -1 9008
+DDIR_EAST
+The street intersects with the village centre.~
+~
+0 -1 9006
+#9008
+The smith~
+The solid stone walls, hard backed floor and massive fire place in the middle
+of the room tell you immediately that this smithy has been here for a very
+long time. Bits of metal are stacked against the walls, the bellows are
+pumping and the heat is uncomfortable. An anvil has been placed close to the
+fire and a large bucket of water stands close by.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+A brief courtyard opens onto the street.~
+~
+0 -1 9007
+#9009
+The village~
+The uneven road surface has given way to patches of muddy soil and straw from
+a nearby farm. There are less people about here, but you still see townsfolk
+wandering about doing their daily routines. To the north you can see some open
+fields and in the distance a mountain sits quietly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The village ends and the lowlands begin. ~
+~
+0 -1 9012
+DDIR_EAST
+You see some activity outside one of the buildings.~
+~
+0 -1 9010
+DDIR_SOUTH
+Several streets converge ahead.~
+~
+0 -1 9006
+#9010
+The village~
+The road has been covered here with straw to prevent people from slipping over.
+To the north you can see some open fields and to the east you hear the rattle
+of a loom and people working. The townsfolk wander about you and seem to pay
+little heed of you or your passage. The village continues to the south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The village ends and the lowlands begin.~
+~
+0 -1 9013
+DDIR_EAST
+You see a low doorway leading into a large workshop.~
+~
+0 -1 9011
+DDIR_SOUTH
+You can see a small civic park ahead. ~
+~
+0 -1 9005
+DDIR_WEST
+The street continues along the village. ~
+~
+0 -1 9009
+#9011
+The workshop~
+Set against three of the walls are long benches and cupboards containing all
+manner of materials and half finished projects. This is a communal area where
+any crafts person can spend time creating both practical and artistic items.
+Set in the middle of the room is a large loom that is used to make most of
+the material and cloth for the local townsfolk.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+You see a low doorway leading out into the street.~
+~
+0 -1 9010
+#9012
+The fields~
+To the south you see the outskirts of the village, and to the north more
+fertile fields. Far in the distance you can see the peak of a mountain. The
+fields around you are planted with grains, but the harvest won't be great this
+year you predict. You can hear the bleating of sheep being carried across
+the fields from a distant paddock.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+The low foothills and rolling fields. ~
+~
+0 -1 9014
+DDIR_EAST
+The lowland foothills and crop fields.~
+~
+0 -1 9013
+DDIR_SOUTH
+The village outskirts.~
+~
+0 -1 9009
+#9013
+The fields~
+To the south you see the outskirts of the village, and to the north more
+fertile fields and lowland foothills. The ground about it planted with a
+variety of vegetables in various stages of growth. It's not as green as you
+might expect for this time of year.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+The low foothills and rolling fields.~
+~
+0 -1 9015
+DDIR_SOUTH
+The village outskirts.~
+~
+0 -1 9010
+DDIR_WEST
+The lowland foothills and crop fields.~
+~
+0 -1 9012
+#9014
+The fields~
+To the south you can see some lowland crops and in the distance the outskirts
+of the village. All about you and to the north are foothills and small fields,
+with the mountain becoming more visible in the distant north. You notice the
+wind is a little stronger up here, and carries sounds a long way.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The foothills climb steadily up toward the mountain.~
+~
+0 -1 9016
+DDIR_EAST
+The rolling low land fields continue.~
+~
+0 -1 9015
+DDIR_SOUTH
+The lowland foothills and crop fields. ~
+~
+0 -1 9012
+#9015
+The fields~
+To the south you can see some lowland crops and in the distance the outskirts
+of the village. All about you are foothills and small fields, but judging by 
+the condition of the dry stone walls, not much will be kept in. You notice
+the wind is a little stronger up here, and carries sounds a long way.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+The lowland foothills and crop fields.~
+~
+0 -1 9013
+DDIR_WEST
+The rolling low land fields continue.~
+~
+0 -1 9014
+#9016
+The fields~
+You can look down upon the village from this height, surrounded as you are
+by rolling hills and valleys. There are a few sheep scattered around, but
+the rocks are certainly thriving. To the north you can see the base of the
+mountain at the end of this gulley.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The base plateau of the mountain.~
+~
+0 -1 9017
+DDIR_SOUTH
+The rolling low land fields descend ahead.~
+~
+0 -1 9014
+#9017
+The Base~
+You have arrived at the base of a magnificent mountain. A recent rockfall has
+opened up a path that leads around the side of the mountain, whilst you see
+a path continuing up the mountainside and disappearing into the clouds. You
+can see the village far below you in the distance.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_SOUTH
+The foothills continue down a gulley.~
+~
+0 -1 9016
+DDIR_WEST
+A tumble of rocks and boulders.~
+~
+0 -1 9021
+DDIR_UP
+The path winds up the side of the mountain towards Eru himself.~
+~
+0 -1 9018
+#9018
+The mountain~
+The path hugs the mountain closely here, and as you peer over the edge you
+can see the village far below. Grasses and stunted shrubs cling to a bleak
+existance about you, slowly breaking down the mountain and scattering stones
+and dirt over the path. Below you is the beginning of the mountain path, whilst
+above you the path continues forever upward.
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+The path continues up the side of the mountain towards Eru himself.~
+~
+0 -1 9019
+DDIR_DOWN
+The path descends the side of the mountain.~
+~
+0 -1 9017
+#9019
+The mountain~
+The rock walls about you seem ready to collapse at a moments notice. The
+crags and outcrops loom out of the clouds below you, and above you can see
+very little else. The path remains clearly defined and whilst the going is
+slow, the path looks like it levels off over the next ridge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+The path continues up the side of the mountain towards a plateau.~
+~
+0 -1 9020
+DDIR_DOWN
+The path descends the side of the mountain.~
+~
+0 -1 9018
+#9020
+The plateau~
+You are on a flat plateau on one of the peaks of the mountain you have been
+climbing for so long. The ground is even and shows signs of recent visitors
+in the form of cooking fires and scattered ashes. You can see nothing but
+clouds far below you, and the horizon in the distance. If you wanted some
+peace and quiet, this would be the place to find it.
+~
+0 ROOM_SAFE SECT_MOUNTAIN
+DDIR_DOWN
+The path descends the side of the mountain.~
+~
+0 -1 9019
+#9021
+The rockfall~
+The recent rockfall has left both and small rocks strewn carelessly about the
+path here. A gaping hole in the ground has formed and poses a very real
+danger to any travellers that get too close to the edge. To the east you can
+see the base of the mountain whilst to the west the lowlands continue with
+rolling hills. This place has an eerie feel to it.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The base plateau of the mountain.~
+~
+0 -1 9017
+DDIR_WEST
+Rolling lowlands and green pastures.~
+~
+0 -1 9023
+DDIR_DOWN
+An open cave has been formed.~
+~
+0 -1 9022
+#9022
+The pit~
+The ground appears to have swallowed you whole! As you look about you, you see
+the walls are rough with minerals that reflect the light from above and below.
+There are flowing rivers of lava all about you and an uneasy feeling that you
+are being watched. Scattered rocks offer a way out of the pit above you.
+~
+0 0 SECT_LAVA
+DDIR_UP
+~
+~
+0 -1 9021
+#9023
+Rolling hills~
+The hills and rolling countryside about you bring back fond memories of
+walks with long lost friends. Moss and grasses grow together to form a thick
+mat of vegetation that is dotted by large rocks from time to time. To the
+east you can see a rockfall whilst to the west you see more hills into the
+distance. All about you the sounds of nature sing peacefully.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+A tumble of rocks and boulders.~
+~
+0 -1 9021
+DDIR_WEST
+Rolling lowlands and green pastures.~
+~
+0 -1 9024
+#9024
+Rolling hills~
+The small valley begins here. To the east are lowland rolling hills that
+continue into the distance, whilst to the north you can see the beginnings
+of a small village nestled against the coast. The ground about you is covered
+in thick vegetation and light scrub. From time to time you can hear sounds
+drifting from the village on a light breeze.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+An old trail leads to the village.~
+~
+0 -1 9025
+DDIR_EAST
+Rolling lowlands and green pastures.~
+~
+0 -1 9023
+#9025
+Fishing village~
+The road is muddy and has many puddles across it caused by too little repair.
+Simple cottages line the road to either side, interspersed with a few larger
+stone dwellings. Some trees have been planted close to an old dock to the
+west. To the south you see rolling lowland foothills and the end of the
+valley, whilst to the north the village continues.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The village continues along a rough path.~
+~
+0 -1 9026
+DDIR_SOUTH
+A trail leads up to the rolling lowlands.~
+~
+0 -1 9024
+DDIR_WEST
+A dock juts out into the ocean.~
+~
+0 -1 9028
+#9026
+Fishing village~
+The road is little more than a bog at this end of the village. Some small
+houses have been built opposite the dock to the west, many containing small
+gardens and ornate rockpools. To the south the village continues, and in the
+distance you can see the valley as it ends. Seagulls circle overhead, always
+on the lookout for something to eat, and you hear the echos of boats mooring.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+The village continues along a rough path.~
+~
+0 -1 9025
+DDIR_WEST
+A dock juts out into the ocean.~
+~
+0 -1 9027
+#9027
+A dock~
+You are standing on solid planks of wood supported by piles driven into the
+seabed many years ago. There are several small fishing boats tied up at the
+side of the dock, but most of the fishing fleet appear to be out. There are
+stacks of crayfish pots and piles of nets arranged in a random pattern along
+the side of the docks. If the smell doesn't get you, a cutpurse might.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The docks step down to the road.~
+~
+0 -1 9026
+#9028
+A dock~
+You are standing on solid planks of wood supported by piles driven into the
+seabed many years ago. There is evidence of recent repairs having been
+carried out on a ship docked here. You see caulking, pitch, extra planking
+and carpenter tools over to one side of the dock. The dock ends to the east
+and the village welcomes you. Several deckhands bustle about loading fish.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The docks step down to the road.~
+~
+0 -1 9025
+#9029
+The foyer~
+You are floating on a platform above the plateau. Below you the mountain
+tops peek out of the clouds and appear to float in nothingness. The ground
+is firm about you leading to a formal hallway in the north. There are seats
+arranged about and several potted plants that look very out of place.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Some shallow steps lead up.~
+~
+0 -1 9030
+DDIR_DOWN
+A cleared plateau far below.~
+~
+0 -1 9020
+#9030
+The hallway~
+The walls about you are covered with intricate drawings and delicate carving
+that tells stories long forgotten. The hallway continues to the north with
+several sideboards showing flower arrangements. To the east are the council
+chambers where Manwe himself is said to preside.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The hallway continues.~
+~
+0 -1 9032
+DDIR_EAST
+A plush looking room.~
+~
+0 -1 9031
+DDIR_SOUTH
+A floating platform in the air.~
+~
+0 -1 9029
+#9031
+Council Hall~
+The ceiling of this room has been specifically lowered and covered in heavy
+tapestries to muffle any sounds from within. The tapestries show the sky and
+appear so real at you almost expect the clouds to move in the breeze. The
+room itself is large enough to accomodate a small gathering only, with some
+chairs already arranged in the middle of the room.
+~
+0 ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_WEST
+The hallway begins.~
+~
+0 -1 9030
+#9032
+The hallway~
+The floor has a firm feel to it, and glows as you imagine a cloud might. The
+royal chambers are to the east, whilst the hallway continues to the south.
+As you glance around the walls, you notice the delicate frescos above you.
+The very thought that Manwe himself has stood here quickens your heart a
+little more. You feel warmed and at peace here.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A comfortable looking suite of rooms.~
+~
+0 -1 9033
+DDIR_SOUTH
+The hallway continues.~
+~
+0 -1 9030
+#9033
+Royal chambers~
+These well appointed chambers are well aired and appear bright. A large
+window has been set in the wall to the east, and looks out over a clear blue
+sky. The hallway starts to the west, and a small private outlook has been
+constructed above the chambers. You feel very comfortable here.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+The hallway continues.~
+~
+0 -1 9032
+DDIR_UP
+A winding stairway leading to a turret.~
+~
+0 -1 9034
+#9034
+Private outlook~
+This outlook provides a complete, uninterrupted view of the horizon. You can
+see the castle below you but can't stop marvelling at the view from this
+great height. You realise that this would be the perfect place to come and
+pray for guidence from Manwe. You can feel the breeze against your face and
+almost imagine you are able to fly.
+~
+0 ROOM_PRIVATE SECT_INSIDE
+DDIR_DOWN
+The stairs lead down to the royal suite.~
+~
+0 -1 9033
+#9035
+Chapel of Manwe~
+You are standing in the middle of a small chapel. To the west and east the
+main chapel continues, whilst to the north an alcove with a private altar
+has been lit with candles. The ceiling above seems to disappear into the
+darkness and the ground no longer glows as strongly with light. You feel
+like you have come home after a long break. You are well come.
+~
+0 ROOM_SAFE|ROOM_NOTE_BOARD SECT_INSIDE
+DDIR_NORTH
+A private altar set in an alcove.~
+~
+0 -1 9038
+DDIR_EAST
+The east side of the chapel.~
+~
+0 -1 9037
+DDIR_SOUTH
+A private set of rooms.~
+~
+0 -1 9033
+DDIR_WEST
+The west side of the chapel.~
+~
+0 -1 9036
+#9036
+Chapel of Manwe~
+You are standing at the west end of a small chapel, which continues to the
+east. The walls are painted with simple colours, and the ceilings are plain
+wood and plaster that disappear into darkness above you. To the north you
+see the telltale signs of a morgue, whilst below you is a glowing portal
+to an arena. You are well come.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+A gloomy room.~
+~
+0 -1 9039
+DDIR_EAST
+The centre of the chapel.~
+~
+0 -1 9035
+DDIR_DOWN
+A portal to the Arena.~
+~
+0 -1 10500
+#9037
+Chapel of Manwe~
+You are on the east side of the small chapel, which continues to the west.
+You notice an open door to the north and what looks to be a large storeroom
+of sorts. There is a glowing portal below you that leads to Roterodamum.
+A small table is here with a simple flower arrangement on it, the only
+real decoration you have seen in the whole place. You are well come.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+A cluttered alcove.~
+~
+0 -1 9040
+DDIR_WEST
+The centre of the chapel.~
+~
+0 -1 9035
+DDIR_DOWN
+A portal to Roterodamum Square.~
+~
+0 -1 9755
+#9038
+The Private Altar~
+You stand in a small alcove surrounded by candles. There is space to kneel
+in introspection and prayer here, and to sit with the priestess if you wish.
+The walls are white plaster that reflects the candlelight and causes some
+shadows to flicker in the corners of your eyes. You feel very safe here,
+knowing that sanctuary is all around you.
+~
+0 ROOM_ALTAR_N|ROOM_BANK|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+The centre of the chapel.~
+~
+0 -1 9035
+#9039
+Morgue of Manwe~
+Several caskets have been layed out in the room ready to show their hosts
+to the grieving relatives. The room has subdued lighting and quiet music
+playing from some kind of magical box. The whole scene is offset by the
+surgical steel gurney used to move the bodies back to the freezer. You 
+feel that this may become a familiar place in the years to come.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_MORGUE SECT_INSIDE
+DDIR_SOUTH
+The west side of the chapel.~
+~
+0 -1 9036
+#9040
+Arkwright's General Store~
+The walls are covered with shelves and stacks of cartons that seem to almost
+topple over one another. An assortment of bottles and sweets confront you
+at the counter, whilst to the south you see the beginnings of a small chapel.
+On closer inspection you notice several walls of shelves behind the counter
+and wonder how long it must have taken to carry all that here.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The east side of the chapel.~
+~
+0 -1 9037
+#0
+
+
+#RESETS
+M 9002 100 9034
+E 9014   1 WEAR_ABOUT
+M 9000 100 9020
+M 9004 100 9006
+E 9016   1 WEAR_FEET
+E 9015   1 WEAR_LEGS
+E 9013   1 WEAR_ABOUT
+E 9012   1 WEAR_NECK_A
+M 9006 100 9009
+E 9020  20 WEAR_ABOUT
+M 9005 100 9009
+E 9015  20 WEAR_LEGS
+M 9006 100 9010
+E 9020  20 WEAR_ABOUT
+M 9006 100 9002
+E 9020  20 WEAR_ABOUT
+M 9005 100 9001
+E 9015  20 WEAR_LEGS
+M 9005 100 9005
+E 9015  20 WEAR_LEGS
+O 9017   1 9008
+M 9007 100 9008
+E 9021   1 WEAR_WAIST
+M 9008 100 9004
+M 9011 100 9016
+M 9012 100 9027
+M 9013 100 9031
+M 9014 100 9011
+E 9020  20 WEAR_ABOUT
+M 9015 100 9015
+M 9017 100 9018
+M 9016 100 9017
+M 9018 100 9028
+M 9020 100 9033
+M 9022 100 9039
+M 9023 100 9040
+G 9000 100 0
+G 9022 100 0
+G 9010 100 0
+G 9008 100 0
+G 9007 100 0
+G 9009 100 0
+G 9006 100 0
+M 9008 100 9003
+M 9024 100 9000
+M 9024 100 9019
+M 9024 100 9033
+M 9025 100 9000
+M 9025 100 9038
+M 9021 100 9038
+O 9018   1 9011
+O 9019   1 9005
+M 9019 100 9022
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,5820 @@
+#AREA Midian~
+#AUTHORS Daith Superdave~
+#VERSION 4
+#RANGES 65 95 1 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#HELPS
+0 MIDIAN_QUEST~
+{171}==========================>THE QUEST OF MIDIAN<================================{088}
+
+The quest here is not tricky nor difficult.  There is a nice storyline, and
+lots of text to read.  Anyone using common sense can figure out what to do.
+Due to the nature of the story, this quest can only be done once per reboot
+or 10 real life hours. So if you can't seem to get anywhere, then maybe
+someone just did the quest.  If so, just try again later.
+~
+
+0 MIDIAN_REQUIREMENTS~
+{171}=============================>REQUIREMENTS<===================================={088}
+
+The quests here do require some firepower.  An estimated group of ten good
+chars should be able to complete it.  Also, a current class shaman is required
+in order to successfully complete the quest.  You will see why once you finish
+the first stage of the quest.  Paying attention to what the characters you
+encounter say is also very important.
+~
+
+0 MIDIAN_EQUIPMENT~
+{171}=============================>THE EQUPIMENT<==================================={088}
+
+There are a few pieces of nice high level equipment here.  A few damage,
+high ac, and mana items.
+~
+
+0 MIDIAN_CREDITS~
+{171}============================> C R E D I T S <=================================={088}
+
+Most of you know me as Daith or Lobe. This is my first try at area creation
+so please gimme a chance.  If you dont like my area, make a better one.
+I encourage it.  I would like to thank Dave, my SUPER best friend in the whole
+wide world for helping me do this.  Without him, I would have given up a long
+time ago.
+~
+
+0 MIDIAN_HADOKEN_SPAM~
+{178}                 _   _    _     ____    ___   _  __ _____ _   _ 
+{178}         __/\__ | | | |  / \   |  _ \  / _ \ | |/ // ____| \ | | __/\__
+{168}         \    / | |_| | / _ \  | | | || | | || ' / |  _| |  \| | \    /
+{158}         /_  _\ |  _  |/ ___ \ | |_| || |_| || , \ | |___| |\  | /_  _\
+{138}           \/   |_| |_|_/   \_\|____/  \___/ |_|\_\\_____|_| \_|   \/~
+
+0 MIDIAN~
+{171}=============================> M I D I A N <=================================={088}
+{308}
+Long ago, the small town of Midian thrived with life and beauty.  One day
+however, a dark portal opened within the center of the city, opening a
+gateway to another realm.  Within a few days, the life and beauty of the city
+began to wither away.  Using all the powers available to him, the Arch Wizard
+Col'linz created a magical flame which would burn for all eternity.  The light
+of the flame protected the city from evil, and peace was returned to the fair
+city.  A massive temple was constructed on top of the gateway, effectively
+closing the portal to the Dark Realm.  Unfortunately, the Flame was stolen
+by the minions of the Dark Realm, and buried beneath a dark fortress, unable
+to shine it's holy light.  The city once again fell into depair, and awaits
+brave heroes to destroy the evil, and return the Flame to the City.
+
+  {128}(A) {058}The Quest
+  {128}(B) {058}The Requirements
+  {128}(C) {058}The Equipment
+  {128}(D) {058}The Credits
+{d}MIDIAN_CREDITS
+{c}MIDIAN_EQUIPMENT
+{b}MIDIAN_REQUIREMENTS
+{a}MIDIAN_QUEST
+~
+
+0 $~
+
+
+#MOBILES
+#4801
+whirlwind pyramid midianone~
+a whirlwind pyramid~
+A pyramidal shaped vortex of wind swirls here.~
+This wind demon spins in place, sucking up debris and leaves into its swirling
+mass of air.  Perhaps the lost pages of the Codex can be found within its 
+center.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS
+0 S
+175 BODY_HORN BODY_EYE 1d7656+20299 1d175+155
+150000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 20~
+if quest (20,2,$n) == 3
+  if hasobjnum ($n) == 4808
+    if quest (22,3,$n) < 5
+      mpmadd $n quest 22 3 1
+      mpecho A page of the Codex falls from the stale air!
+      mpecho $n quickly snatches the page and inserts it into the Codex.
+    endif
+    if quest (22,3,$n) == 5
+      if hasobjnum ($n) == 4808
+        mpecho The book begins to glow, and suddenly leaps out of $n's Grasp!
+        mpmset $n quest 22 3 6
+        mpmload 4829
+        mpjunkperson $n i4808
+        mpoload 4808 room
+        mposet i4808 name $n book codex i4808
+        mpforce slayekmobthree get i4808
+      endif
+    endif
+  endif
+endif
+~
+|
+#4802
+frightened little girl~
+a frightened little girl~
+A frightened little girl is here hiding in the shadows.~
+This small child is tattered and dirty. She looks as though she hasn't been
+out of this room in months. She is trembling with fear, and as you look
+closer, you notice her mouth has been sewn shut!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+50 0 0 1d100+1400 1d50+40
+96805 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if rand (33)
+  grovel $n
+endif
+if inroom ($n) == 4807
+  mpmset $n quest 3 1 1
+  break
+endif
+if inroom ($n) == 4808
+  mpmset $n quest 4 1 1
+  break
+endif
+if inroom ($n) == 4810
+  mpmset $n quest 5 1 1
+  break
+endif
+if inroom ($n) == 4811
+  mpmset $n quest 6 1 1
+  break
+endif
+if inroom ($n) == 4825
+  mpmset $n quest 7 1 1
+  break
+endif
+if inroom ($n) == 4827
+  mpmset $n quest 8 1 1
+  break
+endif
+~
+>rand_prog 10~
+mpecho The frightened little girl tries to say something but cannot.
+~
+>speech_prog p what happened~
+mpecho The frightened little girl points at some writings in the dirt.
+~
+|
+#4803
+frightened woman~
+the woman~
+A frightened woman is here repeating herself.~
+A very frightened woman is here.  She looks to have been scared to death. Her
+hair is thin and gray, and her face is terribly deformed.  She seems to be
+trying to say something but you just can't make out what she is saying.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+75 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+6792 1d50+50
+91404 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog return~
+if quest (0,2,$n) == 3
+  mpecho The frightened woman utters the words, 'naidim'.
+  mpechoaround $n A hole opens in the floor and you all fall in!
+  mptransfer pcs 4912
+endif
+~
+>all_greet_prog 100~
+if quest (26,2,$n) == 3
+  mpmset $n quest 0 30 0
+  look $n
+  say Do I know you from somewhere?
+  break
+endif
+if quest (0,2,$n) == 2
+  mpecho the woman looks up at $n.
+  say I sense that you have killed the beast.
+  say Quickly now, return the corpse of my child!
+  break
+endif
+if quest (0,2,$n) == 3
+  say Welcome back $n.
+  say do you wish to RETURN?
+  break
+endif
+if quest (3,8,$n) == 63
+  say What do you wish of me, stranger?
+else
+  say The Children! They have a secret!
+endif
+~
+>speech_prog p I am the great savior of Midian!~
+if quest (3,8,$n) == 63
+  mpmset $n quest 0 2 1
+  say Now you must do three tasks for me.
+  say First you must defeat the great demon in the void.
+  say Go now and do it.
+else
+  say Yes what?!
+endif
+~
+>speech_prog children~
+say The children
+say The poor children of Midian!
+~
+>speech_prog secret~
+say Perhaps they will tell it to you?
+~
+>give_prog i4820~
+if quest (0,2,$n) == 2
+  mpmset $n quest 0 2 3
+  say Thank you for helping me $n.  Now for your reward.
+  mpecho The frightened woman utters the words, 'naidim'.
+  mpecho A hole opens in the floor and you all fall in!
+  mptransfer pcs 4912
+else
+  say Why do you give me this corpse? Take it back!
+  give i4820 $n
+endif
+~
+|
+#4804
+evad~
+Evad~
+Evad seller of corpses is here.~
+You see a very sick man standing before you.  He is looking at you with bug 
+eyes hoping you have just died a terrible death.  You notice the initials <SD> 
+engraved on his cuflinks.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+say Evad Repus!
+~
+|
+#4805
+nitram~
+Nitram~
+Nitram is here selling monkeys.~
+You see a man here playing with his monkey. He has blonde hair and seems to
+be gaining muscle. He loves his monkey, he needs his monkey, without his
+monkey he would be nothing.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+say Hey $r, you wanna buy a monkey?
+~
+|
+#4806
+ronoc~
+Ronoc~
+Ronoc the trainer is here.~
+You see a young irish man here training everyone. He has brown hair and is
+fairly skinny.  He seems a bit unfocused though. He just needs a good SHAG!
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+smirk 
+~
+|
+#4807
+rovert~
+Rovert~
+Rovert is here helping you practice~
+You see a young man with blond hair and a slender build.  He is practicing
+something and seems to be bad at it.  It appears he has shoved his sword
+through his head.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+smile $r
+~
+|
+#4808
+cram~
+Cram~
+Cram the armourer is here.~
+You see a tall bearded man before you, he wants to sell you something but
+he needs to get back to his kids.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+switch numberrange (1,3)
+  case 1
+    say Hey $r, you know, there was a beautiful girl looking around
+    say for someone.  That wouldn't be you would it?  You look strong.
+    mpmset self quest 0 1 1
+  case 2
+    say Damn, I wish I had some material to work with.
+  case 3
+    say This town is not what it used to be.
+~
+>speech_prog p yes~
+if quest (0,1,$i) == 1
+  mpmset self quest 0 1 0
+  if sex ($n) == 1
+    say You're a lucky guy.  She was really beautiful.
+  else
+    say Wow! If you see her, tell her to drop by!
+  endif
+endif
+~
+>speech_prog p no~
+if quest (0,1,$i) == 1
+  mpmset self quest 0 1 0
+  if sex ($n) == 1
+    say That's too bad, she was really really beautiful.
+  else
+    say I guess not.  She did say she was looking for a guy.
+  endif
+endif
+~
+>all_greet_prog 100~
+if rand (33)
+  say Greetings Travellers.
+endif
+if hasobjnum ($n) == 4825
+  say Where did you get that strange skin?  May I have it?
+endif
+~
+>give_prog i4825~
+mpjunk i4825
+say What strange properties this skin has.  Wait here.
+mpecho Cram goes into the back room and emerges after an hour.
+say Okay, I have managed to make some armor with this skin.
+say Feel free to buy it from me.
+mpoload 4832
+mpoload 4833
+mpoload 4834
+~
+|
+#4809
+Cinos~
+Cinos~
+Cinos is here sharpening weapons.~
+The man before you looks kinda like a hedgehog.  Devious in nature he is
+always playing pranks on everyone. He has a small weapon in his hand, and
+wonders if you are gonna buy it or just stand there.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+953 0
+POS_STANDING POS_STANDING SEX_MALE
+#4810
+cabalquestmob~
+Cabal~
+Cabal the newcomer is pondering his demise~
+Cabal the newcomer is here pondering his demise. He is quite large and has
+scars all over his body. His eyes are glowing red and his lips are a pale
+blue. It almost seems as if he is not alive.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+125 BODY_HEAD|BODY_TORSO BODY_CLAW 1d3906+13877 1d50+200
+200000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 100~
+if quest (0,4,$i) == 0
+  mpecho {178}Cabal emits a blinding flash!
+  mpquiet on
+  mass blind
+  mpquiet off
+  mpmset self quest 0 4 1
+  break
+endif
+if quest (0,4,$i) == 1
+  mpmset self quest 0 4 0
+  mpecho {078}Cabal emits a loud piercing scream!
+  mpquiet on
+  mass 'shocking grasp'
+  mpquiet off
+endif
+if rand (33)
+  cast 'fireball'
+  cast 'fireball'
+else
+  kick 
+  kick 
+endif
+~
+>death_prog 100~
+mpat 4889 connect up 4914
+mpoload 4842
+mpoload 4806
+mpecho You slice open Cabal's belly and find a human heart inside. 
+mpquiet on
+drop all
+mpquiet off
+~
+|
+#4811
+babbettquestmob~
+Babbett~
+Babbett ruler of nothingness is here.~
+You see a small powerful young girl before you. Her skin is blue and her eyes
+are bright purple.  She moves slowly across the room eyeing you at all times.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+125 BODY_HEAD|BODY_TORSO BODY_CLAW 1d3906+13877 1d50+200
+250000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 100~
+if quest (0,4,$i) == 0
+  mpecho {178}Babbett emits a blinding flash!
+  mpquiet on
+  mass blind
+  mpquiet off
+  mpmset self quest 0 4 1
+  break
+endif
+if quest (0,4,$i) == 1
+  mpmset self quest 0 4 0
+  mpecho {078}Babbett emits a loud piercing scream!
+  mpquiet on
+  mass 'shocking grasp'
+  mpquiet off
+endif
+cast 'heal'
+cast 'heal'
+if rand (33)
+  cast 'acid blast'
+  cast 'acid blast'
+else
+  acupunch 
+  acupunch 
+endif
+~
+>death_prog 100~
+mpat 4899 connect up 4914
+mpoload 4802
+mpoload 4807
+mpecho You slice open Babbette's belly, and find a human brain inside. 
+mpquiet on
+drop all
+mpquiet off
+~
+|
+#4813
+akire~
+Akire~
+Akire is here selling stuff~
+This is a small young woman who looks eager to help you with your needs.
+Wisps of her fiery red hair brush out from under her cloak, and her eyes
+remain fixed on you.  Maybe you should get what you need and get out of here
+quick.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if rand (50)
+  mpecho Akire wishes you would buy something.
+else
+  say I want adventure in the great wide somewhere...
+endif
+~
+|
+#4814
+Imclota head~
+Imclota's head~
+A snake-like head of Imclota bites at you!~
+Imclota has grown a head to help him fight!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_STEALTH
+0 S
+60 BODY_HORN BODY_HAND 1d1000+3000 1d45+60
+84373 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The head decays with no body to support it.
+mppurge self
+~
+|
+#4815
+fakir shaman~
+Fakir~
+The shaman Fakir is chained up here.~
+You see an old deformed shaman here.  His battle scarred body has small caverns
+of flesh torn from it.  Small hooks seem to be shoved into his arms, legs and
+chest. Tiny streams of blood drip from his eyes and mouth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 100~
+if quest (29,1,$i) == 0
+  mpmset self quest 29 1 1
+  mpgoto 4918
+  break
+endif
+if quest (0,5,$i) > 0
+  if quest (0,5,$i) == 1
+    connect south -1
+    mpmload 4811
+    mpmload 4810
+    mpecho {117}************** There is a bright flash as a portal opens ***************{308}
+  endif
+  if quest (0,5,$i) == 2
+    mpecho Cabal the newcomer emerges out of a shimmering gate!
+  endif
+  if quest (0,5,$i) == 3
+    mpecho Babbett, the Ruler of Nothingness enters from the gate.
+  endif
+  if quest (0,5,$i) == 4
+    mpareaecho {138}Fakir screams 'NOOOOOO!!!!  They have come for me!'
+  endif
+  if quest (0,5,$i) == 5
+    mpforce $r say What kind of evil is this!
+  endif
+  if quest (0,5,$i) == 6
+    mpecho Cabal takes a quick glance at you, and an evil grin forms on his face.
+  endif
+  if quest (0,5,$i) == 8
+    mpecho You cringe in horror as Cabal thrusts his claws into the chest of the shaman and forcefully rips out his heart!
+  endif
+  if quest (0,5,$i) == 9
+    mpecho {118}Blood spills everywhere from the enormous hole in the priests chest.
+  endif
+  if quest (0,5,$i) == 10
+    mpecho {018}More of the life fluid sprays out as Cabal squeezes the last drops from
+    mpecho {018}the still beating heart.
+  endif
+  if quest (0,5,$i) == 12
+    mpforce $r say We must do something to help the priest!
+  endif
+  if quest (0,5,$i) == 13
+    mpecho {178}You try to help the shaman, but find that you are paralyzed in fear! 
+  endif
+  if quest (0,5,$i) == 15
+    mpecho Babbett smashes open the priest's skull spilling his brains onto the floor.
+  endif
+  if quest (0,5,$i) == 16
+    mpecho {118}Blood spews violently into the room, soaking the floor.
+  endif
+  if quest (0,5,$i) == 18
+    mpecho You watch in horror as Babbett sucks up the brains of the shaman.
+  endif
+  if quest (0,5,$i) == 19
+    mpforce $r say I hope I am not next...
+  endif
+  if quest (0,5,$i) == 21
+    mpecho {117}************* There is a blinding flash as the portal reopens ************{308}
+  endif
+  if quest (0,5,$i) == 22
+    mpecho {128}Cabal grins, then enters the gate, disappearing before your eyes.
+    mptransfer cabalquestmob 4889
+  endif
+  if quest (0,5,$i) == 23
+    mpecho {178}Babbett turns and emits a piercing scream, sending you flying backwards.
+    mptransfer babbettquestmob 4899
+  endif
+  if quest (0,5,$i) == 24
+    mpecho When you regain your senses, you find yourself outside the altar room.
+    mptransfer pcs 4917
+    connect south 4917
+    mpmload 4816
+    mpoload 4803
+    if rand (33)
+      mpoload 4816
+      put i4816 i4803
+    endif
+    mpgoto 4950
+  endif
+  mpmadd self quest 0 5 1
+  break
+endif
+switch numberrange (1,30)
+  case 1
+    mpecho Fakir struggles in pain.
+  case 2
+    mpecho The flesh hooks bite deeper into Fakir's body.
+  case 3
+    say Leave here at once! Leave this Unholy place!
+~
+>all_greet_prog 100~
+if class ($n) == class_monk
+  tell $n You are a Monk!  Perhaps you can defeat the evil beings!
+else
+  tell $n Leave here at once! Leave this Unholy place!
+endif
+~
+>speech_prog p unholy place~
+say Leave here now before the Evil Beings return!
+~
+>speech_prog p evil beings~
+say Yes, Cabal and Babbett.  I am powerless to stop their evil.
+say You must leave now before they return.  If only I could have
+say resisted Babbett's charms, I would be able to stop them!
+if quest (0,5,$i) == 0
+  mpmset self quest 0 5 1
+endif
+~
+|
+#4816
+spirit~
+a Spirit~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d0+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if hasobjnum ($n) == 4808
+  if quest (13,3,$n) == 7
+    say Good Work!  Since you have recovered the book, we can PROCEED!
+  else
+    mpjunkperson $n i4808
+    mpecho The codex leaps out of $n's hands and flies away!
+    say I warned you that only blessed ones may hold the book!
+    sigh 
+  endif
+  break
+endif
+if quest (10,3,$n) == 0
+  if hasobjnum ($n) == 4806
+    if hasobjnum ($n) == 4807
+      say Good work, You have retrieved my organs.
+      say Now there is one last task left to do.
+      mpmset $n quest 10 3 1
+      break
+    endif
+  endif
+endif
+if quest (10,3,$n) == 0
+  if class ($n) == class_monk
+    tell $n I am sorry you had to witness that horrid scene.
+    tell $n Fortunately there still is some hope left.
+  else
+    tell $n If only you were a Monk, there would be hope left.
+  endif
+endif
+~
+>speech_prog hope~
+say Though those monsters have ripped my heart and my brain
+say from my body, there exists a way to Resurrect me!
+~
+>speech_prog resurrect~
+say It is true, a means of resurrection.  First you must recover
+say my vital organs from those demons.  Return to me when you have
+say completed this task.  I will use my last ounce of power to
+say open portals to their homeworlds.  The stone guardians to
+say the south can take you there.  May the Gods be with you.
+mpat 4914 connect 1 4915
+mpat 4914 connect 3 4916
+~
+>speech_prog task~
+if quest (10,3,$n) == 1
+  say Yes, you must now recover an ancient magical book which
+  say was lost in the Vortex many years ago.
+  say The book contains magical powers which can restore me.
+  mpmset $n quest 10 3 2
+endif
+~
+>speech_prog vortex~
+if quest (10,3,$n) == 2
+  mpoload 4804
+  give i4804 $n
+  drop i4804
+  say Take this rune, it has the power to transport you there.
+  say One last thing before you go... you will need to recite
+  say the Magic Words before you take the book.
+  mpmset $n quest 10 3 3
+endif
+~
+>speech_prog p magic words~
+if quest (10,3,$n) == 3
+  say When you find the book, you must recite the three words:
+  say Klatu, Verata, and Nicto in order, before you take it.
+  say Only then may you retrieve it safely.
+  say Remember, only the blessed ones may handle the book!
+  say Hurry now, before my corpse decays!
+  mpmset $n quest 10 3 4
+endif
+~
+>speech_prog proceed~
+if quest (13,3,$n) == 7
+  mpquiet on
+  mpoload 4841
+  put i4841 i4803
+  mpquiet off
+  if hasobjnum ($i) == 4841
+    mpjunk i4841
+    say No!!!!!! You have taken too long....
+    say My corpse has decayed...
+  else
+    mpquiet on
+    get i4841 i4803
+    mpquiet off
+    say Now you must place my organs back into my corpse.
+    say When that is done, recite the three magic words in order.
+    say You must recite them in order or the spell will fail!
+  endif
+endif
+mpjunk all
+~
+>speech_prog klatu~
+if quest (13,3,$n) == 7
+  if hasobjnum ($n) == 4808
+    mpquiet on
+    mpjunk all
+    get i4806 i4803
+    mpquiet off
+    if hasobjnum ($i) == 4806
+      mpecho The chest cavity of the corpse magically seals itself!
+      mpmset $n quest 16 2 1
+    else
+      mpecho Nothing happens.
+    endif
+  else
+    say Fool, You must have the Codex to perform the ritual!
+  endif
+endif
+~
+>speech_prog verata~
+if quest (16,2,$n) == 1
+  if hasobjnum ($n) == 4808
+    mpquiet on
+    mpjunk all
+    get i4807 i4803
+    mpquiet off
+    if hasobjnum ($i) == 4807
+      mpecho The corpse's head magically heals!
+      mpmset $n quest 16 2 2
+    else
+      mpecho Nothing happens.
+    endif
+  else
+    say Fool, You must have the Codex to perform the ritual!
+  endif
+endif
+~
+>speech_prog nicto~
+if quest (16,2,$n) == 2
+  if hasobjnum ($n) == 4808
+    mpmset $n quest 16 2 3
+    mpecho The corpse glows with an intense light.
+    mpecho You watch as the wounds magically heal themselves.
+    mpecho Suddenly, there is a blinding flash.
+    mptransfer all 4917
+    mpat 4917 mpecho When you can see again you stand at the entrance to the temple.
+    mpat 4917 connect north 4921
+    mppurge i4803
+    mpgoto 4921
+    mpmload 4817
+    mpgoto 4950
+  else
+    say Fool, You must have the Codex to perform the ritual!
+  endif
+endif
+~
+|
+#4817
+fakir shaman~
+Fakir~
+The shaman Fakir stands here.~
+You see a powerful looking shaman.  His muscular body looks in perfect health
+He has a white magical aura about him, as if he is enhanced with magical
+powers.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (20,2,$n) == 0
+  if quest (16,2,$n) == 3
+    say Thank you $n, for restoring my body.  In return for
+    say your great deed, I will teach you my secret technique:
+    say The Legendary HADO-KEN !!!!!!
+    mpecho Fakir transfers his internal energy into $n!
+    say Maybe you will be able to master it like Dhir'mal did. 
+    mpoload 4801
+    mpquiet on
+    give i4801 $n
+    mpquiet off
+    say Now there is one final task for you to undertake.
+    mpmset $n quest 20 2 1
+  endif
+endif
+~
+>speech_prog p final task~
+if quest (20,2,$n) == 1
+  say Yes, to destroy the heart of the evil itself.
+  say Now, you must listen to my long story....
+  mpecho $I pauses for a second.
+  mpmset $n quest 20 2 2
+  mpmset self quest 1 5 1
+endif
+~
+>rand_prog 33~
+if quest (1,5,$i) > 0
+  if quest (1,5,$i) == 1
+    say Long ago, the Eternal Torch of Midian was stolen by a demon
+    say of the Dark Realm.  This torch is a magical artifact which
+    say can protect Midian from evil magic.
+    mpecho $I pauses for a second.
+  endif
+  if quest (1,5,$i) == 2
+    say Without the torch, we were defenseless to stop the demon
+    say from weaving its dark magiks, and the realms were thrust into
+    say an age of darkness....
+  endif
+  if quest (1,5,$i) == 3
+    mpecho {008}
+    say Many brave heroes ventured into the Vortex, and attempted to
+    say retrieve the Eternal Torch, but none ever returned from the
+    say dark dimension, and all hope was lost....
+    mpecho $I takes a deep breath.
+  endif
+  if quest (1,5,$i) == 4
+    say That is until one fateful day, when the Holy Knight Thiad, his
+    say wife Lady Kaeri, and four other mighty heroes attempted the quest.
+    say An ill-fated journey which would claim the life of Sir Thiad and
+    say his companions, for only Lady Kaeri would return....
+    mpecho $I takes another deep breath before continuing.
+  endif
+  if quest (1,5,$i) == 5
+    say She was alive, but barely.  Delusional and delirious, she spoke of
+    say terrible wind demons and a dark fortress made out of black stone.
+    say She had managed to steal a spellbook, but lost the mystic tome at
+    say the Nexus due to her hasty retreat.  The Codex remained there
+    say till you brave ones managed to retrieve it....
+    mpecho $I pauses to let you think about what he has said.
+  endif
+  if quest (1,5,$i) == 6
+    say Several months later Lady Kaeri gave birth to a child, the only
+    say reminder of the late Knight Thiad.  The child disappeared soon
+    say after birth, which drove Lady Kaeri mad.  She warned that no "man"
+    say could ever survive inside the Obsidian fortress, and those foolish
+    say enough to try would perish, but perish 'happily'.  She told 
+    say countless other outlandish tales, but whether these tales are true
+    say or not, will never be known....
+    mpecho $I takes one last big deep breath.
+  endif
+  if quest (1,5,$i) == 7
+    say That is, unless you brave adventures are willing to escort me in a
+    say journey to the Dark Realm.  The Codex which you now possess
+    say contains the power to destroy the Demon of the Dark Realm.  With
+    say powerful adventures with me, and the Book in our hands, we shall
+    say be victorious!  Give the book to me so I can prepare the spell.
+  endif
+  if quest (1,5,$i) == 8
+    break
+  endif
+  if quest (1,5,$i) == 9
+    say I have bad news....several pages of the book are missing...
+    say That being the case, I'm sorry to say that there's no way in hell
+    say that I am going to go into that evil realm.  But....
+    ponder 
+  endif
+  if quest (1,5,$i) == 10
+    say The lost pages must have fallen out when Lady Kaeri returned.
+    say If you can retrieve those pages and place them back into the book,
+    say then maybe you can destroy the demon.  Also, one other thing...
+  endif
+  if quest (1,5,$i) == 11
+    mpecho {008}
+    say Rumor has it that the child of Lady Kaeri and Lord Thiad lives,
+    say and has been raised and trained in the Monastery of Za'ar.
+    say A few mysterious young warriors have come here in the past weeks
+    say and entered into the vortex.  Perhaps the child is one of them,
+    say and can help you defeat the demon.
+    say Savior, do you wish to undertake this great task?
+  endif
+  if quest (1,5,$i) > 11
+    break
+  endif
+  mpmadd self quest 1 5 1
+  break
+endif
+if rand (5)
+  if quest (20,2,$r) == 0
+    if rand (50)
+      say Welcome $r.  You can find safe refuge here.
+    else
+      say A party of brave adventurers has already aided me.
+      say Perhaps you can help me later $r.
+    endif
+  endif
+endif
+~
+>speech_prog help~
+say Thanks for the offer.  However...
+say A party of brave adventurers has already helped me.
+say Perhaps your assistance will be required at another time.
+~
+>speech_prog p yes~
+if quest (20,2,$n) == 2
+  if quest (1,5,$i) == 12
+    mpmset self quest 1 5 13
+    say Return now to the Nexus, and speak the words 'HIKARU'.
+    say This will open a gateway to the Dark Realm where the Evil Master
+    say awaits.  This is all I can help you with.  Fare thee well $n.
+    mpmset $n quest 20 2 3
+  else
+    say Yes what?
+  endif
+else
+  say You do not know the secret technique $n.
+  say Only those who have this power can hope to survive.
+endif
+~
+>give_prog I4808~
+if quest (1,5,$i) == 8
+  say Now we can finally destroy the Demon master!
+  mpecho $I opens the Codex and thumbs through the pages.
+  mpecho A fearful expression suddenly forms on Fakir's face.
+  say Take this back $n.
+  give i4808 $n
+  mpmset self quest 1 5 9
+else
+  give I4808 $n
+  say You hold on to it for now.
+endif
+~
+|
+#4818
+words~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog klatu~
+if quest (10,3,$n) == 4
+  mpmset $n quest 13 1 1
+  mpecho The air around you starts to stir rapidly.
+endif
+~
+>speech_prog verata~
+if quest (10,3,$n) == 4
+  mpmset $n quest 14 1 1
+  mpecho The wind violently whips across your face.
+endif
+~
+>speech_prog nicto~
+if quest (10,3,$n) == 4
+  mpmset $n quest 15 1 1
+  mpecho The ground rumbles and the book glows brightly.  Then all is calm.
+  mpgoto 4950
+endif
+~
+|
+#4819
+book~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  mpecho {128}     A magical Book glows brightly here!
+  mpoload 4808
+  mpquiet on
+  drop i4808
+  mpquiet off
+  mpmset self quest 0 1 1
+  mpgoto 4950
+endif
+~
+|
+#4821
+skeletal warrior midianthr~
+a skeletal warrior~
+The skeletal remains of a long dead warrior lay here.~
+These are the remains of the dead heros who have succumbed to the terrors of
+the vortex.  Their decaying bones are a testatment to the dangers of this
+area.
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS
+0 S
+125 BODY_HEAD BODY_HAND 1d3906+9189 1d125+80
+150000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (13,3,$n) != 7
+  mpecho $I rises and attacks!
+  mpkill $n
+endif
+~
+|
+#4822
+nexus gateway~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d0+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p hikaru~
+if quest (20,2,$n) == 3
+or hasobjnum ($n) == 4835
+  mpecho The ether around the Nexus swirls rapidly.
+  mpecho A swirling array of light opens and sucks you in!
+  mptransfer pcs 4849
+endif
+~
+|
+#4823
+ashuramobone~
+Ashura~
+A pretty girl paces around here nervously.~
+You notice that she is very pretty.  In fact, you can't help but to stare into
+her beautiful eyes.  Her dark hair glistens in the sunlight as she tosses her
+hair back and forth.  She is dressed in a dark robe, and seems to be waiting
+for something... or someone.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_HAND 1d2256+4906 1d95+47
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpechoat $n $I looks at you nervously, as if afraid to ask for help.
+~
+>speech_prog p my name is~
+if quest (0,1,$i) == 1
+  if quest (28,3,$n) == 1
+    say Nice to meet you $n.
+    say I better go look for Slayek, see you around.
+    mpmset $n quest 28 3 2
+    mpecho $I runs off into the city.
+    mppurge self
+  endif
+endif
+~
+>speech_prog help~
+if quest (28,3,$n) == 0
+  mpmset self quest 0 1 1
+  blush 
+  say No thanks, I am just waiting for my friend Slayek. 
+  say By the way, my name is Ashura.  What is yours?
+  smile $n
+  mpmset $n quest 28 3 1
+endif
+~
+|
+#4824
+ashuramobtwo~
+Ashura~
+A pretty girl paces around here nervously.~
+You notice that she is very pretty.  In fact, you can't help but to stare into
+her beautiful eyes.  Her dark hair glistens in the sunlight as the wind tosses
+her hair back and forth.  She is dressed in a dark robe, and seems to be
+waiting for something... or someone.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_HAND 1d2256+4906 1d95+47
+26 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (28,3,$n) == 2
+  blush 
+  say Hello again $n.  I need to find Slayek. 
+  say He must have gone ahead into the temple without me.
+  mpecho $I runs off into the city.
+  mppurge self
+else
+  mpechoat $n $I looks at you nervously, as if afraid to ask for help.
+endif
+~
+>speech_prog p my name is~
+if quest (0,1,$i) == 1
+  if quest (28,3,$n) == 1
+    say Nice to meet you $n.
+    say I better go look for my friend, see you around.
+    mpmset $n quest 28 3 2
+    mpecho $I runs off into the city.
+    mppurge self
+  endif
+endif
+~
+>speech_prog help~
+if quest (28,3,$n) == 0
+  mpmset self quest 0 1 1
+  blush 
+  say No thanks, I am just waiting for my friend 
+  say By the way, my name is Ashura.  What is yours?
+  smile $n
+  mpmset $n quest 28 3 1
+endif
+~
+|
+#4825
+ashuramobthree~
+Ashura~
+A pretty girl paces around here nervously.~
+You notice that she is very pretty.  In fact, you can't help but to stare into
+her beautiful eyes.  Her dark hair glistens in the sunlight as the wind tosses
+her hair back and forth.  She is dressed in a dark robe, and seems to be
+waiting for something... or someone.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_HAND 1d2256+4906 1d95+47
+28 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (28,3,$n) == 2
+    mpmset $n quest 28 3 3
+    say Hi $n.  Strange meeting you here.
+    say Have you found or seen Slayek?
+    say Did he have a message for me?
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+>speech_prog p go home~
+if quest (28,3,$n) == 3
+  if quest (1,5,$i) == 0
+    say That brother of mine is a pain in the butt.  He is always bossing
+    say me around, telling me what to do.  I am a big girl now but he
+    say keeps treating me like a child.  Also...
+    mpmset self quest 1 5 1
+  endif
+endif
+~
+>rand_prog 33~
+switch quest (1,5,$i)
+  case 1
+    mpecho {008}
+    say I just wanna show him I am capable of taking care of myself.
+    say That is why I'm gonna show the realms how great I am by
+    say recovering the Eternal Flame which was lost so long ago...
+    mpmset self quest 1 5 2
+    break
+  case 2
+    mpforce $r chuckle ashura
+    mpforce $r say Do you actually think you can recover them by yourself?
+    mpforce $r say It is pretty dangerous you know...
+    mpmset self quest 1 5 3
+    break
+  case 3
+    mpmset self quest 1 5 4
+    growl 
+    say What?  You don't think I can handle it?  I'm every bit as strong
+    say as my brother.  You think just 'cause I'm a girl, I'm not capable
+    say of doing dangerous quests!  I'll show you all!
+    mpmset self quest 1 5 5
+    mpecho Ashura runs off into the forest...
+    mpgoto 4950
+~
+|
+#4826
+ashuramobfour~
+Ashura~
+A sleeping beauty lays here on the floor.~
+You notice that she is very pretty.  In fact, you can't help but to stare into
+her beautiful eyes.  Her dark hair glistens in the eerie light and seems to
+dance before your eyes. She is dressed in a dark robe.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+100 BODY_HEAD|BODY_TORSO BODY_HAND 1d2500+8509 1d100+101
+89111 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 33~
+if quest (0,5,$i) == 0
+  mpecho Ashura seems to be unconscious.
+  mpmset self quest 0 5 1
+  break
+endif
+if quest (0,5,$i) == 1
+  mpforce $r say My my, she sure is a beauty...
+  mpmset self quest 0 5 2
+  break
+endif
+if quest (0,5,$i) == 2
+  mpmset self quest 0 5 3
+  mpforce $r say Yeah, and she is sleeping too...
+  break
+endif
+if quest (0,5,$i) == 3
+  mpmset self quest 0 5 1
+  mpforce $r say Yeah, I wonder how we can wake a sleeping beauty.
+  break
+endif
+if quest (0,5,$i) == 4
+  say I'm sorry... I should be thanking you, not getting mad at you.
+  smile 
+  mpmset self quest 0 5 5
+  break
+endif
+if quest (0,5,$i) == 5
+  mpmset self quest 0 5 6
+  say Jenova retains her youth by absorbing the beauty of nature
+  say and that of young humans.  I am fortunate that you came along to
+  say rescue me, or else I would have ended up like the old woman
+  say in the city...
+  mpforce $r say That would suck!
+  break
+endif
+if quest (0,5,$i) == 6
+  mpmset self quest 0 5 7
+  say Now with her demise, Midian can perhaps regain the beauty it
+  say lost so long ago.  All that is left to do is to recover the
+  say artifacts and heirlooms of the fallen ones...
+  mpforce $r say Ooooh... where are these artifacts?
+  break
+endif
+if quest (0,5,$i) == 7
+  mpmset self quest 0 5 8
+  mpecho $r notices something strange with the throne.
+  mpecho You all kneel down to examine it further.
+  break
+endif
+if quest (0,5,$i) == 8
+  sigh 
+  mpecho Ashura sits down on the throne, and it begins to glow strangely.
+  mpmset self quest 0 5 9
+  break
+endif
+if quest (0,5,$i) == 9
+  mpecho The throne suddenly vanishes, and Ashura falls into a hole!
+  mpforce $r say Whoa!  Where did Ashura go?
+  connect down 4876
+  mpgoto 4950
+  mpmset self quest 0 5 10
+endif
+~
+>social_prog kiss~
+if quest (0,5,$i) <= 3
+  mpecho Ashura's eyes slowy open, and she stares into $n's eyes.
+  mpmset self long A beautiful girl stands here.
+  mpmset self quest 0 5 4
+  if sex ($n) == 1
+    mpecho Ashura shoves $n away from her.
+    say Get off of me you animal!
+  else
+    mpecho Ashura gets a strange expression on her face.
+    slap $n
+    say Eeeewww!  I'm not that type of girl!  Get away!
+  endif
+endif
+~
+|
+#4827
+slayekmobone~
+Slayek~
+A caped warrior poses here.~
+This powerful looking man is dressed all in white.  He tosses his head and 
+his hair flips over to the other side.  He sees you approach and flexes his
+muscles in your direction, his big muscles you think to yourself.  This man 
+seems very powerful and not someone to be messed with.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+150 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+30000 1d50+200
+300000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (1,5,$i) == 4
+  say So we meet again!  I've warned you to stay out of my way!
+  say I guess I'm gonna have to teach you a lesson after all!
+  mpat 4833 connect east 4844
+  mpat 4833 connect south 4844
+  mpat 4833 connect west 4844
+  mpkill $n
+  break
+endif
+if quest (0,1,$i) == 0
+  mpmset self quest 0 1 1
+  say What are you pathetic adventurers doing in here?
+  say Don't you know this is a very dangerous place?
+endif
+if quest (28,3,$n) >= 2
+  if quest (1,5,$i) == 0
+    mpforce $n say Are you Slayek?
+    mpforce $n say I think a girl named Ashura was looking for you.
+    mpmset self quest 1 5 1
+  endif
+endif
+~
+>rand_prog 45~
+if quest (1,5,$i) == 1
+  say Oh?  Ashura?  What is she doing here?  That sister of mine
+  say keeps getting herself into trouble.  If you see her again,
+  say tell her 'to go home'.  This is no place for a young virgin
+  say to be running around.
+  mpforce $r say Did you say virgin?
+  mpmset self quest 1 5 2
+  break
+endif
+if quest (1,5,$i) == 2
+  say One other thing... don't you get any dirty thoughts about my
+  say sister.  I am very protective, and I don't want to have to
+  say teach you all a lesson in manners.  Also...
+  mpmset self quest 1 5 3
+  break
+endif
+if quest (1,5,$i) == 3
+  mpmset self quest 1 5 4
+  say ...stay out of my way.  I don't want you following me.
+  mpecho $I disappears in a bright flash!
+  mpforce $r Say yeah yeah yeah.  Come back and fight like a man!
+  mpat 4833 connect east 4839
+  mpat 4833 connect south 4839
+  mpat 4833 connect west 4839
+  mpgoto 4843
+  break
+endif
+~
+>hitprcnt_prog 70~
+peace 
+say You pathetic excuses for heroes!
+say I do not have time to waste on fools like you!
+mpoload 4844
+mpquiet on
+drop i4844
+mpquiet off
+mpecho $I disappears in a puff of smoke!
+mpgoto 4950
+~
+|
+#4828
+slayekmobtwo~
+Slayek~
+A caped warrior poses here.~
+This powerful looking man is dressed all in white.  He tosses his head and 
+his hair flips over to the other side.  He sees you approach and flexes his
+muscles in your direction, his big muscles you think to yourself.  This man 
+seems very powerful and not someone to be messed with.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+100 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2500+8509 1d100+101
+200000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (22,3,$n) <= 4
+  if quest (0,1,$i) == 0
+    say I see you have made it this far.  Take my advice fools.
+    say This is no place for you.  You couldn't even defeat me in
+    say in combat, so what makes you think you can defeat the 
+    say master of this realm?
+    mpmset self quest 0 1 1
+  endif
+else
+  if quest (22,3,$n) == 6
+    if quest (10,1,$i) == 0
+      mpmset self quest 10 1 1
+      mpmset self quest 0 1 1
+      mpmset self long A dying warrior rests here.
+      mpmset self quest 1 5 1
+      mpecho Slayek reaches out to $n.
+      say I have... found... the way... in...
+    endif
+  endif
+endif
+~
+>rand_prog 50~
+if quest (1,5,$i) == 0
+  if quest (0,1,$i) == 1
+    switch numberrange (1,3)
+      case 1
+        say I wonder where the entrance to the fortress is.
+        ponder 
+      case 2
+        say There must be some way into the fortress.  Some key somewhere.
+        sigh 
+      case 3
+        say I know I am close to finding it, I just know it!
+        grumble 
+    endswitch
+  endif
+  break
+endif
+if quest (1,5,$i) == 1
+  mpmset self quest 1 5 2
+  say The secret can be found inside the book.
+  say It holds the power to open a portal within the dark stone...
+  break
+endif
+if quest (1,5,$i) == 2
+  mpmset self quest 1 5 3
+  say I can use the last of my strength to open a doorway
+  say in the stone...
+  break
+endif
+if quest (1,5,$i) == 3
+  mpmset self quest 1 5 4
+  say Please... save my sister...
+  say No man is capable of surviving inside the dark fortress...
+  say Not even a powerful 'man' like me can stand up to the demon.
+  break
+endif
+if quest (1,5,$i) == 4
+  mpmset self quest 1 5 5
+  say Heroes... are you ready to go?
+  break
+endif
+if quest (1,5,$i) == 6
+  if rand (10)
+    say You are too late!  The gate has closed!
+    connect north -1
+    mpecho Slayek fades into nothingness....
+    mpgoto 4950
+    mpmset self quest 1 5 7
+  else
+    say Hurry into the fortress!  It won't stay open forever!
+    break
+  endif
+endif
+~
+>speech_prog p yes~
+if quest (1,5,$i) == 5
+  if quest (22,3,$n) == 6
+    if quest (26,2,$n) < 3
+      mpmset $n quest 26 2 1
+      mpecho Slayek clutches the book to his chest, and a beam of light strikes
+      mpecho the walls of the fortress, creating a doorway!
+      say Hurry and enter, before the opening closes!
+      mpmset self quest 1 5 6
+      connect 0 4872
+    endif
+  endif
+endif
+~
+|
+#4829
+slayekmobthree~
+Slayek~
+A caped warrior poses here.~
+This powerful looking man is dressed all in white.  He tosses his head and 
+his hair flips over to the otherside.  He sees you approach and flexes his
+muscles in your direction, his big muscles you think to yourself.  This man 
+seems very powerful and not someone to be messed with.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+100 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2500+8509 1d100+101
+164471 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 50~
+if hasobjnum ($i) == 4808
+  if quest (0,5,$i) == 0
+    say Thanks!  I was looking everywhere for this.  It must be the key
+    say to the dark fortress!
+    mpforce $c say Give that back, thief!
+    mpmset self quest 0 5 1
+    break
+  endif
+  if quest (0,5,$i) == 1
+    say It's not like you're gonna need it anyways.
+    say You may now thank me for saving your life!
+    grin $c
+    mpmset self quest 0 5 2
+    break
+  endif
+  if quest (0,5,$i) == 2
+    mpareaecho {138}Ashura shouts 'HELP! Someone help me! Brother!!!!!'
+    mpecho A sense of fear forms on Slayek's face.
+    mpforce $r say Ashura is in danger!
+    mpmset self quest 0 5 3
+    break
+  endif
+  if quest (0,5,$i) == 3
+    mpmset self quest 0 5 4
+    say I must go help my sister!
+    mpecho $I disappears in the direction of the dark castle.
+    mpforce $c say Quickly!  To the Dark Castle!
+    mppurge self
+    break
+  endif
+endif
+~
+>fight_prog 100~
+if hasobjnum ($i) == 4808
+  if quest (0,5,$i) == 0
+    say Thanks!  I was looking everywhere for this.  It must be the key
+    say to the dark fortress!
+    mpforce $c say Give that back, thief!
+    mpmset self quest 0 5 1
+    break
+  endif
+  if quest (0,5,$i) == 1
+    say It's not like you're gonna need it anyways.
+    say You may now thank me for saving your life!
+    grin $c
+    mpmset self quest 0 5 2
+    break
+  endif
+  if quest (0,5,$i) == 2
+    mpareaecho {138}Ashura shouts 'HELP! Someone help me! Brother!!!!!'
+    mpecho A sense of fear forms on Slayek's face.
+    mpforce $r say Ashura is in danger!
+    mpmset self quest 0 5 3
+    break
+  endif
+  if quest (0,5,$i) == 3
+    mpmset self quest 0 5 4
+    say I must go help my sister!
+    mpecho $I disappears in the direction of the dark castle.
+    mpforce $c say Quickly!  To the Dark Castle!
+    mppurge self
+    break
+  endif
+endif
+~
+|
+#4830
+Jenovamobone~
+Jenova~
+A very beautiful woman stands here.~
+Before you stands no other than the most beautiful woman you have ever ever 
+seen.  Everything, from her long flowing black hair, to the perfectly formed
+curves of her body, generate strange feelings within your body.  You feel as
+if you would do anything to please her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+100 BODY_HEAD BODY_MOUTH 1d2500+8509 1d1+200
+150000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  mpmset self quest 0 1 1
+  mpat 4875 mpmload 4831
+endif
+if sex ($n) == 1
+  mpmset self quest 1 1 1
+  if rand (50)
+    mpforce $n ogle $i
+    tell $n are you the one man who can satisfy my desires?
+  else
+    tell $n I have been waiting a long time for a man like you.
+    mpforce $n stare $i
+  endif
+else
+  mpmset self quest 2 1 1
+  if rand (50)
+    mpechoaround $n $n gives Jenova an envious look.
+    tell $n You cannot compare to my beauty.
+  else
+    tell $n Your ugly face repulses me!  Begone from my sight!
+    mpechoaround $n stares jealously at Jenova's beauty.
+  endif
+endif
+~
+>rand_prog 40~
+if quest (1,1,$i) == 1
+  if quest (5,5,$i) == 0
+    smile 
+    say I see that more men have come to worship my beauty!
+    say ...or perhaps you are here to kill poor defensless me
+    say and to recover the artifacts lost so long ago?
+    pout 
+    say That wouldn't be the reason would it? No....
+    mpmset self quest 5 5 1
+    break
+  endif
+  if quest (5,5,$i) == 1
+    if quest (2,1,$i) == 1
+      say I can satisfy your manly needs, in ways you've never imagined.
+      say Ask the women to leave however...they will just get in the way.
+      mpecho Jenova opens a door, and heads north into the darkness...
+      connect north 4873 both
+      mppurge self
+    else
+      say I see you men are smart enough to not journey with women.
+      say You must realize that women are not for fighting, but for love.
+      say You men show remarkable intelligence, a trait I greatly admire.
+      say Come with me my pets, and I will give you pleasures which you
+      say have only ever imagined.
+      mpforce $r grin
+      mpecho Jenova opens a door, and slowly strolls into the darkness...
+      connect north 4873 both
+      mpmset self quest 5 5 2
+      mpgoto 4950
+    endif
+  endif
+else
+  if quest (5,5,$i) == 0
+    say You women are fools!  Do you really think you are strong enough
+    say to defeat me by yourselves?  Countless men have tried, yet none
+    say have ever succeeded!  What makes you think you are different?
+    mpmset self quest 5 5 1
+    break
+  endif
+  if quest (5,5,$i) == 1
+    say I must admit, you are the first to travel with no men in your
+    say party. Surprisingly, you are smart enough to realize that men
+    say are defenseless when they are up against a woman of my beauty.
+    say Or is it because you bitches are too ugly and repulsive to even
+    say attract a decent man?
+    cackle 
+    mpmset self quest 5 5 2
+    break
+  endif
+  if quest (5,5,$i) == 2
+    mpmset self quest 5 5 3
+    say But you must not realize that women are pathetic warriors, and
+    say this is your fatal mistake!  Here, let my pet entertain you!
+    cackle 
+    mpecho Jenova leaves north and calls out to her pet.
+    mpmload 4833
+    mpforce jenovapet mpkill $r
+    mpgoto 4950
+  endif
+endif
+~
+|
+#4831
+Jenovatwo~
+Jenova~
+A very beautiful woman stands here.~
+Before you stands no other than the most beautiful woman you have ever ever 
+seen.  Everything, from her long flowing black hair, to the perfectly formed
+curves of her body, generate strange feelings within your body.  You feel as
+if you would do anything to please her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+125 BODY_HEAD BODY_MOUTH 1d1+13000 1d125+79
+150000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if sex ($n) == 1
+    mpquiet on
+    cast 'mirror image'
+    cast 'mage shield'
+    mpquiet off
+    mpechoat $n You see a room full of beautiful women!
+  endif
+  say Die like the pig you are $n!
+  mpkill $n
+  cast 'acid blast'
+  cast 'acid blast'
+  cast 'energy drain'
+  cast 'energy drain'
+  mpmset self quest 0 1 1 
+endif
+~
+>rand_prog 100~
+if inroom ($r) == 4875
+  say Die $r!!!!
+  mpforce $r kill jenova
+endif
+~
+>hitprcnt_prog 20~
+mass 'energy drain'
+if quest (9,1,$i) == 0
+  if existsarea (jenovathree)
+    mpmset self quest 9 1 1
+    mpecho Jenova crys out in pain, and once again changes form!
+    mpgoto 4950
+    mptransfer jenovathree 4875
+    mpat 4875 mpforce jenovathree mpkill $r
+    mpat 4875 mpforce jenovathree mpkill $r
+  endif
+endif
+~
+>hitprcnt_prog 60~
+if quest (13,1,$i) == 0
+  if existsarea (jenovathree)
+    mpmset self quest 13 1 1
+    mpecho Jenova shudders in pain and changes into a hideous form!
+    mpgoto 4950
+    mptransfer jenovathree 4875
+    mpat 4875 mpforce jenovathree mpkill $r
+    break
+  endif
+endif
+cast 'acid blast'
+~
+>hitprcnt_prog 99~
+if rand (33)
+  cast 'acid blast'
+else
+  cast 'energy drain'
+endif
+~
+>death_prog 100~
+if quest (6,1,$i) == 1
+  say Impossible... You have defeated me...
+  mpecho Blood spills out of Jenova's critical wounds.
+  peace 
+  mpmload 4826
+  mpecho The body of Ashura materializes before your eyes, and floats to the floor.
+else
+  mpmload 4831
+  mpecho Jenova grins evily and rises once again.
+  mpgoto 4950
+  mpat 4875 mpforce jenovatwo mpkill $r
+  mppurge self
+endif
+~
+|
+#4832
+Jenovathree~
+Jenova~
+A very ugly woman stands here.~
+Before you stands no other than the ugliest woman you have ever layed your 
+eyes upon.  Everything, from her long frizzled white hair, to the malformed
+curves of her body, generate repulsive feelings within you.  You feel as if
+you want nothing to do with her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+100 BODY_HEAD BODY_HAND 1d2500+8509 1d25+130
+150000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 100~
+if inroom ($r) == 4875
+  say Die $r!
+  mpforce $r kill jenova
+endif
+~
+>speech_prog p FEEL THE POWER OF MY HOLY FISTS~
+if quest (26,2,$n) == 1
+  if quest (6,1,$i) == 0
+    if quest (5,1,$i) == 1
+      mpat jenovatwo mpmset jenovatwo quest 6 1 1
+      mpmset $n quest 26 2 2
+      mpmset self quest 6 1 1
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 25~
+if quest (13,1,$i) == 0
+  mpmset self quest 13 1 1
+  mpecho Jenova shudders in pain and reverts to her original form!
+  mpgoto 4950
+  mptransfer jenovatwo 4875
+  mpat 4875 mpforce jenovatwo mpkill $r
+endif
+~
+>hitprcnt_prog 70~
+if quest (6,1,$i) == 0
+  cackle 
+  say Fools!  Do you think you can defeat me so easily?
+  mpecho Jenova reaches out and absorbs energy from all around herself.
+  mpmadd self currhp 2000
+  laugh diabolically
+else
+  if quest (11,2,$i) == 0
+    mpmset self quest 11 2 1
+    grin 
+    say Fools!  Feel my wrath! I am through playing with you!
+    say Oh great Midian! Grant me strength!
+    mpecho Jenova tries to absorb energy but nothing happens.
+    break
+  endif
+  if quest (11,2,$i) == 1
+    mpmset self quest 11 2 2
+    say No! It can't be!  What have you done to my powers?!?
+  endif
+endif
+~
+>death_prog 100~
+if quest (6,1,$i) == 1
+  mpecho Nearing death, Jenova reverts back to her original form.
+  mpgoto 4950
+  mptransfer jenovatwo 4875
+  mpat 4875 mpforce jenovatwo mpkill $r
+else
+  mpgoto 4950
+  mpat 4875 mpecho Jenova grins evily and rises once again.
+  mpat 4875 mpmload 4832
+  mpat 4875 mpforce jenovathree mpkill $r
+endif
+mppurge self
+~
+|
+#4833
+jenovapet~
+Jenova's pet~
+A monstrous beast growls at you.~
+This hideous beast looks to be a cross between a lion and a dragon.  It is
+covered all in fur and scales.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD|BODY_TORSO BODY_HAND 1d1+10000 1d50+150
+187488 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpecho $r's mighty blow knocks the beast backwards, breaking down the door!
+connect north 4873 both
+~
+|
+#4834
+ashuramobfive~
+Ashura~
+A beautiful girl is here.~
+You notice that she is very pretty.  In fact, you can't help but to stare into
+her beautiful eyes.  Her dark hair glistens in the eerie light and seems to
+dance before your eyes. She is dressed in a dark robe.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+0 S
+100 BODY_HEAD|BODY_TORSO BODY_HAND 1d2500+8509 1d100+101
+117274 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpmset $n quest 28 3 0
+if quest (20,1,$i) == 0
+  if quest (26,2,$n) == 2
+    mpmset $n quest 26 2 3
+    mpquiet on
+    cast giant $n
+    cast 'remove curse' $n
+    cast 'remove curse' $n
+    cast 'remove curse' $n
+    cast 'remove curse' $n
+    mpoload 4843
+    give i4843 $n
+    mpmset self quest 20 1 1
+    mpmset self quest 0 10 1
+    mpforce $n dhirmal
+    mpoload 4805
+    mpoload 4836
+    mpoload 4837
+    mpoload 4838
+    mpoload 4839
+    mpoload 4840
+    drop all
+    mpquiet off
+    mpechoat $n You feel a sudden surge of power in your hands!
+    say Look at all these artifacts $n!
+    mpecho $n feels strange, and his hands emit a strange glow.
+  endif
+endif
+~
+>rand_prog 80~
+if quest (0,10,$i) == 1
+  say I sure am glad this is all finally over!
+  say Mother, father, your death has been avenged!
+  mpecho Ashura kneels down and prays to her parents.
+  mpmset self quest 0 10 2
+  break
+endif
+if quest (0,10,$i) == 2
+  if rand (75)
+    mpmset self quest 0 10 3
+    say Now I can go back to being a young single girl again!
+    giggle happily $r
+    break
+  endif
+endif
+if quest (0,10,$i) == 3
+  mpecho {171}============================> C R E D I T S <=================================={308}
+  mpmset self quest 0 10 4
+  break
+endif
+if quest (0,10,$i) == 4
+  mpecho {308}
+  mpecho {308}                    STARING
+  mpecho {308}
+  mpecho Shan Collins as Fakir..........Marc Cooper as Slayek
+  mpmset self quest 0 10 5
+  break
+endif
+if quest (0,10,$i) == 5
+  mpecho Veronica Singh as Ashura.......Kathy Cooper as Jenova
+  mpmset self quest 0 10 6
+  break
+endif
+if quest (0,10,$i) == 6
+  mpecho Heather Rambert as Babbett.....Ken Goetz as Cabal
+  mpmset self quest 0 10 7
+  break
+endif
+if quest (0,10,$i) == 7
+  mpecho {308}
+  mpecho {308}                    ALSO WITH
+  mpecho {308}
+  mpecho Erika Collins as Akire.........Conor Small as Ronoc
+  mpmset self quest 0 10 8
+  break
+endif
+if quest (0,10,$i) == 8
+  mpecho Martin Gallway as Nitram.......John Kim as Cinos
+  mpmset self quest 0 10 9
+  break
+endif
+if quest (0,10,$i) == 9
+  mpecho Trevor Tolbert as Rovert.......Marc Cooper as Cram
+  mpmset self quest 0 10 10
+  break
+endif
+if quest (0,10,$i) == 10
+  mpecho Special Cameo Appearance.......Dave Wu as Evad 
+  mpmset self quest 0 10 11
+  break
+endif
+if quest (0,10,$i) == 11
+  mpecho {008}
+  mpecho Directed by....................Shan Collins
+  mpmset self quest 0 10 12
+  break
+endif
+if quest (0,10,$i) == 12
+  mpecho Executive producer.............Chaos and Order
+  mpecho Produced by....................Dave Wu
+  mpmset self quest 0 10 13
+  break
+endif
+if quest (0,10,$i) == 13
+  mpecho {008}
+  mpecho Based in part on the novel by Clive Barker 
+  mpecho {008}
+  mpmset self quest 0 10 14
+  break
+endif
+if quest (0,10,$i) == 14
+  mpecho Screenplay by..................Shan Collins, Dave Wu
+  mpmset self quest 0 10 15
+  break
+endif
+if quest (0,10,$i) == 15
+  mpecho Background Design Team.........Shan Collins, David Wu, Erika Collins
+  mpmset self quest 0 10 16
+  break
+endif
+if quest (0,10,$i) == 16
+  mpecho {008}
+  mpecho Best Boy...................Leonardo Hyacinth
+  mpecho Grip.......................Travis Blevins
+  mpecho Key Grip...................Brian Phan
+  mpmset self quest 0 10 17
+  break
+endif
+if quest (0,10,$i) == 17
+  mpecho Boom Operator..............Idan Shavvit
+  mpecho Location Scout.............Robert Bergman
+  mpecho Set lighting...............Charley Jenkins
+  mpmset self quest 0 10 18
+  break
+endif
+if quest (0,10,$i) == 18
+  mpecho Sound effects..............Shan Collins, John Till
+  mpecho Background music...........Dave Wu
+  mpecho Conductor..................John Czaban Jr
+  mpmset self quest 0 10 19
+  break
+endif
+if quest (0,10,$i) == 19
+  mpecho Special Effects............Dave Wu
+  mpecho Animal Trainer.............Charity A. Griffith
+  mpecho Special Squid Training.....Timothy Van Fossen
+  mpecho Stunt Coordinator..........Jeffrey Home
+  mpmset self quest 0 10 20
+  break
+endif
+if quest (0,10,$i) == 20
+  mpecho {308}
+  mpecho {308}                             Stunt Crew
+  mpecho {308}
+  mpecho Jim Nasby, Tarne Tassniyom, Brent Brophy, Sharon Vaughan
+  mpecho Marc Abruzzo, Jason Hirsch, Andy Mayer, Nathan Powers, Greg Vaughan
+  mpmset self quest 0 10 21
+  break
+endif
+if quest (0,10,$i) == 21
+  mpecho {308}
+  mpecho Makeup Artist..............Rebequa Indrika
+  mpecho Wardrobe...................Evelia Ornelas
+  mpecho Costume designs by.........FIZZO of Italy
+  mpmset self quest 0 10 22
+  break
+endif
+if quest (0,10,$i) == 22
+  mpecho Advertising/Marketing......Angelica Gregory
+  mpecho Food Catering..............Dan's McDonalds
+  mpmset self quest 0 10 23
+  break
+endif
+if quest (0,10,$i) == 23
+  mpecho {308}
+  mpecho {308}                   Title song performed by Lauran Gregory
+  mpecho {308}                  Soundtrack available from WuShan Records 
+  mpmset self quest 0 10 24
+  break
+endif
+if quest (0,10,$i) == 24
+  mpecho {308}
+  mpecho {308}         All things in this area were ficticious. Any resemblances to
+  mpecho {308}          real people, places, or events is purely coincidental.  No
+  mpecho {308}            animals were harmed during the making of this area.
+  mpmset self quest 0 10 25
+  break
+endif
+if quest (0,10,$i) == 25
+  mpecho {308}
+  mpecho {308}      This area has been rated 'R' by the MR AreaBuilders Society
+  mpecho {308}       Copyright 1998 WuShan Productions   All rights reserved.
+  mpecho {308}
+  mpecho {308}                            T H E * E N D
+  mpmset self quest 0 10 26
+  connect up 9755
+  say Bye bye!
+  mpgoto 4950
+  mpat 4876 mptransfer pcs 9755
+  break
+endif
+~
+|
+#4835
+castleone~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+150 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+20000 1d50+200
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n As you enter this room, your magic fades and wavers...
+mpquiet on
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+cast 'remove curse' $n
+mpquiet off
+if sex ($n) == 1
+  mpechoat $n You hear a beautiful song echoing inside your mind.
+endif
+~
+|
+#4836
+castletwo~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d0+10 1d1+1
+26 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if sex ($n) == 1
+  mpechoat $n You hear a beautiful song echoing inside your head.
+endif
+~
+>rand_prog 33~
+if sex ($r) == 1
+  mpechoat $r A beautiful voice fills your mind and you lose control.
+  mpecho A big smile forms on $r's face, and he runs north!
+  mpforce $r wake
+  mpforce $r north
+endif
+~
+|
+#4837
+castlethree~
+castlethree~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+150 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+20000 1d50+200
+200000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if sex ($n) == 1
+  if rand (75)
+    mpechoat $n You are mesmerized by the beauty of Jenova!
+    mpechoat $n You feel helpless but do her bidding!
+    mpquiet on
+    cast 'dispel magic' $n
+    cast 'dispel magic' $n
+    cast 'dispel magic' $n
+    cast 'dispel magic' $n
+    cast 'dispel magic' $n
+    mpforce $n remove all
+    mpforce $n auto quick
+    mpforce $n sleep
+    mpquiet off
+  else
+    mpechoat $n Jenova attempts to hypnotize you, but you resist her!
+  endif
+else
+  mpechoat $n Jenova attempts to hypnotize you, but you resist her!
+endif
+~
+|
+#4844
+ethmobstreet~
+street ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 2~
+mpecho {118}The souls of the impure take your hand, drawing you deeper into the Midian.
+~
+|
+#4845
+ethmobhouses~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d0+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 2~
+mpecho {118}The empty darkness embraces you tightly, and you welcome its embrace.
+~
+|
+#4846
+ethmobpassage~
+passage ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+25 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 4~
+if rand (33)
+  mpecho {118}The Heart of the Midian pulsates faster.
+else
+  if rand (50)
+    mpecho {118}The Heart of the Midian pulsates slowly.
+  else
+    mpecho {118}The Heart of the Midian pulsates violently.
+  endif
+~
+|
+#4847
+big blue monkey@~
+a big blue monkey~
+A big blue monkey is here playing with himself.~
+You see a large monkey with bright blue fur.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+80 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+7500 1d1+80
+74909 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#4848
+imperial squid~
+an Imperial squid~
+An Imperial squid of the N.S.E. is here.~
+You see a large purple squid, with many fancy colorful patterns on his skin.
+He changes color as he sees you look at him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+92 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2116+7102 1d1+100
+162536 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#4849
+giant bat~
+a giant bat~
+A giant bat is here hanging upside down.~
+There is a large bat here he appears to be sleeping.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY
+AFF_INVISIBLE|AFF_STEALTH
+0 S
+80 BODY_HORN BODY_HAND 1d1000+4000 1d80+33
+150000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale self $r 125
+mpkill $r
+~
+|
+#4850
+Imclota~
+Imclota~
+Imclota is here collecting corpses.~
+You see a large beastly figure, covered with thick fur and scaly green skin.
+It looks full, as if it has just eaten something.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_STEALTH
+0 S
+125 BODY_HORN BODY_HAND 1d3906+9189 1d125+80
+150000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpkill $n
+~
+>fight_prog 20~
+mpdamage $n 300 600 volatile breath
+~
+>hitprcnt_prog 30~
+mpmload 4814
+mpecho Imclota grows a head to help him fight!
+~
+>death_prog 100~
+if quest (0,2,$n) == 1
+or quest (0,2,$n) == 2
+  mpecho $n slices open Imaclota's belly, and a corpse falls out!
+  mpoload 4820
+  mpmset $n quest 0 2 2
+endif
+~
+|
+#4851
+large statue one~
+a large statue~
+A large statue of war is here.~
+You see a large statue of a beast of some kind.  You can't quite tell what
+it is.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+tell $n Do you wish to enter the Realm of Cabal???
+~
+>speech_prog yes~
+mptransfer all 4877
+~
+|
+#4852
+large statue two~
+a large statue~
+A large statue of magic is here.~
+You see a large statue of a beast of somekind.  You can't quite tell what
+it is.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+1 BODY_HEAD|BODY_TORSO BODY_CLAW 1d1+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+tell $n Do you wish to enter the Realm of Babbett??
+~
+>speech_prog yes~
+mptransfer all 4891
+~
+|
+#4853
+ethmobforest~
+ethmobforest~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if rand (50)
+  mpecho {128}The leaves tremble and shiver overhead.
+else
+  mpecho {128}The sound of silence echos through the trees.
+endif
+~
+|
+#4854
+ethreset~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 0~
+if quest (0,1,$i) == 0
+  mpoload 4815
+  mposet i4815 timer 1440
+  mpmset self quest 0 1 1
+endif
+if hasobjnum ($i) == 4815
+  break
+endif
+if pcsinarea (4800) == 0
+  mppurge area
+  mpmload 4861
+  mppurge self
+endif
+~
+|
+#4855
+ethmob~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p help free us from the evil~
+if quest (3,8,$n) == 63
+  mpmset $n quest 0 2 1
+  mpecho {038}The woman says 'My child was taken from me and it is said that she was'{308}
+  mpecho {038}The woman says 'killed by the beast that is east from this city.'{308}
+  mpecho {038}The woman says 'I just want my revenge against him.'{308}
+  mpecho {038}The woman says 'Kill the beast and bring me the corpse of my child.'{308}
+  mpecho {038}The woman says 'Only then will I tell you what you want to know.'{308}
+else
+  mpecho {038}The woman says 'Yes what?!'{308}
+endif
+~
+>speech_prog p I am the great savior of Midian!~
+mpechoat $n {178}A voice booms 'Die cheater!'
+mptransfer $n 4949
+~
+|
+#4856
+demonofmidian~
+a powerful demon~
+~
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+100 BODY_HEAD|BODY_TORSO BODY_CLAW 1d2500+8509 1d100+101
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+~
+|
+#4857
+ghostly spirit~
+a ghostly spirit~
+A faintly visible spirit waits here.~
+This is a spirit of a dead midian citizen.  Something must have disturbed 
+its rest, perhaps a grave robber, or other recent activity.
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS
+-1000 S
+45 BODY_HEAD BODY_MOUTH 1d506+956 1d45+12
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#4858
+rotting zombie~
+a rotting zombie~
+A rotting corpse stands inside a grave.~
+This is a body of a dead midian citizen.  Something must have disturbed 
+its rest, perhaps a grave robber, or other recent activity.
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+0 S
+45 BODY_HEAD BODY_MOUTH 1d506+956 1d45+12
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#4859
+monk~
+a monk~
+A monk stands here, trying to sanctify the ground.~
+This is a monk of the Temple of Midian.  He desperately tries to perform
+a ritual to banish the dead.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS
+1000 S
+45 BODY_HEAD BODY_HAND 1d506+956 1d45+12
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#4860
+ethmobmount~
+mount ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n You hope you do not fall and drown in the waters below!
+~
+>rand_prog 10~
+mpechoaround $r slips and falls from the cliff.
+mpechoat $r You slip and fall from the cliff.
+mptransfer $r 4945
+~
+|
+#4861
+ethmobquestreset~
+midian quest reset~
+~
+This mob fixes all room connections. Added by Brrr and Scandum.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+mpat 4876 connect up    -1
+mpat 4871 connect north -1
+mpat 4833 connect east  4834
+mpat 4833 connect west  4834
+mpat 4833 connect south 4834
+mpat 4914 connect east -1
+mpat 4914 connect west -1
+mpat 4917 connect north 4918
+mpat 4889 connect up    -1
+mpat 4899 connect up    -1
+mpat 4875 connect down  -1
+mpat 4872 connect north -1
+mpat 4873 connect south -1
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+4804 ITEM_TYPE_CORPSE_PC ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  111  50  0 23
+4805 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+4808 ITEM_TYPE_ARMOR ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+4809 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+4813 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_PILL ITEM_TYPE_WAND ITEM_TYPE_STAFF  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#4801
+hadoken~
+the Hado Ken Technique~
+The Hado Ken Technique is here.~
+This is an ancient skill passed down from generation to generation of holy
+monks.  This technique grants the user great strength, and incredible
+accuracy.  Legend has it that this technique has the power to destroy demons.
+Master Dhir'mal was the pioneer of this powerful technique, and is even
+fabled to have mastered it to the highest degree, a technique named the
+legendary Dhir'mal punch.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+0 0 0 0 0 0 0 0
+1 10000000 90
+A APPLY_HITROLL 10 0
+A APPLY_MANA -150 0
+A APPLY_STR 5 0
+C
+Hadoken~
+FLAG_CLASS_MONK
+P 1
+TRIG_DAMAGE 25
+OPROG_IF OIF_WEAR_LOC = WEAR_WIELD 2 0
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4875 3 4
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset jenovathree quest 5 1 1 
+say FEEL THE POWER OF MY HOLY FISTS DEMON!!!!!!! 
+mpecho $I hurls a magical fireball at Jenova!!! 
+mpforce jenovathree mpforce all help MIDIAN_HADOKEN_SPAM~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpforce all help MIDIAN_HADOKEN_SPAM
+help MIDIAN_HADOKEN_SPAM~
+P 5
+TRIG_UNKNOWN 100 dhirmal
+OPROG_IF_HAS_OBJECT 4843 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 4835
+mpjunk I4801
+mpjunk i4843
+wear i4835~
+P 7
+TRIG_VOID
+OPROG_JUNK
+#4802
+tattoo defense~
+a tattoo of Defense~
+A piece of skin with a symbol on it rots here.~
+This section of demon skin can be grafted onto your skin.  The magic
+symbol engraved onto it offers great defense to those who wear it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+21 0 0 0 0 0 0 0
+1 500000 95
+#4803
+corpse~
+the corpse of the priest~
+The corpse of the dead priest lays upon the stone altar.~
+The priest's heart has been ripped out from his body, and his brains removed
+as well.  Otherwise, it's intact.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+4 0 -1 0 0 0 0 0
+1 10 1
+#4804
+rune~
+a rune of transport~
+A small object has been left here.~
+Some words have been engraved into the rune.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+words~
+The words read 'vtech' and 'vtex'
+~
+P 1
+TRIG_UNKNOWN 100 vtech
+OPROG_IF OIF_USER_ROOM_NUM = 4918 2 5
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 4833~
+P 2
+TRIG_VOID
+OPROG_ECHO
+The rune glows brightly and transports you into a vortex!~
+P 3
+TRIG_UNKNOWN 100 vtex
+OPROG_IF OIF_USER_ROOM_NUM = 4833 4 10
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 4917~
+P 4
+TRIG_VOID
+OPROG_ECHO
+The rune glows brightly and transports you to the temple!
+~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4921 6 10
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 4844~
+P 6
+TRIG_VOID
+OPROG_ECHO
+The rune glows brightly and transports you back to the vortex!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+Nothing happens.  Maybe you're not in the right place.~
+#4805
+flame eternal midian~
+the Eternal Flame of Midian~
+A brightly glowing flame burns here.~
+This magical torch, created by the Arch Wizard Col'linz, protects the city
+of Midian from evil magic.  The rays of light generated from its eternal
+flame strikes fear into all who are evil.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+5 50000 94
+A APPLY_DAMROLL 10 0
+A APPLY_HITROLL 7 0
+A APPLY_MANA -130 0
+#4806
+heart~
+a human heart~
+A pulsating heart is on the floor.~
+{118}This is a rather large heart, with many blood vessels covering it's outer
+walls.  It still beats slowly with life.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 5
+OPROG_ECHO
+{118}The human heart beats slowly in your hand.~
+#4807
+brain~
+a human brain~
+A human brain has fallen out onto the floor.~
+{158}This is a firm but spongy mass of pink tissue.  Strange fluids still flow
+from within it's core.  It is cold to the touch, and you get strange 
+feelings when you hold it within your hands.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#4808
+book codex~
+the Codex of Ultimate Wisdom~
+A large glowing book rests here.~
+This magical book contains the arcane secrets of life... and of death.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+300 0 5 0 0 0 0 0
+1 10000000 70
+A APPLY_INT 4 0
+A APPLY_WIS 4 0
+#4809
+recall scroll~
+a scroll of recall~
+A recall scroll is here.~
+You see a recall scroll
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#4810
+rocket staff~
+a rocket staff~
+A small staff is here.~
+You see a staff of haste.
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+50 5 10 132 0 0 0 0
+1 50000 50
+S 3 'haste'
+#4811
+can bottom thrashing~
+a can of bottom thrashing~
+A small can is here ready to be opened.~
+You see a small can, which holds immense power within.  Perhaps you could
+personalize it, and demonstrate the power you have.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+800 CONT_CLOSEABLE -1 0 0 0 0 0
+1 50000 50
+P 1
+TRIG_UNKNOWN 100 personalize
+OPROG_OBJECT_QUEST_IF 1 1 = 0 2 3
+P 2
+TRIG_VOID
+OPROG_QUEST_SET 1 1 1
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mposet i4811 short $I's can of bottom thrashing
+~
+P 3
+TRIG_VOID
+OPROG_ECHO
+It's already personalized.~
+#4812
+eye beholder~
+an eye of the beholder~
+A small eye lies here.~
+You see a small bloody eye, freshly removed from a strange creature.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 65 64 148 0 0 0 0
+1 50000 80
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'infravision'
+#4813
+bottle mountain dew~
+a bottle of dew~
+A small bottle is here.~
+You see a nice refreshing bottle of dew, gathered from the nearest mountain.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 235 9 159 0 0 0 0
+1 10000 80
+S 1 'stone skin'
+S 2 'armor'
+S 3 'mage shield'
+#4814
+butterfly knife~
+a butterfly knife~
+A small knife is lying here.~
+You see a wicked looking butterfly knife.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 6 WEAPON_PIERCE 0 0 0 0
+5 10000000 38
+#4815
+toothpick~
+a toothpick~
+A small splinter of wood is here.~
+You see a small toothpick.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 7 WEAPON_STAB 0 0 0 0
+5 10000000 38
+#4816
+flesh hook~
+a flesh hook~
+A small flesh hook remains attached to the corpse.~
+This hook was used to string up and torture the monk.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 6 8 WEAPON_SLASH 0 0 0 0
+1 10 38
+A APPLY_AC 10 0
+#4817
+small rod~
+a small rod~
+A small rod has been left here.~
+You see a small rod.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+5 1000000 38
+A APPLY_DAMROLL 4 0
+A APPLY_AC -7 0
+#4818
+black spiked arm band armband~
+a black spiked armband~
+A piece of black leather has been left here.~
+You see a black leather armband with huge chrome spikes.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+13 0 0 0 0 0 0 0
+5 1000000 38
+A APPLY_DAMROLL 3 0
+#4820
+corpse~
+a small corpse~
+A small corpse is here.~
+This is the semi-digested remains of a little girl.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+800 CONT_CLOSEABLE -1 0 0 0 0 0
+1 50000 50
+#4821
+fountain~
+a small fountain~
+A small fountain is here.~
+You see a small foutain that could easily quench your thirst.  Unlike other
+fountains, however, this one flows with {118}red blood!
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 101
+#4822
+liver~
+a torn out liver~
+A deep red liver has been left here.~
+The fresh liver still oozes green bile.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 10 1
+#4823
+intestines~
+a length of intestines~
+Some intestines have been left here.~
+The fresh intestines are pink and slimy to the touch.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+36 0 0 0 0 0 0 0
+1 10 1
+#4824
+lung~
+a lung~
+A gray piece of flesh has been left here.~
+The fresh lung looks quite appetizing.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+30 0 0 0 0 0 0 0
+1 10 1
+#4825
+skin~
+a piece of skin~
+A skin of some creature has been shed here.~
+Some large creature has shed it's skin.  From the size and shape of it, you
+assume it is not something to be messed with.  It seems very durable, and you
+shiver at the thought of fighting the creature who left this here.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#4826
+tree~
+a burned up tree~
+A badly burned tree still stands here.~
+The tree is free of leaves, but still has its branches.  It adds an eerie
+atmosphere to this particular spot.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1000 10 1
+#4827
+book~
+a small book~
+A small book has been left here.~
+This book contains nothing but blank pages.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+100 10 1
+#4828
+dead body~
+a dead body~
+A burned dead body lays here.~
+The corpse looks freshly burned.  The chest cavity has been ripped open as
+well, and parts are missing from the inside.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+24 0 0 0 0 0 0 0
+1 10 1
+#4829
+bones~
+a pile of bones~
+A rotting pile of bones decays here.~
+These look like the bones of a small child.  Bits of rotting flesh still stick
+to the decaying brown skeleton.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#4830
+bloody squid~
+a bloody squid~
+A bloody squid swims here.~
+The squid swims around in the pool of blood.  What sort of creature is this
+you think to yourself.  A creature which lives in blood.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 10 1
+#4831
+pool blood~
+a dark pool of blood~
+There is a dark pool of blood here.~
+This is a large pool of blood just sitting in the middle of the street.  It
+looks like something is swimming inside it!
+~
+ITEM_TYPE_CONTAINER
+0
+0
+24 0 0 0 0 0 0 0
+1 10 1
+#4832
+boots skin~
+some boots made of skin~
+Some boots have been left here.~
+These boots are fashioned out of the strange skin of some unknown creature.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+1 100000 24
+A APPLY_DEX 2 0
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 3 0
+#4833
+armor skin~
+some armor made of skin~
+Some armor has been left here.~
+This armor is fashioned out of the strange skin of some unknown creature.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+9 0 0 0 0 0 0 0
+1 100000 24
+A APPLY_STR 1 0
+A APPLY_DAMROLL 3 0
+#4834
+cape skin~
+a cape made of skin~
+A cape has been left here.~
+This cape is fashioned out of the strange skin of some unknown creature.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+7 0 0 0 0 0 0 0
+1 100000 24
+A APPLY_DEX 1 0
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 3 0
+#4835
+dhir'mal punch~
+the Dhir'mal punch~
+The Dhir'mal punch is here.~
+This is an ancient skill passed down from generation to generation of master 
+monks.  It can be used to conquer evil and boost magical power.  The
+technique also grants the user incredible strength.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 1 1 WEAPON_CRUSH 0 0 0 0
+1 100 90
+A APPLY_MANA 160 0
+A APPLY_STR 5 0
+C
+magic fists~
+FLAG_CLASS_MONK
+#4836
+chain yamnim~
+the chain of Yamnim the Healer~
+A small shimmering chain has been left here.~
+This magical chain belonged to the great healer Yamnim.  She was known
+througout the land for the free healing she offered to those in need.
+The chain is made entirely of platinum, with many jewels set into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+12 0 0 0 0 0 0 0
+10 100000 95
+A APPLY_DAMROLL -5 0
+A APPLY_HIT 50 0
+A APPLY_MANA 150 0
+#4837
+shield vortex~
+a Vortex shield~
+A small piece of time has stopped here.~
+The shield seems to exist on two planes, fading in and out of both dimensions.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+1 100000 95
+A APPLY_HIT 30 0
+A APPLY_MANA 130 0
+#4838
+mystic drapings~
+the Mystic Drapings~
+An ancient bundle of fabric has been left here.~
+The power of Lady Kaeri seems to exist in this cloth.  The material is very
+strange, unlike anything you have ever felt before.  You marvel at how it
+shimmers and sparkles as it radiates a powerful magic about your body.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+15 0 0 0 0 0 0 0
+5 100000 95
+A APPLY_MANA -135 0
+A APPLY_DAMROLL 9 0
+#4839
+leggings omega~
+the Omega Leggings~
+A pair of strong leggings lie here.~
+The leggings are made from some dark stone and appear to be indestructable.
+You notice how they shimmer and glisten with a faint magical glow.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+18 0 0 0 0 0 0 0
+5 100000 95
+A APPLY_MANA -180 0
+A APPLY_DAMROLL 7 0
+A APPLY_DEX 4 0
+#4840
+captive bead ring~
+a Captive bead ring~
+A small gauge ring lies here.~
+The ring is a dark hue and made of stone.  It glows with a strange magic,
+as if offering you great protection.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_WRIST
+22 0 0 0 0 0 0 0
+10 100000 95
+A APPLY_HITROLL -14 0
+A APPLY_STR 4 0
+#4841
+junk~
+~
+is here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#4842
+eyeball~
+the Eye of Cabal~
+Cabal's eye sits here~
+This eye glows with an intense light, even after being severed from Cabal's
+unholy body.  It is still rather slimy and scaly in your hands, but it does
+light the way in the darkness.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 100000 70
+A APPLY_HIT -50 0
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 8 0
+#4843
+sacredvolume~
+~
+is here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 100
+OPROG_IF_HAS_OBJECT 4801 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpquiet on
+mpoload 4835
+wear I4835
+mpjunk I4801
+mpquiet off~
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your hands glow with a bright light!~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_JUNK
+#4844
+razor egde~
+the razor edge~
+A razor sharp blade has been dropped here!~
+This wicked looking blade is not well balanced, yet it's razor sharp edge
+is quite powerful.  It seems to have a mind of its own when you hold it
+in your hand, as if it has some intelligence built into it.  Perhaps you
+could master it some day.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 3 23 WEAPON_STAB 0 0 0 0
+5 1000000 60
+A APPLY_HITROLL -10 0
+A APPLY_DAMROLL 4 0
+C
+deadly slice~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 master
+OPROG_GOD_COMMAND
+mposet i4844 short The razor edge of $I~
+#0
+
+
+#ROOMS
+#4800
+The Gateway~
+You stand before the gates of an old city.  Strange, evil laughter can be
+heard coming from within the city.  The gate looks to have been sealed to
+either keep someone from going in, or something from getting out.  The 
+path south leads back into the cemetary.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see nothing but darkness as you peek though the gate.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 4801
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4923
+E
+gate~
+You see a massive iron gate that appears to be extremly old. It looks as
+though it was meant to keep this city well confined.
+There are some words on the gate.
+~
+E
+words~
+The words are small, look harder.
+~
+E
+harder~
+They read {118}Daith's Area{308}
+~
+#4801
+Entering the City of Midian~
+You are on a small cobblestone path that leads into the city. The stones
+are chipped and cracked and it seems to be corroding away. Trees surround
+your every step and the wind is picking up. The smell of fear is in the 
+air. The path continues to the north, the gate is to the south.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+All you see is ruin.~
+~
+0 -1 4802
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4800
+#4802
+Entering the City of Midian~
+Before you lies a city in ruin. You cant quite see the city from here, but the
+sounds and screams pierce the air as if you were right in the middle of a
+battleground.  You see large trees overhead which appear to have been burned
+very badly. The path continues to the north and the south.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+All you see is ruin.~
+~
+0 -1 4803
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4801
+DDIR_WEST
+All you see is ruin.~
+~
+0 -1 4832
+#4803
+Entering the City of Midian~
+Before you lies a city in ruin. As you wander along a small path, you notice
+large trees on either side of you. Most of the trees are dead, it appears
+there was a fire and everything was burned. The path is made of cobblestone
+and is corroding away.  You can smell fear in the air as you draw closer to
+the city. The path leads to the north and the south.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_HILLS
+DDIR_NORTH
+To the north you see the city.~
+~
+0 -1 4804
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4802
+#4804
+Entering the City of Midian~
+Before you lies a city in ruin. You can't believe people actually live here.
+As you enter the city, you get the feeling that little eyes are peering at
+you from inside the ramshackled homes. All is quiet except for the wind
+rustling the trees. To the north is the city, south is the path that brought
+you here.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_HILLS
+DDIR_NORTH
+To the north you see the city.~
+~
+0 -1 4805
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4803
+#4805
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.
+The road leads north into the city and south back the way you came.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is more of the city.~
+~
+0 -1 4806
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4804
+#4806
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash.  It makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.   Two small
+houses sit to the east and west. They appear to have been burned recently.
+The smell of burnt wood fills the air. The road leads to the north and south.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is more of the city.~
+~
+0 -1 4809
+DDIR_EAST
+To the east is a ramshackled home.~
+~
+0 -1 4808
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4805
+DDIR_WEST
+To the west is a ramshackled home.~
+~
+0 -1 4807
+#4807
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+covered in blood.  You sense that you are not alone in this room.
+You notice a small child is here hiding in the shadows.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4806
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story:
+Long ago we fled FROM mortal earth.  Tired of the torturing and persecusion
+we came here to Midian for refuge...
+~
+#4808
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+drenched from floor to ceiling in blood.  You sense that you are not alone in
+this room.  Glancing around, you notice a small child is here hiding in the
+shadows.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4806
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story, the story continues:
+Everything was fine till a mortal priest came to destroy US.  He almost
+succeded but got lost in the temple...
+~
+#4809
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.  Two small
+houses sit to the east and west.  They appear to have been burned very 
+recently.  What seems to be a fountain is to the north.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is more of the city.~
+~
+0 -1 4815
+DDIR_EAST
+To the east is a ramshackled home.~
+~
+0 -1 4811
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4806
+DDIR_WEST
+To the west is a ramshackled home.~
+~
+0 -1 4810
+#4810
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+covered entirely with blood.  You sense that you are not alone in this room.
+You notice a small child is here hiding in the shadows.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4809
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story, the story continues:
+Few people remain here in Midian, most have been slaughtered by mortals
+roaming the land or by the EVIL priest...
+~
+#4811
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+covered completely with blood.  You sense that you are not alone in this room.
+You notice a small child is here hiding in the shadows.
+~
+0 ROOM_DARK|ROOM_SAFE SECT_CITY
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4809
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story, the story continues:
+When the priest first came he seemed like he was here to HELP and then he
+turned his back on us trying to destroy cabal and his queen babbet...
+~
+#4812
+The armor shop~
+You are standing in the armor shop, pieces of steel, iron and metal lay
+along the wall. The armor appears to be well made and has been here for
+quite some time. You hear a hammering sound coming from behind the counter.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the city.~
+~
+0 -1 4819
+E
+steel~
+Rusted and bent a large piece of steel is leaning agaist the wall.
+~
+#4813
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.
+To the north and south are shops of some kind, the fountain east, and more
+shops towards the west.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is some kind of shop.~
+~
+0 -1 4818
+DDIR_EAST
+To the east is the center of Midian.~
+~
+0 -1 4815
+DDIR_SOUTH
+To the south is some kind of shop.~
+~
+0 -1 4817
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4819
+#4815
+The center of Midian~
+You stand before what looks to have once been the busy town square of Midian. 
+All that remains here here is the burt remains of a once magnificent fountain. 
+Charred bodies lay in a twisted mess around the base of the fountain. The
+smell of the decaying bodies almost makes you loose your breakfast. One of
+the rotting bodies clutches a sign next to him, he must have died before he
+could let the parchment go.
+~
+0 ROOM_SMOKE|ROOM_ALTAR_N SECT_CITY
+DDIR_NORTH
+To the north is more of the city.~
+~
+0 -1 4823
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4826
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4809
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4813
+E
+sign parchment~
+On this piece of parchment the words are scrawled: "God help us"
+~
+#4817
+A shop of magic~
+You are standing in the magic shop, torn and burnt scrolls surround you. The
+shop appears to have been burned and looted but it seems there are a few
+items left.  The cracked glass on the couter reflects just enough light for
+you to see in this small room.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the city.~
+~
+0 -1 4813
+#4818
+A weapons shop~
+You are standing in the weapons shop, some of the weapons appear to have
+already been used, most are covered in blood and have pieces chipped out off
+them. The store seems quite old and appears to of not sold anything in a
+while.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4813
+#4819
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is some kind of shop.~
+~
+0 -1 4820
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4813
+DDIR_SOUTH
+To the south is some kind of shop.~
+~
+0 -1 4812
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4822
+#4820
+A shop of creatures~
+You are standing in a shop that appears to sell different kinds of mutated
+beast.  Some are missing limbs and some have even grown new and modified
+limbs. The place smells of rotted meat and the floor is covered with old
+bones.
+~
+0 ROOM_PET_SHOP|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4819
+#4821
+The shop~
+This shop sells bits and peices of everything imaginable.  The owner must
+be one sick person to sell stuff like this.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4822
+The morgue~
+You are in the morgue dead bodies covered in blood and guts are scattered
+around the room.  The smell is so bad, you don't know how much longer you
+can stand to be in this room.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_MORGUE SECT_INSIDE
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4819
+E
+guts~
+You see that the intestines are crawling with maggots.  The puss bubbles
+as the maggots seem to just glide over the rotting organs.
+~
+#4823
+A ramshackled home~
+You are in a small dwelling of some sort. The walls are charred, decayed
+and covered in blood. The room smells of death and your heart fills with
+fear as you think to what happened to the people that lived here.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see a small room.~
+~
+0 -1 4824
+DDIR_SOUTH
+To the south you see the center of Midian.~
+~
+0 -1 4815
+#4824
+A small room in the house~
+The room you are in is small and seems to be quite clean. There are no windows
+so it is quite dark and hard for you to see.  You notice a frightened woman
+sitting in the room repeating the same words over and over.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4823
+#4825
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+covered in blood.  You sense that you are not alone in this room.
+You notice a small child is here hiding in the shadows.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4826
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story, the story continues:
+He sewed our mouths shut in fear we would warn the mighty Cabal.  Please FREE
+us of that evil priest...
+~
+#4826
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.
+To the north and south lie two burnt houses.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is a ramshackled home.~
+~
+0 -1 4825
+DDIR_EAST
+To the east you see more of the city.~
+~
+0 -1 4829
+DDIR_SOUTH
+To the south is a ramshackled home.~
+~
+0 -1 4827
+DDIR_WEST
+To the west you see the center of Midian.~
+~
+0 -1 4815
+#4827
+A ramshackled home~
+{118}You are in a small dwelling of some sort. The walls are charred, decayed and
+covered in blood.  You sense that you are not alone in this room.
+You notice a small child is here hiding in the shadows.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the city.~
+~
+0 -1 4826
+E
+dirt~
+You look on the ground at the dirt, there seems to be some writings
+made with the tips of small fingers.
+~
+E
+writings~
+The writing appear to tell a story, the story continues:
+All that is left here now is death.  If you do not leave soon you will soon
+perish too, like THE others...
+~
+#4828
+The room of training~
+You are in the training room.  This is where you come to train.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+To the south you see more of the city.~
+~
+0 -1 4829
+#4829
+A small road in the city~
+You are on a small cobblestone road that leads through the city. Everything
+around you is covered in ash, it makes you think to yourself:
+{138} 'What happened here?'.{308}
+You hear loud screams of agony coming from underneath the city.  Various
+shops are in all directions.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north is the practice area.~
+~
+0 -1 4828
+DDIR_EAST
+To the east you see a dead end.~
+~
+0 -1 4831
+DDIR_SOUTH
+To the south is the training room.~
+~
+0 -1 4830
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4826
+#4830
+The room of practice~
+You are in the practice room. This is where you come to learn skill or spells
+you have aquired through your leveling
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the city.~
+~
+0 -1 4829
+#4831
+Outside the east~
+You are on a small path that leads outside the city. The path is made of dirt
+and leaves and there are trees surrounding you on either side.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see a small path.~
+~
+0 -1 4901
+DDIR_WEST
+To the west you see more of the city.~
+~
+0 -1 4829
+#4832
+A short path to the city~
+Before you lies a city in ruin. You cant believe people actually live here.
+As you enter the city, you get the feeling that little eyes are peering at
+you from inside the ramshackled homes. All is quiet except for the wind
+rustling the trees.
+~
+0 ROOM_DARK|ROOM_NO_RECALL|ROOM_MAZE SECT_HILLS
+DDIR_NORTH
+To the north you see the city.~
+~
+0 -1 4832
+DDIR_SOUTH
+All you see is ruin.~
+~
+0 -1 4832
+#4833
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4834
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4834
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4834
+#4834
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4833
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4835
+#4835
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4836
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4834
+#4836
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4835
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4837
+#4837
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4838
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4836
+#4838
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4837
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4835
+#4839
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4833
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4840
+#4840
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4841
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4839
+#4841
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4840
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4842
+#4842
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4843
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4841
+#4843
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4842
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4839
+#4844
+lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4833
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4845
+#4845
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4846
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4844
+#4846
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4845
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4847
+#4847
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Lost in the Vortex~
+~
+0 -1 4848
+DDIR_WEST
+Lost in the Vortex~
+~
+0 -1 4846
+#4848
+Lost in the Vortex~
+You are standing in a room that defies both space and time.  An incredible
+glowing light surrounds you, almost blinding you.  This seems to be another
+dimension, a dimension known to no others.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Lost in the Vortex~
+~
+0 -1 4847
+DDIR_EAST
+Lost in the Vortex~
+~
+0 -1 4919
+#4849
+Before the darkness~
+Before you lies an unwalked path through a forest of unknown length. The 
+path seems fresh and unscathed, the darkness begins to the north, you
+can make out what appears to be the showdow of large trees surrounding the
+path. You hear light sounds of the wind crashing agaist the trees.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see nothing but darkness.~
+~
+0 -1 4850
+#4850
+A darkened forest~
+Darkness falls as you step into the room, large branches from the trees 
+overhead dangle above you hitting you as you walk by. The sound of silence
+can be heard echoing thruough the trees. It smells of rain, and the ground 
+is damp with moisture. The path continues to the east and west.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4851
+DDIR_SOUTH
+To the south all you see is darkness.~
+~
+0 -1 4849
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4855
+#4851
+A darkened forest~
+The darkness continues as you journey deeper withing the forest. You
+can barely make out things in front of you. The fog is rising and it is
+getting cold. The path continues to the north and to the west.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4852
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4850
+#4852
+A darkened forest~
+You continues down the wooded path. you begin to tire as the dense forest
+closes in around you. It becomes more and more difficult to walk, as the 
+ground becomes damper with dew, your feet slightly sink into the soft ground
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4856
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4851
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4853
+#4853
+A darkened forest~
+The path grows darker as you journey deeper and deeper into the trees. 
+Massive branches hang low over the path, making it quite difficult to see
+very far ahead of you. You can hear the enormous limbs creaking as you
+pass under them.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4852
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4854
+#4854
+A darkned forest~
+The foliage grows denser as you continue into the forest. The smell of rain
+fills the air around you, and the chilly air freezes your breath.Huge limbs
+litter the forest floor, making the path difficult to see. You can hear the
+creatures that live in this darkened area scurring about in the shadows.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4858
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4853
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4855
+#4855
+A darkened forest~
+Deeper into the heart of the darkness you travel, The musty rain scent of
+the forest tickles your nose. Twigs crack beneath your feet with each step
+further you take into the dense woods. The fog appears to grow thicker
+ahead of you.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4854
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4850
+#4856
+A darkened forest~
+You journey further into the darkness hoping to see any signs of life, but
+this area is still and silent. You loose yourself in the bleak mist, but it
+almost feels as if the darkness pushes you to continue onward.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4859
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4852
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4857
+#4857
+A darkened forest~
+Small twigs seem to reach out and tug at you from the dark shadows along the
+path. The mist blurs and contorts your senses. You can barely see a couple 
+of yards in front of you.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4856
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4858
+#4858
+A darkened forest~
+The forest seems to darken as you journey further within, light cannot escape
+this place of evil not even if it tried. The sky overhead is not recognizable
+anymore, it appear as if the large branches of the trees just swalloed it up.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4861
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4857
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4854
+#4859
+A darkened forest~
+Continuing down the path, the mist seems to lighten for a moment, and
+then returns to a dense haze before you. You stumble over large branches 
+blocking the path. DAMN! Where the hell did that big ass limb come from?
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4862
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4856
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4860
+#4860
+A darkened forest~
+You push onward into the damp foliage. It seems as if the dark forest path
+could continue on forever. Your p.a. starts to swell in the darknesss. Your
+feet ache from treading through the soggy and tretcherous path.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see ore of the forest.~
+~
+0 -1 4859
+DDIR_WEST
+To the west to see more of the forest.~
+~
+0 -1 4861
+#4861
+A darkened forest~
+Farther into the woods to travel. Each step into the darkness leads you
+to nothing but more darkness. The forest itself seems to be trying to drain
+you of your very soul. You dont know how much further you can continues.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4864
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4860
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4858
+#4862
+A darkened forest~
+Large trees lean over the path, stretching their monstrous limbs almost to 
+the ground. It becomes more and more difficult to pass through the branches. 
+The moss grows thicker near the path, making it even harder to see.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4865
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4859
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4863
+#4863
+A darkened forest~
+Once again the fog thickens. You can't even see your hand in front of your 
+face. You get the strange feeling you are being watched from behind the 
+towering trees. The darkness suddenly gives you a feeling of terror as
+you proceed.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4862
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4864
+#4864
+A darkened forest~
+The forest grows denser, and the path becomes more difficult to follow.
+Shadows dance back and forth between the treelimbs. The musty smell of
+the forest is beginning to make your head ache. You dredge through 
+fallen leaves continuing on your journey.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4867
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4863
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4861
+#4865
+A darkened forest~
+You coninue onward through the looming trees. The path appears to 
+slowly be getting narrower, and more difficult to see. You thought you
+heard something moving in the trees, but you turn and see nothing there.
+You guess it was just the wind.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4868
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4862
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4866
+#4866
+A darkened forest~
+The trees here seem blackened and burned as if some strange fire has 
+swept all thought of life from them. The smell of rotting flesh seems to
+waft at you from some unfelt wind. The lack of birds in the trees makes 
+you feel somewhat pensive towards continuing any further.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4865
+DDIR_WEST
+TO the west you see more of the forest.~
+~
+0 -1 4867
+#4867
+A darkened forest~
+You trudge onward through the deepening moss and undergrowth. The 
+brambles seem to attack your legs making you feel like your armor weighs
+a ton (imagine that). The wind sweeps through the trees overhead, and 
+rustles the cape that is clasped around your neck.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see more of the forest.~
+~
+0 -1 4870
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4866
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4864
+#4868
+Standing at the wall~
+An impassable wall blocks your way to the north. This massive structure
+seems more ancient than the ground that it's built upon. The bricks are
+made of some unknown black stone that, despite your attempts, seems 
+impossible to even scratch.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4865
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4869
+#4869
+A darkened forest~
+The thought of being indoors is starting to be all you can think of as
+you trudge through this hideous, dark, terrible, malevolent, overpowering,
+aweful excuse for a forest. You think to yourself 'Dear god, what have I 
+gotten myself into'.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+To the north you see a large ancient structure.~
+~
+0 -1 4871
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4868
+DDIR_WEST
+To the west you see more of the forest.~
+~
+0 -1 4870
+#4870
+Standing at the wall~
+There is an enourmous wall that blocks all sight and passage to the north.
+It is made completely of black stone, the origin of which is impossible to
+tell. The stone is so black that it seems as if a piece of midnight were
+placed directly in your path.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+To the east you see more of the forest.~
+~
+0 -1 4869
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4867
+#4871
+A large gateway~
+A huge gate looms before you. It towers for what appears to be well over
+thirty feet into the air. It is made of some unbreakable metal that is cold
+to the touch, and pulls all heat from the air around it. Their seems to be 
+physical entry into the fortress.
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+To the south you see more of the forest.~
+~
+0 -1 4869
+#4872
+Entrance of the Obsidian Fortress~
+You find yourself inside a very dark room, lit only by the strangely glowing
+walls.  The opening in the fortress wall magically seals itself, making the
+room even darker than before.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4873
+Inside the Obsidian Fortress~
+You can hear a haunting melody as you enter in the darkness of this hallway.
+The music sends chills down your spine, yet gives you strange sensations
+which you've never felt before.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Inside the Obsidian Fortress~
+~
+0 -1 4874
+#4874
+Inside the Obsidian Fortress~
+This hallway continues into the darkness.  Your footsteps echo with every
+step, and you can sense a strange magical force.  The sooner you leave this
+castle the better you think to yourself.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Inside the Obsidian Fortress~
+~
+0 -1 4875
+DDIR_SOUTH
+Inside the Obsidian Fortress~
+~
+0 -1 4873
+#4875
+The Obisidan Throne Room~
+The doors slam shut behind you as you enter this round chamber.  Smooth
+black stone tiles line the floors in a strange patern, and a small throne
+sits against the northmost wall.  The floor is strangely void of blood,
+as if the fortress absorbed it all.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4876
+The Grave of Lost Heroes~
+You descend into the darkness and arrive in a room filled with shimmering
+weapons and magical glowing armors.  Many of them are badly rusted and have
+long lost their magical enchantments.  You do manage to find a few choice
+items however, like the Long lost Eternal Torch of Midian!
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+#4877
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4879
+DDIR_EAST
+You see nothing but darkness~
+~
+0 -1 4900
+DDIR_WEST
+You see nothing but darkness~
+~
+0 -1 4878
+#4878
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4879
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4880
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4883
+DDIR_EAST
+You see nothing but darkness~
+~
+0 -1 4881
+DDIR_SOUTH
+You see nothing but darkness~
+~
+0 -1 4900
+#4881
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4882
+DDIR_WEST
+You see nothing but darkness~
+~
+0 -1 4880
+#4882
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4884
+DDIR_SOUTH
+You see nothing but darkness~
+~
+0 -1 4881
+#4883
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4884
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4885
+DDIR_SOUTH
+You see nothing but darkness~
+~
+0 -1 4882
+DDIR_WEST
+You see nothing but darkness~
+~
+0 -1 4886
+#4885
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4886
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_EAST
+You see nothing but darkness~
+~
+0 -1 4884
+DDIR_WEST
+You see nothing but darkness~
+~
+0 -1 4887
+#4887
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4888
+DDIR_EAST
+You see nothing but darkness~
+~
+0 -1 4886
+#4888
+Before the great one~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels.  You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4889
+DDIR_SOUTH
+You see nothing but darkness~
+~
+0 -1 4886
+#4889
+Cabals Domain~
+You are standing in the room of the great Cabal, the room is covered with
+torn limbs of those who have tried him, and failed. The wall are covered
+with black velvet and the floor is covered with blood.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4891
+A room of nothing~
+All you see is nothing
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing~
+~
+0 -1 4893
+#4892
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4893
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing~
+~
+0 -1 4894
+DDIR_WEST
+You see nothing~
+~
+0 -1 4895
+#4894
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4895
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing~
+~
+0 -1 4897
+DDIR_EAST
+You see nothing~
+~
+0 -1 4893
+DDIR_WEST
+You see nothing~
+~
+0 -1 4896
+#4896
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#4897
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing~
+~
+0 -1 4898
+DDIR_SOUTH
+You see nothing~
+~
+0 -1 4895
+#4898
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_LAVA
+DDIR_NORTH
+You see nothing~
+~
+0 -1 4899
+DDIR_SOUTH
+You see nothing~
+~
+0 -1 4897
+#4899
+A room of nothing~
+You are in a room that is pitch black, or you thought it was till you light
+a candle.  You now notice the room isnt black, it is just full of nothing.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4900
+A dark passage~
+You are walking in the ancient catacombs beneath Midian. You hear strange
+cries echoing down the tunnels. You are certain this place wasn't created
+by any ordinary creature, something much darker is meant for these musty
+passageways.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+You see nothing but darkness~
+~
+0 -1 4880
+DDIR_WEST
+You see nothing but darkness~
+~
+0 -1 4877
+#4901
+A path outside the city~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4902
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4831
+#4902
+A path outside the city~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4903
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4901
+#4903
+A path outside the city~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4904
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4902
+#4904
+A path outside the city~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see a small path.~
+~
+0 -1 4905
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4903
+#4905
+A path outside the city~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4906
+DDIR_SOUTH
+You see a small path leading away from the city.~
+~
+0 -1 4904
+#4906
+A dark path~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4907
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4905
+#4907
+A dark path~
+You are on a small path that leads away from the city. It is very quiet,
+almost to quiet. The tree surround your every step they almost seem to be
+alive. The path is made from dirt and some small leaves, as you look to the
+east it just seems to get darker.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a small path.~
+~
+0 -1 4908
+DDIR_WEST
+You see a small path leading away from the city.~
+~
+0 -1 4906
+#4908
+A small cave~
+You are entering a small cave, its cold dark and the ground is covered in
+mud.  You look around and notice small tracks leading to the east.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see nothing but darkness.~
+~
+0 -1 4909
+DDIR_WEST
+You see nothing but darkness.~
+~
+0 -1 4907
+#4909
+A small cave~
+You are entering a small cave, its cold dark and the ground is covered in
+mud.  You look around and notice small tracks leading to the east.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see nothing but darkness.~
+~
+0 -1 4910
+DDIR_WEST
+You see nothing but darkness.~
+~
+0 -1 4908
+#4910
+A small cave~
+You are entering a small cave, its cold dark and the ground is covered in
+mud.  You look around and notice small tracks leading to the east.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see nothing but darkness.~
+~
+0 -1 4911
+DDIR_WEST
+You see nothing but darkness.~
+~
+0 -1 4909
+#4911
+A small pit~
+You are in a small pit with a floor that is covered with small bones.  They
+appear to have come from a child.  The room is musty and you notice a large
+creature of some kind resting in the corner.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_WEST
+You see nothing but darkness.~
+~
+0 -1 4910
+#4912
+A hall in the temple~
+{118}You are in a long hallway in a temple. It looks to have been a place 
+of worship. Every inch of the walls is covered in mirrors.  As you look
+into one, all you see is yourself. The floor is covered with a red velvet
+carpet and there are candles lighting the way.  Blood is everywhere.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+You see your own reflection.~
+~
+0 -1 4913
+#4913
+A hall in the temple~
+{118}You are in a long hallway in a temple. It looks to have been a place 
+of worship.  Every inch of the walls is covered in mirrors.  As you look
+into one, all you see is yourself. The floor is covered with a red velvet
+carpet and there are candles lighting the way.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+You see your own reflection.~
+~
+0 -1 4914
+DDIR_SOUTH
+You see your own reflection.~
+~
+0 -1 4912
+#4914
+A small room~
+{118}You come to a small room in the temple.  As you look around you notice the
+carpet is made of red velvet and the walls are covered in mirrors.  A dark
+hallway is to the north of here.  You can't help but notice all the dried
+blood stains within the room.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+A small hallway~
+~
+0 -1 4917
+#4915
+A room in the temple~
+{118}You are in a small room in the temple. This seems to be an altar of some
+sort, there are candles and covering the shelves along the walls and large
+statues line the backwall. There is a small table in the middle of the room
+and a few chairs scattered about. This room seems to be dedicated to war.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_WEST
+You see your own reflection~
+~
+0 -1 4914
+#4916
+A room in the temple~
+{118}You are in a small room in the temple. This seems to be an altar of some
+sort, there are candles and covering the shelves along the walls and large
+statues line the backwall. There is a small table in the middle of the room
+and a few chairs scattered about. This room seems to be dedicated to magic.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_EAST
+You see your own reflection~
+~
+0 -1 4914
+#4917
+A small hallway~
+{118}You enter into a dark candle-lit hallway.  The carpet here is stained with
+blood, as if something was killed here.  The exit south leads back to the 
+intersection, while you can make out a small altar to the north.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+The altar room~
+~
+0 -1 4918
+DDIR_SOUTH
+A room in the temple~
+~
+0 -1 4914
+#4918
+The altar room~
+{118}You enter a large room with small tablets along the walls. There appears to be
+a large stone altar in the center of the room.  The altar has shackles and
+restraints, as if to hold a person for sacrifice.  Small chains with large
+hooks hang from the ceiling, and fresh blood drips from everywhere.
+  {128}A blood soaked stone altar sits in the center of the room.
+~
+0 ROOM_DARK|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+A small hallway~
+~
+0 -1 4917
+E
+altar~
+You notice a small inscription on the side of the altar, and it reads:
+ {118}Feed me the flesh.
+~
+#4919
+A nexus in the Vortex~
+{148}You are standing in a room that defies space and time. You are blinded by
+the glowing light that surrounds you.  You seem to be in another dimension,
+a dimension known to no others.  This room is unlike the others however, as
+you can sense a strange power within.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Back to the Vortex~
+~
+0 -1 4848
+#4920
+reset room~
+You shouldn't be here
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4921
+The altar room~
+{178}You enter a large room with small tablets along the walls. There appears
+to be a large stone altar in the center of the room.  The altar looks fresh
+and clean, as if it has recently been sanctified.  Unlike the other rooms of
+the temple, there are no stains of blood to be found anywhere.  You feel a
+sense of peace and tranquility as you glance around.
+     {128}A clean stone altar sits in the center of the room.
+~
+0 ROOM_DARK|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+A small hallway~
+~
+0 -1 4917
+E
+altar~
+You notice a small inscription on the side of the altar, and it reads:
+ {178}May evil rest in peace.
+~
+#4922
+Ancient cemetary~
+You are in the northwest corner of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4923
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4925
+#4923
+Ancient cemetary~
+You are in the northmost part of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+A foul stench permeates the air from the north.  A thin fog also covers the
+ground.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+A clearing~
+~
+0 -1 4800
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4924
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4926
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4922
+#4924
+Ancient cemetary~
+You are in the northeast corner of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.  A
+thin fog covers the ground and, a strange moaning echos around you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4927
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4923
+#4925
+Ancient cemetary~
+You are in the west end  of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+Broken tombstones line the ground, and rotting stench fills the air.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4922
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4926
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4928
+#4926
+Ancient cemetary~
+You are in a central part of the old cemetary.  The ground is overgrown with
+vegetation, and the graves here seem to have been recently disturbed.  Thick
+fog fills the air, and you think you see some movement on the ground below
+you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4923
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4927
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4929
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4925
+#4927
+Ancient cemetary~
+You are in the eastern end of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+A thin mist fills the air, carrying with it the foul smell of rotting flesh.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4924
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4930
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4926
+#4928
+Ancient cemetary~
+You are in the west end  of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+Broken tombstones line the ground, and rotting stench fills the air.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4925
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4929
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4931
+#4929
+Ancient cemetary~
+You are in a central part of the old cemetary.  The ground is overgrown with
+vegetation, and the graves here seem to have been recently disturbed.  Thick
+fog fills the air, and you think you see some movement on the ground below
+you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4926
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4930
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4932
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4928
+#4930
+Ancient cemetary~
+You are in the eastern end of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+A thin mist fills the air, carrying with it the foul smell of rotting flesh.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4927
+DDIR_SOUTH
+Ancient cemetary~
+~
+0 -1 4933
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4929
+#4931
+Ancient cemetary~
+You are in the southwest corner of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+Broken tombstones line the ground, and rotting stench fills the air.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4928
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4932
+#4932
+Ancient cemetary~
+You are at the entrance of the old cemetary.  The ground is overgrown with
+vegetation, and the graves here seem to have been recently disturbed.  Thick
+fog fills the air, and you think you see some movement on the ground below
+you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4929
+DDIR_EAST
+Ancient cemetary~
+~
+0 -1 4933
+DDIR_SOUTH
+Decayed roadway~
+~
+0 -1 4934
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4931
+#4933
+Ancient cemetary~
+You are in the southeast corner of the old cemetary.  The ground is overgrown
+with vegetation, and the graves here seem to have been recently disturbed.
+A thin mist fills the air, carrying with it the foul smell of rotting flesh.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4930
+DDIR_WEST
+Ancient cemetary~
+~
+0 -1 4932
+#4934
+Decayed roadway~
+You are walking along a rarely used pathway.  Dead weeds and cling vines cover
+the stone walls around you.  To the north you can see what looks to be a mist
+covered cemetary, no doubt the source of the decaying flesh smell.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Ancient cemetary~
+~
+0 -1 4932
+DDIR_WEST
+Decayed roadway~
+~
+0 -1 4935
+#4935
+Decayed roadway~
+You are walking along a rarely used pathway.  Dead weeds and cling vines cover
+the stone walls around you.  The path continues towards the east, while the way
+west leads back to the river from whence you came.  The smell is getting 
+stronger, the further east you go.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+Decayed roadway~
+~
+0 -1 4934
+DDIR_WEST
+Decayed roadway~
+~
+0 -1 4936
+#4936
+Decayed roadway~
+You are walking along a rarely used pathway.  Dead weeds and cling vines cover
+the stone walls around you.  Sounds of pain and anguish can be heard coming
+from the east, and a foul stench fill the air from that direction as well.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Decayed roadway~
+~
+0 -1 4937
+DDIR_EAST
+Decayed roadway~
+~
+0 -1 4935
+#4937
+Decayed roadway~
+You are walking along a rarely used pathway.  Dead weeds and cling vines cover
+the stone walls around you.  You can make out a mist covered city to the north
+east of this point, but the high stone walls block any path to them.  Your
+only choice is to head back west, or continue on to the south.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+Decayed roadway~
+~
+0 -1 4936
+DDIR_WEST
+Decayed roadway~
+~
+0 -1 4938
+#4938
+Decayed roadway~
+You are walking along a rarely used pathway.  Dead weeds and cling vines cover
+the stone walls around you.  The cobblestones are cracked, and many weed filled
+pits litter the ground.  The riverbank is back towards the north.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+River bank~
+~
+0 -1 4939
+DDIR_EAST
+Decayed roadway~
+~
+0 -1 4937
+#4939
+At the river bank~
+You now stand at the edge of a quickly moving river.  You dry yourself off
+and take a look around your environment.  To the south begins a fenced in
+path into darkness, while the western route leads back towards the river.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+Decayed roadway~
+~
+0 -1 4938
+DDIR_WEST
+On the river~
+~
+0 -1 4940
+#4940
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 4939
+DDIR_WEST
+~
+~
+0 -1 4941
+#4941
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 4945
+DDIR_EAST
+~
+~
+0 -1 4940
+DDIR_SOUTH
+~
+~
+0 -1 4945
+DDIR_WEST
+~
+~
+0 -1 4945
+#4942
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 4945
+DDIR_EAST
+~
+~
+0 -1 4945
+DDIR_SOUTH
+~
+~
+0 -1 4941
+DDIR_WEST
+~
+~
+0 -1 4945
+#4943
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 4945
+DDIR_EAST
+~
+~
+0 -1 4945
+DDIR_SOUTH
+~
+~
+0 -1 4945
+DDIR_WEST
+~
+~
+0 -1 4942
+#4944
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 4945
+DDIR_EAST
+~
+~
+0 -1 4943
+DDIR_SOUTH
+~
+~
+0 -1 4945
+DDIR_WEST
+~
+~
+0 -1 4945
+#4945
+On the river~
+Your head is swept under the surface by the raging current of the river.
+Visibility is low as aquatic vegetation and debris fly around your face.
+The tide seems to sweep you back in this direction.  Well, I have NEWS for
+you, you are stuck inside of a swirling whirlpool!
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_MAZE SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 4944
+DDIR_EAST
+~
+~
+0 -1 4945
+DDIR_SOUTH
+~
+~
+0 -1 4945
+DDIR_WEST
+~
+~
+0 -1 4945
+#4946
+Top of the mountain~
+You stand at the peak of the mountain.  The ground looks very slippery here,
+as if you could fall at any minute.  You can see a large body of water from
+the edge of the cliff you are standing on.  The only way back is down.
+You hope that you do not fall and drown in the deep water below.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+On the mountain~
+~
+0 -1 4947
+#4947
+On the moutain~
+You are about halfway up the mountain now.  At this elevation, all you can
+see are dead trees, and the snow covered peak.  A thick layer of clouds masks
+all visibility at this level.  Footing is very slippery as well, due to the
+hard icy ground.
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+Mountain peak~
+~
+0 -1 4946
+DDIR_DOWN
+Base of the mountain~
+~
+0 -1 4948
+#4948
+Base of a high mountain~
+You stand at the base of a tall mountain.  Looking up you cannot seek the peak,
+for a thick cloud layer surrounds the center of the mountain.  You can make out
+a small trail leading up, but it doesn't seem to have been used in a while.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+Split mountain~
+~
+0 -1 5795
+DDIR_UP
+On the mountain~
+~
+0 -1 4947
+#4949
+demonic chamber~
+It is pitch black inside here
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#4950
+somewhere~
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#0
+
+
+#RESETS
+D 4800 DIR_NORTH DOOR_CLOSED
+O 4826   1 4801
+O 4826   1 4802
+O 4828   1 4804
+P 4822   2 4828
+P 4823   2 4828
+P 4824   2 4828
+O 4831   1 4806
+P 4830   5 4831
+O 4829   1 4809
+O 4829   1 4829
+O 4826   1 4901
+O 4829   1 4911
+O 4825  10 4910
+O 4827  10 4833
+O 4827  10 4837
+O 4827  10 4842
+O 4827  10 4846
+O 4828   1 4813
+P 4822   2 4828
+P 4823   2 4828
+P 4824   2 4828
+M 4815 100 4918
+M 4818 100 4919
+M 4819 100 4919
+M 4823 100 4802
+M 4824 100 4815
+M 4825 100 4850
+M 4834 100 4876
+M 4827 100 4838
+M 4822 100 4919
+M 4828 100 4871
+M 4830 100 4872
+M 4832 100 4950
+M 4835 100 4872
+M 4835 100 4873
+M 4836 100 4874
+M 4837 100 4875
+M 4854 100 4920
+M 4856 100 4949
+M 4821 100 4833
+M 4821 100 4834
+M 4821 100 4835
+M 4821 100 4836
+M 4821 100 4837
+M 4821 100 4839
+M 4821 100 4840
+M 4821 100 4841
+M 4821 100 4842
+M 4821 100 4844
+M 4821 100 4845
+M 4821 100 4846
+M 4821 100 4847
+M 4821 100 4848
+M 4801 100 4851
+M 4801 100 4852
+M 4801 100 4853
+M 4801 100 4854
+M 4801 100 4855
+M 4801 100 4856
+M 4801 100 4857
+M 4801 100 4858
+M 4801 100 4859
+M 4801 100 4860
+M 4801 100 4861
+M 4801 100 4862
+M 4801 100 4863
+M 4801 100 4864
+M 4801 100 4865
+M 4801 100 4866
+M 4801 100 4867
+M 4801 100 4868
+M 4801 100 4869
+M 4801 100 4870
+M 4802 100 4807
+M 4802 100 4808
+M 4802 100 4810
+M 4802 100 4811
+M 4802 100 4825
+M 4802 100 4827
+M 4803 100 4824
+M 4855 100 4824
+M 4804 100 4822
+M 4805 100 4820
+M 4847 100 4821
+M 4848 100 4821
+M 4806 100 4828
+M 4807 100 4830
+M 4808 100 4812
+G 4817   1 0
+G 4818   1 0
+G 4811   2 0
+M 4809 100 4818
+G 4815   1 0
+G 4814   1 0
+M 4850 100 4911
+M 4849 100 4908
+M 4849 100 4909
+M 4849 100 4910
+M 4813 100 4817
+G 4813  40 0
+G 4812  40 0
+G 4810   5 0
+G 4809  50 0
+O 4821   1 4815
+M 4851 100 4915
+M 4852 100 4916
+M 4845 100 4807
+M 4845 100 4824
+M 4845 100 4823
+M 4845 100 4808
+M 4845 100 4810
+M 4845 100 4811
+M 4845 100 4825
+M 4845 100 4827
+M 4846 100 4877
+M 4846 100 4878
+M 4846 100 4879
+M 4846 100 4880
+M 4846 100 4881
+M 4846 100 4882
+M 4846 100 4883
+M 4846 100 4884
+M 4846 100 4885
+M 4846 100 4886
+M 4846 100 4887
+M 4846 100 4888
+M 4846 100 4889
+M 4844 100 4800
+M 4844 100 4801
+M 4844 100 4802
+M 4844 100 4803
+M 4844 100 4804
+M 4844 100 4805
+M 4844 100 4806
+M 4844 100 4809
+M 4844 100 4813
+M 4844 100 4819
+M 4844 100 4826
+M 4844 100 4829
+M 4844 100 4815
+M 4846 100 4891
+M 4846 100 4892
+M 4846 100 4893
+M 4846 100 4894
+M 4846 100 4895
+M 4846 100 4896
+M 4846 100 4897
+M 4846 100 4898
+M 4846 100 4899
+M 4844 100 4832
+M 4844 100 4833
+M 4844 100 4834
+M 4844 100 4835
+M 4844 100 4836
+M 4844 100 4837
+M 4844 100 4838
+M 4844 100 4839
+M 4844 100 4840
+M 4844 100 4841
+M 4844 100 4842
+M 4844 100 4843
+M 4844 100 4844
+M 4844 100 4845
+M 4844 100 4846
+M 4844 100 4847
+M 4844 100 4848
+M 4801 100 4849
+M 4844 100 4849
+M 4853 100 4850
+M 4853 100 4851
+M 4853 100 4852
+M 4853 100 4853
+M 4853 100 4854
+M 4853 100 4855
+M 4853 100 4856
+M 4853 100 4857
+M 4853 100 4858
+M 4853 100 4859
+M 4853 100 4860
+M 4853 100 4861
+M 4853 100 4862
+M 4853 100 4863
+M 4853 100 4864
+M 4853 100 4865
+M 4853 100 4866
+M 4853 100 4867
+M 4853 100 4868
+M 4853 100 4869
+M 4844 100 4870
+M 4860 100 4946
+M 4857   6 4922
+M 4858   6 4922
+M 4859   6 4922
+M 4857   6 4923
+M 4858   6 4923
+M 4859   6 4923
+M 4857   6 4924
+M 4858   6 4924
+M 4859   6 4924
+M 4857   6 4927
+M 4858   6 4927
+M 4859   6 4927
+M 4857   6 4926
+M 4858   6 4926
+M 4859   6 4926
+M 4857   6 4925
+M 4858   6 4925
+M 4859   6 4925
+M 4857   6 4928
+M 4858   6 4928
+M 4859   6 4928
+M 4857   6 4929
+M 4858   6 4929
+M 4859   6 4929
+M 4857   6 4930
+M 4858   6 4930
+M 4859   6 4930
+M 4857   6 4933
+M 4858   6 4933
+M 4859   6 4933
+M 4857   6 4932
+M 4858   6 4932
+M 4859   6 4932
+M 4857   6 4931
+M 4858   6 4931
+M 4859   6 4931
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

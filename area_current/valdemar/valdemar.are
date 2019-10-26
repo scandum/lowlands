@@ -1,0 +1,3921 @@
+#AREA Valdemar~
+#AUTHORS Elspeth~
+#VERSION 4
+#RANGES 30 70 1 95
+
+
+#HELPS
+0 VALDEMAR~
+{120}                                  Valdemar
+{300}
+Valdemar is west of the City of Sarglam.  Valdemar is the creation of author
+Mercedes Lackey.  Our Valdemar is based in the time of 1376 AF, in the reign
+of Queen Selenay.
+
+Heralds are unique to Valdemar, the monarchs elite guard.  They are chosen
+by mystical horse-like beings called Companions, and are good
+self-sacrificing people.
+
+  {120}(A) {050}Credits
+{a}VALDEMARCREDITS
+~
+
+0 VALDEMARCREDITS~
+{120}                                   Credits
+{300}
+This area was originally created by Elspeth.
+
+It was completely revised by Blythe in January, 1998.
+{140}
+Last Updated Juli 2001
+{-}VALDEMAR
+~
+
+0 $~
+
+
+#MOBILES
+#14201
+guard haven~
+a guard of Haven~
+A guard of Haven stands here.~
+This guard has been trained by the finest weapons master of the Heralds.
+He is here to keep a peace that seldom needs keeping, for who would dare
+do anything immoral or illegal here in a blessed city?  Certainly not you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 2d50+1600 1d8+39
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14202
+herald~
+a herald~
+A herald stands here.~
+This is one of the famed Heralds of Valdemar, hand-picked by the Companions.
+The Heralds can call upon formidable Mind Magic, as well as having their
+Companions nearby to help them in case of an accident or other problems.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+50 BODY_FOOT BODY_HAND|BODY_FOOT 1d90+1600 1d12+37
+70000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+cast 'heal' $i
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+>greet_prog 80~
+if quest (15,4,$n) == 5
+  say You killed the Queens own.
+  say This act shall not go unpunished!
+  mpkill $n
+endif
+~
+|
+#14203
+bard~
+a bard~
+A bard stands here.~
+This is one of the famous Bards of Valdemar, obviously he has 2 of the 3
+bardic gifts, possible even the infamous Bardic Gift, which allows an
+audience to actually feel what they are hearing.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+45 0 0 1d80+1300 1d10+34
+55899 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+mpecho The Bard takes up his instrument and begins to play.
+mpecho {160}You feel enraptured by the beauty of his music.
+mpecho {160}You begin to feel what you are hearing.
+~
+|
+#14204
+healer~
+a healer~
+There is a healer here.~
+This Healer is trained with the Healing gifts, empathy, or simple knowledge.
+They are responsible in keeping the health of the city and country at a
+maximum.  Are you hurt?  He will help you, unless you are branded a traitor
+to the Country.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+400 S
+40 0 0 1d100+1001 1d7+32
+59346 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 2~
+cast 'cure critical' $r
+cast 'cure critical' $r
+~
+>fight_prog 45~
+cast heal
+~
+|
+#14205
+citizen haven~
+a citizen of Haven~
+A citizen of this blessed city is here.~
+This Citizen looks very happy to live in one of the safesty and happiest
+cities in the world.  What possible danger could threaten him in Valdemar?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+35 0 0 1d100+800 1d7+28
+29774 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 2~
+say hello, $r!
+say I haven't seen you in a while!
+say Where have you been?
+smile $r
+~
+|
+#14206
+trainee herald~
+a herald trainee~
+A herald trainee stands here.~
+The Trainee is dressed in gray.  The gray uniform indicates that she is
+training to be a herald.  She is moving quickly to her next
+class.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+400 S
+36 0 0 1d50+830 1d8+30
+44729 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 70~
+if quest (3,4,$n) == 9
+or quest (3,4,$n) == 10
+  bow $n
+  say Hello Herald $n
+endif
+~
+|
+#14207
+blue trainee~
+a blue~
+There is a blue trainee here.~
+The Trainee is dressed in blue, and you know that he is one of the ones that
+is noble, and his father sent him here for an education.  Most Blues are
+unhappy with their life, and pick on the rest of the trainees, and this one
+is no exception to the rule.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-400 S
+33 0 0 1d100+700 1d6+26
+27817 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+if quest (3,4,$n) > 8
+  mpechoat $n {160}The blue trainee tries to smile politely at you but fails.
+  mpechoaround $n The blue trainee tries to smile politely at $n, but fails.
+else
+  if quest (3,4,$n) > 2
+    mpechoaround $n The blue trainee pushes $n to the ground.
+    mpechoat $n {160}The blue trainee pushes you to the ground.
+    mpforce $n say Ommph!
+    laugh $n
+    mpkill $n
+  endif
+endif
+~
+|
+#14208
+gatekeeper guard~
+a gatekeeper~
+A gatekeeper is here, guarding the gate~
+The gatekeeper is the best of the guards, trained to be the best by
+Kerowyn, Alberich, and Jeri, the weaponsmasters.  You do not feel up to
+bothering her today.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+11100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (3,4,$n) == 9
+or quest (3,4,$n) == 10
+  bow $n
+  say Welcome back to Haven, Herald $n
+  open gates
+else
+  if rand (50)
+    bow $n
+    say Welcome to Haven, $n.
+    open gates
+  endif
+endif
+~
+|
+#14209
+trevale citizen~
+a citizen of Trevale~
+A citizen of Trevale is here.~
+He is a well to do citizen of the town of Trevale.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+30 0 0 1d100+650 1d10+25
+10321 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+if quest (3,4,$n) == 9
+  say It is good to see you again Herald $n
+  smile $n
+else
+  if quest (3,4,$n) == 10
+    say It's great to see you again Herald $n
+    smile $n
+  endif
+endif
+~
+|
+#14210
+weatherwitch weather witch~
+the Weatherwitch~
+The Weatherwitch of Berrybay is here.~
+The Weatherwitch is one who is gifted with the power of Foresight, given her
+after going mad on losing a child.  Since then, she has been able to
+predict the weather perfectly at times, and the entire town of Bayberry
+trusts her implicitly, when she gives directions to do something.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_SANCTUARY|AFF_TONGUES
+1000 S
+30 0 0 1d225+680 1d30+20
+220 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_FEMALE
+>rand_prog 10~
+if rand (50)
+  say There's going to be lightning..
+  say I tell you!
+  say There will be, mark me!
+  mpquiet on
+  cast 'control weather' worse
+  cast 'control weather' worse
+  cast 'control weather' worse
+  mpquiet off
+else
+  say Ahh, what a beautiful day it is.
+  say Nothing could possibly be better.
+  mpquiet on
+  cast 'control weather' better
+  cast 'control weather' better
+  cast 'control weather' better
+  mpquiet off
+endif
+~
+|
+#14211
+heralds companion~
+a herald's companion~
+A herald's companion is here.~
+He is not really what you would call a "horse".  He transcends a horse the
+same way a panther transcends an alley cat.  He is in formal array, his
+trappings silver and sky blue, his reins hung with silver bridle bells.
+He is a pure radiant white.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 BODY_FOOT BODY_MOUTH|BODY_FOOT 1d100+1700 1d10+40
+100 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 40~
+if quest (3,4,$n) == 9
+  mpechoat $n {160}The companion nuzzles you.
+  mpechoaround $n The companion nuzzles $n.
+else
+  if quest (3,4,$n) == 10
+    mpechoat $n {160}The companion nuzzles you.
+    mpechoaround $n The companion nuzzles $n.
+  endif
+endif
+~
+|
+#14212
+queen selenay~
+the Queen~
+Queen Selenay of Valdemar is here.~
+She is a tall handsome woman in Herald's whites, for all rulers of Valdemar
+must be a herald, though she wears a long skirt with the thigh length tunic
+instead of breeches, and the materials are clearly fine velvet and silk.
+Her face is triangular and strong rather than pretty and her hair is bound
+in a knot at the nape of her neck.  It is a lovely golden colour.  She has
+very penetrating, intelligent blue eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1800 1d10+40
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,3,$n) == 0
+  say Welcome $n.
+  say Would you like to become a student at one of our collegiums?
+else
+  if quest (3,4,$n) == 2
+    say Ahhh good, a companion selected you to become a herald.
+    say Go see Dean Elcarth about your training, $n.
+    mpmset $n quest 3 4 3
+  else
+    nod $n
+  endif
+endif
+~
+>speech_prog yes~
+if quest (0,3,$n) == 0
+  say What would you like to be, $n?
+  say A herald? A bard? A healer? Or a Court Noble?
+endif
+~
+>speech_prog herald~
+if quest (0,3,$n) == 0
+  say Well a Herald is not easy to be.  Only companions select
+  say heralds.  It is not up to me, and companions select only
+  say people with a good heart.  Go to the companions field and
+  say see if a companion is prepared to select you, $n.
+  mpmset $n quest 0 3 1
+  mpmset $n quest 3 4 1
+endif
+~
+>speech_prog bard~
+if quest (0,3,$n) == 0
+  say Go see Dean Elcarth, he will assign you to where you should
+  say train.  I look forward to hearing you play in my court, $n.
+  mpmset $n quest 0 3 1
+  mpmset $n quest 7 4 1
+endif
+~
+>speech_prog healer~
+if quest (0,3,$n) == 0
+  if class ($n) == class_monk
+    say Go see Dean Elcarth $n, he will assign you to the
+    say healer you should train with.
+    say Healers are needed all over Valdemar.
+    mpmset $n quest 0 3 1
+    mpmset $n quest 11 4 1
+  else
+    say No $n you need to be a true healer at heart.
+    say And I am sorry to say I sense that you are not.
+  endif
+endif
+~
+>speech_prog noble~
+if quest (0,3,$n) == 0
+  if isgood ($n)
+    sigh 
+    say I'm sorry $n but you don't have what it takes to cope
+    say with the evil machinations of my court.  It seems
+    say only the truly malicious or completely ambivalent
+    say become a court noble.
+  else
+    say Yes $n I can see you really do have the nature to
+    say become one of the nobles of my court.  First you need
+    say to become a blue trainee.  Go see Dean Elcarth, he
+    say will assign you to where you should train.
+    mpmset $n quest 0 3 1
+    mpmset $n quest 15 4 1
+  endif
+endif
+~
+>give_prog i14253~
+if quest (3,4,$n) == 8
+  say Well done $n.  You have earned your herald whites!
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 14203
+  cast 'remove curse'
+  give heraldic $n
+  mpoload 14204
+  cast 'remove curse'
+  give heraldic $n
+  mpoload 14205
+  cast 'remove curse'
+  give heraldic $n
+  mpoload 14206
+  cast 'remove curse'
+  give heraldic $n
+  mpoload 14207
+  cast 'remove curse'
+  give heraldic $n
+  mpquiet off
+  mpechoat $n {160}The Queen gives you a full set of heraldic whites.
+  mpechoaround $n The Queen gives $n a full set of heraldic whites.
+  mpmset $n quest 3 4 9
+  mpmset $n long (HERALD) $n of Valdemar is here.
+  mpjunk i14253
+endif
+~
+>give_prog i14250~
+if quest (7,4,$n) == 12
+  say Well done $n.  You have earned your scarlet bard's uniform!
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 14219
+  give scarlet $n
+  mpoload 14220
+  give scarlet $n
+  mpoload 14221
+  give scarlet $n
+  mpoload 14222
+  give scarlet $n
+  mpoload 14223
+  give scarlet $n
+  mpoload 14224
+  give scroll $n
+  mpquiet off
+  mpechoat $n {160}The Queen gives you your scarlet bard's uniform.
+  mpechoaround $n The Queen gives $n a scarlet bard's uniform.
+  mpmset $n quest 7 4 13
+  mpmset $n long (BARD) $n of Valdemar is here.
+  mpjunk i14250
+endif
+~
+>give_prog i14249~
+if quest (11,4,$n) == 6
+  say Well done $n.  You have earned your green healer's uniform!
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 14225
+  give green $n
+  mpoload 14226
+  give green $n
+  mpoload 14227
+  give green $n
+  mpoload 14228
+  give green $n
+  mpoload 14229
+  give green $n
+  mpquiet off
+  mpechoat $n {160}The Queen gives you your green healers's uniform.
+  mpechoaround $n The Queen gives $n a green healer's uniform.
+  mpmset $n quest 11 4 7
+  mpmset $n long (HEALER) $n of Valdemar is here.
+  mpjunk i14249
+endif
+~
+>speech_prog ready~
+if quest (15,4,$n) == 7
+  say Well $n if you are now a noble of my court you should dress appropriately.
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 14208
+  give blue $n
+  mpoload 14209
+  give blue $n
+  mpoload 14210
+  give blue $n
+  mpoload 14211
+  give blue $n
+  mpoload 14212
+  give blue $n
+  mpoload 14213
+  give chain $n
+  mpquiet off
+  mpechoat $n {160}The Queen gives you a full set of court wear.
+  mpechoaround $n The Queen gives $n a full set of court wear.
+  mpmset $n long (NOBLE) $n of Valdemar is here.
+  mpmset $n quest 15 4 8
+endif
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+~
+|
+#14213
+dean elcarth~
+Dean Elcarth~
+Dean Elcarth of the Collegiums is here.~
+He is a short, birdlike elderly man.  He has a gray cap of hair and his
+round eyes are bright with intellect.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 3
+  say Regrettably $n, a Heralds life is often in threat.
+  say For this reason we need to teach you self defence.
+  say Alberich, our weapons master will train you.
+  mpmset $n quest 3 4 4
+else
+  if quest (3,4,$n) == 6
+    say For your herald internship $n, you are
+    say to go help the people of the town of Trevale.
+    mpmset $n quest 3 4 7
+  else
+    if quest (7,4,$n) == 1
+      say So $n, you want to be a bard.
+      say You had better go train with the Master Bard.
+      mpmset $n quest 7 4 2
+    else
+      if quest (7,4,$n) == 10
+        say So you are ready for your bard internship, $n.
+        say Hmmmm .. The town of Deercreek is need of a bard.
+        mpmset $n quest 7 4 11
+      else
+        if quest (11,4,$n) == 1
+          say Soooo you want to be a healer hmm $n?
+          say You had best go train with Devan the healer.
+          mpmset $n quest 11 4 2
+        else
+          if quest (11,4,$n) == 4
+            say So you are ready for your healer internship $n?
+            say The town of Sweetsprings is in need of a healer.
+            mpmset $n quest 11 4 5
+          else
+            if quest (3,4,$n) == 9
+              say Hello Herald $n
+              nod $n
+            else
+              if quest (7,4,$n) == 13
+                say Ahhhh $n, it will be good to hear your music around here again.
+              else
+                if quest (11,4,$n) == 7
+                  say I know there are many towns in Valdemar that
+                  say appreciate your healing services $n.
+                else
+                  if quest (15,4,$n) == 1
+                    say So $n you want to become a noble of the court.
+                    say We need to teach you the ways of the Queens court.
+                    say What better way than to dine with the court!
+                    say Go and partake of a meal in the court dining room.
+                    mpmset $n quest 15 4 2
+                  else
+                    if quest (15,4,$n) == 6
+                      say I hear you did not shame yourself in court, $n.
+                      say Go see the Queen and say to her that you are ready.
+                      mpmset $n quest 15 4 7
+                    else
+                      if quest (0,3,$n) == 0
+                        say If you wish to become a student of the collegium you
+                        say will need to go see the Queen, $n.
+                      else
+                        emote shuffles through some papers at his desk.
+                      endif
+                    endif
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+~
+|
+#14214
+alberich weaponsmaster alberichquestmob~
+Alberich~
+Alberich the weaponsmaster is here.~
+Although a herald he is not wearing whites.  He is dressed in old supple
+leather; part armour, part clothing and of a soft dark grey colour like
+old ashes.  He is tall, lean and dark; his face seamed with scars and he
+looks as though he never smiles.  Thick streaks of white run through his
+abundant black hair and his eyes are an agate grey and very penetrating.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+10032 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+wake 
+if quest (0,3,$n) == 1
+  say Come let us train you in the art of defense.
+  if quest (3,4,$n) == 4
+    say So, you are to be a Herald, $n.
+    say You will need to be able to defend yourself.
+    mpechoat $n {160}Alberich shows you some smart moves.
+    mpechoaround $n Alberich shows $n some smart moves.
+    say Ok lets test what I have taught you on a test dummy.
+    mpmload 14233
+    point dummy
+    say Go ahead, kill it.
+  endif
+endif
+~
+>rand_prog 90~
+if quest (3,4,$r) == 5
+  say Well $r you have learnt well.
+  say I suggest you go see Dean Elcarth about furthering
+  say your training.
+  mpmset $r quest 3 4 6
+endif
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+~
+|
+#14215
+gaytha housekeeper~
+Gaytha~
+Gaytha the Housekeeper is here.~
+She is a kindly looking woman and is prepared to help outfit you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+10700 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (11,4,$n) == 3
+  say Healer Devan sent you hmmm?  You will be needing
+  say Willow Bark Tea and Bandages wont you.
+  mpoload 14248
+  mpoload 14259
+  mpecho Gaytha rummages around in the Storage Cupboard.
+  give willow $n
+  give bandages $n
+  mpmset $n quest 11 4 4
+  say Dean Elcarth should be able to tell you where you will be interning.
+else
+  say Would you be needing anything?
+endif
+~
+>speech_prog yes~
+say Well what will it be then?
+mpforce $n list
+~
+|
+#14216
+kris herald~
+Herald Kris~
+Herald Kris is here.~
+He is in full herald whites and he is possibly the most incredibly handsome
+herald you will ever see.  His features are so perfect they don't seem real,
+every raven hair neatly in place and his slate blue eyes would be the envy
+of any court beauty.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d625+1197 1d50+13
+10880 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+say The rules of the library are simple.
+say You can read anything you want, but you cant take the book
+say out of the library, and you have to put it back exactly
+say where you found it when you're done.
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+~
+|
+#14217
+herald talia~
+Herald Talia~
+Talia, the Queen's own Herald, is here.~
+She is a slight young woman in full heraldic garb.  She is a herald set
+apart from the rest for she is the Queen's Own Herald.  She is the herald
+who is closest to the Queen.  She was chosen for this position by her
+companion, Rolan.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d625+1197 1d10+40
+10500 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 1
+  look $n
+  say It's no disrespect to dream of becoming a herald - though
+  say its not like the tales.  It is work that is both dull and
+  say dangerous.  It is a life where you find you have very
+  say little time for yourself.  A herald has to always
+  say consider his or her duty above all else, even his or her
+  say well-being.
+else
+  mpecho Herald Talia leans on the fence, watching the companions frolic in the field.
+endif
+~
+>rand_prog 50~
+if quest (3,4,$r) == 1
+  if isgood ($r)
+    mpechoat $r {160}A companion canters up to the railing and looks at you.
+    mpechoaround $r A companion canters up to the railing and looks at $r.
+    mpechoat $r {160}The companion nuzzles you.
+    mpechoaround $r The companion nuzzles $r.
+    mpechoat $r {160}You ride the companion around the field.
+    mpechoaround $r $r rides the companion around the field.
+    say Looks like $r is going to become a herald.
+    smile $r
+    say I suggest you go tell the Queen, $r.
+    mpmset $r quest 3 4 2
+  else
+    say You know that only the good at heart can become a herald $r.
+  endif
+endif
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+if quest (15,4,$n) == 4
+  shout $n is a traitor to Valdemar.
+  mpmset $n long (TRAITOR) $n of Valdemar is here.
+  mpmset $n quest 15 4 5
+endif
+~
+|
+#14218
+mero cook~
+Mero the cook~
+Mero the cook supervises trainees in cooking the meals.~
+He is a balding moon faced man.  He has an easy gently manner.  He actually
+may have food for you if you are hungry.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+10505 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Would you be wanting a well cooked meal?
+~
+>speech_prog yes~
+cast feast
+~
+|
+#14219
+jadus retired herald~
+Herald Jadus~
+Jadus, the retired herald is here.~
+He is an elderly man with silver hair that matches the white of his tunic.
+He has a gentle, still-handsome face and grey eyes that hold a welcome.
+The creases that wreath his mouth and face come from much smiling rather
+than frowning.  He has a wooden leg to replace one he lost serving as a
+herald.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 9
+  say Welcome Herald $n
+  say Would you like to hear me play My Lady Harp?
+else
+  if quest (7,4,$n) == 13
+    say Welcome Bard $n
+    say Would you like to play music with me on My Lady Harp?
+  else
+    if quest (11,4,$n) == 7
+      say Welcome Healer $n
+      say Would you like to rest and listen to me play My Lady Harp?
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if quest (3,4,$n) == 9
+  mpecho Jadus takes up his harp and plays beautiful music.
+  mpoload 14201
+  mpoload 14202
+  open case
+  put harp case
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give case $n
+  say Take this, may the music of My Lady make you feel better
+  say when you are down.
+  mpmset $n quest 3 4 10
+else
+  if quest (7,4,$n) == 13
+    mpecho Jadus takes up his harp and plays beautiful music.
+    mpoload 14201
+    mpoload 14202
+    open case
+    put harp case
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give case $n
+    say Take this, may the music of My Lady make you feel better when you are down.
+    mpmset $n quest 7 4 14
+  else
+    if quest (11,4,$n) == 7
+      mpecho Jadus takes up his harp and plays beautiful music.
+      mpoload 14201
+      mpoload 14202
+      open case
+      put harp case
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      give case $n
+      say Take this, may the music of My Lady
+      say make you feel better when you are down.
+      mpmset $n quest 11 4 8
+    else
+      mpecho Jadus plays sweet music on My Lady Harp.
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpareaecho The death bell sounds hollowly for the death of a Herald.
+mpat 14264 mpecho The Queen looks distressed at the death of another of her Heralds.
+~
+|
+#14220
+devan collegium healer~
+Devan~
+Devan, a collegium healer, is here.~
+He is a cherubic faced man whose beardlessness makes him seem absurdly
+young to be a fully fledged healer.  He is dressed in Healers Green.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d100+1700 1d10+40
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 9
+  if rand (10)
+    say Hello Herald $n
+    mpquiet on
+    cast heal $n
+    cast heal $n
+    cast refresh $n
+    cast refresh $n
+    mpquiet off
+    mpechoat $n {160}Healer Devan places a hand on your head and you feel refreshed.
+  endif
+else
+  if quest (3,4,$n) == 10
+    if rand (10)
+      say Hello Herald $n
+      mpquiet on
+      cast heal $n
+      cast heal $n
+      cast refresh $n
+      cast refresh $n
+      mpquiet off
+      mpechoat $n Healer Devan places a hand on your head and you feel refreshed.
+    endif
+  else
+    if quest (7,4,$n) == 13
+      if rand (10)
+        say Ahh I know the sick here appreciate your stories and music, $n
+        mpquiet on
+        cast heal $n
+        cast heal $n
+        cast refresh $n
+        cast refresh $n
+        mpquiet off
+        mpechoat $n Healer Devan places a hand on your head and you feel refreshed.
+      endif
+    else
+      if quest (7,4,$n) == 14
+        if rand (10)
+          say Ahh I know the sick here appreciate your stories and music, $n.
+          mpquiet on
+          cast heal $n
+          cast heal $n
+          cast refresh $n
+          cast refresh $n
+          mpquiet off
+          mpechoat $n Healer Devan places a hand on your head and you feel refreshed.
+        endif
+      else
+        if quest (11,4,$n) == 2
+          say So you are wanting to be a healer, $n?
+          mpechoat $n {160}Healer Devan teaches you the various healing practices.
+          mpechoaround $n Healer Devan teaches $n the various healing practices.
+          say Willow Bark Tea is a good healing tea.
+          say Make sure that you get a stock of it from Gaytha.
+          say And make sure you carry around spare bandages.
+          say Go see Gaytha.
+          mpmset $n quest 11 4 3
+        else
+          if quest (15,4,$n) == 8
+            say Shouldn't you be in court?
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#14221
+berrybay citizen~
+a citizen of Berrybay~
+A citizen of Berrybay is here.~
+He is a well to do citizen of the town of Berrybay.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+30 0 0 1d100+500 1d10+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14222
+deercreek citizen~
+a citizen of Deercreek~
+A citizen of Deercreek is here.~
+She is a well to do citizen of the town of Deercreek.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+30 0 0 1d100+500 1d10+25
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 40~
+if quest (7,4,$n) == 13
+  say Welcome Bard $n, I am surely looking forward to hearing your music again.
+else
+  if quest (7,4,$n) == 14
+    say Welcome Bard $n, I hope you have some interesting stories to tell us.
+  endif
+endif
+~
+|
+#14223
+waymeet citizen~
+a citizen of Waymeet~
+A citizen of Waymeet is here.~
+He is a well to do citizen of the town of Waymeet.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+30 0 0 1d100+500 1d10+25
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14224
+Sweetsprings citizen~
+a citizen of Sweetsprings~
+A citizen of Sweetsprings is here.~
+She is a well to do citizen of the town of Sweetsprings.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+30 0 0 1d100+500 1d10+25
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 50~
+if quest (11,4,$n) == 7
+  smile $n
+  say Ahhh Healer $n, you are always welcome in Sweetsprings.
+else
+  if quest (11,4,$n) == 8
+    smile $n
+    say You know Healer $n, my sister is feeling great after your healing magic.
+  endif
+endif
+~
+|
+#14225
+trainee healer~
+a trainee healer~
+There is a healer trainee here.~
+The Trainee is dressed in pale green.  The pale green uniform indicates
+that he is training to be a healer at the healers collegium.  He is moving
+quickly to his next
+class.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+400 S
+36 0 0 1d324+598 1d8+25
+47729 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+if quest (11,4,$n) < 7
+  if quest (11,4,$n) > 0
+    say This healing training sure is hard work isn't it $n.
+    smile $n
+  endif
+endif
+~
+|
+#14226
+trainee bard~
+a trainee bard~
+There is a bard trainee here.~
+The Trainee is dressed in red-brown.  His uniform indicates that he is
+training to be a bard at the bards collegium.  One day he will wear bard
+scarlet.  He is moving quickly to his next
+class.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+400 S
+36 0 0 1d324+598 1d8+25
+47729 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 30~
+if quest (7,4,$n) < 13
+  if quest (7,4,$n) > 0
+    say Hi $n, is your throat as sore as mine?  That masterbard sure
+    say makes us practice singing a lot.
+  endif
+endif
+~
+|
+#14227
+trevale mayor town official~
+the Mayor~
+The Mayor of Trevale is here.~
+He is a portly, friendly man.  Always available to the people of his town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 7
+  say Welcome $n to the town of Trevale. We are always glad
+  say to have a visit from a herald.  It certainly improves
+  say everyones spirits.
+  mpechoat $n {160}You check the town ledgers and settle all disputes.
+  mpechoaround $n $n checks the town ledgers and settles all the disputes.
+  mpoload 14253
+  mpechoat $n {160}The mayor makes sure that you are supplied for your return trip.
+  give i14253 $n
+  say Thank you $n for coming to our town and helping us.
+  say Give this token to the Queen.  It is proof that you have been
+  say here, and next years taxes will be halved for us.
+  mpmset $n quest 3 4 8
+endif
+~
+|
+#14228
+sweetsprings mayor town official~
+the Mayor~
+The Mayor of Sweetsprings is here.~
+He is a skinny, friendly man.  Always available to the people of his town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d100+1400 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (11,4,$n) == 5
+  say Thank the Bright Lady you are here.
+  say We are in grave needs of your healing.
+  mpecho The mayor points towards the sick woman.
+  say Could you please heal her?
+endif
+~
+>rand_prog 50~
+if quest (11,4,$r) == 5
+  if quest (19,1,$r) == 1
+    if quest (20,1,$r) == 1
+      mpecho The sick woman starts to look better.
+      mpechoat $r {160}You attend to the healing needs of the people of Sweetsprings.
+      say Thank you for your healing services.
+      mpoload 14249
+      give i14249 $r
+      say Give this to the Queen.
+      mpmset $r quest 11 4 6
+    endif
+  endif
+~
+|
+#14229
+waymeet mayor town official~
+the Mayor~
+The Mayor of Waymeet is here.~
+He is a tall, friendly man.  Always available to the people of his town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d100+1400 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14230
+berrybay mayor town official~
+the Mayor~
+The Mayor of Berrybay is here.~
+He is a short, friendly man.  Always available to the people of his town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14231
+deercreek mayor town official~
+the Mayor~
+The Mayor of Deercreek is here.~
+He is a fat, friendly man.  Always available to the people of his town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (7,4,$n) == 11
+  say Welcome to Deercreek $n.  I understand that you
+  say have learnt some new songs to play for us.
+  say Ahhh I would love to hear you sing that song of
+  say Anne McCaffrey.
+endif
+~
+>speech_prog p Drummer, beat, and piper, blow,~
+if quest (7,4,$n) == 11
+  mpecho The mayor sits back to enjoy the music of $n.
+endif
+~
+>speech_prog p Harper, strike, and soldier, go.~
+if quest (7,4,$n) == 11
+  mpecho The mayor sighs contentedly as he listens to the music of $n.
+endif
+~
+>speech_prog p Free the flame and sear the grasses~
+if quest (7,4,$n) == 11
+  mpecho The mayor taps his foot to the beat of $n's music.
+endif
+~
+>speech_prog p Till the dawning Red Star passes.~
+if quest (7,4,$n) == 11
+  mpechoat $n {160}The people of Deercreek applaud your wonderful music.
+  mpasound The music of $n can be heard playing for the town of Deercreek
+  mpechoaround $n {160}You listen to the music of $n.
+  say Thank you for your fine music.  Please thank the Queen
+  say for sending us such a fine and talented musician.
+  mpoload 14250
+  give i14250 $n
+  say Please give this to the Queen.
+  mpmset $n quest 7 4 12
+endif
+~
+|
+#14232
+court noble~
+a court noble~
+A court noble is dining here.~
+He is dressed in fine silks and velvets and partakes of quite a feast.  His
+manners are impeccable.  Perhaps you can learn from him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+50 0 0 1d625+1197 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (15,4,$n) == 2
+  mpechoat $n Y{160}ou sit down to the table to dine with the courts finest.
+  mpechoaround $n $n sits down to the table to dine with the courts finest.
+else
+  if quest (15,4,$n) == 5
+    mpechoat $n {160}The court noble leans towards you to whisper in your ear.
+    tell $n A job well done!
+    tell $n We have covered up your doing in the killing.
+    tell $n The Queen is none the wiser.
+    say Best go see Dean Elcarth and see if you are done
+    say with your training.
+    mpmset $n quest 15 4 6
+  endif
+endif
+~
+>rand_prog 100~
+if quest (15,4,$r) == 2
+  if quest (21,3,$r) == 0
+    if rand (80)
+      mpechoat $r {160}You enjoy the wonderfully cooked stuffed pheasant.
+      mpechoaround $r $r enjoys the stuffed pheasant.
+      mpmset $r quest 21 3 1
+    endif
+  else
+    if quest (21,3,$r) == 1
+      if rand (80)
+        mpechoat $r {160}You relish the fruit pie with rich cream.
+        mpechoaround $r $r relishes the hot fruit pie and rich cream.
+        mpmset $r quest 21 3 2
+      endif
+    else
+      if quest (21,3,$r) == 2
+        if rand (80)
+          mpechoat $r {160}You savour the sweet fruitiness of the wine.
+          mpechoaround $r $r savours the wonderful wine.
+          mpmset $r quest 21 3 3
+        endif
+      else
+        if quest (21,3,$r) == 3
+          if rand (80)
+            mpforce $r burp
+            mpechoat $r Guess that wine was good.
+            mpmset $r quest 21 3 4
+          endif
+        else
+          if quest (21,3,$r) == 4
+            if rand (80)
+              mpechoat $r {160}Thankfully you do not shame yourself.
+              mpechoaround $r $r eats impeccably.
+              say You have the makings of a true court noble. $r.
+              mpechoat $r {160}The court noble leans towards you so that only you can hear him.
+              mpechoaround $r The court noble leans towards $r.
+              tell $r You really want to be one of us in the court?
+              mpmset $r quest 15 4 3
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if quest (15,4,$n) == 3
+  tell $n We need to have someone murdered.
+  tell $n Herald Talia has been causing some problems for us.
+  tell $n She's thwarted a few too many of our plans.
+  tell $n Come see me if you manage to kill her.
+  mpmset $n quest 15 4 4
+endif
+~
+|
+#14233
+test dummy~
+a test dummy~
+A test dummy with its stuffing half out stands here.~
+Its just your every day test dummy that students practice on.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+5 0 0 1d6+27 1d5+3
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (3,4,$n) == 4
+  mpecho The last of the stuffing spills out of the dummy.
+  mpquiet on
+  mpforce alberichquestmob wake
+  mpquiet off
+  mpmset $n quest 3 4 5
+endif
+~
+>fight_prog 100~
+if quest (3,4,$n) == 4
+  mpquiet on
+  mpforce alberichquestmob rest
+  mpquiet off
+endif
+~
+|
+#14234
+master bard~
+the master bard~
+The master bard is here tuning up a harp.~
+Dressed in bardic scarlet, he cuts a fine figure of a man.  He is a
+master at story telling as well as playing music.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 1d50+13
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (7,4,$n) == 2
+  say So you want to be a bard, $n.
+  say Lets hear your singing voice.
+  say Sing the following words for me.
+  say Drummer, beat, and piper, blow,
+endif
+~
+>speech_prog p Drummer, beat, and piper, blow,~
+if quest (7,4,$n) == 2
+  mpechoat $n {160}Your voice quavers as you repeat the words of the song.
+  mpasound {160}You hear the quavering voice of $n.
+  mpechoaround $n {160}You wince at $n's quavering singing voice.
+  mpmset $n quest 7 4 3
+endif
+~
+>rand_prog 80~
+if quest (7,4,$r) == 3
+  say Hmmm, guess you're a bit nervous.
+  say Lets keep singing.
+  say Harper, strike, and soldier, go.
+  mpmset $r quest 7 4 4
+else
+  if quest (7,4,$r) == 5
+    say Better, better.  Ok, next line.
+    say Free the flame and sear the grasses
+    mpmset $r quest 7 4 6
+  else
+    if quest (7,4,$r) == 7
+      say Very good.  And on we go.
+      say Till the dawning Red Star passes.
+      mpmset $r quest 7 4 8
+    else
+      if quest (7,4,$r) == 9
+        emote looks awed by the wonderful singing of $r.
+        say $r, you should go see Dean Elcarth now about your
+        say internship.
+        say Don't forget the words to that wonderful song of
+        say Anne McCaffreys.  You may need to sing them again.
+        mpmset $r quest 7 4 10
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog p Harper, strike, and soldier, go.~
+if quest (7,4,$n) == 4
+  mpechoat $n {160}Your voice is stronger this time as you sing the words of the song.
+  mpasound {160}You can hear $n singing.
+  mpechoaround $n {160}You admire $n's attempt at singing.
+  mpmset $n quest 7 4 5
+endif
+~
+>speech_prog p Free the flame and sear the grasses~
+if quest (7,4,$n) == 6
+  mpechoat $n {160}Your voice rings true and clear as you sing the song.
+  mpasound {160}You stop and listen to the music of $n.
+  mpechoaround $n {160}You start to enjoy $n's singing.
+  mpmset $n quest 7 4 7
+endif
+~
+>speech_prog p Till the dawning Red Star passes.~
+if quest (7,4,$n) == 8
+  mpechoat $n {160}Your voice is strong and emphatic, as you sing.
+  mpasound {160}The voice of $n thrills you to your very soul.
+  mpechoaround $n {160}The voice of $n thrills you to your very soul.
+  mpmset $n quest 7 4 9
+endif
+~
+|
+#14235
+sick woman~
+a sick woman~
+A sick woman lies here moaning.~
+She looks positively green.  Take care you move out of her way when
+she spews!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+5 0 0 1d6+27 1d5+3
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 10~
+mpecho The sick woman moans pitifully.
+~
+>give_prog i14259~
+if quest (11,4,$n) == 5
+  if quest (19,1,$n) == 0
+    mpechoat $n {160}The woman moans as you bind her wounds.
+    mpechoaround $n The woman moans as $n binds her wounds.
+    mpmset $n quest 19 1 1
+    mpjunk all
+  endif
+endif
+~
+>give_prog i14248~
+if quest (11,4,$n) == 5
+  if quest (20,1,$n) == 0
+    mpecho The woman gags on the foul taste of the Willow Bark Tea.
+    mpmset $n quest 20 1 1
+    mpjunk all
+  endif
+endif
+~
+|
+#0
+
+
+#SHOPS
+14215 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  4 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#14201
+lady harp~
+the My Lady Harp~
+The My Lady Harp lies here.~
+It is an old harp, with a beautiful tone, made of a quality timber.  It
+belongs to Herald Jadus, and he has always called it My Lady.  Take
+care of it and don't try to hold it while fighting as a harp is not
+what one should fight with.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+1 100000 45
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 80
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 80
+P 2
+TRIG_VOID
+OPROG_ECHO
+The music of My Lady Harp makes you feel better.~
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 4 0
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_POSITION = POS_FIGHTING 5 0
+P 5
+TRIG_VOID
+OPROG_ECHO
+Your opponent hits My Lady and it Shatters into a million pieces.~
+P 5
+TRIG_VOID
+OPROG_JUNK
+#14202
+lady harp case~
+the My Lady Harp Case~
+The My Lady Harp case lies here.~
+This is the old wooden case that keeps My Lady Harp safe.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+750 CONT_CLOSEABLE -1 0 0 0 0 0
+1 100000 45
+#14203
+heraldic white tunic~
+a Heraldic White Tunic~
+Some pure white cloth lies here.~
+It is a white tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+14 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL -4 0
+A APPLY_DEX 1 0
+#14204
+heraldic white breeches~
+Heraldic White Breeches~
+Some pure white cloth lies here.~
+It is a pair of pure white breeches.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+14 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL -4 0
+A APPLY_DEX 1 0
+#14205
+heraldic white shirt~
+a Heraldic White Shirt~
+Some pure white cloth lies here.~
+It is a pure white loose shirt.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+14 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL -4 0
+A APPLY_DEX 1 0
+#14206
+heraldic white wool cloak~
+a Heraldic White Wool Cloak~
+Some pure white cloth lies here.~
+It is a cloak made white wool.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+14 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL -4 0
+A APPLY_DEX 1 0
+#14207
+heraldic white boots~
+Heraldic White Boots~
+Some pure white leather lies here.~
+They are a pair of pure white leather boots.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+14 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL -4 0
+A APPLY_DEX 1 0
+#14208
+blue velvet tunic~
+a blue velvet Tunic~
+Some blue velvet lies here.~
+It is a blue velvet tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14209
+blue velvet breeches~
+blue velvet Breeches~
+Some blue velvet lies here.~
+It is a pair of breeches made of high quality velvet.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14210
+blue silk shirt~
+a blue silk shirt~
+Some blue silk lies here.~
+It is a blue velvet tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14211
+blue leather boots~
+blue leather boots~
+Some blue leather boots lie here.~
+A pair of boots made of the highest quality blue leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14212
+blue velvet cloak~
+a blue velvet cloak~
+Some blue velvet lies here.~
+It is a cloak made of blue velvet.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14213
+silver blue stoned chain~
+a silver chain with a blue stone~
+A silver chain with blue stone lies here.~
+It is a fine silver chain with a large blue stone.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+#14214
+pale blue tunic~
+a pale blue Tunic~
+Some pale blue cloth lies here.~
+It is a pale blue tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+1 100000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT 10 0
+#14215
+pale blue breeches~
+pale blue Breeches~
+Some pale blue cloth lies here.~
+It is a pair of pale blue breeches.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+5 0 0 0 0 0 0 0
+1 100000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT 10 0
+#14216
+pale blue loose shirt~
+a pale blue loose shirt~
+Some pale blue cloth lies here.~
+It is a pale blue shirt made of cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 100000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT 10 0
+#14217
+pale blue wool cloak~
+a pale blue wool cloak~
+Some pale blue cloth lies here.~
+It is a pale blue cloak made of the finest wool.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+1 100000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT 10 0
+#14218
+pale blue boots~
+pale blue boots~
+Some pale blue leather lies here.~
+A pair of boots made of the finest pale blue leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+1 100000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT 10 0
+#14219
+scarlet tunic~
+a scarlet tunic~
+Some scarlet cloth lies here.~
+It is a scarlet tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14220
+scarlet breeches~
+scarlet breeches~
+Some scarlet cloth lies here.~
+It is a pair of scarlet breeches made from a fine cloth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14221
+scarlet shirt~
+a scarlet shirt~
+Some scarlet cloth lies here.~
+It is a loose scarlet shirt.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14222
+scarlet wool cloak~
+a scarlet wool cloak~
+Some scarlet cloth lies here.~
+It is a full length wool cloak of the deepest scarlet.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14223
+scarlet leather boots~
+scarlet leather boots~
+Some scarlet leather lies here.~
+It is a pair of knee length scarlet leather boots.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14224
+music scroll~
+a scroll of music~
+A scroll of music lies on the ground here.~
+It is a scroll with some fine music written on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 50 0
+A APPLY_HIT 30 0
+#14225
+green tunic~
+a green tunic~
+Some deep green cloth lies here.~
+It is a deep green tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 75 0
+#14226
+green breeches~
+green breeches~
+Some deep green cloth lies here.~
+It is a pair of deep green breeches.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 75 0
+#14227
+green shirt~
+a green shirt~
+Some deep green cloth lies here.~
+It is a deep green shirt that made from a fine cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 75 0
+#14228
+green wool cloak~
+a green wool cloak~
+Some deep green cloth lies here.~
+It is a full length deep green wool cloak.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 75 0
+#14229
+green leather boots~
+green leather boots~
+Some deep green leather lies here.~
+It is a pair of deep green leather boots.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_MANA 75 0
+#14230
+grey tunic~
+a grey tunic~
+Some grey cloth lies here.~
+It is a grey tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+11 0 0 0 0 0 0 0
+1 100000 25
+#14231
+grey breeches~
+grey breeches~
+Some grey cloth lies here.~
+It is a pair of grey breeches made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+11 0 0 0 0 0 0 0
+1 100000 25
+#14232
+grey shirt loose~
+a loose grey shirt~
+Some grey cloth lies here.~
+It is a loose grey shirt made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+11 0 0 0 0 0 0 0
+1 100000 25
+#14233
+grey wool cloak~
+a grey wool cloak~
+Some grey woollen cloth lies here.~
+It is a long heavy woollen grey cloak.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+11 0 0 0 0 0 0 0
+1 100000 25
+#14234
+grey leather boots~
+grey leather boots~
+Some grey leather lies here.~
+A pair of knee length grey leather boots.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+11 0 0 0 0 0 0 0
+1 100000 25
+#14235
+red-brown tunic~
+a red-brown tunic~
+Some red-brown cloth lies here.~
+It is a red-brown tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 2 0
+#14236
+red-brown breeches~
+red-brown breeches~
+Some red-brown cloth lies here.~
+It is a pair of red-brown made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+5 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 2 0
+#14237
+red-brown shirt~
+a red-brown shirt~
+Some red-brown cloth lies here.~
+It is a red-brown shirt that is made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 2 0
+#14238
+red-brown cloak woollen~
+a red-brown woollen cloak~
+Some red-brown cloth lies here.~
+It is a red-brown cloak made of a heavy wool.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 2 0
+#14239
+red-brown leather boots~
+red-brown leather boots~
+Some red-brown leather lies here.~
+It is a pair of red-brown leather boots that are knee height.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 2 0
+#14240
+pale green tunic~
+a pale green tunic~
+Some pale green cloth lies here.~
+It is a pale green tunic that is thigh length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+6 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_MANA 25 0
+#14241
+pale green breeches~
+pale green breeches~
+Some pale green cloth lies here.~
+It is a pair of pale green breeches made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+6 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_MANA 25 0
+#14242
+pale green shirt~
+a pale green shirt~
+Some pale green cloth lies here.~
+It is a loose pale green shirt made of a coarse cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+6 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_MANA 25 0
+#14243
+pale green wool cloak~
+a pale green wool cloak~
+Some pale green cloth lies here.~
+It is a pale green woollen cloak that is floor length.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+6 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_MANA 25 0
+#14244
+pale green leather boots~
+pale green leather boots~
+Some pale green leather lies here.~
+It is a pair of pale green boots made of fine leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_MANA 25 0
+#14245
+fountain~
+a fountain~
+A fountain full of sparkling clear water is here.~
+The water sure does look sweet and clear.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+500 10 96
+#14246
+water trough~
+a water trough~
+A water trough to feed the horses is here.~
+The water is clean enough for you to drink.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+500 10 96
+#14247
+death bell~
+the death bell~
+The death bell hangs in the tower here.~
+This bell tolls whenever a herald dies.  It is a sound that the heralds
+dread to hear.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+500 10 96
+#14248
+willow bark tea~
+willow bark tea~
+A cup of willow bark tea lies here on the ground.~
+The smell of this tea is a bit off putting but any healer in Valdemar will
+assure you of its healing properties.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+30 134 134 134 0 0 0 0
+1 150000 30
+S 1 'heal'
+S 2 'heal'
+S 3 'heal'
+#14249
+brass chit~
+a brass chit~
+A scrap of engraved brass catches your eye.~
+It is a little scrap of brass, bearing a number and the words "Sweetsprings".
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#14250
+brass chit~
+a brass chit~
+A scrap of engraved brass catches your eye.~
+It is a little scrap of brass, bearing a number and the words "Deercreek".
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_WIS 1 0
+A APPLY_INT 1 0
+#14251
+brass chit~
+a brass chit~
+A scrap of engraved brass catches your eye.~
+It is a little scrap of brass, bearing a number and the words "Waymeet".
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+#14252
+brass chit~
+a brass chit~
+A scrap of engraved brass catches your eye.~
+It is a little scrap of brass, bearing a number and the words "Berrybay".
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#14253
+brass chit~
+a brass chit~
+A scrap of engraved brass catches your eye.~
+It is a little scrap of brass, bearing a number and the words "Trevale".
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_INT 1 0
+A APPLY_CON 1 0
+#14254
+grey skirt~
+a grey skirt~
+A pile of grey fabric lies here.~
+Female Herald Trainees often wear a skirt instead of breaches.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+0 0 0 0 0 0 0 0
+1 10000 15
+A APPLY_MOVE 30 0
+A APPLY_HIT 10 0
+#14255
+statue jaxom white marble~
+a white marble statue~
+A white marble statue is here.~
+This is a statue of the heroic Jaxom, a famous healer of the Realms.
+His wife Blythe commissioned its making asking the sculptor to pay
+particular attention to Jaxom's prime attributes.  You take a second
+look when you realise where his hand lies.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+500 10 99
+#14257
+book valdemar history~
+a book of Valdemar's History~
+A book of Valdemar's History lies neglected on the ground here.~
+{540}                        History of Valdemar
+{300}
+Baron Valdemar founded Valdemar a long time ago.  His aim was
+to make a safe place for those he ruled.  He and his sons were
+among the first to become Heralds.  One day when worried about
+the future, Baron Valdemar, went to what is known as the Companions
+Field and prayed to all the Gods he knew for help.  After some time
+a Companion, a horse-like being appeared in the grove.  He found that
+he could "mind-talk" the companion and the companion had this unique
+bond with him alone.  Later another companion appeared and "selected"
+the Baron's son.  The companions were just as intelligent if not more
+than the humans and gave wise council.
+
+Over time more companions appeared and selected only good people and
+these people became known as Heralds.  Baron Valdemar then made it
+a rule that all leaders hence forth would have to be Heralds.
+
+Over time the companions mated and new companions were born and they
+selected good people to become Heralds.  Eventually only one companion
+would appear magically from the grove like the original companions.
+This companion would select that Herald that was to be know as the
+Monarchs Own.  The Monarch's closest adviser.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14258
+uniforms valdemar book~
+the Book of Uniforms in Valdemar~
+A Book of Uniforms in Valdemar lies here neglected on the floor.~
+{130}                       Valdemarian Uniforms
+{300}
+In Valdemar what a person wears will often denote what position and
+rank that that person has.  The following is the most common you will
+see.
+
+{170}Herald - White Uniform
+{070}Trainee Herald - Grey Uniform
+
+{110}Bard - Scarlet Uniform
+{010}Trainee Bard - Red-brown Uniform
+{300}
+{120}Healer - Green Uniform
+{020}Trainee Healer - Pale Green Uniform
+{300}
+{040}Unaffiliate - Blue Uniform
+{300}
+Note that Unaffilates are students at the collegium, that have
+not been called to a purpose of bard, healer or herald.  Often
+they are the children of nobles that are sent to the collegium
+to hopefully learn something worthwhile.  Often however they
+are just stuck up trouble makers.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14259
+bandages~
+some bandages~
+Some bandages lie on the ground getting dirty here.~
+Bandages that one would apply to a wound.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14275
+bookshelf~
+the bookshelf~
+A large bookshelf lines one wall here.~
+This is a large bookshelf that could hold many many books.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+40 0 0 0 0 0 0 0
+500 10 99
+#0
+
+
+#ROOMS
+#14200
+~
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+#14201
+Exile's Road~
+You are on Exile's Road, East of the center of Valdemar.  Follow this road
+straight east and you will eventually come to Haven.  Go north, and you will
+find yourself in the wild Pelagir Hills, from which the term 'stranger things
+have happened' comes from.  In the Pelagir Hills, you can be guaranteed that
+stranger things have indeed happened.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+Exile's Road~
+~
+0 -1 14254
+DDIR_WEST
+Roads of the Realm~
+~
+0 -1 17577
+#14202
+Western Gates of Haven~
+You are before the Western Gate which is one of the Four Great Gates
+of Haven. In front of you are a pair of guards lounging around,
+making sure that no evil people enter the City.  A Herald is
+double-checking the guards.  Everyone looks very happy.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+The Streets of Haven~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14203
+DDIR_WEST
+Exile's Road~
+~
+0 -1 14261
+#14203
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14204
+DDIR_WEST
+Western Gates of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14202
+#14204
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Thanks to the hard
+work of the monarchs, current and in time gone by, it is relatively clean,
+and there are very few beggars.  There are no thieves around.  You feel
+very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road in Haven.~
+~
+0 -1 14227
+DDIR_EAST
+Street in Haven.~
+~
+0 -1 14205
+DDIR_SOUTH
+Residential Road in Haven.~
+~
+0 -1 14216
+DDIR_WEST
+City Street in Haven.~
+~
+0 -1 14203
+#14205
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14206
+DDIR_EAST
+Haven Centre Square.~
+~
+0 -1 14215
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14212
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14204
+#14206
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14207
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14205
+#14207
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14234
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14208
+DDIR_SOUTH
+Haven Centre Square.~
+~
+0 -1 14215
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14206
+#14208
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14209
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14207
+#14209
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14208
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14213
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14210
+DDIR_WEST
+Haven Centre Square.~
+~
+0 -1 14215
+#14210
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14209
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14211
+#14211
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Haven Centre Square.~
+~
+0 -1 14215
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14210
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14232
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14212
+#14212
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14205
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14211
+#14213
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road of Haven.~
+~
+0 -1 14222
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14214
+DDIR_SOUTH
+Residential Road of Haven.~
+~
+0 -1 14221
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14209
+#14214
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  You feel very safe here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Eastern Gate of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14228
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14213
+#14215
+The Centre Square of Haven~
+You stand at the very center of Haven. Above you, the entrance to the
+Palace looms, around you are the streets of Haven.  You feel incredibly
+safe here, for some reason, as if nothing could possibly touch you.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14207
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14209
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14211
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14205
+DDIR_UP
+Palace Gates.~
+~
+0 -1 14231
+#14216
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14204
+DDIR_SOUTH
+Residential Road of Haven.~
+~
+0 -1 14217
+#14217
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road of Haven.~
+~
+0 -1 14216
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14218
+#14218
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14232
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14217
+#14219
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14220
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14232
+#14220
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road of Haven.~
+~
+0 -1 14221
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14219
+#14221
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14213
+DDIR_SOUTH
+Residential Road of Haven.~
+~
+0 -1 14220
+#14222
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road of Haven.~
+~
+0 -1 14223
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14213
+#14223
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Residential Road of Haven.~
+~
+0 -1 14222
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14224
+#14224
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14223
+DDIR_WEST
+Street of Haven.~
+~
+0 -1 14234
+#14225
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_EAST
+Street of Haven.~
+~
+0 -1 14234
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14226
+#14226
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14225
+DDIR_SOUTH
+Residential Road of Haven.~
+~
+0 -1 14227
+#14227
+Residential road of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.  There are several homes built around this street
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Residential Road of Haven.~
+~
+0 -1 14226
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14204
+#14228
+Eastern Gates of Haven~
+You are before the Eastern Gate of Haven which is one of the Four Great
+Gates of Haven. In front of you are a pair of guards lounging around,
+making sure that no evil people enter the City.  A Herald is double-checking
+the guards.  Everyone looks very happy.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+Eastern Trade Road.~
+~
+0 -1 14242
+DDIR_WEST
+Street of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14214
+#14229
+Northern Gates of Haven~
+You are before the Northern Gate of Haven which is one of the Four Great
+Gates of Haven.  In front of you are a pair of guards lounging around, making
+sure that no evil people enter the City.  A Herald is double-checking the
+guards.  Everyone looks very happy.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+Northern Trade Road.~
+~
+0 -1 14236
+DDIR_SOUTH
+Street of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14235
+#14230
+Southern Gates of Haven~
+You are before the Southern Gate of Haven which is one of the Four
+Great Gates of Haven.  In front of you are a pair of guards lounging
+around, making sure that no evil people enter the City.  A Herald is
+double-checking the guards.  Everyone looks very happy.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14233
+DDIR_SOUTH
+Southern Trade Road.~
+~
+0 -1 14248
+#14231
+Gates of the Palace~
+You are in front of the Gates of the Palace of Haven.  You will not be
+allowed to go farther, but through the gates, you can see several Heralds
+running quickly between buildings.
+~
+0 0 SECT_CITY
+DDIR_UP
+Palace Entrance~
+Gates~
+EX_ISDOOR -1 14262
+DDIR_DOWN
+Centre Square of Haven.~
+~
+0 -1 14215
+#14232
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14211
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14219
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14233
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14218
+#14233
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14232
+DDIR_SOUTH
+Southern Gates of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14230
+#14234
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Haven.~
+~
+0 -1 14235
+DDIR_EAST
+Residential Road of Haven.~
+~
+0 -1 14224
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14207
+DDIR_WEST
+Residential Road of Haven.~
+~
+0 -1 14225
+#14235
+Street of Haven~
+You are in one of the famed, busy streets of Haven.  Unlike most cities, it
+is relatively clean, and there are very few beggars.  There are no thieves
+around.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Northern Gates of Haven.~
+gates~
+EX_ISDOOR|EX_CLOSED -1 14229
+DDIR_SOUTH
+Street of Haven.~
+~
+0 -1 14234
+#14236
+Northern Trade Road~
+You have topped an enormous rise.  To the north the road stretches on and
+on.  To your south is a river valley in which lies the city of Haven,
+Valdemars Capital City.  It was once walled but with the passage of
+increased security the city had been allowed to spread beyond the walls.
+Within the walls the houses crowded together so thickly that all you can see
+are rooves.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Northern Trade Road~
+~
+0 -1 14237
+DDIR_SOUTH
+Northern Gates of Haven~
+~
+0 -1 14229
+#14237
+Northern Trade Road~
+You are on the Northern Road, one of the famed Roads of Valdemar. Valdemar
+is the only country that you know of that keeps its roads in such great
+condition.  As you are watching, a Herald saunters by, says hello, and
+keeps going.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Northern Trade Road~
+~
+0 -1 14273
+DDIR_SOUTH
+Northern Trade Road~
+~
+0 -1 14236
+#14238
+The Grove~
+This is the heart of the Companions field, the origin-place of the original
+Companions.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Tower~
+~
+0 -1 14239
+DDIR_SOUTH
+Companions Field~
+~
+0 -1 14244
+#14239
+The Tower~
+This tower was originally part of a temple build by Baron Valdemar, founder
+of Valdemar.  When he finished the temple he did not get the chance to
+put in a bell.  He died the night it was completed, and a magic bell now
+known as the death bell tolled on his death.  Since then the death of any
+herald is marked by the magical tolling of the death bell.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The Grove~
+~
+0 -1 14238
+#14240
+Healers Room~
+Beds with patients line the walls.  Serene healers dressed in healers green
+attend to them.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Healers Collegium~
+~
+0 -1 14252
+#14241
+Heralds Hall~
+This is where the heralds meet to discuss things of importance to them
+or just to meet and have fun.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Heralds Collegium~
+~
+0 -1 14274
+#14242
+Eastern Trade Road~
+You have topped an enormous rise.  To the east the road stretches on and
+on.  To your west is a river valley in which lies the city of Haven,
+Valdemars Capital City.  It was once walled but with the passage of
+increased security the city had been allowed to spread beyond the walls.
+Within the walls the houses crowded together so thickly that all you can
+see are rooves.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Eastern Trade Road~
+~
+0 -1 14245
+DDIR_WEST
+Eastern Gates of Haven~
+~
+0 -1 14228
+#14243
+Courtyard~
+You are crossing a wide paved courtyard that lies between two buildings.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Companions Field~
+~
+0 -1 14244
+DDIR_SOUTH
+Herald's Collegium~
+~
+0 -1 14274
+DDIR_WEST
+The Stables~
+~
+0 -1 14246
+#14244
+Companions Field~
+You have come to a tall wooden fence surrounding a park like area full
+of trees,  In the distance you can the white companions grazing contentedly.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The Grove~
+~
+0 -1 14238
+DDIR_SOUTH
+The Courtyard~
+~
+0 -1 14243
+#14245
+Eastern Trade Road~
+You are on the Eastern Trade Road, one of the famed Roads of Valdemar.
+Valdemar is the only country that you know of that keeps its roads in such
+great condition.  As you are watching, a Herald speeds by on his Companion,
+intent on gaining the border as soo as possible.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Trevale town road~
+~
+0 -1 14295
+DDIR_WEST
+Eastern Trade Road~
+~
+0 -1 14242
+#14246
+The Stables~
+You are in the stables that house horses and NOT the companions.  You
+can smell the scent of hay in the air.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Courtyard~
+~
+0 -1 14243
+DDIR_WEST
+Weapons Training Room~
+~
+0 -1 14247
+#14247
+Weapons Training Room~
+You are in a long, low building.  It is all but bare - smooth, worn wooden
+floors and a few benches with storage cabinets built into the walls.
+Between the cabinets are a few full length mirrors.  The place is lit by
+windows that are near the ceiling.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The Stables~
+~
+0 -1 14246
+#14248
+Southern Trade Road~
+You are on the Southern Trade Road, one of the famed Roads of Valdemar.
+Valdemar is the only country that you know of that keeps its roads in such
+great condition.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Southern Gates of Haven~
+~
+0 -1 14230
+DDIR_SOUTH
+Southern Trade Road~
+~
+0 -1 14249
+#14249
+Southern Trade Road~
+You have topped an enormous rise.  To the south the road stretches on
+and on.  To your north is a river valley in which is the city of Haven,
+Valdemars Capital City.  It was once walled but with the passage of
+increased security the city had been allowed to spread beyond the walls.
+Within the walls the houses crowded together so thickly that all you can
+see are rooves.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Southern Trade Road~
+~
+0 -1 14248
+DDIR_SOUTH
+Southern Trade Road~
+~
+0 -1 14250
+#14250
+Southern Trade Road~
+You are on the Southern Trade Road, one of the famed Roads of Valdemar.
+Valdemar is the only country that you know of that keeps its roads in such
+great condition.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Southern Trade Road~
+~
+0 -1 14249
+DDIR_EAST
+Sweet Springs Town Road~
+~
+0 -1 14289
+#14251
+Bardic Collegium~
+There are desks along one wall.  On another wall instruments hang from
+various hooks.  Sheets and Scrolls of music litter the bench on another
+wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The Collegium~
+~
+0 -1 14253
+#14252
+Healers Collegium~
+There are desks along one wall.  Shelves full of books line another.
+Models of skeletons and other body parts are on a bench on another wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Healers Room~
+~
+0 -1 14240
+DDIR_SOUTH
+The Collegium~
+~
+0 -1 14253
+#14253
+The Collegium~
+This is the main administration building for the various collegiums
+housed here at the palace.  It is here that you can see the Dean to
+sort out any problems that you may have.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Healers Collegium~
+~
+0 -1 14252
+DDIR_EAST
+The Palace Entrance~
+~
+0 -1 14262
+DDIR_WEST
+Heralds Collegium~
+~
+0 -1 14274
+DDIR_UP
+Bardic Collegium~
+~
+0 -1 14251
+DDIR_DOWN
+Library~
+~
+0 -1 14275
+#14254
+Exile's Road~
+You are on Exile's Road, East of the center of Valdemar.  Follow this road
+straight east and you will eventually come to Haven.  Go north, and you will
+find yourself in the wild Pelagir Hills, from which the term 'stranger things
+have happened' comes from.  In the Pelagir Hills, you can be guaranteed that
+stranger things have indeed happened.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Exile's Road~
+~
+0 -1 14260
+DDIR_WEST
+Exile's Road~
+~
+0 -1 14201
+#14255
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Trevale Town Centre~
+~
+0 -1 14296
+#14260
+Exile's Road~
+You are on Exile's Road, East of the center of Valdemar.  Follow this road
+straight east and you will eventually come to Haven.  Go north, and you will
+find yourself in the wild Pelagir Hills, from which the term 'stranger things
+have happened' comes from.  In the Pelagir Hills, you can be guaranteed that
+stranger things have indeed happened.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Deercreek Town Road~
+~
+0 -1 14265
+DDIR_EAST
+Exile's Road~
+~
+0 -1 14261
+DDIR_WEST
+Exile's Road~
+~
+0 -1 14254
+#14261
+Exile's Road~
+You have topped an enormous rise.  To the west the road stretches on
+and on.  To your east is a river valley in which lies the city
+of Haven, Valdemars Capital City.  It was once walled but with
+the passage of increased security the city had been allowed
+to spread beyond the walls.  Within the walls the houses crowded
+together so thickly that all you can see are rooves.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Eastern Gates of Haven~
+~
+0 -1 14202
+DDIR_WEST
+Exile's Road~
+~
+0 -1 14260
+#14262
+Palace Entrance~
+This is a large marble floored hall with a grand arched ceiling.  Doors
+lead in all directions.  Your heels click with each step that you take
+on the hard cold marble.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Palace Dining Room~
+~
+0 -1 14263
+DDIR_WEST
+The Collegium~
+~
+0 -1 14253
+DDIR_UP
+Throne Room~
+~
+0 -1 14264
+DDIR_DOWN
+The Gates of the Palace~
+~
+0 -1 14231
+#14263
+The Palace Dining Room~
+You are in an opulent room dominated by an enormous table running the
+length of the room.  The rooms is full of court nobles taking part in
+an elegant feast on the finest of china and using the most expensive
+silverwear.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Palace Entrance~
+~
+0 -1 14262
+#14264
+The Throne Room~
+You are walking down a long carpeted room towards the throne of Valdemar.
+It sits upon a raised dais, and on it sits the queen.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The Palace Entrance~
+~
+0 -1 14262
+#14265
+Deercreek Town Road~
+You are on the road to a small town in the Lake Evendim district, Deercreek
+The people are Valdemaran to a fault, and are certainly willing to help
+a traveller such as yourself.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Deercreek Town Centre~
+~
+0 -1 14266
+DDIR_SOUTH
+Exile's Road~
+~
+0 -1 14260
+#14266
+Deercreek Town Center~
+You are at the center of Deercreek, and you've discovered it was smaller then
+you imagined.  But then, most towns are about this size, or a little bigger.
+You also realize you are not being shown the whole town, but this is not
+unusual, because they only let down their guard for a complete stranger
+when the stranger is a Herald.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+House~
+~
+0 -1 14268
+DDIR_EAST
+House~
+~
+0 -1 14270
+DDIR_SOUTH
+Deercreek town road~
+~
+0 -1 14265
+DDIR_WEST
+House~
+~
+0 -1 14269
+DDIR_UP
+Deercreek Townhall~
+~
+0 -1 14267
+#14267
+Deercreek Town Hall~
+This is where everyone meets for anything to be decided.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Deercreek Town Centre~
+~
+0 -1 14266
+#14268
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Deercreek Town Centre~
+~
+0 -1 14266
+#14269
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Deercreek Town Centre~
+~
+0 -1 14266
+#14270
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Deercreek Town Centre~
+~
+0 -1 14266
+#14271
+Collegium Kitchen~
+It is a large kitchen.  Trainees from all the different collegium types
+work busily under the watchful eye of the cook.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Collegium Dining Room~
+~
+0 -1 14272
+#14272
+Collegium Dining Room~
+It is a large room filled with tables and chairs.  The noise level is
+very loud as all the trainees from the various collegiums are eating here.
+Some of the Heralds that are currently in residence eat here if their
+presence is not require at the court dining room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Library~
+~
+0 -1 14275
+DDIR_SOUTH
+Collegium Kitchen~
+~
+0 -1 14271
+#14273
+Northern Trade Road~
+You are on the Northern Trade Road, one of the famed Roads of Valdemar.
+Valdemar is the only country that you know of that keeps its roads in such
+great condition.  As you are watching, a Herald saunters by, says hello, and
+keeps going.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Berrybay town road~
+~
+0 -1 14277
+DDIR_SOUTH
+Northern Trade road~
+~
+0 -1 14237
+DDIR_WEST
+A town~
+~
+0 -1 14283
+#14274
+The Heralds Collegium~
+This is where heralds are trained.  They take classes here for
+about 3-4 years before they are fully fledged heralds.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Courtyard~
+~
+0 -1 14243
+DDIR_EAST
+Collegium~
+~
+0 -1 14253
+DDIR_UP
+Heralds Hall~
+~
+0 -1 14241
+#14275
+Library~
+It is a single enormous room, filled with bookshelves.  There are
+cubicles containing desks and chairs at the ends of the rows of shelves
+along the walls.  There are hundreds of books here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Storeroom~
+~
+0 -1 14276
+DDIR_WEST
+Collegium Dining Room~
+~
+0 -1 14272
+DDIR_UP
+The Collegium~
+~
+0 -1 14253
+#14276
+The Storeroom~
+It is a narrow, white washed room lit by a window near the ceiling, which
+is level with the ground outside.  The room has only a desk behind which
+sits the housekeeper and a storage cupboard to one side.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Library~
+~
+0 -1 14275
+#14277
+Berrybay Town Road~
+You are on the road to a small town in the Sorrows district, Berrybay
+The people are Valdemaran to a fault, and are certainly willing to help
+a traveller such as yourself.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Berrybay Town Centre~
+~
+0 -1 14278
+DDIR_WEST
+Northern Trade Road~
+~
+0 -1 14273
+#14278
+Berrybay Town Center~
+You are at the center of Berrybay, and you've discovered it was smaller then
+you imagined.  But then, most towns are about this size, or a little bigger.
+You also realize you are not being shown the whole town, but this is not
+unusual, because they only let down their guard for a complete stranger
+when the stranger is a Herald.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+House~
+~
+0 -1 14280
+DDIR_EAST
+House~
+~
+0 -1 14282
+DDIR_SOUTH
+House~
+~
+0 -1 14281
+DDIR_WEST
+Berrybay town road~
+~
+0 -1 14277
+DDIR_UP
+Berrybay Town Hall~
+~
+0 -1 14279
+#14279
+Berrybay Town Hall~
+This is where everyone meets for anything to be decided.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Berrybay Town Centre~
+~
+0 -1 14278
+#14280
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Berrybay Town Centre~
+~
+0 -1 14278
+#14281
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Berrybay Town Centre~
+~
+0 -1 14278
+#14282
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Berrybay Town Centre~
+~
+0 -1 14278
+#14283
+Waymeet Town Road~
+You are on the road to a small town in the Sorrows district, Waymeet
+The people are Valdemaran to a fault, and are certainly willing to help
+a traveller such as yourself.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Northern Trade Road~
+~
+0 -1 14273
+DDIR_WEST
+Waymeet Town Centre~
+~
+0 -1 14284
+#14284
+Waymeet Town Center~
+You are at the center of Waymeet, and you've discovered it was smaller then
+you imagined.  But then, most towns are about this size, or a little bigger.
+You also realize you are not being shown the whole town, but this is not
+unusual, because they only let down their guard for a complete stranger
+when the stranger is a Herald.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+House~
+~
+0 -1 14286
+DDIR_EAST
+Waymeet Town road~
+~
+0 -1 14283
+DDIR_SOUTH
+House~
+~
+0 -1 14288
+DDIR_WEST
+House~
+~
+0 -1 14287
+DDIR_UP
+Waymeet Town Hall~
+~
+0 -1 14285
+#14285
+Waymeet Town Hall~
+This is where everyone meets for anything to be decided.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Waymeet Town Centre~
+~
+0 -1 14284
+#14286
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Waymeet Town Centre~
+~
+0 -1 14284
+#14287
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Waymeet Town Centre~
+~
+0 -1 14284
+#14288
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Waymeet Town Centre~
+~
+0 -1 14284
+#14289
+Sweetsprings Town Road~
+You are on the road to a small town in the Border district, Sweetsprings
+The people are Valdemaran to a fault, and are certainly willing to help
+a traveller such as yourself.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Sweetsprings Town Centre~
+~
+0 -1 14290
+DDIR_WEST
+Southern Trade Road~
+~
+0 -1 14250
+#14290
+Sweetsprings Town Center~
+You are at the center of Sweetsprings, and you've discovered it was smaller
+then you imagined.  But then, most towns are about this size, or a little
+bigger. You also realize you are not being shown the whole town, but this is
+not unusual, because they only let down their guard for a complete stranger
+when the stranger is a Herald.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+House~
+~
+0 -1 14292
+DDIR_EAST
+House~
+~
+0 -1 14293
+DDIR_SOUTH
+House~
+~
+0 -1 14294
+DDIR_WEST
+Sweetsprings Town Road~
+~
+0 -1 14289
+DDIR_UP
+Sweetsprings Town Hall~
+~
+0 -1 14291
+#14291
+Sweetsprings Town Hall~
+This is where everyone meets for anything to be decided.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Sweetsprings Town Centre~
+~
+0 -1 14290
+#14292
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Sweetsprings Town Centre~
+~
+0 -1 14290
+#14293
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Sweetsprings Town Centre~
+~
+0 -1 14290
+#14294
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Sweetsprings Town Centre~
+~
+0 -1 14290
+#14295
+Trevale Town Road~
+You are on the road to a small town in the Centre district, Trevale
+The people are Valdemaran to a fault, and are certainly willing to help
+a traveller such as yourself.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Trevale Town Centre~
+~
+0 -1 14296
+DDIR_SOUTH
+Eastern Trade Road~
+~
+0 -1 14245
+#14296
+Trevale Town Center~
+You are at the center of Trevale, and you've discovered it was smaller then
+you imagined.  But then, most towns are about this size, or a little bigger.
+You also realize you are not being shown the whole town, but this is not
+unusual, because they only let down their guard for a complete stranger
+when the stranger is a Herald.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+House~
+~
+0 -1 14298
+DDIR_EAST
+House~
+~
+0 -1 14255
+DDIR_SOUTH
+Trevale Town road~
+~
+0 -1 14295
+DDIR_WEST
+House~
+~
+0 -1 14299
+DDIR_UP
+Trevale Town Hall~
+~
+0 -1 14297
+#14297
+Trevale Town Hall~
+This is where everyone meets for anything to be decided.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Trevale Town Centre~
+~
+0 -1 14296
+#14298
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Trevale Town Centre~
+~
+0 -1 14296
+#14299
+A house~
+This is a house in the town, with a few inhabitants going hither and thither.
+They don't really mind you being here, just try to stay out of the way.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Trevale Town Centre~
+~
+0 -1 14296
+#0
+
+
+#RESETS
+M 14201 100 14208
+M 14201 100 14206
+M 14201 100 14210
+M 14201 100 14220
+M 14201 100 14223
+M 14201 100 14226
+M 14201 100 14212
+M 14201 100 14217
+M 14201 100 14233
+M 14201 100 14214
+M 14201 100 14235
+M 14201 100 14203
+M 14202 100 14245
+M 14202 100 14260
+M 14202 100 14250
+M 14202 100 14273
+M 14202 100 14274
+M 14203 100 14211
+M 14203 100 14263
+M 14204 100 14275
+M 14204 100 14207
+M 14204 100 14273
+M 14205 100 14221
+M 14205 100 14222
+M 14205 100 14209
+M 14205 100 14219
+M 14205 100 14224
+M 14205 100 14232
+M 14205 100 14211
+M 14205 100 14207
+M 14205 100 14234
+M 14205 100 14218
+M 14205 100 14205
+M 14205 100 14225
+M 14205 100 14216
+M 14205 100 14204
+M 14205 100 14227
+M 14206 100 14274
+E 14230 500 WEAR_ABOUT
+E 14231 500 WEAR_LEGS
+M 14206 100 14276
+E 14232 500 WEAR_BODY
+M 14206 100 14272
+E 14233 500 WEAR_NECK_A
+E 14234 500 WEAR_FEET
+M 14207 100 14263
+E 14214 500 WEAR_ABOUT
+E 14215 500 WEAR_LEGS
+M 14207 100 14231
+E 14216 500 WEAR_BODY
+E 14217 500 WEAR_NECK_A
+E 14218 500 WEAR_FEET
+M 14208 100 14214
+M 14208 100 14228
+M 14208 100 14233
+M 14208 100 14230
+M 14208 100 14202
+M 14208 100 14203
+M 14208 100 14229
+M 14208 100 14235
+M 14209 100 14242
+M 14209 100 14245
+M 14209 100 14295
+M 14209 100 14296
+M 14209 100 14255
+M 14209 100 14298
+M 14209 100 14299
+M 14210 100 14278
+M 14211 100 14244
+M 14211 100 14238
+M 14212 100 14264
+M 14213 100 14253
+M 14214 100 14247
+M 14215 100 14276
+G 14254 500 0
+M 14216 100 14275
+M 14217 100 14244
+M 14218 100 14271
+M 14219 100 14241
+M 14220 100 14240
+G 14248 500 0
+M 14221 100 14277
+M 14221 100 14280
+M 14221 100 14281
+M 14221 100 14282
+M 14221 100 14277
+M 14222 100 14265
+M 14222 100 14266
+M 14222 100 14268
+M 14222 100 14269
+M 14222 100 14270
+M 14223 100 14283
+M 14223 100 14284
+M 14223 100 14286
+M 14223 100 14287
+M 14223 100 14288
+M 14224 100 14289
+M 14224 100 14290
+M 14224 100 14292
+M 14224 100 14293
+M 14224 100 14294
+M 14225 100 14252
+E 14240 500 WEAR_ABOUT
+E 14241 500 WEAR_LEGS
+E 14242 500 WEAR_BODY
+E 14243 500 WEAR_NECK_A
+E 14244 500 WEAR_FEET
+M 14226 100 14251
+E 14235 500 WEAR_ABOUT
+E 14236 500 WEAR_LEGS
+M 14226 100 14271
+E 14237 500 WEAR_BODY
+E 14238 500 WEAR_NECK_A
+E 14239 500 WEAR_FEET
+M 14227 100 14297
+G 14253 500 0
+M 14228 100 14291
+G 14249 500 0
+M 14229 100 14285
+G 14251 500 0
+M 14230 100 14279
+G 14252 500 0
+M 14231 100 14267
+G 14250 500 0
+M 14232 100 14263
+M 14234 100 14251
+M 14235 100 14291
+O 14245   6 14215
+O 14245   6 14266
+O 14245   6 14296
+O 14245   6 14290
+O 14245   6 14284
+O 14245   6 14278
+O 14246   1 14246
+O 14247   1 14239
+O 14255   1 14215
+O 14275   1 14275
+P 14257 500 14275
+P 14258 500 14275
+D 14202 DIR_EAST  DOOR_CLOSED
+D 14203 DIR_WEST  DOOR_CLOSED
+D 14214 DIR_EAST  DOOR_CLOSED
+D 14228 DIR_WEST  DOOR_CLOSED
+D 14229 DIR_SOUTH DOOR_CLOSED
+D 14235 DIR_NORTH DOOR_CLOSED
+D 14230 DIR_NORTH DOOR_CLOSED
+D 14233 DIR_SOUTH DOOR_CLOSED
+D 14231 DIR_UP    DOOR_OPEN
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

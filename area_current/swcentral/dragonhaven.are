@@ -1,0 +1,3724 @@
+#AREA Dragon Haven~
+#AUTHORS Fizzo~
+#VERSION 4
+#RANGES 50 95 1 95
+
+
+#HELPS
+0 'DRAGON HAVEN' DRAGONHAVEN~
+{128}
+                                Dragon Haven
+{308}
+The area has been designed, developed with the help of D&D Monster Manual.
+I have been told to give credit to them and I did. Many of the mobs in the
+area cast nasty spells when fighting, some of them are a bit tough so be
+careful about what you do. The whole area supports one long quest to get a
+quite powerful item. Hope you appreciate my work.
+
+Fizzo
+
+  {128}(A) {058}History
+  {128}(B) {058}Special Thanx
+{b}HAVENTHANX
+{a}HAVENHISTORY
+~
+
+0 HAVENHISTORY~
+{128}
+                                   History
+{308}
+Long time ago dragons were the ruling race in te Realms, they were the
+ones defending the Lords. This until the greatest war between the elements
+almost led to the extition of the dragon race. The examplars who managed to
+survive retired from the battle. Evil dragons established their domain into
+a tower that is well known by the majority of living beings, while lawful
+dragons decided to hide themself in a secret place to restore their power
+and to get ready for the next war. In the meanwhile the Lords, who lost their
+army of dragons, started recruiting among the lesser races almost forgetting
+about dragons. Realizing that there was no need anymore to get ready for a
+war, lawful dragons transformed their secret refuge into a shining town. The
+location of the the town was unknown for everyone, until Neptune managed to
+locate its whereabouts, taking advantage of a period of weakness accused by
+his ancestral enemies. The haven is now seriously threatened by a mighty
+warrior, who received great powers by his master, sent there to destroy the
+whole breed of lawful dragons.
+
+  {128}(-) {058}Return
+{-}'DRAGON HAVEN' DRAGONHAVEN
+~
+
+0 HAVENTHANX~
+{128}
+                                    Thanx
+{308}
+Special Thanx to Redrum, Deadbolt, Panic and Rar for their help and support
+and to Presto, Chaste and Calamir for their collaboration.
+
+  {128}(-) {058}Return
+{-}'DRAGON HAVEN' DRAGONHAVEN
+~
+
+0 $~
+
+
+#MOBILES
+#31101
+platinum dragon~
+the platinum dragon~
+The Platinum Dragon is resting on his throne morphed in a human shape.~
+This powerful dragon sits on an enormous throne morphed in the shape of
+a long-beirded old man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_PASS_DOOR
+1000 S
+130 BODY_EYE BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 100d150+10000 15d15+50
+0 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>all_greet_prog 99~
+if quest (6,1,$n) == 1
+  bow $n
+  break
+endif
+if hasobjnum ($n) == 31150
+  if hasobjnum ($n) == 31149
+    if quest (7,1,$n) == 1
+      if quest (0,1,self) == 1
+        tell $n Now give me the Rod with the gem mounted first and then
+        tell $n The potion of soul caging.
+        break
+      endif
+    endif
+    tell $n Now that you have all the items required for the ritual we can proceed.
+    tell $n Follow me, we have to be by the Well of Souls to succeed.
+    mpmset $n quest 7 1 1
+    mpmset self quest 0 1 1
+    east 
+    break
+  endif
+endif
+if quest (5,1,$n) == 1
+  tell $n Thanks to you our town will live for many centuries. I will never
+  tell $n thank you enough. All I can do is to give my soul to you.
+  tell $n Do you know how to CAGE the soul of a dragon?
+  break
+endif
+if quest (3,1,$n) == 1
+  tell $n Welcome in my Castle $n.
+  tell $n I have been informed that you are seeking the soul of a Dragon.
+else
+  shout How did you dare, $n, to appear before me without permission?
+  shout You'll be banned till you prove that you are worthy to stay here!
+  mptransfer $n 9755
+endif
+~
+>give_prog I31150~
+if quest (7,1,$n) == 1
+  if quest (0,1,self) == 1
+    tell $n Good the rod is perfect. Now give me the potion.
+    mpmset $n quest 8 1 1
+  endif
+endif
+~
+>give_prog I31149~
+if quest (8,1,$n) == 1
+  if quest (0,1,self) == 1
+    tell $n OK! I have to warn you now that when I'll quaff the potion my
+    tell $n Soul will be eradicated from my body and my bones will stay
+    tell $n Alive to kill you. So be sure to have a few friends to help you
+    tell $n Or you will die easily.
+    tell $n When you think you are ready tell me to quaff the potion.
+    tell $n And GOOD LUCK!
+    mpmset $n quest 9 1 1
+  endif
+~
+>speech_prog quaff~
+if quest (9,1,$n) == 1
+  if hasobjnum ($i) == 31149
+    if hasobjnum ($i) == 31150
+      mpecho The Platinum Dragon quaffs the potion and dies immediately.
+      mpecho His flesh quickly evaporates...
+      mpecho ....
+      mpecho ..
+      mpecho .
+      mpecho The skeleton of the platinum dragon suddenly takes life and attacks $n
+      mpmload 31126
+      mpforce spectral mpkill $n
+      mpmset $n quest 6 1 1
+      mppurge self
+    endif
+  endif
+endif
+~
+>speech_prog soul~
+if quest (3,1,$n) == 1
+  ponder 
+  tell $n Hmmm... I know what you are looking for. I offer my own soul to you if
+  tell $n help us banishing the most dangerous THREAT to our city that we had to
+  tell $n face in the last centuries.
+endif
+~
+>speech_prog cage~
+if quest (5,1,$n) == 1
+  tell $n Ok! You need 3 things:
+  tell $n A dragon rod
+  tell $n A potion of soul-caging
+  tell $n and a gem
+  tell $n Return to me when you have all these Items.
+endif
+~
+>speech_prog p dragon rod~
+if quest (5,1,$n) == 1
+  tell $n It's very easy to get one of these rods; you will find them into
+  tell $n the General Store in Town.
+endif
+~
+>speech_prog p potion of soul-caging~
+if quest (5,1,$n) == 1
+  tell $n This is probably the most difficult part:
+  tell $n I dont know where to get any of these potions, I dont even know
+  tell $n How to prepare it. But probably the Alchemists on the Great Plateau
+  tell $n Know how to make it.
+endif
+~
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  tell $n To have the proper gem you need to go your guild dragon
+  tell $n And ask him of a gem. They will give the right one.
+endif
+~
+>speech_prog threat~
+if quest (3,1,$n) == 1
+  tell $n There is a mighty human who has been hired by the forces of Evil to
+  tell $n destroy the entire breed of lawful dragons... Right now he is looking
+  tell $n for a way to enter our town. Probably you already met him in the
+  tell $n Great Plateau. His name is Raul and he's all dressed in black.
+  tell $n Kill him and I'll be proud of helping you.
+  mpmset $n quest 4 1 1
+endif
+~
+>hitprcnt_prog 5~
+mpecho The Platinum Dragon uses his ultimate weapon on $n.
+mpecho {078}An ultrasonic wave {171}*** {118}DISINTEGRATES {171}**** {078}$n.
+mpquiet on
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+mass 'acid blast'
+mpquiet off
+~
+>fight_prog 99~
+cast 'fireball'
+cast 'heal'
+cast 'heal'
+~
+|
+#31102
+brass dragon~
+a Brass Dragon~
+A Brass Dragon is sleeping here.~
+This big and old Brass Dragon is here guarding the entrance to the
+assassin's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_STEALTH
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need.
+    mpoload 31104
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'gas breath'
+~
+>fight_prog 30~
+cast 'lighting bolt' $n
+~
+|
+#31103
+gold dragon~
+a Gold Dragon~
+A Gold Dragon is sleeping here.~
+This big and old Gold Dragon is here guarding the entrance to the
+Illusionist's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need. :)
+    mpoload 31106
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'fire breath' $n
+~
+>fight_prog 10~
+cast 'acid blast' $n
+~
+|
+#31104
+copper dragon~
+a Copper Dragon~
+A Copper Dragon is sleeping here.~
+This big and old Copper Dragon is here guarding the entrance to the
+rogue's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need. :)
+    mpoload 31101
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'acid breath' $n
+~
+>fight_prog 30~
+cast 'lightning bolt' $n
+~
+|
+#31105
+silver dragon~
+a Silver Dragon~
+A Silver Dragon is sleeping here.~
+This big and old Silver Dragon is here guarding the entrance to the
+Monk's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need.
+    mpoload 31103
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'frost breath' $n
+~
+>fight_prog 30~
+cast 'heal'
+~
+|
+#31106
+bronze dragon~
+a Bronze Dragon~
+A Bronze Dragon is sleeping here.~
+This big and old Bronze Dragon is here guarding the entrance to the
+elementalist's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_PASS_DOOR
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need.
+    mpoload 31102
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'lightning breath' $n
+~
+>fight_prog 15~
+cast 'fireball' $n
+~
+|
+#31107
+chromium dragon~
+a Chromium Dragon~
+A Chromium Dragon is sleeping here.~
+This big and old Chromium Dragon is here guarding the entrance to the
+Necromancer's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6000 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need. :)
+    mpoload 31105
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'acid breath' $n
+~
+>fight_prog 10~
+cast 'energy drain' $n
+~
+|
+#31108
+steel dragon~
+a Steel Dragon~
+A Steel Dragon is sleeping here.~
+This big and old Steel Dragon is here guarding the entrance to the
+fighter's guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_HUNT
+1000 S
+90 BODY_HEAD BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 25d20+6500 1d90+41
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog gem~
+if quest (5,1,$n) == 1
+  if quest (10,1,$n) == 0
+    tell $n Here is the gem you need. :)
+    mpoload 31107
+    drop gem
+    mpmset $n quest 10 1 1
+  else
+    tell $n You already got your gem!
+  endif
+endif
+~
+>death_prog 75~
+cast 'gas breath'
+~
+>fight_prog 30~
+kick 
+~
+|
+#31109
+master guildmaster~
+Your Guildmaster~
+Your Guildmaster is here to teach you the secrets of your class.~
+This man looks pretty simple... he does not have any particular sign...
+His creator didnt want to spend much time on his description.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+95 0 0 2d1+10000 1d95+46
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#31110
+dragon citizen~
+a dragon citizen~
+A dragon citizen walks around here.~
+This citizen has human shape but obviously is a dragon since only dragons
+live here.
+~
+ACT_SCAVENGER
+AFF_FLYING
+300 S
+50 0 0 1d625+1197 4d8+20
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 15~
+if rand (50)
+  smile $n
+else
+  mpecho $i shily walks away from $n, surprised of his presence.
+endif
+~
+>fight_prog 20~
+cast 'fireball' $r
+~
+|
+#31111
+dragon guard~
+a dragon guard~
+A dragon guard walks around here keeping the peace.~
+This is a guards of the mighty sky town nation. Even though he is morphed
+in a human male shape you'd better not fight him since he still is a dragon.
+~
+0
+0
+500 S
+60 0 0 3d180+2000 1d60+19
+117062 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 25~
+wink $n
+~
+>fight_prog 35~
+cast 'lightning bolt' $r
+~
+|
+#31112
+dragon elite guard~
+a dragon elite guard~
+A dragon elite guard is here to protect the castle.~
+This guard looks MUCH tougher than the normal guards... So if you found hard
+to kill normal guards you really should not mess with these ones.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_HUNT
+800 S
+75 0 0 10d230+3100 1d75+29
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 25~
+tell $n Welcome to the Golden Castle
+~
+>fight_prog 50~
+cast 'fire breath' $r
+~
+|
+#31113
+dragon sentinel~
+a dragon sentinel~
+A dragon sentinel watches the horizon from here.~
+As he stands the dragon sentinel does not look very powerful, but fighting a
+dragon could always be deadly...
+~
+ACT_SENTINEL
+0
+400 S
+52 0 0 1d676+1302 1d52+14
+82205 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#31114
+master alchemist~
+the Master Alchemist~
+The Master Alchemist walks around here looking very worried.~
+He is a rather old man wearing a long dark tunic.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+500 S
+50 0 0 1d625+1197 4d8+20
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p potion of soul caging~
+if quest (5,1,$n) == 1
+  tell $n Yes... I know of this potion, It's a very ancint formula,
+  tell $n To prepare it you need to mix a charm potion, a vial of vampire blood,
+  tell $n and potion of induction.
+endif
+~
+>all_greet_prog 99~
+if quest (0,1,$n) == 0
+  tell $n Sorry, I dont have much time to talk to you...
+  tell $n Something really bad has happened!
+else
+  tell $n Hello my dear friend $n.
+endif
+~
+>speech_prog p what happened?~
+if quest (0,1,$n) == 0
+  tell $n One of my best disciples chose the path of Evil. This wouldnt be a
+  tell $n big problem, it happens often; the fact is that he stole an ancient and
+  tell $n important book. But, wait, will you be so kind to HELP me?
+endif
+~
+>speech_prog help~
+if quest (0,1,$n) == 0
+  tell $n Thanx a lot! You can use any means to get the book back.
+  tell $n I know that he installed a secret laboratory in the eastern part
+  tell $n of the Great Plateau. Please find him and bring me the book!
+  mpmset $n quest 0 1 1
+endif
+~
+>speech_prog burned~
+if quest (1,1,$n) == 1
+  tell $n Oh. This is a big loss for our community.
+  tell $n At least it's not going to happen again. Anyhow..
+  tell $n Thanx for your help. I'll REWARD you.
+endif
+~
+>speech_prog reward~
+if quest (1,1,$n) == 1
+  tell $n In that book was kept the secret about how to encage the soul of
+  tell $n a dragon. I dont remember much about this process, so all I can do
+  tell $n for you now is to grant you access to a city which floats o the clouds
+  tell $n above you where wise and ancient dragons live.
+  tell $n Climb over the big rock on the Great Plateau and you'll find your way.
+  mpmset $n quest 3 1 1
+endif
+~
+|
+#31115
+mad alchemist~
+the mad Alchemist~
+An alchemist who looks very busy walks around here.~
+This man is quite young and is very busy in mixing strange components to make
+magic items. Better get away before something explodes.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_WIMPY|ACT_SMART
+AFF_DETECT_INVIS
+-500 S
+45 0 0 7d100+900 4d8+20
+20000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 99~
+if quest (0,1,$n) == 1
+  tell $n AH! My silly Master sent you to get back the book... Well It's too late!
+  tell $n I burned it after learning all its secrets. You will die for
+  tell $n your stupid choice!
+  mpmset $n quest 1 1 1
+  mpoload 31109
+  mpkill $n
+  cast 'energy drain' $n
+else
+  tell $n Who are you? Go away! Nobody invited you here!
+endif
+~
+|
+#31116
+vampire~
+the vampire~
+A Vampire comes out of the coffin and attacks.~
+This is a usual vampire dressed in black with the usual red inside and
+black outside cloak. Beware of his energy drain.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+AFF_FLYING|AFF_HUNT
+-1000 S
+45 0 0 7d100+1500 1d1+60
+10000 0
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+>hitprcnt_prog 40~
+if rand (50)
+  cast energy $n
+  mpecho The Vampire licks your blood on his teeth.
+endif
+~
+>hitprcnt_prog 60~
+if rand (50)
+  if quest (0,1,$i) == 0
+    mpecho The Vampire utters the ancient magical words 'otrelehcs'
+    mpecho A skeleton raises from the floor answering to the call of its master.
+    mpmload 31129
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+>hitprcnt_prog 80~
+if rand (50)
+  if quest (1,1,$i) == 0
+    mpecho The Vampire howls to call the help to his wolves.
+    mpecho ......uuuuuuUUUUUUUUUUuuuuuuuu.....
+    mpecho Two wolves arrive from the south to protect their master.
+    mpmload 31128
+    mpmload 31128
+    mpmset self quest 1 1 1
+  endif
+endif
+~
+>hitprcnt_prog 99~
+if rand (50)
+  if quest (2,1,$i) == 0
+    mpecho Three bats join the battle to defend their father.
+    mpmload 31127
+    mpmload 31127
+    mpmload 31127
+    mpmset self quest 2 1 1
+  endif
+endif
+~
+|
+#31117
+Raul warrior~
+Raul~
+An evil and mighty warrior wanders around here.~
+This warrior is heavily armored and bears on the shoulder a black sword
+which is almost long as his body. When he notices that you are looking at
+him he walks away.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_RACE
+AFF_HUNT|AFF_TONGUES
+-1000 S
+80 0 0 0d0+5000 1d80+33
+146000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 99~
+if quest (4,1,$n) == 1
+  tell $n So... You decided to the defend that silly population of dragons...
+  tell $n You'll pay the consequences of your stupid choice! DIE!
+  mpkill $n
+else
+  if rand (50)
+    mpecho $i stares at the sky looking for something.
+  else
+    grumble 
+    mpecho $i murmurs to himself 'Where the hell is the Dragons Hideout?'
+  endif
+endif
+~
+>speech_prog p dragons hideout~
+tell $n Yes! Somewhere around this Plateau there is a city of lawful dragons.
+tell $n I was sent here by my Lord to find their town and destroy their
+tell $n entire breed; I didnt imagine though the city was hidden so well.
+tell $n Go away now! I dont have time to waste!
+~
+>death_prog 99~
+if quest (4,1,$n) == 1
+  mpmset $n quest 5 1 1
+endif
+~
+|
+#31118
+becchino~
+Becchino~
+Becchino, the pallbearer, stands here.~
+Becchino is a tall man all dressed in black.
+~
+ACT_SENTINEL
+AFF_SANCTUARY
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31119
+filanda~
+Old Filanda~
+Old Filanda is here to sell you furniture.~
+Filanda is the ancient lady who ran this old shop in the last two centuries
+~
+ACT_SENTINEL
+AFF_SANCTUARY
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#31120
+armaiolo~
+Armaiolo~
+Armaiolo the weapon master is here.~
+Armaiolo is busy at the furnace. Examine him later if you want.
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31121
+dolci~
+Dolci~
+Dolci, the armour maker, is here.~
+Dolci is the twin of Armaiolo the weapon master. They look exactly the same.
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31122
+droghier~
+Droghier~
+Droghier, the general store keeper, is here.~
+Droghier is a nice fat man
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31123
+Gabriel~
+Gabriel~
+Gabriel, the mage, is selling magic stuff.~
+Gabriel is dressed like an arcane mage, but looks much more like a quack.
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31124
+carlo~
+Carlo~
+Carlo, the jeweller, is here.~
+Carlo is not very tall but he is a very nice, shiny and happy guy.
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31125
+miguelon~
+Miguelon~
+Miguelon, le chef, is here.~
+Miguelon is a friendly, big and tall man.
+~
+ACT_SENTINEL
+0
+1000 S
+95 0 0 1d1+9000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#31126
+spectral dragon~
+the Spectral Dragon~
+The Spectral Dragon looks angrily for some life to drain.~
+The dragon is made only of bones. The only sign that reveals intelligent
+live in him is the evil red light glowing deep inside the empty holes in the
+skull where once shined the bright eyes of the platiunum dragon.
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_SANCTUARY|AFF_PASS_DOOR
+-1000 S
+110 BODY_HIP BODY_MOUTH|BODY_EYE|BODY_WING|BODY_TAIL|BODY_CLAW 150d50+10000 17d14+60
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 99~
+mpoload 31131
+~
+|
+#31127
+bat~
+a bat~
+A bat flies around the room.~
+It's just a little bat.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_FLYING
+-1000 S
+20 BODY_WING BODY_MOUTH 1d2+400 7d5+0
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#31128
+wolf~
+a wolf~
+A wolf walks hungrily around the room.~
+It's just an hungry wolf.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_HUNT
+-1000 S
+30 BODY_LEG BODY_MOUTH|BODY_LEG 2d50+500 9d5+0
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#31129
+skeleton~
+a skeleton~
+A Skeleton walks around the room.~
+It is the skeleton of a man previously killed by the vampire.
+~
+ACT_AGGRESSIVE|ACT_UNDEAD
+AFF_HUNT
+-1000 S
+37 0 0 1d342+633 10d5+0
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#31130
+explotion~
+ethereal explotion~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+10000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho Something explodes near you.
+mpmadd $r currhp -30
+mpecho An adept is taken away crying in pain.
+~
+|
+#31131
+mob~
+mob~
+Mob~
+It's a mob.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+10000 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (3,1,$n) == 1
+  mpechoat $n You can now fly into the sky.
+else
+  mptransfer $n 31121
+  mpechoat A huge, shining dragon dives at full speed toward you.
+  mpechoat You run down to hide behind the big rock!
+  mpforce $n look
+endif
+~
+|
+#0
+
+
+#SHOPS
+31119 ITEM_TYPE_FURNITURE ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+31120 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+31121 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+31122 ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+31123 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL  120  50  7 23
+31124 ITEM_TYPE_TREASURE ITEM_TYPE_FURNITURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+31125 ITEM_TYPE_FOOD ITEM_TYPE_TREASURE ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  7 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#31101
+ruby gem~
+a ruby~
+A small ruby is on the floor.~
+This is the most beatiful ruby you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31101
+mpjunk i31108
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31102
+emerald gem~
+a emerald~
+A small emerald is on the floor.~
+This is the most beatiful emerald you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31102
+mpjunk i31108
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31103
+sapphire gem~
+a sapphire~
+A small sapphire is on the floor.~
+This is the most beatiful sapphire you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31103
+mpjunk i31008
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31104
+pearl gem~
+a pearl~
+A small pearl is on the floor.~
+This is the most beatiful pearl you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31104
+mpjunk i31008
+mpoload 31150
+mpechoaround self $ mounts a pearl onto the dragon rod.
+mpechoat self You mount the pearl onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31105
+jet gem~
+a jet~
+A small jet is on the floor.~
+This is the most beatiful jet you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31005
+mpjunk i31008
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31106
+diamond gem~
+a diamond~
+A small diamond is on the floor.~
+This is the most beatiful diamond you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31106
+mpjunk i31108
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31107
+amethist gem~
+a amethist~
+A small amethist is on the floor.~
+This is the most beatiful amethist you have ever seen.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 1
+P 1
+TRIG_COMMAND 100 mount
+OPROG_IF_HAS_OBJECT 31108 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31007
+mpjunk i31108
+mpoload 31150
+mpechoaround self $ mounts a gem onto the dragon rod.
+mpechoat self You mount the gem onto the dragon rod.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Where do you want to mount the gem onto?~
+#31108
+dragon rod~
+a dragon rod~
+A rod made of a small dragon hand is here.~
+The rod is divided in two part: the first is made of beatiful metal and
+the second is shaped like a hand of a dragon. A small object could easily
+fit into the open hand.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+5 20000 50
+A APPLY_AC -10 0
+#31109
+diary book~
+a diary~
+A small book lies on the floor.~
+As you read the diary you realize how many cruel experiments the mad
+alchemist conducted in his secret hideout. Towards the end of the diary you
+get interested in a part where he wrote of a very powerful item that can be
+obtained with the collaboration of a great dragon. The procedure involves
+the mixing of a potion using the blood of a vampire and making a dragon
+drink this potion. If a dragon was never a proper gem his soul would be
+caged into it giving the owner of this gem great powers.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+4 10 1
+#31110
+blood vial~
+a vial of vampire blood~
+A vial of blood is here.~
+It's simply a vial of vampire blood.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 1
+P 1
+TRIG_UNKNOWN 100 mix
+OPROG_OBJECT_QUEST_IF 0 1 = 1 5 2
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 31147 3 4
+P 3
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31147~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You mix the vampire blood with a potion of charm.~
+P 4
+TRIG_VOID
+OPROG_ECHO
+You are missing the proper reagent.~
+P 5
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 31148 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i31148
+mpjunk i31110
+mpoload 31149~
+P 6
+TRIG_VOID
+OPROG_ECHO
+You mix the potion of induction with the blood obtaining a potion of soul caging~
+P 7
+TRIG_VOID
+OPROG_ECHO
+You are missing the proper reagent.~
+#31111
+recall scroll~
+a scroll of recall~
+A scroll of recall lies on the floor.~
+It's simply a scroll of recall. You should recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+15 266 0 0 0 0 0 0
+1 100 18
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31112
+scroll detect hidden~
+a scroll of detect hidden~
+A scroll of detect hidden lies on the floor.~
+It's simply a scroll of detect hidden. You should recite it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+30 64 0 0 0 0 0 0
+1 2000 50
+S 1 'detect hidden'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31113
+potion detect hidden~
+a potion of detect hidden~
+A potion of detect hidden lies on the floor.~
+It's simply a potion of detect hidden. You should quaff it.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+30 64 0 0 0 0 0 0
+1 2000 50
+S 1 'detect hidden'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31114
+staff teleport~
+a staff of teleport~
+A staff lies on the floor.~
+It's a staff of teleport. You should brandish it.
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 10 10 240 0 0 0 0
+3 500000 90
+S 3 'teleport'
+#31115
+bread raisins~
+bread with raisins~
+A piece of bread with raisins lies here.~
+It's just a piece of bread with raisins.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+1 100 1
+#31116
+dragon sword~
+a dragon sword~
+A dragon sword lies here.~
+This very well crafted sword has a very sharp edge. The blade can be held
+grabbing a dried hand of a baby dragon.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 10 6 WEAPON_SLASH 0 0 0 0
+12 100000 65
+#31117
+dragon axe~
+a dragon axe~
+A dragon axe lies here.~
+This is a very sharp axe whose grip is made of a dragon hand.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 10 6 WEAPON_SLICE 0 0 0 0
+12 100000 65
+#31118
+dragon whip~
+a dragon whip~
+A dragon whip lies here.~
+This is a very long and bruising whip whose grip is made of a dragon hand.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 10 6 WEAPON_WHIP 0 0 0 0
+12 100000 65
+#31119
+dragon flail~
+a dragon flail~
+A dragon flail lies here.~
+This is a very wicked flail whose grip is made of a dragon hand.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 10 6 WEAPON_POUND 0 0 0 0
+12 100000 65
+#31120
+dragon knife~
+a dragon knife~
+A dragon knife lies here.~
+This is a very slim and sharp knife whose grip is made of a dragon hand.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 10 6 WEAPON_PIERCE 0 0 0 0
+12 100000 65
+#31121
+dragon mace~
+a dragon mace~
+A dragon mace lies here.~
+This is a very polished and crushing mace whose grip is made of a dragon hand.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 10 6 WEAPON_SLICE 0 0 0 0
+12 100000 65
+#31122
+lantern~
+a lantern~
+A lantern is on the floor.~
+It is a very simple oil lantern
+~
+ITEM_TYPE_LIGHT
+0
+ITEM_WEAR_TAKE
+0 0 30 0 0 0 0 0
+3 200 2
+#31123
+water flask~
+a water flask~
+A water flask lies on the floor.~
+It's simply a water flask
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+30 30 LIQ_WATER 0 0 0 0 0
+15 200 2
+#31124
+box~
+a box~
+A wooden box lies in the floor.~
+It's a strange box that looks very heavy but, as you pick it up, you find
+out that it is very light-weighted.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+900 CONT_CLOSEABLE -1 0 0 0 0 0
+15 50000 50
+#31125
+dragon guard shield~
+the shield of the dragon guard corps~
+A shield bearing the symbol of the dragon corpse lies here.~
+A very well crafted shield carrying the mighty symbol of the dragon guard
+corps.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+15 0 0 0 0 0 0 0
+10 200000 60
+#31126
+dragon guard armor~
+the armor of the dragon guard corps~
+An armor bearing the symbol of the dragon corpse lies here.~
+A very well crafted armor carrying the mighty symbol of the dragon guard
+corps.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+10 200000 60
+#31127
+dragon guard helmet~
+the helmet of the dragon guard corps~
+An helmet bearing the symbol of the dragon corpse lies here.~
+A very well crafted helmet carrying the mighty symbol of the dragon guard
+corps.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+10 200000 60
+#31128
+dragon guard leggings~
+the leggings of the dragon guard corps~
+A pair of leggings bearing the symbol of the dragon corpse lies here.~
+A very well crafted pair of leggings carrying the mighty symbol of the dragon
+guard corps.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+15 0 0 0 0 0 0 0
+10 200000 60
+#31129
+dragon guard sleeves~
+the sleeves of the dragon guard corps~
+A pair of sleeves bearing the symbol of the dragon corpse lies here.~
+A very well crafted pair of sleeves carrying the mighty symbol of the dragon
+guard corps.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+15 0 0 0 0 0 0 0
+10 200000 60
+#31130
+armchair~
+a comfortable armchair~
+A very comfortable looking armchair is on the floor here.~
+It is a very well shaped armchair covered with red velvet. Getting near to
+examine it better start hearing the sound of a flowing stream and the chants
+of the little cute birds which live in the happy forests. You feel forced to
+try the couch and sit into it; its anatomic shape makes you suddenly feel
+better and its fluffiness tells you that you should never stand up...
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+1 0 FURNITURE_SIT_IN 200 0 0 0 0
+100 10000000 1
+#31131
+dragon rod~
+a dragon rod~
+A rod made of a small dragon hand is here.~
+The rod is divided in two part: the first is made of beatiful metal and
+the second is shaped like a hand of a dragon. A beautiful glowing gem has
+been mounted into the open hand; you take a closer look at the gem and you are
+astonished as you see a smiling face into it... It must be the face of Fizzo
+the tickling guy who created this item for you.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+5 20000 91
+A APPLY_AC -20 0
+A APPLY_DAMROLL -10 0
+P 1
+TRIG_HIT 20
+OPROG_IF OIF_USER_POSITION = POS_FIGHTING 2 0
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 0
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 40
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 20
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE 10
+P 3
+TRIG_VOID
+OPROG_ECHO
+The dragon rod pulses benevolently. Warmth spreads through your body.~
+#31132
+coffin~
+the coffin~
+A coffin lies on the floor here.~
+It's a nice and rather antique coffin, the inside it is so fluffy that you
+would like to try to lie down into it. Thinking about it you decide not to
+do it... afterall there will be enough time to be comfortable into a coffin
+after we die.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+3 10 1
+#31134
+black leggings~
+black leggings~
+A black pair of leggings lies here.~
+A very well crafted pair of black leggings carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31135
+black helmet~
+black helmet~
+A black helmet lies here.~
+A very well crafted black helmet carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31136
+black suit armor~
+black suit of armor~
+A black suit of armor lies here.~
+A very well crafted black suit of armor carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31137
+black boots~
+black boots~
+A black pair of boots lies here.~
+A very well crafted pair of black boots carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31138
+black gloves~
+black gloves~
+A black pair of gloves lies here.~
+A very well crafted pair of black gloves carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31139
+black sleeves~
+black sleeves~
+A black pair of sleeves lies here.~
+A very well crafted pair of black sleeves carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31140
+black shield~
+black shield~
+A black pair of shield lies here.~
+A very well crafted black shield carrying the symbol of the Dragon
+Slayers Special Forces.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+15 0 0 0 0 0 0 0
+10 200000 70
+A APPLY_DAMROLL 6 0
+#31141
+dragon slayer~
+the Dragon Slayer~
+(Black Aura) A Kris lies on the floor here.~
+It's a very sharp kris. Its edge is corrugated to inflict better wounds
+to enemies. The kris transmits you an evil feeling and makes you want to
+find and slay some dragons.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 9 9 WEAPON_PIERCE 0 0 0 0
+25 1000000 80
+A APPLY_DAMROLL 4 0
+A APPLY_SAVING_SPELL 10 0
+#31142
+maccheroni ragu~
+maccheroni al ragu~
+A dish of maccheroni al ragu is on the floor.~
+On the dish there is a huge portion of maccheroni with an avalanche of
+ragu sausage on top of it. They look at least delicious.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 100 10
+#31143
+gnocchi gorgonzola~
+gnocchi al gorgonzola~
+A dish of gnocchi al gorgonzola is on the floor.~
+The dish contains a big portion of gnocchi with a strange sausage on it:
+the sausage is with with greenish spots in it. As you taste it you realize
+that it is made of melted gorgonzola a particular cheese made in another
+dimension in a country called Italy. This thing is really tasty.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+5 150 10
+#31144
+spaghetti pomodoro~
+spagheti al pomodoro~
+A dish of spaghetti al pomodoro is on the floor.~
+This is the most typical Italian food... the portion is quite big and
+you dont need particular descriptions to realize what it is; spaghetti with
+tomato sauce on top of it.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 60 10
+#31145
+lasagne~
+lasagne~
+A dish with a portion of lasagne is on the floor.~
+The dish contains a big portion of the most inviting lasagne you have ever
+seen; there are tons of parmisan cheese and ragu anon top of it and it is
+still snoking since it has been just taken out of the oven.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+5 200 10
+#31146
+risotto funghi~
+risotto ai funghi~
+A dish of risotto ai funghi is on the floor.~
+The rice is yellow since the cook put into it a bit of saffron... you notice
+that there are small pieces of mushrooms into the rice; anyhow the food
+smells really good you should eat it all.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+3 150 10
+#31147
+charm potion~
+potion of charm~
+A potion of charm lies on the floor here.~
+It's just a potion of charm.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+30 39 0 0 0 0 0 0
+2 100000 90
+S 1 'charm person'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31148
+induction potion~
+potion of induction~
+A potion of induction lies on the floor here.~
+It's a potion of induction.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+30 55 0 0 0 0 0 0
+2 100000 90
+S 1 'cure light'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31149
+soul cage potion~
+a multicolored potion~
+A strange multicolored potion lies on the floor here.~
+The Potion is glowing and multicolored, you'd better not to try it.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+4 0 0 0 0 0 0 0
+2 1000000 10
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31150
+dragon rod~
+a dragon rod~
+A rod made of a small dragon hand with a gem in it is here.~
+The rod is divided in two part: the first is made of beatiful metal and
+the second is shaped like a hand of a dragon. A small glittering gem is
+mounted into the open hand.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 20000 50
+#31152
+fountain~
+a fountain~
+A dancing fountain lies on the floor here.~
+It's a beatiful fountain.
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 47
+#31153
+pit~
+the Well of Souls~
+A deep well lies in the middle of the hall.~
+The well is little but very deep, you hear souls crying in pain at the bottom
+of the pit.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+1000 CONT_CLOSEABLE 0 0 0 0 0 0
+1 10 67
+#31154
+scroll enchant weapon~
+a scroll of enchant weapon~
+A scroll lies on the floor here.~
+It's just a scroll of enchant weapon.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+91 84 0 0 0 0 0 0
+5 5000000 91
+S 1 'enchant weapon'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#31155
+gold pile~
+a pile of gold coins~
+A big pile of gold coins lies on the floor.~
+It's just a pile of gold coins.
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+200 0 0 0 0 0 0 0
+20 200 50
+#31156
+gold pile~
+a pile of gold coins~
+A huge pile of gold coins lies on the floor.~
+It's just a pile of gold coins.
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+300 0 0 0 0 0 0 0
+30 300 60
+#31157
+gold pile~
+a pile of gold coins~
+A gigantic pile of gold coins lies on the floor.~
+It's just a pile of gold coins.
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+400 0 0 0 0 0 0 0
+100 400 80
+#31158
+scroll traveller~
+a scroll of the traveller~
+A scroll lies on the floor here.~
+It's just a simple scroll
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+30 95 12 0 0 0 0 0
+2 50000 80
+S 1 'ethereal travel'
+S 2 'astral projection'
+S 3 '-1 slot'
+#31160
+golden band~
+a golden band~
+A shiny, polished and smooth golden band lies here.~
+It's a simple band made of gold.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+20 0 0 0 0 0 0 0
+10 200000 90
+A APPLY_HITROLL -12 0
+A APPLY_DEX 4 0
+#31161
+golden band~
+a golden band~
+A shiny, polished and smooth golden band lies here.~
+It's a simple band made of gold with a little mark on the inside.
+As you look closer you read:
+Fizzo made this.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_WRIST
+20 0 0 0 0 0 0 0
+10 200000 90
+A APPLY_HITROLL -12 0
+A APPLY_DEX 4 0
+#0
+
+
+#ROOMS
+#31100
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#31101
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31102
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31106
+#31102
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31103
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31105
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31101
+#31103
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31104
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31102
+#31104
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31109
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31105
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31103
+#31105
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31104
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31108
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31106
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31102
+#31106
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+is chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31105
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31107
+DDIR_SOUTH
+~
+~
+0 -1 17385
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31101
+#31107
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31108
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31112
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31106
+#31108
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31109
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31111
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31107
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31105
+#31109
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe. To the north you see a huge rock raising towards the sky.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a big rock.~
+~
+0 -1 31121
+DDIR_EAST
+You see a plateau.~
+~
+0 -1 31110
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31108
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31104
+#31110
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe. You see footprints going east.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see a dark forest in the distance.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 0 31118
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31111
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31109
+#31111
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31110
+DDIR_EAST
+You see A path turns to the south.~
+~
+0 -1 31115
+DDIR_SOUTH
+You see a plateau.~
+~
+0 -1 31112
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31108
+#31112
+The Plateau~
+You are standing on a wide and open plateau. There are no trees so you can
+see far away; actually nothing that you can see is moving. There are only a
+few big rocks here and there and some bushes moved by a slight breeze. The air
+chilly since you are walking way above the sea level; you also find it hard
+to breathe.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a plateau.~
+~
+0 -1 31111
+DDIR_WEST
+You see a plateau.~
+~
+0 -1 31107
+DDIR_DOWN
+You see a stairway going down.~
+stone~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 31113
+#31113
+The Secret Stairway~
+A stairway is connecting the secret entrance with a wooden door. The place
+is very dark and there are no torches or lanterns to make some light. Strange
+sounds come from behind the door to the west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a laboratory.~
+wooden door~
+EX_ISDOOR|EX_CLOSED 0 31114
+DDIR_UP
+You see the sky.~
+stone~
+EX_ISDOOR|EX_CLOSED 0 31112
+#31114
+The Secret Laboratory~
+This big natural cavern has been used as a laboratory for the most weird and
+cruel experiments. The walls are full of shelves where many books, potions
+glass containers and various magical reagents stand in an oreder that you
+cant comprehend. In the back of the cavern a couple of cages are keeping the
+corpses of strange crossovers of different animal races.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the secret stairway.~
+wooden door~
+EX_ISDOOR|EX_CLOSED 0 31113
+#31115
+A Turn in a Small Path~
+The path you chose to follow now turns to the south. There you can see the
+door of what looks like a monastery. To the west you'll be back into the
+plateau.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+You see the entrance to a building.~
+~
+0 0 31116
+DDIR_WEST
+You see the plateau.~
+~
+0 0 31111
+#31116
+Before the Building~
+You are standing in fornt of a rather big building. On the left of a little
+door is planted a brass plaque. The walls of this building are made of solid
+rock and are so solid that even a nuclear explosion would scratch them.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see a path turning west.~
+~
+0 0 31115
+DDIR_EAST
+You see the Alchemists' Shelter.~
+door~
+EX_ISDOOR|EX_CLOSED 0 31117
+E
+plaque~
+THE ALCHEMISTS' SHELTER
+BEWARE OF EXPLOSIONS!
+~
+#31117
+Alchemists' Shelter~
+You are in the middle of the main hall of this shelter for alchemists. There
+are many tables where the disciples sit to study or to experiment new weird
+and hopefully uesful magic items. You do not feel very safe in here, you have
+the sensation that something could easily explodes since many of the people
+here have huge scars caused by fire on their bodies.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the entrance to the shelter.~
+door~
+EX_ISDOOR|EX_CLOSED 0 31116
+#31118
+Following the Footprints~
+As you follow the footprints you spotted on the plateau, you get near a
+dense dark forest which lies to the east. A thick fog floats over and into the
+trees, but as you watch more carefully you notice an old ruined tower of a
+castle right in the middle of the woods.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see a dark foggy forest.~
+~
+0 0 31119
+DDIR_WEST
+You see the plateau.~
+~
+0 -1 31110
+#31119
+The Dark and Misty Forest~
+As you try to walk through this dense forest you find the gates of an old
+castle. Far in the forest you can hear many wolves howling; you'd better
+enter the castle before the wolves find you.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see the castle.~
+gate~
+EX_ISDOOR|EX_CLOSED 0 31120
+DDIR_WEST
+Too dark to tell.~
+~
+0 -1 31118
+#31120
+The Old Castle~
+This castle is very old and not very big. Obviously nobody has been living
+for a long time. Thick dust lies on everything which has an horizontal
+surface; actually nothing here seems to be valuable, probably all the worthy
+things were stolen centuries ago.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a dark foggy forest.~
+gate~
+EX_ISDOOR|EX_CLOSED 0 31119
+#31121
+A Huge Rock~
+Your path to the north is blocked by this huge rock. It is impossible for
+you to climb over it.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+You see the plateau.~
+~
+0 0 31109
+DDIR_UP
+You see the top of the rock.~
+~
+0 0 31122
+#31122
+In the Sky~
+You float over the huge rock. From here you can see all the plateau from where
+you took over. A smal misty forest is not far away to the east. You can also
+spot a simple building to the southeast. Above you there is only the blue and
+endless sky.
+~
+0 0 SECT_AIR
+DDIR_UP
+You see the sky.~
+~
+0 0 31123
+DDIR_DOWN
+You see a big rock.~
+~
+0 0 31121
+#31123
+Flying High in the Sky~
+You are now flying higher above the plateau. From here you can see far away.
+You spot many little villages, a couple of big towns and can also see the
+northen ocean. Above you a huge white fluffy cloud covers the light of the
+sun. You notice creatures flying around.
+~
+0 0 SECT_AIR
+DDIR_UP
+You see a big white cloud.~
+~
+0 0 31124
+DDIR_DOWN
+You see the plateau.~
+~
+0 0 31122
+#31124
+Into the Cloud~
+You are now inside the white fluffy cloud you noticed before; It's so dense to
+seem solid. You cant see anything.
+~
+0 ROOM_DARK SECT_AIR
+DDIR_UP
+The cloud is too dense.~
+~
+0 0 31125
+DDIR_DOWN
+The cloud is too dense.~
+~
+0 0 31123
+#31125
+In the Middle of a Flying City~
+You find yourself in the middle of a city square. City roads lead in all
+directions. Above you is floating a smaller cloud than the one on which the
+city lies upon. Many flying craetures move around the sky.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31138
+DDIR_EAST
+You see a road.~
+~
+0 0 31126
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31130
+DDIR_WEST
+You see a road.~
+~
+0 0 31134
+DDIR_UP
+You see a cloud.~
+~
+0 0 31174
+DDIR_DOWN
+You see the cloud which keeps the city from falling on the ground.~
+~
+0 0 31124
+#31126
+Eastern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31127
+DDIR_WEST
+You see the central square of the city.~
+~
+0 0 31125
+#31127
+Eastern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31153
+DDIR_EAST
+You see a road.~
+~
+0 0 31128
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31142
+DDIR_WEST
+You see a road.~
+~
+0 0 31126
+#31128
+Eastern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31129
+DDIR_WEST
+You see a road.~
+~
+0 0 31127
+#31129
+The End of Eastern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31156
+DDIR_SOUTH
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31154
+DDIR_WEST
+You see a road.~
+~
+0 0 31128
+#31130
+Southern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the central square of this city.~
+~
+0 0 31125
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31132
+#31131
+Southern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31130
+DDIR_EAST
+You see a road.~
+~
+0 0 31144
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31132
+DDIR_WEST
+You see a road.~
+~
+0 0 31145
+#31132
+Southern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31131
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31133
+#31133
+The End of Southern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31132
+DDIR_EAST
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31158
+DDIR_WEST
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31160
+#31134
+Western Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the central square of this city.~
+~
+0 0 31125
+DDIR_WEST
+You see a road.~
+~
+0 0 31135
+#31135
+Western Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31148
+DDIR_EAST
+You see a road.~
+~
+0 0 31134
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31147
+DDIR_WEST
+You see a road.~
+~
+0 0 31136
+#31136
+Western Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31135
+DDIR_WEST
+You see a road.~
+~
+0 0 31137
+#31137
+The End of Western Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31164
+DDIR_EAST
+You see a road.~
+~
+0 0 31136
+DDIR_SOUTH
+You see a guild entrance.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31162
+#31138
+Northern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31139
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31125
+#31139
+Northern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31140
+DDIR_EAST
+You see a road.~
+~
+0 0 31151
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31138
+DDIR_WEST
+You see a road.~
+~
+0 0 31150
+#31140
+Northern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31141
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31139
+#31141
+The End of Northern Boulevard~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a guild entrance.~
+~
+0 0 31191
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31140
+#31142
+Eastern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31127
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31143
+#31143
+Eastern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31142
+DDIR_EAST
+You see a shop.~
+~
+0 0 31166
+DDIR_SOUTH
+You see a shop.~
+~
+0 0 31167
+DDIR_WEST
+You see a road.~
+~
+0 0 31144
+#31144
+Southern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31143
+DDIR_WEST
+You see a road.~
+~
+0 0 31131
+#31145
+Southern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31131
+DDIR_WEST
+You see a road.~
+~
+0 0 31146
+#31146
+Southern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31147
+DDIR_EAST
+You see a road.~
+~
+0 0 31145
+DDIR_SOUTH
+You see a shop.~
+~
+0 0 31168
+DDIR_WEST
+You see a shop.~
+~
+0 0 31169
+#31147
+Western Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31135
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31146
+#31148
+Western Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31149
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31135
+#31149
+Northern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a shop.~
+~
+0 0 31171
+DDIR_EAST
+You see a road.~
+~
+0 0 31150
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31148
+DDIR_WEST
+You see a shop.~
+~
+0 0 31170
+#31150
+Northern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31139
+DDIR_WEST
+You see a road.~
+~
+0 0 31149
+#31151
+Northern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a road.~
+~
+0 0 31152
+DDIR_WEST
+You see a road.~
+~
+0 0 31139
+#31152
+Northern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a shop.~
+~
+0 0 31172
+DDIR_EAST
+You see a shop.~
+~
+0 0 31173
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31153
+DDIR_WEST
+You see a road.~
+~
+0 0 31151
+#31153
+Eastern Avenue~
+You are on a road of this fair city. Little buildings surround you and some
+nice people smile at you when you walk by them, others just seem surprised
+of the presense of strangers here. Over your head many little dargons fly
+freely in the sky; you also notice that some of them are really big.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a road.~
+~
+0 0 31152
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31127
+#31154
+Hallway to Assassins Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the assassin's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31129
+DDIR_SOUTH
+You see the assassins practice room.~
+~
+0 0 31155
+#31155
+Ninja Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_NIN SECT_INSIDE
+DDIR_NORTH
+You see the hallway before th practice room.~
+~
+0 0 31154
+#31156
+Hallway to Marauders Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the rogue's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the rogues practice room.~
+~
+0 0 31157
+DDIR_SOUTH
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31129
+#31157
+Marauders Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_MAR SECT_INSIDE
+DDIR_SOUTH
+You see the hallway before the practice room.~
+~
+0 0 31156
+#31158
+Hallway to Shamans Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the monk's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see monks practice room.~
+~
+0 0 31159
+DDIR_WEST
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31132
+#31159
+Shamans Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_SHA SECT_INSIDE
+DDIR_WEST
+You see the hallway before the practice room.~
+~
+0 0 31158
+#31160
+Hallway to Druids Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the elementalist's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31132
+DDIR_WEST
+You see the elementalist practice room.~
+~
+0 0 31161
+#31161
+Druids Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_DRU SECT_INSIDE
+DDIR_EAST
+You see the hallway before the practice room.~
+~
+0 0 31160
+#31162
+Hallway to Warlocks Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the necromancer's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31137
+DDIR_SOUTH
+You see the necromancer practice room.~
+~
+0 0 31163
+#31163
+Warlocks Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_WLC SECT_INSIDE
+DDIR_NORTH
+You see the hallway before the practice room.~
+~
+0 0 31162
+#31164
+Hallway to Fighter Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the ranger's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the fighters practice room.~
+~
+0 0 31165
+DDIR_SOUTH
+You see a road.~
+portal~
+EX_ISDOOR|EX_CLOSED 0 31137
+#31165
+Fighters Practice Room~
+This room is not very big; actually you'd say that it has been built in human
+size. In fact you cant believe your eyes when you realize that the guildmaster
+is human. There are paintings on the walls displaying a guildmaster teaching
+the most important skills to a disciple.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_WAR|ROOM_ALLOW_GLA SECT_INSIDE
+DDIR_SOUTH
+You see the hallway before the practice room.~
+~
+0 0 31164
+#31166
+Gabriel's Magic shop~
+This is a small shop which sells magical items. The shopkeeper does not look
+very trustworthy, so, before buying anything, be sure to know that what you
+are getting is what you really wanted.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a road.~
+~
+0 0 31143
+#31167
+Morgue~
+This doesnt really look like an happy shop. It is not very well lighted and
+some people are here srying in sorrow for the loss of a friend or relative.
+On the wall several kinds of different coffins remind you that you are not
+immortal.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_NORTH
+You see a road.~
+~
+0 0 31143
+#31168
+Weapon Shop~
+This shop seems to be very well run. The room is the bigger you ever saw used
+for a shop; the furnace where weapons are forged is in the back of the room.
+Many employees are here to serve you and to satisfy all your needs; feel free
+to take a look to all the nice items hanging on the wall.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a road.~
+~
+0 0 31146
+#31169
+Armour shop~
+This shop seems to be very well run. The room is the bigger you ever saw used
+for a shop; the furnace where alll the pieces of armor are forged is in the
+back of the room. Many employees are here to serve you and to satisfy all your
+needs; feel free to take a look to all the nice items hanging on the wall.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a road.~
+~
+0 0 31146
+#31170
+The Italian Restaurant~
+This is a rather characteristic local. There are several tables and on some
+of them is sitting someone who is enjoying Fizzo's extremely well cooked
+dishes and specialties... Everyone in the Restaurant is happy to be in here
+and feel happy too since you are surrounded by so many nice people.
+A big and mean looking man comes towards with a suspicious grin.
+As he gets near he says 'LEAVE YOUR WEAPONS OUTSIDE THE RESTAURANT...
+WE DONT WANT TROUBLES HERE... ;)'
+As he said so he smiles and walks away. You think that it would be a
+respectful act to this friendly people to go outside and drop weapons and
+you do so...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a road.~
+~
+0 -1 31149
+#31171
+Carlo's Jewelry~
+This is a little shop run be an happy young guy. The room is quite small but
+it is fully of shelves and little tables completely covered by precious items
+of various dimensions; rings, earrings, necklaces, bracelets, colliers,
+everething lies here in perfect order and is so polished the light comes
+into the room only by a little window on the roof and is reflected by all the
+gold in here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a Road.~
+~
+0 0 31149
+#31172
+Old Filanda Furniture Shop~
+This wide hallway is completely full of futniture of all kinds; beds, couches,
+armchairs, closets, desks and tables completely cover the floor leaving a few
+walkways. Probably if you take a closer look to anything you will find that
+could easily fit into your castle furniture.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31152
+#31173
+The General Store~
+This is nothing more than a general store where most of the items that are on
+sale are completely worthless. But maybe, you never know, you could find
+something here as well.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a road.~
+~
+0 0 31152
+#31174
+Little Square before the Golden Castle~
+WOW! You cant believe your eyes. You are standing completely amazed in front
+of this beautiful building which looks built in pure gold. The roof reflects
+the bright light of sun and the air is so pure at this height that you feel
+better at every breath you take. The portal of the castle is made of gold and
+is all intricated showing the history of the great city. Down this square you
+see the main square of the city.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+You see the main hall of the castle.~
+Golden Portal~
+EX_ISDOOR|EX_CLOSED 0 31176
+DDIR_DOWN
+You see the main square of the town.~
+~
+0 0 31125
+#31175
+Under a Castle Tower~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+Over your head there is an high tower used to spot enemies far in the distance.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see an hallway of the castle.~
+~
+0 0 31180
+DDIR_SOUTH
+You see the entrance to the castle.~
+~
+0 0 31176
+#31176
+Inside the Golden Castle~
+As you enter the main hall of the castle you are stunned by the light and the
+beauty the reign inside the castle; a red carpet leads you to the west.
+Many windows made of colored glass let the sunlight in transforming it in
+different colors. Far ahead of you you see a big throne.
+Back to the west is the entrance to the castle.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway of the castle.~
+~
+0 0 31175
+DDIR_EAST
+You see the main hallway of the castle.~
+~
+0 0 31179
+DDIR_SOUTH
+You see a hallway of the castle.~
+~
+0 0 31177
+DDIR_WEST
+You see a little square.~
+Golden Portal~
+EX_ISDOOR|EX_CLOSED 0 31174
+#31177
+Under a Castle Tower~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+Over your head there is an high tower used to spot enemies far in the distance.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the entrance to the castle.~
+~
+0 0 31176
+DDIR_EAST
+You see a hallway of the castle.~
+~
+0 0 31178
+DDIR_UP
+You see a tower of the castle.~
+~
+0 0 31188
+#31178
+A Hallway in the Golden Castle~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main hallway of the castle.~
+~
+0 0 31179
+DDIR_EAST
+You see a hallway of the castle.~
+~
+0 0 31183
+DDIR_WEST
+You see a hallway of the castle.~
+~
+0 0 31177
+#31179
+The Main Hallway of the Golden Castle~
+As you walk along the main hall of the castle, putting your dirty feet over a
+wonderful carpet made of red silk, you are stunned by the light and the
+beauty the reign inside the castle. Many windows made of colored glass let
+the sunlight in transforming it in different colors. Far ahead of you you see
+a big throne. Back to the west is the entrance to the castle.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway of the castle.~
+~
+0 0 31180
+DDIR_EAST
+You see the main hallway of the castle.~
+~
+0 0 31182
+DDIR_SOUTH
+You see the hallway of the castle.~
+~
+0 0 31178
+DDIR_WEST
+You see the entrance of the castle.~
+~
+0 0 31176
+#31180
+A Hallway in the Golden Castle~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hallway of the castle.~
+~
+0 0 31181
+DDIR_SOUTH
+You see the main hallway of the castle.~
+~
+0 0 31179
+DDIR_WEST
+You a hallway of the castle.~
+~
+0 0 31175
+#31181
+A Hallway in the Golden Castle~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hallway of the castle.~
+~
+0 0 31186
+DDIR_SOUTH
+You see the main hallway of the castle.~
+~
+0 0 31182
+DDIR_WEST
+You see a hallway of the castle.~
+~
+0 0 31180
+#31182
+The Main Hallway of the Golden Castle~
+As you walk along the main hall of the castle, putting your dirty feet over a
+wonderful carpet made of red silk, you are stunned by the light and the
+beauty the reign inside the castle. Many windows made of colored glass let
+the sunlight in transforming it in different colors. Ahead to the east you see
+a big throne. Far back to the west is the entrance to the castle.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway of the castle.~
+~
+0 0 31181
+DDIR_EAST
+You see the throne stage.~
+~
+0 0 31185
+DDIR_SOUTH
+You see a hallway of the castle.~
+~
+0 0 31183
+DDIR_WEST
+You see the main hallway of the castle.~
+~
+0 0 31179
+#31183
+A Hallway in the Golden Castle~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main hallway of the castle.~
+~
+0 0 31182
+DDIR_EAST
+You see a hallway of the castle.~
+~
+0 0 31184
+DDIR_WEST
+You see a hallway of the castle.~
+~
+0 0 31178
+#31184
+Under a Castle Tower~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+Over your head there is an high tower used to spot enemies far in the distance.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the throne stage.~
+~
+0 0 31185
+DDIR_WEST
+You see a hallway of the castle.~
+~
+0 0 31183
+DDIR_UP
+You see a tower of the castle.~
+~
+0 0 31187
+#31185
+The Throne Stage~
+You walk on a couple of steps and find yourself on a large stage in the middle
+of which stands a big throne surrounded by many kinds of trophys. The Throne
+made of solid granite and has the size of a real giant but you wonder how comes
+that you see no sign of big creatures around here. Everything is tied up and
+the red carpet on which walk is perfectly clean.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway of the castle.~
+~
+0 0 31186
+DDIR_EAST
+You see a large simple hall.~
+throne~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF 0 31193
+DDIR_SOUTH
+You see a hallway of the castle.~
+~
+0 0 31184
+DDIR_WEST
+You see the main hallway of the castle.~
+~
+0 0 31182
+#31186
+Under a Castle Tower~
+You are at the end of a secondary hallway of the Golden Castle. You feel better
+when you realize that the inside walls of the castle are not made of gold.
+Over your head there is an high tower used to spot enemies far in the distance.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the throne stage.~
+~
+0 0 31185
+DDIR_WEST
+You see a hallway of the castle.~
+~
+0 0 31181
+DDIR_UP
+You see a tower of the castle.~
+~
+0 0 31190
+#31187
+Atop the Southeast Tower of the Golden Castle~
+There is not much room on top of the tower. From here can see the whole world
+of Mortal Realms. Midgaard, Chakkor, New Chakkor, Mist city, Pompeii, Elven
+City, City of Entropy look really close to each other, but you know that the
+roads that connect them are really long; you can also spot the feared Lost
+Citadel in the distance to the east. The sight is so beatiful that you could
+stay here more an entire day completely lost in this beatiful show of
+creativity.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You a hallway of the castle.~
+~
+0 0 31184
+#31188
+Atop the Southwest Tower of the Golden Castle~
+There is not much room on top of the tower. From here can see the whole world
+of Mortal Realms. Midgaard, Chakkor, New Chakkor, Mist city, Pompeii, Elven
+City, City of Entropy look really close to each other, but you know that the
+roads that connect them are really long; you can also spot the feared Lost
+Citadel in the distance to the east. The sight is so beatiful that you could
+stay here more an entire day completely lost in this beatiful show of
+creativity.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You a hallway of the castle.~
+~
+0 0 31177
+#31189
+Atop the Northwest Tower of the Golden Castle~
+There is not much room on top of the tower. From here can see the whole world
+of Mortal Realms. Midgaard, Chakkor, New Chakkor, Mist city, Pompeii, Elven
+City, City of Entropy look really close to each other, but you know that the
+roads that connect them are really long; you can also spot the feared Lost
+Citadel in the distance to the east. The sight is so beatiful that you could
+stay here more an entire day completely lost in this beatiful show of
+creativity.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You a hallway of the castle.~
+~
+0 0 31175
+#31190
+Atop the Northeast Tower of the Golden Castle~
+There is not much room on top of the tower. From here can see the whole world
+of Mortal Realms. Midgaard, Chakkor, New Chakkor, Mist city, Pompeii, Elven
+City, City of Entropy look really close to each other, but you know that the
+roads that connect them are really long; you can also spot the feared Lost
+Citadel in the distance to the east. The sight is so beatiful that you could
+stay here more an entire day completely lost in this beatiful show of
+creativity.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You a hallway of the castle.~
+~
+0 0 31186
+#31191
+Hallway to Sorcerers Practice Room~
+It's a big and large round hallway. A gallery limited by wonderful pink
+marble columns, follows the wall; as you get a closer look you see that it is
+completely covered by paintings showing big fights between dragons and some
+of the greatest dragons who chose to be part of the illusionist's guild. The
+bright light of the sun warms this big room emtering through a perfectly
+constructed glass vault.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the illusionists practice room.~
+~
+0 0 31192
+DDIR_SOUTH
+You see a road.~
+~
+0 0 31141
+#31192
+The Sorcerers Practice Room~
+The room is actually totally burned by failed spells casted by newbie
+illusionists. You wonder how the dome is still standing on these damaged
+colums. At the center of the room stands your guildmaster envoloped by a force
+shield to protect himself from his adepts.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALLOW_SOR SECT_INSIDE
+DDIR_SOUTH
+You see the entrance to the guild.~
+~
+0 0 31191
+#31193
+The Dome over the Well of Souls~
+You walked into this large hall through the secret passage into the throne.
+In the middle of it there is a small well from where you can hear the cries
+of many soul who havent found peace after their death yet. This place makes
+feel uncomfortable...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the Throne stage.~
+~
+0 0 31185
+#31199
+room~
+Room
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#0
+
+
+#RESETS
+M 31101 100 31185
+E 31160   2 WEAR_WRIST_L
+E 31161   2 WEAR_WRIST_R
+G 31157  10 0
+M 31102 100 31154
+G 31155  10 0
+M 31103 100 31191
+G 31156  10 0
+M 31104 100 31156
+G 31155  10 0
+M 31105 100 31158
+G 31155  10 0
+M 31106 100 31160
+G 31155  10 0
+M 31107 100 31162
+G 31155  10 0
+M 31108 100 31164
+G 31155  10 0
+M 31109 100 31157
+M 31109 100 31155
+M 31109 100 31159
+M 31109 100 31161
+M 31109 100 31163
+M 31109 100 31165
+M 31109 100 31192
+M 31110 100 31126
+M 31110 100 31127
+M 31110 100 31128
+M 31110 100 31130
+M 31110 100 31131
+M 31110 100 31132
+M 31110 100 31134
+M 31110 100 31135
+M 31110 100 31136
+M 31110 100 31138
+M 31110 100 31139
+M 31110 100 31140
+M 31110 100 31142
+M 31110 100 31143
+M 31110 100 31144
+M 31110 100 31145
+M 31110 100 31146
+M 31110 100 31147
+M 31110 100 31148
+M 31110 100 31149
+M 31110 100 31150
+M 31110 100 31151
+M 31110 100 31152
+M 31110 100 31153
+M 31111 100 31127
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31129
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31131
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31133
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31135
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31137
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31139
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31111 100 31141
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31174
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31174
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31175
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31176
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31177
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31179
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31182
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31184
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31186
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31112 100 31176
+E 31125  50 WEAR_SHIELD
+E 31126  50 WEAR_BODY
+E 31127  50 WEAR_HEAD
+E 31128  50 WEAR_LEGS
+E 31129  50 WEAR_ARMS
+M 31113 100 31187
+M 31113 100 31188
+M 31113 100 31189
+M 31113 100 31190
+M 31114 100 31117
+M 31115 100 31114
+M 31116 100 31120
+G 31110  50 0
+M 31117 100 31104
+E 31134   5 WEAR_LEGS
+E 31135   5 WEAR_HEAD
+E 31136   5 WEAR_BODY
+E 31137   5 WEAR_FEET
+E 31138   5 WEAR_HANDS
+E 31139   5 WEAR_ARMS
+E 31140   5 WEAR_SHIELD
+E 31141   5 WEAR_WIELD
+M 31118 100 31167
+M 31119 100 31172
+G 31130 999 0
+M 31120 100 31168
+G 31116 999 0
+G 31117 999 0
+G 31118 999 0
+G 31119 999 0
+G 31120 999 0
+G 31121 999 0
+M 31121 100 31169
+G 31125 999 0
+G 31126 999 0
+G 31127 999 0
+G 31128 999 0
+G 31129 999 0
+M 31122 100 31173
+G 31108 999 0
+G 31123 999 0
+G 31124 999 0
+G 31122 999 0
+M 31123 100 31166
+G 31111 999 0
+G 31112 999 0
+G 31113 999 0
+G 31114  10 0
+G 31147 999 0
+G 31148 999 0
+G 31154 999 0
+G 31158 999 0
+M 31124 100 31171
+G 31101 999 0
+G 31102 999 0
+G 31103 999 0
+G 31104 999 0
+G 31105 999 0
+G 31106 999 0
+G 31107 999 0
+M 31125 100 31170
+G 31115 999 0
+G 31143 999 0
+G 31144 999 0
+G 31145 999 0
+G 31146 999 0
+G 31142 999 0
+M 31130 100 31117
+M 31131 100 31122
+O 31152   1 31125
+O 31153   1 31193
+D 31119 DIR_NORTH DOOR_CLOSED
+D 31120 DIR_SOUTH DOOR_CLOSED
+D 31116 DIR_EAST  DOOR_CLOSED
+D 31117 DIR_WEST  DOOR_CLOSED
+D 31112 DIR_DOWN  DOOR_CLOSED
+D 31113 DIR_UP    DOOR_CLOSED
+D 31113 DIR_WEST  DOOR_CLOSED
+D 31114 DIR_EAST  DOOR_CLOSED
+D 31129 DIR_NORTH DOOR_CLOSED
+D 31129 DIR_SOUTH DOOR_CLOSED
+D 31156 DIR_SOUTH DOOR_CLOSED
+D 31154 DIR_NORTH DOOR_CLOSED
+D 31133 DIR_EAST  DOOR_CLOSED
+D 31133 DIR_WEST  DOOR_CLOSED
+D 31158 DIR_WEST  DOOR_CLOSED
+D 31160 DIR_EAST  DOOR_CLOSED
+D 31137 DIR_NORTH DOOR_CLOSED
+D 31137 DIR_SOUTH DOOR_CLOSED
+D 31164 DIR_SOUTH DOOR_CLOSED
+D 31162 DIR_NORTH DOOR_CLOSED
+D 31174 DIR_EAST  DOOR_CLOSED
+D 31176 DIR_WEST  DOOR_CLOSED
+D 31185 DIR_EAST  DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,2855 @@
+#AREA Savant Village~
+#AUTHORS Emperor~
+#VERSION 4
+#RANGES 40 60 1 95
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+-1 SAVANT 'SAVANT VILLAGE'~
+{128}                               Savant Village
+{308}
+This area was created by Emperor in 1997. It is the mystical (and
+protective) home of a cabal of scholars and their spiritual leader, the
+Great Savant. They follow their studies in a devout, sometimes crazed
+fashion. If you're interested, the word is that they are recruiting. Only
+one way to find out...
+{148}
+Created by Emperor, 1997
+~
+
+0 $~
+
+
+#MOBILES
+#801
+ethereal gatekeeper~
+the ethereal gatekeeper~
+The ethereal gatekeeper is here.~
+This mob should be invisible to you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_TONGUES|AFF_ETHEREAL
+0 S
+90 BODY_HEAD BODY_LEG 1d10+10000 1d10+100
+2510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog ojprujco~
+connect south 806
+mpecho The heavy wooden portcullis begins to rise.
+mpecho The metal gate swings open!
+mpforce $n south
+connect south -1
+mpecho The metal gate swings shut!
+mpecho The heavy wooden portcullis falls to the ground.
+~
+>speech_prog yabbah dabbah~
+if quest (11,2,$n) == 1
+  mpecho The world shifts at $n's request.
+  connect up 895
+  mpforce $n up
+  connect up -1
+  mpecho The world becomes whole again.
+endif
+~
+|
+#802
+scholar~
+a scholar~
+A scholar of the village is here, studying the sky.~
+The scholar is cloaked and hooded in heavy garb.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+56 0 0 1d930+1838 1d61+19
+93450 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#803
+scholar~
+a scholar~
+A scholar of the village is here, reading some text.~
+The scholar is cloaked and hooded in heavy garb.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+56 0 0 1d400+1641 1d40+24
+103450 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#804
+scholar~
+a scholar~
+A scholar of the village is here, recording his thoughts.~
+The scholar is cloaked and hooded in heavy garb.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+56 0 0 1d400+1641 1d40+24
+109811 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#805
+savant~
+a savant~
+A savant of the village is here.~
+The savant wears a cone shaped hat with flaps over the ears. He is old but
+his gaze is penetrating.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+97 0 0 2d10+10000 1d106+57
+134682 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 0
+  mpechoat $n The savant looks up at you.
+  mpechoaround $n The savant looks up at $n.
+  mpechoat $n The savant lowers his eyes at you.
+  mpechoaround $n The savant lowers his eyes at $n.
+  say You are not a citizen of this city
+  say Are you here to study?
+endif
+~
+>speech_prog yes~
+if level ($n) < 40
+  say Well then, return to me when you have grown older.
+  break
+endif
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  say Well then, you must visit the elder monk at once
+  say Tell him: 'The savant sent me'
+~
+>speech_prog no~
+if quest (0,4,$n) == 0
+  say Well then, thank you for visiting
+  say but we prefer our privacy
+  mpecho The savant utters the words 'cfocmkupo'.
+  mpechoat $n The savant teleports you from the village!
+  mpechoaround $n The savant teleports $n from the village!
+  mptransfer $n 9755
+endif
+~
+>fight_prog 50~
+shake 
+say fighting is foolish...
+mpquiet on
+cast 'faerie fire' $n
+mpquiet off
+~
+|
+#806
+elder monk~
+the elder monk~
+An elder monk meditates here.~
+Though this little monk is of venerable age, he seems unusually energetic
+and knowledgeable.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+97 BODY_HEAD BODY_LEG 2d10+10000 1d106+57
+134469 RACE_DWARF
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog p the savant sent me~
+if quest (0,4,$n) == 1
+  say He did? You must be here to study...
+  stand 
+  say I have some questions for you to answer
+endif
+~
+>speech_prog questions~
+if quest (0,4,$n) == 1
+  say Yes, they're not too hard
+  say Are you ready?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  nod 
+  if rand (35)
+    mpmset $n quest 4 2 1
+    say What is the name of the by mice haunted
+    say shopkeeper in Roterodamum?
+  else
+    if rand (60)
+      mpmset $n quest 4 2 2
+      say Who is the traitor in the Red Knight's castle?
+    else
+      if rand (99)
+        mpmset $n quest 4 2 3
+        say What secret magical being enchants
+        say the severed Head of Medusa?
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog doogan~
+if quest (0,4,$n) == 2
+  if quest (4,2,$n) == 1
+    mpmset $n quest 0 4 3
+    nod 
+    mpecho The elder monk lowers his eyes.
+    say What did the undead Queen of Gahld lose?
+  endif
+endif
+~
+>speech_prog advisor~
+if quest (0,4,$n) == 2
+  if quest (4,2,$n) == 2
+    mpmset $n quest 0 4 3
+    nod 
+    mpecho The elder monk lowers his eyes.
+    say What did the undead Queen of Gahld lose?
+  endif
+endif
+~
+>speech_prog slave~
+if quest (0,4,$n) == 2
+  if quest (4,2,$n) == 3
+    mpmset $n quest 0 4 3
+    nod 
+    mpecho The elder monk lowers his eyes.
+    say What did the undead Queen of Gahld lose?
+  endif
+endif
+~
+>speech_prog scarab~
+if quest (0,4,$n) == 3
+  mpmset $n quest 0 4 4
+  nod 
+  say You have demonstrated your worthiness
+  say to receive our teaching...
+  say Proceed to the scribe for further study
+  say Say to him: 'I passed the test'.
+endif
+~
+>fight_prog 50~
+shake 
+say fighting breeds ignorance...
+mpquiet on
+cast 'poison' $n
+mpquiet off
+~
+|
+#807
+scribe~
+the scribe~
+A scribe stands here before you.~
+The scribe is cloaked and hooded in thick garb that prevents you from seeing
+his true identity.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+97 BODY_HEAD BODY_LEG 2d10+10000 1d106+57
+134255 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p I passed the test~
+if quest (0,4,$n) == 4
+  nod 
+  say I see...
+  say As a scholar of the village
+  say you must learn to speak our language
+endif
+~
+>speech_prog language~
+if quest (0,4,$n) == 4
+  mpmset $n quest 0 4 5
+  say To prove your mastery, translate the phrase:
+  if rand (25)
+    say pfo yiqo kuj iq u tupiojp ejo
+    mpmset $n quest 6 3 1
+  else
+    if rand (45)
+      say pfo haparo iq tarcfuqob dw pfo troqojp
+      mpmset $n quest 6 3 2
+    else
+      if rand (65)
+        say pfo lejgoqp nearjow dogijq yipf ejo qpot
+        mpmset $n quest 6 3 3
+      else
+        if rand (80)
+          say dw beijg jepfijg kuj lourjq pe be ozil
+          mpmset $n quest 6 3 4
+        else
+          if rand (99)
+            say cfujgo wear pfeagfpq ujb wear yerlb cfujgoq
+            mpmset $n quest 6 3 5
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog p the wise man is a patient one~
+if quest (6,3,$n) == 1
+  if quest (0,4,$n) == 5
+    mpmset $n quest 0 4 6
+    say You are correct!
+    say Your next step is with the priest
+    say Go to him and say: 'I passed the lesson'.
+  endif
+endif
+~
+>speech_prog p the future is purchased by the present~
+if quest (6,3,$n) == 2
+  if quest (0,4,$n) == 5
+    mpmset $n quest 0 4 6
+    say You are correct!
+    say Your next step is with the priest
+    say Go to him and say: 'I passed the lesson'.
+  endif
+endif
+~
+>speech_prog p the longest journey begins with one step~
+if quest (6,3,$n) == 3
+  if quest (0,4,$n) == 5
+    mpmset $n quest 0 4 6
+    say You are correct!
+    say Your next step is with the priest
+    say Go to him and say: 'I passed the lesson'.
+  endif
+endif
+~
+>speech_prog p by doing nothing man learns to do evil~
+if quest (6,3,$n) == 4
+  if quest (0,4,$n) == 5
+    mpmset $n quest 0 4 6
+    say You are correct!
+    say Your next step is with the priest
+    say Go to him and say: 'I passed the lesson'.
+  endif
+endif
+~
+>speech_prog p change your thoughts and your world changes~
+if quest (6,3,$n) == 5
+  if quest (0,4,$n) == 5
+    mpmset $n quest 0 4 6
+    say You are correct!
+    say Your next step is with the priest
+    say Go to him and say: 'I passed the lesson'.
+  endif
+endif
+~
+>fight_prog 50~
+say fighting is for the weak of mind...
+point $n
+mpquiet on
+cast 'curse' $n
+mpquiet off
+~
+|
+#808
+priest~
+the priest~
+The priest of the village is here, dusting off a book.~
+The priest religiously protects and worships the knowledge inside the books.
+His demanding manner offends you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+75 BODY_HEAD BODY_LEG 1d1681+3526 1d82+34
+133086 RACE_DWARF
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog p I passed the lesson~
+if quest (0,4,$n) == 6
+  stand 
+  say I see...
+  say You must answer some more questions
+  say if you are to proceed any further.
+endif
+~
+>speech_prog questions~
+if quest (0,4,$n) == 6
+  say Yes... they're not too hard
+  say Are you ready?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 6
+  mpmset $n quest 0 4 7
+  nod 
+  if rand (33)
+    mpmset $n quest 9 2 1
+    say The city known as Refuge Tribe was settled
+    say by refugees from what Kingdom?
+  else
+    if rand (50)
+      mpmset $n quest 9 2 2
+      say What are the names of the two
+      say Gods of Easter Eternal?
+    else
+      mpmset $n quest 9 2 3
+      say With whom does Julian patrol
+      say the Forest of Arden?
+    endif
+  endif
+endif
+~
+>speech_prog p kingdom of dilemma~
+if quest (0,4,$n) == 7
+  if quest (9,2,$n) == 1
+    mpmset $n quest 0 4 8
+    nod 
+    say You are indeed well-travelled $n
+    say But if you are to proceed any further
+    say you will need to prove your usefulness
+    say Below this village lives an ugly orc
+    say Bring me his head and you may continue
+    say your studies...
+  endif
+endif
+~
+>speech_prog p plague and famine~
+if quest (0,4,$n) == 7
+  if quest (9,2,$n) == 2
+    mpmset $n quest 0 4 8
+    nod 
+    say You are indeed well-travelled $n
+    say But if you are to proceed any further
+    say you will need to prove your usefulness
+    say Below this village lives an ugly orc
+    say Bring me his head and you may continue
+    say your studies...
+  endif
+endif
+~
+>speech_prog morgenstern~
+if quest (0,4,$n) == 7
+  if quest (9,2,$n) == 3
+    mpmset $n quest 0 4 8
+    nod 
+    say You are indeed well-travelled $n
+    say But if you are to proceed any further
+    say you will need to prove your usefulness
+    say Below this village lives an ugly orc
+    say Bring me his head and you may continue
+    say your studies...
+  endif
+endif
+~
+>give_prog I803~
+if quest (0,4,$n) == 8
+  mpjunk i803
+  mpmset $n quest 0 4 9
+  say You have done well $n
+  say Now you must go before the Great Savant
+  say Find him and say: 'quest completed'.
+  smile 
+endif
+~
+|
+#809
+great savant~
+the Great Savant~
+The Great Savant sits here in deep meditation.~
+This unearthly being is hard to read. His utter silence is intimidating, he
+is enveloped by a wizened glow of supreme wisdom.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_TONGUES
+0 S
+99 BODY_HEAD BODY_LEG 1d2450+8326 1d10+120
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog quest~
+if quest (0,4,$n) == 9
+  mpmset $n quest 0 4 10
+  mpecho The Great Savant slowly awakens from his trance.
+  say Ahhh... it seems you have studied properly $n
+  say Do you wish to join our order?
+endif
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 10
+  mpmset $n quest 0 4 11
+  say Tell me the final key to ultimate wisdom
+  say and your studies will be complete
+endif
+endif
+~
+>speech_prog humility~
+if quest (0,4,$n) == 11
+  mpmset $n quest 0 4 12
+  mpecho The Great Savant slowly awakens from his trance.
+  smile 
+  shout I hereby induct $n into our order of savants!
+  mpareaecho The village erupts in cheers and applause.
+  mpecho The Great Savant gets something from a pouch.
+  say Here is evidence of your membership among us.
+  if class ($n) == class_ranger
+  or class ($n) == class_gladiator
+    mpoload 801
+    cast 'remove curse'
+    give I801 $n
+  endif
+  if class ($n) == class_elementalist
+  or class ($n) == class_illusionist
+    mpoload 802
+    cast 'remove curse'
+    give I802 $n
+  endif
+  if class ($n) == class_monk
+  or class ($n) == class_necromancer
+    mpoload 817
+    cast 'remove curse'
+    give I817 $n
+  endif
+  if class ($n) == class_marauder
+  or class ($n) == class_ninja
+    mpoload 818
+    cast 'remove curse'
+    give I818 $n
+  endif
+  say You may enter our secret headquarters
+  say by telling the Historian 'I am wise'.
+  smile gently $n
+  mpecho The Great Savant resumes his meditation.
+endif
+~
+>rand_prog 10~
+mpecho The Great Savant utters the words, 'ohmmmmmmmmmmmmmmm'.
+mpasound The ground shakes momentarily.
+~
+|
+#810
+historian~
+an historian~
+An historian is here, brooding over past events.~
+The historian is old and grey-haired. He seems jovial and harmonious.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+60 BODY_HEAD BODY_LEG 1d1089+2183 1d66+22
+111917 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 12
+  say Hey there $n!
+  say Always good to see another scholar around!
+  wink 
+endif
+~
+>speech_prog p I am wise~
+if quest (0,4,$n) == 12
+  nod $n
+  mpechoat $n You vanish suddenly!
+  mptransfer $n 833
+  mpecho $n vanishes suddenly!
+endif
+~
+|
+#811
+alchemist~
+the alchemist~
+An alchemist stands here, brewing a concoction.~
+The alchemist seems completely enveleoped in his work.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+60 BODY_HEAD BODY_LEG 1d1089+2183 1d66+22
+117028 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The alchemist stirs a large spoon.
+cackle 
+mpasound Hot fumes fill the air here.
+~
+>all_greet_prog 100~
+if quest (0,4,$n) == 12
+  say Hello $n, my fellow scholar
+  smile $n
+endif
+~
+>give_prog I803~
+mpjunk head
+say Ohhhhhhh...
+grin 
+say This will make my concoction complete!
+mpecho The alchemist puts the ugly orcish head in a large bowl.
+mpecho A BURST of blue light shoots into the sky!!
+mpecho The alchemist dips a small vial into the bowl.
+mpoload 816
+give I816 $n
+cackle 
+~
+|
+#812
+cartographer~
+a cartographer~
+A cartographer stands here, pondering coordinates.~
+The cartographer is young yet well-travelled and worldy. He goes about his
+work with extreme care.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+60 BODY_HEAD BODY_LEG 1d1089+2183 1d66+22
+112138 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+stare 
+~
+>all_greet_prog 100~
+if quest (0,4,$n) == 12
+  say Hello $n, you scholar you
+  point $n
+  smile $n
+endif
+~
+|
+#815
+teacher~
+a teacher~
+A teacher is here for your practicing.~
+The teacher seems capable of helping you practice the skills of any class.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+100 BODY_HEAD BODY_LEG 1d3025+6846 1d110+62
+172510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+mpecho The teacher turns the page of her book.
+~
+|
+#816
+field hand~
+a field hand~
+A field hand is here for your training.~
+The field hand seems capable of helping you train any of your abilities.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+90 0 0 1d10+8000 1d99+50
+122510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The field hand hauls a bale of hay.
+~
+|
+#817
+mountain goat~
+a mountain goat~
+A mountain goat roams here.~
+The mountain goat does not notice your entrance. It seems quite busy
+munching on the little grass that exists at these altitudes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+20 BODY_HEAD BODY_HORN|BODY_FOOT 1d10+300 1d5+19
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The mountain goat baaaaaahhhhs...
+mpasound You hear a mountain goat in the distance.
+~
+|
+#818
+ugly orc~
+an ugly orc~
+An ugly orc is here, tired and dumb.~
+The ugly orc is dirty and confused.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+70 0 0 1d1482+3066 1d77+30
+0 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpoload 803
+mpquiet on
+drop head
+mpquiet off
+mpecho The ugly orc's head flies off!
+~
+|
+#819
+shopkeeper~
+the shopkeeper~
+A shopkeeper is here to serve you.~
+The shopkeeper wears a wide plaid tie with a flower in the lapel.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_TONGUES
+0 S
+90 BODY_HEAD BODY_LEG 1d10+8000 1d99+50
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#820
+orcish child~
+an orcish child~
+An orcish child is here, frantic and wild.~
+The orcish child is dirty and confused.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+57 0 0 1d812+1587 1d57+17
+40000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#821
+class clown~
+a class clown~
+A class clown is here with a smirk on his face.~
+~
+ACT_SENTINEL|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+67 0 0 1d1332+2725 1d73+27
+95000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) != 12
+  if existsroom ($n)
+    mpforce $n recall reset
+    mptransfer $n 9755
+    mpecho $n disappears!
+  endif
+endif
+~
+|
+#822
+gypsy~
+a gypsy~
+A gypsy walks here.~
+The gypsy looks back at you in an intimidating way. He looks hungry, and
+tired, and seems to take particular notice of your valuables.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+61 0 0 1d930+1838 1d61+19
+114682 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#823
+astronomer~
+the astronomer~
+An astronomer stands here, pondering space and time.~
+The grey-haried man before you has glossy eyes that, you infer, have seen
+their share of astronomical wonder.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+60 BODY_HEAD BODY_LEG 1d1089+2183 1d66+22
+112138 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 12
+  say Hello $n, you scholar you
+  point $n
+endif
+~
+>rand_prog 10~
+say The hermit is a friend of mine
+say I wonder how he's doing...
+~
+>speech_prog hermit~
+say I heard he has nothing
+say No food, no valuables....
+~
+>speech_prog valuables~
+say No possessions, no music...
+~
+>speech_prog music~
+say Not even the tattered rags
+say he wore when I last saw him
+cry $n
+say He could probably use them right now...
+~
+|
+#824
+hermit~
+the hermit~
+A hermit sits here, poor and naked.~
+The hermit walks around oblivious to your existence. You can see the
+outlines of his bones trhough his thin skin.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+20 BODY_HEAD BODY_LEG 1d10+300 1d5+19
+0 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog I804~
+if quest (11,2,$n) == 0
+  mpjunk rags
+  mpmset $n quest 11 2 1
+  mpecho The hermit screams with joy!!!
+  say You found them!!! My favorite rags!!!
+  say I wish I could repay you...
+  ponder 
+  say I know of a rare rift of space and time...
+  say It appears only upon spoken command
+  say Use the ancient words 'yabbah dabbah'
+  say Speak this phrase at the Village Gate
+  grin 
+  thank $n
+endif
+~
+|
+#825
+gypsy child~
+a gypsy child~
+A gypsy child walks here.~
+The child seems to eye your wallet.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+57 0 0 1d812+1587 1d57+17
+40000 RACE_ORC
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#826
+duck~
+the duck~
+A duck swims here.~
+The duck has brown feathers. It bobs around in the water.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+20 BODY_HEAD BODY_LEG 1d10+300 1d5+19
+0 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 12~
+mpecho The duck quacks.
+~
+|
+#827
+gypsy chief~
+the gypsy chief~
+The gypsy chief stands here.~
+The gypsy chief is big and burly. He has a long grey beard and old crazed
+eyes that terrify you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_TONGUES
+0 S
+65 BODY_HEAD BODY_LEG 1d1260+2563 1d71+26
+101789 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+819 ITEM_TYPE_TRASH ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#801
+veteran band~
+the veteran's band~
+A band with historic embroidery lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_WRIST
+8 0 0 0 0 0 0 0
+1 1200000 45
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 5 0
+A APPLY_DEX 2 0
+#802
+veteran helm~
+the veteran's helm~
+A heavy helm with historic runes lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+1 1200000 45
+A APPLY_DAMROLL -5 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#803
+ugly orcish head~
+the ugly orcish head~
+The head of an orc lies here, staring at you.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 40
+E
+head~
+The head opens it's eyes and says, 'Give me to the alchemist.'
+~
+#804
+tattered rags~
+some tattered rags~
+Some tattered rags sit in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+3 0 0 0 0 0 0 0
+1 200 45
+A APPLY_CON 3 0
+A APPLY_WIS 3 0
+#805
+moving potion~
+the potion of moving~
+A volatile potion sits here, vibrating.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+45 95 12 0 0 0 0 0
+1 104592 47
+S 1 'ethereal travel'
+S 2 'astral projection'
+S 3 '-1 slot'
+#806
+statue~
+a statue~
+An enormous statue of the Great Savant stands here.~
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+100 10 1
+#807
+statue~
+a statue~
+An enormous statue of a theologian stands here.~
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+100 10 1
+E
+statue~
+On closer inspection, you notice it's the Great Savant... of course.
+~
+#808
+savant map~
+a map of Savant Village~
+A large leafy map lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 40
+E
+map~
+The map:
+                                            _ _
+                                        ___| | |
+          N                 _   _      |___    |
+          |                |_   _|         |_|_|
+      W---|---E           _|_   _|_
+          |             _| |_   _| |_
+          S            |  _       _  |
+                       |_| |_| |_| |_|
+                             | |
+                  /\/\/\/\/\/\/\/\/\/\/\/\/\
+                    M  O  U  N  T  A  I  N
+~
+#809
+hand~
+a hand~
+A severed hand lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 10
+#810
+round applause~
+a round of applause~
+A round object sits here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 10
+#811
+grief~
+some grief~
+Some grief floats about here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+1 10 10
+#812
+love~
+some love~
+Some love floats about here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+7 0 0 0 0 0 0 0
+1 10 10
+#813
+one ticket hell~
+a one-way ticket to Hell~
+A reddish ticket burns here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 10
+#814
+noteboard~
+the noteboard~
+A noteboard stands here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+100 10 1
+#815
+fountain~
+the fountain~
+A fountain is here spraying water into the air.~
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+100 10 1
+#816
+blue vial liquid~
+a blue vial of liquid~
+A blue vial sits here, overflowing with liquid.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+44 113 54 0 0 0 0 0
+1 104592 41
+S 1 'fly'
+S 2 'cure critical'
+S 3 '-1 slot'
+#817
+veteran bracer~
+the veteran's bracer~
+A heavy bracer with historic runes lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+8 0 0 0 0 0 0 0
+1 1200000 45
+A APPLY_MANA 60 0
+A APPLY_HIT 30 0
+A APPLY_DEX 2 0
+#818
+veteran girth~
+the veteran's girth~
+A heavy girth with historic runes lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+1 1200000 45
+A APPLY_DAMROLL 5 0
+A APPLY_DEX 2 0
+A APPLY_STR 2 0
+#819
+well~
+the well~
+A stone well is here.~
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+100 10 1
+#820
+gypsy strap~
+the gypsy strap~
+A colorful strap of cloth lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+1 67527 64
+A APPLY_SAVING_SPELL -6 0
+A APPLY_DAMROLL 4 0
+#0
+
+
+#ROOMS
+#800
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#801
+An Open Field~
+Your path widens and rolls out into a small, devilish clearing. In the
+distance, you can see a small village lighted darkly by the red and yellow
+hues in the horizon. An earthly breeze lifts your vision to the surrounding
+mountain and you begin to gaze off in recollection of faint stories of
+crazed gypsies and revered wisemen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 17495
+DDIR_SOUTH
+~
+~
+0 -1 802
+#802
+A Gravel Path~
+You trek forth along a well-laid path. The noises of civilization can be
+heard faintly, gradually, lending to your thoughts about its meaning, and
+the sky above you stretches boundless and bare.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 801
+DDIR_EAST
+~
+~
+0 -1 803
+DDIR_WEST
+~
+~
+0 -1 884
+#803
+A Gravel Path~
+Your foot sinks into the blue-grey gravel as dust rises around your path.
+Rocks are kicked by the music of your march, fewer and fewer in number as
+you make your way towards the green in the distance.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+~
+~
+0 -1 804
+DDIR_WEST
+~
+~
+0 -1 802
+E
+rocks~
+The rocks are finely eroded. They gleam with a magical luster.
+~
+#804
+A Gravel Path~
+You become focused on the task of reaching the distant world. What at one
+time was but a distant speck, now has grown into a magnificent scene: a
+small village, dwarfed by the majesty of the range in the horizon.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 803
+DDIR_SOUTH
+~
+~
+0 -1 805
+#805
+Before the Gate~
+You stand and marvel at the architectural wonder before you. It is a large
+wooden portcullis, made entirely of a rare heavy lumber, with sharpened
+edges and an ornate steel patchwork unlike anything you've ever seen. You
+spy a strange symbol engraved artfully into it's fashioned surface. A wooden
+wall stretches as far east and west as you can see.
+      There is a wooden sign here.
+      There is a large rock here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 804
+DDIR_EAST
+~
+~
+0 -1 857
+DDIR_WEST
+~
+~
+0 -1 883
+E
+large rock~
+The rock:
+                      ______
+              _______/ 1997 \
+             /               \
+            / E M P E R O R  /
+            \_______________/
+~
+E
+markings~
+The markings say 'Ojprujco'.
+~
+E
+harder~
+You see tiny markings.
+~
+E
+symbol~
+You would need to look harder to see any details.
+~
+E
+wooden sign~
+The sign:
+           ______________________
+          /      Welcome to      \
+         (_    Savant Village    _)
+         (_                      _)
+         (_      Yolceko pe      _)
+         (     Quzujp Zillugo     )
+          \______________________/
+                     ||
+                     ||
+                     ||
+~
+#806
+Inside the Gate~
+You can see the thick wire and leather cables which control the enormous
+portcullis at the entrance. It seems a complex contraption, controlled by
+wheels and pulleys, weights and wooden wedges, which you could never
+understand.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 805
+DDIR_EAST
+~
+~
+0 -1 807
+DDIR_SOUTH
+~
+~
+0 -1 809
+DDIR_WEST
+~
+~
+0 -1 808
+#807
+A Dark House~
+You stand inside a small, dark house off the main trail in the village. It
+is extremely sturdy and ornate, with marble walls and a large vaulted
+ceiling. Overall, the house is fairly barren and dimly lit.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 806
+E
+ceiling~
+The darkness prevents you from seeing exactly how high the ceiling is.
+~
+#808
+A Stone House~
+This medium-sized house looks sturdy and clean. Scrolls and books line
+neatly-crafted shelves against the walls. Boxes and chests are scattered
+about the room, overflowing with items of academic value.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 806
+E
+boxes~
+The boxes are wooden with metal hinges.
+~
+E
+chests~
+The chests are steel and have no hinges.
+~
+#809
+A Path in the Village~
+The cobblestone path beneath your feet is made up of small peculier stones
+which gleam in the sunlight. Numerous paths lead off in all directions but
+you only see a few houses in your direct vacinity.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 806
+DDIR_EAST
+~
+~
+0 -1 810
+DDIR_SOUTH
+~
+~
+0 -1 812
+DDIR_WEST
+~
+~
+0 -1 811
+#810
+A Well Lit House~
+You enter a large house off the main path in this small village. The room is
+circular-shaped, which causes your voice to echo strangely. Four pillars
+support a large white ceiling that bears an enormous painting of the realm.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 809
+E
+caption~
+The caption reads: "Humility is the final key to ultimate wisdom."
+~
+E
+couple~
+The couple indeed look quite pleasant together. There is a caption to
+this painting.
+~
+E
+man woman~
+They are a cute couple.
+~
+E
+painting~
+The painting depicts a man and woman dressed in regal white raiment
+holding each other in a loving embrace.
+~
+#811
+A Large Grey Building~
+This building appears to be the workshop of the alchemist of this small
+village. Tubes, containers and millions of other scientific tools clutter
+the room. Bubbling liquids emit noxious fumes which pervade the air and fog
+your view.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 809
+#812
+A Path in the Village~
+The village bustles with activity. Academia abounds in all tasks, acting
+as a form of peaceful government of scholarship. Around you, the buildings
+vary greatly in style and appearance. The atmosphere is open and free.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 809
+DDIR_EAST
+~
+~
+0 -1 813
+DDIR_SOUTH
+~
+~
+0 -1 815
+DDIR_WEST
+~
+~
+0 -1 814
+#813
+A Small Building~
+You enter a small structure with a flat wooden roof which slowly leaks water
+onto the floor. Ornate candles illuminate the room and release incense which
+pervades the air. Volumes of books line make-shift shelves attached to
+wooden planks.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 812
+E
+candles~
+The candles are red and purple.
+~
+#814
+Emperor's House~
+You enter a small quaint dwelling off the main path furnished nicely with
+venerable, ivory statues. A checkered pattern is emblazoned on the floor
+beneath your feet.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 812
+E
+pattern~
+The pattern:
+    _____________________________
+   |                             |
+   |  C  h  E  c  K  m  A  t  E  |
+   |_____________________________|
+~
+E
+statues~
+The statues depict famous members of the ancient clan known as Checkmate.
+~
+#815
+The Base of the Mountain~
+You stand under an enormous mountain, the apex of which is hidden in the
+thick, grey clouds. The road before you looks well travelled but steep and
+threatening.
+~
+0 ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 812
+DDIR_EAST
+~
+~
+0 -1 832
+DDIR_SOUTH
+~
+~
+0 -1 816
+DDIR_WEST
+~
+~
+0 -1 826
+#816
+The Mountain Path~
+You stand near the beginning of the mountain path, at the cusp of the tiny
+village at its base. The path is rocky yet easily passable and there are
+numerous tracks in the gravel around you.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 815
+DDIR_SOUTH
+~
+~
+0 -1 817
+#817
+The Mountain Path~
+The wind, which grows in intensity with your every careful step, brings
+the smell of mountain wildlife. There are ample flowers and vegetation
+along the sides of the rocky path to harbor bountiful life both here
+and at higher altitudes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 816
+DDIR_UP
+~
+~
+0 -1 818
+#818
+The Mountain Path~
+You notice here the quintessential history that comprises the path you
+travel. The path is one of amazing age, the mountain itself formed from
+the fiery flows of ancient lava. The stones are green with moss and
+colored by centuries of gentle erosion.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 819
+DDIR_DOWN
+~
+~
+0 -1 817
+#819
+The Mountain Path~
+The path ahead is dark and misty, yet the path behind is wide and
+impressive. From your vantage you can now see the full village from which
+you came. You can see the gravel path leading to the village gate, as well
+as the extensive wooden wall which isolates the community from wandering
+gypsies.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 818
+DDIR_SOUTH
+~
+~
+0 -1 820
+#820
+The Mountain Path~
+With your every step along the soft terrain you come closer to your goal of
+discovery. The path grows narrower as you ascend higher and your
+concentration increases in strength. The air is crisp, the vegetation
+bountiful, and the weather fierce.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 819
+DDIR_UP
+~
+~
+0 -1 821
+#821
+The Mountain Path~
+The wind blows with strength and might. You are near the half-way point up
+the mountain, though you still fail to see the peak. You can only imagine
+the strength of the winds at the pinnacle. You can see frost atop the
+rocks ahead.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 822
+DDIR_DOWN
+~
+~
+0 -1 820
+#822
+The Mountain Path~
+The luster of the rocks here is such to reflect great age and eons of
+exposure to the harsh elements. There are few footprints in your direct
+vacinity and the foilage has begun to fade slowly.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 821
+DDIR_UP
+~
+~
+0 -1 823
+#823
+The Mountain Platform~
+A small clearing in your path seems to have evolved naturally here. Small
+rocks lie around, presumably placed by earlier travellers. The view is
+captivating. You can now see the canyons which surround the vacinity of
+the village community as well as the vast network of trails leading off
+into ports unknown.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 851
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED -1 896
+DDIR_DOWN
+~
+~
+0 -1 822
+#824
+The End of the Path~
+The path dead-ends here, the last plateau of the mountain. The vegetation
+has disappeared and the air has become thin. Above you floats a peculier
+peak, impassable by foot, which undulates with a magic you have never seen.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 856
+DDIR_UP
+~
+~
+0 -1 825
+#825
+The Zenith~
+The path beneath your feet has fallen away and you find yourself suspended
+by unknown power and uplifted by the supreme presence of pure wisdom and
+knowledge. Around you float small offerings and gifts, a collection of
+conspicuous books and magical instruments which play on their own.
+~
+0 ROOM_SAFE SECT_AIR
+DDIR_DOWN
+~
+~
+0 -1 824
+#826
+West of the Fountain~
+You are west of the village fountain, in the southeast corner of the tiny
+mountain town. You are intimidated by your location at the base of the
+mountain, wary of tumbling rocks that could fall from above.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 815
+DDIR_SOUTH
+~
+~
+0 -1 828
+DDIR_WEST
+~
+~
+0 -1 827
+#827
+West of the Fountain~
+The mountain looms above, enveloped in white clouds and snow. You cannot
+see the apex, but you imagine it is sharp and lofty, the highest point in
+the land. Paths lead off in various directions.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 829
+DDIR_EAST
+~
+~
+0 -1 826
+DDIR_WEST
+~
+~
+0 -1 830
+#828
+A Small Temple~
+The temple in which you stand exhibits enormous detail. Icons and sculptures
+are placed amongst fantastic paintings and statues made of unknown and
+intriguing substances. The motif is impressive and meant to inspire
+creativity.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 826
+#829
+A Small Building~
+As you walk into this strange room you immediately notice various
+astronomical devices, tools, large maps and ornate globes. A small hole in
+the ceiling allows an unobstructed view of the sky.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 827
+E
+hole~
+Through the hole you see:
+       _______
+      /    -* \
+     / --*  -- \
+     \  ---*-- /
+      \_______/
+~
+#830
+West of the Fountain~
+To the west you can see rows and rows of wooden houses, close in
+proximity. Smoke rises from their stone chimneys and it fills the sky with
+the fresh scent of cooked meat.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 827
+DDIR_SOUTH
+~
+~
+0 -1 831
+#831
+The Library~
+This small edifice emits the pungent odor of old parchment and dry ink. A
+small chalkboard is here, as well as some wooden chairs, candles, and row
+after row of ancient written classics.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 830
+E
+chalkboard~
+The chalkboard:
+   _______________________________________
+   |                                     |
+   |  A  B  C  D  E  F  G  H . . .       |
+   |                                     |
+   |  U  D  C  B  O  H  G  F . . .       |
+   |_____________________________________|
+~
+#832
+East of the Fountain~
+You are taken back by the great age of the buildings in your vacinity.
+Judging from the weight and size of some of the stone pillars, it seems
+apparent that these structures were created in ancient times, when gravity
+was rumored to be weaker. The architecture is flawless, perfectly
+engineered.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 834
+DDIR_SOUTH
+~
+~
+0 -1 850
+DDIR_WEST
+~
+~
+0 -1 815
+#833
+The Room of Savants~
+You enter a magical room high up in the mountain. Incense fills the air and
+numerous candles illuminate the cabin-like rooms. Easy chairs lined with
+animal fur, an enormous fireplace and running water make this room very
+hospitable.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NOTE_BOARD SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 839
+DDIR_EAST
+~
+~
+0 -1 849
+DDIR_SOUTH
+~
+~
+0 -1 838
+DDIR_WEST
+~
+~
+0 -1 848
+DDIR_UP
+~
+~
+0 -1 897
+DDIR_DOWN
+~
+~
+0 -1 828
+#834
+East of the Fountain~
+You stand before the entrance to a very unique circular building. The
+masonry is smoothe and the form is unlike any you've ever seen. The
+sunlight reflects perfectly off it's domed roof. Paths lead off in
+different directions.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 835
+DDIR_EAST
+~
+~
+0 -1 836
+DDIR_WEST
+~
+~
+0 -1 832
+#835
+A Small Domed Building~
+You enter a cathedral-like structure with an oval foundation and center
+stage. On the stage is a pulpit of sorts consisting of a bench, a lecturn
+and a large oaken throne.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 834
+DDIR_DOWN
+~
+lecturn~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 840
+#836
+East of the Fountain~
+To the south you see a small patch of fields, farmed by the citizens of
+the village, used as their source of food. A sturdy dam and acqueduct
+system seems to flow to your north, fueled by the run off from the
+enormous mountain.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 837
+DDIR_WEST
+~
+~
+0 -1 834
+#837
+The Fields~
+You stand amongst rows of unplowed crops, unprotected by the mountain's vast
+shadow. Much can be learned from an honest days toil in the fields.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 836
+#838
+The Secret Store of Savant Humor~
+You stand in a dense, formless room packed with props, dollar tricks and
+useless junk. A large poster of Krusty the clown hangs here prominently.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 833
+#839
+A Detention Cell~
+The sight before you is apalling. Books are strwen about carelessly,
+paintings destroyed, statues broken, instruments crushed, great works of
+literature are torn and half-eaten.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 833
+#840
+Beneath the Village~
+You are surrounded by damp rock, darkened with the heat of centuries of
+pressure. The air is foul and the ground is covered with muddy footprints.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 841
+DDIR_UP
+~
+lecturn~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 835
+#841
+Beneath the Village~
+The rock seems to consist of a medley of solid granite and grey limestone.
+Veins of strange rock line the cavern walls, a dark yellow color. It is
+wet and shiny. Paths lead off in all directions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 846
+DDIR_EAST
+~
+~
+0 -1 842
+DDIR_SOUTH
+~
+~
+0 -1 847
+DDIR_WEST
+~
+~
+0 -1 840
+#842
+Beneath the Village~
+The upper wall of the cavern is the wettest. Small chunks of clay and dirt
+can be seen through the cracks which allow air to flow underground. More
+tunnels lead off in new directions, as if man-made, causing you to ponder
+how they came to exist.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 845
+DDIR_SOUTH
+~
+~
+0 -1 843
+DDIR_WEST
+~
+~
+0 -1 841
+#843
+A Dark Cavern~
+The cavern is large and spacious. There are writings on the wall, barely
+legible, and old markings on the hard rocks. You begin to wonder if this
+cavern was used as a jail or prison at one time.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 842
+#844
+The Hole of Chaos~
+Where breeds ignorance and confusion, thrives Chaos and his legion.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 843
+#845
+A Dark Cavern~
+You exist in the likeness of a dark underworld. Your every sounds echoes,
+carried along with a sewer-like scent reminiscent of a dank and
+magical prison in the depths of the Earth.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 842
+#846
+A Dark Cavern~
+The world is dark, with shades of brown clay seeping through faint cracks
+in the structure in which you stand. The ground is hard and muddy and is
+stained with blood.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 841
+#847
+A Dark Cavern~
+The rocks in your vacinity are large and bulky, larger than in the other
+caverns, and thus appears to be be more new. Fewer markings line the
+walls, though still enough exist for you to take notice. Gravel and small
+pebbles can be seen amongst chipped stones scattered around the chambers.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 841
+#848
+A Detention Cell~
+This room appears to be trashed like the others, as if on purpose. There
+are holes in the walls, piles of dirt in the corners, and several
+annoying, naughty children running around at your knees.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 833
+#849
+A Detention Cell~
+You enter another sacced room. Most notable here is a large painting of
+the Great Savant, which has been torn and knocked from the wall. Miniature
+statues have been crushed and thrown on the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 833
+#850
+An Observatory~
+A large telescope points out into the vast expanse of the lighted sky through
+a circular hole in the metallic roof. Charts and maps lie strewn about,
+portraits of heavenly movements and other galactic wonders.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 832
+#851
+The Mountain Path~
+The journey along the mountain path has begun to awaken your thoughts
+about life, nature and the universe. You begin to think about the mystery
+of civilization, religion and the process of change. All thoughts of the
+journey leave your crowded head.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 823
+DDIR_UP
+~
+~
+0 -1 852
+#852
+The Mountain Path~
+The world passes by with your every step up the mountain. The journey has
+become more than a simple excursion, but a trip into ultimate
+consciousness. Your feet wobble along the hard, rocky path, tired and
+soar.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 853
+DDIR_DOWN
+~
+~
+0 -1 851
+#853
+The Mountain Path~
+The path, much narrower, shows very few footprints at this altitude.
+Turning around to face the path downward, your view is panaoramic: in the
+distance you can see the rival peaks of Mount Kolvir, the hovering clouds
+of Olympus and the magical valleys of the Elemntal Canyon.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 852
+DDIR_UP
+~
+~
+0 -1 854
+#854
+The Mountain Path~
+The clouds seem to hover at eye-level as you look around, struggling to
+breathe. Snow covers the terrain and you begin to feel the intense pain of
+the cold on your feet.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 855
+DDIR_DOWN
+~
+~
+0 -1 853
+#855
+The Mountain Path~
+You have lost track of time. The sun is out of view, and you cannot tell
+for sure whether it's night or day. The snow is thicker at this altitude,
+making your journey more difficult: you must lift each foot high above the
+snow in order to trek higher.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 854
+DDIR_UP
+~
+~
+0 -1 856
+#856
+The Mountain Path~
+You have come within range of your goal: the apex of the mountain. Though
+you cannot tell for sure, it seems to be floating above the last mountain
+ridge, suspended by nothing but cold air and fierce winds. A warm spirit
+breathes life into your fading soul.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 824
+DDIR_DOWN
+~
+~
+0 -1 855
+#857
+The Eastern Wall~
+You walk along the extensive wall which borders the tiny village. Huge wooden
+pillars tied with enormous metal strings and thick nails give the wall a hefty
+and sturdy appearance. Grass grows along its edges but a small path has been
+worn away, following the contours of the barrier. It seems to lead towards the
+mountain.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 858
+DDIR_WEST
+~
+~
+0 -1 805
+#858
+The Corner Wall~
+You notice, as the path turns slightly towards the immense mountain, that
+the wooden posts are larger at the wall's corners. At the top of the
+center pole is a large rune of ancient appeal.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 859
+DDIR_WEST
+~
+~
+0 -1 857
+#859
+The Eastern Wall~
+Upon further examination, you notice tiny slits in the wooden barrier that
+surrounds the city, most likely for use by archers in times of seige or
+battle.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 858
+DDIR_SOUTH
+~
+~
+0 -1 860
+#860
+The Eastern Wall~
+The wall grows stronger and more thick as you draw closer to the mountain,
+most obviosuly for added protection from avalanches or falling rocks. The
+edges of each spoke are sharper and larger.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 859
+DDIR_EAST
+~
+~
+0 -1 861
+#861
+The Corner Wall~
+You can tell here that the wall is supported by additional beams which
+lean against the exterior from inside the village. They appear to sink
+deep into the rocky ground.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 862
+DDIR_WEST
+~
+~
+0 -1 860
+#862
+The Eastern Wall~
+The grass is a bit thicker here, but a discernable path still guides you
+along the village wall. You notice some small faded carvings on the wall,
+the work of small children, probably gypsy children who are known to
+inhabit the area.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 861
+DDIR_EAST
+~
+~
+0 -1 863
+#863
+The Eastern Wall~
+The dirt path sinks into the ground here. As you proceed towards the
+mountain you feel your first cold brush with the powerful winds which
+guard it's secrets.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 864
+DDIR_WEST
+~
+~
+0 -1 862
+#864
+Outside the Cemetary~
+You stand on the outskirts of a small cemetary, darkened by the looming
+mountain range in the distance. Large stone torches light the entrance and
+warn evil spirits from intrusion.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 863
+DDIR_EAST
+~
+gate~
+EX_ISDOOR|EX_CLOSED -1 893
+DDIR_SOUTH
+~
+~
+0 -1 865
+#865
+The Eastern Wall~
+You near the base of the mountain and stand close to a clump of trees to
+your east, a small unknown forest. The wind blows against your garb,
+making it hard to look up at the towering natural giant.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 864
+DDIR_SOUTH
+~
+~
+0 -1 866
+#866
+The Corner Wall~
+To your north, the long wall strecthes towards the village gates. To your
+west, the wall borders the southern end of the village and the northern
+cusp of the enormous mountain.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 865
+DDIR_WEST
+~
+~
+0 -1 867
+#867
+The Southern Wall~
+The wall here slants out over the interior of the village for additional
+protection from the mountain above. Though the path beneath your feet is
+damp, most of the mountain run-off is channeled into nearby aqueducts
+which help irrigate the town.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 866
+DDIR_WEST
+~
+~
+0 -1 868
+#868
+The Southern Wall~
+The air is thick here, filled with debris and dirt from the mountain
+directly behind you. Wind blows small rocks and leaves around at your
+feet.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 867
+DDIR_WEST
+~
+~
+0 -1 869
+#869
+The Southern Wall~
+The path is wide and shaded here by the large overhanging cliffs which
+sit just south of the village. A lookout can be seen here, high up atop a
+large wooden structure. It seems to be used not just as a lookout against
+intruding armies, but also as an early warning system against mountain
+avalanches.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 868
+DDIR_WEST
+~
+~
+0 -1 870
+#870
+The Well~
+The trail splits into a small circle which encompasses a stone well, used
+by savant citizens and the travelling gypsies native to the land. The
+water is sure to be fresh and clean, as it is most likely kept full by the
+melting mountain snow and rainwater.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 869
+DDIR_WEST
+~
+~
+0 -1 871
+#871
+The Southern Wall~
+You realize now what tremendous protection the mountain provides for this
+tiny village against intruders. Attacking from the mountain would be
+tiresome, clumsy and slow. Attacking from the sides would require armies
+to travel upwards, unable to flank and flee for cover.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 870
+DDIR_WEST
+~
+~
+0 -1 872
+#872
+The Southern Wall~
+You notice totem carvings along the wall here, oddly placed, suggesting
+they weren't a part of the original construction. Small grooves in the
+wooden poles give a classical style to the sturdy wall. You notice now
+that it is also buffered by large boulders.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 871
+DDIR_WEST
+~
+~
+0 -1 873
+#873
+Before a Small Cave~
+You espy a small cave, formed by a large outcropping of rock, carved out
+of the mountain to your south. You hear the muffled sounds of gypsies and
+see hundreds of small footprints in the path on which you tread.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 872
+DDIR_SOUTH
+~
+~
+0 -1 888
+DDIR_WEST
+~
+~
+0 -1 874
+#874
+The Corner Wall~
+To your north, the wall continues to isolate the city from outside
+intrusion. The wooden pillars also continue on to your west, forming a
+kind of valley between the mountain's rocky edge and the tiny savant
+village.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 875
+DDIR_EAST
+~
+~
+0 -1 873
+#875
+The Western Wall~
+The wall here looks newer than elsewhere, suggesting it was once torn down
+and then rebuilt. The patchwork that binds the wooden pillars is made of a
+fine metal which you cannot identify.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 876
+DDIR_SOUTH
+~
+~
+0 -1 874
+#876
+Before the Pond~
+You stand outside a small pond, formed naturally by melting snow from the
+mountain. You begin to understand how the village lives by the resources
+of the peaks and cliffs in the range. The scene is bright and beautiful.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 877
+DDIR_SOUTH
+~
+~
+0 -1 875
+DDIR_WEST
+~
+~
+0 -1 894
+#877
+The Western Wall~
+As you trek along the path you begin to wonder why the village inhabitants
+choose to separate themselves from the surrounding world. Perhaps it is
+simple security the savants seek, or peace in the pursuit of ultimate
+wisdom.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 878
+DDIR_SOUTH
+~
+~
+0 -1 876
+#878
+The Western Wall~
+The sun slowly disappears behind the shadow of the mountain in your
+distance. It seems alive, commanding the heavens departure; it is
+immovable, ancient and mysterious.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 879
+DDIR_WEST
+~
+~
+0 -1 877
+#879
+The Corner Wall~
+The terrain surrounding the village slopes downward, making a western
+invasion difficult, if not impossible. Small holes are carved into the
+wall here, arrow slits for village archers, and you can make out the
+mouths of cannons along the top of the wall.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 880
+DDIR_SOUTH
+~
+~
+0 -1 878
+#880
+The Western Wall~
+The wood comprising the wall is a heavy oak with few cracks. The surface
+is shiny, as if coated by a strange unknown substance. A small bed of
+flowers has sprung up here along the path. They sway gently in the wind.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 881
+DDIR_WEST
+~
+~
+0 -1 879
+E
+flowers~
+The flowers are red, yellow and pink. They are in full blossom.
+~
+#881
+The Western Wall~
+A wind directional sits high atop the wall here, testing the direction of
+the gusts. Smoke rises into the air from inside the village, rousing your
+curiosity and interest in the inhabitants.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 882
+DDIR_SOUTH
+~
+~
+0 -1 880
+#882
+The Corner Wall~
+The wall turns here and the path slowly continues along it's side. The
+corner pillar rises high into the sky and displays a strange and ancient
+rune. The edges of the surrounding pillars are jagged and sharp.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 883
+DDIR_SOUTH
+~
+~
+0 -1 881
+#883
+The Western Wall~
+You walk along a narrow grooved pathway along the exterior of the village.
+The path is lined with stones and dirt, a few muddy footprints point to
+recent traffic.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 805
+DDIR_WEST
+~
+~
+0 -1 882
+#884
+The Stray Path~
+A grassy trail leads off away from the fields. The terrain is wet and soft,
+and it glistens in the light that escapes over the mountain's back. Rocks and
+boulders border the path, natural blocks shed by the aging cliffs in the
+distance.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 802
+DDIR_WEST
+~
+~
+0 -1 885
+#885
+The Stray Path~
+The path is rich in plant life and grass and there are few, if any, tracks
+in on the ground. Large, high necked flowers sprout up amongst the rocks
+which lie strewn about, covered with moss and fungus.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 884
+DDIR_WEST
+~
+~
+0 -1 886
+#886
+The Bend~
+The path turns here towards a wooded path which leads away from the tiny
+mountain village. A small stream flows nearby. The sounds of animals can
+be heard faintly.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 885
+DDIR_SOUTH
+~
+~
+0 -1 887
+#887
+The Wooded Path~
+You enter a forray of trees and large plants, the abrupt beginning of a
+small forest. Despite the wooded setting, rocks abound, ancient and
+immovable.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 886
+DDIR_SOUTH
+~
+~
+0 -1 889
+#888
+The Gypsy Camp~
+You enter a small clearing, shielded from the elements by an enormous
+stone boulder that hangs forever in limbo above the mountain's base.
+Various colorful markings line the walls, a small fire burns in the
+center, and gypsy beads and jewelery lie scattered about.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 873
+E
+fire~
+The fire crackles softly.
+~
+#889
+By the Stream~
+The clear water of s mall stream flows here, allowing you to see the muddy
+bottom. Crawfish line the banks of the clean water, which runs rapidly but
+which is easily crossed.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 887
+DDIR_SOUTH
+~
+~
+0 -1 890
+DDIR_WEST
+~
+~
+0 -1 19056
+#890
+The Wooded Path~
+Trees grow above you, extended high into the air towards the sun's heat.
+They are old and large but few in number. The trail is wide here put
+reclusive and quiet.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 889
+DDIR_WEST
+~
+~
+0 -1 891
+#891
+Near An Enormous Tree~
+Your path seems to near its end here at the base of a massive tree. From
+your vantage you can see the large breadth of the its enormous branches.
+Leaves litter the rocky ground.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 890
+DDIR_SOUTH
+~
+~
+0 -1 892
+#892
+Beneath a Large Tree~
+The grassy trail brings you to a dead end at the base of a steep mountain and
+enormous tree. Branches and leaves have been hung up in a make-shift fashion
+to create a primitive form of shelter. Bits and pieces of village garbage
+litter the ground. A fire smolders here.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 891
+E
+tree~
+The tree is the width of forty men, and the height of four hundred.
+~
+#893
+The Cemetary~
+Ancient tombs and gravestones fill the field in which you now stand,
+gleaming with a strange luster. They are methodically ordered in straight
+rows and columns. Large green weeds line their edges, though you can still
+see the markings on a few in your direct vacinity.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+~
+gate~
+EX_ISDOOR|EX_CLOSED -1 864
+E
+gravestones~
+The gravestones are old yet well-crafted.
+~
+E
+markings~
+The markings:
+
+         Roqp Ij Touco
+     __  --
+      /  | ||-- () /\/\/
+       | | | | __ -- || \\
+
+         Rest In Peace
+~
+#894
+The Tiny Pond~
+The water is only moderately deep but the halcyon waters are smoothe and
+serene. Your every movement causes tiny ripples in the cool water. It is
+spectacularly clear and fresh.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 876
+#895
+A Wrinkle in Space~
+You are suspended in space, your body twisted and turned beyond your
+control. There is light, yet no source. There is no wind or weather, just
+the substance of a nothingness you have never experienced.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 9755
+DDIR_DOWN
+~
+~
+0 -1 805
+#896
+A Small Shack~
+You enter a small shack fashioned from logs and covered in snow. Small
+jewels and beads hang from the walls, a thick rug covers the floor.
+There is a small fire here, a few chairs and a wooden table. It seems to
+be some sort of mountain refuge.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED -1 823
+#897
+A Detention Cell~
+Of the other cells, this one seems to be in the best condition. It is
+newer than the others, though you can tell it has been tarnished by the
+creatures walking around here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+~
+~
+0 -1 833
+#0
+
+
+#RESETS
+M 801 100 805
+M 802 100 809
+M 802 100 812
+M 802 100 818
+M 802 100 830
+M 803 100 815
+M 803 100 827
+M 803 100 826
+M 804 100 836
+M 804 100 822
+M 804 100 834
+M 804 100 886
+M 804 100 889
+M 803 100 870
+M 803 100 881
+M 805 100 807
+M 806 100 828
+M 807 100 810
+M 808 100 813
+M 809 100 825
+M 810 100 808
+M 811 100 811
+M 812 100 829
+E 808 999 WEAR_DUAL_WIELD
+M 815 100 831
+M 816 100 837
+M 817 100 823
+M 817 100 819
+M 818 100 842
+E 804 999 WEAR_NECK_A
+M 819 100 838
+G 809 100 0
+G 810 100 0
+G 811 100 0
+G 812 100 0
+G 813 100 0
+M 820 100 841
+M 820 100 841
+M 820 100 846
+M 820 100 846
+M 820 100 847
+M 820 100 847
+M 820 100 845
+M 820 100 845
+M 820 100 845
+M 820 100 842
+M 821 100 839
+M 821 100 839
+M 821 100 848
+M 821 100 848
+M 821 100 849
+M 821 100 849
+M 821 100 849
+M 821 100 897
+M 821 100 897
+M 822 100 818
+M 822 100 860
+M 822 100 860
+M 825 100 861
+M 822 100 861
+M 822 100 862
+M 822 100 863
+M 825 100 864
+M 822 100 864
+M 822 100 865
+M 825 100 865
+M 822 100 866
+M 822 100 868
+M 825 100 869
+M 825 100 869
+M 822 100 871
+M 822 100 871
+M 822 100 872
+M 822 100 873
+M 822 100 874
+M 822 100 875
+M 822 100 876
+M 822 100 878
+M 822 100 878
+M 822 100 880
+M 825 100 881
+M 825 100 881
+M 822 100 882
+M 822 100 883
+M 822 100 884
+M 822 100 885
+M 822 100 886
+M 825 100 888
+M 822 100 888
+M 822 100 888
+M 822 100 891
+M 823 100 850
+M 824 100 892
+M 826 100 894
+M 827 100 888
+E 820 150 WEAR_NECK_A
+D 835 DIR_DOWN  DOOR_CLOSED
+D 840 DIR_UP    DOOR_CLOSED
+D 864 DIR_EAST  DOOR_CLOSED
+D 893 DIR_WEST  DOOR_CLOSED
+D 823 DIR_WEST  DOOR_CLOSED
+D 896 DIR_EAST  DOOR_CLOSED
+O 806   1 828
+O 807   1 828
+O 814   1 833
+O 815   1 815
+O 819   1 870
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,3925 @@
+#AREA Summerfield~
+#AUTHORS Rina Jaxom~
+#VERSION 4
+#RANGES 35 55 1 95
+
+
+#HELPS
+0 SUMMERFIELD~
+{128}
+                                 Summerfield
+{308}
+The village of Summerfield has recently been haunted by an evil vampire.
+The streets are no longer safe for even the best armed men and the small
+hamlet has all but shut down in fear.  The mayor has been forced to recruit
+vampire hunters from far and wide in an attempt to rid his town of its plague.
+~
+
+0 $~
+
+
+#MOBILES
+#4600
+vampire summerfieldvampire~
+the vampire~
+The vampire is here.~
+In the low light of the cave the vampire's eyes tend to glow.
+They are a golden color with glints of green. His hair is long and flowing
+and of the darkest black. His lips draw back in a snarl and you see sharply
+pointed white teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+54 BODY_MOUTH BODY_MOUTH 1d729+1412 1d54+15
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) > 3
+  if level ($n) > 39
+    say A greeting to you hunter.  I see that you
+    say have come prepared, but it will do you no good.
+    mpecho The vampire sighs in resignation.
+    say Let us get this over with.
+    mpmset $n quest 0 4 5
+    mpkill $n
+  else
+    say Get out of my home, weakling!
+    mptransfer $n 4617
+  endif
+else
+  say You think to invade my home?
+  cackle 
+  say Begone!
+  mptransfer $n 4617
+endif
+~
+>hitprcnt_prog 30~
+if quest (0,4,$n) == 5
+  peace 
+  say I grow weary of this, let us end it.
+  mpechoat $n The vampire swiftly knocks your weapon from your hand.
+  mpechoat $n Before you can even move, the vampire has you by the hair
+  mpechoat $n exposing your neck.  The world fades into darkness as the
+  mpechoat $n vampire bites into your neck.
+  mpmset $n quest 0 4 6
+  mpquiet on
+  mpforce $n sleep
+  mpquiet off
+  mptransfer $n 4617
+else
+  say I grow weary of this, begone.
+  mptransfer $n 4617
+endif
+~
+>hitprcnt_prog 100~
+if quest (0,4,$n) == 5
+  break
+else
+  say I grow weary of this, begone.
+  mptransfer $n 4617
+endif
+~
+|
+#4601
+man summerfieldman patrol~
+a man~
+A man patrols the streets here.~
+He is a typical peasant with homespun clothes and makeshift weapons.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+40 0 0 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 80~
+if hasobjnum ($n) == 4602
+  say Good luck with the vampire!
+else
+  if quest (6,2,$n) == 2
+    say Howdy, Deputy $n.
+  else
+    say It's a vampire lover! Get $m
+    mpkill $n
+  endif
+endif
+~
+>rand_prog 40~
+if quest (0,2,self) == 0
+  if rand (20)
+    say Too many people have been lost in the woods.
+    say That abandoned house should be closed up and
+    say not let anyone else ENTER the woods.
+    mpmset self quest 0 2 3
+  endif
+else
+  mpmadd self quest 0 2 -1
+endif
+~
+|
+#4602
+mayor summerfieldmayor~
+the mayor~
+The mayor of Summerfield is here.~
+He looks like a small town mayor who does his best for the community.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+55 0 0 1d756+1469 3d6+35
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,8,$n) == 0
+  mpechoat $n You walk in as the mayor is finishing a speech.
+  mpechoat $n From what you gather, the Mayor is offering a reward for the death
+  mpechoat $n of a vampire that has been preying on the people of Summerfield.
+  say And don't forget to wear your badge, hunters!
+endif
+~
+>speech_prog badge hunt~
+if quest (0,4,$n) == 0
+  if level ($n) > 34
+    if level ($n) < 56
+      say Of course you may join in the hunt.
+      say Here is your badge, make sure you wear that
+      say or you may be attacked by the patrols.
+      mpoload 4602
+      give i4602 $n
+      mpquiet on
+      drop i4602
+      mpquiet off
+      mpmset $n quest 0 4 1
+      mpmset $n long Vampire Hunter $n is here.
+    else
+      say You are too powerful, I could not afford to pay you.
+    endif
+  else
+    say You are too weak to be of any use,
+    say but here is a badge anyway.
+    mpoload 4602
+    give i4602 $n
+    mpquiet on
+    drop i4602
+    mpquiet off
+    mpmset $n quest 0 4 1
+  endif
+endif
+~
+|
+#4603
+worker summerfieldworker~
+a worker~
+A worker digs here.~
+He is dirty from working all day and most likely has not bathed in a week.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+35 0 0 1d306+564 4d5+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog stake handle~
+if quest (0,4,$n) == 2
+  say I have an old shovel handle I am willing
+  say to sell ya for just one hundred gold.
+endif
+~
+>rand_prog 40~
+if quest (0,2,self) == 0
+  if rand (50)
+    mpecho The worker curses as the wooden handle of his shovel breaks.
+    mpmset self quest 0 2 3
+  endif
+else
+  mpmadd self quest 0 2 -1
+endif
+~
+>bribe_prog 100~
+if quest (0,4,$n) == 2
+  mpoload 4605
+  give i4605 $n
+  mpjunk all
+  mpmset $n quest 0 4 3
+endif
+~
+|
+#4604
+priest summerfieldpriest~
+the priest~
+The priest of Summerfield prays quietly here.~
+The priest is an older man but very distinguished looking in his white
+robes.  He is kneeling and so deeply in prayer that he did not hear you
+enter.  Around his neck is a golden cross; a symbol of his faith.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+55 0 0 1d756+1469 1d55+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+if quest (0,4,$r) == 1
+  say I understand that three things are useful when
+  say trying to kill a vampire:
+  say Holy water, a wooden stake, and a clove of garlic.
+  mpmset $r quest 0 4 2
+endif
+~
+>speech_prog p holy water~
+say For the protection of the village, I have
+say blessed the water in this fountain.
+~
+|
+#4605
+woman summerfieldwoman~
+a woman~
+A woman stands here wielding a butcher knife.~
+She is normally a gentle woman but the recent problems have forced her to
+protect herself and her children. She wears a simple shift made of cotton.
+She has blonde hair and green eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+39 0 0 1d380+707 1d39+8
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4606
+baby summerfieldbaby~
+a baby~
+A baby screams loudly as it is awoken.~
+The baby clutches the blanket tightly as it screams. Typical of
+most babies it is chubby, pink and loud.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+19 BODY_MOUTH BODY_MOUTH 1d1+200 1d1+15
+6002 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4607
+boy summerfieldboy~
+a boy~
+A boy complains about being stuck in the house.~
+He is a typical village boy who would rather be outside playing
+with his friends in the dirt.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+34 0 0 1d289+531 4d5+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4608
+girl summerfieldgirl~
+a girl~
+A girl hums to herself as she plays a little game.~
+She wears a homespun dress and has her hair done in pig tails.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+34 0 0 1d289+531 1d34+6
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4609
+young boy summerfieldyoungboy~
+a young boy~
+A young boy plays here.~
+He looks to be about five and his clothing is smudged and dirty.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+24 0 0 1d144+261 3d4+12
+10000 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#4610
+young girl summerfieldyounggirl~
+a young girl~
+A young girl skips about here.~
+She is small with a dirt smudged face and braided pig tails.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+24 0 0 1d144+261 3d4+12
+10000 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#4611
+dog summerfielddog~
+a dog~
+A dog yips at your heels.~
+It is a black dog of indeterminate breeding but it looks like it
+would protect its family.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+24 0 0 1d1+370 3d4+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4612
+chemist summerfieldchemist~
+a chemist~
+A chemist waits on customers here.~
+He wears a white apron and glasses.  His hair is red and he has a
+spattering of freckles upon his face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+55 BODY_MOUTH BODY_MOUTH 1d756+1469 1d55+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4613
+baker summerfieldbaker~
+a baker~
+A baker pulls some bread out of the oven.~
+He is covered in flour and has a large round belly signifying that he
+often partakes of his specialty.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_MOUTH BODY_MOUTH 1d1+500 1d25+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4614
+barkeep summerfieldbarkeep~
+a barkeep~
+A barkeep wipes down the bar here.~
+She wears an apron with a bright yellow dress underneath.
+Her green eyes catch yours with a questioning look. She holds
+a well used rag.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_MOUTH BODY_MOUTH 1d1+500 1d25+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if rand (50)
+  say Can you believe the trainer is now charging 250 gold for his services?
+else
+  say I understand the sheriff could use a deputy.
+endif
+~
+>greet_prog 60~
+if hasobjnum ($n) == 4633
+  smile $n
+else
+  say If you are wanting a room, it will cost you 10,000 gold.
+endif
+~
+|
+#4615
+tailor summerfieldtailor~
+a tailor~
+A tailor offers to take your measurements.~
+He holds a well used tape measure. His hair is a dirty blonde
+and he has light blue eyes. He build suggests a weakling.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_MOUTH BODY_MOUTH 1d1+500 1d25+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 2~
+say The shop is overstocked with all my buyers disappearing.
+~
+|
+#4616
+pet merchant summerfieldpet~
+a pet merchant~
+A pet merchant cleans a cage here.~
+He wears a pair of overalls and holds a well used rag. His hair and eyes
+are both brown and he has a long straggly beard.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+55 BODY_MOUTH BODY_MOUTH 1d756+1469 4d5+32
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4617
+trainer summerfieldtrainer~
+a trainer~
+A trainer wipes down a blade here.~
+He wears a leather vest and breeches. He holds a broadsword
+effortlessly and seems to fall into a fighting stance naturally.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_MOUTH BODY_MOUTH 1d756+1469 1d55+16
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 3~
+mpgoto 4665
+mpecho The trainer melts into the shadow of a nearby building.
+~
+|
+#4618
+sorcerer summerfieldsorcerer~
+a sorcerer~
+A sorcerer inquires if you wish his services.~
+His robe is black with mystical signs painted in white. He looks
+friendly but impatient to be about his work.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+55 BODY_MOUTH BODY_MOUTH 1d756+1469 4d5+35
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#4619
+abandonedethereal~
+abandonedethereal~
+Abandonedethereal~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p wakes and stands up.~
+if quest (0,4,$n) == 6
+  mpquiet on
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  cast 'remove curse' $n
+  if class ($n) == class_ranger
+  or class ($n) == class_gladiator
+  or class ($n) == class_marauder
+  or class ($n) == class_ninja
+  or class ($n) == class_monk
+    mpoload 4650
+    give i4650 $n
+    mpforce $n wear i4650
+  else
+    mpoload 4600
+    give i4600 $n
+    mpforce $n wear i4600
+  endif
+  mpquiet off
+  mpechoat $n You find yourself in an abandoned house in Summerfield.
+  mpechoat $n You remember a dream about battling an evil vampire and it won.
+  mpechoat $n Feeling your neck where the vampire bit you, you realize that you did not dream.
+  mpmset $n quest 0 4 7
+endif
+~
+>act_prog p enters the woods.~
+mpquiet on
+connect north 4645
+mpforce $n north
+connect north -1
+mpquiet on
+~
+|
+#4620
+caveethereal~
+caveethereal~
+Caveethereal~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+-500 S
+1 0 0 1d1+10 1d1+1
+23 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) < 5
+  if hasobjnum ($n) == 4606
+  or hasobjnum ($n) == 4609
+    if hasobjnum ($n) == 4604
+      if hasobjnum ($n) == 4631
+        break
+      else
+        mpecho You wouldn't want to face a vampire without a wreath of garlic!
+        mpforce $n south
+        connect north -1
+      endif
+    else
+      mpecho You wouldn't want to face a vampire without holy water!
+      mpforce $n south
+      connect north -1
+    endif
+  else
+    mpecho You wouldn't want to face a vampire without a wooden stake!
+    mpforce $n south
+    connect north -1
+  endif
+else
+  mpecho You wouldn't want to face a vampire without a wooden stake!
+  mpforce $n south
+  connect north -1
+endif
+~
+|
+#4621
+worker summerfieldworker~
+a worker~
+A worker digs here.~
+He is dirty from working all day and most likely has not bathed in a week.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1435 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4622
+woman summerfieldwoman~
+a woman~
+A woman stands here wielding a wooden stake.~
+She is normally a gentle woman but the recent problems have forced her to
+protect herself and her children.  She is threatening you with a wooden
+stake. She wears an artfully sewed dress of wool and has her long brown hair
+tied into a bun.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+39 0 0 1d1+900 1d39+8
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4623
+woman summerfieldwoman~
+a woman~
+A woman stands here ready to protect herself.~
+She is normally a gentle woman but the recent problems have forced her to
+protect herself and her children.  She wears a homespun apron and holds
+a small vial in her hand. She wear a blue dress and has brown hair and eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+39 0 0 1d380+707 1d39+8
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4624
+dog summerfielddog~
+a dog~
+A dog yips at your heels.~
+It is a brown dog of indeterminate breeding but looks faithful.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+34 0 0 1d1+700 3d8+15
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4625
+cat summerfieldcat~
+a cat~
+A cat rubs against your legs.~
+It is a cat with reddish fur and sharp claws.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+34 0 0 1d1+650 4d5+15
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4626
+tiger summerfieldtiger~
+a tiger~
+A tiger purrs loudly.~
+The tiger is an orange and black striped feline with wickedly sharp claws.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+48 0 0 1d1+1500 5d6+20
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4627
+bear summerfieldbear~
+a bear~
+A bear growls at you.~
+The bear is large and black with enormous paws.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 4d6+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4628
+box collection~
+a collection box~
+A collection box sits here.~
+On it is written: What is the value of my services?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 0 0 1d0+10 1d1+1
+20 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>bribe_prog 250~
+mptransfer summerfieldtrainer
+mpechoat $n The trainer steps out from the shadow of a nearby building.
+~
+|
+#4629
+man summerfieldman patrol~
+a man~
+A man patrols the streets here.~
+He is a typical peasant with homespun clothes and makeshift weapons.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1435 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4630
+darryl sheriff~
+Darryl~
+Darryl, a small town sheriff, is shuffling some papers on his desk.~
+Darryl is wearing a blue uniform that is stiff and heavily starched. He
+has a silver badge clipped onto his left pocket.  He is clean shaven and
+has brown hair and blue eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 0 0 1d1+1500 4d5+30
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog deputy~
+if hasobjnum ($n) == 4633
+  say You look trustworthy enough, and seeing as you have
+  say a room at the pub, You got the job.
+  mpquiet on
+  mpjunk all
+  mpoload 4634
+  mpoload 4632
+  mpoload 4632
+  unlock ring
+  open ring
+  put i4634 i4632
+  put i4634 i4632
+  put i4634 i4632
+  mpquiet off
+  give i4632 $n
+  say Those keys will let you into any house in town.
+  say Make sure you do not abuse the privilege, and let
+  say me know if you ever lose them.
+  mpquiet on
+  drop all
+  mpjunk all
+  mpoload 4632
+  mpquiet off
+  mpmset $n quest 6 2 2
+else
+  say I don't hire just anyone to be my deputy.
+endif
+~
+|
+#4631
+man summerfieldman~
+a man~
+A man hides here.~
+The man is frightened and looks incredibly sad. Looking at his
+sadness makes you wonder if his family was taken by the vampire.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1335 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4632
+woman summerfieldwoman~
+a woman~
+A woman bakes cookies here.~
+The woman is rather plump and jolly.  Her face looks as if it is
+seldom adorned by a frown.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1335 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4633
+woman summerfieldwoman~
+a woman~
+A woman is here.~
+She is tall and lean wearing a black skirt and red blouse.  Her eyes
+are green and her hair is as red as her shirt. She looks frightened.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1235 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4634
+woman summerfieldwoman~
+a woman~
+A woman is here.~
+She is clad in a homespun brown dress and has blonde hair and blue eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1335 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4635
+woman summerfieldwoman~
+a woman~
+A woman is laughing here.~
+This woman is wearing a green shirt and brown pants.  She has brown
+hair and eyes and is laughing about something that was just said.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1535 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4636
+woman summerfieldwoman~
+a woman~
+A woman glares at you for your intrusion.~
+Clad in a red dress with matching hair and green eyes this woman
+looks at you furiously for entering the house without knocking.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1335 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#4637
+woman summerfieldwoman~
+a woman~
+A woman studies a scroll here.~
+The lady before you is clad in a silky blue gown that accents her sapphire
+blue eyes. Her hair is raven black and is pulled back from her face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1435 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 1~
+if rand (50)
+  cast 'acid blast' $n
+else
+  cast fireball $n
+endif
+~
+|
+#4638
+man summerfieldman~
+a man~
+A man listens intently here.~
+The man is getting riled up over the words of the mayor.
+He occasionally shouts and raises his fists in absolute agreement.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+44 0 0 1d1+1335 1d44+10
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#4639
+unlockethereal~
+unlockethereal~
+unlockethereal~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p unlocks and opens the door.~
+if inroom ($n) == 4623
+  mpquiet on
+  mpat 4630 open door
+  mpat 4631 open door
+  mpquiet off
+  mppurge self
+else
+  if inroom ($n) == 4624
+    mpquiet on
+    mpat 4632 open door
+    mpat 4633 open door
+    mpquiet off
+    mppurge self
+  else
+    if inroom ($n) == 4629
+      mpquiet on
+      mpat 4642 open door
+      mpquiet off
+      mppurge self
+    else
+      if inroom ($n) == 4626
+        mpquiet on
+        mpat 4636 open door
+        mpat 4637 open door
+        mpquiet off
+        mppurge self
+      else
+        if inroom ($n) == 4627
+          mpquiet on
+          mpat 4638 open door
+          mpat 4639 open door
+          mpquiet off
+          mppurge self
+        else
+          if inroom ($n) == 4628
+            mpquiet on
+            mpat 4640 open door
+            mpat 4641 open door
+            mpquiet off
+            mppurge self
+          else
+            if inroom ($n) == 4667
+              mpquiet on
+              mpat 4634 open door
+              mpat 4635 open door
+              mpquiet off
+              mppurge self
+            else
+              if inroom ($n) == 4668
+                mpquiet on
+                mpat 4673 open door
+                mpat 4684 open door
+                mpquiet off
+                mppurge self
+              else
+                if inroom ($n) == 4669
+                  mpquiet on
+                  mpat 4674 open door
+                  mpat 4675 open door
+                  mpat 4676 open door
+                  mpquiet off
+                  mppurge self
+                else
+                  if inroom ($n) == 4670
+                    mpquiet on
+                    mpat 4677 open door
+                    mpat 4678 open door
+                    mpquiet off
+                    mppurge self
+                  else
+                    if inroom ($n) == 4671
+                      mpquiet on
+                      mpat 4679 open door
+                      mpat 4680 open door
+                      mpquiet off
+                      mppurge self
+                    else
+                      if inroom ($n) == 4672
+                        mpquiet on
+                        mpat 4681 open door
+                        mpat 4682 open door
+                        mpat 4683 open door
+                        mpquiet off
+                        mppurge self
+                      else
+                        if inroom ($n) == 4685
+                          mpquiet on
+                          mpat 4643 open door
+                          mpat 4644 open door
+                          mpquiet off
+                          mppurge self
+                        else
+                          if inroom ($n) == 4686
+                            mpquiet on
+                            mpat 4687 open door
+                            mpat 4691 open door
+                            mpat 4692 open door
+                            mpquiet off
+                            mppurge self
+                          else
+                            if inroom ($n) == 4688
+                              mpquiet on
+                              mpat 4695 open door
+                              mpat 4696 open door
+                              mpquiet off
+                              mppurge self
+                            else
+                              if inroom ($n) == 4689
+                                mpquiet on
+                                mpat 4690 open door
+                                mpat 4693 open door
+                                mpat 4697 open door
+                                mpquiet off
+                                mppurge self
+                              endif
+                            endif
+                          endif
+                        endif
+                      endif
+                    endif
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+~
+|
+#4640
+crawlethereal~
+crawlethereal~
+crawlethereal~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p crawls deeper into the cave.~
+connect north 4662
+mpforce $n north
+connect north -1
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+4612 ITEM_TYPE_SCROLL ITEM_TYPE_POTION ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_PILL  100  50  0 23
+4613 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+4614 ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+4615 ITEM_TYPE_ARMOR ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#4600
+bitemark mark~
+a bitemark~
+A bitemark is here.~
+It is a puncture wound on the neck that appears to have been made by a
+pair of canine teeth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+13 0 0 0 0 0 0 0
+1 10000 45
+A APPLY_CON 2 0
+A APPLY_INT 2 0
+A APPLY_WIS 2 0
+#4601
+garlic clove~
+a clove of garlic~
+A clove of garlic is here.~
+It stinks like garlic!
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+1 100 35
+#4602
+badge summerfield~
+a badge of Summerfield~
+A badge lies here.~
+It is a badge with the symbol of a summer field on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS|ITEM_WEAR_ABOUT
+3 0 0 0 0 0 0 0
+1 1000 35
+P 1
+TRIG_COMMAND 100 enter
+OPROG_IF OIF_USER_ROOM_NUM = 4617 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ You enter the woods. 
+mpechoaround $ $ enters the woods.~
+P 3
+TRIG_VOID
+OPROG_GOD_ARGUMENT
+enter~
+P 7
+TRIG_UNKNOWN 100 crawl
+OPROG_IF OIF_USER_ROOM_NUM = 4661 8 0
+P 8
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ You get on your hands and knees and crawl deeper into the cave. 
+mpmload 4640 
+mpmset self questr 4600 0 4 4 
+mpechoaround $ $ crawls deeper into the cave.~
+#4603
+vial water~
+a vial of water~
+A vial of water is here.~
+It is a small vial of water.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_WATER 0 0 0 0 0
+1 100 35
+P 1
+TRIG_UNKNOWN 100 empty
+OPROG_GOD_COMMAND
+mpechoat $ You pour the water on the ground. 
+mpechoaround $ $ empties a vial of water onto the ground. 
+ mpquiet on 
+mpoload 4621 
+ mpquiet on~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#4604
+vial holy water~
+a vial of holy water~
+A vial of holy water is here.~
+It is a small vial of holy water.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+10 134 0 0 0 0 0 0
+1 100 35
+S 1 'heal'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#4605
+wooden handle~
+a wooden handle~
+A wooden handle lies here.~
+It was once part of a shovel but if you were to WHITTLE it, you could
+most likely make it into a workable wooden stake.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 35
+P 1
+TRIG_UNKNOWN 100 whittle
+OPROG_IF_HAS_OBJECT 4607 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 4606~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You quickly sharpen the handle into a stake.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You do not have a carving knife.~
+#4606
+wooden stake~
+a wooden stake~
+A wooden stake lies here.~
+It was once part of a shovel but it has been worked into a wooden stake.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 6 4 WEAPON_STAB 0 0 0 0
+1 100 35
+#4607
+carving knife~
+a carving knife~
+A carving knife lies here.~
+It is a small carving knife.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 10 0 0 0 0 0
+1 100 35
+#4608
+tree limb~
+a tree limb~
+A tree limb lies here.~
+It was once part of a tree but if you were to CARVE it, you could
+most likely make it into a workable wooden stake.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 35
+P 1
+TRIG_UNKNOWN 100 carve
+OPROG_IF_HAS_OBJECT 4607 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 4609 
+ mpmset self questr 4600 0 4 3~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You quickly sharpen the limb into a stake.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You do not have a carving knife.~
+#4609
+wooden stake~
+a wooden stake~
+A wooden stake lies here.~
+It was once part of a tree limb but it has been worked into a wooden stake.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 6 WEAPON_STAB 0 0 0 0
+1 100 35
+#4610
+chest wooden~
+a chest~
+A wooden chest sits at the foot of the bed.~
+It is a wooden chest. Why don't you try opening it?
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 CONT_CLOSEABLE -1 0 0 0 0 0
+10 100 50
+#4611
+sign summerfieldsign~
+a sign~
+A sign is here.~
+The sign:
+{008}.{308}              ________________________
+              |                        |
+              |      {138}Welcome to{308}        |
+              |                        |
+              |      {138}Summerfield{308}       |
+              |                        |
+              |                        |
+              |                   {148}-RinA{308}|
+              |                   {148}Jaxom{308}|
+              |________________________|
+                        |    |
+                        |    |
+                        |    |
+                   {118}@ @{308}  |    |{118}  @
+                  {128} |/{308}   |    |  {128}|{308}
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 100 1
+#4612
+paper notes~
+note paper~
+A paper with notes on it lies here.~
+The paper:
+.  ___________________________________
+  |                                   |
+  | To find the vampire's cave, enter |
+  | the woods and search the woods in |
+  | the following directions:         |
+  |           north                   |
+  |           north                   |
+  |           south                   |
+  |           north                   |
+  |           south                   |
+  |           north                   |
+  |           south                   |
+  |           north                   |
+  |           south                   |
+  | Continue north and south until you|
+  | reach a cave. The vampire resides |
+  | there.			      |
+  |___________________________________|
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 5
+#4613
+buttery croissant~
+a buttery croissant~
+A buttery croissant has been left here.~
+It is a hot buttered crescent shaped piece of bread.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 50 1
+#4614
+black coffee cup~
+a cup of black coffee~
+Black Coffee is cooling here.~
+It is coffee without sugar or cream.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_COFFEE 0 0 0 0 0
+1 50 1
+#4615
+jam strawberry~
+strawberry jam~
+Strawberry jam has been left here.~
+It is sticky red jam.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+5 0 0 0 0 0 0 0
+1 20 1
+#4616
+bread homemade loaf~
+homemade bread~
+A loaf of homemade bread is here.~
+It is freshly baked homemade bread.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+1 30 1
+#4617
+honey lager mug~
+a mug of honey Lager~
+A mug of honey lager is here.~
+It is mug full of warm alcoholic beverage.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_BEER 0 0 0 0 0
+1 50 1
+#4618
+dark home brew mug~
+a mug of dark home brew~
+A mug of dark home brew is here.~
+It is a mug full of dark liquid that inebriates many people.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_DARKALE 0 0 0 0 0
+1 60 1
+#4619
+jug moonshine~
+a jug of moonshine~
+A jug of moonshine has been left here.~
+It is a clay ceramic jug full of alcohol.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_WHISKY 0 0 0 0 0
+1 80 1
+#4620
+roasted nuts~
+roasted nuts~
+Roasted nuts have been spilled here.~
+They are peanuts that have been cooked and then salted.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+5 0 0 0 0 0 0 0
+1 20 1
+#4621
+vial empty~
+an empty vial~
+An empty vial has been discarded here.~
+It is a small vial that once held holy water.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 0 LIQ_WATER 0 0 0 0 0
+1 80 35
+P 1
+TRIG_COMMAND 100 fill
+OPROG_IF OIF_USER_ROOM_NUM = 4621 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 4604 
+mpechoat $ You fill the empty vial with holy water from the fountain. 
+mpechoaround $ $ fills a vial with holy water from the fountain.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+fill~
+#4622
+silver cross~
+a silver cross~
+A silver cross has been dropped here.~
+It is a small cross made of silver.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+12 0 0 0 0 0 0 0
+1 1000 45
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+#4623
+golden cross~
+a golden cross~
+A golden cross has been dropped here.~
+It is a small cross made of golden.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+19 0 0 0 0 0 0 0
+1 1000 64
+A APPLY_DEX 2 0
+#4624
+wool cloak~
+a wool cloak~
+A wool cloak has been left here.~
+It is a sturdy cloak made of wool.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+1 1000 46
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 5 0
+#4625
+homespun breeches pair~
+homespun breeches~
+A pair of homespun breeches has been left here.~
+It is a sturdy pair of breeches made of cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+1 1000 46
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 5 0
+#4626
+homemade cotton dress~
+homemade cotton dress~
+A homemade cotton dress has been left here.~
+It is a homemade dress made of cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+1 1000 46
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 5 0
+#4627
+carved shield~
+a carved shield~
+A carved shield is here.~
+It is a shield that has been carved from wood.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+12 0 0 0 0 0 0 0
+2 1000 35
+A APPLY_SAVING_SPELL -1 0
+#4628
+wooden helmet~
+a wooden helmet~
+A wooden helmet has been left here.~
+It is a helmet carved from a single piece of wood.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+2 1000 35
+#4629
+deer skin boots pair~
+deer skin boots~
+A pair of deer skin boots has been left here.~
+It is a pair of boots made from the hide of a deer.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+2 1000 35
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 3 0
+#4630
+thread spool~
+a spool of thread~
+A spool of thread has been left here.~
+It could be used to STRING cloves of garlic into a necklace.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 35
+P 1
+TRIG_UNKNOWN 100 string
+OPROG_IF_HAS_OBJECT 4601 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 4631 
+ mpjunk I4601 
+mpechoat $ You string the garlic into a wreath. 
+mpechoaround $ $ strings the garlic into a wreath.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You do not have any garlic to string together.~
+#4631
+wreath garlic~
+a wreath of garlic~
+A wreath of garlic has been left here.~
+It is made of cloves of garlic that have been strung together with a piece
+of thread.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+9 0 0 0 0 0 0 0
+1 1000 35
+#4632
+ring keys summerfield~
+a ring of keys~
+A ring of keys has been carelessly left here.~
+It is a iron ring full of keys of all sorts.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+35 CONT_LOCKED 0 0 0 0 0 0
+2 10 25
+P 1
+TRIG_COMMAND 100 unlock
+OPROG_IF OIF_USER_ROOM_NUM = 4623 17 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4624 17 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4629 17 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4626 17 5
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4627 17 6
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4628 17 7
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4667 17 8
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4668 17 9
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4669 17 10
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4670 17 11
+P 11
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4671 17 12
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4672 17 13
+P 13
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4685 17 14
+P 14
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4686 17 15
+P 15
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4688 17 16
+P 16
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 4689 17 18
+P 17
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 4639 
+ mpechoat $ You unlock and open the door. 
+mpechoaround $ $ unlocks and opens the door.~
+P 18
+TRIG_VOID
+OPROG_GOD_ARGUMENT
+unlock~
+#4633
+bedroom key summerfield~
+a bedroom key~
+A bedroom key has been carelessly left here.~
+It is a simple iron key.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10000 25
+#4634
+keys summerfield~
+keys~
+Keys have been carelessly left here.~
+Keys of all sorts.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 25
+#4635
+scroll recall~
+a scroll of recall~
+A scroll of recall is here.~
+It is a scroll of recall.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 266 0 0 0 0 0 0
+1 100 23
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#4636
+holy potion~
+a holy potion~
+A holy potion is here.~
+It is a potion in a glass flask.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+40 23 210 119 0 0 0 0
+1 50000 40
+S 1 'bless'
+S 2 'sanctuary'
+S 3 'giant strength'
+#4637
+vision potion~
+a potion of vision~
+A potion of vision is here.~
+It is a potion in a glass flask.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 65 229 64 0 0 0 0
+1 50000 30
+S 1 'detect invis'
+S 2 'stability'
+S 3 'detect hidden'
+#4638
+communication potion~
+a potion of communication~
+A potion of communication is here.~
+It is a potion in a glass flask.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 253 243 0 0 0 0 0
+1 50000 30
+S 1 'understand'
+S 2 'tongues'
+S 3 '-1 slot'
+#4639
+potion removing~
+a potion of removing~
+A potion of removing is here.~
+It is a potion in a glass flask.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 200 0 0 0 0 0 0
+1 5000 30
+S 1 'remove curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#4640
+fountain~
+a fountain~
+A fountain of holy water is by the southern exit.~
+If you had a vial, you could get some water.
+There is a ladle in the fountain.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#4641
+fountain~
+a fountain~
+A fountain sparkles in the sunlight here.~
+It is white with streaks of grey throughout.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#4642
+wool sweater~
+a wool sweater~
+A wool sweater has been left here.~
+It is a sweater made of wool.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+7 0 0 0 0 0 0 0
+1 1000 28
+A APPLY_SAVING_SPELL -3 0
+#4643
+leather jacket~
+a leather jacket~
+A leather jacket has been left here.~
+It is a jacket made of leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 1000 28
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 1 0
+#4644
+cotton sundress~
+a cotton sundress~
+A cotton sundress has been left here.~
+It is a homemade sundress made of cotton.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 1000 30
+A APPLY_DAMROLL 2 0
+#4645
+high heeled red shoes pair~
+high heeled red shoes~
+A pair of high heeled red shoes have been left here.~
+It is a pair of shoes with high heels made of leather dyed red.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_MOVE -50 0
+A APPLY_HITROLL 4 0
+#4646
+holy scroll~
+a holy scroll~
+A holy scroll is here.~
+It is a scroll.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+40 23 210 119 0 0 0 0
+1 50000 40
+S 1 'bless'
+S 2 'sanctuary'
+S 3 'giant strength'
+#4647
+vision scroll~
+a scroll of vision~
+A scroll of vision is here.~
+It is a scroll.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 65 229 64 0 0 0 0
+1 50000 30
+S 1 'detect invis'
+S 2 'stability'
+S 3 'detect hidden'
+#4648
+communication scroll~
+a scroll of communication~
+A scroll of communication is here.~
+It is a scroll.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 253 243 0 0 0 0 0
+1 50000 30
+S 1 'understand'
+S 2 'tongues'
+S 3 '-1 slot'
+#4649
+scroll removing~
+a scroll of removing~
+A scroll of removing is here.~
+It is a scroll.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 200 0 0 0 0 0 0
+1 5000 30
+S 1 'remove curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#4650
+bitemark mark~
+a bitemark~
+A bitemark is here.~
+It is a puncture wound on the neck that appears to have been made by a
+pair of canine teeth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+1 10000 45
+A APPLY_CON 2 0
+A APPLY_DAMROLL 5 0
+A APPLY_WIS 2 0
+#0
+
+
+#ROOMS
+#4600
+Wagon Trail~
+In the distance a quaint village dots the horizon.  Sounds can be
+faintly heard on the wind.  The wagon trail seems to be used often
+judging by the ruts made by the passing wheels.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 4601
+DDIR_SOUTH
+~
+~
+0 -1 17594
+#4601
+Wagon Trail~
+It is getting dark so it is hard to tell for sure but as you look at the
+fields lining the roadside, they seem to be neglected as if they have
+not been worked for weeks.  There is a bird preening its feathers as it
+sits atop the scarecrow.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 4602
+DDIR_SOUTH
+~
+~
+0 -1 4600
+E
+scarecrow~
+The straw stuffings are falling out.
+~
+E
+bird~
+It is a large black crow.
+~
+#4602
+Wagon Trail~
+Outlines of the cityscape loom before you in the twilight. A sign is
+here that welcomes you to the town of Summerfield.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 4603
+DDIR_SOUTH
+~
+~
+0 -1 4601
+#4603
+Main Street~
+You see a great bonfire ahead.  Shops line both sides of the street.
+There is a sign hanging in the window of the barber shop.  To the east
+is the town chemist's shop.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4605
+DDIR_EAST
+~
+~
+0 -1 4604
+DDIR_SOUTH
+~
+~
+0 -1 4602
+DDIR_WEST
+~
+~
+0 -1 4666
+E
+sign~
+The sign:  "Closed, please come again."
+~
+#4604
+Chemist Shop~
+Various potions and powders line the shelves of this store. A friendly
+gent is here to serve you and cure your ails.  He tips his hat in a
+friendly greeting and asks how he may help you today.  There is a price
+list on the counter.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 4603
+#4605
+Main Street~
+From here you can feel the heat of the bonfire.  You can make out
+shouting over the crackle of the flames. You are still too far away to
+hear what is being said.  To the east is a bakery.  West is a two story
+building. From the sign you see that it is a pub with rooms to rent
+upstairs.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4612
+DDIR_EAST
+~
+~
+0 -1 4606
+DDIR_SOUTH
+~
+~
+0 -1 4603
+DDIR_WEST
+~
+~
+0 -1 4607
+#4606
+Bakery~
+Scents of baking bread and the aroma of roasted coffee greet your
+entrance.  Tables and chairs are arranged on the far side of the shop
+with a counter displaying assorted sweets and breads ahead of you.  Upon
+the wall is a menu.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 4605
+E
+counter~
+Croissants and freshly baked bread is piled high on the counter.
+~
+E
+chair~
+The chair is woven wicker and looks sturdy.
+~
+E
+table~
+It is made of oak and is worn from years of use.
+~
+#4607
+Pub~
+A barkeep looks up as you enter. The room itself is deserted except for
+her.  She stops wiping down a table to give you a friendly smile.  In
+the corner a spiral staircase leads upsairs.  There is a stage on one
+side of the room.
+     {128}A notice is posted on the wall above the stage.{308}
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 4605
+DDIR_UP
+~
+~
+0 -1 4608
+E
+notice~
+Notice: Until further notice there will be no entertainment due to the
+minstrel's disappearance.
+~
+E
+staircase~
+You think that a master woodmaker must have designed the staircase and
+from the looks of it, he knew his craft well.
+~
+E
+stage~
+It is a raised platform standing about a foot off of the floor.
+~
+#4608
+Hallway~
+The hallway is bare but clean. There is a room on each side of the hall
+and one at the end. These must be the ones that are for rent. As you try
+the doors the ones to the left and right are unlocked but the one in
+front is locked securely.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4611
+DDIR_EAST
+~
+door~
+EX_ISDOOR 4633 4609
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4633 4610
+DDIR_DOWN
+~
+~
+0 -1 4607
+#4609
+Bedroom~
+The room smells slightly musty.  There is a bed, dresser and mirror in
+the room. A small rug is the only decoration.  It is sparse but a good
+value for the price.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 4608
+E
+rug~
+It was made with a loom.
+~
+E
+mirror~
+You see a reflection of yourself.
+~
+#4610
+Bedroom~
+This room has a large bed in the corner.  There is a chest at the foot
+of the bed and a blanket is laying atop it.  A chair sits by the window
+and a water basin is standing along the wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 4608
+E
+window~
+You can see the bonfire from here.
+~
+#4611
+Bedroom~
+This room must belong to the barkeep.  You now feel rather silly to have
+broken the locks to enter.  You should hastily leave before she comes up
+here and finds that you have broken into her room. She may get the
+sheriff to arrest you.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 4608
+#4612
+City Center~
+The bonfire is blazing brightly here. A hastily erected platform stands
+next to it.  A man is shouting to a crowd of gathered men. Everyone is
+carrying a torch. Some carry pitchforks and others have wooden stakes
+clutched tightly to their bodies.  There is a strong smell of garlic and
+you notice that every single man you see has a wreath of garlic around
+his neck.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4613
+DDIR_EAST
+~
+~
+0 -1 4620
+DDIR_SOUTH
+~
+~
+0 -1 4605
+DDIR_WEST
+~
+~
+0 -1 4623
+E
+platform~
+The platform was hastily erected.
+~
+#4613
+Main street~
+A cat stares warily at you from a bush beside the clothing shop.  Across
+the street from the clothing shop is a pet shore.  You think the cat
+must have found a way to escape and wish it luck on its journey.  The
+bonfire is now to your south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4664
+DDIR_EAST
+~
+~
+0 -1 4615
+DDIR_SOUTH
+~
+~
+0 -1 4612
+DDIR_WEST
+~
+~
+0 -1 4614
+E
+cat~
+The cat is siamese with white paws.
+~
+#4614
+Clothing Shop~
+Racks of clothes are crammed in every conceivable place. Looking at all
+of the items available you think it would fit better in a store twice
+this size.  A salesman greets you cheerfully and inquires if you are
+here to sell items or if you'd be interested in purchasing something.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 4613
+E
+rack~
+It is bowed slightly in the middle from the weight of the clothing.
+~
+#4615
+Pet Store~
+Large cages line the walls of the store.  The animals are all lying down
+with their eyes closed.  The keeper assures you that they are fine but
+that he keeps them hypnotised until someone decides to purchase.  You
+see a cage containing cats and think again that it is a good thing that
+the kitten outside got away but that he'd better hide quick.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_PET_SHOP SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 4613
+E
+animal~
+You see a tiger, two bears and an assortment of dogs and cats.
+~
+E
+cage~
+Various types of animals are asleep inside the cage.
+~
+#4616
+Trainer's home~
+The cave opens up into a cavern here.  The air is damp but breathable.
+Looking around you see formations of calcium that has dripped through
+the limestone over millions of years.  It is actually very beautiful, if
+you could shake the nerious feeling that you aquired after entering the
+cave.  You hear the sound of bats.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+#4617
+Abandoned building~
+The wooden structure seems to be holding together well. An eerie feeling
+settles over you as you stand here. You look to the woods feeling that
+someone is watching you from them.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 4664
+E
+structure~
+The structure is made of wood and is slightly weathered.
+~
+#4618
+Training field~
+Weapons of various types and sizes are in a heap on the ground.  A magic
+field keeps you from taking them with you.  The trainer is nowhere in
+sight.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 4664
+E
+weapons~
+They look sharp and deadly.
+~
+#4619
+Morgue~
+Sitting upon the floor is a circle of seven sorcerers. They are holding
+hands and chanting over a body. As you watch the wounds upon the body
+heal and a mist forms as the soul is gently dragged back into
+existence. The body upon the floor shudders and slowly sits up. There
+is a sign upon the wall listing the price of services rendered.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 4664
+E
+floor~
+It is covered with candles and symbols made of chalk.
+~
+#4620
+Church Street~
+The path leading to the church is made of cobblestones. The church looks
+inviting as you look at the spires reaching up to touch a little bit of
+heaven. The church looks as if the townspeople have spent a lot of time
+and effort into making it beautiful.  Beside the church is a quaint
+graveyard.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 4621
+DDIR_WEST
+~
+~
+0 -1 4612
+#4621
+Church~
+Exquisite murals and stained glass windows depicting scenes from the
+bible line the walls. Hand carved wooded pews are spaced in rows along
+the floor. The alter is also of carved wood with a burgandy velvet cover
+and an engraved cross of gold adorns it.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 4622
+DDIR_WEST
+~
+~
+0 -1 4620
+#4622
+Graveyard~
+The graveyard is well kept. There are signs that recently there has been
+a lot more activity than normal.  For a town of this size, there are too
+many freshly dug graves. Two workers are at the far corner digging
+another grave, it looks child sized.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 4621
+#4623
+Orchid Lane~
+The cobblestone path leads through the residential section of
+Summerfield.  You can tell that the houses are all locked up tight.
+There are no children out playing in the street and men are patrolling
+the streets carrying torches and stakes.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4630
+DDIR_EAST
+~
+~
+0 -1 4612
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4631
+DDIR_WEST
+~
+~
+0 -1 4624
+E
+house~
+They are all made of wood and look sturdy.
+~
+#4624
+Orchid Lane~
+The cobblestone path leads through the residential section of
+Summerfield.  You can tell that the houses are all locked up tight.
+There are no children out playing in the street and men are patrolling
+the streets carrying torches and stakes.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4632 4632
+DDIR_EAST
+~
+~
+0 -1 4623
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4632 4633
+DDIR_WEST
+~
+~
+0 -1 4625
+E
+house~
+They are all made of wood and look sturdy.
+~
+#4625
+The Crossroads~
+A marble fountain gushes fresh water from the open hands of the statue
+adorning it.  The statue is of a mythical sea mermaid lounging against
+the edge of the water. Orchid Lane runs east and west and Orange Avenue
+is to the north and south.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4667
+DDIR_EAST
+~
+~
+0 -1 4624
+DDIR_SOUTH
+~
+~
+0 -1 4670
+DDIR_WEST
+~
+~
+0 -1 4626
+E
+statue mermaid~
+The mermaid has long flowing hair with an elegant visage.
+Her body is half fish and half woman.
+~
+#4626
+Orchid Lane~
+The cobblestone path leads through the residential section of
+Summerfield.  You can tell that the houses are all locked up tight.
+There are no children out playing in the street and men are patrolling
+the streets carrying torches and stakes.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4636
+DDIR_EAST
+~
+~
+0 -1 4625
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4637
+DDIR_WEST
+~
+~
+0 -1 4627
+E
+house~
+They are all made of wood and look sturdy.
+~
+#4627
+Orchid Lane~
+The cobblestone path leads through the residential section of
+Summerfield.  You can tell that the houses are all locked up tight.
+There are no children out playing in the street and men are patrolling
+the streets carrying torches and stakes.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4638
+DDIR_EAST
+~
+~
+0 -1 4626
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4639
+DDIR_WEST
+~
+~
+0 -1 4628
+E
+house~
+They are all made of wood and look sturdy.
+~
+#4628
+Orchid Lane~
+The cobblestone path leads through the residential section of
+Summerfield.  You can tell that the houses are all locked up tight.
+There are no children out playing in the street and men are patrolling
+the streets carrying torches and stakes.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4640
+DDIR_EAST
+~
+~
+0 -1 4627
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4641
+DDIR_WEST
+~
+~
+0 -1 4629
+E
+house~
+They are all made of wood and look sturdy.
+~
+#4629
+Crabapple Court~
+Orchid Lane ends here.  The roadsign shows that Crabapple Court runs
+north and south of here.  In the distance you can see livestock grazing.
+There is a fence stopping you from entering the field.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4685
+DDIR_EAST
+~
+~
+0 -1 4628
+DDIR_SOUTH
+~
+~
+0 -1 4688
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4642
+E
+roadsign~
+The road sign.       ___________________
+                    |                   |
+                    |  Crabapple Court  |
+                    |___________________|
+                             | |
+                             | |
+~
+E
+livestock~
+There are numerous cows and a few sheep grazing in the pasture.
+~
+E
+fence~
+It is wooden and looks sturdy.
+~
+#4630
+House~
+A woman stands here prepared to fight for her children.  Her husband must
+be out patrolling the city while she stays safely locked in the house
+with the rest of their family. Crosses are hung above every window with
+wreaths of garlic hung from the ceiling.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4623
+#4631
+House~
+After bashing in the door you realize that this home is deserted.  The
+family must have fled the town after the vampire chose to hunt here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4623
+#4632
+House~
+As you enter the house, a child screams and hides his face in his
+mother's skirts.  The woman backs up and pulls her son with her looking
+at you fearfully.  The smell of garlic is strong here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4624
+#4633
+House~
+You are dashed with holy water as you force your way into this house.
+When you do not erupt into flames the woman here seems to relax.  There
+is a baby crying softly and the woman turns her back to you to pick up
+her child.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4624
+#4634
+House~
+A dog snarls at you angrily and attacks. The woman picks up a wooden
+stake and tries to impale you with it while she yells at her little girl
+to run and hide. The girl begins to cry.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4667
+#4635
+House~
+A woman stands here prepared to fight for her children.  Her husband must
+be out patrolling the city while she stays safely locked in the house
+with the rest of their family. Crosses are hung above every window with
+wreaths of garlic hung from the ceiling.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4667
+#4636
+House~
+After bashing in the door you realize that this home is deserted.  The
+family must have fled the town after the vampire chose to hunt here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4626
+#4637
+House~
+As you enter the house, a child screams and hides his face in his
+mother's skirts.  The woman backs up and pulls her son with her looking
+at you fearfully.  The smell of garlic is strong here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4626
+#4638
+House~
+You are dashed with holy water as you force your way into this house.
+When you do not erupt into flames the woman here seems to relax.  There
+is a baby crying softly and the woman turns her back to you to pick up
+her child.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4627
+#4639
+House~
+A dog snarls at you angrily and attacks. The woman picks up a wooden
+stake and tries to impale you with it while she yells at her little girl
+to run and hide. The girl begins to cry.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4627
+#4640
+House~
+A woman stands here prepared to fight for her children.  Her husband must
+be out patrolling the city while she stays safely locked in the house
+with the rest of their family. Crosses are hung above every window with
+wreaths of garlic hung from the ceiling.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4628
+#4641
+House~
+After bashing in the door you realize that this home is deserted.  The
+family must have fled the town after the vampire chose to hunt here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4628
+#4642
+House~
+As you enter the house, a child screams and hides his face in his
+mother's skirts.  The woman backs up and pulls her son with her looking
+at you fearfully.  The smell of garlic is strong here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4629
+#4643
+House~
+You are dashed with holy water as you force your way into this house.
+When you do not erupt into flames the woman here seems to relax.  There
+is a baby crying softly and the woman turns her back to you to pick up
+her child.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED -1 4685
+#4644
+House~
+A dog snarls at you angrily and attacks. The woman picks up a wooden
+stake and tries to impale you with it while she yells at her little girl
+to run and hide. The girl begins to cry.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4685
+#4645
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4646
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4617
+DDIR_WEST
+~
+~
+0 -1 4645
+E
+underbrush~
+There are various sized limbs on the ground.
+~
+E
+tree~
+They are large and old.
+~
+#4646
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4647
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4647
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4648
+DDIR_WEST
+~
+~
+0 -1 4645
+#4648
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4649
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4649
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4650
+DDIR_WEST
+~
+~
+0 -1 4645
+#4650
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4651
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4651
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4652
+DDIR_WEST
+~
+~
+0 -1 4645
+#4652
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4653
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4653
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4654
+DDIR_WEST
+~
+~
+0 -1 4645
+#4654
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4655
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4655
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4656
+DDIR_WEST
+~
+~
+0 -1 4645
+#4656
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4657
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4657
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4658
+DDIR_WEST
+~
+~
+0 -1 4645
+#4658
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4659
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4659
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4645
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4660
+DDIR_WEST
+~
+~
+0 -1 4645
+#4660
+Woods~
+The trees here are close together with very little underbrush.  The
+canopy above shuts out the light.  Evil seems to radiate throughout the
+woods.  Something seems to be absent from the air. As you think about
+what it could be, you realize that there is no sound in the woods as if
+nothing alive lives here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 4661
+DDIR_EAST
+~
+~
+0 -1 4645
+DDIR_SOUTH
+~
+~
+0 -1 4645
+DDIR_WEST
+~
+~
+0 -1 4645
+#4661
+Cave~
+You happen upon a cave in the center of the forest.  The entrance is
+obscured by a thicket.  You have to crawl to if you want to enter.  You
+prick your finger and a drop of blood falls to the ground. Looking down,
+there is nothing except a carpet of fallen leaves.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 4662
+DDIR_SOUTH
+~
+~
+0 -1 4660
+#4662
+Cave~
+The air is stale here and the walls are close together.  You are feeling
+a bit claustrophobic as you squeeze through the passage.  The evil that
+you felt while in the woods seems to be centered here.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_SOLITARY SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 4663
+DDIR_SOUTH
+~
+~
+0 -1 4661
+E
+wall~
+It is limestone, smooth and slightly damp to the touch.
+~
+#4663
+Cavern~
+The cave opens up into a cavern here.  The air is damp but breathable.
+Looking around you see formations of calcium that has dripped through
+the limestone over millions of years.  It is actually very beautiful, if
+you could shake the nervous feeling that you aquired after entering the
+cave.  You hear the sound of bats.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 4662
+#4664
+Main Street~
+This is the end of the main street. The morgue is located to the east
+and a training field is to the west. There is a half erected building to
+the north. Construction seems to have halted on it before it was
+finished.  Through the half finished walls you see a forest. They seem
+to eminate evil and look foreboding.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4617
+DDIR_EAST
+~
+~
+0 -1 4619
+DDIR_SOUTH
+~
+~
+0 -1 4613
+DDIR_WEST
+~
+~
+0 -1 4618
+#4665
+Trainer's home~
+The cave opens up into a cavern here.  The air is damp but breathable.
+Looking around you see formations of calcium that has dripped through
+the limestone over millions of years.  It is actually very beautiful, if
+you could shake the nerious feeling that you aquired after entering the
+cave.  You hear the sound of bats.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+#4666
+Sheriff's office~
+The sheriff's office is rather small with only one holding cell which
+noone is occupying at the time.  The only furnishings that office has is
+a desk, three chairs and a cot in the cell.  There is a posted sign on
+the bulletin board.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 4603
+E
+cot~
+It does not look as if it has had much use.
+~
+E
+chairs~
+They are wooden and common looking.
+~
+E
+desk~
+It is made of wood and looks sturdy.
+~
+E
+sign~
+Sign: There is currently a manhunt for the vampire that stalks the city,
+the mayor has issued a reward for the death of this creature.
+~
+#4667
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4668
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4634
+DDIR_SOUTH
+~
+~
+0 -1 4625
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4635
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4668
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4669
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4684
+DDIR_SOUTH
+~
+~
+0 -1 4667
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4673
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4669
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4674
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4675
+DDIR_SOUTH
+~
+~
+0 -1 4668
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4676
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4670
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4625
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4677
+DDIR_SOUTH
+~
+~
+0 -1 4671
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4678
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4671
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4670
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4679
+DDIR_SOUTH
+~
+~
+0 -1 4672
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4680
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4672
+Orange Avenue~
+The cobblestone path is aged and worn but the houses lining the
+edges have been upkept well. There are fruit trees in each of the front
+yards though it is out of season for them to be ripe. Houses here seem to
+be older but larger and more grand than any other surrounding street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4671
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4682
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4681
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4683
+E
+house~
+The house is fairly old but large and spacious.
+~
+E
+orange~
+There are no oranges on the trees, it is out of season.
+~
+E
+tree trees~
+It is an orange tree.
+~
+#4673
+House~
+A woman sits at a desk writing on a scroll by candle light.  She looks up
+as you enter and frowns. The frown seems only to accentuate her features
+and you think she is rather beautiful.  There are no children in the
+house and she isn't wearing a wedding ring.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4668
+#4674
+House~
+A man is hiding here afraid to leave this house for fear of the vampire.
+The house is a mess but you notice several fingerpaints adorning the walls
+which were done by children. There are no kids here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4669
+E
+fingerpainting~
+It is a piece of paper streaked with yellows, blues and greens.
+~
+#4675
+House~
+A rather rotund woman is standing in the kitchen making cookies. Several
+children are standing at her feet waiting to lick the bowl.  The house is
+incredibly clean and tidy.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4669
+#4676
+House~
+A woman screams as you enter and two dogs jump at you attacking
+aggressively.  The woman backs away from you then rushes you to try
+and get out of the door.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4669
+#4677
+House~
+Several women are lounging around a table playing a game of cards. The room
+is brightly lit with candles and the women seem to be having a fun time
+amusing themselves while their husbands are out hunting the vampire.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4670
+#4678
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4670
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4679
+House~
+After bashing in the door you realize that this home is deserted.  The
+family must have fled the town after the vampire chose to hunt here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4671
+#4680
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4671
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4681
+House~
+A woman sits at a desk writing on a scroll by candle light.  She looks up
+as you enter and frowns. The frown seems only to accentuate her features
+and you think she is rather beautiful.  There are no children in the
+house and she isn't wearing a wedding ring.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4672
+#4682
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4672
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4683
+House~
+A woman sits at a desk writing on a scroll by candle light.  She looks up
+as you enter and frowns. The frown seems only to accentuate her features
+and you think she is rather beautiful.  There are no children in the
+house and she isn't wearing a wedding ring.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4672
+#4684
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4668
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4685
+Crabapple Court~
+Houses line both sides of the street.  Patrols are often passing by on
+watch for the vampire. This part of the city is lit up brightly with
+lanterns hanging on wooden poles.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4686
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4644
+DDIR_SOUTH
+~
+~
+0 -1 4629
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 4634 4643
+#4686
+Crabapple Court~
+Houses line both sides of the street.  Patrols are often passing by on
+watch for the vampire. This part of the city is lit up brightly with
+lanterns hanging on wooden poles.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4687
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4691
+DDIR_SOUTH
+~
+~
+0 -1 4685
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4692
+#4687
+House~
+A woman sits at a desk writing on a scroll by candle light.  She looks up
+as you enter and frowns. The frown seems only to accentuate her features
+and you think she is rather beautiful.  There are no children in the
+house and she isn't wearing a wedding ring.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR -1 4686
+#4688
+Crabapple Court~
+Houses line both sides of the street.  Patrols are often passing by on
+watch for the vampire. This part of the city is lit up brightly with
+lanterns hanging on wooden poles.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4629
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4695
+DDIR_SOUTH
+~
+~
+0 -1 4689
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4696
+#4689
+Crabapple Court~
+Houses line both sides of the street.  Patrols are often passing by on
+watch for the vampire. This part of the city is lit up brightly with
+lanterns hanging on wooden poles.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 4688
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4697
+DDIR_SOUTH
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4690
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_LOCKED 4634 4693
+#4690
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+door~
+EX_ISDOOR -1 4689
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4691
+House~
+A rather rotund woman is standing in the kitchen making cookies. Several
+children are standing at her feet waiting to lick the bowl.  The house is
+incredibly clean and tidy.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4686
+#4692
+House~
+A woman screams as you enter and two dogs jump at you attacking
+aggressively.  The woman backs away from you then rushes you to try
+and get out of the door.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4686
+#4693
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4689
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4694
+House~
+A woman stands here prepared to fight for her children.  Her husband must
+be out patrolling the city while she stays safely locked in the house
+with the rest of their family. Crosses are hung above every window with
+wreaths of garlic hung from the ceiling.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+#4695
+House~
+Several women are lounge around a table playing a game of cards. The room
+is brightly lit with candles and the women seem to be having a fun time
+amusing themselves while their husbands are out hunting the vampire.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4688
+#4696
+House~
+This house is neat and tidy.  Noone seems to be home as you look around
+but it does not look deserted.  There is a note on the table.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR -1 4688
+E
+note~
+Honey, I've gone to play cards. I will stay until morning
+because I don't want to walk home in the dark. Love you!
+~
+#4697
+House~
+A man is hiding here afraid to leave this house for fear of the vampire.
+The house is a mess but you notice several fingerpaints adorning the walls
+which were done by children. There are no kids here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+door~
+EX_ISDOOR -1 4689
+E
+fingerpainting~
+It is a piece of paper streaked with yellows, blues and greens.
+~
+#0
+
+
+#RESETS
+D 4623 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4623 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4624 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4624 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4626 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4626 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4627 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4627 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4628 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4628 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4629 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4669 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4669 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4670 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4670 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4671 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4671 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4672 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4672 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4672 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 4669 DIR_NORTH DOOR_CLOSED_LOCKED
+D 4667 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4667 DIR_WEST  DOOR_CLOSED_LOCKED
+D 4668 DIR_EAST  DOOR_CLOSED_LOCKED
+D 4668 DIR_WEST  DOOR_CLOSED_LOCKED
+M 4605 100 4630
+M 4608 100 4630
+M 4607 100 4630
+M 4606 100 4630
+M 4605 100 4632
+M 4607 100 4632
+M 4610 100 4632
+M 4609 100 4633
+M 4606 100 4633
+M 4623 100 4633
+G 4621 100 0
+M 4611 100 4634
+M 4622 100 4634
+E 4609 100 WEAR_WIELD
+M 4608 100 4634
+M 4605 100 4635
+M 4608 100 4635
+M 4607 100 4635
+M 4606 100 4635
+M 4605 100 4637
+G 4626 100 0
+M 4607 100 4637
+M 4610 100 4637
+M 4609 100 4638
+M 4606 100 4638
+M 4623 100 4638
+G 4621 100 0
+M 4611 100 4639
+M 4622 100 4639
+E 4609 100 WEAR_WIELD
+M 4608 100 4639
+M 4605 100 4640
+M 4608 100 4640
+M 4607 100 4640
+M 4606 100 4640
+M 4605 100 4642
+G 4626 100 0
+M 4607 100 4642
+M 4610 100 4642
+M 4609 100 4643
+M 4606 100 4643
+M 4623 100 4643
+G 4621 100 0
+M 4611 100 4644
+M 4622 100 4644
+E 4609 100 WEAR_WIELD
+M 4608 100 4644
+M 4600 100 4663
+M 4612 100 4604
+G 4635 999 0
+G 4636 999 0
+G 4637 999 0
+G 4638 999 0
+G 4639 999 0
+G 4646 999 0
+G 4647 999 0
+G 4648 999 0
+G 4649 999 0
+M 4613 100 4606
+G 4601 100 0
+G 4613 100 0
+G 4614 100 0
+G 4615 100 0
+G 4616 100 0
+M 4614 100 4607
+G 4617 100 0
+G 4618 100 0
+G 4619 100 0
+G 4620 100 0
+G 4633 100 0
+M 4615 100 4614
+G 4630 100 0
+G 4607 100 0
+G 4642 100 0
+G 4643 100 0
+G 4644 100 0
+G 4645 100 0
+M 4616 100 4615
+M 4624 100 4616
+M 4625 100 4616
+M 4626 100 4616
+M 4627 100 4616
+M 4617 100 4665
+E 4627 100 WEAR_SHIELD
+E 4629 100 WEAR_FEET
+E 4628 100 WEAR_HEAD
+M 4628 100 4618
+M 4618 100 4619
+M 4604 100 4621
+G 4622 100 0
+G 4623 100 0
+M 4603 100 4622
+M 4621 100 4622
+M 4602 100 4612
+E 4624 100 WEAR_ABOUT
+M 4638 100 4612
+E 4625 100 WEAR_LEGS
+M 4638 100 4612
+M 4638 100 4612
+M 4601 100 4626
+M 4629 100 4626
+E 4625 100 WEAR_LEGS
+M 4629 100 4626
+M 4619 100 4617
+M 4620 100 4661
+M 4629 100 4664
+M 4629 100 4664
+E 4625 100 WEAR_LEGS
+M 4601 100 4664
+M 4601 100 4620
+E 4625 100 WEAR_LEGS
+M 4629 100 4620
+M 4629 100 4620
+M 4601 100 4685
+E 4625 100 WEAR_LEGS
+M 4629 100 4685
+M 4629 100 4685
+M 4601 100 4670
+E 4625 100 WEAR_LEGS
+M 4629 100 4670
+M 4629 100 4670
+M 4630 100 4666
+M 4637 100 4681
+M 4637 100 4673
+M 4637 100 4683
+M 4637 100 4687
+M 4631 100 4674
+M 4631 100 4697
+M 4632 100 4675
+M 4609 100 4675
+M 4606 100 4675
+M 4608 100 4675
+M 4632 100 4691
+E 4626 100 WEAR_BODY
+M 4609 100 4691
+M 4606 100 4691
+M 4608 100 4691
+M 4633 100 4676
+M 4611 100 4676
+M 4611 100 4676
+M 4633 100 4692
+E 4626 100 WEAR_BODY
+M 4611 100 4692
+M 4611 100 4692
+M 4634 100 4677
+E 4626 100 WEAR_BODY
+M 4635 100 4677
+M 4636 100 4677
+M 4634 100 4693
+E 4626 100 WEAR_BODY
+M 4635 100 4693
+M 4636 100 4693
+M 4634 100 4695
+E 4626 100 WEAR_BODY
+M 4635 100 4695
+M 4636 100 4695
+G 4632  99 0
+O 4611   1 4602
+O 4610   1 4610
+O 4640   1 4621
+O 4641   1 4625
+P 4612 100 4610
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

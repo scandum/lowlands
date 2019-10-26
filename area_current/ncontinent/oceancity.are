@@ -1,0 +1,3677 @@
+#AREA Ocean City~
+#AUTHORS Covenant Presto~
+#VERSION 4
+#RANGES 25 50 1 95
+#OLC_RANGES 11400 11499
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 'OCEAN CITY'~
+{138}                                    Ocean City
+{300}
+This coastal city is situated on the Northern continent and is the gateway to
+the rest of the landmass. The city has been historically associated with the
+seafaring trades and as such there is a traditional tendency towards the worship
+of Order. Ocean City is useful as a base for exploring the rest of the continent,
+with plenty of shops and guilds (and a morgue ;) to assist you in your
+adventures. The city may be reached by Griffon Airlines or through the oceans to
+the north of Ofcol.
+
+{128}  (A) {058}Quests
+{128}  (B) {058}Creator's Notes
+{128}  (C) {058}Map
+{a}OCEANCITYQUESTS
+{b}OCEANCITYNOTES
+{c}OCEANCITYMAP
+~
+
+0 OCEANCITYQUESTS~
+{138}                                     Quests
+{300}
+There is only one 'proper' quest in the city which involves helping one of the
+denizens discover what has happened to his missing daughter. You will be
+rewarded with a nice light.
+
+There are also several mini quests in this area. Some are just for fun, some
+will result in a small reward.
+~
+
+0 OCEANCITYNOTES~
+{138}                                Creator's Notes
+{300}
+This area was originally created by Presto almost ten years ago as a starting
+point for the rest of the continent. With the advent of a multitude of lowbie
+areas since then the equipment in this area has become obsolete. My revision is
+designed to correct this. I have left most of the area design as it was so
+finding your way around shouldn't be a problem.
+~
+
+0 OCEANCITYMAP~
+{138}                                Ocean City Map
+{300}
+                                      |
+                                  _ _   _ _
+                                 | | | | | |
+                                 |  homes  |
+                                 |_|_| |_|_|
+                          _ _ _ _   _| |_   _ _ _ _
+                        _| | | | |_|     |_| | | | |
+                       |_ shops   _   *   _ guilds |
+                         |_| |_|_| |_   _| |_|_|_|_|
+                           | |  _____| |_____
+                               |    beach    |
+~
+
+0 $~
+
+
+#MOBILES
+#11400
+citizen m11400~
+an Ocean City citizen~
+A citizen of this city hurries about his business.~
+This citizen seems quite cheerful and content in this city.
+Maybe he could even give you DIRECTIONS if you asked.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+40 0 0 1d400+746 1d40+10
+8000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 15~
+if quest (4,8,$n) == 18
+  mpoload 11442
+endif
+~
+>speech_prog directions~
+say Where would you like to go? GUILDS, TRAINING YARD, SHOPS
+~
+>speech_prog guilds training yard practice~
+say The training yard and guilds are east of the city square.
+~
+>speech_prog shops stores~
+say The shops are west of the city square.
+~
+|
+#11401
+citizen m11401~
+an Ocean City citizen~
+A citizen of this city hurries about her business.~
+This citizen seems quite cheerful and content in this city.
+Maybe she could even give you DIRECTIONS if you asked.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+40 0 0 1d400+746 1d40+10
+8000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 15~
+if quest (4,8,$n) == 18
+  mpoload 11442
+endif
+~
+>speech_prog directions~
+say Where would you like to go? GUILDS, TRAINING YARD, SHOPS
+~
+>speech_prog guilds training yard practice~
+say The training yard and guilds are east of the city square.
+~
+>speech_prog shops stores~
+say The shops are west of the city square.
+~
+|
+#11402
+guard cityguard m11402~
+an Ocean City guard~
+A guard of this city is keeping the peace.~
+This guard is fairly tall, has a beard, and takes his job quite seriously.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+1000 S
+45 0 0 1d506+956 1d45+12
+25000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+if quest (1,2,$n) == 1
+  shout $n the traitor is in the city!
+  mpkill $n
+~
+|
+#11403
+guard gatekeeper m11403~
+a Gatekeeper~
+A Gatekeeper of Ocean City is here.~
+This gatekeeper seems extremely powerful. It would be wise to ask him
+the question "may I pass?".
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+-1000 S
+55 0 0 1d900+1774 1d60+19
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>exit_prog s~
+mpoload 11404
+close gate
+lock gate
+mpjunk i11404
+~
+>exit_prog n~
+mpoload 11404
+close gate
+lock gate
+mpjunk i11404
+~
+>speech_prog p may I pass?~
+say You may pass if you answer the following question.
+say Are you a FRIEND or a FOE?
+~
+>speech_prog friend~
+mpmset $n quest 1 2 2
+mpoload 11404
+unlock gate
+open gate
+mpjunk i11404
+say You may pass.
+~
+>speech_prog foe~
+say Wrong answer! Prepare to die!
+mpmset $n quest 1 2 1
+mpkill $n
+~
+>death_prog 100~
+mpoload 11404
+~
+>all_greet_prog 100~
+if quest (1,2,$n) == 1
+  shout Traitor!
+  mpkill $n
+endif
+if quest (1,2,$n) == 2
+  say Greetings $n, friend of Ocean City.
+  mpoload 11404
+  unlock gate
+  open gate
+  mpjunk i11404
+endif
+~
+|
+#11404
+master training m11404~
+the Training Master of Ocean City~
+The Training Master of this city is here.~
+This man is quite bulky, but it's all muscle. The sharp look he gives
+you makes you shiver for a second, but then a warm smile gives him the
+appearance of being someone quite friendly.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>delay_prog 3~
+say That was fantastic!
+smile $X
+say Thanks so much for the soup. I haven't had it for ages!
+say Here, take this as payment for your services.
+mpoload 11443
+give i11443 $X
+smile $X
+~
+>give_prog i11901~
+if quest (12,4,$n) == 3
+  mpmset $n quest 12 4 4
+  mpjunk i11901
+  say Woohoo!
+  say My favorite!
+  emote guzzles the soup down, spilling half of it down his shirt.
+  burp 
+  mpdelay self 2 3 $n
+endif
+~
+>delay_prog 2~
+say Be off with you now!
+~
+>delay_prog 1~
+say Anyway, that's what they've done.
+say I'd love some soup, but the only nearby place it's available is in the Land of Not.
+say Fetch me some and I'll make it worth your while!
+wink $X
+mpdelay self 2 2 $X
+~
+>speech_prog shark's fin soup~
+if quest (12,4,$n) == 2
+  mpmset $n quest 12 4 3
+  say Yes! I absolutely love it!
+  say However ...
+  emote looks glum.
+  say It has recently been banned in Ocean City because it's "cruel" to animals!
+  say Can you believe that?!
+  mpdelay self 2 1 $n
+endif
+~
+>speech_prog help~
+if quest (12,4,$n) == 1
+  mpmset $n quest 12 4 2
+  say Being a lifelong resident of this wonderful seaside city, I have a particular weakness for seafood.
+  say My favorite is shark's fin soup!
+endif
+~
+>speech_prog hi hello~
+if quest (12,4,$n) == 0
+  mpmset $n quest 12 4 1
+  tell $n Once you're done with your training I could use a little help.
+endif
+~
+>greet_prog 100~
+tell $n Hi there $n!
+~
+|
+#11405
+guildmaster master m11405~
+the Guildmaster of Druids~
+Your guildmaster is here.~
+This guildmaster is tall and wears multi-colored robes. He looks very
+intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11406
+guildmaster master m11406~
+the Guildmaster of Sorcerers~
+Your guildmaster is here.~
+This guildmaster is tall and wears sheer white robes. He looks very
+intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11407
+guildmaster master m11407~
+the Guildmaster of Shamans~
+Your guildmaster is here.~
+This guildmaster is tall and wears the standard monk robes. He looks
+very intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11408
+guildmaster master m11408~
+the Guildmaster of Warlocks~
+Your guildmaster is here.~
+This guildmaster is tall and wears midnight black robes. He looks very
+intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11409
+guildmaster master m11409~
+the Guildmaster of Warriors~
+Your guildmaster is here.~
+This guildmaster is tall and wears bright shiny armor. He looks very
+intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11410
+guildmaster master m11410~
+the Guildmaster of Marauders~
+Your guildmaster is here.~
+This guildmaster is tall and wears normal civilian clothes. He looks
+very intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11411
+guildmaster master m11411~
+the Guildmaster of Ninjas~
+Your guildmaster is here.~
+This guildmaster is tall and wears black, almost invisible armor. He
+looks very intelligent.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11412
+restaurant owner m11412~
+the restaurant owner~
+The restaurant owner is here selling fine foods.~
+The restaurant owner is very plump, just like the meats he sells.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog clams clam~
+say Clams? I'm afraid I don't have any clams at the moment.
+say I sometimes dig them up on the beach though.
+~
+|
+#11413
+bartender m11413~
+the bartender~
+The bartender stands behind the counter selling drinks.~
+The bartender almost looks drunk himself!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11414
+pet shop owner m11414~
+the pet shop owner~
+The pet shop owner is here waiting for a customer.~
+The pet shop owner is young, and is covered with scratches from training
+the tigers he sells.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>delay_prog 1~
+say You can try out a tiger if you give me 100 coins.
+~
+>bribe_prog 100~
+mpat 11452 mpmload 11420
+mpat 11452 mptransfer $n
+tell $n The exit is north.
+~
+>greet_prog 100~
+mpdelay self 4 1
+~
+|
+#11415
+magician m11415~
+the magician~
+The magician of this city is here selling magic items.~
+The magician is tall, has a white beard, and seems to be very cheerful.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>bribe_prog 5000~
+mpjunk i3
+if quest (4,8,$n) == 21
+  mpmset $n quest 4 8 22
+  mpoload 11440
+  mpecho {040}The magician intones a Word of Power.{300}
+  mpecho {140}The opaline sceptre glows brightly!{300}
+  give i11440 $n
+  say There you go! Have a look at that beauty!
+  emote rubs his hands together.
+  say Good doing business with you. Hopefully you'll find that useful!
+  emote returns to his daily business.
+endif
+~
+>give_prog i11441~
+if quest (4,8,$n) == 20
+  mpmset $n quest 4 8 21
+  mpjunk i11441
+  say And now for the money ...
+  say Five thousand ought to do it.
+  grin 
+endif
+~
+>give_prog i11442~
+if quest (4,8,$n) == 19
+  mpmset $n quest 4 8 20
+  mpjunk i11442
+  say Okay, now give me the sceptre.
+endif
+~
+>greet_prog 100~
+if quest (4,8,$n) == 18
+  if hasobjnum ($n) == 11442
+    mpmset $n quest 4 8 19
+    say Wonderful! You found it.
+    say I hope it wasn't too difficult.
+    stare 
+    say Okay give me the scroll.
+  endif
+endif
+~
+>delay_prog 2~
+say If you could get it back I might be able to help you for a small fee.
+grin $X
+~
+>speech_prog enchant~
+if quest (4,8,$n) == 17
+  mpmset $n quest 4 8 18
+  say Hmm, you'd like to enchant it eh?
+  say I used to have the perfect scroll to enchant it with too ...
+  say But a citizen of this city recently bought my only one.
+  mpdelay self 2 2 $n
+endif
+~
+>delay_prog 1~
+say So ...
+say What did you have in mind?
+~
+>speech_prog sceptre~
+if quest (4,8,$n) == 16
+  mpmset $n quest 4 8 17
+  gasp 
+  say That is an extraordinary sceptre you have there!
+  say Very, very, interesting.
+  mpdelay self 2 1 $n
+endif
+~
+|
+#11416
+weaponsmith m11416~
+the weaponsmith~
+The weaponsmith of this city is here selling weapons.~
+The weaponsmith is large and muscular and is wearing a fine suit of
+platemail.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11417
+armorer m11417~
+the armorer~
+The armorer of this city is here working on a suit of armor.~
+This man is tall, and is wearing a fine suit of stainless chainmail.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11418
+mortician m11418~
+the mortician~
+The mortician of this city is here selling corpses.~
+The mortician is covered in blood, from operating on corpses.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11419
+master dock m11419~
+the dock master~
+The dock master is here, keeping an eye on the ships.~
+The dock master is short, bulky, and has a wooden leg.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+3379 1d71+26
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11420
+tiger m11420~
+the tiger~
+An untrained tiger is here glaring hungrily at you.~
+The tiger is orange with black stripes.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+40 BODY_MOUTH|BODY_CLAW BODY_MOUTH|BODY_CLAW 1d484+912 1d44+10
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#11421
+tiger m11421~
+a tiger~
+A pet tiger is here.~
+This tiger is orange with black stripes.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+40 BODY_MOUTH|BODY_CLAW BODY_MOUTH|BODY_CLAW 1d400+746 1d40+10
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#11422
+resident m11422~
+an Ocean City resident~
+A resident of this city relaxes here in his home.~
+This resident seems quite content.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+45 0 0 1d600+1146 1d49+13
+4500 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p gets a bag of gold coins from a rush mattress~
+say Hey! That belongs to me!
+kill $n
+~
+>all_greet_prog 100~
+tell $n Welcome, stranger. May I help you?
+~
+>speech_prog yes~
+if hasobjnum ($n) == 11408
+  tell $n You can set your death room in the city square.
+else
+  tell $n Here, have a prayerbook.
+  mpoload 11408
+  give i11408 $n
+endif
+~
+|
+#11423
+street urchin m11423~
+a street urchin~
+A ragged street urchin slinks along the street here.~
+This young child is wearing ragged clothing and is so grimy it is difficult to
+tell if it is a boy or girl. The child's stick thin limbs indicate an irregular
+diet.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+30 0 0 1d225+410 1d30+6
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>delay_prog 2~
+mpoload 11439
+give i11439 $X
+say There. Give that to my father but tell him I must follow my own path.
+say Thanks for all your help!
+emote wanders out of the restaurant.
+mppurge self
+~
+>greet_prog 100~
+if quest (4,8,$n) == 14
+  if inroom ($n) == 11442
+    mpmset $n quest 4 8 15
+    say Aha! There you are. I was wondering when you'd show up.
+    say The chowder is all done.
+    emote thanks the restaurant owner heartily.
+    mpforce m11412 say No problem girlie!
+    mpforce m11412 emote grins at the urchin.
+    emote impishly sticks her tongue out at the restaurant owner.
+    mpdelay self 2 2 $n
+  endif
+endif
+~
+>give_prog i11438~
+if quest (4,8,$n) == 13
+  mpmset $n quest 4 8 14
+  say Awesome! That should be enough for a lovely thick chowder.
+  smile broadly $n
+  say Okay. I'm going to nip over to the restaurant and have my buddy there cook this up for me.
+  say I'll meet you there!
+  mpgoto 11442
+  rest 
+endif
+if quest (4,8,$n) == 12
+  mpmset $n quest 4 8 13
+  say Wow! You are pretty good at clam digging!
+  say I think just one more will do it!
+  clap $n
+endif
+if quest (4,8,$n) == 11
+  mpmset $n quest 4 8 12
+  say Oooh great! Another fat clam!
+  say Still not quite enough though - just a couple more!
+  clap $n
+endif
+if quest (4,8,$n) == 10
+  mpmset $n quest 4 8 11
+  say Fantastic! That's a lovely clam.
+  say However I need a few. Keep 'em coming!
+  smile $n
+endif
+~
+>give_prog i11414~
+if quest (4,8,$n) == 9
+  mpmset $n quest 4 8 10
+  say Fantastic! That's a lovely piece of fish.
+  say Now for those clams. I'll need a few ...
+endif
+~
+>speech_prog yes yep yeah help~
+if quest (4,8,$n) == 8
+  mpmset $n quest 4 8 9
+  say Great! Seafood chowder consists of veggies, herbs, clams and fish.
+  say I can get the vegetables and herbs myself.
+  say First I need you to bring me a piece of fish!
+endif
+~
+>delay_prog 1~
+say I know!
+say His favorite food is seafood chowder. I'll make him some!
+emote pauses in mid-sentence.
+say Ah ...
+say I will need some help with ingredients. Will you help?
+~
+>speech_prog reconcile~
+if quest (4,8,$n) == 7
+  mpmset $n quest 4 8 8
+  say Yes. I'm not going to go back to him ...
+  say But I'd like to do something nice for him.
+  ponder 
+  mpdelay self 2 1 $n
+endif
+~
+>speech_prog path~
+if quest (4,8,$n) == 6
+  mpmset $n quest 4 8 7
+  say I haven't decided yet what my path will be.
+  say All I know is that I don't want to be a peddlar.
+  say I do feel sorry for my father though.
+  say I'd like to reconcile with him if possible ...
+endif
+~
+>speech_prog yes yeah yep~
+if quest (4,8,$n) == 5
+  mpmset $n quest 4 8 6
+  say Ah my poor father. He wants me to help him with the opaline business.
+  say But I just want to be free to follow my own path.
+endif
+~
+>speech_prog p father loves you~
+if quest (4,8,$n) == 4
+  mpmset $n quest 4 8 5
+  say My father? You've spoken to him?
+else
+  say Eh?
+endif
+~
+|
+#11424
+street urchin m11424~
+a street urchin~
+A ragged street urchin slinks along the street here.~
+This young boy is wearing ragged clothing and is rather grimy. Despite the
+child's scruffy appearance he appears to be successful at a life of begging on
+the streets as evidenced by his alert eyes, rosy cheeks, and generally well-fed
+appearance.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+33 0 0 1d272+499 1d33+7
+500 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 20~
+mpoload 11446 wear
+~
+|
+#11425
+shark m11425~
+a shark~
+A shark is here, and it's headed toward you!~
+This looks like an ordinary shark. Human appendages are even hanging
+out of its mouth, scenting the ocean with blood.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_HIDE
+-500 S
+35 BODY_MOUTH BODY_MOUTH 1d306+564 1d35+8
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpkill $r
+~
+|
+#11426
+squid m11426~
+a squid~
+A squid is here, looking for dinner, and you may be it!~
+This squid is about as large as you, and swims very quickly using it's
+tentacles.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_STEALTH
+0 S
+32 BODY_TENTACLE BODY_TENTACLE 1d256+468 1d32+7
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpkill $r
+~
+>entry_prog 100~
+mpkill $r
+~
+|
+#11427
+dolphin m11427~
+a dolphin~
+A gentle dolphin swims up beside you.~
+This dolphin looks just like every other.
+~
+ACT_BODY
+0
+500 S
+30 0 0 1d225+410 1d30+6
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11428
+peddler~
+a peddler~
+A peddler plies her trade here.~
+This raggedly dressed young girl is carrying a basket containing a variety of
+items for sale.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 1d1056+2111 1d65+23
+10000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p follow her own path~
+if quest (4,8,$n) == 15
+  mpmset $n quest 4 8 16
+  cry 
+  emote smiles through his tears
+  say She's an independent one, that's for sure.
+  say Well $n, thanks for all your help anyway.
+  say I'd like to give you a little something in return.
+  mpoload 11441
+  give i11441 $n
+  say Thanks again for your help!
+  tell $n You should speak to the magician about enchanting that sceptre.
+endif
+~
+>delay_prog 1~
+say I guess this means she isn't coming back eh?
+say Did she say anything?
+~
+>give_prog i11439~
+if quest (4,8,$n) == 15
+  mpjunk i11439
+  say Wow! My favorite soup!
+  say This is unbelievable! No one knows how much I love this soup except for ...
+  mpecho A peddlar's voice trails off and a look of sadness passes across his face.
+  say ... this must be from my daughter ...
+  mpdelay self 3 1
+endif
+~
+>speech_prog help~
+if quest (4,8,$n) == 3
+  say Oh! Thank you so much!
+  smile gratefully $n
+  say Go and find her $n! And tell her that her father loves her.
+  mpmset $n quest 4 8 4
+else
+  say Help? Help what?
+endif
+~
+>speech_prog daughter~
+if quest (4,8,$n) == 2
+  say Yes ... my beloved daughter!
+  mpecho The peddlar's lower lip starts to wobble.
+  say She used to help me attract customers by modelling the jewelry.
+  say But she ran away from home recently, and I haven't seen her since.
+  say I would love to track her down, but I have to earn enough to survive.
+  say If only someone would help me ...
+  mpmset $n quest 4 8 3
+endif
+~
+>greet_prog 100~
+if hasobjnum ($n) == 11428
+or hasobjnum ($n) == 11429
+  if quest (4,8,$n) == 0
+    mpmset $n quest 4 8 1
+  endif
+endif
+if quest (4,8,$n) == 1
+  mpmset $n quest 4 8 2
+  say I am ever so grateful to you for buying some of my opaline...
+  sniff 
+  say Sales have been terrible recently.
+  say Ever since my daughter disappeared my heart just isn't in it anymore.
+endif
+if delayed ($i)
+  break
+endif
+mpdelay self 2 2
+~
+>delay_prog 2~
+say Opaline jewelry, opaline jewelry!
+say Buy yer opaline jewelry here!
+~
+|
+#11429
+ethfountainmob m11429~
+EthFountainMob~
+EthFountainMob~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+65 0 0 1d1260+2563 1d71+26
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p from a beautiful gold fountain.~
+if isaffected ($n) != bless
+  mpquiet on
+  cast bless $n
+  mpquiet off
+  mpechoat $n The power of Order infuses you!
+endif
+if whichgod ($r) == god_order
+  if isaffected ($r) != sanctuary
+    mpquiet on
+    cast 'sanctuary' $r
+    mpquiet off
+    mpechoat $r The hand of Order shelters you!
+  endif
+endif
+~
+|
+#11430
+mangy dog m11430~
+a mangy dog~
+A mangy dog slinks along the street here.~
+This mangy dog obviously lives on the streets. Its fur is patchy and matted with
+grime.
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+25 0 BODY_MOUTH 1d156+283 1d25+5
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>delay_prog 1~
+emote sniffs at the ground.
+~
+>greet_prog 20~
+if delayed ($i)
+  break
+endif
+mpdelay self 2 1
+~
+|
+#11431
+ethdriftwoodmob m11431~
+EthDriftwoodMob~
+EthDriftwoodMob~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+if existsroom (i11444)
+  mpecho The waves wash a piece of driftwood away.
+  mppurge i11444
+else
+  if rand (10)
+    mpecho The waves wash some driftwood up onto the beach.
+    mpoload 11444 room
+  endif
+~
+|
+#11432
+priest order m11432~
+a priest of Order~
+A priest of Order wanders the streets here.~
+This priest is dressed in the blue flowing robes of an Order devotee. His serene
+presence is palpable as he makes his way along the street. He glances at you
+with a beautific gaze as you approach him.
+~
+ACT_SMART
+AFF_TRUESIGHT
+0 S
+55 0 0 1d756+1469 1d55+17
+25000 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 100~
+mpmset self dam 0d0+1
+~
+>fight_prog 100~
+cast 'cause serious'
+if rand (70)
+  cast 'cause serious'
+endif
+if rand (18)
+  cast 'cause critical'
+endif
+if rand (9)
+  cast 'heal'
+endif
+~
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpdelay self 2 1
+~
+>delay_prog 1~
+mpdelay self 10 1
+if isaffected ($r) == armor
+  if isaffected ($r) == shield
+    if isaffected ($r) == stone
+      if isaffected ($r) == righteous
+        if isaffected ($r) == sanctuary
+          break
+        endif
+        say May the hand of Order shelter you.
+        mpechoat $r The priest of Order touches your forehead.
+        mpechoaround $r The priest of Order touches $r's forehead.
+        cast sanctuary $r
+        break
+      endif
+      say May the hand of Order shelter you.
+      mpechoat $r The priest of Order touches your forehead.
+      mpechoaround $r The priest of Order touches $r's forehead.
+      cast 'righteous fury' $r
+      break
+    endif
+    say May the hand of Order shelter you.
+    mpechoat $r The priest of Order touches your forehead.
+    mpechoaround $r The priest of Order touches $r's forehead.
+    cast 'stone skin' $r
+    break
+  endif
+  say May the hand of Order shelter you.
+  mpechoat $r The priest of Order touches your forehead.
+  mpechoaround $r The priest of Order touches $r's forehead.
+  cast 'shield' $r
+  break
+endif
+say May the hand of Order shelter you.
+mpechoat $r The priest of Order touches your forehead.
+mpechoaround $r The priest of Order touches $r's forehead.
+cast armor $r
+~
+|
+#11433
+street sweeper~
+a street sweeper~
+A street sweeper cleans the thoroughfare here.~
+This disgruntled looking man sweeps up the litter here.
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS
+0 S
+40 0 0 1d400+746 1d40+10
+20000 0
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+11412 ITEM_TYPE_DRINK_CON ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  115  50  0 23
+11413 ITEM_TYPE_TREASURE ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+11414 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+11415 ITEM_TYPE_LIGHT ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION  115  50  0 23
+11416 ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  115  50  0 23
+11417 ITEM_TYPE_ARMOR ITEM_TYPE_FURNITURE ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+11418 ITEM_TYPE_CORPSE_PC ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+11419 ITEM_TYPE_BOAT ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  115  50  0 23
+11428 ITEM_TYPE_ARMOR ITEM_TYPE_KEY ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11400
+scroll recall~
+a scroll of recall~
+A scroll of recall lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 266 0 0 0 0 0 0
+1 200 13
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11401
+scroll detect invis~
+a scroll of detect invisible~
+A scroll of detect invisible lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 65 0 0 0 0 0 0
+1 350 22
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11402
+scroll cure poison~
+a scroll of cure poison~
+A scroll of cure poison lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 56 0 0 0 0 0 0
+1 650 22
+S 1 'cure poison'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11403
+scroll armor~
+a scroll of armor~
+A scroll of armor lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+28 9 0 0 0 0 0 0
+1 525 25
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11404
+key~
+the gate key~
+The key to the main gate of ocean city lies here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+32 0 0 0 0 0 0 0
+1 1000000 1
+#11405
+shield blue~
+a blue shield~
+An Ocean City guard's shield lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+5 9000 26
+A APPLY_STR 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 2 0
+#11406
+armor suit blue~
+a blue suit of armor~
+An Ocean City guard's armor lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+10 12000 26
+A APPLY_CON 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 2 0
+#11407
+blade blue~
+a blue blade~
+An Ocean City guard's blade lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 7 WEAPON_SLASH 0 0 0 0
+5 20000 23
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 3 0
+#11408
+prayerbook book order~
+a prayerbook of Order~
+A small book in blue bindings lies here.~
+This small blue book contains a prayer to Order, the Lord of the Seas.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 23 190 191 0 0 0 0
+1 100 30
+S 1 'bless'
+S 2 'protection evil'
+S 3 'protection good'
+#11409
+gold fountain~
+a beautiful gold fountain~
+A beautiful gold fountain is here.~
+___    __
+                                  / \ \ //  \
+                                 /    \|/    \
+                                /|     |      |
+                               |||     |      |\
+                              | |      |     /| \
+                             ||||     .-.    ||||
+                            |  |      | |   |  | |
+                             |  |     | |    || |
+                            | |       | |      | |
+                                     /| |\
+                                    | | | |
+                            ___-----| | | |-----___
+                          --  . .  .|_| |_|  .   . --
+                         |__ .   . .  --- . . . .  __|
+                         |  ---_________________---  |
+                         |__                       __|
+                            ---_________________---
+
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+3000 10 1
+#11410
+sign~
+a sign~
+A sign is staked into the beach here.~
+The sign:
+                          ______________________________
+                         |                              |
+                         |  **  O c e a n  C i t y  **  |
+                         |   ________________________   |
+                         |  |                        |  |
+                         |  | (=     Welcome!     =) |  |
+                         |  |________________________|  |
+                         |                              |
+                         | created by Presto    11-1994 |
+                         | revised by Covenant  06-2003 |
+                         |______________________________|
+                                       |  |
+                                       |  |
+                                       |  |
+                                       |  |
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#11411
+staff tongues~
+a staff of tongues~
+A staff of tongues lies here.~
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 5 5 243 0 0 0 0
+5 250 17
+S 3 'tongues'
+#11412
+staff understand~
+a staff of understand~
+A staff of understand lies here.~
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 5 5 253 0 0 0 0
+5 250 17
+S 3 'understand'
+#11413
+lantern~
+a lantern~
+A lantern lies abandoned here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 30 0 0 0 0 0
+3 500 5
+#11414
+perch ocean~
+ocean perch~
+A deep-fried ocean perch lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+1 250 1
+#11415
+sandwich tuna salad~
+a tuna salad sandwich~
+A tuna salad sandwich lies abandoned here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+18 0 0 0 0 0 0 0
+1 350 1
+#11416
+platter shrimp~
+a shrimp platter~
+A shrimp platter lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+30 0 0 0 0 0 0 0
+1 500 5
+#11417
+mug beer~
+a mug of beer~
+A frosty mug of beer lies here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 2 LIQ_BEER 0 0 0 0 0
+2 150 1
+#11418
+shot firewater~
+a shot of firewater~
+A shot of firewater lies here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_FIREWATER 0 0 0 0 0
+1 300 1
+#11419
+bottle wine~
+a bottle of wine~
+A bottle of wine lies here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+5 5 LIQ_WINE 0 0 0 0 0
+2 750 1
+#11420
+barge collapsible~
+a collapsible barge~
+A collapsible barge lies unfolded on the ground here.~
+This collapsible barge folds down to a somewhat manageable package, provided you
+are strong enough to lug it around.
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+50 500 1
+P 1
+TRIG_HIT 5
+OPROG_ECHO
+Your barge is destroyed during the battle.~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#11421
+scalemail shirt~
+a scalemail shirt~
+A shirt of metal scales lies here.~
+This mail shirt comprises overlapping metal scales giving the wearer a reptilian
+appearance.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+7 0 0 0 0 0 0 0
+8 2750 31
+A APPLY_DEX -1 0
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 1 0
+#11422
+scalemail leggings~
+a pair of scalemail leggings~
+A pair of leggings of metal scales lie here.~
+These leggings are made of overlapping metal scales sewn onto some leather
+trousers, giving the wearer a reptilian appearance.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+7 0 0 0 0 0 0 0
+8 3200 31
+A APPLY_DEX -1 0
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 1 0
+#11423
+scalemail hood~
+a scalemail hood~
+A hood of metal scales lies here.~
+This hood comprises of overlapping metal scales giving the wearer a reptilian
+appearance.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+7 0 0 0 0 0 0 0
+3 1500 31
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 1 0
+#11424
+scalemail boots~
+a pair of scalemail boots~
+Some boots of metal scales lie here.~
+These boots are made of overlapping metal scales sewn onto a leather underboot.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+7 0 0 0 0 0 0 0
+4 2000 31
+A APPLY_DEX -1 0
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 1 0
+#11425
+blue steel dagger~
+a blue steel dagger~
+A dagger lies here.~
+This dagger is of good craftsmanship, but is nothing remarkable.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 6 WEAPON_PIERCE 0 0 0 0
+1 650 28
+#11426
+blue steel longsword~
+a blue steel longsword~
+A sword lies here.~
+This sword is of good craftsmanship, but is nothing remarkable.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 6 WEAPON_SLASH 0 0 0 0
+2 1800 32
+#11427
+blue steel battle axe~
+a blue steel battle axe~
+A large battle axe lies here.~
+This axe is of good craftsmanship, but is nothing remarkable.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 5 7 WEAPON_SLASH 0 0 0 0
+4 5500 34
+A APPLY_DEX -1 0
+#11428
+opaline bracelet~
+an opaline bracelet~
+An iridescent bracelet lies here.~
+This bracelet has been carved out of a single piece of an unidentifiable opaline
+material.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+7 0 0 0 0 0 0 0
+1 12000 31
+A APPLY_INT 1 0
+A APPLY_MANA 45 0
+A APPLY_SAVING_SPELL -2 0
+#11429
+opaline ring~
+an opaline ring~
+An iridescent ring lies here.~
+This ring has been carved out of a single piece of an unidentifiable opaline
+material.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+7 0 0 0 0 0 0 0
+1 9500 29
+A APPLY_INT 1 0
+A APPLY_MANA 35 0
+A APPLY_SAVING_SPELL -2 0
+#11430
+seashell necklace~
+a seashell necklace~
+A string of seashells lies here.~
+This necklace has been fashioned from a series of unusually beautiful shells
+threaded onto a chain of the finest gold.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+6 0 0 0 0 0 0 0
+1 24500 35
+A APPLY_WIS 3 0
+A APPLY_HIT 20 0
+A APPLY_SAVING_BREATH -3 0
+#11431
+scroll identify~
+a scroll of identify~
+A scroll of identify lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 143 0 0 0 0 0 0
+1 75 9
+S 1 'identify'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11432
+potion detect invis blue~
+a blue potion of detect invisible~
+A blue vial of detect invisible lies on the ground here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 65 0 0 0 0 0 0
+1 750 22
+S 1 'detect invis'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11433
+potion cure poison green~
+a green potion of cure poison~
+A green potion of cure poison lies on the ground here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 56 0 0 0 0 0 0
+1 500 22
+S 1 'cure poison'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11434
+potion armor violet~
+a violet potion of armor~
+A violet potion of armor lies on the ground here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 9 0 0 0 0 0 0
+1 1000 28
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11435
+potion curse remove clear~
+a clear potion of remove curse~
+A clear potion of remove curse lies on the ground here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 200 58 0 0 0 0 0
+1 5000 30
+S 1 'remove curse'
+S 2 'curse'
+S 3 '-1 slot'
+#11436
+scroll curse remove~
+a scroll of remove curse~
+A scroll of remove curse lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 200 58 0 0 0 0 0
+1 5000 30
+S 1 'remove curse'
+S 2 'curse'
+S 3 '-1 slot'
+#11437
+folding shovel~
+a folding shovel~
+A small folded up metal shovel lies here.~
+This small metal shovel has a large lockable hinge halfway up the handle for
+easy storage. It would be useful if you ever have to dig a hole.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+4 1600 20
+P 1
+TRIG_WEAR_UNKNOWN 100 dig
+OPROG_IF OIF_USER_ROOM_NUM = 11456 4 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_SECTOR = SECT_DESERT 5 3
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -25
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self You cannot dig here!
+mpmset self wait 3
+~
+P 4
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 20 6 5
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self You dig a hole but do not find anything.
+mpmset self wait 3
+~
+P 5
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -25
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self You dig a hole and uncover a clam!
+mpoload 11438 room
+mpmset self wait 3
+~
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -25
+#11438
+large clam~
+a large clam~
+A large clam has been unearthed here.~
+This large clam appears to hav ebeen freshly dug up. The black shell glistens
+with rapidly drying salt.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+5 0 0 0 0 0 0 0
+1 100 1
+#11439
+seafood chowder~
+a bowl of seafood chowder~
+A large bowl of soup has been left here.~
+This large bowl contains a thick spicy soup with large chunks of seafood
+floating around in it.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+20 0 0 0 0 0 0 0
+3 2000 20
+#11440
+fabulous opaline iridescent sceptre~
+an opaline sceptre~
+A fabulous iridescent sceptre lies here.~
+This fabulous sceptre has somehow been fashioned from a single shard of an
+unknown opaline crystal. The workmanship is exquisite and deep within the
+crystal you can see the faint glow of magic.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 2500000 35
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 4 0
+A APPLY_SAVING_SPELL -5 0
+#11441
+an opaline sceptre~
+an opaline sceptre~
+A fabulous iridescent sceptre lies here.~
+This fabulous sceptre has somehow been fashioned from a single shard of an
+unknown opaline crystal. The workmanship is exquisite.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 10 20
+A APPLY_SAVING_SPELL -4 0
+#11442
+fine vellum scroll greater enchantment~
+a scroll of greater enchantment~
+A fine vellum scroll lies on the ground here.~
+This fine scroll is made of vellum and is covered in a spidery script.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 20000 30
+#11443
+black pearl ring~
+a black pearl ring~
+A silvery ring bearing a large black pearl lies here.~
+This silvery ring has a large and apparently flawless black pearl mounted on it.
+It looks very valuable.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+6 0 0 0 0 0 0 0
+1 10 30
+A APPLY_HIT 25 0
+A APPLY_MANA 25 0
+A APPLY_MOVE 25 0
+#11444
+driftwood~
+a piece of driftwood~
+A piece of driftwood lies here.~
+This piece of driftwood has been bleached almost white by the sun.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 6 4 WEAPON_POUND 0 0 0 0
+1 100 25
+#11445
+magnificent statue order~
+a statue of Order~
+A magnificent statue stands here.~
+This magnificent statue portrays a powerfully built man wearing nothing but a
+skirt of kelp leaves. His muscular body has been masterfully carved, and his
+regal visage gazes down at you impassively. A small bronze plaque has been
+bolted to the plinth.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+bronze plaque~
+The plaque is somewhat weathered and has a few scratches, but still decipherable
+is an ornate inscription.
+~
+E
+inscription~
+"May the blessed Hand of Order always shelter our sailors"
+~
+E
+scratches~
+Some words have been scratched into the bronze.
+~
+E
+words~
+Covenant's fourth area (well sort of, it's only a makeover :P)
+~
+#11446
+dirty smock cloth~
+a dirty smock~
+A dirty pile of cloth lies here.~
+This shapeless smock is quite small and increibly filthy. It looks as if it has
+never been washed. The smell emanating from this garment leaves a lot to be
+desired.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+4 0 0 0 0 0 0 0
+1 50 23
+A APPLY_INT 2 0
+A APPLY_STR -1 0
+A APPLY_WIS 2 0
+#11447
+blue steel mace~
+a blue steel mace~
+A heavy mace of steel lies here.~
+This mace is of good craftsmanship, but is nothing remarkable.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 6 5 WEAPON_POUND 0 0 0 0
+3 4000 31
+A APPLY_DEX -1 0
+#11448
+bed~
+a bed~
+A bed stands against the wall here.~
+This plain wooden bed has a simple rush mattress and is covered by a slightly
+ragged woollen blanket.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+2 0 FURNITURE_SLEEP_ON|FURNITURE_SIT_ON 150 0 0 0 0
+1 10 1
+E
+blanket~
+The blanket is made of a rough undyed wool.
+~
+#11449
+table~
+a wooden table~
+A wooden table is in the center of the room.~
+This ordinary table consist of four legs and a square top.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#11450
+rush mattress~
+a rush mattress~
+~
+You poke around inside the rush mattress.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+5 0 0 5 0 0 0 0
+1 10 1
+#11451
+bag gold coins~
+a bag of gold coins~
+A bag of gold coins.~
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+50 0 0 0 0 0 0 0
+1 50 1
+#0
+
+
+#ROOMS
+#11400
+The North Entrance of Ocean City~
+You stand inside the north entrance of Ocean City. The ground is simply
+brown soil that extends north into dense vegetation and south into the
+residential area of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see outside the gate.~
+~
+0 -1 11876
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11407
+#11401
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11405
+#11402
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11406
+#11403
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11408
+#11404
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11409
+#11405
+Residential Road~
+This road is not paved or modified in any way. It leads to the east.
+To the north and south are the homes of residents.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 11401
+DDIR_EAST
+You see the road.~
+~
+0 -1 11406
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 11410
+#11406
+Residential Road~
+This road is not paved or modified in any way. It leads east and west.
+To the north and south are the homes of residents.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 11402
+DDIR_EAST
+You see an intersection.~
+~
+0 -1 11407
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 11411
+DDIR_WEST
+You see the road.~
+~
+0 -1 11405
+#11407
+Residential Intersection~
+You are standing in the intersection of residential road and the
+northern road that leads out of the city. To the south, in the distance
+you can see the city square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the northern entrance of the city.~
+~
+0 -1 11400
+DDIR_EAST
+You see residential road.~
+~
+0 -1 11408
+DDIR_SOUTH
+You see the city square in the distance.~
+~
+0 -1 11412
+DDIR_WEST
+You see residential road.~
+~
+0 -1 11406
+#11408
+Residential Road~
+This road is not paved or modified in any way. It leads east and west.
+To the north and south are the homes of residents.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 11403
+DDIR_EAST
+You see the road.~
+~
+0 -1 11409
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 11413
+DDIR_WEST
+You see an intersection.~
+~
+0 -1 11407
+#11409
+Residential Road~
+This road is not paved or modified in any way. It leads to the west.
+To the north and south are the homes of residents.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a residence.~
+~
+0 -1 11404
+DDIR_SOUTH
+You see a residence.~
+~
+0 -1 11414
+DDIR_WEST
+You see the road.~
+~
+0 -1 11408
+#11410
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11405
+#11411
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11406
+#11412
+North Road of Ocean City~
+You are standing on the north road of ocean city. It leads to the
+residential area of the city. To the south is the city square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see an intersection.~
+~
+0 -1 11407
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11415
+#11413
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11408
+#11414
+A Residence~
+This home is simply one room, but it is quite spacious. The owner of
+the house has done a good job at keeping the place tidy. The exit is to
+the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11409
+#11415
+North Road of Ocean City~
+You are standing on the north road of ocean city. It leads to the
+residential area of the city. To the south is the city square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11412
+DDIR_SOUTH
+You see the city square.~
+~
+0 -1 11417
+#11416
+Northwest Corner of the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+south and east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the square.~
+~
+0 -1 11417
+DDIR_SOUTH
+You see the square.~
+~
+0 -1 11419
+#11417
+North Entrance to the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+east, west, and south. The city's residences are to the north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the north road.~
+~
+0 -1 11415
+DDIR_EAST
+You see the square.~
+~
+0 -1 11418
+DDIR_SOUTH
+You see the center square.~
+~
+0 -1 11420
+DDIR_WEST
+You see the square.~
+~
+0 -1 11416
+#11418
+Northeast Corner of the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+south and west.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+You see the square.~
+~
+0 -1 11421
+DDIR_WEST
+You see the square.~
+~
+0 -1 11417
+#11419
+West Entrance to the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+north, east, and south. To the west are the shops.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the square.~
+~
+0 -1 11416
+DDIR_EAST
+You see the center square.~
+~
+0 -1 11420
+DDIR_SOUTH
+You see the square.~
+~
+0 -1 11422
+DDIR_WEST
+You see the shops.~
+~
+0 -1 11438
+#11420
+The Center Square of Ocean City~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+in all directions.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+You see the square.~
+~
+0 -1 11417
+DDIR_EAST
+You see the square.~
+~
+0 -1 11421
+DDIR_SOUTH
+You see the square.~
+~
+0 -1 11423
+DDIR_WEST
+You see the square.~
+~
+0 -1 11419
+#11421
+East Entrance to the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+north, south, and west. The guilds and training yard are east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the square.~
+~
+0 -1 11418
+DDIR_EAST
+You see the guilds.~
+~
+0 -1 11425
+DDIR_SOUTH
+You see the square.~
+~
+0 -1 11424
+DDIR_WEST
+You see the center square.~
+~
+0 -1 11420
+#11422
+Southwest Corner of the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+north and east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the square.~
+~
+0 -1 11419
+DDIR_EAST
+You see the square.~
+~
+0 -1 11423
+#11423
+South Entrance to the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+north, east, and west. The city entrance is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the center square.~
+~
+0 -1 11420
+DDIR_EAST
+You see the square.~
+~
+0 -1 11424
+DDIR_SOUTH
+~
+~
+0 -1 11496
+DDIR_WEST
+You see the square.~
+~
+0 -1 11422
+#11424
+Southeast Corner of the City Square~
+You stand in the great city square of Ocean City. The sun shines down
+beautifully into the square during the daytime, and the moon creates
+mysterious shadows throughout the square at night. The square continues
+north and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the square.~
+~
+0 -1 11421
+DDIR_WEST
+You see the square.~
+~
+0 -1 11423
+#11425
+East Road of Ocean City~
+This is the east road of ocean city. It is long and paved with brick.
+To the east are the guilds and training yard. To the west is the city
+square.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the guilds.~
+~
+0 -1 11430
+DDIR_WEST
+You see the city square.~
+~
+0 -1 11421
+#11426
+Elementalist Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_DRU SECT_INSIDE
+DDIR_SOUTH
+You see the east road.~
+~
+0 -1 11430
+#11427
+Sorcerer Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_SOR SECT_INSIDE
+DDIR_SOUTH
+You see the east road.~
+~
+0 -1 11431
+#11428
+Monk Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_SHA SECT_INSIDE
+DDIR_SOUTH
+You see the east road.~
+~
+0 -1 11432
+#11429
+Warlock Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_WLC SECT_INSIDE
+DDIR_SOUTH
+You see the east road.~
+~
+0 -1 11433
+#11430
+East Road of Ocean City~
+This road has also been called guild road and training road, due to the
+vast number of guilds and the training yard located on this road. The
+road continues east and west. The elementalist guild is north and the
+training yard is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the elementalist guild.~
+~
+0 -1 11426
+DDIR_EAST
+You see the road.~
+~
+0 -1 11431
+DDIR_SOUTH
+You see the training yard.~
+~
+0 -1 11434
+DDIR_WEST
+You see the city square.~
+~
+0 -1 11425
+#11431
+East Road of Ocean City~
+This road has also been called guild road and training road, due to the
+vast number of guilds and the training yard located on this road. The
+road continues east and west. The illusionist guild is north and the
+ranger guild is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the illusionist guild.~
+~
+0 -1 11427
+DDIR_EAST
+You see the road.~
+~
+0 -1 11432
+DDIR_SOUTH
+You see the ranger guild.~
+~
+0 -1 11435
+DDIR_WEST
+You see the road.~
+~
+0 -1 11430
+#11432
+East Road of Ocean City~
+This road has also been called guild road and training road, due to the
+vast number of guilds and the training yard located on this road. The
+road continues east and west. The monk guild is north and the rogue
+guild is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the monk guild.~
+~
+0 -1 11428
+DDIR_EAST
+You see the road.~
+~
+0 -1 11433
+DDIR_SOUTH
+You see the rogue guild.~
+~
+0 -1 11436
+DDIR_WEST
+You see the city square.~
+~
+0 -1 11431
+#11433
+East Road of Ocean City~
+This road has also been called guild road and training road, due to the
+vast number of guilds and the training yard located on this road. The
+road continues to the west. The necromancer guild is north and the
+assassin guild is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the necromancer guild.~
+~
+0 -1 11429
+DDIR_SOUTH
+You see the assassin guild.~
+~
+0 -1 11437
+DDIR_WEST
+You see the city square.~
+~
+0 -1 11432
+#11434
+Ocean City Training Yard~
+Welcome to the training yard. Ocean City's Master Trainer is here to
+train your statistics to help you be all you can be.
+The exit is north.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see the east road.~
+~
+0 -1 11430
+#11435
+Ranger Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_WAR|ROOM_ALLOW_GLA SECT_INSIDE
+DDIR_NORTH
+You see the east road.~
+~
+0 -1 11431
+#11436
+Marauder Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_MAR SECT_INSIDE
+DDIR_NORTH
+You see the east road.~
+~
+0 -1 11432
+#11437
+Ninja Guild~
+Welcome to your guild. Your guildmaster is here, ready to train your skills.
+The exit is north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_ALLOW_NIN SECT_INSIDE
+DDIR_NORTH
+You see the east road.~
+~
+0 -1 11433
+#11438
+West Road of Ocean City~
+This road leads to all the shops of Ocean City. It is usually bustling
+with citizens. East is the city square.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+You see the city square.~
+~
+0 -1 11419
+DDIR_WEST
+You see the shops.~
+~
+0 -1 11446
+#11439
+Armor Shop~
+You stand in a large shop. There is a coil of wire here for chainmail
+and a stack of metal plates for other suits of armor. There is also a
+counter behind which the shopkeeper stands. The exit is back to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11443
+#11440
+Weaponsmith's Shop~
+This shop isn't very large, but there are several weapons here. The
+exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11444
+#11441
+Magic Shop~
+This shop has got to be the most colorful shop you have ever seen.
+Potions and scrolls of every shape and color line the walls. There is a
+magician here behind the counter. The exit is back south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11445
+#11442
+Restaurant~
+Something smells fishy here. It's got to be the food. After all, the
+city is built next to the ocean. What did you expect? The exit is
+back to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the road.~
+~
+0 -1 11446
+#11443
+West Road of Ocean City~
+This road is the busiest road in Ocean City because of all the shops
+located on it. The road continues to the east. North is the Armorer's
+Shop. South is the Morgue.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the armorer's shop.~
+~
+0 -1 11439
+DDIR_EAST
+You see the road.~
+~
+0 -1 11444
+DDIR_SOUTH
+You see the morgue.~
+~
+0 -1 11447
+DDIR_WEST
+~
+~
+0 -1 16002
+#11444
+West Road of Ocean City~
+This road is the busiest road in Ocean City because of all the shops
+located on it. The road continues east and west. North is the Weaponsmith's
+Shop. South is the Dock Master's Shop.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the weaponsmith's shop.~
+~
+0 -1 11440
+DDIR_EAST
+You see the road.~
+~
+0 -1 11445
+DDIR_SOUTH
+You see the dock master's shop.~
+~
+0 -1 11448
+DDIR_WEST
+You see the road.~
+~
+0 -1 11443
+#11445
+West Road of Ocean City~
+This road is the busiest road in Ocean City because of all the shops
+located on it. The road continues east and west. North is the Magic
+Shop. South is the Pet Shop.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the magic shop.~
+~
+0 -1 11441
+DDIR_EAST
+You see the road.~
+~
+0 -1 11446
+DDIR_SOUTH
+You see the pet shop.~
+~
+0 -1 11449
+DDIR_WEST
+You see the road.~
+~
+0 -1 11444
+#11446
+West Road of Ocean City~
+This road is the busiest road in Ocean City because of all the shops
+located on it. The road continues east and west. North is the Restaurant.
+South is the Bar.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the restaurant.~
+~
+0 -1 11442
+DDIR_EAST
+You see the road.~
+~
+0 -1 11438
+DDIR_SOUTH
+You see the bar.~
+~
+0 -1 11453
+DDIR_WEST
+You see the road.~
+~
+0 -1 11445
+#11447
+The Morgue~
+You stand in the morgue of Ocean City. It stinks in here! The exit is north.
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11443
+#11448
+The Dock Master's Shop~
+This shop is totally bare, except for a counter and pictures of boats.
+Apparently the boats are kept south at the docks. The road is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11444
+DDIR_SOUTH
+You see the docks.~
+~
+0 -1 11451
+#11449
+The Pet Shop~
+This shop sells only one type of pet: Tigers. They seem quite gentle in
+their cages, but you know how fierce they can be. The exit is north.
+There is a sign on the wall.
+~
+0 ROOM_INDOORS|ROOM_PET_SHOP SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11445
+E
+sign~
+The sign reads:
+
+                      The Pet Shop Owner will let you 
+                      fight against an untrained tiger
+                      if you pay him 10,000 coins.
+~
+#11450
+The Pet Holding Area~
+You should never read this, but if you do, who cares?
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+#11451
+The Docks~
+There are a lot of ships here. Cruisers, cargo ships, combat ships, and
+just about every other type imaginable. The ocean is south. The Dock
+Master's Shop is back to the north.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+You see the dock master's shop.~
+~
+0 -1 11448
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11464
+#11452
+The Tiger Cage~
+Can you believe you paid to be put in a tiger cage?
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+You see the pet shop.~
+~
+0 -1 11449
+#11453
+The Bar~
+This has got to be the neatest bar you have ever walked into. You'd
+think that having a lot of drunk sailors around would cause this place
+to be a mess, but instead it's quite clean. The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the road.~
+~
+0 -1 11446
+#11454
+At the Gate of Ocean City~
+You stand before a large gate into what appears to be a large city.
+A man stands here guarding the key. The exits are north, through the
+gate, and south onto the beach.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+You see the gate.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 11404 11496
+DDIR_SOUTH
+You see the beach.~
+~
+0 -1 11458
+#11455
+The Beach~
+This beach is made of white sand. It extends to the east. To the south
+is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_NORTH
+~
+~
+0 -1 11456
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11463
+E
+sand~
+The sand is fine and white.
+~
+#11456
+The Beach~
+This beach is made of white sand. It extends to the east and west. To the
+south is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_EAST
+~
+~
+0 -1 11457
+DDIR_SOUTH
+You see the beach.~
+~
+0 -1 11455
+E
+sand~
+The sand is fine and white. You see some small holes in the sand.
+~
+E
+holes~
+The holes seems to be breathing holes for clams buried beneath the sand!
+~
+#11457
+The Beach~
+This beach is made of white sand. It extends to the east and west. To the
+south is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_EAST
+You see the beach.~
+~
+0 -1 11458
+DDIR_SOUTH
+~
+~
+0 -1 11463
+DDIR_WEST
+You see the beach.~
+~
+0 -1 11456
+E
+sand~
+The sand is fine and white.
+~
+#11458
+The Beach~
+This beach is made of white sand. It extends to the east and west. To the
+north you can see some gates in the distance. To the south is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_NORTH
+You see a short stretch of beach.~
+~
+0 -1 11454
+DDIR_EAST
+You see the beach.~
+~
+0 -1 11459
+DDIR_SOUTH
+~
+~
+0 -1 11464
+DDIR_WEST
+You see the beach.~
+~
+0 -1 11457
+E
+sand~
+The sand is fine and white.
+~
+#11459
+The Beach~
+This beach is made of white sand. It extends to the east and west. To the
+south is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_EAST
+You see the beach.~
+~
+0 -1 11460
+DDIR_SOUTH
+~
+~
+0 -1 11465
+DDIR_WEST
+~
+~
+0 -1 11458
+E
+sand~
+The sand is fine and white.
+~
+#11460
+The Beach~
+This beach is made of white sand. It extends to the east and west. To the
+south is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_SOUTH
+~
+~
+0 -1 11461
+DDIR_WEST
+You see the beach.~
+~
+0 -1 11459
+E
+sand~
+The sand is fine and white.
+~
+#11461
+The Beach~
+This beach is made of white sand. It extends to the west. To the south
+is the ocean.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_NORTH
+~
+~
+0 -1 11460
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11465
+E
+sand~
+The sand is fine and white.
+~
+#11462
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+#11463
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see land!~
+~
+0 -1 11457
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11464
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11466
+DDIR_WEST
+You see land!~
+~
+0 -1 11455
+#11464
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 11458
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11465
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11467
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11463
+#11465
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see land!~
+~
+0 -1 11459
+DDIR_EAST
+You see land!~
+~
+0 -1 11461
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11468
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11464
+#11466
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11463
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11467
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11469
+#11467
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11464
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11468
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11470
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11466
+#11468
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11465
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11471
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11467
+#11469
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11466
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11470
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11472
+#11470
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11467
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11471
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11473
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11469
+#11471
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11468
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11474
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11470
+#11472
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11469
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11473
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11475
+#11473
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11470
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11474
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11476
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11472
+#11474
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11471
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11477
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11473
+#11475
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11472
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11476
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11478
+#11476
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11473
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11477
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11479
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11475
+#11477
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11474
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11480
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11476
+#11478
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11475
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11479
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11481
+#11479
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11476
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11480
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11482
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11478
+#11480
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11477
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11483
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11479
+#11481
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11478
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11482
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11484
+#11482
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11479
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11483
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11485
+DDIR_WEST
+~
+~
+0 -1 11481
+#11483
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11480
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11486
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11482
+#11484
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11481
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11485
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11487
+#11485
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 11482
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11486
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11488
+DDIR_WEST
+~
+~
+0 -1 11484
+#11486
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11483
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11489
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11485
+#11487
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11484
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11488
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11490
+#11488
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11485
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11489
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11491
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11487
+#11489
+The Ocean~
+You are floating over a beautiful blue ocean. It seems to extend
+forever in all directions.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11486
+DDIR_SOUTH
+You see the ocean.~
+~
+0 -1 11492
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11488
+#11490
+The Shallows~
+You have just entered the ocean. It is cold, blue, and huge. Land is                                                 [|]
+back to the south. The ocean occupies all view to the north.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11487
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11491
+#11491
+The Shallows~
+You have just entered the ocean. It is cold, blue, and huge. Land is                                                 [|]
+back to the south. The ocean occupies all view to the north.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11488
+DDIR_EAST
+You see the ocean.~
+~
+0 -1 11492
+DDIR_SOUTH
+You see shallow water.~
+~
+0 -1 11493
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11490
+#11492
+The Shallows~
+You have just entered the ocean. It is cold, blue, and huge. Land is                                                 [|]
+back to the south. The ocean occupies all view to the north.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11489
+DDIR_WEST
+You see the ocean.~
+~
+0 -1 11491
+#11493
+The Shallows~
+You have just entered the ocean. It is cold, blue, and huge. Land is
+back to the south. The ocean occupies all view to the north.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+You see the ocean.~
+~
+0 -1 11491
+DDIR_SOUTH
+You see land!~
+~
+0 -1 11494
+#11494
+The Beach~
+You stand on a beach. Before you is the largest expanse of water you have
+ever seen in your life. There is a trail here leading back south.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+You see shallow water.~
+~
+0 -1 11493
+DDIR_SOUTH
+You see a trail leading away from beach.~
+~
+0 -1 11495
+#11495
+A Trail~
+This trail is short and unpaved. Flowers are growing on both the east 
+and west sides.  To the north everything looks blue and brilliant.
+To the south you see the raff way of New Ofcol. There is a sign here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a beach.~
+~
+0 -1 11494
+DDIR_SOUTH
+You see the raff way.~
+~
+0 -1 667
+E
+sign~
+The sign:
+                        ________________________________
+                       |                                |
+                       |  OOO   CCC   EEEEE   A   N   N |
+                       | O   O C   C  E      A A  N   N |
+                       | O   O C      E     A   A NN  N |
+                       | O   O C      EEE   AAAAA N N N |
+                       | O   O C      E     A   A N  NN |
+                       | O   O C   C  E     A   A N   N |
+                       |  OOO   CCC   EEEEE A   A N   N |
+                       |________________________________|
+                                     |   |
+                                     |   |
+                                     |   |
+                                \\/__|___|__\//
+~
+#11496
+Inside the Gate of Ocean City~
+You stand before a large gate on the south side of the city. A man
+stands here guarding the key. The exits are south, through the gate,
+and north into the main city square.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 11423
+DDIR_SOUTH
+You see the gate.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 11404 11454
+#0
+
+
+#RESETS
+M 11400 100 11400
+M 11433 100 11407
+M 11430 100 11407
+M 11423 100 11407
+M 11424 100 11407
+M 11400 100 11407
+M 11400 100 11416
+M 11424 100 11444
+M 11400 100 11444
+M 11430 100 11430
+M 11400 100 11430
+M 11430 100 11422
+M 11400 100 11422
+M 11424 100 11405
+M 11401 100 11405
+M 11424 100 11409
+M 11401 100 11409
+M 11401 100 11418
+M 11401 100 11446
+M 11401 100 11430
+M 11401 100 11424
+M 11402 100 11406
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11408
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11412
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11417
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11419
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11421
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11433 100 11423
+M 11402 100 11423
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11424 100 11431
+M 11402 100 11431
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11428 100 11433
+G 11437 100 0
+G 11413 100 0
+G 11430 100 0
+G 11429 100 0
+G 11428 100 0
+M 11402 100 11433
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11443
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11402 100 11445
+E 11405  11 WEAR_SHIELD
+E 11406  11 WEAR_BODY
+E 11407  11 WEAR_WIELD
+M 11403 100 11454
+M 11404 100 11434
+M 11405 100 11426
+M 11406 100 11427
+M 11407 100 11428
+M 11408 100 11429
+M 11409 100 11435
+M 11410 100 11436
+M 11411 100 11437
+M 11412 100 11442
+G 11414 100 0
+G 11415 100 0
+G 11416 100 0
+M 11413 100 11453
+G 11417 100 0
+G 11418 100 0
+G 11419 100 0
+M 11414 100 11449
+M 11415 100 11441
+G 11432 100 0
+G 11433 100 0
+G 11434 100 0
+G 11435 100 0
+G 11400 100 0
+G 11401 100 0
+G 11402 100 0
+G 11403 100 0
+G 11411 100 0
+G 11412 100 0
+G 11431 100 0
+G 11436 100 0
+M 11416 100 11440
+G 11447 100 0
+G 11425 100 0
+G 11426 100 0
+G 11427 100 0
+M 11417 100 11439
+G 11421 100 0
+G 11422 100 0
+G 11423 100 0
+G 11424 100 0
+M 11418 100 11447
+M 11419 100 11448
+G 11420 100 0
+M 11421 100 11450
+O 11450 100 11401
+P 11451 100 11450
+O 11449 100 11401
+O 11448 100 11401
+M 11422 100 11401
+O 11450 100 11402
+P 11451 100 11450
+O 11449 100 11402
+O 11448 100 11402
+M 11422 100 11402
+O 11450 100 11403
+P 11451 100 11450
+P 11451 100 11450
+P 11451 100 11450
+O 11449 100 11403
+O 11448 100 11403
+M 11422 100 11403
+O 11450 100 11411
+P 11451 100 11450
+O 11449 100 11411
+O 11448 100 11411
+M 11422 100 11411
+O 11450 100 11413
+P 11451 100 11450
+O 11449 100 11413
+O 11448 100 11413
+M 11422 100 11413
+O 11450 100 11414
+P 11451 100 11450
+O 11449 100 11414
+O 11448 100 11414
+M 11422 100 11414
+M 11425 100 11467
+M 11425 100 11473
+M 11425 100 11479
+M 11425 100 11483
+M 11425 100 11488
+M 11426 100 11469
+M 11426 100 11477
+M 11426 100 11490
+M 11427 100 11471
+M 11427 100 11475
+M 11427 100 11486
+M 11427 100 11491
+M 11432 100 11420
+M 11429 100 11420
+O 11445 100 11420
+O 11409   1 11420
+O 11410   1 11458
+O 11450 100 11410
+P 11451 100 11450
+P 11451 100 11450
+O 11449 100 11410
+O 11448 100 11410
+M 11422 100 11410
+O 11450 100 11404
+P 11451 100 11450
+O 11449 100 11404
+O 11448 100 11404
+M 11422 100 11404
+M 11430 100 11438
+M 11424 100 11438
+M 11424 100 11425
+M 11424 100 11415
+M 11431 100 11461
+M 11431 100 11460
+M 11431 100 11459
+M 11431 100 11457
+M 11431 100 11456
+M 11431 100 11455
+M 11403 100 11496
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

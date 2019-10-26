@@ -1,0 +1,5463 @@
+#AREA Monastery of Zaar Mountain~
+#AUTHORS Rukawa~
+#VERSION 4
+#RANGES 90 95 70 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#HELPS
+-1 ZAAR "MONASTERY OF ZAAR MOUNTAIN"~
+{128}                 -- {118}Monastery of {178}Zaar {118}Mountain {128}--
+{068}
+This as you can see is a joint area written based on monks as the title of
+the area shown.  This area was started at the urging of a good friend of
+ours and basically it involves the apprenticeship into monkhood. Our idea
+is no one is born a monk.  One has to learn what it takes to be a monk and
+meanings behind it. (If you explore this area closely, you will notice a
+few "things" are a close parody of the eastern monastery found in the real
+world. However, most ideas are obtain from our imagination. :) As for the
+quests, you can only attempt them ONCE in your life time. If you fail, you
+will have to reincarnate again.  Like any ambitious creators, we have a
+very long and interesting storyline.  We only hope that you, as the main
+character of this story will enjoy this area. Have fun! :)
+
+  {148}This area was last updated in july 2001
+
+  {128}(A) {058}Story so far 
+  {128}(B) {058}Authors' tips and thoughts
+  {128}(C) {058}Credits
+{a}MOZM1
+{b}MOZM2
+{c}MOZM3
+~
+
+-1 MOZM1~
+{128}                                 Story so far
+{308}
+         Time is but a name, a counter perhaps for mortals such as us.
+         What are years to us in the realms of the mortal?  I know not
+         of its true meaning.  Nevertheless I do know this, as tyranny
+         rises, and so do the champions. I am just one of the many who
+         comes when the oppressed needs me and fades whenever peace
+         resides.  I require no name as I will not wealth.  So let me
+         be free of name as a bird is free of cage.
+
+{138}                                 nameless hero
+
+  {128}(-) {058}Return
+{-}ZAAR "MONASTERY OF ZAAR MOUNTAIN"
+~
+
+-1 MOZM2~
+{128}                           Authors' tips and thoughs
+{308}
+Well, if you come this far to read this, we would be more than glad to give
+you some tips (and our opinions) as a bonus. However, to what extend these
+tips are true, it's for you to judge as you are ultimately responsible for
+yourself.
+
+     1. Never make the mistake of killing anything you see as this is
+        probably the last command you'll ever type.
+     2. Be observant.  We spent considerable amount of time on minute
+        details for your sake.  So we only ask that you do the same
+        for us.
+     3. Listen carefully to what is said as their language is bad and
+        you will have to understand this new form of language.
+
+  {128}(-) {058}Return
+{-}ZAAR "MONASTERY OF ZAAR MOUNTAIN"
+~
+
+-1 MOZM3~
+{128}                                    Credits
+
+  {028}Lead Actor/Actress ... {178}YOU
+  {028}Directors          ... {178}WE
+  {028}Screenplay         ... {178}VT100
+  {028}Special effects    ... {178}MOB_PROG/OBJ_PROG
+  {028}Special thanks to  ... {178}Rukawa (for his merciless whips and iron boots)
+  {028}                   ... {178}HKC Pte Ltd. (HK). Where all good things begin
+  {028}                   ... {178}(c)(Tm)(Sm)(RA)(R)
+
+  {138}Hope you enjoy this little area and thank you.
+
+  {128}(-) {058}Return
+{-}ZAAR "MONASTERY OF ZAAR MOUNTAIN"
+~
+
+0 $~
+
+
+#MOBILES
+#27900
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a green aura. The statue is about 5 feet tall
+and it's sitting on top of a golden lotus pad. Suddenly, unknown to you, the
+statue's had morphed into a life like form of Buddha! The statue smiled at
+you benevolently and morphed back to it's normal form again. You noticed
+there is a scroll lying below the statue but you can't reach it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+10000 1d105+56
+150000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+>death_prog 30~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 29
+    mpoload 27926
+    mpmset $n quest 7 7 30
+  endif
+endif
+~
+|
+#27901
+Abbot~
+Abbot YatTang~
+Abbot YatTang is resting here.~
+You can tell from the looks of him that he is a man of great knowledge and
+spirit. His presence makes you feel safe and secure. Like every monk you see
+in this monastery, he always greet you courteously and smiled benevolently
+whenever you approached him. From the look of his eyes, you can tell that he
+will not hesitate to answer any questions you ask. He is currently meditating,
+kneeling on top of a golden lotus dais. In his hands, held a bead necklace,
+where he kept chanting something that's beyond your understanding.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_HEAD|BODY_ARM BODY_CLAW|BODY_HAND 1d1+25000 1d1+199
+220145 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i27910~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 16
+    gasp 
+    say Oh thank you very much. I am really honored today.
+    say I..... I don't know what to say. I am very happy
+    say and proud that you as a new member of our ranks
+    say would go through all this trouble just to cook
+    say this meal for me. I don't know what else to say
+    say besides thank you.
+    mpjunk all
+    thank $n
+    say Please take this as a token of gratitude.
+    mpoload 27951
+    mpquiet on
+    cast 'remove curse'
+    mpquiet off
+    give i27951 $n
+    say once again thank you
+    mpmset $n quest 0 6 17
+    mpecho The abbot smiles happily while enjoying his food.
+  endif
+endif
+~
+>all_greet_prog 100~
+if quest (25,1,$n) == 0
+  if class ($n) == class_monk
+    if level ($n) > 90
+      if quest (0,6,$n) == 0
+        smile $n
+        say Welcome. I am the abbot of this monastery. I am
+        say glad that you choose to pursue your studies here
+        say at our monastery. We hope your stay here will be
+        say a pleasant one. Master LongKai will give you a short
+        say tour around the monastery.
+        bow $n
+        mpmset $n quest 0 6 1
+      else
+        if quest (23,1,$n) == 1
+          if actorwearsobjnum (27957)
+            if !delayed ($i)
+              mpmset $n quest 25 1 1
+              mpmset self quest 0 7 30
+              mpdelay self 4 1 $n
+              mpjunk all
+              gasp 
+              say You've broken the curse shield!!
+            endif
+          endif
+        endif
+      endif
+    else
+      smile $n
+      say Welcome. I am the abbot of this monastery. I am
+      say glad that you choose to pursue your studies here
+      say at our monastery. But... you need more training
+      say before you are qualified to be one of our ranks.
+      say Good day.
+      bow $n
+    endif
+  endif
+endif
+~
+>speech_prog confess~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 1
+    mpmset $n quest 7 7 2
+    say Ah that sutra. It's kind of important to me.
+    say Would you help me retrive the sutra?
+    smile $n
+  endif
+endif
+~
+>speech_prog yes~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 2
+    mpmset $n quest 7 7 3
+    say Good!
+    ponder 
+    say Now we have to start from somewhere. Maybe you
+    say should start with the monk and ask him where he
+    say last remember where it was?
+  endif
+endif
+~
+>give_prog i27926~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 30
+    say Ah, thank you very much.
+    bow $n
+    mpmset $n quest 7 7 31
+    say I thought I'll never this sutra again. And because
+    say of your help and patience that just an important
+    say relic can be recovered. On behalf of this monastery,
+    say I would like to thank you for your help and patience.
+    say Also I'll forgive the monk who lost the sutra in the
+    say first place. You don't have to worry about him.
+    bow $n
+    smile $n
+    mpjunk all
+  endif
+endif
+~
+>speech_prog valdamir~
+if quest (0,6,$n) == 18
+  if quest (7,7,$n) == 32
+    if quest (15,8,$n) == 255
+      if quest (23,1,$n) == 0
+        if !delayed ($i)
+          mpmset $n quest 23 1 1
+          mpmset self quest 0 7 1
+          mpdelay self 4 1 $n
+          mpjunk all
+          mpoload 27953 room
+          mpecho {168}
+          mpecho You see the room glows brightly and from thin air something glowing came into existance. After a while you noticed nothing has changed except...
+          mpecho {008}
+          mpecho {178}A small pearl lies upon the altar glowing warmly.
+          mpecho {008}
+          gasp 
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>delay_prog 1~
+switch quest (0,7,$i)
+  case 1
+    mpecho {008}
+    say You know the hero!
+    say It must have started again. They have returned.
+    cringe 
+    emote tries to calm himself down.
+  case 2
+    mpecho {008}
+    say How...how did you know the hero?
+    say I have something to tell you. Please bear with me
+    say as I speak very poor Engalish and I speak vely slow.
+    say So please be patient.
+    emote sit down and thinks for a while.
+  case 3
+    mpecho {008}
+    say If you know the hero then circle will have to
+    say be complete again. 90 years ago, this is not a
+    say monastery. It was the Kingdom of Al'kazaar. This
+    say nation is not as powerful and as big as Dhel'har
+    say or Melstrom. The kingdom of Al'kazaar was ruled by
+    say King Lyrmaid. He ruled the kingdom with an iron fist.
+    say People of Al'kazaar lived in fear and terror.
+  case 4
+    mpecho {008}
+    say However his son, Prince Arleas sought to overthrow
+    say his father. The conflict between the two of them
+    say cause a great internal civil war.
+  case 5
+    mpecho {008}
+    emote pauses for a while.....
+  case 6
+    mpecho {008}
+    say During the civil war, Prince Arleas have already
+    say agreed to split the kingdom with King Vilmyr of
+    say Dar'Kah. if King Vilmyr agreed to send troops to
+    say help him defeat his father. Rumors said that Vilmyr
+    say agreed to send troops but she seemed to be too late.
+  case 7
+    mpecho {008}
+    say In the midst of the war, a traveller from another land,
+    say unknown to any of the people in the kingdom. set forth
+    say and challenged both father and son. King Lyrmaid and
+    say Prince Arleas quickly joined forces to protect
+    say themselves. The hero, Valdamir came with seven of
+    say his followers, each of them as mysterious as Valdamir
+    say himself.
+  case 8
+    mpecho {008}
+    emote pauses for a while.....
+  case 9
+    mpecho {008}
+    say Unknown to everyone else, these seven followers one
+    say were taught by Valdamir but no one knew what they were
+    say taught except their descendants. Together the eight of
+    say them, "The Great Eight" as we call them went to confront
+    say King Lyrmaid and Prince Arleas. The battle was furious
+    say and deadly. In the end, The Great Eight prevailed but
+    say at a great cost.
+  case 10
+    mpecho {008}
+    emote pauses for a while.......
+  case 11
+    mpecho {008}
+    say When the Great Eight were about to emerged victorious,
+    say King Lyrmaid use his final option. He opened a portal
+    say from his castle another plane. From this plane demons
+    say came forth and battled the Great Eight. The heroes were
+    say suprised not knowing that King Lyrmaid is a powerful
+    say sorceress.
+  case 12
+    mpecho {008}
+    say The fight was bloody and finally the demons were banished
+    say back to their own plane but Valdamir perished. In great
+    say anger, both King Lyrmaid and Prince Arleas were banished
+    say together into the other plane never able to return.
+  case 13
+    mpecho {008}
+    emote pauses for a while.......
+  case 14
+    mpecho {008}
+    say The seven heroes then sealed the portal with powerful
+    say sorcery. Right before he was banished, King Lyrmaid
+    say cursed all of them that he will return to this world
+    say and he will avenge himself.
+  case 15
+    mpecho {008}
+    say The portal destroyed the castle and most of the people
+    say who failed to flee before it collapsed died innocently.
+    say Those who fled went on to new lands being led by the
+    say seven heroes.
+  case 16
+    mpecho {008}
+    say heroes went on their own separate ways to build kingdoms
+    say of their own. Each kingdom represents one virtue. This
+    say monastery is located where the castle used to be.
+  case 17
+    mpecho {008}
+    emote pauses for a while.......
+  case 18
+    mpecho {008}
+    say Some of our ancestors, those that did not follow
+    say the seven heroes to build new kingdoms decided to
+    say rebuild right here and they built this monastery to
+    say honor Valdamir that saved them and their future
+    say generations from the cruelty of King Lyrmaid
+    say and his son.
+  case 20
+    mpecho {008}
+    emote thinks for a while.
+  case 21
+    mpecho {008}
+    say About 20 years ago, a traveller came to our
+    say monastery and offered to carve our temple walls
+    say for us just for a meal and a nights accommodation.
+  case 22
+    mpecho {008}
+    say We delightly agreed. The next day, to our suprise,
+    say we found the temple walls carved as promised, but we
+    say also found the eight golden statues in the temple and
+    say all was left to us was a note saying that if anyone
+    say that comes to the altar and speak of the hero, then the
+    say Great Eight shall be needed again. That is all I know.
+  case 23
+    mpecho {008}
+    say To find out more, you will have to travel to the seven
+    say kingdoms built by the seven heroes and now ruled by
+    say their descendents.
+  case 24
+    mpecho {008}
+    emote searches his robes.
+  case 25
+    mpecho {008}
+    say Here. Take this.
+    mpjunk all
+    mpoload 27954 room
+  case 26
+    mpecho {008}
+    say We do maintain contact with the other kingdoms,
+    say and they know of this event too. But they will not
+    say believe what you unless you show them these.
+  case 27
+    mpecho {008}
+    say There are only eight of these artifacts of virtue
+    say as each represents one of the heroes. These
+    say belongs to the nameless heroes.
+  case 28
+    mpecho {008}
+    say Good Luck $X.
+    break
+  case 30
+    mpecho {008}            
+    emote is shocked of what you have accomplished!
+    say You are...
+    say never mind that. Most importantly, I was told
+    say to give the "one-who-break-the curse" these.
+    emote opens a secret compartment!
+  case 31
+    mpecho {008}
+    emote gets something out of the compartment.
+    mpoload 27955 room
+  case 32
+    mpecho {008}
+    say I'm sworn never to speak of that someone ever.
+    say I pray to Buddha that you will be as smart
+    say and resourceful in times of darkness.
+  case 33
+    mpecho {008}
+    say Remember your less Well, for it may help
+    say safe the lives of many. May the Gods smile
+    say upon thee.
+    break
+endswitch
+mpmadd self quest 0 7 1
+mpdelay self 10 1 $X
+~
+|
+#27902
+Monk~
+the monk~
+A monk is here sweeping diligently.~
+From a glance, you can tell that this is just an ordinary monk.  However, you
+notice that despite doing simple chores such as sweeping, this monk seemed to
+be in total concentration of his job.  Not until you tap on his shoulder that
+he knew that you are there.  He smiled at you broadly and bow before you. He
+wish your journey to be fruitful and success in whatever you do. With that he
+went back to concentrate on his sweeping again.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+100 S
+90 BODY_HEAD|BODY_LEG BODY_ARM|BODY_HAND 1d100+6500 1d90+41
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  bow $n
+endif
+~
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 4
+    say Abbot's Sutra? Sorry, I've never seen it in my whole life.
+    say Can't help you on that.
+  endif
+endif
+~
+>rand_prog 5~
+mpecho The monk quickly cleans the place for people to give their prayers to the statues.
+~
+|
+#27903
+ChongJi master monk~
+ChongJi the master monk~
+A Monk is here cooking.~
+One look at him you can see that he's HUGE compared to the other monks you saw
+in this monastery.  He is over seven feet tall and lord his arms are as big as
+your thighs!  Whenever you are in his way, he would smile at you jovially.  At
+times when it seems that he would knock you down, he would avoid that with cat
+like agility.  As you observe him a little longer, you notice that every dish
+he prepares is meticulous in detail and exquisite by nature.  You are indeed
+very surprised by the fact that such coarse and huge hands could produce
+gourmet that befits an emperor.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+25000 1d20+199
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 10
+    if hasobjnum ($n) == 27906
+      say Ok. Here is how you will obtain the firewood.
+      say You need to look for the right tree. Only the
+      say old tree will produce useful firewood. The
+      say young ones will be useless because they do not
+      say burn well. When you get the firewood just
+      say a monk will be there to lead you back to the
+      say monastery. Hurry back.
+      mptransfer $n 27999
+    else
+      sigh $n
+      say You are wasting time here. Go get the axe.
+      grumble 
+      break
+    endif
+  else
+    if quest (0,6,$n) == 11
+      if hasobjnum ($n) == 27907
+        say Very good, give me the firewood.
+      else
+        say I see you have no firewood.
+        grumble 
+        say Return when you are ready to enter the
+        say forest once again.
+        mpmset $n quest 0 6 10
+        break
+      endif
+    endif
+    if quest (0,6,$n) == 17
+      say How was it? Did he like it?
+    endif
+  endif
+  smile $n
+endif
+~
+>speech_prog p Master ChongJi~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 4
+    say Yes?
+    emote take a moment and examines you closely.
+    say Ahhh.... my mistake. Master LongKai said he
+    say would send someone to help me with the meal
+    say today. So I guess you are the one?
+  else
+    say Do not disturb me. I am very busy today.
+    grumble 
+  endif
+endif
+~
+>speech_prog yes~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 4
+    say Good. We have a lot to do today. Now let's
+    say see what do we need to prepare the meal.
+    ponder 
+    say Ok now your first job is to get me some
+    say cabbage from the garden. The sickle is in
+    say the storeroom. Just get the sickle and go
+    say to the garden. Look for a fresh green cabbage.
+    say It wouldn't be hard to find. When you find it,
+    say do not PULL it immediately. Make sure you wait
+    say till the sun rises! But you might not get a
+    say fresh cabbage too... You might have to look
+    say REAL HARD.  Now go.
+    mpmset $n quest 0 6 5
+  else
+    if quest (0,6,$n) == 17
+      say Great! Good Job boy. Good Job.
+      say Here take this. For the things you have done
+      say for me.
+      mpjunk all
+      mpoload 27912
+      give i27912 $n
+      say Good Luck on your future journeys.
+      mpmset $n quest 0 6 18
+    endif
+  endif
+endif
+~
+>give_prog i27902~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 6
+    say Excellent. Now we need to get water to wash
+    say the cabbage. Go to the storeroom and pick up
+    say two buckets. Come back and tell me that you
+    say are ready. I will show you where the well is
+    say and you must then fill the buckets with water
+    say and carry them back to this kitchen.
+    mpjunk all
+    mpmset $n quest 0 6 7
+  endif
+endif
+~
+>give_prog i27903~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 5
+    sigh 
+    say This cabbage that you got is not fresh enough.
+    say You need to find the right one.
+    mpjunk all
+  endif
+endif
+~
+>give_prog i27904~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 5
+    sigh 
+    say This cabbage that you got is not the right color.
+    say You need to find the right one.
+    mpjunk all
+  endif
+endif
+~
+>speech_prog ready~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 7
+    if hasobjnum ($n) == 27905
+      say Good. Now I will show you where the well is.
+      say When you reach the well, you need to fill the
+      say bucket with water. The way is a little long,
+      say and beware of those little kids who always
+      say disturb you. Just try to avoid them. When you
+      say return come back here and give me the bucket.
+      mpmset $n quest 0 6 8
+      mpechoat $n You follow the cook out of the kitchen and then he bades you goodbye as you walk along the trail toward the well.
+      mptransfer $n 27983
+    else
+      say What are you doing?
+      grumble 
+      say I told you to fetch the buckets and come to
+      say me when you are ready. Now go.
+    endif
+  endif
+endif
+~
+>give_prog i27905~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 9
+    say Good. Now we have enough water to last for
+    say the day.
+    emote pauses for a while....
+    sigh 
+    say Bad news. We have used up our firewood supply.
+    say Now you must go to the forest nearby and get
+    say some firewood back. Go to the storeroom and
+    say get an axe. Then return here and I will
+    say instruct you how to get the firewood.
+    mpjunk all
+    mpmset $n quest 0 6 10
+  endif
+endif
+endif
+~
+>give_prog i27907~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 11
+    smile $n
+    say Good job. You have collected all the things we
+    say need to prepare this meal. Now let's get
+    say started.
+    mpjunk all
+    mpoload 27902
+    mpoload 27905
+    mpoload 27907
+    say Here are your things.
+    give i27902 $n
+    give i27905 $n
+    give i27907 $n
+    say Ok. First of all you need to go to the south
+    say and wash the cabbage. Then the cabbage is to
+    say be cut. After you have finish cutting the
+    say cabbage bring it here and light a fire.
+    say Finally you can start cooking. Then we are
+    say done. You may then bring the finished meal
+    say to the abbot.
+    pat $n
+    say Now go.
+    say Wait wait wait. I almost forgot. Here is
+    say the ladle.
+    mpoload 27908
+    give i27908 $n
+    smile $n
+    mpmset $n quest 0 6 12
+  endif
+endif
+endif
+~
+>speech_prog child~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 18
+    say Ah, the child is a weird child. He seemed to
+    say have existed forever. He has been here even
+    say before this monastery was founded. He probably
+    say asked you to give him some food. Tell you what,
+    say go to the shop and buy some for him. Remember
+    say to buy the meat.
+    mpmset $n quest 7 7 19
+  endif
+endif
+endif
+~
+>speech_prog satisfied~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 20
+    say Ah, he has been known to be a little choosy.
+    say I'm very sorry. Anyways, get me some pork from
+    say the shops and I'll prepare from there.
+    mpmset $n quest 7 7 21
+  endif
+endif
+endif
+~
+>give_prog i27913~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 21
+    say Thank you. Give me a second.
+    emote prepares a special delicacy.
+    mpjunk all
+    mpoload 27921
+    give i27921 $n
+    say There you go. Hope this would work.
+    wink $n
+    mpmset $n quest 7 7 22
+  endif
+endif
+endif
+~
+>rand_prog 5~
+sigh 
+say Well why did i choose to become a cook?
+emote returns to cooking food for the monks.
+~
+|
+#27904
+Tree~
+the tree~
+A large tree.~
+There's nothing special about this tree.  It is as normal as any other trees
+you have seen in your whole life.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+70 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d100+3000 1d50+35
+-1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+  or quest (7,7,$n) == 28
+    sigh $n
+    say Please don't kill me will you? I know your what your
+    say intentions are. I'll give you a branch and you can give
+    say it to a monk carver, and you'll get the statue.
+    say Will you accept?
+    sniff 
+  endif
+endif
+endif
+~
+>speech_prog yes~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+    bow $n
+    say Thank you for your show of mercy.
+    thank $n
+    mpoload 27922
+    give i27922 $n
+    mpmset $n quest 7 7 26
+    say You know. Trees don't talk. So long BOZO!!
+    bonk $n
+    mppurge self
+  else
+    if quest (7,7,$n) == 28
+      bow $n
+      say Thank you for your show of mercy.
+      thank $n
+      mpoload 27922
+      give i27922 $n
+    endif
+  endif
+endif
+endif
+~
+>speech_prog no~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+    mpkill $n
+    mpforce $n shout Help! I'm being attacked by a tree.
+    mpmset $n quest 7 7 27
+  else
+    if quest (7,7,$n) == 28
+      mpkill $n
+      mpforce $n shout Help! I'm being attacked by a tree.
+    endif
+  endif
+endif
+endif
+~
+>death_prog 100~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 10
+  or quest (0,6,$n) == 11
+    if rand (25)
+      mpoload 27907
+      mpmset $n quest 0 6 11
+    endif
+  else
+    if quest (7,7,$n) == 25
+    or quest (7,7,$n) == 26
+      laugh diabolically 
+      say You may kill me but you're not going to get it!
+      mpoload 27922
+      mpmset $n quest 7 7 25
+    else
+      if quest (7,7,$n) == 27
+      or quest (7,7,$n) == 28
+        if rand (25)
+          scream 
+          say How could this happen??
+          mpoload 27923
+          mpmset $n quest 7 7 28
+        else
+          laugh diabolically 
+          say You may kill me but you're not going to get it!
+          mpoload 27922
+        endif
+      endif
+    endif
+  endif
+endif
+endif
+~
+|
+#27905
+ChongSoi the master monk~
+ChongSoi the master monk~
+A humble monk is standing here.~
+Though he does not look grand nor important, you can feel that there's a strong
+wave of understanding and knowledge radiating from within him.  Before you
+could ask him why you felt these kind of unknown forces, he shook his head and
+said that it's just a fluke you are experiencing.  While you are pondering his
+words, he smiled at you asking you if you have completed your assigned chores.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+25000 1d1+199
+200000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if hasobjnum ($n) == 27905
+    if quest (0,6,$n) == 9
+      say Hello. I'm instructed by the cook to lead you
+      say back to the monastery. Follow me.
+      mpecho You follow this humble monk back to the monastery.
+      mptransfer $n 27934
+    else
+      say I am sorry but you do not seem to have any
+      say water in the bucket. Go back to the well and
+      say fetch sufficient water I will wait here.
+      smile $n
+    endif
+  else
+    smile $n
+  endif
+endif
+endif
+~
+>speech_prog gate~
+if class ($n) == class_monk
+  if quest (7,7,$n) >= 17
+    say Ah, I'll bring you there.
+    mpecho You follow this humble monk back to the monastery.
+    mptransfer $n 27934
+  endif
+endif
+endif
+~
+|
+#27906
+TauToi the master monk~
+TauToi the master monk~
+The coffin keeper is here reading scriptures intently.~
+Here you see a monk reading scriptures intently. You clear your throat several
+times before he actually notices you. He apologized to you for his
+inattentiveness and courteously invited to have a sit.  After telling him what
+you need, he smile at you knowingly and implore you to wait a bit while he
+retrieves the goods that you need.  You are impressed by his politeness.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2256+7613 1d95+93
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27907
+TinChu the master monk~
+TinChu the master monk~
+A fierce looking monk is here punching sand bags.~
+He's everything a man dreams to be. Two hundred pounds of pure muscles and
+totally fat free. Every little movement he made, you could see that all those
+muscles groaning under his skin, as if waiting to burst free.  However, to many
+girls' dismay, he's a monk. He's devouted to his order and religion.  Although
+he's head is smoothly shaved, he's extremely handsome, and what catch your
+attention the most was that he has eyes as dark as the darkest nights.  With
+his eyes, it is as though he could see through your deepest and darkest
+secrets.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d3306+7581 1d115+68
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_MONK
+#27908
+KengYan the master monk~
+KengYan the master monk~
+A nondescript monk is here.~
+You see nothing special about him. He carries a manual of some kind of
+scriptures you don't even understand. The most unexplained phenomenon about
+him is that he is somehow emitting a strange force.  The stranger thing is
+that the force is preventing you from getting too near to him no matter how
+hard you tried.  He smiled and nodded knowingly at your dilemma, telling you
+to fear not.  He sat back onto his chair and telepathically told you that
+that's how he helps people practice. As an after thought, he hope that you
+would not mind this kind of unorthodox teachings.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d3306+7581 1d115+68
+108174 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+C CLASS_MONK
+#27909
+HouSek the master monk~
+HouSek the master monk~
+A food seller here minding his stall.~
+He looks ordinary and he wears a robe that all the monks you see in this
+monastery wear. When you look closely on what he sells, he told you not to
+hesitate for all the food sold is hundred percent vegetarian and they are all
+fat free.  To further prove his point, he let you tried a sample of the
+delicacy, and to your amazement, it was really good!  He laugh at you
+knowingly, and told you that all the food that you see is prepared by master
+ChongJi and him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2256+7613 1d95+93
+166115 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27910
+YamSeng the master monk~
+YamSeng the master monk~
+A drink seller here minding his stall.~
+Though he dressed like every monk you have seen here, you notices that he's
+the only one with an apron on him.  He's constantly busy filling up the drink
+containers and mixing drinks.  Before you could even think what will those
+drinks would do, he suddenly appeared in front of you and told you not to
+worry about that.  He happily informed you that the drinks area made from the
+well water which is situated at the foot of the mountain. They are non
+narcotic and non alcoholic.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2256+7613 1d95+93
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27911
+wooden dummy~
+the wooden dummy~
+A wooden dummy is here for you to train.~
+This dummy is basically made of wooden cylinders about one head shorter than
+you.  Several smaller, one foot long poles are randomly jutted out of the
+main body.  Other than that, you see nothing special about it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+84 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+5000 1d84+36
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 20~
+if class ($n) == class_monk
+  if quest (7,7,$n) > 15
+    laugh 
+    break
+  endif
+  if quest (7,7,$n) == 15
+    mpjunk all
+    mpmload 27929
+    mpechoaround $n You hear the wooden dummy's death cry.
+    mppurge self
+    break
+  endif
+  if quest (7,7,$n) >= 6
+    mpechoat $n You find nothing of interest.
+    mpmadd $n quest 7 7 1
+    break
+  endif
+endif
+endif
+~
+>fight_prog 100~
+if gold ($n) > 5000
+  mpmadd $n gold -5
+endif
+~
+|
+#27912
+Child~
+the spoiled child~
+A child is here pouting.~
+Despite that it is obvious that the child is lost, you can sense that there's
+something undescribable about him..... Something mischevious?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+25000 1d1+199
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 9
+    mpecho The child run towards you and trips you.
+    mpecho The water from the bucket is spilled all over.
+    laugh $n
+    mpmset $n quest 0 6 8
+  endif
+endif
+endif
+~
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 17
+    say Don't know any thing called sutra. However,
+    say if you want my book, you'll have to get me
+    say some food from the cook. I'm hungry.
+    emote rubs his tummy.
+    grin $n
+    say Something for something.
+    say Go to Master ChongSoi, and he'll lead you
+    say back to the the gate.
+    mpmset $n quest 7 7 18
+  endif
+endif
+endif
+~
+>give_prog i27913~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 19
+    emote gobbled his food hungrily.
+    mpjunk all
+    sigh $n
+    shake 
+    say Sorrie, I'm not satisfied with the food.
+    emote throws a tantrum.
+    say I want food that are only prepared by
+    say Master ChongJi. Can you do that for a good
+    say boy like me?
+    grin $n
+    mpmset $n quest 7 7 20
+  endif
+endif
+endif
+~
+>give_prog i27921~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 22
+    emote eats his food happily.
+    burp $n
+    say Ah, this is still the finest dish I've ever
+    say tasted!
+    say Thank you.
+    say However, I'm sorry to say that I don't have
+    say the book. I sold it to the storekeeper. You'll
+    say have to get it from him. Good Luck
+    mpjunk all
+    mpmset $n quest 7 7 23
+  endif
+endif
+endif
+~
+>rand_prog 5~
+emote runs around happily.
+say Will you play with me?
+~
+|
+#27913
+A Monk~
+the Monk~
+A monk is lost in thoughts is here.~
+You see nothing special about this monk.  However, he does not seem to
+notice you at all.  He keeps chanting something you don't understand and
+at the same time, stares off into the distant horizon.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+70 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+3999 2d30+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  bow $n
+endif
+endif
+~
+>rand_prog 1~
+ponder 
+say What is one plus one?
+sigh 
+~
+>speech_prog two~
+say Thank you. You're truly genius.
+cheer $n
+~
+>speech_prog one~
+slap $n
+say You DUMBASS! I thought i was not smart. Now I found someone
+say who is more stupid than me.
+laugh loudly $n
+endif
+~
+|
+#27914
+GouSau the Elder monk~
+GouSau the Elder monk~
+A wise monk his here.~
+He has the longest eyebrows you have ever seen.  Both his beard and eyebrows
+are silvery white.  His head is shaven clean and you can hardly see his
+eyes.  He wears a clean grey robe that has no wrinkles and on his left hand,
+he holds a staff that is about six feet long which is made of steel. He
+handled the steel staff effortlessly as if it is a toothpick. As you are
+approaching him, his smile made you feel as if you have known him for
+years.  Before you can say anything, he nods at you mysteriously.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+25000 1d1+299
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (27,1,$n) == 0
+    mpmset $n quest 27 1 1
+    say Welcome to our monastery. The Abbot is at the
+    say temple waiting for your arrival.
+    bow $n
+    break
+  endif
+endif
+say Welcome to our monastery. We hope you enjoy
+say your stay here.
+smile $n
+~
+>speech_prog child~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 17
+    say Ah, I like people who are humble and polite.
+    bow $n
+    smile 
+    say If you want to return, tell the keeper you would
+    say like to return to the monastery gate.
+    mpechoat $n GouSau leads you to the child by the well.
+    mpechoaround $n GouSau leads $n to the child by the well.
+    mptransfer $n 27983
+  else
+    if quest (7,7,$n) == 19
+      say Ah, I like people who are humble and polite.
+      bow $n
+      smile 
+      say There you go!
+      mptransfer $n 27983
+    else
+      if quest (7,7,$n) == 22
+        say Ah, I like people who are humble and polite.
+        bow $n
+        smile 
+        say There you go!
+        mptransfer $n 27983
+      endif
+    endif
+  endif
+endif
+endif
+~
+>speech_prog p forest~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+    bow $n
+    smile 
+    say There you go!
+    mptransfer $n 27999
+  else
+    if quest (7,7,$n) == 26
+      bow $n
+      smile 
+      say There you go!
+      mptransfer $n 27999
+    else
+      if quest (7,7,$n) == 27
+        bow $n
+        smile 
+        say There you go!
+        mptransfer $n 27999
+      else
+        if quest (7,7,$n) == 28
+          bow $n
+          smile 
+          say There you go!
+          mptransfer $n 27999
+        endif
+      endif
+    endif
+  endif
+endif
+endif
+~
+>fight_prog 100~
+say EIGHTEEN DRAGON PALM PUNCH!
+mpecho GouSau's attack <<<+-*-+>> CRUCIFIES <<<+-*-+>>> you.
+mpquiet on
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+mpquiet off
+~
+|
+#27915
+Master Longkai monk M27915~
+LongKai the Master monk~
+A monk is meditating here.~
+You see a monk in his thirties.  From the looks of it he doesn't seem to be
+too comfortable sitting here.  But something is preventing him from
+leaving this room.  He is currently deep in meditation.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2756+9463 1d105+108
+156967 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p Master Longkai~
+if inroom ($n) == 27922
+  if quest (0,6,$n) == 1
+    if quest (0,6,$i) == 0
+      say Aha! You must be the new apprentice the abbot
+      say is talking about. Welcome to our monastery. I
+      say am instructed to give you a short tour around
+      say the monastery. Come, follow me.
+      bow $n
+      mpforce $n follow M27915
+      mpmset self quest 0 6 50
+    else
+      bow $n
+      say Good day to you.
+    endif
+  endif
+endif
+endif
+~
+>fight_prog 50~
+say So you want to challenge me. Give it up Loser!
+mpecho {118}LongKai's attack {128}<<--*--> {118}I{138}MP{118}LO{138}DE{118}S {128}<<--*-->> {118}you!
+mpquiet on
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+cast 'energy drain' $n
+mpquiet off
+restore self
+~
+>rand_prog 100~
+if quest (0,6,$i) > 0
+  if quest (0,6,$i) == 48
+    west 
+  endif
+  if quest (0,6,$i) == 46
+    say This is a small temple. Unlike the others
+    say higher up in the mountains.
+  endif
+  if quest (0,6,$i) == 44
+    mpecho {008}
+    say All along the side of this temple lies the
+    say statues of Buddha.
+  endif
+  if quest (0,6,$i) == 42
+    mpecho {008}
+    say There are eight minor statues like the one
+    say you see here. Now lets go somewhere else.
+  endif
+  if quest (0,6,$i) == 41
+    mpecho {008}
+    say Shall we?
+    mpmload 27924
+    mpquiet on
+    mpforce $r follow self
+    mpquiet off
+    mppurge self
+  endif
+  mpmadd self quest 0 6 -1
+endif
+if rand (5)
+  mpecho Master LongKai looks around him, making sure everyone is doing their job.
+endif
+~
+|
+#27916
+Cabbage mob~
+the cabbage mob~
+The cabbage is here.~
+Cabbage mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+125749 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog cabbage~
+if quest (0,6,$n) == 5
+or quest (0,6,$n) == 6
+  if time () == 5
+  or time () == 6
+  or time () == 7
+  or time () == 8
+    if inroom ($n) == 27947
+      if rand (33)
+        mpmset $n quest 0 6 6
+        mpoload 27902
+        mpquiet on
+        give I27902 $n
+        mpquiet off
+        mppurge self
+        break
+      endif
+    endif
+  endif
+endif
+if rand (50)
+  mpoload 27903
+else
+  mpoload 27904
+endif
+mpquiet on
+give i2790 $n
+mpquiet off
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#27917
+Water mob~
+the water mob~
+The water mob is here.~
+Water mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+182492 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#27918
+CheongSamFung~
+CheongSamFung~
+A young disciple stands here staring at the sky,~
+Upon closer examination of this disciple, you found out that he is no
+older then fifteen years old. But there is something within him that
+is beyond your understanding, especially when he stares at you
+with his large brown eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+132945 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 11
+    if hasobjnum ($n) == 27907
+      say the master cook sent me to bring you back.
+      say He said we are going to be late. Let us get
+      say going.
+      mpecho The young disciple quickly leads you back to the monastery.
+      mptransfer $n 27934
+    else
+      smile $n
+    endif
+  else
+    if quest (7,7,$n) == 25
+      say Well, it's getting late. The forest is
+      say dangerous. Best if you leave now.
+      bow $n
+      smile 
+      mptransfer $n 27934
+    else
+      if quest (7,7,$n) == 26
+        say Well, it's getting late. The forest is
+        say dangerous. Best if you leave now.
+        bow $n
+        smile 
+        mptransfer $n 27934
+      else
+        if quest (7,7,$n) == 27
+          say Well, it's getting late. The forest is
+          say dangerous. Best if you leave now.
+          bow $n
+          smile 
+          mptransfer $n 27934
+        else
+          if quest (7,7,$n) == 28
+            say Well, it's getting late. The forest is
+            say dangerous. Best if you leave now.
+            bow $n
+            smile 
+            mptransfer $n 27934
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+endif
+~
+>rand_prog 5~
+emote tries to do Tai-Chi but fails miserably.
+~
+|
+#27919
+Cutting  mob~
+the cutting mob~
+The cutting cabbage is here.~
+Cutting mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+189706 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog cut~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 13
+    mpjunk all
+    mpmset $n quest 0 6 14
+    mpoload 27909
+    mpquiet on
+    give i27909 $n
+    mpquiet off
+    mppurge self
+  else
+    mppurge self
+  endif
+else
+  mppurge self
+endif
+else
+  mppurge self
+endif
+~
+>fight_prog 100~
+say Trying to cheat?
+mpquiet on
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mpquiet off
+~
+|
+#27920
+Washing mob~
+the washing mob~
+The washing cabbage mob is here.~
+Washing mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+16919 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog washed~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 12
+    mpmset $n quest 0 6 13
+    mppurge self
+  else
+    mppurge self
+  endif
+else
+  mppurge self
+endif
+else
+  mppurge self
+endif
+~
+>fight_prog 100~
+say Trying to cheat?
+mpquiet on
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mpquiet off
+~
+|
+#27921
+Firewood mob~
+the firewood mob~
+The firewood mob is here.~
+Firewood mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+29821 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog light~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 14
+    mpmset $n quest 0 6 15
+    mppurge self
+  else
+    mppurge self
+  endif
+else
+  mppurge self
+endif
+else
+  mppurge self
+endif
+~
+>fight_prog 100~
+say Trying to cheat?
+mpquiet on
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mpquiet off
+~
+|
+#27922
+Cooking mob~
+the cooking mob~
+The cooking  is here.~
+Cooking mob
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_CLAW|BODY_HAND 1d2256+7613 1d95+46
+49304 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog cooked~
+if class ($n) == class_monk
+  if quest (0,6,$n) == 15
+    mpmset $n quest 0 6 16
+    mpjunk all
+    mpquiet on
+    mpforce $n give cabbage cooking
+    mpoload 27910
+    give i27910 $n
+    mpquiet off
+    mppurge self
+  else
+    mppurge self
+  endif
+else
+  mppurge self
+endif
+else
+  mppurge self
+endif
+~
+>fight_prog 100~
+say Trying to cheat?
+mpquiet on
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mass acid
+mpquiet off
+~
+|
+#27923
+Storekeeper~
+the storekeeper~
+The storekeeper is here.~
+This storekeeper is here showing his variety of wares brought from
+all over the world.  He seems to be honest but you can never be sure.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2256+7613 1d95+93
+94975 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 23
+    say Ah, you mean the sutra that the child sold me?
+    say Well, you see, me and my wife has some problem with...
+    emote cough in an embarrassed manner.
+    say You know what I mean. Anyways we have been told that
+    say a magical statue is known to say...give us a 100%
+    say chance in that certain "area" of interest so...
+    blush 
+    emote cough in an embarrassed manner.
+    say Talk to my wife. She'll tell you more about the statue.
+    mpmset $n quest 7 7 24
+  endif
+endif
+endif
+~
+|
+#27924
+Master monk M27924~
+LongKai the Master monk~
+A monk is meditating here.~
+You see a monk in his thirties.  From the looks of it he doesn't seem to
+be too comfortable sitting here.  But something is preventing him from
+leaving this room.  He is currently deep in meditation.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+97 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+12000 1d1+120
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog yes~
+if inroom ($n) == 27915
+  if quest (0,6,$n) == 1
+    if quest (0,6,$i) < 41
+      mpquiet on
+      mpforce $n follow M27924
+      mpquiet off
+      mpmset self quest 0 6 51
+      smile $n
+    endif
+  endif
+endif
+endif
+~
+>rand_prog 100~
+if quest (0,6,$i) == 50
+  east 
+endif
+if quest (0,6,$i) == 49
+  south 
+endif
+if quest (0,6,$i) == 48
+  east 
+endif
+if quest (0,6,$i) == 47
+  open doors
+endif
+if quest (0,6,$i) == 46
+  mpquiet on
+  open doors
+  mpquiet off
+  south 
+endif
+if quest (0,6,$i) == 45
+  south 
+endif
+if quest (0,6,$i) == 44
+  say To your left and right, are the gardens
+  say where we farm our food.
+endif
+if quest (0,6,$i) == 42
+  mpecho {008}
+  say We do not have a large variety of food
+  say for our monks but they are good enough
+  say to give us a balance nutrition content.
+endif
+if quest (0,6,$i) == 41
+  if quest (0,6,$r) == 1
+    mpquiet on
+    mpforce $r follow self
+    mpquiet off
+    smile $r
+  else
+    smile 
+  endif
+  say Ready when you are.
+  mpmload 27925
+  mpmset M27925 quest 0 5 25
+  mppurge self
+endif
+if quest (0,6,$i) == 1
+  say Perhaps you need more time to think about this.
+  emote walks back to the temple.
+  mppurge self
+endif
+if quest (0,6,$i) == 0
+  mpmset self quest 0 6 40
+endif
+mpmadd self quest 0 6 -1
+~
+|
+#27925
+Master monk M27925~
+LongKai the Master monk~
+A monk is meditating here.~
+You see a monk in his thirties.  From the looks of it he doesn't seem to
+be too comfortable sitting here.  But something is preventing him from
+leaving this room. He is currently deep in meditation.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+100 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+10000 1d1+200
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog ready~
+if inroom ($n) == 27932
+  if quest (0,6,$n) == 1
+    if quest (0,6,$i) < 33
+      mpquiet on
+      mpforce $n follow M27925
+      mpquiet off
+      mpmset self quest 0 6 51
+      mpecho Master LongKai scratches his head, wondering what he will show next.
+    endif
+  endif
+endif
+endif
+~
+>rand_prog 100~
+if quest (0,6,$i) == 50
+  north 
+endif
+if quest (0,6,$i) == 49
+  west 
+endif
+if quest (0,6,$i) == 48
+  west 
+endif
+if quest (0,6,$i) == 47
+  west 
+endif
+if quest (0,6,$i) == 46
+  north 
+endif
+if quest (0,6,$i) == 45
+  north 
+endif
+if quest (0,6,$i) == 44
+  west 
+endif
+if quest (0,6,$i) == 43
+  west 
+endif
+if quest (0,6,$i) == 42
+  west 
+endif
+if quest (0,6,$i) == 40
+  say Here we are.
+  smile 
+endif
+if quest (0,6,$i) == 39
+  say To the north is the kitchen where the master
+  say cook is working. He cooks for everyone in
+  say the monastery for all our meals.
+endif
+if quest (0,6,$i) == 37
+  mpecho {008}
+  say A very tough job I would say, but he is more
+  say than qualified for his job. To your south is
+  say the storeroom, a place where we store all our
+  say equipments used for farming and other chores.
+endif
+if quest (0,6,$i) == 36
+  emote pauses for a while...
+endif
+if quest (0,6,$i) == 34
+  say I guess that covers most of it. There are
+  say more to be learned, but you will learn them
+  say over your stay here. Anyway I have a
+  say request. Will you help me?
+endif
+if quest (0,6,$i) == 1
+  say Perhaps you need more time to think about this.
+  emote walks back to the temple.
+  mppurge self
+endif
+if quest (0,6,$i) == 0
+  mpmset self quest 0 6 32
+endif
+mpmadd self quest 0 6 -1
+~
+>speech_prog yes~
+if inroom ($n) == 27904
+  if quest (0,6,$n) == 1
+    say Great! Ok here is our problem. Tomorrow is the
+    say twentieth anniversary of the abbot's elevation
+    say to abbot status. So we would like to make a
+    say suprise for him. We were going to throw a
+    say small celebration, but the master cook does
+    say not have enough assistants to help him to
+    say prepare the meal in time. So now you should
+    say report to the master cook immediately and
+    say start preparing the meal.
+    say Now go.
+    smile $n
+    bow $n
+    mpmset $n quest 0 6 4
+    mpecho You see the master monk leaving quickly back to the temple.
+    mppurge self
+  endif
+endif
+endif
+~
+|
+#27926
+Monk~
+the Monk~
+A monk lost in thoughts is here.~
+You see nothing special about this monk.  However, he does not seem to
+notice you at all.  He keeps chanting something you don't understand and
+at the same time, stares off into the distant horizon.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+70 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+3999 2d30+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,6,$n) == 18
+  if class ($n) == class_monk
+    if quest (7,7,$n) == 0
+      if level ($n) > 90
+        say I need to confess something to you.
+        say Yes. *Sob* I've done a terrible thing!
+        say I've lost an important sutra!
+        say PLEASE! You've gotta HELP me!
+        say Will you help me?
+        sniff 
+        mpmset $n quest 7 7 1
+      endif
+    endif
+  endif
+endif
+if quest (7,7,$n) == 31
+  say Have you found the sutra?
+endif
+~
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 3
+    ponder 
+    say I can't remember well, but I remember still having it when
+    say I was walking along the hallway around the temple. Maybe one
+    say of the sweepers might have picked it up.
+    sigh 
+    mpmset $n quest 7 7 4
+  endif
+endif
+endif
+~
+>speech_prog yes~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 1
+    say Thank you dear fellow monk. However I'm too
+    say ashamed to see the Abbot. The sutra belonged to the
+    say Abbot. Please tell him for me will you? Please tell
+    say him that I confess.
+  endif
+endif
+endif
+if class ($n) == class_monk
+  if quest (7,7,$n) == 31
+    mpmset $n quest 7 7 32
+    say Great! Thank you! Thank you! You are really a monk
+    say of great stature. You have my outmost respect. I'll
+    say never forget a monk such as yourself.
+    emote searches under his robe for something.
+    say Here you go. It's something my teacher has given me
+    say while I'm under his tutelage. I've never find any use
+    say for it. Maybe it'll be useful to you.
+    say Thank you from the bottom of my heart.
+    mpjunk all
+    mpoload 27952
+    mpquiet on
+    cast 'remove curse'
+    mpquiet off
+    give i27952 $n
+    bow $n
+  endif
+endif
+endif
+~
+|
+#27927
+Monk~
+the monk~
+A monk is here sweeping diligently.~
+From a glance, you can tell that this is just an ordinary monk.  However,
+you notice that despite doing simple chores such as sweeping, this monk
+seemes to be in total concentration of his job.  Not until you tap on his
+shoulder that he knew that you are there.  He smiles at you broadly and bows
+before you.  He wishes your journey to be fruitful and success in whatever
+you do.  With that he goes back to concentrate on his sweeping again.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+100 S
+80 BODY_HEAD|BODY_LEG BODY_ARM|BODY_HAND 1d100+6000 1d80+33
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  bow $n
+endif
+endif
+~
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 4
+    say Ah a sutra? Come to think of it. I think I've picked
+    say up a book. But I don't think it is the sutra. Anyways
+    say I've turned it to master ChoiWanKor.. They
+    say should have what you are looking for.
+    mpmset $n quest 7 7 5
+  endif
+endif
+endif
+~
+|
+#27928
+ChoiWanKor the master monk~
+ChoiWanKor the master monk~
+A business-like monk is standing behind a counter.~
+He's approximately six feet tall and lean looking. The only significant
+thing you find about him is that he is wearing a striking yellow robe, which
+is very clean and new. He looked at you coolly and you can sensed that he is
+considering you in a highly business-like and proffessional way.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+25000 1d1+249
+155002 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog sutra~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 5
+    say Ah, sutra. You mean a book? I've never seen
+    say a sutra as you have described, but a sweeper
+    say monk did gave me a book.  I think I
+    say accidentally left it at the training grounds
+    say I think. You'll have to try your luck
+    say there.
+    mpmset $n quest 7 7 6
+  else
+    if quest (7,7,$n) > 5
+      emote is searching all over the place.
+      say Still can't find it here. Maybe you should
+      say go check the training area more closely.
+    endif
+  endif
+endif
+endif
+~
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 16
+    say Oh, I'm really sorry. I forgot, I gave
+    say it to a kid. My fault. Hope I didn't give
+    say you too much trouble. I thought that book
+    say belonged to no one. Moreover the kid looked
+    say so miserable, so I gave him the book
+    say hopefully it will enlighten him. Perhaps
+    say the keeper may guide you to the child.
+    smile 
+    mpmset $n quest 7 7 17
+  endif
+endif
+endif
+~
+>fight_prog 100~
+say I hate people who disturb me when I am searching for stuff.
+say GREAT SOLAR STANCE!
+mpecho ChoiWanKor's attack {128}<<--*--> DECAPITATES <<--*-->>{308} you.
+mpquiet on
+mpmadd $n currhp -25000
+cast fireball $n
+mpquiet off
+~
+>rand_prog 5~
+emote searches all over the place looking for something.
+say Where is that....book???
+sigh 
+~
+|
+#27929
+disciple monk~
+a disciple monk~
+A disciple monk is here.~
+This is a disciple monk.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d2256+7613 1d95+93
+18521 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog death~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 15
+    say WheW! Finally found you!
+    emote paused, trying to catch a breath.
+    sigh 
+    say Master ChoiWanKor sent me to ask you to see him.
+    say He says it's somewhat important.
+    emote runs off again.
+    mpmset $n quest 7 7 16
+    mppurge self
+  endif
+endif
+endif
+~
+|
+#27930
+Olivia~
+Olivia~
+A very handsome and regal looking lady is here.~
+You see a tall, beautiful and regal looking lady here. She has silky long
+black hair.  Whenever she turned her head, her hair would sway as freely,
+and naturally as when gentle breeze caress a willow tree.  Her every move
+is as graceful as a snow white swan. Her dark brown eyes sparkled like stars
+in a cloudless nights, and when you look into them, it's like looking through
+a window with a breathtaking and tranquil scenery.  You are totally lost in
+her eyes.  And whenever she looks at you quizically, her beautiful and gentle
+face overwhelmes you with a peculiar sense of being completely engulfed in
+love.  You can't even began to coherently describe her smile.  It is as
+bright as day, and as warm, and sweet as a mug of hot chocolate in an endless
+winter night.  You are awed by the fact that such a celestially beautiful
+being can exist and thrive in a world as cruel as this.  As she is giggling,
+you can only stare at her dumbfounded, wishing that she is the only reason
+of your existance.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_CLAW|BODY_HAND 1d1+30000 1d1+299
+171715 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+giggle 
+smile 
+curtsey 
+say How may I help you?
+endif
+~
+>speech_prog statue~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 24
+    blush 
+    say I see, you've talked to my husband...
+    blush 
+    giggle 
+    say Well, I...I only knows it's made of trees found
+    say in this area. I thank you for your willingness
+    say to help. I thank you...
+    emote blush further.
+    mpmset $n quest 7 7 25
+    say from the bottom of my heart for helping me and my
+    say husband. Good Luck to you!
+    say Oh, by the way, you might want to talk to Master
+    say GouSau on how to enter the forest.
+  endif
+endif
+endif
+~
+>give_prog i27925~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 28
+    laugh 
+    giggle 
+    hug $n
+    say Oh thank you! You're such a dear! Thank you!
+    emote pecks you on the cheek.
+    blush 
+    say Well, me and my hubby can now have a b...opps!
+    blush 
+    say My hubby told me about the sutra you're looking for.
+    say I'm sorry that my hubby didn't tell you everything.
+    say Actually, my hubby lost the sutra in the main temple
+    say near the golden statues. You should be able to find it.
+    say You won't hate me and my hubby for not telling you
+    say everything do you?
+    mpmset $n quest 7 7 29
+    mpjunk all
+  endif
+endif
+endif
+~
+>give_prog i27924~
+if class ($n) == class_monk
+  sigh 
+  sniff 
+  say I'm sorry this is not the right statue. I'm afraid
+  say you'll have to continue on your search.
+  sniff 
+  say You're are me and my hubby's last hope.
+  say Please find the statue as soon as possible.
+  say You're our only hope!
+  mpjunk all
+endif
+endif
+~
+>fight_prog 20~
+sniff 
+say people are so mean to me
+cry $n
+say Never mind.  A kiss from me will fix everything..
+mpecho {008}
+emote --=== GIVES YOU THE KISS OF DEATH ===--
+mpquiet on
+cast 'mage blast' $r
+cast 'chill touch' $r
+cast curse $r
+cast blindness $r
+cast poison $r
+cast weaken $r
+cast 'faerie fire' $r
+cast 'change sex' $r
+cast hallucinate $r
+cast confusion $r
+mpquiet off
+~
+>rand_prog 1~
+wink 
+say Hiiiii...there!
+curtsey 
+~
+|
+#27931
+HouTorMuk the master monk~
+HouTorMuk the master monk~
+A wood carver is here carving.~
+He is the untidiest monk that you have ever seen.  Barely even five feet
+tall, you can tell that he's only in he's late teens.  His grey robe is
+dirty and full of wood chips.  You also noticed that the carvings that he
+made are all so real and so life-like that you swore that their limbs moved
+and they would smile upon you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d1+30000 1d150+113
+134504 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i27922~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+  or quest (7,7,$n) == 26
+  or quest (7,7,$n) == 27
+  or quest (7,7,$n) == 28
+    mpjunk all
+    mpecho $I's hands blur as he carves a statue out.
+    say There you go. The statue is done.
+    mpoload 27924
+    give i27924 $n
+    mpjunk all
+  endif
+endif
+endif
+~
+>give_prog i27923~
+if class ($n) == class_monk
+  if quest (7,7,$n) == 25
+  or quest (7,7,$n) == 26
+  or quest (7,7,$n) == 27
+    mpjunk all
+    mpecho $I's hands blur as he carves a statue out.
+    say There you go. The statue is done.
+    mpoload 27924
+    give i27924 $n
+    mpjunk all
+  else
+    if quest (7,7,$n) == 28
+      mpjunk all
+      mpecho $I's hands blur as he carves a statue out.
+      say There you go. The statue is done.
+      mpoload 27925
+      give i27925 $n
+      mpjunk all
+    endif
+  endif
+endif
+endif
+~
+>fight_prog 12~
+say How could you! I shall show no mercy to you. Prepare yourself!
+say NA-MOR-ONI-TOFOR!
+emote 's carving knife <(-**-))<< VAPORIZES >>((-**-)> you!
+mpquiet on
+mass 'faerie fire'
+knife $r
+knife $r
+knife $r
+knife $r
+knife $r
+mpquiet off
+~
+>rand_prog 5~
+sigh 
+emote throws a small statue away into a pile of wood.
+grumble 
+say C'mon...I don't have much time.
+emote starts carving a piece of wood into a figure of Buddha.
+~
+|
+#27932
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a blue aura. The statue is about 5 feet tall
+and it's sitting on top of a golden lotus pad. Suddenly, unknown to
+you, the statue's had morphed into a life like form of Buddha! The statue
+smiled at you benevolently and morphed back to it's normal form again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27933
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is glowing. The statue is about 5 feet tall and it's sitting
+on top of a golden lotus pad. Suddenly, unknown to you, the statue's had
+morphed into a life like form of Buddha! The statue smiled at you
+benevolently and morphed back to it's normal form again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+25000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27934
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a brown aura. The statue is about 5 feet
+tall and it's sitting on top of a golden lotus pad. Suddenly, unknown
+to you, the statue's had morphed into a life like form of Buddha! The
+statue smiled at you benevolently and morphed back to it's normal form
+again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27935
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a red aura. The statue is about 5 feet
+tall and it's sitting on top of a golden lotus pad. Suddenly, unknown
+you, the statue's had morphed into a life like form of Buddha! The statue
+smiled at you benevolently and morphed back to it's normal form again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27936
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a white aura. The statue is about 5 feet
+tall and it's sitting on top of a golden lotus pad. Suddenly, unknown
+to you, the statue's had morphed into a life like form of Buddha! The
+statue smiled at you benevolently and morphed back to it's normal form
+again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27937
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a yellow aura. The statue is about 5 feet
+tall and it's sitting on top of a golden lotus pad. Suddenly, unknown
+to you, the statue's had morphed into a life like form of Buddha! The
+statue smiled at you benevolently and morphed back to it's normal form
+again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27938
+Statue~
+the statue of Buddha~
+A statue of Buddha.~
+You examine the statue meticulously and found out that it is made of gold!
+This statue is surrounded by a purple aura. The statue is about 5 feet
+tall and it's sitting on top of a golden lotus pad. Suddenly, unknown to
+you, the statue's had morphed into a life like form of Buddha! The statue
+smiled at you benevolently and morphed back to it's normal form again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+200000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#27939
+Praying mob~
+Praying mob~
+A praying mob is here.~
+This is a praying mob.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+25000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog powers.~
+if quest (27,1,$n) == 1
+  mpechoaround $n $n silently says $s prayer to the statue.
+  if inroom ($n) == 27916
+    mpmset $n quest 15 1 1
+    mppurge i27929
+    mpoload 27929
+  endif
+  if inroom ($n) == 27915
+    mpmset $n quest 16 1 1
+    mppurge i27930
+    mpoload 27930
+  endif
+  if inroom ($n) == 27914
+    mpmset $n quest 17 1 1
+    mppurge i27931
+    mpoload 27931
+  endif
+  if inroom ($n) == 27921
+    mpmset $n quest 18 1 1
+    mppurge i27932
+    mpoload 27932
+  endif
+  if inroom ($n) == 27936
+    mpmset $n quest 19 1 1
+    mppurge i27933
+    mpoload 27933
+  endif
+  if inroom ($n) == 27943
+    mpmset $n quest 20 1 1
+    mppurge i27934
+    mpoload 27934
+  endif
+  if inroom ($n) == 27944
+    mpmset $n quest 21 1 1
+    mppurge i27935
+    mpoload 27935
+  endif
+  if inroom ($n) == 27945
+    mpmset $n quest 22 1 1
+    mppurge i27936
+    mpoload 27936
+  endif
+endif
+mpjunkperson $n i27928
+mppurge self
+~
+>rand_prog 100~
+mppurge self
+~
+|
+#27940
+pot whacking mob~
+pot whacking mob~
+A pot whacking mob stands here.~
+This is a praying mob.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+105 BODY_ARM|BODY_HAND BODY_ARM|BODY_HAND 1d50+12000 1d105+56
+25000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 100~
+mpgoto 27916
+mppurge i27929
+mpgoto 27915
+mppurge i27930
+mpgoto 27914
+mppurge i27931
+mpgoto 27921
+mppurge i27932
+mpgoto 27936
+mppurge i27933
+mpgoto 27943
+mppurge i27934
+mpgoto 27944
+mppurge i27935
+mpgoto 27945
+mppurge i27936
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+27906 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  10  0 23
+27909 ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  110  50  6 20
+27910 ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  110  50  6 20
+27923 ITEM_TYPE_LIGHT ITEM_TYPE_ARMOR ITEM_TYPE_BOAT ITEM_TYPE_TRASH ITEM_TYPE_SCROLL  110  50  6 20
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#27901
+Sickle~
+a sickle~
+A sickle lies here.~
+A sharp curved blade which is used for farming purposes.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 7 7 WEAPON_SLICE 0 0 0 0
+1 100 90
+P 1
+TRIG_UNKNOWN 100 PULL
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+You might want to wield the sickle first.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_POSITION = POS_FIGHTING 4 5
+P 4
+TRIG_VOID
+OPROG_ECHO
+Better concentrate on the fight!~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS ! CLASS_MONK 6 7
+P 6
+TRIG_VOID
+OPROG_ECHO
+You cut yourself while cutting the roots.~
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -1000
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_AREA = 27900 8 9
+P 8
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self You try to pick the cabbage up using the sickle to cut the roots off.
+mpmload 27916
+mpechoaround self $I tries to pick a cabbage up using a sickle to cut the roots off.~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You don't see any cabbage here.~
+#27902
+Cabbage~
+a cabbage~
+A cabbage lies here.~
+A freshly picked cabbage with green leaves.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 90
+P 1
+TRIG_UNKNOWN 100 CUT
+OPROG_IF OIF_USER_ROOM_NUM = 27901 2 0
+P 2
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 0 6 = 13 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 27900 0 6 14
+mpechoat self You cut the washed cabbage.
+mpoload 27909~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#27903
+Cabbage~
+a cabbage~
+A cabbage lies here.~
+A not so fresh cabbage with green leaves.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 100 90
+#27904
+Cabbage~
+a cabbage~
+A cabbage lies here.~
+A fresh cabbage with green and red leaves.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 90
+#27905
+Buckets~
+two buckets~
+Two buckets are lying here.~
+You see two large cylindrical tubes with a round base which can hold alot
+of liquid.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+20 20 LIQ_WATER 0 0 0 0 0
+1 100 90
+P 1
+TRIG_COMMAND 100 fill
+OPROG_IF OIF_USER_ROOM_NUM ! 27983 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+You don't see a well here.~
+P 3
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 0 6 ! 8 4 5
+P 4
+TRIG_VOID
+OPROG_ECHO
+You already filled the buckets with water.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 27900 0 6 9
+mpechoat self You fill the buckets with water from the well.~
+P 6
+TRIG_UNKNOWN 100 WASH
+OPROG_IF OIF_USER_ROOM_NUM = 27901 5 0
+P 5
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 0 6 = 12 6 0
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 27900 0 6 13
+mpechoat self You wash the fresh green cabbage in a bucket of water.~
+P 6
+TRIG_VOID
+OPROG_JUNK
+#27906
+Axe~
+an axe~
+An axe lies here.~
+A one headed axe used to chop firewood.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 8 8 WEAPON_BITE 0 0 0 0
+1 100 90
+#27907
+Firewood~
+a bundle of firewood~
+A bundle of wood lies here.~
+Dry wood chopped into small pieces to light fire for cooking purposes.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 90
+P 1
+TRIG_UNKNOWN 100 light
+OPROG_IF OIF_USER_ROOM_NUM = 27900 2 0
+P 2
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 0 6 = 14 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 27900 0 6 15
+mpechoat self You light a fire with flint and steel feeding it with the firewood.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#27908
+Ladle~
+a Ladle~
+A ladle lies here.~
+A simple cooking ladle made of wood for cooking in a big pot. Rumored it
+was once used by a housewife that whished to be a goddess who finally got
+her wish with her kind heart.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 4 4 WEAPON_CRUSH 0 0 0 0
+1 100000 90
+A APPLY_AC -14 0
+P 1
+TRIG_UNKNOWN 100 COOK
+OPROG_IF OIF_USER_ROOM_NUM = 27900 2 0
+P 2
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 0 6 = 15 3 0
+P 3
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 27909 4 5
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 27900 0 6 16
+mpjunk I27902
+mpechoat self You place the nicely cut cabbage into the pot and start cooking..
+mpoload 27910~
+#27909
+Cut cabbage~
+Some cut cabbage~
+A few pieces of leaves lies here.~
+Each piece of the cabbage is nicely and even cut out.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+1 50 90
+#27910
+YinWo~
+a bowl of yinwo~
+A bowl of yellowish liquid lies on the ground.~
+Upon closer examination, you see there are shreds of small pieces of leaves.
+You are not sure of what it is but the smells of it makes you drool.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+50 0 0 0 0 0 0 0
+1 1000000 90
+#27912
+wooden bowl~
+a wooden bowl~
+A small bowl made of find oak lies here.~
+This is just an ordinary bowl.  A small bowl made of fine oak wood with
+sandpaper polishing.  Perhaps a nice collection to your home furniture.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+1500 0 -1 0 0 0 0 0
+1 10000 95
+#27913
+pork~
+a piece of pork~
+A small piece of meat is lying on the ground.~
+This is the fake pork which is made by flour.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+1 60 30
+#27914
+bowl vegetable~
+a bowl of vegetable~
+A small bowl of dry vegetable is lying on the ground.~
+This vegetable is made from sliced of cabbages and are steamed.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 40 30
+#27915
+Water skin~
+a camel water skin~
+A skin made from camel lies here.~
+Just an ordinary skin used to fill liquid.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+10 10 LIQ_WATER 0 0 0 0 0
+1 120 30
+#27916
+Teh Ais~
+a cup of Teh Ais~
+A glass of brown liquid is here.~
+Specially made by mamaks far far away, the teh ais is an exotic drink of
+a distant land.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+3 3 LIQ_TEA 0 0 0 0 0
+1 1200 30
+#27917
+Broom~
+a broom~
+A broom lies here.~
+A long wooden pole with thin grass strands all tied up together.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 4 4 WEAPON_GREP 0 0 0 0
+5 10 90
+#27918
+Fireflies~
+a bag of fireflies~
+A small bag with something glowing in it is here.~
+Inside the bag you find thousands of small creatures which glow.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+10 2000 30
+A APPLY_INT -3 0
+#27919
+Prayer beads~
+a prayer beads~
+A necklace of beads is here.~
+Upon close examination, you find that each bead is joined to the others
+with some unknown medium.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+10 30000 30
+A APPLY_INT -3 0
+#27920
+Raft~
+a raft~
+A small size boat lies here.~
+This is just an ordinary raft made from small logs tied together shaping
+a rectangle.
+~
+ITEM_TYPE_BOAT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 3000 30
+A APPLY_INT -3 0
+#27921
+Delicacy~
+a Delicacy~
+A plate of food, exquisitely made is here.~
+This is one of the few dishes you have even seen, is exquisitely prepared
+and the longer you look at it, the more unbearable you feel. You want to
+gobble it. You want to taste it. You want you tongue to feel euphoric as
+your nose is now. Now, your brain only sees one sign on the dish:
+
+       Please eat me. I beg of you.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+90 0 0 0 0 0 0 0
+1 1000000 90
+#27922
+branch~
+a branch~
+You see a normal branch laying on the ground.~
+This is just a normal branch. However, it is quite heavy and firm.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+40 10 90
+#27923
+branch~
+a branch~
+You see a normal branch laying on the ground.~
+This is just a normal branch. However, it is quite heavy and firm.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+40 10 90
+#27924
+statue~
+a statue~
+You see a minature statue here.~
+This minature statue is a statue of Buddha. It is very well carved and
+it is warm to hold. You sensed a very weird force radiating from it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 90
+#27925
+statue~
+a statue~
+You see a minature statue here.~
+This minature statue is a statue of Buddha. It is very well carved and
+it is warm to hold. You sensed a very weird force radiating from it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 90
+#27926
+sutra~
+a Sutra~
+You see a book lying here.~
+The book does not have a title on its cover. It is written in a language
+you can't comprehend. It is about a thousand pages and though the book
+seemed old, however, the writings are as if it's just written on. The ink
+that were used to write is weird smelling.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 0 0 0 0 0 0 0
+1 1000000 91
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#27928
+Joss stick~
+Some joss sticks~
+You see some sticks laying on the ground here.~
+These sticks are made of fine powder compressed together. It seems to be
+able to burn very well. However it also have a funny smell that most
+people would not like.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 800000 91
+P 1
+TRIG_UNKNOWN 100 PRAY
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 2 12
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 12
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27916 11 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27915 11 5
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27914 11 6
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27921 11 7
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27936 11 8
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27943 11 9
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27944 11 10
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 27945 11 12
+P 11
+TRIG_VOID
+OPROG_ECHO
+You silently say your prayers to the statue. There was a small movement in
+the statue just before a small flash appears in front of your eyes.~
+P 11
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 27939 
+mpechoaround self The joss sticks in $I's hand glows with mysterious powers.~
+P 12
+TRIG_VOID
+OPROG_GOD_ARGUMENT
+pray~
+#27929
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...when the Dragon...
+~
+#27930
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...And the phoenix...
+~
+#27931
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...Meet,...
+~
+#27932
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...the heRo...
+~
+#27933
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...shalL be...
+~
+#27934
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...reVealed and the...
+~
+#27935
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...great eIght...
+~
+#27936
+Pot~
+a pot~
+You see some joss sticks on the joss stick pot.~
+It is a big pot with some joss sticks on it still burning. The pot is
+covered with a shiny gold plated paint and seems to be pretty warm from
+a certain distance. Strange patterns and small inscriptions are finely
+carved all over the pot in a orderly fashion.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+200 10 100
+E
+inscriptions~
+...shAll return....
+~
+#27938
+Monk Robe~
+a monk robe~
+Some robes is lying on the ground.~
+A plain and simple attire for the monastery folks.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+10 500 90
+A APPLY_DAMROLL 8 0
+A APPLY_MANA 60 0
+#27939
+Abbot Robe~
+an abbot robe~
+Some robes is lying on the ground.~
+A finely made robe for the leader of the temple.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+10 500 90
+#27951
+beads compassion~
+(Compassion Aura) Beads of Compassion~
+A necklace of beads lies here.~
+{308}
+                QQ __ QQ __ QQ __ QQ __
+               QQQQ__QQQQ__QQQQ__QQQQ_ \_
+            QQ//QQ    QQ    QQ    QQ  \__QQ
+           QQQQ                         QQQQ     _
+        QQ//QQ    I'm the Compassion     QQ__   //__
+       QQQQ                              ||__|||QQ__|
+        QQ   That lies within thee       QQ      \\
+        ||                              QQQQ      =
+        QQ                     QQ __ QQ//QQ
+       QQQQ                   QQQQ__QQQQ
+        QQ\\QQ           _ QQ//QQ    QQ
+           QQQQ_  OOOO  /_QQQQ
+            QQ\_\OO\/OO//  QQ
+                OO <> OO
+                 OO/\OO
+                  OOOO
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+1 50000 90
+A APPLY_WIS 3 0
+A APPLY_MANA 150 0
+A APPLY_HIT 50 0
+#27952
+sleeves honor~
+(Honor Aura) Sleeves of Honor~
+You see some silk sleeves lies on the ground.~
+{308}
+         _______                 _______
+       _(_______)_             _(_______)_
+     cD           Dc         cD           Dc
+     D    HONOR    D         D    GLORY    D
+    {|             |}       {|             |}
+   {N|      @      |N}     {N|    /@@@\    |N}
+  {NN|      @      |NN}   {NN|    @\ /@    |NN}
+   \{|      @      |}/     \{|  _ \@@@/ _  |}/
+    {| @@@@@@@@@@@ |}       {| /@\  @  /@\ |}
+    {|      @      |}       {| @O@@@O@@@O@ |}
+    {|      @      |}       {| \@/  @  \@/ |}
+    {|      @      |}       {|     /@\     |}
+     Mc           cM         Mc    @O@    cM
+      Dc         cD           Dc   \@/   cD
+       DDc     cDD             DDc     cDD
+         DDc cDD                 DDc cDD
+          DDDDD                   DDDDD
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+10 0 0 0 0 0 0 0
+1 1000000 90
+A APPLY_STR 3 0
+A APPLY_MANA 100 0
+A APPLY_DAMROLL 8 0
+#27953
+pearl heavens~
+(Heavenly Aura) Pearl of Heavens~
+A small sphere is floating around here.~
+{308}
+                             0oooo
+                          0oooooooooo
+                      0oogooo     ooooo
+                    0ooooo          oooo
+                  0oooo       I am     oooo
+                 0oooo  ====            ooooo
+                0Oooo  ====   That of    ooooo
+                000o  ===                ooooo
+                0000   ==     The Heaven ooooo
+                0O0o    =.               ooooo
+                00ooo     . And Universe oooo
+           /\    0oooo        /\        oooo     /\
+           \ \=\  0oooo      /  \      oooo   /=/ /
+           /    \_/\_oooo   /\  /\   oooo_/\_/    \
+           =\     || \0oooo/  @@  \ooooo/ ||     /=
+            /  /\||||_\0ooo\  /\  /oooo/_||||/\  \
+           /_/=  \__/ \_/=0000||ooo0=\_/ \__/  =\_\
+                          \LLLLLLL/
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 1000000 90
+A APPLY_INT 6 0
+A APPLY_MANA 150 0
+A APPLY_HIT 50 0
+#27954
+shield curse~
+(Curse Aura) Shield of Curse~
+A VERY IMPORTANT shield lies here.~
+Just A VERY IMPORTANT shield.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+0 0 0 0 0 0 0 0
+1 10 90
+A APPLY_MANA -100 0
+A APPLY_HIT -100 0
+P 1
+TRIG_DAMAGE 100
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 3 15
+P 3
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC = WEAR_SHIELD 5 0
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_GOLD > 10000 7 0
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmadd self gold -10~
+P 7
+TRIG_VOID
+OPROG_QUEST_ADD 0 20 1
+P 7
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 20 = 1000 9 0
+P 9
+TRIG_VOID
+OPROG_ECHO
+The shield burst into nothingness!~
+P 9
+TRIG_VOID
+OPROG_ECHO
+You feel clean and clear again.~
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 27957~
+P 9
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_ECHO
+You are burnt by the shield!~
+P 15
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -500
+P 15
+TRIG_VOID
+OPROG_JUNK
+#27955
+claws humility~
+(Humility Aura) Claws of Humility~
+You see a pair of ordinary gloves laying around.~
+{008}
+      /| /\ |\     /| /\ |\
+      || || ||     || || ||
+      || || ||     || || ||
+      || || ||     || || ||
+      || || ||     || || ||
+      || || ||     || || ||
+     _||_||_||     ||_||_||_
+    / || || ||\   /|| || || \
+   /  \/ \/ \/|   |\/ \/ \/  \
+   |==========|   |==========|
+   \   _|@|_  |   |  _|@|_   /
+    \ |@@@@@| |   | |@@@@@| /
+     |  |@|  /     \  |@|  |
+     | _|@| |       | |@|_ |
+     |/    \|       |/    \|
+    / \_/\_/ \     / \_/\_/ \
+   [| HUMBLE |]   [| MERCY  |]
+   [_| /  \ |_]   [_| /  \ |_]
+     \_\__/_/       \_\__/_/
+     {{{/\}}}       {{{/\}}}
+      >\ww/<         >\ww/<
+{308}
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+10 10 90
+A APPLY_DEX 3 0
+A APPLY_MANA 100 0
+A APPLY_DAMROLL 8 0
+P 1
+TRIG_UNKNOWN 100 zaar~
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 5 0
+P 5
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 7 0
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self long {308}Wrath of God $I the High Monk of Zaar is here.~
+P 7
+TRIG_VOID
+OPROG_ECHO
+As you spoke the name of the lost god, forces unknown to you flows through your whole body.~
+P 9
+TRIG_HIT 10
+OPROG_APPLY OAPPLY_MANA 20
+#27957
+pouch prosperity~
+(Prosperity Aura) Pouch of Prosperity~
+A not very unusual pouch lies here.~
+{308}
+            $$$$$
+          $$cc $$$$$                 _______
+        $$cc      $$$$$$            / ______\
+      $$cc     I      $$$           \/      \\
+     $$$cccc          c$$$$               $$//$c
+    $$$ccc   Bring     cc$$$$          $$$$$$$c
+  $$$$$cccc               cc$$$    $$$$$$//$$
+   $$$$$cc   Forth the       c$$$$$$cc $$$$$$$c
+    $$$$$ccc                          cc|||$$c
+     $$$$cc    Wealth of Life      ccc$$$$$$$$c
+    $$$cccccc                     $$$$$$$\\$$$
+     $$$cccccc        ccc       $$$$$   $$$$$$$c
+       $$$$$cccc    $$$$$$c  $$$$         /==/
+         $$$$$$$$$$$$$   $$$$$       _____//
+             $$$$$                  //====/
+                              _____//
+                              |____/
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+2 10 90
+A APPLY_CON 3 0
+A APPLY_MANA 150 0
+A APPLY_HIT 50 0
+#0
+
+
+#ROOMS
+#27900
+Kitchen~
+This the northeastern corner of the kitchen. This is where most of
+the cooking is done. A large foundation is here which looks like a stove
+with a large cooking pot which is currently boiling with water. From the
+looks of the cooking pot, they monks are cooking for more than a hundred
+others who reside in the monastery. To your east is another part of the
+kitchen, and to the south is another part of the kitchen as well.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more kitchen~
+~
+0 -1 27902
+DDIR_SOUTH
+You see more kitchen~
+~
+0 -1 27901
+#27901
+Kitchen~
+You are at the southeastern corner of the kitchen. Here is where the food
+is washed and cut. A few monks are busy cutting vegetables and the others
+are busy cleaning the fresh vegetables newly picked from the backyard. To
+the north is where most of the cooking is done while to the east you see
+the entrance to the kitchen.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more kitchen~
+~
+0 -1 27900
+DDIR_EAST
+You see the entrance to the kitchen~
+~
+0 -1 27903
+#27902
+Kitchen~
+This part of the kitchen is used to store food and supplies which were
+brought back every month by monks who venture into the cities to resupply
+the monastery with enought food to last for another month. To your west
+you see the northeastern part of the kitchen while to the south, is the
+entrance to the kitchen.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the entrance to the kitchen~
+~
+0 -1 27903
+DDIR_WEST
+You see more kitchen~
+~
+0 -1 27900
+#27903
+Entrance to the Kitchen~
+This is the entrance to the kitchen of the monastery. Even from here you
+can smell the nice fragrance of food it makes you drool a little. This
+entrance is also filled with people as they come in and out of the
+kitchen either bringing fresh vegetables in to be cooked or monks
+bringing food out into the dining room to be served to those who will
+have their meals shortly.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more kitchen~
+~
+0 -1 27902
+DDIR_SOUTH
+You see the end of hallway~
+~
+0 -1 27904
+DDIR_WEST
+You see more kitchen~
+~
+0 -1 27901
+#27904
+End of hallway~
+You are at the end of the hallway. The kitchen is to the north. You can
+smell the food coming from the direction of the kitchen. To your south is a
+storeroom, and you can go back to the temple by turning back.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the entrance to the kitchen~
+~
+0 -1 27903
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27906
+DDIR_SOUTH
+You see the store room~
+~
+0 -1 27905
+#27905
+Store room~
+You find yourself at a store room. Hanging on the walls are tools used
+for farming and a few wooden wheelbarrows are placed side by side to
+carry grains up from the foot of the mountain. Also you see a few buckets
+used for transporting water from the well at the foot of the mountain.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the end of hallway~
+~
+0 -1 27904
+#27906
+Hallway~
+You are at a hallway. Monks are moving along the hallway each doing their
+own duties. The west leads you into the kitchen, while the temple lies to
+the east.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27907
+DDIR_WEST
+You see the end of the hallway~
+~
+0 -1 27904
+#27907
+Hallway~
+You are at the beginning of the hallway. This hallway looks pretty cleaned
+as sweepers sweep the corridors each morning. To the west lies the
+kitchen and east will lead you back to the temple. Looking to the east
+you see a picture of a beast with wings flying resembling a peacock all
+along the wall.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27910
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27906
+#27908
+Corner of Temple~
+You find yourself at the northwestern corner of the temple. From here you
+can see kitchen to your west and hallways to your east and south. You also
+feel the gentle breeze of the northern wind blows which is clearly
+refreshing compared to the dust and sand of the cities and the desert.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27913
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27909
+#27909
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+tail of the phoenix fills the whole wall in this hallway. The inhuman detail
+of the tail of the phoenix makes you wonder if the gods themselves have
+drawn it. You can't even begin to describe how you feel about this immense
+art in front of you.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the corner of the temple~
+~
+0 -1 27908
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27910
+#27910
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+picture of the phoenix's legs and claws filled the whole wall in this
+hallway. Each scale that is drawn on the phoenix's claws seems to shine and
+sparkle. When you examine closer, you found that the scales' color is a
+blend of real gold, black and white pearl dusts!
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27909
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27911
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27907
+#27911
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+picture of the phoenix's body filled the whole wall of this hallway. You
+can tell that the feathers are drawn in detail and with outmost care.
+Whenever there's a gentle breeze flowing though the hallway, you can almost
+feel that the feathers are moving.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27910
+DDIR_SOUTH
+You see the corner of the temple~
+~
+0 -1 27912
+#27912
+Corner of Temple~
+You find yourself at the southwestern corner of the temple. From here you
+can see kitchen to your northwest and hallways to your north and east. You
+also feel the gentle breeze of the northern wind blows which is clearly
+refreshing compared to the dust and sand of the cities and the desert.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27911
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27917
+#27913
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+picture of the tail feathers of the phoenix fills the whole wall in this
+hallway. The picture is so life-like that you swore that the tail feathers
+were swaying as gentle breeze flows through the hallway. The weird thing is
+that the tail feathers are made of gems of assorted colors and hue. It seems
+that this whole picture is based primarily on the collage method. Try as you
+might, to get your hands on the gems, there's an invisible force that kept
+repelling you.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27920
+DDIR_WEST
+You see the corner of the temple~
+~
+0 -1 27908
+#27914
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your east lies the altar and to the south lies the
+other statues of Buddha.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the temple~
+~
+0 -1 27921
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27915
+#27915
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your north and south lies the other statues of Buddha
+while the east is just for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27914
+DDIR_EAST
+You see the temple~
+~
+0 -1 27922
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27916
+#27916
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your north lies the other statues of Buddha, and east is
+the entrance to the temple.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27915
+DDIR_EAST
+You see the temple~
+~
+0 -1 27923
+#27917
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+neck of the phoenix which fills the whole wall in this hallway. You gasp at
+the finely drawn feathers and the life-like colors. Your mind reeled as you
+imagine how the artist or artists could have put together such an
+exquisitely drawn art and how much time they've spent on drawing it.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27924
+DDIR_WEST
+You see the corner of the temple~
+~
+0 -1 27912
+#27918
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides the
+grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the garden~
+~
+0 -1 27925
+DDIR_SOUTH
+You see the garden~
+~
+0 -1 27919
+#27919
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see the garden~
+~
+0 -1 27918
+DDIR_EAST
+You see the garden~
+~
+0 -1 27926
+#27920
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+picture of the tail feathers of the phoenix fills the whole wall in this
+hallway. The picture is so life-like that you swore that the tail feathers
+were swaying as gentle breeze flows through the hallway. The weird thing is
+that the tail feathers are made of gems of assorted colors and hue. It seems
+that this whole picture is based primarily on the collage method. Try as you
+might, to get your hands on the gems, there's an invisible force that kept
+repelling you. The picture of the phoenix ends here.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27927
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27913
+#27921
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your east lies the altar, while the south is just for
+prayers, and to the west lies the other statues of Buddha.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the Altar~
+~
+0 -1 27928
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27922
+DDIR_WEST
+You see the temple~
+~
+0 -1 27914
+#27922
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can he heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. To your north and west
+lies the the other statues of Buddha while the east and south are just
+for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27921
+DDIR_EAST
+~
+~
+0 -1 27929
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27923
+DDIR_WEST
+You see the temple~
+~
+0 -1 27915
+#27923
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can he heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. To your west lies the the
+other statues of Buddha while the north and east is just for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27922
+DDIR_EAST
+You see the temple~
+~
+0 -1 27930
+DDIR_WEST
+You see the temple~
+~
+0 -1 27916
+#27924
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+and very regal and beautifully drawn phoenix head fills the whole wall.
+You are appalled at the imensity and the details of the phoenix. You also
+noticed that there is a pearl-like sphere, which is on fire, which is in
+between it's beak. The phoenix's eyes are so striking that one look at them
+send waves of chilling feelings down your spine. You hope that you will not
+ever meet such magical and enchanting creature, for it will probably
+destroy you.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the entrance of the temple~
+~
+0 -1 27931
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27917
+E
+pearl~
+Upon close examination you see:
+..vulcanos erupt violently setting fire to the woods surrounding. The
+once clear water of the rivers are murky. Everything looked disastrous
+until a bright light illuminated the sky as a figure descended from the
+heavens.
+~
+#27925
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the walkway~
+~
+0 -1 27932
+DDIR_SOUTH
+You see the garden~
+~
+0 -1 27926
+DDIR_WEST
+You see the garden~
+~
+0 -1 27918
+#27926
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see the garden~
+~
+0 -1 27925
+DDIR_EAST
+You see the walkway~
+~
+0 -1 27933
+DDIR_WEST
+You see the garden~
+~
+0 -1 27919
+#27927
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+scenery of the surrounding mountains when one approaches the monastery.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see a small forest~
+~
+0 -1 27976
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27935
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27920
+#27928
+Altar~
+You are at the altar of the temple. Here is where the major ceremonies
+will be carried out and you can currently see that most of the high order
+monks of the monastery are here. There is also a huge statue of Buddha
+sitting on the main altar. To your left and right, statues of Buddha are
+arranged in order side by side while to the south lies the room for people
+who seek sanctuary.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_SOLITARY SECT_INSIDE
+DDIR_EAST
+You see the temple~
+~
+0 -1 27936
+DDIR_SOUTH
+~
+~
+0 -1 27929
+DDIR_WEST
+You see the temple~
+~
+0 -1 27921
+#27929
+Inside the temple~
+You find yourself inside the center of the temple. Chanting and prayers
+can be heard as people come and give their prayers and the monks meditate
+quietly while chanting something that you do not understand. To your
+north you can see the altar, and to the east south and west lies the
+other rooms for prayers.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see the altar~
+~
+0 -1 27928
+DDIR_EAST
+You see the temple~
+~
+0 -1 27937
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27930
+DDIR_WEST
+You see the temple~
+~
+0 -1 27922
+#27930
+Inside the temple~
+You find yourself inside the temple. Chanting and prayer can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. To your north you can see
+the sanctuary, and to the east and west lies the other rooms for prayers.
+The entrance to the temple lies south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 27929
+DDIR_EAST
+You see the temple~
+~
+0 -1 27938
+DDIR_SOUTH
+You see double doors~
+doors~
+EX_ISDOOR|EX_CLOSED -1 27931
+DDIR_WEST
+You see the temple~
+~
+0 -1 27923
+#27931
+Entrance to the temple~
+You are at the entrance to the temple in the monastery. There is a double
+doors to your north which is carved with a green dragon to your left and
+a white tiger to your right. To you east and west are sideways going
+around the temple while the south lies the walkway and the entrance to
+the monastery. A small sign hangs by the right side of the double doors.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the temple~
+doors~
+EX_ISDOOR|EX_CLOSED -1 27930
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27939
+DDIR_SOUTH
+You see the walkway~
+~
+0 -1 27932
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27924
+E
+sign~
+The sign reads:
+
+                   Please be quiet at all times. Thank you.
+    If you would like to pray, please acquire the joss stick at the shops.
+~
+#27932
+Walkway~
+You are at a stone walkway. This walkway is paved with large boulders
+which were simply larger than ten foot in height. The hallway looks solid
+enough to withstand tons of weight without the stones breaking or the
+soil in the surrounding get loose. The entrance of the temple lies ahead
+while to the east and west lies the garden. To your south is the entrance
+of the monastery.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the entrance to the temple temple~
+~
+0 -1 27931
+DDIR_EAST
+You see the garden~
+~
+0 -1 27940
+DDIR_SOUTH
+You see the walkway~
+~
+0 -1 27933
+DDIR_WEST
+You see the garden~
+~
+0 -1 27925
+#27933
+Walkway~
+You are at a stone walkway. This walkway is paved with large boulders
+which were simply larger than ten foot in height. The hallway looks solid
+enough to withstand tons of weight without the stones breaking or the
+soil in the surrounding get loose. The entrance of the temple lies ahead
+while to the east and west lies the garden. To your south is the entrance
+of the monastery.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the walkway~
+~
+0 -1 27932
+DDIR_EAST
+You see the garden~
+~
+0 -1 27941
+DDIR_SOUTH
+You see the entrance to the monastery~
+~
+0 -1 27934
+DDIR_WEST
+You see the garden~
+~
+0 -1 27926
+#27934
+Entrance of the Monastery~
+This is the entrance to the monastery. This place is where most people
+comes to pray for good blessings and good fortune. Indeed a sanctuary for
+those who wish to seek enlightenment. There is an arc here too which
+seems to be ages old and upon it are carvings of some kind of martial
+arts technique. A sign is hanging above the arch.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the walkway~
+~
+0 -1 27933
+DDIR_SOUTH
+~
+~
+0 -1 17100
+E
+sign~
+The sign reads:
+,
+,       _______       ___|___           _|_
+,      |       |     |  ---  |           X     |
+,          |            /| __          ----  | |
+,      .   |   .       _/ |\         / /-"-  | |
+,      |___|___|      / /|  \       /  __+__  _|
+,
+~
+#27935
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a tail of a
+chinese green dragon. The tail is colored red and orange while the scales
+are in shiny green reflecting the sunlight. The background of this picture
+shows that the beast is coming from high up in the heavens and somewhere
+to the distant is a presence of another beast looking like a peacock.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27942
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27927
+#27936
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your west lies the altar, while the south is just for
+prayers, and to the east lies the other statues of Buddha.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the temple~
+~
+0 -1 27943
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27937
+DDIR_WEST
+You see the Altar~
+~
+0 -1 27928
+#27937
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can he heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. To your north and east
+lies the the other statues of Buddha while the west and south are just
+for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27936
+DDIR_EAST
+You see the temple~
+~
+0 -1 27944
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27938
+DDIR_WEST
+~
+~
+0 -1 27929
+#27938
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can he heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. To your east lies the the
+other statues of Buddha while the north and west is just for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27937
+DDIR_EAST
+You see the temple~
+~
+0 -1 27945
+DDIR_WEST
+You see the temple~
+~
+0 -1 27930
+#27939
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a head of a
+mighty chinese green dragon soaring the sky. These dragons were thought only
+to be myths and immortals but this picture shows that the dragon is seeking
+something. From the looks of the dragon, one can easily tell that these
+ancient beasts are not just a simple as they look. Legend says that these
+mystical beings have intelligence that surpass mortal standards.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the side of the temple~
+~
+0 -1 27946
+DDIR_WEST
+You see the entrance of the temple~
+~
+0 -1 27931
+#27940
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the garden~
+~
+0 -1 27947
+DDIR_SOUTH
+You see the garden~
+~
+0 -1 27941
+DDIR_WEST
+You see the walkway~
+~
+0 -1 27932
+#27941
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see the garden~
+~
+0 -1 27940
+DDIR_EAST
+You see the garden~
+~
+0 -1 27948
+DDIR_WEST
+You see the walkway~
+~
+0 -1 27933
+#27942
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a long tail
+of an ancient beast of the legends. The tail is flowing smoothly making a
+loop from one end of the wall to the other. Covered with shiny green scales,
+the tail looks like that of a serpent, but the scales truly show that
+this is not the tail of any normal reptile, but a majestic creature of
+the immortal plane.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the corner of the temple~
+~
+0 -1 27949
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27935
+#27943
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your west lies the altar and to the south lies the
+other statues of Buddha.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27944
+DDIR_WEST
+You see the temple~
+~
+0 -1 27936
+#27944
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your north and south lies the other statues of Buddha
+while the west is just for prayers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27943
+DDIR_SOUTH
+You see the temple~
+~
+0 -1 27945
+DDIR_WEST
+You see the temple~
+~
+0 -1 27937
+#27945
+Inside the temple~
+You find yourself inside the temple. Chanting and prayers can be heard as
+people come and give their prayers and the monks meditate quietly while
+chanting something that you do not understand. Before you placed a statue
+of the Buddha. To your north lies the other statues of Buddha, and west is
+the entrance to the temple.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the temple~
+~
+0 -1 27944
+DDIR_WEST
+You see the temple~
+~
+0 -1 27938
+#27946
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a long neck
+of a mighty chinese green dragon. The neck is covered by glittering
+metallic green scales, each scale engraved to its finest facet. Along
+with the neck, a mighty golden claw can be seen. The claw are is covered
+with small little golden scales and have a long claw at each finger.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see the corner of the temple~
+~
+0 -1 27953
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27939
+#27947
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides the
+grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_SOUTH
+You see the garden~
+~
+0 -1 27948
+DDIR_WEST
+You see the garden~
+~
+0 -1 27940
+#27948
+Garden~
+You are at the garden of the monastery. Here you see a variety of
+vegetables being planted as they are the primary food source besides
+the grain bought from nearby cities.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see the garden~
+~
+0 -1 27947
+DDIR_WEST
+You see the garden~
+~
+0 -1 27941
+#27949
+Corner of Temple~
+You find yourself at the northeastern corner of the temple. From here you
+can see shops to your east and hallways to your east and south. You also
+feel the gentle breeze of the northern wind blows which is clearly
+refreshing compared to the dust and sand of the cities and the desert.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27950
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27942
+#27950
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with two enormous
+claws of a mighty dragon. These two claws seem to be stretched to the
+right side of the picture.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27949
+DDIR_SOUTH
+You see the corner of the temple~
+~
+0 -1 27951
+#27951
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+body of a dragon illuminating green light. Indeed magnificent creature of
+the legends. A hallway to the east leads to the supply stores.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27950
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27954
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27952
+#27952
+Side of Temple~
+You find yourself along the hallway at the side of the temple. The floor
+is clean of dust and the walls of the temple is engraved with a beautiful
+and mighty claw of a dragon. Upon closer examination, you can see that the
+claw is holding a bright pearl illuminating the whole picture. Legend says
+that these pearls give power to the dragons for immortality.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27951
+DDIR_SOUTH
+You see the corner of the temple~
+~
+0 -1 27953
+E
+pearl~
+Examining the pearl you see some inscriptions:
+	Lightning flashes in the sky as dark clouds covered the once
+illuminated sky. The moon is rising to its peak. Creatures of the forest
+ran into hiding. Suddenly the earth shook as a mysterious figure rose
+from the lowest regions of a chasm. Mountains are split apart,.....
+~
+#27953
+Corner of Temple~
+You find yourself at the southeastern corner of the temple. From here you
+can see supply shops to your northeast and hallways to your north and
+east. You also feel the gentle breeze of the northern wind blows which is
+clearly refreshing compared to the dust and sand of the cities and the
+desert.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the side of the temple~
+~
+0 -1 27952
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27946
+#27954
+Hallway~
+You are at the beginning of the hallway. This hallway looks pretty cleaned
+as sweepers sweep the corridors each morning. To the east lies the
+suppliers and west will lead you back to the temple. Looking toward the
+west you can roughly see a picture of a beast looking like a serpent.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27955
+DDIR_WEST
+You see the side of the temple~
+~
+0 -1 27951
+#27955
+Hallway~
+You are at a hallway. Monks are moving along the hallway each doing their
+own duties. The east leads you into the shops, while the temple lies to
+the west.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27957
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27954
+#27956
+Coffin shop~
+You find yourself at the coffin shop. Here you can order any type of
+coffin you like when you pass into the oblivion. You also have an
+erie feeling about the enviroment in here. You wish you were somewhere else.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_MORGUE SECT_INSIDE
+DDIR_SOUTH
+You see a hallway~
+~
+0 -1 27957
+#27957
+Hallway~
+You are at a hallway. Monks are moving along the hallway each doing their
+own duties. Noises can also be heard as the shops open to sell their wares.
+To your north lies the coffin shop while the south is the baker. There
+are more shops to the east.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the coffin shop~
+~
+0 -1 27956
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27960
+DDIR_SOUTH
+You see the baker~
+~
+0 -1 27958
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27955
+#27958
+Bakery~
+You are at the bakery. The aroma of the food are so inviting that you
+wished you worked here. The shop is very well lighted, and there are a
+variety of foodstuff displayed on the glass counters and the shelves.
+You see you only exit is to the north back into the hallway.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see the hallway~
+~
+0 -1 27957
+#27959
+The Mamak Stall~
+This is the famous mamak stall. The place is dirty and pretty dark. But
+you see lots of people here enjoying their drink. There must be
+something special about the drinks here to attract so many people.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+You see the hallway~
+~
+0 -1 27960
+#27960
+Hallway~
+You are at a hallway. Monks are moving along the hallway each doing their
+own duties. Noises can also be heard as the shops open to sell their wares.
+To your north lies the mamak shop while the south is the general store.
+There are more shops to the east.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the mamak~
+~
+0 -1 27959
+DDIR_EAST
+You see a hallway~
+~
+0 -1 27963
+DDIR_SOUTH
+You see the general store~
+~
+0 -1 27961
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27957
+#27961
+The General Store~
+This is the general store. Here you can find a lot of wares of household
+use and other stuff which will prove useful for traveler, adventurer,
+or even housewives. All the items for sale are arranged in an orderly
+fashion on the shelves and the counters. There will certainly be
+something of interest here for you.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see the hallway~
+~
+0 -1 27960
+DDIR_SOUTH
+You see the storeroom~
+~
+0 -1 28005
+#27962
+Training Room~
+You find yourself at the training room. The room is bare of any
+decorations. You only see a wall with various types of gear used fro
+training.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+You see the hallway~
+~
+0 -1 27963
+#27963
+Hallway~
+You are at a hallway. Monks are moving along the hallway each doing their
+own duties. Noises can also be heard as the shops open to sell their wares.
+To your north lies the trainer while the south is the guild master. The
+hallway ends here.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You see the training room~
+~
+0 -1 27962
+DDIR_SOUTH
+You see the practice hall~
+~
+0 -1 27964
+DDIR_WEST
+You see a hallway~
+~
+0 -1 27960
+#27964
+Practice Hall~
+You find yourself at the practice hall. The room is very bright yet
+there seems to be no visible light source in the room. Two large wall
+weapon racks hanging on each side of the wall with all types of weapons
+and four pedestals, each with a thick book having different color
+bindings on each one. To your north is the only available exit back into
+the hallway which most enter.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see the hallway~
+~
+0 -1 27963
+#27965
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking at
+all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+You see woods~
+~
+0 -1 27968
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27966
+#27966
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27965
+DDIR_EAST
+You see woods~
+~
+0 -1 27969
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27967
+#27967
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27966
+DDIR_EAST
+You see woods~
+~
+0 -1 27970
+#27968
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+You see woods~
+~
+0 -1 27971
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27969
+DDIR_WEST
+You see woods~
+~
+0 -1 27965
+#27969
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27968
+DDIR_EAST
+You see woods~
+~
+0 -1 27972
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27970
+DDIR_WEST
+You see woods~
+~
+0 -1 27966
+#27970
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27969
+DDIR_EAST
+You see woods~
+~
+0 -1 27973
+DDIR_WEST
+You see woods~
+~
+0 -1 27967
+#27971
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+You see woods~
+~
+0 -1 27974
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27972
+DDIR_WEST
+You see woods~
+~
+0 -1 27968
+#27972
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27971
+DDIR_EAST
+You see woods~
+~
+0 -1 27975
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27973
+DDIR_WEST
+You see woods~
+~
+0 -1 27969
+#27973
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27972
+DDIR_EAST
+You see woods~
+~
+0 -1 27976
+DDIR_WEST
+You see woods~
+~
+0 -1 27970
+#27974
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+You see woods~
+~
+0 -1 27977
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27975
+DDIR_WEST
+You see woods~
+~
+0 -1 27971
+#27975
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27974
+DDIR_EAST
+You see woods~
+~
+0 -1 27978
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27976
+DDIR_WEST
+You see woods~
+~
+0 -1 27972
+#27976
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27975
+DDIR_EAST
+You see woods~
+~
+0 -1 27979
+DDIR_SOUTH
+You see the side of the temple~
+~
+0 -1 27927
+DDIR_WEST
+You see woods~
+~
+0 -1 27973
+#27977
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+You see woods~
+~
+0 -1 27980
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27978
+DDIR_WEST
+You see woods~
+~
+0 -1 27974
+#27978
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27977
+DDIR_EAST
+You see woods~
+~
+0 -1 27981
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27979
+DDIR_WEST
+You see woods~
+~
+0 -1 27975
+#27979
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27978
+DDIR_EAST
+You see woods~
+~
+0 -1 27982
+DDIR_WEST
+You see woods~
+~
+0 -1 27976
+#27980
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27981
+DDIR_WEST
+You see woods~
+~
+0 -1 27977
+#27981
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27980
+DDIR_SOUTH
+You see woods~
+~
+0 -1 27982
+DDIR_WEST
+You see woods~
+~
+0 -1 27978
+#27982
+Woods~
+You find yourself at the wood behind the temple. It is pretty dark here
+as the trees block most of the sunlight from reaching the surface of the
+earth. Also you noticed something is wrong with these woods. Looking
+at all direction they all seem to be all the same.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+You see woods~
+~
+0 -1 27981
+DDIR_WEST
+You see woods~
+~
+0 -1 27979
+#27983
+Clearing~
+You find yourself at a clearing. Little trees are here and at the corner
+of the clearing you see a well.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 27984
+#27984
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 27988
+DDIR_SOUTH
+~
+~
+0 -1 27985
+DDIR_WEST
+~
+~
+0 -1 27983
+#27985
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27984
+#27986
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 27987
+#27987
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27986
+DDIR_EAST
+~
+~
+0 -1 27988
+#27988
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 27993
+DDIR_WEST
+~
+~
+0 -1 27984
+#27989
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 27990
+DDIR_WEST
+~
+~
+0 -1 27987
+#27990
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27989
+DDIR_SOUTH
+~
+~
+0 -1 27991
+#27991
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27990
+DDIR_EAST
+~
+~
+0 -1 27994
+DDIR_SOUTH
+~
+~
+0 -1 27992
+#27992
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27991
+DDIR_SOUTH
+~
+~
+0 -1 27993
+#27993
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 27992
+DDIR_WEST
+~
+~
+0 -1 27988
+#27994
+Bushes~
+You find yourself inside thick bushes. The bushes seems impassable but
+there seems to be trails leading to every direction.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 27991
+#27995
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_EAST
+You see Forest~
+~
+0 -1 27998
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 27996
+#27996
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 27995
+DDIR_EAST
+You see Forest~
+~
+0 -1 27999
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 27997
+#27997
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 27996
+DDIR_EAST
+You see Forest~
+~
+0 -1 28000
+#27998
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 28004
+DDIR_EAST
+You see Forest~
+~
+0 -1 28001
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 27999
+DDIR_WEST
+You see Forest~
+~
+0 -1 27995
+#27999
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 27998
+DDIR_EAST
+You see Forest~
+~
+0 -1 28002
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 28000
+DDIR_WEST
+You see Forest~
+~
+0 -1 27996
+#28000
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 27999
+DDIR_EAST
+You see Forest~
+~
+0 -1 28003
+DDIR_WEST
+You see Forest~
+~
+0 -1 27997
+#28001
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 28002
+DDIR_WEST
+You see Forest~
+~
+0 -1 27998
+#28002
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 28001
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 28003
+DDIR_WEST
+You see Forest~
+~
+0 -1 27999
+#28003
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+You see Forest~
+~
+0 -1 28002
+DDIR_WEST
+You see Forest~
+~
+0 -1 28000
+#28004
+Little Forest~
+You are at a little forest. This seems to be the place where firewood are
+collected. Only a few trees are in this area. Most are young and some of
+them are old and dying. You can hear birds resting on top of tree
+branches and whistling a fine tune.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_FOREST
+DDIR_SOUTH
+You see Forest~
+~
+0 -1 27998
+#28005
+Storeroom~
+As soon as you entered this room you find that there's something peculiar
+about it. The room is well lit, and spacious. A gentle and yet euphoric
+perfume smell permeate the air, which is mildly nudging you, teasing your
+every senses. Every item you see in this room are well placed and neatly
+juxtaposed. The floor is so clean that you could see your own reflection.
+There's not even a speck of dust found anywhere. Though the furniture you
+found is of antique in nature, they are extremely well kept and taken care
+of. Wherever you glance, you'll see little pots of strange but very
+beautiful flowers and plants, as if this is the house of a famous florist.
+You are intrigue as of who might be the owner of this little heaven on
+earth.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The General Store~
+~
+0 -1 27961
+#0
+
+
+#RESETS
+M 27900 100 27914
+M 27901 100 27928
+E 27939  10 WEAR_BODY
+M 27902 100 27933
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27924
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27911
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27910
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27906
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27920
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27955
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27953
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27957
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27936
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27916
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27902 100 27952
+E 27917 999 WEAR_WIELD
+E 27938 999 WEAR_BODY
+M 27903 100 27900
+E 27938 999 WEAR_BODY
+M 27904 100 27995
+M 27904 100 27996
+M 27904 100 27997
+M 27904 100 27998
+M 27904 100 27999
+M 27904 100 28000
+M 27904 100 28001
+M 27904 100 28002
+M 27904 100 28003
+M 27905 100 27986
+E 27938 999 WEAR_BODY
+M 27906 100 27956
+M 27907 100 27962
+M 27908 100 27964
+M 27909 100 27958
+G 27913 999 0
+G 27914 999 0
+M 27910 100 27959
+G 27915 999 0
+G 27916 999 0
+M 27911 100 27965
+M 27911 100 27966
+M 27911 100 27967
+M 27911 100 27968
+M 27911 100 27969
+M 27911 100 27970
+M 27911 100 27971
+M 27911 100 27972
+M 27911 100 27973
+M 27911 100 27974
+M 27911 100 27975
+M 27911 100 27976
+M 27911 100 27977
+M 27911 100 27978
+M 27911 100 27979
+M 27911 100 27980
+M 27911 100 27981
+M 27911 100 27982
+M 27912 100 27985
+M 27912 100 27994
+M 27913 100 27957
+E 27938 999 WEAR_BODY
+M 27913 100 27939
+E 27938 999 WEAR_BODY
+M 27913 100 27937
+E 27938 999 WEAR_BODY
+M 27913 100 27951
+E 27938 999 WEAR_BODY
+M 27913 100 27944
+E 27938 999 WEAR_BODY
+M 27913 100 27938
+E 27938 999 WEAR_BODY
+M 27913 100 27949
+E 27938 999 WEAR_BODY
+M 27913 100 27963
+E 27938 999 WEAR_BODY
+M 27913 100 27911
+E 27938 999 WEAR_BODY
+M 27913 100 27904
+E 27938 999 WEAR_BODY
+M 27914 100 27934
+E 27938 999 WEAR_BODY
+M 27915 100 27922
+E 27938 999 WEAR_BODY
+M 27918 100 28004
+E 27938 999 WEAR_BODY
+M 27923 100 27961
+G 27918 999 0
+G 27919 999 0
+G 27920 999 0
+G 27928 999 0
+M 27926 100 27932
+E 27938 999 WEAR_BODY
+M 27927 100 27932
+E 27938 999 WEAR_BODY
+M 27928 100 27937
+E 27938 999 WEAR_BODY
+M 27930 100 28005
+M 27931 100 27905
+E 27938 999 WEAR_BODY
+M 27932 100 27944
+M 27933 100 27921
+M 27934 100 27916
+M 27935 100 27915
+M 27936 100 27945
+M 27937 100 27943
+M 27938 100 27936
+M 27940 100 27900
+O 27901   5 27905
+O 27905   5 27905
+O 27906   5 27905
+D 27930 DIR_SOUTH DOOR_CLOSED
+D 27931 DIR_NORTH DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

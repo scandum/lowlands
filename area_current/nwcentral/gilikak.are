@@ -1,0 +1,5795 @@
+#AREA Gilikak's Mansion~
+#AUTHORS Hupster~
+#VERSION 4
+#RANGES 65 90 1 95
+#OLC_RANGES 11300 11399
+
+
+#HELPS
+-1 GILIKAK MANSION GILIKAKS~
+{138}                              Gilikak's Mansion
+{308}
+Gilikak was a Hero in the Old wars of Order again Chaos.  He was killed in a
+struggle with Chaos and was granted eternal life by Order for his services.
+He wanders the halls of his magnificent mansion plotting revenge against
+the lord of fire.  His personal bard Jonathon stays within the mansion
+telling visitors the tale of his liege lord.
+
+{178}Revision 5-95 Hupster  {128}Revision 3-98 Hupster/Picard  {138}Revision 4-01 Scandum
+~
+
+0 $~
+
+
+#MOBILES
+#11300
+ghost servant dead young~
+the ghostly servant~
+The silhouette of a dead servant is floating here.~
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+200 S
+65 BODY_HEAD BODY_WING|BODY_CLAW 1d1+2582 1d65+22
+3000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if rand (50)
+  bow $n
+else
+  mpdelay self 4 1
+endif
+~
+>delay_prog 1~
+mpecho $I staggers up against the wall, and suddenly drops all the dishes he was carrying!
+mpasound You hear a tray of dishes clatter on the ground.
+mpasound A loud voice booms out, "Ahh fork it all!!!!"
+mpecho $I mutters to himself as he sweeps of the broken pottery.
+~
+|
+#11301
+ghost maid dead young maid_quest_mob~
+the ghostly maid~
+The silhouette of a young dead maid is hovering here.~
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+100 S
+65 BODY_LEG BODY_EYE|BODY_TAIL 1d1056+2111 1d1+56
+4000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 69~
+bow 
+tell $n May I be of service milord?
+~
+>speech_prog service~
+say What would you have of me milord?
+mpforce $n tum
+mpmset self quest 0 4 0
+mpdelay self 2 1
+~
+>delay_prog 1~
+switch quest (0,4,$i)
+  case 0
+    smile 
+    say I will bring you food and drink.
+  case 1
+    mpecho $I arrives with a large plate of food, and a bottle of vintage wine.
+    bow 
+    mpquiet on
+    cast feast
+    mpquiet off
+    mpecho You sit down and begin to eat the meal that the maid has brought for you.
+  case 2
+    mpecho You rise after finishing the meal that the maid has brought for you.
+  case 3
+    say If that is all milord, I will be on my way.
+    bow 
+    break
+endswitch
+mpmadd self quest 0 4 1
+mpdelay self 4 1
+~
+>speech_prog no~
+bow 
+tell $n As you wish milord.
+~
+|
+#11302
+ghost boy dead_quest_mob~
+a ghostly boy~
+The silhouette of a young dead boy is playing here.~
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_SANCTUARY
+400 S
+45 BODY_HEAD BODY_ARM|BODY_HAND 1d506+956 4d8+15
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+mpdelay self 4 1
+~
+>delay_prog 1~
+if rand (50)
+  say That icky girl keeps touching me.
+else
+  say Have you seen those nasty ghouls?
+  say They are everywhere!
+endif
+~
+>death_prog 5~
+mpoload 11369
+~
+|
+#11303
+ghost girl dead_quest_mob~
+a ghostly girl~
+The silhouette of a young dead girl is playing here.~
+~
+ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+200 S
+70 BODY_HIP BODY_MOUTH|BODY_CLAW 1d1+3579 4d10+41
+10000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 99~
+if quest (0,4,$n) == 1
+  smile 
+  tell $n Hi!  Did you see that poor man?
+  tell $n He is sure is in alotta trouble.
+  tell $n I never get into trouble.
+  ponder 
+  tell $n I wonder what he is in jail for.
+  mpecho $I suddenly looks very upset.
+  cry $n
+  tell $n If you find my doll, please give it to me...
+  tell $n I miss it sooo much.
+  mpmset $n quest 0 4 2
+else
+  smile 
+  tell $n Hiya!
+endif
+~
+>give_prog i11320~
+if quest (0,4,$n) == 4
+  mpjunk i11320
+  gasp 
+  say Oh thank you!
+  say You are so nice!
+  say You should see that giving face of yours in a mirror.
+  smile 
+  mpmset $n quest 0 4 5
+  mpmset self quest 1 3 1
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#11304
+demon~
+the greater demon~
+A greater demon vaporizes and attacks you!~
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SNEAK
+-500 S
+80 BODY_TORSO BODY_MOUTH|BODY_WING|BODY_TAIL 1d1+6033 11d5+43
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpecho {108}A swirling cloud of mist solidifies into an evil face.
+tell $n You have awakened me mortal.
+tell $n Now you shall feel my wrath!
+rescale 11304 $n 125
+mpkill $n
+endif
+~
+>fight_prog 25~
+cast 'energy drain'
+~
+|
+#11305
+executioner ghost~
+the ghostly executioner~
+The ghost of an executioner is here inflicting pain on a prisoner.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_SNEAK
+-200 S
+80 BODY_ARM BODY_LEG|BODY_ARM 1d1600+5257 1d80+40
+128761 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 99~
+if delayed ($i)
+  break
+endif
+if existsroom (m11306)
+  mpmset self quest 0 4 1
+  mpdelay self 2 1
+~
+>delay_prog 1~
+switch quest (0,4,$i)
+  case 1
+    mpecho $I raises his ax over his head.
+    say You have been convicted of crimes against
+    say humanity.
+    say Your sentence is death!
+  case 2
+    mpecho {300}
+    mpforce m11306 say But it wasn't me, I swear!
+    mpecho $I lowers the ax slightly.
+    say Haha, you would be surprised how many times I hear that in this job.
+  case 3
+    mpecho {300}
+    mpecho $I raises his ax over his head.
+    say Any last words?
+  case 4
+    mpecho {300}
+    mpforce m11306 say Yes...
+    mpforce m11306 say Your mother was really good to me last night!
+  case 5
+    mpecho {300}
+    gasp 
+    say You son of a' !!
+    mpecho $I throws the ax down and grabs the prisoner by the hair.
+  case 6
+    mpecho {300}
+    mpecho {178}The ghostly executioner shakes the prisoner violently, beating his head against the stone chopping block.
+    say You will pay for your slander, dog!!!
+  case 7
+    mpecho {300}
+    stop all
+    mpforce m11306 stop all
+    mpkill m11306
+  default
+    break
+endswitch
+mpmadd self quest 0 4 1
+mpdelay self 6 1
+~
+>speech_prog stop~
+if quest (0,4,$n) == 2
+  if quest (0,4,$i) == 8
+    if existsroom (m11306)
+      mpmset self quest 0 4 12
+      mpecho {008}
+      say What? Who the hell are you?
+      say How dare you come in here and tell me what to do.
+      mpmset m11306 level 10
+      peace 
+      mpkill $n
+      break
+    endif
+  endif
+endif
+say Butt out!
+say You didn't see nothin.
+~
+>death_prog 100~
+mpecho $I spits up alot of blood.
+if quest (0,4,$n) == 2
+  if quest (0,4,$i) == 12
+    if existsroom (m11306)
+      mpmset $n quest 0 4 4
+      mpmset m11306 quest 0 4 6
+      mpdelay m11306 4 1
+      peace 
+~
+|
+#11306
+prisoner ghost m11306~
+the ghostly prisoner~
+The ghost of a prisoner is here receiving the wrath of Gilikak.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_SNEAK
+100 S
+60 BODY_ARM BODY_MOUTH|BODY_EYE|BODY_HIP|BODY_ARM 1d1+4000 1d60+30
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+>delay_prog 1~
+switch quest (0,4,$i)
+  case 6
+    say Oh thank you!  I owe you something in return!
+    say Give me a second to get myself cleaned up.
+  case 7
+    mpecho $I adjusts his shabby clothing.
+    say Thank you so very very much...
+  case 8
+    say Well here you go.
+    mpoload 11319
+    say I've also got... hrm, where is it...
+    mpecho $I searches through his shabby clothing.
+  case 9
+    mpoload 11320
+    mpecho $I hands you.. Ooo!
+    drop all
+    say Sorry, I get so clumsy after being saved
+    say from an execution.
+  case 10
+    say I guess this make us even.
+    smile 
+    break
+endswitch
+mpmadd self quest 0 4 1
+mpdelay self 4 1
+~
+>death_prog 100~
+gasp 
+say Why didn't you help me?
+say Please, Stop him from doing this again!
+say I was innocent!!!! Make him Stop!
+~
+|
+#11307
+shadow image~
+Your shadow image~
+Your shadow attacks you!~
+~
+ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_SNEAK
+0 S
+95 BODY_ARM BODY_HIP|BODY_FOOT 1d100+9641 1d95+46
+120003 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+switch quest (0,4,$n)
+  case 5
+  case 6
+    mpmset self short null
+    peace 
+    tell $n We look like hell.
+    tell $n You haven't been taking good care of us.
+    mpdelay self 4 1
+  default
+    if quest (0,4,$n) > 6
+      mpmset self short $N
+      say Greetings better self.
+    else
+      mpmset self short NULL
+      mpecho $n looks deep into your soul.
+      say There can be only one of us.
+      say Therefore, you must die.
+      rescale self $n 100
+      mpkill $n
+~
+>delay_prog 1~
+say We think our face is dry, and in need of some help.
+say We hear that a woman's facial cream is good for
+say the complexion.
+~
+>delay_prog 2~
+if existsroom ($X)
+  say Ahh yessss.  I look astounding.
+  say You...  You look like hell.  A disgrace!
+  mpmset self short $T
+  stop all
+  mpkill $t
+~
+>give_prog i11321~
+mpjunk i11321
+if quest (0,4,$n) == 6
+  peace 
+  say Ahh we have done very well.
+  mpechoat $n You reach out and spread the cream on your face.
+  rescale self $n 90
+  mpdelay self 4 2 $n
+else
+  say What is this?
+  say You think I need this?
+  rescale 11307 $n 100
+  stop all
+  mpkill $n
+~
+>fight_prog 35~
+say We will defeat you!
+switch class ($n)
+  case class_illusionist
+    cast 'acid blast'
+  case class_elementalist
+    cast 'chill touch'
+    cast 'chill touch'
+    cast 'chill touch'
+  case class_marauder
+    disarm 
+    trip 
+  case class_necromancer
+    cast 'energy drain'
+    cast 'energy drain'
+  case class_monk
+    cast 'harm'
+    cast 'heal'
+  case class_ninja
+    if level ($i) > 0
+      mpdamage $n 200 400 knife
+    endif
+  case class_ranger
+    kick 
+endswitch
+~
+>death_prog 100~
+if quest (0,4,$n) == 6
+  say Clearly you are the better self.
+  say Hrm...Your face still looks worse than mine...
+  say Use magic to keep yourself looking young.
+  mpmset $n quest 0 4 7
+endif
+~
+|
+#11308
+wizard ghost~
+the mighty wizard~
+The ghost of gilikak's personal wizard is here mixing potions.~
+~
+ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+200 S
+80 BODY_HAND BODY_HORN|BODY_CLAW 1d1+6990 6d10+40
+22300 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 50~
+mpdelay self 4 1
+~
+>delay_prog 1~
+if rand (50)
+  mpecho $I conjurers a elemental to do his bidding.
+else
+  mpecho $I creates a gate to another dimension.
+endif
+~
+>speech_prog magic~
+if quest (0,4,$n) == 7
+  say Huh, what kind of magic?
+  say What do you want to use it on?
+else
+  say I have all kinds of magic spells.
+  mpecho $I utters the words 'rip'.
+  mpecho $I utters the words 'mirror image'.
+  say See?
+endif
+~
+>speech_prog face~
+if quest (0,4,$n) == 7
+  say Ahhh I am sorry.
+  say Only the rare unicorn can cast spells of beauty.
+  mpmset $n quest 0 4 8
+endif
+~
+>fight_prog 99~
+if rand (25)
+  cast 'acid blast'
+else
+  if rand (33)
+    cast 'blind'
+  else
+    if rand (50)
+      cast 'curse'
+    else
+      cast 'energy drain'
+    endif
+  endif
+endif
+~
+|
+#11309
+ghost sorcerer~
+the enraged sorcerer~
+The ghost of gilikak's personal sorcerer is here writing scrolls.~
+~
+ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+-200 S
+77 BODY_FOOT BODY_TAIL|BODY_CLAW 1d1+5790 1d77+30
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+mpdelay self 4 1
+~
+>delay_prog 1~
+if rand (50)
+  mpecho $I sorts a few scrolls.
+else
+  mpecho $I fills a vial and stands it on a shelf.
+endif
+~
+>speech_prog magic~
+if quest (0,4,$n) == 7
+  say Huh what kind of magic?
+  say What do you want to use it on?
+else
+  say I have all kinds of magic spells.
+  mpecho $I utters the words 'sanctuary'.
+  mpecho $I utters the words 'mirror image'.
+  say See?
+endif
+~
+>speech_prog face~
+if quest (0,4,$n) == 7
+  say What!? I do not dabble in such petty things!
+  say That vain unicorn knows about that sort of stuff.
+  mpmset $n quest 0 4 8
+endif
+~
+>fight_prog 33~
+if rand (33)
+  cast 'acid blast'
+else
+  if rand (50)
+    cast 'fireball'
+  else
+    cast 'energy drain'
+  endif
+endif
+~
+|
+#11310
+griffin~
+the ghost of a griffin~
+The ghost of a mighty griffin paces in its cage.~
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+0 S
+75 BODY_ARM BODY_WING|BODY_TAIL 1d1+4764 1d75+29
+76622 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11311
+dragon~
+the ghost of a pygmy dragon~
+The ghost of a small dragon paces back and forth in its cage.~
+~
+ACT_SENTINEL|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+0 S
+65 BODY_TAIL BODY_MOUTH 1d1+3030 1d65+22
+63000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 15~
+cast 'fireball' $r
+~
+|
+#11312
+unicorn~
+the ghost of a rare unicorn~
+The ghost of a rare unicorn nibbles on a clump of grass.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+200 S
+75 BODY_LEG BODY_HORN 1d1+4948 1d75+29
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+mpdelay self 4 1
+~
+>delay_prog 1~
+mpecho $I paws at the ground.
+~
+>speech_prog magic~
+if quest (0,4,$n) == 8
+  mpechoat $n $I looks at you intently.
+  mpechoaround $n $I looks at $n intently.
+  tell $n If you set me free, I can cloak you
+  tell $n in a mask of beauty.
+endif
+~
+>speech_prog face~
+if quest (0,4,$n) == 8
+  mpechoat $n $I looks at you intently.
+  mpechoaround $n $I looks at $n intently.
+  tell $n If you set me free, I can cloak you
+  tell $n in a mask of beauty.
+endif
+~
+>speech_prog free~
+if quest (0,4,$n) == 8
+  mpmset $n quest 0 4 9
+  nod 
+  mpechoaround $n $n glances around nervously..
+  mpechoaround $n Then quickly undoes the ropes binding the unicorn.
+  mpechoat $n You quickly undo the ropes binding the unicorn.
+  mpecho {008}
+  mpechoat $n You feel more attractive.
+  mpechoaround $n $n feels more feminine.
+  if sex ($n) == 1
+    mpquiet on
+    cast 'change sex' $n
+    mpquiet off
+  endif
+  mpecho $I runs out the door past you.
+  mppurge self
+endif
+~
+|
+#11313
+mrs gilikak~
+the ghost of Mrs. Gilikak~
+The ghost of Mrs. Gilikak is sitting here in front of her mirror.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8434 1d95+46
+150000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 80~
+say Eeeek!
+endif
+~
+>fight_prog 5~
+if quest (3,3,$i) != 3
+  shout Help me Gilikak!  I am being violated by evil men!
+  mpmload 11318
+  mpforce guard mpkill $r
+  mpecho A guard comes running into the room.
+  mpmset self quest 3 3 3
+else
+  mass 'cause critical'
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 5
+or quest (0,4,$n) == 6
+  mpmset $n quest 0 4 6
+  mpoload 11321
+endif
+~
+|
+#11314
+Gilikak gili_quest_mob~
+the ghost of Gilikak~
+The retired Knight of Order, Gilikak, sits here in his chair.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+1000 S
+110 BODY_HEAD BODY_EYE|BODY_HAND|BODY_FOOT 1d3025+10476 1d110+116
+40000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 99~
+if quest (4,3,$n) == 1
+  look $n
+  tell $n You look as if you know something
+  tell $n you are not telling me.
+  tell $n What is it?
+endif
+if quest (7,3,$n) == 3
+  say You are a true ally.
+  mpoload 11326
+  give i11326 $n
+  if rand (33)
+    mpoload 11328
+    give i11328 $n
+  endif
+  mpmset $n quest 7 3 4
+  say Thank you for your help.
+endif
+if quest (13,8,$n) < 6
+  tell $n Damn these ghouls. They are overrunning my house.
+  tell $n Please do your part and help us exterminate them.
+  mpmset $n quest 13 8 6
+endif
+if quest (13,8,$n) > 199
+  tell $n Thank you $n, You have done your part in ridding my house of the ghouls.
+  mpoload 11335
+  give i11335 $n
+  mpmset $n quest 13 8 6
+endif
+if delayed ($i)
+  break
+endif
+mpdelay self 6 1 $n
+~
+>speech_prog p He comes for you~
+if delayed ($i)
+  break
+endif
+if quest (4,3,$n) == 2
+  say WHAT!?
+  mpforce $n grin
+  mpquiet on
+  mpforce $n rest
+  mpquiet off
+  mpecho {178}The Great Wyrm appears within a bright flash of light.
+  mpmset self quest 0 6 10
+  mpmset $n quest 4 3 3
+  mpdelay self 4 3
+endif
+~
+>speech_prog wyrm~
+if delayed ($i)
+  break
+endif
+if quest (4,3,$n) == 1
+  mpdelay self 4 5
+  say How do you know of the wyrm?
+  mpforce $n say The wyrm is free.
+  mpmset $n quest 7 3 1
+  mpmset $n quest 4 3 5
+else
+  if quest (7,3,$n) == 4
+    mpoload 11331
+    mpquiet on
+    give i11331 $n
+    mpquiet off
+    say Well then have a seat.
+    mpmset $n quest 7 3 5
+    mpmset self quest 0 6 23
+    mpdelay self 4 4
+  endif
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (7,3,$t) == 4
+    say Ahh...$T Would you like to hear of the wyrm?
+  else
+    if quest (0,6,$i) == 0
+      if rand (50)
+        say Do you want to hear of my legacy?
+      else
+        mpecho $I rocks gently in his chair.
+        yawn 
+      endif
+    endif
+  endif
+~
+>delay_prog 2~
+switch quest (0,6,$i)
+  case 1
+    say Well okay then.
+    mpforce all rest
+    mpecho $I takes in a big breath.
+  case 2
+    say A long time ago when the gods were at war.
+    say I was chosen to be the champion of Order.
+    say We fought many battles but the war was far
+    say from over.
+    say After many years the forces of good had pushed
+    say Chaos back into the norhern continent.
+    mpecho Gilikak breaths deeply.
+  case 3
+    say In the final battle of good vs. evil,  I was faced
+    say with the challenge of killing a god.  It was a long
+    say struggle, blow and counter blow.
+  case 4
+    say I was poised to deal Chaos death when he blasted
+    say my mind with negative energy.
+    mpecho Gilikak begins to sob.
+  case 5
+    mpecho A tear falls from his cheek and {778}vaporizes{308} before it hits the ground.
+    say It was too powerful, I was killed.  Order granted me
+    say eternal life for my service.  But, undead life is
+    say a curse!
+    mpecho Gilikak spits on the ground.
+  case 6
+    mpecho Gilikak composes himself.
+    say Continue my battle $r, and may Order guide you along
+    say safe paths.
+    say Take love into your heart and cleanse the hate that
+    say is suffocating our land.
+    break
+endswitch
+mpmadd self quest 0 6 1
+mpdelay self 6 2
+~
+>delay_prog 3~
+switch quest (0,6,$i)
+  case 10
+    say Who.. what?
+    say Who comes for me?
+    mpmload 11320
+    mpforce wyrm_quest_mob2 shout I come for your soul Gilikak!
+  case 11
+    mpecho {300}
+    gasp 
+    point wyrm
+    mpforce wyrm_quest_mob2 say Surprised father??
+    mpforce wyrm_quest_mob2 say You look as if you have seen a ghost.
+    mpforce wyrm_quest_mob2 say Yes father... I have come to pay
+    mpforce wyrm_quest_mob2 say retribution upon you for years of neglect.
+    say YOU!? How did you!?
+  case 12
+    mpecho {300}
+    say How did you get out!?
+    mpforce wyrm cackle
+    mpforce wyrm_quest_mob2 say Your man friend here was easily convinced
+    mpforce wyrm_quest_mob2 say that it would be in their best interest
+    mpforce wyrm_quest_mob2 to help me.
+    mpforce wyrm_quest_mob2 grin
+  case 13
+    gasp 
+    mpforce wyrm_quest_mob2 say You thought you had me nicely tucked away
+    mpforce wyrm_quest_mob2 say like a fancy bauble you could look at when
+    mpforce wyrm_quest_mob2 say you wished.  You created me Gilikak!!
+    mpforce wyrm_quest_mob2 say Now you must deal with me!!
+  case 14
+    mpecho {008}
+    mpforce wyrm_quest_mob2 say I will savor this moment for all eternity!!
+    mpforce wyrm_quest_mob2 cackle
+    restore self
+    restore wyrm_quest_mob2
+    mpforce wyrm_quest_mob2 mpkill gili_quest_mob
+    mpmset self quest 0 6 15
+    break
+endswitch
+mpmadd self quest 0 6 1
+mpdelay self 6 3
+~
+>speech_prog legacy~
+if delayed ($i)
+else
+  mpmset self quest 0 6 1
+  mpdelay self 2 2
+~
+>delay_prog 4~
+switch quest (0,6,$i)
+  case 23
+    say Well lets see.... Back before the great war,
+    say Long time before your grandfathers' grandfather
+    say walked the realms.  I was just a young chap
+    say entering the Legion of Earth.
+    say All young men of sound mind joined to lay our
+    say lives down upon the soil for the good of the world
+    sigh 
+  case 24
+    say Well you see now,  I had this lady friend...
+    say and well... Huh?
+    mpecho Gilikak looks at you oddly for interrupting him.
+    say Oh..... Mrs. Gilikak?....she is my second wife....
+    say where was I?
+  case 25
+    say Oh Yes,  Well my young lady friend and I did what
+    say all young couples do on the eve of war....
+    nudge $r
+    grin 
+  case 26
+    say A few months went by, and I was far from home
+    say fighting the legions of Chaos as a young recruit.
+    say I received word that Lady Jocelyn, yes that was her
+    say name, was heavy with my child.
+    smile 
+  case 27
+    say Needless to say, I was so ecstatic with joy that on
+    say that very day I became a hero of sorts at the
+    say Battle of Ofcol Hill, Nothing could hold me back.
+    say Chaos' minion fell before my blade in gargantuan
+    say quantities.
+    say I was on top of the world......  for a few days 
+    say at least.
+    mpecho Gilikak looks away from you as his face fills with pangs of regret.
+  case 28
+    say I soon received word that my bride birthed premature
+    say She gave life to a foul disgusting type creature...
+    say at the expense of hers.
+    shout Chaos could not defeat me that day on the battle
+    shout field so he cowardly mutated my unborn babe!
+  case 29
+    say In a matter of moments my life fell around me.  My
+    say bride dead.. my baby a perverse monster...
+    mpecho Gilikak clears his throat.
+  case 30
+    say I invested much time and effort into raising that 
+    say creature as a son of my own flesh and blood.  Why
+    say should he suffer for something he could not
+    say understand?
+    sigh 
+  case 31
+    say He was such a bright child, a wonderful son... But
+    say when the day came and I was called back into
+    say service...
+    say I was forced to neglect my duties as father,
+    say Zanthgiltor went astray without guidance.
+  case 32
+    say He hated me for abandoning him, I had no other
+    say choice!  I was fighting for the fate of mankind!
+    mpecho Gilikaks eyes fill with regret.
+  case 33
+    say The Wyrm ran wild through the lands causing mayhem
+    say where ever he went.  I was forced to cage him to
+    say keep the populous safe.  It pained me so to do such
+    say a thing.
+    sigh 
+  case 34
+    say So that is how you found him, caged and angry with 
+    say the world.. Thank you again for helping me..
+    say Just go.. I am an evil man.
+    say Oh Jocelyn... Do you even know the name of your own
+    say child?
+    break
+endswitch
+mpmadd self quest 0 6 1
+mpdelay self 6 4
+~
+>delay_prog 5~
+ponder 
+say You must have seen him then,
+say Oh dear... this is not good at all.
+say He must have broken the spell in the Cavern.
+say You will help me stop him,  Meet me there, Hurry!
+~
+>speech_prog p jocelyn lives~
+if hasobjnum ($n) == 11332
+  if quest (7,3,$n) == 5
+    mpjunkperson $n i11332
+    shout WHAT!?
+    say What did you just say?
+    say Nonsense she has been dead for many years.
+    say To see Jocelyn again would be divine....
+    sigh 
+    mpmset $n quest 7 3 6
+  endif
+endif
+~
+>speech_prog p I saw jocelyn~
+if quest (7,3,$n) == 6
+  cough 
+  say You saw her!?
+  shout SHE LIVES!!!
+  say Oh thank you $n, you have just made my millennium.
+  if class ($n) > 3
+    mpoload 11330
+  else
+    if class ($n) == class_ranger
+    or class ($n) == class_gladiator
+      mpoload 11333
+    else
+      mpoload 11334
+    endif
+  endif
+  mpquiet on
+  cast 'remove curse'
+  cast 'remove curse'
+  mpquiet off
+  give crystal $n
+  say I must find her!
+  say Thank you $n
+  mpmset $n quest 7 3 7
+endif
+~
+>fight_prog 99~
+if quest (0,5,$i) == 15
+  if rand (15)
+    say Order, grant me the strength to best these foes!
+    cast 'energy drain'
+    break
+  endif
+endif
+if rand (15)
+  say Order, I call upon the forces of earth!
+  mass slow
+  mpquiet on
+  mass slow
+  mpquiet off
+  break
+endif
+if rand (5)
+  say Order, grant me strength to best these foes!
+  mass 'acid blast'
+  berserk 
+  shout In the name of my Goddess I will strike you down!
+  break
+endif
+if rand (10)
+  mpquiet on
+  cast 'cure blindness'
+  wear I11312
+  mpquiet off
+  knife 
+  break
+endif
+if rand (5)
+  mpecho {118}The air around you condenses as a meteor shower shower crashes down!!
+  mass 'tremor'
+endif
+~
+>hitprcnt_prog 25~
+if quest (0,5,$i) == 15
+  if rand (33)
+    tell $n You will pay for this deceit!
+    mpecho $I looks at you.
+    say Stop this madness Wyrm!
+  endif
+  break
+else
+  if rand (10)
+    if position ($r) == POS_FIGHTING
+      mpmload 11318
+      mpforce guard mpkill $r
+      cackle 
+      say You underestimate me $r.
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 50~
+if quest (0,5,$i) == 15
+  if rand (33)
+    shout You will not take me Wyrm!
+    break
+  endif
+endif
+if quest (0,5,$i) != 15
+  if rand (25)
+    mpecho {128}Order restores his champion!
+    mpmadd self currhp 250
+    break
+  endif
+endif
+if quest (0,6,$i) != 15
+  if rand (5)
+    mpecho {128}Order gives new life to his champion!
+    mpmadd self currhp 1200
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,5,$i) == 15
+  say Wyrm we shall meet again!
+  mpecho $I looks at you.
+  mpecho {138}$I tells you 'You should have come to me'
+  mpecho {138}$I tells you 'We could have stopped the wyrm together'
+  mpmset wyrm_quest_mob2 quest 0 5 1
+  mpjunk all
+else
+  shout I have failed you Goddess
+  cough 
+  shout May I finally join you at your side mistress..
+endif
+~
+|
+#11315
+A Cook~
+a ghostly cook~
+The ghostly cook~
+The ghostly cook walks by without noticing you.
+~
+ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_HIDE
+80 S
+70 BODY_ARM BODY_EYE|BODY_HAND 70d50+4100 6d12+40
+112400 0
+POS_STANDING POS_STANDING SEX_MALE
+#11316
+A chef~
+the ghostly chef~
+The ghostly chef is here going on about his business.~
+~
+ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_HIDE
+100 S
+70 BODY_ARM BODY_HEAD|BODY_HAND 1d1+4172 5d11+40
+82000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11317
+jonathon ghost bard~
+Jonathon~
+A wisp of old man stands here lost in his thoughts.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+0
+500 S
+95 BODY_ARM BODY_EYE|BODY_HAND 1d2256+7613 10d12+90
+112400 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 9
+  tell $n Helllllooooooo NURSIE!
+  kiss $n
+  mpmset self quest 0 4 6
+  mpdelay self 2 1 $n
+  break
+endif
+if quest (0,4,$n) == 0
+  mpecho $I motions to the mural on the wall.
+  mpforce $n look painting
+  tell $n This is the legacy my family has sworn to keep alive.
+  tell $n I know the way to the temple.
+  break
+endif
+if quest (0,4,$n) == 1
+  tell $n I wish I could help that sweet little girl.
+  tell $n She reminds me of my daughter.
+endif
+~
+>speech_prog temple~
+if delayed ($i)
+  break
+endif
+say Oh, you want to know about the temple?
+mpmset self quest 0 4 1
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+endif
+mpdelay self 2 1 $n
+~
+>speech_prog updated?~
+say The area has been taken care of by Scandum.
+say To the completeness and bugfreeness he desires.
+grin $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say Well let's see...
+      ponder 
+    case 2
+      say Order created a haven for his devout followers a long time ago.
+      say After the tragic death of Gilikak, the Lord of Reason took all
+      say the refugees she managed to save from the clutches of Chaos'
+      say minions, and placed them in charge of her followers in this
+      say realm.
+    case 3
+      say No one knows where this safe haven is located.
+      say I seem to have forgotten the rest of the tale.
+    case 4
+      ponder 
+      say It's been ages you know.  I told my son the tale,
+      say and he in turn has told his son.
+      say No one shall forget the tale of Gilikak's great sacrifice.
+    case 5
+      say If you ever run across one of my relatives, let him
+      say know that I am doing fine.
+      smile 
+      say Aye, I am doing just fine.
+      break
+    case 6
+      mpecho $I puts his arm around $T.
+      say A good looking girl like you shouldn't be here all alone.
+    case 7
+      grin 
+      say What would you say if you and I me and you... eh you know?
+      wink 
+    case 8
+      say I never took a girl without her consent.
+      grin 
+      say Say you want it?
+      emote licks $l lips and smiles.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 6 1 $X
+~
+>speech_prog p I want it~
+if quest (0,4,$n) == 9
+  say ALL RIGHT!
+  say Take this.
+  mpoload 11322
+  give i11322 $n
+  mpmset $n quest 0 4 10
+  say Look at the painting and 'tappass'.
+  say Wait for me there baby.
+  mpecho $I slaps you on the rump.
+  mpmset self quest 0 4 0
+  mpdelay self 0 0
+endif
+~
+|
+#11318
+personal guard ghost~
+a personal guard of Gilikak~
+A personal guard of Gilikak stands here silently.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE
+800 S
+95 BODY_ARM BODY_EYE|BODY_HAND 1d2256+7613 1d95+46
+112400 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if rand (50)
+  tell $n I am sorry,
+  tell $n The master wishes not to be disturbed.
+endif
+~
+>fight_prog 99~
+if rand (20)
+  wear dagger
+  knife 
+endif
+~
+>death_prog 100~
+if rand (25)
+  mpoload 11349
+endif
+~
+|
+#11319
+wyrm great wyrm_quest_mob~
+the Great Wyrm~
+A Very large Wyrm is lying atop a pile of rubble here.~
+The Great Wyrm is an ancient beast.  It is a large flightless dragon.  The
+long gray body wraps in a circle.  It's scaly tail sways gently almost
+hypnotizing you.  The long powerful limbs flex in anticipation.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+-1000 S
+100 BODY_ARM BODY_EYE|BODY_HAND 1d2500+8509 1d100+150
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpecho $I hisses loudly at the intrusion.
+if quest (4,3,$n) == 0
+  mpecho $I pins you to the ground under a massive claw.
+  mpforce $n scream
+  mpquiet on
+  mpforce $n rest
+  mpquiet off
+  tell $n Why shouldn't I kill you this instant?
+  tell $n Ahhh... This may be fun
+  tell $n I have not seen a puny mortal in ages.
+  mpmset self quest 0 5 1
+endif
+if quest (4,3,$n) == 1
+  if hasobjnum ($n) == 14632
+    if hasobjnum ($n) == 11319
+      if hasobjnum ($n) == 13851
+        tell $n Ahhh..... $n, you have returned with my requests.
+        tell $n Give them to me!
+        break
+      endif
+    endif
+  endif
+endif
+if quest (4,3,$n) == 1
+  if quest (10,3,$n) != 7
+    say I told you not to return empty handed!
+    say Damn mortals are useless creatures.
+    mpkill $n
+    break
+  endif
+endif
+if quest (4,3,$n) == 4
+  say $n You have served me well.
+  mpmset $n quest 4 3 5
+  mpjunk all
+  mpoload 11325
+  mpecho You hear a loud cracking sound as the wyrm spits a tooth out upon the ground.
+  mpquiet on
+  cast 'remove curse'
+  give tooth $n
+  mpquiet off
+  say Listen carefully....
+  mpecho {038}The Great Wyrm says 'After you have amply {118}stained {038}my fang with the'
+  mpecho {038}The Great Wyrm says '{118}blood {038}of your enemies, bring it back to me.'
+  say Now be gone before I tire of you.
+  break
+endif
+if quest (7,3,$n) == 1
+  mpechoat $n {178}Gilikak rushes into the room ahead of you.
+  mpechoaround $n {178}Gilikak rushes into the room ahead of $n.
+  mpquiet on
+  mpforce $n rest
+  mpquiet off
+  mpmload 11321
+  mpforce gili_quest_mob2 shout Wyrm!!!
+  mpmset $n quest 7 3 2
+  mpmset self quest 0 5 17
+  tell $n You will pay for your treachery..
+  break
+endif
+if quest (27,3,$n) == 6
+  mpmset $n quest 22 5 20
+  say You are a disgrace!
+  rescale 11319 $n 150
+  mpkill $n
+endif
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 15
+    say You must try again.
+    mpmset $n quest 22 5 10
+    say Are you ready?
+    break
+  endif
+endif
+if quest (4,3,$n) == 6
+  say You treacherous bastard!!
+  say You dare come to me to beg and grovel for your life??
+  mpforce $n scream
+  rescale 11319 $n 150
+  mpkill $n
+endif
+if quest (22,5,$n) == 17
+  say You have come to battle me then.
+  say I must say I truly did not think that you had the courage.
+  say Let us begin then $n!!
+  rescale 11319 $n 150
+  mpkill $n
+endif
+if quest (4,3,$n) == 7
+  say Why are you bothering me further $n?
+endif
+if hasobjnum ($n) == 10318
+  if quest (22,5,$n) == 5
+    say Yes!!
+    say You have returned with that which I have asked.
+    say Give it to me now!
+  endif
+endif
+if hasobjnum ($n) == 10327
+  if quest (22,5,$n) == 6
+    say Yes!!
+    say You have returned with that which I have asked.
+    say Give it to me now!
+  endif
+endif
+if hasobjnum ($n) == 11576
+  if quest (22,5,$n) == 7
+    say Yes!!
+    say You have returned with that which I have asked.
+    say Give it to me now!
+  endif
+endif
+if hasobjnum ($n) == 31160
+or hasobjnum ($n) == 31161
+  if quest (22,5,$n) == 8
+    say Yes!!
+    say You have returned with that which I have asked.
+    say Give it to me now!
+  endif
+endif
+~
+>social_prog grovel~
+if quest (4,3,$n) == 6
+  if quest (27,3,$n) != 7
+    say You puny mortal!!
+    peace 
+    say I will spare you this once...
+    mpmset $n quest 4 3 0
+    mpmset $n quest 27 3 7
+    break
+  endif
+endif
+if quest (27,3,$n) == 7
+  say I have spared you once before.
+  say I will not again!
+  rescale 11319 $n 150
+  mpkill $n
+endif
+~
+>rand_prog 8~
+if quest (22,5,$r) == 0
+  if quest (4,3,$r) > 4
+    if quest (7,3,$r) == 0
+      say All men are truly evil within their hearts.
+      say They simply cover that evil with a shroud of good.
+      say To remove that shroud is not a simple task,
+      say yet it can be done.
+      wink $r
+    endif
+  endif
+endif
+~
+>rand_prog 65~
+switch quest (0,5,$i)
+  case 1
+    say Why are you here?
+    say Have you come for my jewels?
+    yawn 
+    mpmset self quest 0 5 2
+    break
+  case 3
+    say Tell me this,
+    say does Gilikak still wander the halls above us?
+    ponder 
+    mpmset self quest 0 5 4
+    break
+  case 5
+    say Do you want to live?
+    shout I ask you...Do you want to live!?
+    mpmset self quest 0 5 6
+    break
+  case 7
+    say You will bring me a few items that I require
+    mpecho {038}The Great Wyrm says 'You will bring me an {028}Amazon Chakram{038}.'
+    mpmset self quest 0 5 8
+    break
+  case 8
+    mpecho {038}The Great Wyrm says 'Also a bit of {078}white candle{038}'
+    mpecho {038}The Great Wyrm says 'and a token from a {018}statue of Gilikak{038}..'
+    mpecho $I lifts his massive claw off your chest.
+    mpquiet on
+    mpforce all stand
+    mpquiet off
+    say If you say a word of this to Gilikak,
+    say or fail me, you will pay dearly.
+    say Now go and do not return empty handed!
+    mpmset self quest 0 5 0
+    break
+  case 9
+    say You are fortunate that you did not double cross me.
+    say Now... You must do one last thing for me.
+    mpmset self quest 0 5 10
+    break
+  case 10
+    mpecho {038}The Great Wyrm says 'Say unto Gilikak these words '{078}He comes for you{038}'
+    say Now go from me...
+    mpmset self quest 0 5 0
+    break
+  case 13
+    mpecho {118}Crunch Crunch Crunch
+    mpmset self quest 0 5 14
+    break
+  case 14
+    burp 
+    mpmset self quest 0 5 0
+    break
+  case 17
+    mpecho {008}
+    say Why Gilikak so nice of you to visit me
+    say after all these years.
+    mpforce gili_quest_mob2 say Don't you get chummy with me Wyrm!
+    mpforce gili_quest_mob2 say Why are you stirring up trouble?
+    mpmset self quest 0 5 18
+    break
+  case 18
+    mpecho {008}
+    say But Gilikak, are you not happy to see me
+    say after all you did put me here.
+    say More than 2000 years ago!!
+    say Yessss I have counted everyday of my imprisonment!!
+    mpmset self quest 0 5 19
+    break
+  case 19
+    mpecho {008}
+    mpforce gili_quest_mob2 say Your own actions put you here Wyrm.
+    mpforce gili_quest_mob2 say You had the option to obey me,
+    mpforce gili_quest_mob2 say but you chose to ignore your father
+    mpforce gili_quest_mob2 say and run rampart through the land!!
+    mpforce gili_quest_mob2 say Wyrm.... I will put you down
+    mpforce gili_quest_mob2 say if you do not quit this madness!!!
+    cackle 
+    mpmset self quest 0 5 20
+    break
+  case 20
+    mpecho {008}
+    say You were no father!!
+    say You were my jailer!!
+    scream 
+    mpecho $I rears up high upon its rear legs.
+    mpforce gili_quest_mob2 shout I warned you Wyrm!!
+    mpmset self quest 0 5 21
+    restore gili_quest_mob2
+    peace 
+    mpforce gili_quest_mob2 mpkill wyrm_quest_mob
+    break
+endswitch
+switch quest (5,4,$i)
+  case 1
+    say Tell me, what is your race?
+    mpmset self quest 5 4 0
+    break
+  case 2
+    say If you were walking along and came across
+    say a bag of gold that appears to be without
+    say an owner, would you leave it or take it?
+    mpmset self quest 5 4 0
+    break
+  case 3
+    say You must prove your desire to me in other
+    say ways than answering my petty questions.
+    say Are you willing to lay down your life for this.
+    mpmset self quest 5 4 0
+    break
+  case 4
+    say Are you ready For what I have to ask of you?
+    mpmset self quest 5 4 0
+    break
+  case 5
+    say Now go and prove yourself to me.
+    sigh 
+    mpmset self quest 5 4 0
+    break
+endswitch
+if quest (10,3,$r) == 7
+  say Yess. You have done very well.
+  say Was it easy or hard to get these?
+  break
+endif
+~
+>speech_prog easy~
+if quest (4,3,$n) == 1
+  if quest (10,3,$n) == 7
+    mpmset $n quest 4 3 2
+    mpmset $n quest 10 3 0
+    say Well then you mortals are more clever than I thought.
+    mpmset self quest 0 5 9
+  endif
+endif
+~
+>speech_prog hard~
+if quest (4,3,$n) == 1
+  if quest (10,3,$n) == 7
+    mpmset $n quest 4 3 2
+    mpmset $n quest 10 3 0
+    say As I thought, you mortals are so weak.
+    mpmset self quest 0 5 9
+  endif
+endif
+~
+>speech_prog yes~
+if quest (22,5,$n) == 3
+  say Good, you may very well have too.
+  mpmset $n quest 22 5 4
+  mpmset self quest 5 4 4
+  break
+endif
+if quest (22,5,$n) == 4
+  say The good people of the realms must perish
+  if rand (25)
+    say You must demonstrate your desire now by destroying Corwin
+    say and bringing me that which he wears upon his shoulder.
+    mpmset $n quest 22 5 5
+    mpmset self quest 5 4 5
+  else
+    if rand (33)
+      say You must demonstrate your desire now by defeating Caine
+      say and bringing me that he wears upon his chest.
+      mpmset $n quest 22 5 6
+      mpmset self quest 5 4 5
+    else
+      if rand (50)
+        say You must demonstrate your desire now by killing Arcus
+        say and bringing me his infamous weapon.
+        mpmset $n quest 22 5 7
+        mpmset self quest 5 4 5
+      else
+        say You must demonstrate your desire now by destroying the
+        say Platinum Dragon and bringing me her precious jewelry.
+        mpmset $n quest 22 5 8
+        mpmset self quest 5 4 5
+      endif
+    endif
+  endif
+  break
+endif
+if quest (22,5,$n) == 9
+  if pcsinroom (11392) > 0
+    say I am already testing someone who desired to taste
+    say the power of the dark side. Come back later $n
+    break
+  endif
+  say You must now prove your prowess in battle to me.
+  mpat 11392 mppurge all
+  mpat 11392 mpmload 11324
+  mptransfer $n 11392
+  mpechoat $n {178}You are enveloped by a cloud of mist and cannot see a thing
+  mpechoat $n {178}until the haze slowly clears.
+  tell $n Enjoy.
+  break
+endif
+if quest (22,5,$n) == 10
+  if pcsinroom (11392) > 0
+    say I am already testing someone who desired to taste
+    say the power of the dark side. Come back later $n
+    break
+  endif
+  say Good luck then.
+  mpat 11392 mppurge all
+  mpat 11392 mpmload 11325
+  if class ($n) > 3
+    mpoload 11337
+    mpoload 11338
+    mpoload 11342
+    mpat 11392 drop all
+  else
+    mpoload 11339
+    mpoload 11340
+    mpoload 11341
+    mpat 11392 drop all
+  endif
+  mpoload 11336
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give i11336 $n
+  mpechoat $n {178}You are enveloped by a cloud of mist and cannot see a thing
+  mpechoat $n {178}until the haze slowly clears.
+  mptransfer $n 11392
+  tell $n Your wits are your asset.  Use them first.
+  mpjunk all
+  break
+endif
+if quest (22,5,$n) == 16
+  say Well $n, Your final test will be to defeat me in battle.
+  say Go now and prepare.  I warn you though now.  Next time
+  say you set foot before me may very well be your last.
+  cackle 
+  say I will see you again in the fervor pitch of battle.
+  mpmset $n quest 22 5 17
+  break
+endif
+if quest (0,5,$i) == 2
+  grin 
+  say You want my jewels do you?
+  say Perhaps if you did me a favor I could be generous.
+  mpmset self quest 0 5 3
+endif
+if quest (0,5,$i) == 4
+  scream 
+  say Curse that man!
+  say He imprisoned me here long ago, like some pet of his.
+  say If I was free I would slay him and all his kin!
+  mpmset self quest 0 5 5
+endif
+if quest (0,5,$i) == 6
+  say Then you will help me exact my revenge upon Gilikak.
+  say I must prepare...
+  mpmset self quest 0 5 7
+  mpmset $n quest 4 3 1
+endif
+~
+>speech_prog no~
+if quest (0,5,$i) == 2
+  ponder 
+  say Liar!!
+  say Everyone wants my pretties.
+  mpmset self quest 0 5 3
+  break
+endif
+if quest (0,5,$i) == 4
+or quest (22,5,$n) == 9
+  say Then you are no help to me!
+  mpechoat $n $I looks at you.
+  mpechoaround $n $I looks at $n.
+  say A bit scrawny, but you'll do
+  mpechoat $n The great Wyrm's maw opens widely dripping ooze upon your face.
+  mpechoaround $n The great Wyrm's maw opens widely dripping ooze upon $n's face.
+  if level ($n) < 75
+    mpecho {008}
+    mpechoat $n The great Wyrm shoots forward and eats you alive!
+    mpechoaround $n The great Wyrm shoots forward and eats $n alive!
+    mpquiet on
+    slay $n
+    mpquiet off
+    mpmset self quest 0 5 13
+  else
+    rescale 11319 $n 150
+    mpkill $n
+  endif
+  break
+endif
+~
+>speech_prog p remove shroud~
+if quest (4,3,$n) > 4
+  if quest (22,5,$n) == 0
+    say So $n, You wish to be true to your nature of man.
+    say Perhaps I may be able to help you.
+    grin 
+    say But first, you must show me that your intent is true.
+    say Listen carefully to me and answer my questions.
+    say What is your race?
+    mpmset self quest 5 4 1
+    mpmset $n quest 22 5 1
+  endif
+endif
+~
+>speech_prog human~
+if quest (22,5,$n) == 1
+  if race ($n) == race_human
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a
+    say underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog elf~
+if quest (22,5,$n) == 1
+  if race ($n) == race_elf
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog drow~
+if quest (22,5,$n) == 1
+  if race ($n) == race_drow
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog ogre~
+if quest (22,5,$n) == 1
+  if race ($n) == RACE_OGRE
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog orc~
+if quest (22,5,$n) == 1
+  if race ($n) == race_orc
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog gnome~
+if quest (22,5,$n) == 1
+  if race ($n) == race_gnome
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog hobbit~
+if quest (22,5,$n) == 1
+  if race ($n) == race_hobbit
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog dwarf~
+if quest (22,5,$n) == 1
+  if race ($n) == race_dwarf
+    say True, but you are wrong.
+    say To be evil you must be devious in your nature.
+    say I ask you again, what is your race?
+  else
+    say False, but you are correct.
+    say To be evil requires that you deal with people in a underhanded and untruthful way.
+    mpmset self quest 5 4 2
+    mpmset $n quest 22 5 2
+    say I have another question for you.
+  endif
+endif
+~
+>speech_prog p leave it~
+if quest (22,5,$n) == 2
+  gasp 
+  mpecho The Great Wyrm shakes his head in frustration at $n's moronic answer.
+  mpmset self quest 5 4 2
+  say I will ask you again..
+endif
+~
+>speech_prog p take it~
+if quest (22,5,$n) == 2
+  mpecho The Great Wyrm taps you hard on the head.
+  mpforce $n wince
+  say To become evil you must use sneaky and underhanded techniques to acquire possessions.
+  say I will ask you again...
+  mpmset self quest 5 4 2
+endif
+~
+>speech_prog both~
+if quest (22,5,$n) == 2
+  say Ahhh... yesss...
+  say You would obviously walk past the gold and then check
+  say around to see if it is some kind of trap, after
+  say disposing of the would-be trapper you would come back
+  say and retrive the gold for yourself.
+  grin 
+  mpmset $n quest 22 5 3
+  say $n You are on your way to becoming truly evil, but I
+  say warn you I will not tolerate any more wrong answers.
+  mpmset self quest 5 4 3
+endif
+~
+>speech_prog p That was close.~
+if quest (22,5,$n) == 15
+  say Very good $n,  You have truly shown that desire runs
+  say through your veins.
+  mpecho The great wyrm puts his claw upon your shoulder.
+  restore $n
+  mpechoat $n You feel great!
+  mpmset $n quest 22 5 16
+  grin 
+  say I have one final test for you.  Are you ready?
+endif
+~
+>speech_prog p No sweat~
+if quest (22,5,$n) == 10
+  say Yes that was a bit easy wasn't it.
+  say Now for a real test, for this you will need to use
+  say the knowledge that I have tried to teach you.
+  say Remember to be evil you must think and act in a
+  say devious and underhanded nature.
+  say Use your wits not your brawn.
+  say Are you ready?
+endif
+~
+>give_prog i11325~
+mpjunk all
+mpoload 11325
+give i11325 $n
+say Perhaps I was unclear.
+say After you have amply stained my fang with the
+say blood of your enemies, bring it back to me.
+say Now start again..
+mptransfer $n 11300
+~
+>give_prog i11329~
+if level ($n) >= 90
+  mpjunk all
+  if class ($n) < 4
+    mpoload 11358
+  else
+    if class ($n) == class_elementalist
+    or class ($n) == class_illusionist
+      mpoload 11359
+    else
+      mpoload 11357
+    endif
+  endif
+  mpquiet on
+  cast 'remove curse'
+  mpquiet off
+  give rune-etched $n
+  mpmset $n quest 4 3 7
+  say You have served me well $n
+  break
+endif
+say Return when you have grown stronger $n
+give I11329 $n
+~
+>give_prog i14632~
+mpjunk all
+say Ahh.. yes.
+mpmset $n quest 10 1 1
+~
+>give_prog i11319~
+mpjunk all
+say Ahh.. yes.
+mpmset $n quest 11 1 1
+~
+>give_prog i13851~
+mpjunk all
+say Ahhh... yes.
+mpmset $n quest 12 1 1
+~
+>give_prog i10318~
+if quest (22,5,$n) == 5
+  mpjunk all
+  say $n Yess.. Corwin screamed as he died I hope.
+  say You have shown me that you are capable of fetching
+  say objects, but I have yet another test for you.
+  say Are you ready?
+  mpmset $n quest 22 5 9
+endif
+~
+>give_prog i10327~
+if quest (22,5,$n) == 6
+  mpjunk all
+  say $n Yesss... Caine died in agony I hope.  You have
+  say shown me that you are capable of fetching objects,
+  say but I have yet another test for you.
+  say Are you ready?
+  mpmset $n quest 22 5 9
+endif
+~
+>give_prog i15576~
+if quest (22,5,$n) == 7
+  mpjunk all
+  say $n Yessss... Arcus felt great pain upon his death
+  say I hope.  You have shown me that you are capable of
+  say fetching objects, but I have yet another test for you.
+  say Are you ready?
+  mpmset $n quest 22 5 9
+endif
+~
+>give_prog i31160~
+if quest (22,5,$n) == 8
+  mpjunk all
+  say $n Yesss... The Platinum Dragon suffered at your hand
+  say I see.  You have shown me that you are capable of
+  say fetching objects, but I have yet another test for you.
+  say Are you ready?
+  mpmset $n quest 22 5 9
+endif
+~
+>give_prog i31161~
+if quest (22,5,$n) == 8
+  mpjunk all
+  say $n Yesss... The Platinum Dragon suffered at your hand
+  say I see.  You have shown me that you are capable of
+  say fetching objects, but I have yet another test for you.
+  say Are you ready?
+  mpmset $n quest 22 5 9
+endif
+~
+>rand_prog 45~
+if validexit ()
+  mpforce servant say EEEKK!!
+  mpforce servant $D
+  mpforce maid say EEEKK!!
+  mpforce maid $D
+  mpforce boy say You big freaky monster!
+  mpforce boy $D
+  mpforce girl say Yick!! I am outta here.
+  mpforce girl $D
+  mpforce cook say You filthy creature!!
+  mpforce cook say Why don't you just leaves us alone!
+  mpforce cook $D
+  mpforce chef say Begone you foul animal!
+  mpforce chef $D
+~
+>fight_prog 99~
+if rand (15)
+  mpechoat $n {118}The Great Wyrm extends a huge claw slashing you horrible!
+  mpechoaround $n {118}The Great Wyrm extends a huge claw slashing $n horrible!
+  mpquiet on
+  cast 'acid blast' $n
+  cast 'acid blast' $n
+  mpquiet off
+  break
+endif
+if quest (0,5,$i) == 21
+  if rand (25)
+    say Father....
+    cast 'fireball'
+  else
+    say Gilikak you shall perish!
+    scream 
+    cast 'fireball'
+  endif
+  break
+endif
+if rand (10)
+  say I cannot be defeated!
+  mpecho {118}The Great Wyrm's chest expands and deflates rapidly
+  mpecho {118}as a HUGE plume of fire envelopes you!
+  mass fireball
+  mpquiet on
+  mass weaken
+  mass curse
+  mass confusion
+  mpquiet off
+  mpforce $r scream
+  break
+endif
+if quest (22,5,$r) == 17
+  if rand (25)
+    say This will be the toughest fight of your life $r!!
+    cast 'fireball' $r
+    break
+  endif
+  if rand (33)
+    mpechoat $r {178}The Great Wyrm reers back upon its hind legs before lunging at you!
+    mpechoaround $r {178}The Great Wyrm reers back upon its hind legs before lunging at $r!
+    mpquiet on
+    cast 'acid blast' $r
+    mpquiet off
+    break
+  endif
+  if rand (50)
+    mpechoaround $r {118}The Great Wyrm's massive claw swats $r against the wall like a rag doll!
+    mpquiet on
+    cast 'acid blast' $r
+    mpquiet off
+    mpforce $r scream
+  endif
+  if rand (25)
+    say This is the pain you must endure if your truly wish to defeat me!!
+    mpecho {118}The Great Wyrm's chest expands and deflates rapidly
+    mpecho {118}as a HUGE plume of fire envelopes you!
+    mass fireball
+    mpquiet on
+    mass 'mage blast'
+    mass curse
+    mass confusion
+    mass weaken
+    mpquiet off
+    mpecho You scream from pain!
+    break
+  endif
+  if rand (33)
+    mpecho {108}The Great Wyrm begins to chant a dark ritual.
+    say Ejack-o-seemoi el soon nuff lay-tishet!!
+    mass 'dispel good'
+    mass 'energy drain'
+    mass 'dispel good'
+    mass 'energy drain'
+    break
+  endif
+  if rand (50)
+    say Your friends will pay dearly for their allegiance to you!
+    mass 'energy drain'
+    mass 'energy drain'
+    mass 'energy drain'
+    break
+  endif
+endif
+~
+>hitprcnt_prog 25~
+if rand (25)
+  if quest (22,5,$n) == 17
+    if quest (22,5,$r) != 17
+      mpechoaround $r {178}$r vanishes!
+      mptransfer $r 11300
+      mpechoat $r {178}A blast of energy sends you flying!
+      mpat $r mpforce $r look
+      say See if you can survive without the goodly help of $r
+      break
+    endif
+  endif
+  if quest (22,5,$r) == 17
+    if quest (22,5,$n) != 17
+      mpechoaround $n {178}$r vanishes!
+      mptransfer $n 11300
+      mpechoat $n {178}A blast of energy sends you flying!
+      mpat $n mpforce $n look
+      say See if you can survive without the goodly help of $n
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if quest (0,5,$i) == 21
+  cough 
+  say Father.... we could have ruled the world together...
+  mpmset gili_quest_mob2 quest 0 2 1
+  peace 
+  break
+else
+  say I cannot be defeated!
+endif
+if quest (22,5,$n) == 17
+  say $n you have undoubtably proved your desire to
+  say follow your nature and be evil in your ways.
+  say For that I grant you your wish.
+  mpmadd $n align -2000
+  mpechoat $n {108}You feel a dark cloud settle upon your soul.
+  mpoload 11343
+  mpoload 11344
+  mpoload 11345
+  mpoload 11346
+  mpoload 11347
+  mpoload 11348
+  mpquiet on
+  cast 'cure blindness'
+  give i11343 $n
+  give i11344 $n
+  give i11345 $n
+  give i11346 $n
+  give i11347 $n
+  give i11348 $n
+  mpquiet off
+  tell $n Wear my corpse before level 90 and ye might be rewarded.
+  mpmset $n quest 22 5 18
+endif
+if rand (10)
+  mpoload 11370
+~
+|
+#11320
+wyrm great dragon wyrm_quest_mob2~
+the Great Wyrm~
+A Very large Wyrm is lying atop the pile of rubble.~
+The Great Wyrm is an ancient beast.  It is a large flightless dragon.  The
+long gray body wraps in a circle.  Its scaly tail sways gently almost
+hypnotizing you.  The long powerful limbs flex in anticipation.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 BODY_ARM BODY_EYE|BODY_HAND 1d3025+10476 100d3+10
+112400 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 99~
+if rand (16)
+  mpecho {038}$I hisses 'die father..'
+  mpecho $I's blast of flame MUTILATES The ghost of Gilikak!
+  mpforce gili_quest_mob scream
+else
+  if rand (20)
+    laugh diabolically 
+    mpecho $I's blast of acid maims The ghost of Gilikak!
+    mpforce gili_quest_mob cringe
+  else
+    if rand (25)
+      mpecho {178}The Great Wyrm reers back upon its hind legs before lunging at Gilikak!
+    else
+      if rand (33)
+        mpecho {118}The Great Wyrm's massive claw swats Gilikak against the wall like a rag doll!
+      else
+        if rand (50)
+          mpecho {108}The Great Wyrm begins to chant a dark ritual.
+          say Ejack-o-seemoi el soon nuff lay-tishet!!
+          mpecho $I's energy drain mauls The ghost of Gilikak!
+        else
+          say How does it feel Gilikak!?
+          say What kind of taste does my hatred leave in your mouth?
+          mpecho $I's dispel good wounds The ghost of Gilikak!
+        endif
+      endif
+    endif
+  endif
+endif
+mpquiet on
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+mpmadd self currhp 1000
+mpquiet off
+~
+>rand_prog 65~
+if quest (0,1,$i) == 1
+  say Do you now see the power that I posses?
+  say Do you see the power?
+endif
+if quest (0,5,$i) > 0
+  if quest (0,1,$i) == 0
+    shout Tell me!!!  Do you see my power!!!
+  endif
+endif
+if quest (0,5,$i) == 30
+  mpecho {178}The Great Wyrm disappears with a flash of light.
+  mppurge self
+  break
+endif
+if quest (0,5,$i) > 0
+  mpmadd self quest 0 5 1
+endif
+~
+>speech_prog p I see the power~
+if quest (4,3,$n) == 3
+  say Ahh very good then...
+  smile evilly
+  mpmset $n quest 4 3 4
+  say Go back to my lair, I will reward your service there.
+  mpecho {178}The Great Wyrm disappears with a flash of light.
+  mppurge self
+endif
+~
+|
+#11321
+Gilikak gili_quest_mob2~
+the ghost of Gilikak~
+The retired Knight of Order, Gilikak, sits here in his chair staring
+out the window.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+1000 S
+110 BODY_HEAD BODY_EYE|BODY_HAND|BODY_FOOT 1d3025+10476 100d3+10
+40000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 99~
+if rand (33)
+  mpecho {178}The air around you becomes thick and heavy with building energy.
+  mpforce wyrm_quest_mob scream
+else
+  if rand (50)
+    mpecho {118}The air around you condenses briefly as a holy bolt slams into the wyrms' chest!
+    mpforce wyrm_quest_mob scream
+    mpecho The hurt within Gilikaks eyes is noticeable.
+  else
+    say Wyrm it pains me to do this.
+    say Order.. I call upon you for strength!
+  endif
+endif
+mpquiet on
+mpmadd self currhp 2000
+cast 'energy drain'
+cast 'energy drain'
+cast 'energy drain'
+cast 'energy drain'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+cast 'acid blast'
+mpquiet off
+~
+>rand_prog 40~
+if quest (0,2,$i) == 1
+  sacrifice corpse
+  sigh 
+  mpecho Gilikaks eyes well up with tears....
+endif
+if quest (0,2,$i) == 2
+  mpecho Gilikak has trouble breathing through the pain he feels....
+endif
+if quest (0,2,$i) == 3
+  comfort 
+endif
+if quest (0,5,$i) == 30
+  mppurge self
+  break
+endif
+if quest (0,5,$i) > 0
+  mpmadd self quest 0 5 1
+endif
+~
+>social_prog comfort~
+if quest (0,2,$i) == 2
+  if quest (7,3,$n) == 2
+    say Thank you $n for your compassion...
+    say I don't understand where we went wrong.
+    say He was such a good child...
+    mpmset self quest 0 2 3
+    mpmset $n quest 4 3 6
+  endif
+endif
+~
+>speech_prog child~
+if quest (7,3,$n) == 2
+  say Very long story... perhaps I will tell you some
+  say time.. Alas.. Come too me in my sanctum and
+  say I will reward you for your kind service.
+  mpmset $n quest 7 3 3
+  smile 
+  mpecho {178}The ghost of Gilikak disappears within a bright flash of light.
+  mppurge self
+endif
+~
+|
+#11322
+jocelyn lady~
+Lady Jocelyn~
+A young lady wanders aimlessly with a look of regret and sorrow upon her face.~
+You see a young woman of pristine beauty.  She is wearing an ivory white
+satin dress.  She fills the small dress with ample but petite curves.  Her
+raven black hair flows down the middle of her back, contrasting her pale skin.
+Deep sorrow and pain is evident within the hollows of her crystal blue eyes.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+16 BODY_ARM BODY_EYE|BODY_HAND 1d64+195 1d16+10
+1140 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if quest (0,2,$i) != 1
+  mpgoto 11386
+  mpmset self quest 0 2 1
+  cast 'teleport'
+endif
+if rand (50)
+  say My poor son....
+else
+  mpecho Lady Jocelyn wipes a tear from her eye.
+endif
+~
+>all_greet_prog 99~
+if hasobjnum ($n) == 11331
+  say My poor son.....
+  say I was never able to hold him let alone give him a name...
+endif
+~
+>entry_prog 75~
+say My poor son.....
+~
+>speech_prog zanthgiltor~
+if hasobjnum ($n) == 11331
+  gasp 
+  say You know of my son!?
+  say Where is he?
+else
+  sigh 
+endif
+~
+>speech_prog p gilikaks mansion~
+if hasobjnum ($n) == 11331
+  mpjunkperson $n i11331
+  say He is with Gilikak!!
+  gasp 
+  hug $n
+  say You must tell Gilikak I live... I live!!
+  mpoload 11332
+  mpquiet on
+  cast 'giant strength' $n
+  give i11332 $n
+  mpquiet off
+  mpecho {178}Lady Jocelyn fazes reality and disappears.
+  mppurge self
+endif
+~
+>social_prog comfort~
+say Dear child...
+say my wounds are too deep to mend so easily..
+~
+|
+#11323
+Ghoul~
+a nasty ghoul~
+A nasty, puss oozing ghoul walks around here screeching loudly.~
+The nasty ghoul is oozing puss from every orifice.
+~
+ACT_SMART|ACT_BODY
+AFF_HIDE
+-300 S
+75 BODY_MOUTH|BODY_HORN|BODY_HAND BODY_HORN 100d10+3148 1d75+29
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 10~
+mpdelay self 4 1
+~
+>delay_prog 1~
+switch numberrange (1,3)
+  case 1
+    scream 
+    cackle 
+  case 2
+    say The Wyrm will destroy you all!
+    mpecho The ghouls hisses loudly
+  case 3
+    if validexit ()
+      mpforce servant say EEEKK!!
+      mpforce servant $D
+      mpforce maid say EEEKK!!
+      mpforce maid $D
+    endif
+    if validexit ()
+      mpforce boy say You big freaky monster!
+      mpforce boy $D
+      mpforce girl say Yick!! I am outta here.
+      mpforce girl $D
+    endif
+    if validexit ()
+      mpforce cook say You filthy creature!! Why don't you just leaves us alone!
+      mpforce cook $D
+      mpforce chef say Begone you foul animal!
+      mpforce chef $D
+    endif
+endswitch
+~
+>fight_prog 30~
+emote hisses loudly.
+~
+>death_prog 99~
+if rand (25)
+  mpoload 11367
+endif
+if quest (13,8,$n) < 200
+  mpmadd $n quest 13 8 1
+  say There are too many of us!!  You can never destroy us all.
+endif
+if quest (13,8,$n) == 200
+  mpmadd $n quest 13 8 1
+  say Stop killing us!  You have decimated my brethren completely.
+endif
+~
+|
+#11324
+vile creature test_mob1~
+a vile creature~
+A disgustingly vile creature bounces from foot to foot here impatiently looking at you. ~
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+95 BODY_MOUTH|BODY_HORN|BODY_HAND BODY_HORN 1d1+8000 1d95+46
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 9~
+mpecho The vile creature drips ooze from its gaping maw.
+~
+>fight_prog 100~
+if quest (0,2,$i) == 0
+  mpmset self quest 0 2 1
+  rescale 11324 $n 90
+endif
+if quest (0,2,$i) == 1
+  if rand (15)
+    cast 'acid blast'
+  endif
+endif
+~
+>death_prog 100~
+if quest (22,5,$n) == 9
+  mpmset $n quest 22 5 10
+  cackle 
+  mpechoat $n {178}You are enveloped by a cloud of mist and cannot see a thing
+  mpechoat $n {178}until the haze slowly clears.
+  mptransfer $n 11391
+  mpat 11391 mpforce $n look
+  mpat 11391 mpforce $n say No sweat
+  mpmset self quest 0 2 0
+endif
+~
+|
+#11325
+voracious monster~
+a voracious monster~
+A voracious monster is here looking at you intently.~
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_MOUTH|BODY_HORN|BODY_HAND BODY_HORN 1d1+8000 1d95+46
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 100~
+if quest (22,5,$n) == 11
+  if quest (0,3,$i) == 0
+    rescale 11325 $n 60
+    mpecho {128}The monster shrinks in size slightly.
+    mpmset self quest 0 3 1
+  endif
+endif
+if hasobjnum ($n) == 11337
+  if rand (20)
+    mpecho {078}The voracious monster looks around like he is lonely for monster company.
+    mpquiet on
+    cast 'heal'
+    cast 'heal'
+    cast 'heal' $n
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if hasobjnum ($n) == 11338
+  if rand (25)
+    mpecho {078}The voracious monster claws at the ground wildly before charging you.
+    mpquiet on
+    cast 'heal'
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if hasobjnum ($n) == 11339
+  if rand (25)
+    mpecho {078}The monsters eyeball pivots in your hand to look at you intently.
+    mpquiet on
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if hasobjnum ($n) == 11340
+  if rand (25)
+    mpecho {078}The monster becomes distracted from the glint and movements of your armor.
+    mpquiet on
+    cast 'heal'
+    cast 'heal' $n
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if hasobjnum ($n) == 11341
+  if rand (25)
+    mpecho {078}The monster rubs his tummy in hunger perhaps ready to eat you.
+    mpquiet on
+    cast 'heal'
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if hasobjnum ($n) == 11342
+  if rand (25)
+    mpecho {078}The monster has a quick flash of intelligence as it recites a scroll of haste.
+    mpquiet on
+    cast 'heal'
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+if quest (22,5,$n) >= 11
+  if rand (5)
+    mpquiet on
+    cast 'heal' $n
+    cast 'heal' $n
+    cast 'heal' $n
+    cast 'heal' $n
+    cast 'heal' $n
+    cast 'heal' $n
+    mpquiet off
+    mpecho Your wits save you from sure death.
+    mpecho You feel great!
+  endif
+endif
+~
+>hitprcnt_prog 25~
+if quest (22,5,$n) < 14
+  if rand (20)
+    mpquiet on
+    cast 'heal'
+    cast 'heal'
+    cast 'heal'
+    cast 'heal'
+    cast 'heal' $n
+    cast 'heal' $n
+    cast 'heal' $n
+    mpquiet off
+  endif
+endif
+~
+>death_prog 100~
+if quest (22,5,$n) == 14
+  say Very good $n, The Wyrm will be pleased.
+  mpmset $n quest 22 5 15
+  mpechoat $n {178}You are enveloped by a cloud of mist and cannot see a thing
+  mpechoat $n {178}until the haze slowly clears.
+  mptransfer $n 11391
+  mpat 11391 mpforce $n say That was close.
+  mppurge self
+  break
+endif
+if quest (22,5,$n) < 14
+  if quest (27,3,$n) < 5
+    mpmadd $n quest 27 3 1
+  endif
+  if quest (27,3,$n) == 5
+    mpmset $n quest 27 3 6
+    say You have failed too many times $n.
+    say You are a disgrace to your kind.
+    mptransfer $n 11300
+    tell $n Do not attempt this quest again for you will not like the outcome.
+  endif
+  mpquiet on
+  mpmadd $n currhp 1000
+  mpquiet off
+  say Once again and you will not defeat me so easily.
+  mpmload 11325
+  mpecho The voracious monster springs back to life.
+  mpforce mob_test2 mpkill $n
+  mpforce 2.mob_test2 cast 'chill touch' $n
+  mppurge self
+endif
+~
+|
+#11326
+the real deal~
+the real deal ~
+~
+No external files were available with the area zip for storms.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY|AFF_ETHEREAL
+0 S
+95 BODY_MOUTH|BODY_HORN|BODY_HAND BODY_HORN 1d1+8000 1d95+46
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p give me externals~
+mpecho You will commence downloading of all external for this area immeditaly.
+mpecho You will only have to do this ONCE, Please be patient, Hupster.
+mpecho If You are not using MR-TERM this will not effect you.
+mpforce $n sleep
+mpforce $n external BOOM.WAV
+mpforce $n external CACKLE.WAV
+mpforce $n external CHAIR.WAV
+mpforce $n external CRASH.WAV
+mpforce $n external CRICKET.WAV
+mpforce $n external DROPS.WAV
+mpforce $n external EXPLOS.WAV
+mpforce $n external GLASS.WAV
+mpforce $n external LAUGH.WAV
+mpforce $n external LIGHTNING.WAV
+mpforce $n external MAGIC.WAV
+mpforce $n external MONKEY.WAV
+mpforce $n external SCREAM.WAV
+mpforce $n external SPLAT.WAV
+mpforce $n external SWISH.WAV
+mpforce $n external WATER.WAV
+mpforce $n external GROOM1.MID
+mpforce $n external GROOM2.MID
+mpforce $n external GROOM3.MID
+mpforce $n external SLAYER.JPG
+mpforce $n external WYRMT.JPG
+mpforce $n external CRYSTAL.JPG
+mpforce $n wake
+mpecho All Done, Please enjoy.
+~
+|
+#11327
+the real deal2~
+the real deal2 ~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY|AFF_ETHEREAL
+0 S
+95 BODY_MOUTH|BODY_HORN|BODY_HAND BODY_HORN 1d1+8000 1d95+46
+23323 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog masks~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+>act_prog breaks~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+>act_prog writes~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+>act_prog feeds~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+>act_prog distracts~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+>act_prog blinds~
+if quest (22,5,$n) > 10
+  if quest (22,5,$n) < 14
+    mpmadd $n quest 22 5 1
+  endif
+endif
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+11308 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+11309 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11300
+ivory white tassel~
+an ivory tassel~
+A gleaming white length of cloth lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+18 0 0 0 0 0 0 0
+10 400000 85
+A APPLY_HITROLL -15 0
+A APPLY_MANA 100 0
+#11301
+gloves ivory white~
+a pair of ivory gloves~
+A pair of gleaming white gloves lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+5 0 0 0 0 0 0 0
+12 958000 85
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 7 0
+#11302
+sleeves ivory white~
+a pair of ivory sleeves~
+A pair gleaming white sleeves lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+15 0 0 0 0 0 0 0
+13 700000 75
+A APPLY_DEX 2 0
+A APPLY_DAMROLL 5 0
+#11303
+greaves ivory white~
+a pair of ivory greaves~
+pair of gleaming white greaves lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+16 0 0 0 0 0 0 0
+14 800000 85
+A APPLY_MANA 50 0
+A APPLY_HIT 50 0
+A APPLY_HITROLL -10 0
+#11304
+boots ivory white~
+a pair of ivory boots~
+A pair of gleaming white boots lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+22 600000 85
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 7 0
+#11305
+headdress ivory white~
+an ivory headdress~
+A gleaming white headdress lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+14 800000 85
+A APPLY_WIS 5 0
+#11306
+cloak ivory white~
+an ivory cloak~
+A gleaming white cloak lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+20 0 0 0 0 0 0 0
+12 1200000 80
+A APPLY_DEX 1 0
+A APPLY_SAVING_SPELL 10 0
+#11307
+ring ivory white~
+an ivory ring~
+A gleaming white ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+8 800000 80
+A APPLY_HIT 50 0
+A APPLY_DAMROLL 7 0
+#11308
+girth ivory white~
+an ivory girth~
+A gleaming white girth lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+21 0 0 0 0 0 0 0
+18 650000 90
+A APPLY_MANA 50 0
+A APPLY_DAMROLL -10 0
+#11309
+bracelet ivory white~
+an ivory bracelet~
+A gleaming white bracelet lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+5 700000 80
+A APPLY_DAMROLL 7 0
+#11310
+orb white ivory~
+an ivory orb~
+A gleaming white orb hovers here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+20 0 0 0 0 0 0 0
+2 800000 90
+A APPLY_DEX 1 0
+P 1
+TRIG_HIT 35
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_HITPT < 90 4 0
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 30
+#11311
+armor suit ivory white~
+a suit of ivory battle armor~
+A gleaming suit of armor lies here~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+26 1000000 90
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 7 0
+#11312
+dagger white order~
+the dagger of Order~
+A gleaming white dagger hovers here above the ground.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 9 8 WEAPON_PIERCE 0 0 0 0
+13 100000 85
+#11313
+potion green bottle~
+a green corked bottle~
+A green corked bottle is here sitting on a shelf.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+75 229 0 0 0 0 0 0
+3 10000 55
+S 1 'stability'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#11314
+black knife~
+a black knife~
+A dull black knife lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 8 8 WEAPON_PIERCE 0 0 0 0
+13 120000 65
+#11315
+potion white bottle~
+a white corked bottle~
+A white corked bottle is here sitting on a shelf.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+85 170 159 229 0 0 0 0
+1 50000 80
+S 1 'mirror image'
+S 2 'mage shield'
+S 3 'stability'
+#11316
+potion pearl bottle~
+a pearl corked bottle~
+A pearl corked bottle is here lying on the ground.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+55 170 159 229 0 0 0 0
+1 7000 50
+S 1 'mirror image'
+S 2 'mage shield'
+S 3 'stability'
+#11317
+bound scroll~
+a bound scroll~
+A bound scroll is sitting here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+80 65 64 148 0 0 0 0
+1 10000 80
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'infravision'
+#11318
+stick~
+a stick~
+A stick is lying here on the ground.~
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+55 3 0 60 0 0 0 0
+3 5000 55
+S 3 'demon'
+#11319
+candle~
+a white candle~
+A stick of wax lies here in the dust.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+3 2000 50
+A APPLY_MANA 80 0
+#11320
+little dirty doll~
+a dirty little doll~
+A little doll lies in the dust.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 12 1
+#11321
+female facial cream~
+a small tub of female facial cream~
+A small tub of cream is lying here in the dust.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 22 1
+#11322
+pass reason~
+pass of reason~
+A small slip of paper.~
+The paper bears the sigil of Order upon it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 1000 1
+P 1
+TRIG_UNKNOWN 100 tappass
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 3
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 11300 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+You may wish to hold the mystical pass in order to use it.~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 13801~
+P 4
+TRIG_VOID
+OPROG_ECHO
+Please enjoy. Hupster/Picard 3-98.~
+P 5
+TRIG_VOID
+OPROG_ECHO
+You tap your pass, but nothing happens.~
+#11323
+sword short bardic~
+the Bardic short sword~
+A standard issue bardic short sword lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 8 7 WEAPON_PIERCE 0 0 0 0
+18 100000 85
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 3 0
+#11325
+wyrm tooth wyrm_knife~
+a wyrm tooth~
+A sharpened tooth of the Great Wyrm lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 8 8 WEAPON_PIERCE 0 0 0 0
+17 1000000 75
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+P 1
+TRIG_DAMAGE 25
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 2
+P 2
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 4 < 15 3 0
+P 3
+TRIG_VOID
+OPROG_QUEST_ADD 0 4 1
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {018}The blood of your enemy oozes out of their wounds.~
+P 4
+TRIG_TICK 25
+OPROG_OBJECT_QUEST_IF 0 4 = 15 5 0
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 70 0 6
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {018}The wyrm tooth has become stained with the blood of your enemies.
+mpoload 11329~
+P 6
+TRIG_VOID
+OPROG_JUNK
+#11326
+god slayer god-slayer ~
+god-Slayer~
+The mystic sword of Order, God Slayer, floats in the air crackling with energy.~
+The god-slayer contains mystical powers for those who follow a god.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 10 9 WEAPON_SLASH 0 0 0 0
+25 9000000 80
+A APPLY_AC 11 0
+#11327
+crysknife~
+a crysknife~
+A sharpened tooth of the Great Wyrm lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 10 10 WEAPON_PIERCE 0 0 0 0
+24 1000000 94
+A APPLY_DAMROLL 4 0
+A APPLY_AC 12 0
+#11328
+crystal lace scarf~
+a crystal lace scarf~
+A lacey scarf lies here on the ground.~
+The scarf is long and flowing.  The twinkling crystal texture of it blinds
+you momentarily.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+4 0 0 0 0 0 0 0
+10 90000 60
+A APPLY_WIS 4 0
+A APPLY_INT 4 0
+A APPLY_CON 4 0
+#11329
+wyrm tooth wyrm_knife~
+a blood stained wyrm tooth~
+A sharpened tooth of the Great Wyrm lies here in the dust. ~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 9 9 WEAPON_PIERCE 0 0 0 0
+17 1000000 75
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+#11330
+ivory crystal~
+an ivory crystal~
+A small glowing crystal lies here in the dust.~
+The crystal is just a few inches in size,  but it is glowing brightly.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+23 0 0 0 0 0 0 0
+3 5000000 90
+A APPLY_DAMROLL -10 0
+A APPLY_DEX 2 0
+P 1
+TRIG_HIT 25
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {178}The ivory crystal {138}glows {178}brightly for a moment.~
+#11331
+gilikak gili_chit paper~
+a chit of gilikak~
+A piece of paper lies here in the dust.~
+You must have this if you wish to complete the quest.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 75
+#11332
+jocelyn joce_chit paper~
+a chit of jocelyn~
+A piece of paer lies here in the dust.~
+You must have this if you wish to complete the quest.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10 75
+#11333
+ivory crystal~
+an ivory crystal~
+A small glowing crystal lies here in the dust.~
+The crystal is just a few inches in size,  but it is glowing brightly.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 5000000 90
+A APPLY_HITROLL 8 0
+A APPLY_DAMROLL 8 0
+P 1
+TRIG_HIT 25
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {178}The ivory crystal {138}glows {178}brightly for a moment.~
+#11334
+ivory crystal~
+an ivory crystal~
+A small glowing crystal lies here in the dust.~
+The crystal is just a few inches in size,  but it is glowing brightly.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+3 5000000 90
+A APPLY_DAMROLL 9 0
+P 1
+TRIG_HIT 25
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {178}The ivory crystal {138}glows {178}brightly for a moment.~
+#11335
+ivory knife~
+an ivory knife~
+An ivory knife lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 1 WEAPON_PIERCE 0 0 0 0
+15 20000 60
+A APPLY_AC -13 0
+A APPLY_DEX 3 0
+C
+stab~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#11336
+wits~
+your wits~
+A small candle flame floats in the air here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 use
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 2
+TRIG_UNKNOWN 100 wits
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {138}A bright candle flame appears above your head. 
+mpmset self questr 11300 22 5 11 
+mpjunk i11336~
+#11337
+mask monster mon_mask~
+a monster mask~
+A rubber mask of a voracious monster lies here in the dust.~
+Perhaps you can 'mask' your face with it
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 mask
+OPROG_IF OIF_USER_AREA = 11300 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327
+mpechoat self {138}As you slip the mask over your head the voracious monster hesitates
+mpechoat self {138}for a moment wondering where his victim went.
+mpechoaround self masks
+mpjunk i11337~
+#11338
+jar lard glass jar_lard~
+a glass jar of lard~
+A glass jar of lard lies among the gore.~
+It looks like you can 'break' this easily.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 break
+OPROG_IF OIF_USER_AREA = 11300 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327
+mpechoat self {138}You open a jar of lard and throw it at the monster. 
+mpechoat self {138}The jar breaks and coats the ground under the monster with the slippery lard. 
+mpechoaround self breaks 
+mpjunk i11338~
+#11339
+eye ball eye_ball~
+the monsters eye ball~
+The monsters eye ball lies here in the dirt scanning the room for you.~
+This has to power to 'blind' some creatures.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 blind
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 2
+TRIG_UNKNOWN 100 cover
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327 
+mpechoat self {138}By blinding the monster he cannot see too attack you. 
+mpechoat self {138}You toss the blinded eyeball aside. 
+mpechoaround self blinds 
+mpjunk i11339~
+#11340
+stick bright bri_sti~
+a brightly colored stick~
+A brightly colored stick lies here on the ground.~
+This stick can be used to 'disrupt' fights.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 disrupt
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327 
+mpechoat self {138}You wave the stick wildly in front of the monster distracting him while you dodge his attacks. 
+mpechoaround self distracts 
+mpjunk i11340~
+#11341
+rotten hunk meat hun_meat~
+a rotten hunk of meat~
+A rotten hunk a green meat lies here on the ground.~
+This meat can be used to 'feed' monsters.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 feed
+OPROG_IF OIF_USER_AREA = 11300 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327 
+mpechoat self {138}The voracious monster takes the rotten meat and after devouring it he 
+mpechoat self {138}begins to look a little {128}green{138} himself. 
+mpechoaround self feeds 
+mpjunk i11341~
+#11342
+paper and quill pap_qui~
+a piece of paper and quill~
+A piece of paper and a inked quill lies here in the dust.~
+Perhaps you can write or draw on this paper.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 50
+P 1
+TRIG_UNKNOWN 100 write
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 2
+TRIG_UNKNOWN 100 draw
+OPROG_IF OIF_USER_AREA = 11300 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 11327 
+mpechoat self {138}You hastily draw a large octagon with large block letters spelling 
+mpechoat self {118}S{178}T{118}O{178}P{138} upon the paper and hold it up for the monster to see. 
+mpechoaround self writes 
+mpjunk i11342~
+#11343
+wyrm scale arm guards~
+a pair of wyrm scale arm guards~
+A pair of wyrm scale arm guards lie here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS|ITEM_WEAR_ARMS
+14 0 0 0 0 0 0 0
+15 10 80
+A APPLY_DAMROLL 7 0
+A APPLY_DEX 1 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 75 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your arm guards dig deep into your opponents flesh absorbing their energy.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11351
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11360
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11344
+wyrm scale large~
+a large wyrm scale~
+A large wyrm scale lies here on the ground.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+17 0 0 0 0 0 0 0
+15 10 80
+A APPLY_DAMROLL 4 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 75 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The wyrm scale deflects the blow.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11352
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11361
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11345
+wyrm bone~
+a wyrm bone~
+A small wing bone of the great wyrm lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+17 0 0 0 0 0 0 0
+9 10 80
+A APPLY_MANA 40 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 75 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The wyrm bone glows with dark energies.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11353
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11362
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11346
+wyrm liver organ~
+a wyrm liver~
+A wyrm organ lies here pulsating slowly.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+10 10 80
+A APPLY_AC -10 0
+A APPLY_DAMROLL 8 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 75 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The Wyrm's liver quivers slightly.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11354
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11363
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11347
+wyrm loop cartilage~
+a loop of wyrm cartilage~
+A small loop of wyrm guts lie here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_WRIST
+16 0 0 0 0 0 0 0
+9 10 80
+A APPLY_HIT 50 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 75 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your wyrm loop cartilage digs deep into your opponents flesh absorbing their life.~
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11355
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11364
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11348
+wyrm entrail~
+a length of wyrm entrail~
+A length of the entrail lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET|ITEM_WEAR_WAIST
+14 0 0 0 0 0 0 0
+12 10 80
+A APPLY_HITROLL 8 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_USER_PERCENT_HITPT < 50 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+Fluid from the Wrym's entrails squirt upon you restoring your strength.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 25
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 0 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL < 90 5 10
+P 5
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 0 6 0
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The wyrm organ shudders slightly. ~
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_LEVEL > 89 11 0
+P 11
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 1 = 1 12 15
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS > CLASS_NINJA 13 14
+P 13
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11356
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is replaced by a small black hole.~
+P 13
+TRIG_VOID
+OPROG_JUNK
+P 14
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 11365
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears and is
+mpechoat self {028}replaced by a small black hole.~
+P 14
+TRIG_VOID
+OPROG_JUNK
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {028}The wyrm corpse vibrates wildly for a moment before it disappears.~
+P 15
+TRIG_VOID
+OPROG_JUNK
+#11349
+ivory key~
+an ivory key~
+A small white key lies here in the dust.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+11370 0 0 0 0 0 0 0
+1 10 1
+#11350
+bardic platemail~
+bardic platemail~
+A loose fitting suit of platmail lie shere in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+20 0 0 0 0 0 0 0
+20 2234033 90
+A APPLY_MANA 30 0
+#11351
+black rune-etched arm guards~
+set of black rune-etched arm guards~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+20 0 0 0 0 0 0 0
+20 3230342 90
+A APPLY_DAMROLL -8 0
+A APPLY_DEX 2 0
+A APPLY_HIT 75 0
+P 1
+TRIG_HIT 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11352
+black rune-etched platemail~
+black rune-etched platemail~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+18 0 0 0 0 0 0 0
+25 3230212 90
+A APPLY_DAMROLL -8 0
+A APPLY_MANA 180 0
+P 1
+TRIG_HIT 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11353
+black rune-etched amulet~
+a black rune-etched amulet~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+18 0 0 0 0 0 0 0
+15 2120312 90
+A APPLY_DAMROLL -8 0
+A APPLY_MANA 180 0
+P 1
+TRIG_DAMAGE 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 75
+#11354
+black rune-etched anti-matter sphere~
+a black rune-etched sphere of anti-matter~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+13 4340234 90
+A APPLY_AC -18 0
+A APPLY_HIT 70 0
+A APPLY_DAMROLL -8 0
+P 1
+TRIG_HIT 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11355
+black rune-etched cuff~
+a black rune-etched cuff~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+18 0 0 0 0 0 0 0
+15 5540445 90
+A APPLY_MANA 180 0
+A APPLY_DAMROLL -8 0
+P 1
+TRIG_DAMAGE 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 75
+#11356
+black rune-etched robe~
+a black rune-etched robe~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+22 0 0 0 0 0 0 0
+30 2230123 90
+A APPLY_DAMROLL -8 0
+A APPLY_HIT 40 0
+P 1
+TRIG_DAMAGE 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 75
+#11357
+black rune-etched mace~
+a black rune-etched mace~
+A weapon as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+18 0 0 0 0 0 0 0
+30 220323 90
+A APPLY_DAMROLL -9 0
+A APPLY_MANA 180 0
+C
+slash~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#11358
+black rune-etched knife~
+a black rune-etched knife~
+A weapon as black as night lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 40 2 WEAPON_PIERCE 0 0 0 0
+30 2203123 90
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11359
+black rune-etched dagger~
+a black rune-etched dagger~
+A weapon as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+20 0 0 0 0 0 0 0
+30 2231023 90
+A APPLY_HIT 75 0
+A APPLY_DAMROLL -9 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11360
+black rune-etched gauntlets~
+set of black rune-etched gauntlets~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+40 3203342 90
+A APPLY_DAMROLL 9 0
+A APPLY_HITROLL 4 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11361
+black rune-etched platemail~
+black rune-etched platemail~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+18 0 0 0 0 0 0 0
+45 3203212 90
+A APPLY_DAMROLL 7 0
+A APPLY_WIS -4 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11362
+black rune-etched amulet~
+a black rune-etched amulet~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+35 2120312 90
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL 7 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11363
+black rune-etched anti-matter sphere~
+a black rune-etched sphere of anti-matter~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+0 0 -1 0 0 0 0 0
+30 4304234 90
+A APPLY_AC -10 0
+A APPLY_DAMROLL 10 0
+A APPLY_CON -5 0
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11364
+black rune-etched cuff~
+a black rune-etched cuff~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+35 5504445 90
+A APPLY_DAMROLL 9 0
+A APPLY_HITROLL 6 0
+A APPLY_HIT -50 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11365
+black rune-etched robe~
+a black rune-etched robe~
+A piece of armor as black as night lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+30 2230123 90
+A APPLY_DAMROLL 10 0
+A APPLY_HIT -50 0
+P 1
+TRIG_DAMAGE 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+#11367
+potion slime black vial~
+a vial of black slime~
+A small vial of black slime lies here in the dust. ~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+80 65 64 148 0 0 0 0
+1 10000 80
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 'infravision'
+#11368
+black cape~
+a black cape~
+A small black cape lies here in the dust. ~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+17 102022 61
+A APPLY_DAMROLL 7 0
+#11369
+assassins band~
+the Assassins band~
+A small length of black cloth lies here in the dust. ~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_WRIST
+3 0 0 0 0 0 0 0
+8 10000 36
+A APPLY_HIT 20 0
+A APPLY_DAMROLL 4 0
+A APPLY_DEX 2 0
+#11370
+human skull necklace~
+a human skull necklace~
+A group of skulls lie here in the dust. ~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+8 100000 90
+A APPLY_DAMROLL 10 0
+A APPLY_HITROLL -5 0
+#0
+
+
+#ROOMS
+#11300
+Entrance to House~
+You are standing in the entry way of Gilikak's Mansion.  A painting on the
+wall tells the legend of Gilikak.  Your eyes cannot be torn away from the
+scene painted on the giant canvas.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11301
+DDIR_WEST
+Lawn~
+~
+0 0 11394
+E
+painting~
+The huge mural depicts a large man shining brilliantly in the late day sun.
+
+His gleaming white armor smeared with the blood of his enemies.  His head
+is held high, and his square chin is stuck out in challenge to an unknown
+foe.  A mass of people filter through the wake of carnage behind him as he
+ 
+gallantly stands his ground.  His sword, bearing the crest of Order, is
+raised high covered in the gore of the minions he has slaughtered.  A dark
+mass of seething, chaotic clouds throws fireballs to the ground.
+
+Looking undaunted he waves the fleeing people to safety.
+~
+#11301
+Great Hall~
+You are in the great hall of Gilikak's mansion.  Strange sounds come from
+the north and south.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11302
+DDIR_SOUTH
+~
+~
+0 0 11303
+DDIR_WEST
+Entry way~
+~
+0 0 11300
+#11302
+Staircase~
+You are standing at the base of a staircase that leads upwards into unknown
+reaches of the house.  A creaky door moving upon its rusty hinges can be
+heard from somewhere else in the house.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11301
+DDIR_UP
+A spiraling stairwell leads upwards into darkness.~
+~
+0 0 11372
+#11303
+Hallway~
+The loud screams of pain echoing from the west  confuse your senses for a
+brief moment as you ponder what could be causing that creature to be so
+vocal.  A few claw marks dirty the otherwise relatively clean walls.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11301
+DDIR_SOUTH
+~
+~
+0 0 11306
+DDIR_WEST
+~
+~
+0 0 11304
+#11304
+Passageway~
+The black slime covered walls smell foul and wretched.  A few cleanly picked
+bones cover the ground in a odd assortment of sizes.  Screams of terror can
+be heard to the south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11303
+DDIR_SOUTH
+~
+~
+0 0 11305
+#11305
+Stairwell~
+You are standing at the top of a stone stairwell.  The smell of mold and
+mildew waft up from below.  A few yelps of some unknown origin reach your
+ears from below.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11304
+DDIR_DOWN
+~
+~
+0 0 11379
+#11306
+Hallway~
+The white stone lining the walls here are emblazoned with the symbol of Order.
+A small lantern burns of it own accord above the largest of the three rings
+of virtue.  Small crickets chirp loudly in the darkness behind you.  They
+fall silent for a short moment and then continue their chorus.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11303
+DDIR_EAST
+~
+~
+0 0 11307
+#11307
+Hallway~
+A small candle hangs in the air above you burning brightly.  As you reach out
+to touch it, your hand passes right through it.  A faintly heard cackle of
+some unknown foe echoes through the dank hallway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11308
+DDIR_WEST
+~
+~
+0 0 11306
+#11308
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11309
+DDIR_SOUTH
+~
+~
+0 0 11307
+#11309
+3-way Intersection~
+You are standing in the intersection of three passages.  There is a large oak
+door to the north, and hallways to the west and south.  A thick layer of black slime covers the walls and floor here.  It seems that Gilikaks house has been overrun by intruders.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Oak door~
+Oak door~
+EX_ISDOOR|EX_CLOSED -1 11310
+DDIR_SOUTH
+~
+~
+0 0 11311
+DDIR_WEST
+~
+~
+0 0 11308
+#11310
+Chamber of Death~
+This room smells of death.  A sacrificial altar stands at the north end of the
+room.  A painting of a unknown god hangs above the white slab of marble. It
+appears that after the Great Battle, Gilikak was changed for the worse.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Oak door~
+oak door~
+EX_ISDOOR|EX_CLOSED -1 11309
+#11311
+Hallway~
+The small cramped hallway smells of dust and mold.  A few small rats
+scurry along the wall ahead of you.   The unlit lanterns lining the wall
+are suffering from advanced decay.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11309
+DDIR_EAST
+~
+~
+0 0 11312
+#11312
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11313
+DDIR_WEST
+~
+~
+0 0 11311
+#11313
+Hallway~
+A few small footprints break the serene layer of dust in front of you.
+At second glance they look more like claw prints of a large lizard.
+The glistening trail of black slime leads you onward into darkness.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11314
+DDIR_SOUTH
+~
+~
+0 0 11312
+#11314
+Mansion~
+To the north is a heavy oak door.  The hallway continues east and west.  A
+sense of warding comes over you as you feel that have invaded sacred ground.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Heavy oak door~
+Heavy oak door~
+EX_ISDOOR|EX_CLOSED -1 11316
+DDIR_EAST
+~
+~
+0 0 11315
+DDIR_WEST
+~
+~
+0 0 11313
+#11315
+Hallway~
+A small portrait of a brutal act of human sacrifice hangs upon the whit wall.
+A few moth holes line the corner of the picture where it is evident they have eaten away at the once rich textile.  As you look closer at the portrait you
+see that it is a mass sacrifice of a few austere men in agonizing pain.  If
+you squint you can almost make out their faces.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11321
+DDIR_WEST
+~
+~
+0 0 11314
+E
+painting portrait sacrifice~
+A number of men hang limply in chains with their entrails spread on the floor
+below them.  They die for crimes you cannot decipher until you look closer at
+the entrails and see that they spell the name of the victim hanging above them.
+~
+#11316
+The Library~
+You are looking at perhaps the most extensive collection of book in all the
+realm.  Books from all ages of man line the many shelves.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Library~
+~
+0 0 11319
+DDIR_EAST
+The Library~
+~
+0 0 11317
+DDIR_SOUTH
+Heavy oak door~
+Heavy oak door~
+EX_ISDOOR|EX_CLOSED -1 11314
+#11317
+The Library~
+You are looking at perhaps the most extensive collection of book in all the
+realm.  A few book in particular catch your attention.  A shelf above you is completely cleared of books.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Library~
+~
+0 0 11318
+DDIR_WEST
+The Library~
+~
+0 0 11316
+#11318
+The Library~
+You are looking at perhaps the most extensive collection of book in all the
+realm.  One of the shelves is broken here and a large heap of ancient tombs
+litter the floor at your feet.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Door~
+door~
+EX_ISDOOR -1 11320
+DDIR_SOUTH
+The Library~
+~
+0 0 11317
+DDIR_WEST
+The Library~
+~
+0 0 11319
+#11319
+The Library~
+You are looking at perhaps the most extensive collection of book in all the
+realm.  Books from all ages of man line the many shelves.  One large book
+catches your attention.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11318
+DDIR_SOUTH
+~
+~
+0 0 11316
+#11320
+Stairwell~
+You are standing within a dark stairwell.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 11318
+DDIR_DOWN
+~
+~
+0 0 11344
+#11321
+Mansion~
+To the south you see the entrance to the training rooms of Gilikak.  To the
+north and east the hallway stretches on in reaches of the unknown.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11315
+DDIR_EAST
+~
+~
+0 0 11322
+DDIR_SOUTH
+Hall of Mirrors~
+~
+0 0 11323
+#11322
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11326
+DDIR_WEST
+~
+~
+0 0 11321
+#11323
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they
+go on forever.  Gilikak used this room as a training technique to learn to
+defend himself from all angles of attack
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11321
+DDIR_SOUTH
+~
+~
+0 0 11333
+DDIR_WEST
+~
+~
+0 0 11324
+#11324
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they
+go on forever.  The multiple images confuse your senses to the extreme.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11323
+DDIR_SOUTH
+~
+~
+0 0 11334
+DDIR_WEST
+~
+~
+0 0 11325
+#11325
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they
+go on forever.  A large crack in one mirror splits your image into two
+distorted beings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11324
+DDIR_SOUTH
+~
+~
+0 0 11335
+#11326
+Mansion~
+You are standing in a room with a high domed ceiling.  A large candelabra
+devoid of candles hangs from the wall on all sides of the room.  To the
+north is large door that looks like it is made of lead.  The hallway
+continues east and west.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Lead door~
+lead door~
+EX_ISDOOR|EX_CLOSED -1 11327
+DDIR_EAST
+~
+~
+0 0 11332
+DDIR_WEST
+~
+~
+0 0 11322
+#11327
+Laboratory~
+You are standing in what appears to be a laboratory.  Flasks and corked
+bottles line the shelves.  A large fireplace stands in the middle of the
+room. Blown glass rods hang from the wall. Everything is covered with a
+thick layer of dust.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Laboratory~
+~
+0 0 11329
+DDIR_EAST
+Laboratory~
+~
+0 0 11331
+DDIR_SOUTH
+lead door~
+A Lead door~
+EX_ISDOOR|EX_CLOSED -1 11326
+DDIR_WEST
+Laboratory~
+~
+0 0 11328
+#11328
+Laboratory~
+You are standing in what appears to be a laboratory.  Flasks and corked
+bottles line the shelves.  A large beaker labeled L SS D hangs from the
+iron rod above the large fireplace.  Blown glass rods hang from the wall. Everything is covered with a thick layer of dust.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Laboratory~
+~
+0 0 11327
+#11329
+Laboratory~
+You are standing in what appears to be a laboratory.  A large column of green smoke wafts up from the mouth of a small flask.  The liquid inside it bubbles violently.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Laboratory~
+~
+0 0 11330
+DDIR_SOUTH
+Laboratory~
+~
+0 0 11327
+#11330
+Laboratory~
+You are standing in what appears to be a laboratory.  Flasks and corked
+bottles line the shelves.  A large fireplace stands in the middle of the
+room.  Blown glass rods hang from the wall. Everything is covered with a
+thick layer of dust.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Laboratory~
+~
+0 0 11331
+DDIR_WEST
+Laboratory~
+~
+0 0 11329
+#11331
+Laboratory~
+You are standing in what appears to be a laboratory.  The black slime that
+has invaded much of the house has reached even into here.  A large trail of
+the vial goo drips slowly from the ceiling above.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Laboratory~
+~
+0 0 11330
+DDIR_WEST
+Laboratory~
+~
+0 0 11327
+#11332
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11338
+DDIR_WEST
+~
+~
+0 0 11326
+#11333
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  You see an enemy
+behind you.  As you turn to fight the oncoming foe you realize that it was
+just the image of yourself facing away from you.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11323
+DDIR_SOUTH
+~
+~
+0 0 11337
+DDIR_WEST
+~
+~
+0 0 11334
+#11334
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they
+go on forever. Your image refracts into dozens of reflections.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11324
+DDIR_EAST
+~
+~
+0 0 11333
+DDIR_SOUTH
+~
+~
+0 -1 11395
+DDIR_WEST
+~
+~
+0 0 11335
+#11335
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  The light catches
+the angles of the mirrors just right in this spot and bend the rays into a
+perfect octagon colored the same as a rainbow.   It turns slowly in the air
+until you step into the light and the shape seems to fragment into thousands
+of shards of glass and dissipates into the air.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11325
+DDIR_EAST
+~
+~
+0 0 11334
+DDIR_SOUTH
+~
+~
+0 0 11336
+#11336
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they go
+on forever.  Your image refracts into dozens of reflections.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11335
+DDIR_EAST
+~
+~
+0 -1 11395
+#11337
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they go
+on forever.  Your image refracts into dozens of reflections.  A broken mirror
+lies in a heap at your feet broken for many years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11333
+DDIR_WEST
+~
+~
+0 -1 11395
+#11338
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt. It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11339
+DDIR_WEST
+~
+~
+0 0 11332
+#11339
+3-way Intersection~
+You are arrive at an intersection.  To the north, east, and west, the hallway
+leads into darkness.  The arched hallways leading away from this room are dark
+and musty.  The horrors that abound in this cursed mansion are numerous.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11338
+DDIR_EAST
+~
+~
+0 0 11342
+DDIR_WEST
+~
+~
+0 0 11340
+#11340
+Passegeway~
+To the south and east the hallway extends outward.  Slowly you are being
+pulled south by a force unknown.  A feeling of dread and anguish grip your
+heart and soul in a death hold that slowly chokes the air from your lungs.
+The moment when all seems to be lost you regain your stature and stand
+straight once again.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11339
+DDIR_SOUTH
+~
+~
+0 0 11341
+#11341
+Bricked up wall~
+To the south it seems that the corridor has been bricked off.  Perhaps to
+keep you out... or something else in.  The orifice in the wall is completely
+covered with black slime dripping from the ceiling and pooling at your feet.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11340
+DDIR_SOUTH
+Hole in the wall~
+~
+0 0 11387
+#11342
+Hallway~
+You are walking through a hall.  The white marble floors are dusty and
+unkept. It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11343
+DDIR_SOUTH
+~
+~
+0 0 11345
+DDIR_WEST
+~
+~
+0 0 11339
+#11343
+Hallway~
+The floors of the crowded hallway are covered in dust unbroken except for a
+small trail of black slime.  A small chip in the massive white stone wall has
+left a small mixing of fine powder upon the black liquid.  It swirls in
+circles as if alive.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Fun~
+~
+0 0 11344
+DDIR_SOUTH
+~
+~
+0 0 11342
+#11344
+Stairwell~
+You are standing at the base of a set of stairs that lead up into darkness.  Sounds of fluttering bat wings feel your mind with images of large winged
+monsters dwelling in the rafters above.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11343
+DDIR_UP
+Staircase~
+~
+0 0 11320
+#11345
+Mansion~
+You are at the end of the hallway.  The only exit is north.  You hear rumbling below you.  A few small mice skitter away from your approaching footsteps.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11342
+DDIR_DOWN
+Trapdoor~
+trapdoor~
+EX_ISDOOR|EX_CLOSED -1 11346
+#11346
+Catacombs~
+You are now down below the house.  These corridors look to have been carved
+by a god.  The sides of the walls are smooth as glass. The dull gray granite
+that tiles the floor is cut square.  Strange sounds echo through the
+passageway.  There is a ladder leading up to a circular door in the ceiling.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11352
+DDIR_WEST
+~
+~
+0 0 11347
+DDIR_UP
+Trapdoor~
+trapdoor~
+EX_ISDOOR|EX_CLOSED -1 11345
+#11347
+Gilikak's Zoo~
+The many cages are empty.  They look to have been long abandoned.
+Nothing but dust and rot cover the room.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11346
+DDIR_SOUTH
+~
+~
+0 0 11350
+DDIR_WEST
+~
+~
+0 0 11348
+#11348
+Gilikak's Zoo~
+The many cages are empty.  They look to have been long abandoned.
+Nothing but dust and rot cover the room.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11347
+DDIR_SOUTH
+~
+~
+0 0 11349
+#11349
+Gilikak's Zoo~
+The many cages are empty.  They look to have been long abandoned.  Nothing
+but dust and rot cover the room.  A few broken chains hang from the walls
+where the perhaps once held animals.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11348
+DDIR_EAST
+~
+~
+0 0 11350
+#11350
+Gilikak's Zoo~
+The many cages are empty.  They look to have been long abandoned.  Nothing
+but dust and rot cover the room.  A small mouse eats a piece of straw while
+eyeing you suspiciously.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11347
+DDIR_WEST
+~
+~
+0 0 11349
+#11351
+Catacombs~
+You are down below the house.  The yelps and cries of creatures in pain echo
+through the hollow corridors.  A few dead rats lie at your feet in a pool of
+black slime.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11352
+#11352
+Catacombs~
+You are down below the house.  The foul smelling black ooze coating the rest
+of the house has been multiplied tenfold in the dark spaces below.  A few
+small insects squirm sheepishly to break free of their entrapment.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11353
+DDIR_EAST
+~
+~
+0 0 11354
+DDIR_SOUTH
+~
+~
+0 0 11351
+DDIR_WEST
+~
+~
+0 0 11346
+#11353
+Catacombs~
+You are down below the house.  These corridors look to have been carved by a
+god.  The sides of the walls are smooth as glass.  The dull gray granite that tiles the floor is cut square.  Strange sounds echo through the passageway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11355
+DDIR_SOUTH
+~
+~
+0 0 11352
+#11354
+Catacombs~
+You are down below the house.  These corridors look to have been carved by a
+god.  The sides of the walls are smooth as glass.  The dull gray granite that tiles the floor is cut square.  Strange sounds echo through the passageway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 0 11352
+#11355
+Catacombs~
+You are down below the house.  These corridors look to have been carved by a
+god.  The sides of the walls are smooth as glass.  The dull grey granite that tiles the floor is cut square.  Strange sounds echo through the passageway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11356
+DDIR_WEST
+~
+~
+0 0 11353
+DDIR_UP
+~
+~
+0 0 11378
+#11356
+Catacombs~
+You are down below the house. A large hole in the ground before seems to
+plummet to the depths of the earth.  As you slowly toss a stone down the
+hole it seems to bounce off a clear sheet of glass.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11357
+DDIR_SOUTH
+~
+~
+0 0 11355
+#11357
+Intersection~
+You are in a four way intersection.  Everything in all directions is shrouded
+in darkness.  Shrieking and crying can be heard from all directions.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11359
+DDIR_EAST
+~
+~
+0 0 11360
+DDIR_SOUTH
+~
+~
+0 0 11358
+DDIR_WEST
+~
+~
+0 0 11356
+#11358
+Catacombs~
+You are down below the house.  A sense of foreboding creeps into your very
+soul as you wander aimlessly below the house of the great hero of Order.
+A small twitch of your nose alerts you to the smell of decaying flesh
+somewhere close.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11357
+#11359
+Catacombs~
+You are down below the house.  These corridors look to have been carved by a
+god.  The sides of the walls are smooth as glass.  The dull grey granite that
+tiles the floor is cut square.  Strange sounds echo through the passageway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11357
+#11360
+Catacombs~
+You are down below the house.  These corridors look to have been carved by a
+god.  The sides of the walls are smooth as glass.  The dull grey granite that
+tiles the floor is cut square.  Strange sounds echo through the passageway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11361
+DDIR_WEST
+~
+~
+0 0 11357
+#11361
+Catacombs~
+You are down below the house.  These corridors look to have been carved by
+a god.  The dull gray granite that tiles the floor is cut square.  The
+smooth walls look like they are bleeding a black fluid from the very
+surface of the wall.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11362
+DDIR_WEST
+~
+~
+0 0 11360
+#11362
+Catacombs~
+You are down below the house.  A small bead of light shines down from above
+through a  small crack in the floor .  A rusted ladder is bolted to the wall
+here leading up to salvation.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11361
+DDIR_UP
+~
+~
+0 0 11363
+#11363
+Outside Gilikak's Bedroom~
+You are outside Gilikak's bedroom.  This place seems to be different than
+everywhere else.  There is a strong energy here.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11364
+DDIR_DOWN
+~
+~
+0 0 11362
+#11364
+Gilikak's Bedroom~
+A large canopy bed is in the center of the room.  There is not much other
+furniture in the room.  The floors and bed are covered with dust and grime.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Bedroom~
+~
+0 0 11366
+DDIR_SOUTH
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED -1 11363
+#11365
+Powder Room~
+There is a large mirror against the far wall.  A finely carved wardrobe desk
+sit against the wall in front of the mirror.  A few personal item clutter
+the desktop.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 0 11366
+#11366
+Gilikak's Bedroom~
+A large canopy bed is in the center of the room.  There is not much other
+furniture in the room.  The floors and bed are covered with dust and grime.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Powder Room~
+~
+0 0 11365
+DDIR_SOUTH
+~
+~
+0 0 11364
+DDIR_WEST
+Door~
+door~
+EX_ISDOOR -1 11367
+#11367
+Hall~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.  A
+large burnt out lantern has been left on the wall here suffering from decay.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11368
+DDIR_EAST
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11366
+#11368
+Hall~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11369
+DDIR_SOUTH
+~
+~
+0 0 11367
+#11369
+Hall~
+You are walking through a hall.  The white marble floors are dusty and
+unkempt.  It looks as if no one has been here for hundreds of years.
+Sounds of tranquillity slowly echo from the doorway ahead of you.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11370
+DDIR_SOUTH
+~
+~
+0 0 11368
+#11370
+Outside a door~
+You are standing outside a door.  To the south the hallway stretches on.
+An emblem of Order is emblazoned upon the door here.   A ornate gold door
+handle urges you forward.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 11349 11371
+DDIR_SOUTH
+~
+~
+0 0 11369
+#11371
+Gilikak's Sanctum~
+This room is bleak of all description except a very old wooden rocking chair
+facing the one square window in the north wall.  The chair is rocking back
+and forth in the wind, but there is no breeze.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Door~
+Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 11349 11370
+#11372
+Stair Landing~
+A small square of wood makes up the platform that you stand upon.  A few
+screams of terror and anguish can be heard from the in darkness covered
+depths below.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11373
+DDIR_DOWN
+Stairwell~
+~
+0 0 11302
+#11373
+Reception room~
+This is the old reception room for the guests, of the dinner parties, once
+held here.  Large chandeliers hang from the ceiling above.  A small round
+table stands in the corner with a silver candelabra covered in dust sitting
+idly upon it.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 11372
+DDIR_WEST
+~
+~
+0 0 11374
+#11374
+Great Dining Hall~
+This is the southeast corner or the dining hall.  The long oak table stretches
+north far into darkness.  Nothing remains of the table cloth, it had rotted
+away many centuries ago.  A few bugs scurry out of your path has you walk out
+of the room.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11377
+DDIR_EAST
+~
+~
+0 0 11373
+DDIR_WEST
+~
+~
+0 0 11375
+#11375
+Great Dining Hall~
+This is the southwest corner or the dining hall.  The long oak table
+stretches north far into darkness.  Nothing remains of the table cloth,
+it had rotted away many centuries ago.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11376
+DDIR_EAST
+~
+~
+0 0 11374
+#11376
+Great Dining Hall~
+This is the northwest corner or the dining hall.  The long oak table stretches
+south far into darkness.  Nothing remains of the table cloth, it had rotted
+away many centuries ago.  A large silver platter sticks into the wall as if
+it had been thrown like a disc.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11377
+DDIR_SOUTH
+~
+~
+0 0 11375
+#11377
+Great Dining Hall~
+This is the northeast corner or the dining hall.  The long oak table stretches
+south far into darkness.  Nothing remains of the table cloth, it had rotten
+away many centuries ago.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11378
+DDIR_SOUTH
+~
+~
+0 0 11374
+DDIR_WEST
+~
+~
+0 0 11376
+#11378
+Cook's Stairs~
+These are the stairs the cooks used to run up from the kitchen.  They are
+rotted away and unsafe to use.  As you set one foot upon the top stair it
+falls away below your feet.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 0 11377
+DDIR_DOWN
+~
+~
+0 0 11355
+#11379
+Gilikak's Dungeon~
+In the later years of his life, Gilikak became senile.  He imprisoned many
+people here.  There sentence was torture and later death.  Old rusted
+shackles litter the floor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11380
+DDIR_UP
+~
+~
+0 0 11305
+#11380
+Gilikak's Dungeon~
+In the later years of his life, Gilikak became senile.  He imprisoned many
+people here. Voices can be heard from down the hall a ways.  Moaning and
+other strange sounds mingle with the dulled voices as well.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11381
+DDIR_SOUTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11383
+DDIR_WEST
+~
+~
+0 0 11379
+#11381
+Gilikak's Dungeon~
+In the later years of his life, Gilikak became senile.  He imprisoned many
+people here.  The bones of a few victims still hang from the walls in loose
+fitting shackles.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 11382
+DDIR_SOUTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11384
+DDIR_WEST
+~
+~
+0 0 11380
+#11382
+Gilikak's Dungeon~
+In the later years of his life, Gilikak became senile.  He imprisoned many
+people here.  Their sentence were torture and later death.  Old rusted
+shackles litter the floor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11385
+DDIR_WEST
+~
+~
+0 0 11381
+#11383
+Cell~
+The empty cell reeks of decay and mold.  Long dead skeletons hang from
+shackles bolted high into the wall.  An evil looking chain dangles from
+the ceiling.  A small rat is impaled upon a rusted torture device in the
+corner.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11380
+#11384
+Cell~
+The empty cell reaks of decay and mold.  Long dead skeletons hang from
+shackles bolted high into the wall.  An evil looking chain dangles from
+the ceiling.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11381
+#11385
+Cell~
+The empty cell reeks of decay and mold.  Long dead skeletons hang from
+shackles bolted high into the wall.  An evil looking chain dangles from
+the ceiling.  A small swing hangs from the ceiling with a large nodule
+of some sort protruding upwards from the seat.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Door~
+door~
+EX_ISDOOR|EX_CLOSED -1 11382
+#11386
+Hallway~
+Repop room.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11303
+DDIR_EAST
+~
+~
+0 0 11322
+DDIR_SOUTH
+~
+~
+0 0 11339
+DDIR_WEST
+~
+~
+0 0 11360
+DDIR_UP
+~
+~
+0 0 11309
+DDIR_DOWN
+~
+~
+0 0 11352
+#11387
+Slime covered Tunnel~
+You are walking through a glossy tunnel.  The walls are covered in a slimy
+goo.  Your are not quite sure what the substance is. The tunnel continues
+on ahead of you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Catacombs~
+~
+0 0 11341
+DDIR_EAST
+Slimy Tunnel~
+~
+0 0 11388
+#11388
+A bend in the tunnel~
+As you step in something foul, you notice that the tunnel curves slightly
+towards the south.  You hear a distant rumbling.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Narrow Passage~
+~
+0 0 11389
+DDIR_WEST
+Slimy Tunnel~
+~
+0 0 11387
+#11389
+Narrow passage~
+The tunnel narrows slightly in this area.  The foul smelling gore begins to
+make you feel sick.  You put your hand into something crunchy as you pass
+through.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Slimy Tunnel~
+~
+0 0 11388
+DDIR_SOUTH
+Cavern~
+~
+0 0 11390
+#11390
+Cavern~
+The passageway opens into a large cavern.  There are bones scattered around
+the rocky floor.  The foul smelling ooze drips from the ceiling in large
+blobs.  A deep guttural growl rumbles the walls from the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Narrow Passageway~
+~
+0 0 11389
+DDIR_EAST
+Cavern~
+~
+0 0 11391
+#11391
+Cavern~
+There is a large pile of rubble in the center of the room.  The ceiling is
+high with stalagmites reaching for air.  There is a thick layer of bones
+heaped upon the rubble pile.  Steam billows up from somewhere down below.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Cavern~
+~
+0 0 11390
+#11392
+Testing chamber~
+The room reeks of decaying flesh.  There are no exits leading out of the room,
+and it is dimly lit from a glowing sphere hanging above your head.  The chamber
+is approximately 30 paces by 20 paces.  A few items clutter the ground.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+#11393
+Single white room~
+The small room is lined with the purest white marble, but scarcely furnished.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+#11394
+Front lawn~
+The large front lawn before Gilikaks estate is overgrown with weeds and
+wild vegetation.  A small path winds south to a small manor house while
+the Gilikaks Mansion lies directly to your east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Entrance to Mansion~
+~
+0 0 11300
+DDIR_SOUTH
+Lawn~
+~
+0 0 2750
+DDIR_WEST
+Gate~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 0 17040
+#11395
+Hall of Mirrors~
+In every direction you see multiple images of yourself.  It seems that they
+go on forever. Your image refracts into dozens of reflections.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 11334
+DDIR_EAST
+~
+~
+0 -1 11337
+DDIR_WEST
+~
+~
+0 -1 11336
+#0
+
+
+#RESETS
+M 11326 100 11301
+M 11300 100 11386
+M 11301 100 11386
+M 11302 100 11386
+M 11303 100 11386
+M 11304 100 11310
+G 11318 100 0
+M 11305 100 11383
+E 11314 100 WEAR_WIELD
+M 11306 100 11383
+M 11307 100 11334
+M 11308 100 11329
+G 11315 999 0
+G 11367 999 0
+G 11316 999 0
+G 11317 999 0
+G 11314 999 0
+M 11309 100 11319
+G 11316 999 0
+G 11317 999 0
+G 11314 999 0
+M 11310 100 11348
+M 11311 100 11349
+M 11312 100 11350
+M 11313 100 11365
+M 11314 100 11371
+E 11300   1 WEAR_SHIELD
+E 11301   1 WEAR_HANDS
+E 11302   1 WEAR_ARMS
+E 11305   1 WEAR_HEAD
+E 11306   1 WEAR_NECK_A
+E 11306   1 WEAR_NECK_B
+E 11307   1 WEAR_FINGER_L
+E 11308   1 WEAR_WAIST
+E 11309   1 WEAR_WRIST_L
+E 11309   1 WEAR_WRIST_R
+E 11310   1 WEAR_ABOUT
+E 11311   1 WEAR_BODY
+E 11312 100 WEAR_WIELD
+M 11315 100 11376
+M 11316 100 11375
+M 11317 100 11300
+E 11323  50 WEAR_WIELD
+E 11350  50 WEAR_BODY
+M 11318 100 11386
+E 11304   1 WEAR_FEET
+E 11312   1 WEAR_WIELD
+E 11303   1 WEAR_LEGS
+M 11318 100 11370
+E 11304   1 WEAR_FEET
+E 11312   1 WEAR_WIELD
+E 11303   1 WEAR_LEGS
+M 11318 100 11370
+E 11304   1 WEAR_FEET
+E 11312   1 WEAR_WIELD
+E 11303   1 WEAR_LEGS
+M 11319 100 11391
+M 11322 100 11386
+G 11328 100 0
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+E 11368 100 WEAR_HOLD
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+E 11368 100 WEAR_HOLD
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+E 11368 100 WEAR_HOLD
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+E 11368 100 WEAR_HOLD
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11386
+M 11323 100 11389
+M 11323 100 11346
+M 11323 100 11351
+E 11368 100 WEAR_HOLD
+M 11323 100 11353
+E 11368 100 WEAR_HOLD
+M 11323 100 11352
+M 11323 100 11355
+M 11323 100 11358
+O 11319 400 11386
+O 11319 400 11386
+O 11319 400 11386
+D 11309 DIR_NORTH DOOR_CLOSED
+D 11310 DIR_SOUTH DOOR_CLOSED
+D 11314 DIR_NORTH DOOR_CLOSED
+D 11316 DIR_SOUTH DOOR_CLOSED
+D 11320 DIR_WEST  DOOR_CLOSED
+D 11326 DIR_NORTH DOOR_CLOSED
+D 11327 DIR_SOUTH DOOR_CLOSED
+D 11345 DIR_DOWN  DOOR_CLOSED
+D 11346 DIR_UP    DOOR_CLOSED
+D 11363 DIR_NORTH DOOR_CLOSED
+D 11364 DIR_SOUTH DOOR_CLOSED
+D 11367 DIR_EAST  DOOR_CLOSED
+D 11370 DIR_EAST  DOOR_CLOSED_LOCKED
+D 11371 DIR_WEST  DOOR_CLOSED_LOCKED
+D 11380 DIR_SOUTH DOOR_CLOSED
+D 11383 DIR_NORTH DOOR_CLOSED
+D 11381 DIR_SOUTH DOOR_CLOSED
+D 11384 DIR_NORTH DOOR_CLOSED
+D 11382 DIR_SOUTH DOOR_CLOSED
+D 11385 DIR_NORTH DOOR_CLOSED
+D 11394 DIR_WEST  DOOR_CLOSED_LOCKED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

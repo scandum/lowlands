@@ -1,0 +1,4651 @@
+#AREA New Singase~
+#AUTHORS Pythos Brrr Tazzy~
+#VERSION 4
+#RANGES 5 35 1 95
+
+
+#MOBILES
+#6900
+guard~
+a New Singase Guard~
+A New Singase Guard stands alert to defend the village against intruders.~
+The first thing you notice when you see him is his numerous battle decorations.
+Obviously, he acted with great honor and courage in a great multitude of
+military skirmishes. As you get past his decorations and look at him, you see
+him standing alert and studying you to determine whether you are friend or foe.
+He is tall for a gnome and wise beyond his years. His armor is impressively made
+using the mose expensive and beautiful metals available while still keeping the
+strength of the armor. Attacking him would be quite foolish.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+500 S
+50 BODY_HEAD|BODY_TORSO|BODY_ARM|BODY_FOOT BODY_HEAD|BODY_HAND|BODY_FOOT 1d625+1197 4d7+35
+75000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpechoat $n {110}The guard's eyes glow red with fury at your presence!{300}
+  mpechoaround $n {110}The guard's eyes glow red with fury at $n's presence!{300}
+  mpareaecho {120}$n, a sworn enemy of Governor Pythos has come to loot the village!{300}
+  mpkill $n
+endif
+~
+>rand_prog 5~
+say Are you friend or foe?
+~
+>speech_prog friend~
+unlock gate
+open gate
+say Welcome, friend.
+~
+>speech_prog foe~
+mpmset $n quest 0 1 1
+mpechoat $n {110}The guard's eyes glow red with fury at your presence!{300}
+mpechoaround $n {110}The guard's eyes glow red with fury at $n's presence!{300}
+mpkill $n
+~
+>death_prog 100~
+if quest (0,1,$n) == 0
+  mpmset $n quest 0 1 1
+endif
+shout $n is a sworn enemy to Governor Pythos! Avenge me! Defend our village!
+if level ($n) >= 75
+  mppurge self
+endif
+~
+>give_prog I27721~
+mpjunk i27721
+mpechoat $n {160}A Guard of New Singase looks at you with a skeptical eye.
+mpechoaround $n A guard of New Singase looks at $n with a skeptical eye.
+if inroom ($n) == 6952
+  mpoload 6913
+  mpoload 6915
+  mpquiet on
+  wear i6913
+  wear i6915
+  mpquiet off
+endif
+if inroom ($n) == 6951
+  mpoload 6910
+  mpoload 6911
+  mpquiet on
+  wear i6910
+  wear i6911
+  mpquiet off
+endif
+if inroom ($n) == 6950
+  mpoload 6912
+  mpoload 6914
+  mpquiet on
+  wear i6912
+  wear i6914
+  mpquiet off
+endif
+if inroom ($n) == 6949
+  mpoload 6916
+  mpoload 6917
+  mpoload 6918
+  mpquiet on
+  wear i6916
+  wear i6917
+  wear i6918
+  mpquiet off
+endif
+~
+|
+#6901
+female visitor~
+a female visitor~
+A female visitor walks by, awestruck by the sights and sounds.~
+She is moderately dressed, wearing clothes of someone on a journey. She seems
+totally enthralled by the elegant extravagance of the village and jabbers with
+anybody who will permit her about everything she has seen, only to interrupt
+herself as she sees a new wonder.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+8 BODY_HEAD|BODY_MOUTH|BODY_EYE|BODY_HIP BODY_MOUTH|BODY_FOOT 1d8+40 1d6+4
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+endif
+~
+|
+#6902
+male visitor~
+a male visitor~
+A male visitor stands here, pondering the great wealth of the village.~
+This visitor has obviously travelled a great distance as his clothes are filled
+with dust and the smell of saltwater stays with him wherever he goes. He stops
+every now and then to think, probably about everything he sees here. He seems
+to be in no hurry to get anywhere.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+8 BODY_HEAD|BODY_EYE|BODY_LEG|BODY_FOOT BODY_HEAD|BODY_FOOT 1d25+40 1d6+4
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+endif
+~
+|
+#6903
+male villager~
+a male villager~
+A male villager walks here, willing to discuss matters important to you.~
+This villager wears what you would otherwise consider overtly extravagant garb
+if it weren't for his locale. He seems quite affable and discusses anything of
+interest with whomever stops him to talk.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+19 BODY_HEAD|BODY_EYE|BODY_LEG BODY_ARM|BODY_HAND|BODY_FOOT 1d71+164 2d5+10
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+endif
+~
+|
+#6904
+female villager~
+a female villager~
+A female villager meanders through the village, smiling at everyone she meets.~
+She is beautifully adorned in jewels on her clothes, in her hair, on her fingers
+and you believe she probably even has rings on her toes. You can't tell if she
+is well to do or not because every villager is comparably dressed. She seems
+quite willing to talk with villagers and visitors alike. You can't help thinking
+you would love to live here.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+19 BODY_HEAD|BODY_EYE|BODY_HIP|BODY_LEG BODY_HEAD|BODY_HIP|BODY_FOOT 1d71+164 2d5+10
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+endif
+~
+|
+#6905
+Audrey~
+Audrey Renee-Maree~
+Audrey Renee-Maree awaits the arrival of another student.~
+She is absolutely gorgeous! Her face seems to glow from its own light source.
+Her form is slender, but not to the extreme and she walks with an uncommon grace
+even to this place. She wears some of the most elegant dresses in the village.
+There is only one other in the village who compares with her and you surmise the
+other would quite probably be her sister.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+1000 S
+95 BODY_HEAD BODY_MOUTH 1d2256+7613 1d95+93
+100000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I goofed up here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 19
+    say You have already gotten your chance.
+  else
+    if quest (2,5,$n) == 17
+      say I believe you aren't ready
+      say to be tested. Am I right?
+      mpmset $n quest 2 5 18
+    else
+      if quest (2,5,$n) <= 16
+        say I would love to test you, but
+        say Governor Pythos will not permit
+        say me to test you at this time.
+        say You must prepare yourself better
+        say before I am permitted to
+        say test you.
+      endif
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 18
+  say Very well, then.
+  mptransfer $n 6900
+endif
+~
+>speech_prog no~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 18
+    say Okay, but I still don't
+    say believe you are ready.
+    say Let's go to the back room where
+    say it's quieter.
+    mptransfer $n 6959
+    mpgoto 6959
+    mpmset $n quest 2 5 19
+    say I will ask you a question.
+    say If you get it right, I will
+    say ask you a second one.
+    say If you get that one right,
+    say you will have proven yourself.
+    say Tell me, where are your riches hidden?
+  endif
+endif
+~
+>speech_prog p The measure of true wealth is not in your money or things, but in your number of friends and in your character.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 19
+    if inroom ($n) == 6959
+      mpmset $n quest 2 5 20
+      say And what about your character?
+      say There is another tablet which
+      say discusses this matter.
+    endif
+  endif
+endif
+~
+>speech_prog p Popularity is fickle, but your reputation will outlive you.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 20
+    if inroom ($n) == 6959
+      say Very well done, $n!
+      say You shall be rewarded greatly.
+      say Now remember what you have
+      say learned in your studies and
+      say put them into practice and
+      say you will be a much better
+      say person for it.
+      mpoload 6930
+      mpquiet on
+      cast 'remove curse'
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      mpquiet off
+      give i6930 $n
+      mpjunkperson $n i6940
+      mpjunk all
+      mpmset $n quest 2 5 0
+      mptransfer $n 6955
+      mpgoto 6955
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    if position ($r) == pos_fighting
+      cast 'energy drain' $r
+    else
+      if rand (20)
+        mass acid
+      endif
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 4000
+~
+>rand_prog 5~
+if pcsinroom (6959) == 0
+  mpgoto 6955
+endif
+~
+|
+#6906
+street worker~
+a street worker~
+A street worker leans on a shovel.~
+He is obviously not from this village but called in to build the streets here.
+His attitude is much less affable than that of the villagers and his work ethic
+leaves much to be desired. He wears filthy clothes you would expect from a hard
+working man, but you can't see how he finds the time to get dirty, what with
+having to exert so much energy holding that shovel up and all.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+11 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_HEAD|BODY_MOUTH|BODY_EYE|BODY_TORSO 1d45+97 4d3+4
+5000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+#6907
+Laura~
+Laura Annette~
+Laura Annette awaits the arrival of another student.~
+She is absolutely gorgeous! Her face seems to glow from its own light source.
+Her form is slender, but not to the extreme and she walks with an uncommon
+grace even to this place. She wears some of the most elegant dresses in the
+village. There is only one other in the village who compares with her and you
+surmise the other would quite probably be her sister.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+1000 S
+95 BODY_HEAD|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d2256+7613 1d95+93
+175000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I made a mistake here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 15
+    say you have already been tested.
+  else
+    if quest (2,5,$n) == 13
+      say I don't know if you are ready yet.
+      say Have you spent enough time thinking on
+      say the matters discussed in the tablets?
+      mpmset $n quest 2 5 14
+    else
+      if quest (2,5,$n) <= 12
+        say I would dearly like to test you,
+        say but Governor Pythos will not
+        say permit me to test you yet.
+        say Come back when you are ready.
+        say I will gladly test you then.
+      endif
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 14
+    say It's too noisy here.
+    say Lets go to my study.
+    mpmset $n quest 2 5 15
+    mptransfer $n 6961
+    mpgoto 6961
+    say I will ask you a question.
+    say If you answer truly, I will
+    say ask you a second one.
+    say If you answer the second one
+    say truly, you will have proven
+    say yourself.
+    say Who is a true friend?
+  endif
+endif
+~
+>speech_prog p A true friend comes to your aid when he has other important matters at hand.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 15
+    if inroom ($n) == 6961
+      say Very good.
+      say Now, tell me this.
+      say Who is a false friend?
+      mpmset $n quest 2 5 16
+    endif
+  endif
+endif
+~
+>speech_prog p A false friend will not help you unless he has nothing better to do.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 16
+    if inroom ($n) == 6961
+      say Good job, $n, you have
+      say proven yourself admirably.
+      say As testimony to your gained knowledge,
+      say you shall be given a gift of great
+      say value in our village.
+      mpoload 6901
+      mpquiet on
+      cast 'remove curse'
+      mpquiet off
+      give i6901 $n
+      mpjunk i6901
+      mptransfer $n 6956
+      mpgoto 6956
+      mpmset $n quest 2 5 17
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    cast 'energy drain' $r
+  else
+    if rand (20)
+      mass acid
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 4000
+~
+>rand_prog 5~
+if pcsinroom (6961) == 0
+  mpgoto 6956
+endif
+~
+|
+#6908
+Henri~
+Henri~
+Henri stands ready to test the knowledge of any student.~
+This man dresses with the precision of a mathematician. Each item of clothing
+works with every other item to form intricate lines and angles, giving him an
+illusion of much greater height and slender form. He is an impressive sight to
+behold.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_MOUTH|BODY_TORSO BODY_HAND|BODY_FOOT 1d1500+10000 1d95+93
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I made a mistake here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 12
+    say You have already been tested here.
+  else
+    if quest (2,5,$n) == 10
+      say Do you think, perchance, that you
+      say may need to think on the matters more?
+      mpmset $n quest 2 5 11
+    else
+      if quest (2,5,$n) <= 9
+        say You are not worthy yet of my test.
+      endif
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 11
+  say Very well.
+  mptransfer $n 6900
+endif
+~
+>speech_prog no~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 11
+    say Let's go to the back room.
+    mptransfer $n 6960
+    mpgoto 6960
+    mpmset $n quest 2 5 12
+    say Very well, then, the tablets speak of
+    say a way to be certain you get work done.
+    say What is it?
+  endif
+endif
+~
+>speech_prog p To get a job done, ask a busy person to do it.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 12
+    if inroom ($n) == 6960
+      say Great job!
+      say Your reward is very prized here.
+      mpoload 6926
+      mpquiet on
+      cast 'remove curse'
+      mpquiet off
+      give i6926 $n
+      mpjunk i6926
+      mptransfer $n 6958
+      mpgoto 6958
+      mpmset $n quest 2 5 13
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    cast 'energy drain' $r
+  else
+    if rand (20)
+      mass acid
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 4000
+~
+>rand_prog 5~
+if pcsinroom (6960) == 0
+  mpgoto 6958
+endif
+~
+|
+#6909
+Antoinette~
+Antoinette~
+Antoinette wonders if you wish to be tested.~
+She is dressed quite beautifully from head to toe, as if going to a royal ball.
+But, of course, this IS New Singase, and people normally dress this way. Her
+skin looks supple and you wish all women had skin as soft as hers.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 1d2256+7613 10d10+100
+15000 RACE_ORC
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I made a mistake here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 9
+    say You have already been tested here.
+  else
+    if quest (2,5,$n) == 7
+      say You wish to be tested, do you?
+      mpmset $n quest 2 5 8
+    else
+      if quest (2,5,$n) <= 6
+        say You are not worthy of being tested.
+      endif
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 8
+    say Let's go somewhere more private.
+    mpmset $n quest 2 5 9
+    mptransfer $n 6964
+    mpgoto 6964
+    say What do the tablets say is the
+    say biggest problem you will encounter
+    say when you are about to attempt
+    say anything throughout your life?
+  endif
+endif
+~
+>speech_prog p The greatest obstacle to your success is your own fear of failure.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 9
+    if inroom ($n) == 6964
+      say Very good, you pass the test.
+      say As a testiment to your newly
+      say acquired understanding, I have
+      say been authorised by Governor
+      say Pythos to give you this valued
+      say prize.
+      mpoload 6927
+      mpquiet on
+      cast 'remove curse'
+      mpquiet off
+      give i6927 $n
+      mpjunk i6927
+      mptransfer $n 6954
+      mpgoto 6954
+      mpmset $n quest 2 5 10
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    cast 'energy drain' $r
+  else
+    if rand (20)
+      mass acid
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 400
+~
+>rand_prog 5~
+if pcsinroom (6964) == 0
+  mpgoto 6954
+endif
+~
+|
+#6910
+Jean~
+Jean-Pierre~
+Jean-Pierre awaits the arrival of another student.~
+He carries himself in a very nondescript manner and his clothing is impressive
+in its understatement. He wears very little which would give the appearance of
+the wealth he obviously has, instead, choosing to wear the garb you would
+expect of visitors to the village. He has a very average form, slightly heavier
+than optimum for his average stature, balding ever so slightly, slumped a bit
+from years of improper posture. Could he possibly be someone from which to
+learn?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_HUNT|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_MOUTH BODY_HAND|BODY_FOOT 1d1+10000 2d10+155
+157503 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I made a mistake here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 6
+    say You have already been tested here.
+  else
+    if quest (2,5,$n) == 4
+      say Are you certain you wish to be tested?
+      mpmset $n quest 2 5 5
+    else
+      if quest (2,5,$n) <= 3
+        say You have not proven yourself ready for me to test you.
+      endif
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 5
+    say Let's go to the back room for some privacy.
+    mptransfer $n 6963
+    mpgoto 6963
+    say One of the tablets tells you the best way
+    say to influence someone.
+    say What does it say?
+    mpmset $n quest 2 5 6
+  endif
+endif
+~
+>speech_prog p You can attract more flies using honey than you can using vinegar.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 6
+    if inroom ($n) == 6963
+      say Nicely done!
+      say In recognition of your newly acquired
+      say knowledge, I am authorised by Governor
+      say Pythos to give you this small award.
+      mpmset $n quest 2 5 7
+      mpoload 6928
+      mpquiet on
+      cast 'remove curse'
+      mpquiet off
+      give i6928 $n
+      mpjunk i6928
+      mptransfer $n 6953
+      mpgoto 6953
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    cast 'energy drain' $r
+  else
+    if rand (20)
+      mass acid
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 4000
+~
+>rand_prog 5~
+if pcsinroom (6963) == 0
+  mpgoto 6953
+endif
+~
+|
+#6911
+Claude~
+Claude~
+Claude is awaiting the arrival of a new student.~
+You see before you a man who has serious problems choosing items to wear. He has
+a huge number of rings, necklaces, and bracelets on, none of which come close to
+matching his disheveled clothing. He obviously just grabbed stuff, put it on,
+and, deciding it didn't look right, just put something else on without bothering
+to remove the first item. He is a pitiful sight.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_EYE|BODY_HIP BODY_HAND|BODY_FOOT 7d150+9575 11d11+85
+172650 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpforce $n shout I think I made a mistake here.
+  mpkill $n
+endif
+~
+>speech_prog test~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) >= 3
+    say You have already been tested here.
+  else
+    if quest (2,5,$n) == 1
+      say Are you sure you are ready to be tested?
+      mpmset $n quest 2 5 2
+    endif
+  endif
+else
+  say You don't have what it takes
+  say to be tested at this time.
+endif
+~
+>speech_prog yes~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 2
+    say Let's go to the back so you can be tested
+    say without interruption.
+    mpmset $n quest 2 5 3
+    mptransfer $n 6962
+    mpgoto 6962
+    say There is a tablet that will tell you how to
+    say cause someone to make the decision you want
+    say that person to make.
+    say What does this tablet say?
+  endif
+endif
+~
+>speech_prog p If you wish to force a man to willingly leave his barrackaded home, throw a nest of hornets through his window.~
+if hasobjnum ($n) == 6940
+  if quest (2,5,$n) == 3
+    if inroom ($n) == 6962
+      say Very good!
+      mpmset $n quest 2 5 4
+      say As testimony to your gained wisdom,
+      say I am authorised by Governor Pythos
+      say to give you this.
+      mpoload 6929
+      mpquiet on
+      cast 'remove curse'
+      mpquiet off
+      give i6929 $n
+      mpjunk i6929
+      mptransfer $n 6957
+      mpgoto 6957
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+~
+>fight_prog 100~
+if rand (33)
+  mpquiet on
+  cast heal
+  cast heal
+  cast heal
+  mpquiet off
+else
+  if rand (20)
+    cast 'energy drain' $r
+  else
+    if rand (20)
+      mass acid
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 35~
+mpmadd self currhp 4000
+~
+>rand_prog 5~
+if inroom ($r) != 6962
+  if inroom ($i) == 6962
+    mpgoto 6957
+  endif
+endif
+~
+|
+#6912
+Stephanie~
+Stephanie~
+Stephanie watches over her jewelry shoppe.~
+She wears the same jewels you can find in her shop except that she wears them in
+much greater abundance than would anyone other than a jewelry shop owner. She
+has a curiously painted on smile, as if she were hiding her true nature and you
+wonder if you can trust her or not.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+1 0 0 1d1+19 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+say When is an ugly item not ugly?
+~
+>act_prog p buys a geode.~
+say Study to show yourself approved, $n.
+~
+|
+#6913
+tour guide~
+a tour guide~
+A tour guide is giving some foreign diplomats a tour of the village.~
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_ARM|BODY_HAND BODY_FOOT 0d0+400 3d3+15
+15575 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+endif
+~
+|
+#6914
+tour guide~
+a tour guide~
+A tour guide is giving a tour to foreign diplomats.~
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 0d0+400 3d3+15
+17575 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,1,$n) == 1
+  mpkill $n
+else
+  if rand (25)
+    say Governor Pythos welcomes you
+    say to his fair village.
+  endif
+endif
+~
+|
+#6915
+foreign diplomat~
+a foreign diplomat~
+A foreign diplomat is touring the village.~
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+20 BODY_HEAD|BODY_FOOT BODY_HEAD 6d5+232 3d3+11
+12772 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 13~
+say This is a wonderful village, wouldn't you say?
+~
+>entry_prog 33~
+mpecho The foreign diplomat gawks at the sights.
+~
+|
+#6916
+foreign diplomat~
+a foreign diplomat~
+A foreign diplomat is touring the village.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+20 BODY_TORSO|BODY_HIP|BODY_LEG BODY_TORSO 6d5+232 3d3+11
+12772 RACE_ORC
+POS_STANDING POS_STANDING SEX_FEMALE
+#6917
+The One~
+the One~
+The One is being two.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+55 0 0 7d77+2500 1d1+55
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 4~
+mpecho {030}The fountain says 'Eat, drink, and enjoy, for tomorrow you die!'
+mpecho The fountain starts gurgling, almost sounding like laughter.
+mpecho The fountain utters the words, 'yzagh'.
+mpecho {160}You join in the fountain's feast.
+mpecho {160}You are full.{300}
+mpquiet on
+cast feast
+mpquiet off
+~
+|
+#6918
+The Other~
+the Other~
+The Other is being another.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+17 1d1+1
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p This is very interesting!~
+if inroom ($n) == 6900
+  if hasobjnum ($n) == 6932
+    if hasobjnum ($n) == 6940
+      if quest (2,5,$n) == 0
+        mpmset $n quest 2 5 1
+        mpquiet on
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        mpquiet off
+        mpechoat $n {160}Your geode glows brightly, then returns to its normal state.
+        mpechoaround $n $n's geode glows brightly for a moment.
+        mppurge self
+      endif
+    endif
+  endif
+endif
+~
+|
+#0
+
+
+#SHOPS
+6912 ITEM_TYPE_TREASURE ITEM_TYPE_AMMO ITEM_TYPE_CONTAINER ITEM_TYPE_SCROLL ITEM_TYPE_FURNITURE  100  25  6 22
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#6900
+ornate key~
+an ornate key~
+An ornate key has been discarded.~
+This key is one of the most elaborately designed keys you have seen.
+It is made of gold, covered with small diamonds, rubies, sapphires,
+and emeralds. The handle extends to a triple-loop at one end and an
+intricate section for tripping tumblers in a lock designed to be
+pickproof. The craftsmanship is unequalled in both design and beauty.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 17500 96
+#6901
+golden frog sticker~
+a golden frog sticker~
+A golden frog sticker has been discarded.~
+It is quite short and slender, made of titanium and overlaid in gold.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD|ITEM_WEAR_HOLD
+WEAPONTYPE_SPEAR 1 1 WEAPON_POUND 0 0 0 0
+30 17550 25
+A APPLY_AC -10 0
+A APPLY_DEX 2 0
+A APPLY_DAMROLL -4 0
+#6902
+shovel~
+a shovel~
+A shovel is stuck in the ground.~
+It has a handle and a heavy, wide blade. It must be a shovel.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD|ITEM_WEAR_HOLD
+WEAPONTYPE_WEAPON 1 3 WEAPON_SLASH 0 0 0 0
+3 50 3
+E
+blade~
+It is heavy and wide, making for good shovelling.
+~
+E
+handle~
+It is long, thick and connected to the blade, thus completing the shovel.
+~
+#6903
+gold belt~
+a gold encrusted belt~
+A gold encrusted belt lies on the ground.~
+The belt is crafted out of a walrus hide with gold nuggets forcefully beaten
+into it, covering the outside of the belt, but leaving the inside soft.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+3 0 0 0 0 0 0 0
+4 5000 7
+#6904
+Rhinestone coat~
+a rhinestone coat~
+A rhinestone coat hangs on a nail.~
+The coat is a gorgeous scarlet coat, covered entirely with rhinestones. It
+would keep you quite warm on a chilly autumn afternoon.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+3 0 0 0 0 0 0 0
+5 7000 7
+#6905
+money purse~
+a money purse~
+A small bag has fallen to the ground.~
+It is a walrus hide bag with a drawstring on top to keep the contents
+safe from falling out.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 CONT_CLOSEABLE|CONT_CLOSED 0 0 0 0 0 0
+1 50 7
+A APPLY_DEX 1 0
+#6906
+fountain~
+an elegant fountain~
+An elegant fountain sprays water high into the air.~
+This fountain looks like someone just built it. There are no signs of damage or
+vandalism to its gemstone and gold covered form. The longer you gaze at its
+beauty, the more amazed you become. The wildlife it depicts is so realistic you
+almost expect to see it come alive. The water is the clearest, most refreshing
+water this side of............
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 190 1
+#6907
+evening gown~
+an expensive evening gown~
+A gown hangs here.~
+The gown is a beautiful soft blue lace gown, starting with a frilly collar
+at the neck and extending to the floor, flowing widely and covering the
+shoes so nobody can see them, even when in motion.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+20 0 0 0 0 0 0 0
+15 775 95
+A APPLY_MOVE -100 0
+A APPLY_SAVING_SPELL -10 0
+#6908
+golden circlet~
+a golden circlet~
+A thin ring of gold sits on the ledge.~
+It is a very thin ring of gold with a very rich glow, casting its own light.
+The light covers a very small area, just enough to see the color of the
+hair of the wearer, cast in yellow.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+20 0 0 0 0 0 0 0
+1 14500 95
+A APPLY_MOVE -100 0
+A APPLY_SAVING_SPELL -10 0
+#6909
+jewelled cloak~
+a jewelled cloak~
+A jewel covered cloak hangs here.~
+It is a very deep purple, covered almost entirely in expensive jewels of
+every variety. It has an emmense thickness and velvety appearance, making
+it keep the wearer warm in a soft manner.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+20 0 0 0 0 0 0 0
+10 157500 95
+A APPLY_MOVE -100 0
+A APPLY_SAVING_SPELL -10 0
+#6910
+golden steel suit armor~
+a golden steel suit of armor~
+A suit of armor shines in the sunlight.~
+It is made of steel, plated in gold. Its beauty far outweighs its
+usefullness, although it has great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+8 75000 35
+A APPLY_HITROLL 4 0
+A APPLY_STR 2 0
+A APPLY_DAMROLL 4 0
+#6911
+golden steel helmet~
+a golden steel helmet~
+A golden steel helmet shines in the sunlight.~
+It is made of steel, plated in gold. Its beauty far outweighs its
+usefullness, although it has great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+13 0 0 0 0 0 0 0
+4 56456 35
+A APPLY_DEX 3 0
+A APPLY_HITROLL -5 0
+#6912
+golden steel wrist guard~
+a golden steel wrist guard~
+A golden steel wrist guard shines in the sunlight.~
+It is made of steel, plated in gold. Its beauty far outweighs its
+usefullness, although it has great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+2 75000 35
+A APPLY_SAVING_SPELL -3 0
+A APPLY_MANA 55 0
+A APPLY_STR -2 0
+#6913
+golden steel wrist guard~
+a golden steel wrist guard~
+A golden steel wrist guard shines in the sunlight.~
+It is made of steel, plated in gold. Its beauty far outweighs its
+usefullness, although it has great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+9 0 0 0 0 0 0 0
+2 75000 35
+A APPLY_HIT 27 0
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DEX 3 0
+#6914
+golden steel gauntlets~
+golden steel gauntlets~
+Golden steel gauntlets shine in the sunlight.~
+They are made of steel, plated in gold. Their beauty far outweighs their
+usefullness, although they have great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+6 75000 35
+A APPLY_SAVING_SPELL -3 0
+A APPLY_STR 3 0
+A APPLY_DAMROLL 3 0
+#6915
+golden steel boots~
+a pair of golden steel boots~
+A pair of golden steel boots shine in the sun.~
+They are made of steel, plated in gold. Their beauty far outweighs their
+usefullness, although they have great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+11 0 0 0 0 0 0 0
+4 75000 35
+A APPLY_SAVING_SPELL -3 0
+A APPLY_STR 3 0
+#6916
+golden steel arm guards~
+a set of golden steel arm guards~
+Some armor shines in the sun.~
+They are made of steel, plated in gold. Their beauty far outweighs their
+usefullness, although they have great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+9 0 0 0 0 0 0 0
+3 75075 35
+A APPLY_SAVING_SPELL -3 0
+A APPLY_HIT 25 0
+#6917
+golden steel leg guards~
+a set of golden steel leg guards~
+Some armor shines in the sun.~
+They are made of steel, plated in gold. Their beauty far outweighs their
+usefullness, although they have great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+5 125000 35
+A APPLY_HIT 25 0
+A APPLY_MOVE -50 0
+A APPLY_SAVING_SPELL -3 0
+#6918
+golden steel shield~
+a golden steel shield~
+A shield shines in the sun.~
+It is made of steel, plated in gold. Its beauty far outweighs its
+usefullness, although it has great use, you surmise.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+14 0 0 0 0 0 0 0
+7 105000 35
+A APPLY_DAMROLL -4 0
+#6919
+emerald~
+a large emerald~
+A large shiny green piece of glass lies here.~
+It is a *HUGE* green gemstone, obviously of great worth.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 150000 1
+#6920
+diamond~
+a large diamond~
+A large sparkly rock lies here.~
+It is a *HUGE* glassy rock of grand value.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 200000 1
+#6921
+ruby~
+a large ruby~
+A big red rock lies here.~
+It is a *HUGE* red glassy rock.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 147000 1
+#6922
+topaz~
+a large topaz~
+You see a pretty rock.~
+It is a topaz.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 85000 1
+#6923
+Pearl~
+a pearl~
+You see a small white ball.~
+What do you want to know about it? It is a pearl.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 75000 1
+#6924
+scrip leaving~
+a scrip of leaving~
+A piece of paper lies in the dirt.~
+It is a scroll with spells written thereon.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 150 57 266 0 0 0 0
+1 80 5
+S 1 'invis'
+S 2 'cure serious'
+S 3 'word of recall'
+#6925
+scrip seeing~
+a scrip of seeing~
+A piece of paper lies in the dirt.~
+Did you just have a look see?
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+14 64 65 161 0 0 0 0
+1 350 10
+A APPLY_DEX -3 0
+S 1 'detect hidden'
+S 2 'detect invis'
+S 3 'magic missile'
+#6926
+topaz bracer~
+a topaz bracer~
+A topaz bracer lies on the ground.~
+It is made of pyrite, with a topaz in its setting.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+3 0 0 0 0 0 0 0
+1 500 2
+A APPLY_STR 1 0
+A APPLY_CON 1 0
+A APPLY_DAMROLL 1 0
+#6927
+topaz gloves~
+topaz encrusted gloves~
+A beautiful pair of gloves lie here.~
+They are snakeskin gloves with small topaz chips set on the backs of them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+3 0 0 0 0 0 0 0
+2 5000 2
+A APPLY_CON 1 0
+A APPLY_STR 1 0
+A APPLY_DAMROLL 1 0
+#6928
+topaz tunic~
+a topaz encrusted tunic~
+A beautiful tunic lies here.~
+Anyone wearing this would look quite cute indeed. The soft pink drawstring
+along with the baby blue material and the frills make for one cute getup.
+The saving grace to it is the myriad of topaz chips covering it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+3 0 0 0 0 0 0 0
+3 5000 2
+A APPLY_INT 1 0
+A APPLY_CON 1 0
+A APPLY_DAMROLL 1 0
+#6929
+topaz cloak~
+a topaz cloak~
+A beautiful cloak lies on the ground.~
+It is a soft cloak, covered in topaz chips.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+3 0 0 0 0 0 0 0
+2 5000 2
+A APPLY_INT 1 0
+A APPLY_DAMROLL 1 0
+A APPLY_STR 1 0
+#6930
+topaz leggings~
+topaz encrusted leggings~
+Some beautiful leggings lie on the ground.~
+They are made of snakeskin, covered in topaz chips. The snake must have been
+quite large to produce leggings having only one seem connecting the two legs
+together!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+3 0 0 0 0 0 0 0
+3 5000 2
+A APPLY_DAMROLL 1 0
+A APPLY_INT 1 0
+A APPLY_STR 1 0
+#6931
+elixir seeing~
+an elixir of seeing~
+An elixir sits here.~
+It is a bottle containing a nearly invisible liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+14 170 65 64 0 0 0 0
+1 350 10
+A APPLY_DEX -3 0
+S 1 'mirror image'
+S 2 'detect invis'
+S 3 'detect hidden'
+#6932
+geode~
+a geode~
+An ugly rock lies here.~
+What appears to be an ugly rock, on closer examination, is hollow, with the
+inside nearly filled with a pearlescent crystaline material, thus giving it
+a hidden beauty covered in ugliness. This is quite a find! Its value may be
+even greater at a later time.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+6 53042 1
+P 1
+TRIG_UNKNOWN 100 study
+OPROG_IF OIF_USER_ROOM_NUM = 6938 2 3
+P 2
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 0 4 5
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6934 6 7
+P 4
+TRIG_VOID
+OPROG_QUEST_SET 0 6 1
+P 4
+TRIG_VOID
+OPROG_ECHO
+To get a job done, ask a busy person to do it.~
+P 5
+TRIG_VOID
+OPROG_ECHO
+To get a job done, ask a busy person to do it.~
+P 6
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 1 9 8
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6936 12 13
+P 8
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 1 100 11
+P 9
+TRIG_VOID
+OPROG_QUEST_SET 0 6 2
+P 9
+TRIG_VOID
+OPROG_ECHO
+You can attract more flies using honey than you can using vinegar.~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You can attract more flies using honey than you can using vinegar.~
+P 12
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 2 14 15
+P 13
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6939 17 18
+P 14
+TRIG_VOID
+OPROG_QUEST_SET 0 6 3
+P 14
+TRIG_VOID
+OPROG_ECHO
+Popularity is fickle, but your reputation will outlive you.~
+P 15
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 3 100 16
+P 16
+TRIG_VOID
+OPROG_ECHO
+Popularity is fickle, but your reputation will outlive you.~
+P 17
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 3 19 20
+P 18
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6933 22 23
+P 19
+TRIG_VOID
+OPROG_QUEST_SET 0 6 4
+P 19
+TRIG_VOID
+OPROG_ECHO
+A true friend comes to your aid when he has other important matters at hand.~
+P 20
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 4 100 21
+P 21
+TRIG_VOID
+OPROG_ECHO
+A true friend comes to your aid when he has other important matters at hand.~
+P 22
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 4 24 25
+P 23
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6940 27 28
+P 24
+TRIG_VOID
+OPROG_QUEST_SET 0 6 5
+P 24
+TRIG_VOID
+OPROG_ECHO
+If you wish to force a man to willingly leave his barrackaded home, throw a
+nest of hornets through his window.~
+P 25
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 5 100 26
+P 26
+TRIG_VOID
+OPROG_ECHO
+If you wish to force a man to willingly leave his barrackaded home, throw a
+nest of hornets through his window.~
+P 27
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 5 29 30
+P 28
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6937 32 33
+P 29
+TRIG_VOID
+OPROG_QUEST_SET 0 6 6
+P 29
+TRIG_VOID
+OPROG_ECHO
+A false friend will not help you unless he has nothing better to do.~
+P 30
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 6 100 31
+P 31
+TRIG_VOID
+OPROG_ECHO
+A false friend will not help you unless he has nothing better to do.~
+P 32
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 6 34 35
+P 33
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6935 37 38
+P 34
+TRIG_VOID
+OPROG_QUEST_SET 0 6 7
+P 34
+TRIG_VOID
+OPROG_ECHO
+The measure of true wealth is not in your money or things, but in your number
+of friends and in your character.~
+P 35
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 7 100 36
+P 36
+TRIG_VOID
+OPROG_ECHO
+The measure of true wealth is not in your money or things, but in your number 
+of friends and in your character.~
+P 37
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 7 39 40
+P 38
+TRIG_VOID
+OPROG_ECHO
+There is nothing of value for your studies here.~
+P 39
+TRIG_VOID
+OPROG_QUEST_SET 0 6 8
+P 39
+TRIG_VOID
+OPROG_ECHO
+The greatest obstacle to your success is your own fear of failure.~
+P 40
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 < 8 100 41
+P 41
+TRIG_VOID
+OPROG_ECHO
+The greatest obstacle to your success is your own fear of failure.~
+P 42
+TRIG_UNKNOWN 100 reflect
+OPROG_IF OIF_USER_ROOM_NUM = 6900 43 44
+P 43
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 6 = 8 45 46
+P 45
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 6918 
+mpoload 6940 
+say This is very interesting!
+~
+P 45
+TRIG_VOID
+OPROG_JUNK
+P 46
+TRIG_VOID
+OPROG_GOD_COMMAND
+say This is quite interesting!
+~
+P 100
+TRIG_VOID
+OPROG_ECHO
+There is nothing here to study as of yet.~
+#6933
+diplomat robe~
+a diplomat's robe~
+an expensive robe lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+7 0 0 0 0 0 0 0
+2 3705 16
+A APPLY_INT 2 0
+A APPLY_MANA 5 0
+#6934
+diplomat cloak~
+a diplomat's cloak~
+An expensive cloak lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+7 0 0 0 0 0 0 0
+2 3705 16
+A APPLY_DEX 1 0
+A APPLY_HIT 5 0
+#6935
+diplomat bracelet~
+a diplomat's bracelet~
+An expensive bracelet lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+4 0 0 0 0 0 0 0
+1 3705 16
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+#6936
+diplomat torch~
+a diplomat's torch~
+An expensive torch lies here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+0 0 700 0 0 0 0 0
+1 3705 18
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+A APPLY_AC -5 0
+#6937
+silk robe~
+a silk robe~
+A lump of silk lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+3 75065 23
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#6938
+silk gown~
+a silk gown~
+A lump of silk lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+7 75075 23
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#6939
+silk suit~
+a silk suit~
+A lump of silk lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+5 75075 23
+A APPLY_MANA 40 0
+#6940
+geode~
+a geode~
+An ugly rock lies here.~
+What appears to be an ugly rock, on closer examination, is hollow, with the
+inside nearly filled with a pearlescent crystaline material, thus giving it
+a hidden beauty covered in ugliness. This is quite a find! Its value may be
+even greater at a later time.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 53042 1
+P 1
+TRIG_UNKNOWN 100 study
+OPROG_IF OIF_USER_ROOM_NUM = 6938 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+To get a job done, ask a busy person to do it.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6934 4 5
+P 4
+TRIG_VOID
+OPROG_ECHO
+You can attract more flies using honey than you can using vinegar.~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6936 6 7
+P 6
+TRIG_VOID
+OPROG_ECHO
+Popularity is fickle, but your reputation will outlive you.~
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6939 8 9
+P 8
+TRIG_VOID
+OPROG_ECHO
+A true friend comes to your aid when he has other important matters at hand.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6933 10 11
+P 10
+TRIG_VOID
+OPROG_ECHO
+If you wish to force a man to willingly leave his barrackaded home, throw a
+nest of hornets through his window.~
+P 11
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6940 12 13
+P 12
+TRIG_VOID
+OPROG_ECHO
+A false friend will not help you unless he has nothing better to do.~
+P 13
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6937 14 15
+P 14
+TRIG_VOID
+OPROG_ECHO
+The measure of true wealth is not in your money or things, but in your number
+of friends and in your character.~
+P 15
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 6935 16 17
+P 16
+TRIG_VOID
+OPROG_ECHO
+The greatest obstacle to your success is your own fear of failure.~
+P 17
+TRIG_VOID
+OPROG_ECHO
+There is nothing of value for your studies here.~
+#6941
+tour guide torch~
+a tour guide's torch~
+An elaborate torch lies here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE
+0 0 700 0 0 0 0 0
+1 37050 12
+A APPLY_WIS 2 0
+A APPLY_CON 2 0
+A APPLY_INT 2 0
+#0
+
+
+#ROOMS
+#6900
+Centre du Village~
+You stand in the center of the village. All around you are wondrous sights to
+behold. Gemstone paved streets, houses covered in gold and gems, exotic plants,
+tropical birds, art and sculptures that dazzle the mind are around every corner.
+The villagers act as if all these are commonplace, and indeed they are, at least
+in this village. You feel a strange sense of peace and comfort as you drink in
+the atmosphere. This is a good place to reflect upon your achievements.
+{120}     A note board sits here.{300}
+~
+0 ROOM_SAFE|ROOM_NOTE_BOARD SECT_CITY
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6917
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6925
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6921
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6929
+DDIR_UP
+Jewelry a la Stephanie~
+~
+0 -1 6965
+#6901
+An intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. Every once in a while, you notice someone peer around
+to see if anyone is watching, drop to their knees, pry at a gemstone in the
+pavement, then give up and walk away.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6919
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6909
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6918
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6913
+#6902
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6922
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6933
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6923
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6937
+#6903
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6943
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6930
+DDIR_SOUTH
+A new street~
+~
+0 -1 6942
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6931
+#6904
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6947
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6927
+DDIR_SOUTH
+A new street~
+~
+0 -1 6946
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6926
+#6905
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6911
+DDIR_SOUTH
+A new street~
+~
+0 -1 6948
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6910
+#6906
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6914
+DDIR_SOUTH
+A new street~
+~
+0 -1 6944
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6915
+#6907
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6945
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6935
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6934
+#6908
+An Intersection~
+You stand in an intersection like all the other intersections in this village,
+but very unlike any intersection you have seen anywhere in your travels across
+the realms. Gemstones are everywhere and in great numbers. Priceless works of
+art cover the outsides of the buildings and sculptures of great value sit on the
+edge of the streets. You wonder how this village could obtain such wealth and
+seem so at ease with its display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6941
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6938
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6939
+#6909
+Rue d'Anasazi~
+This street is named for a long time trading partner.  The street is paved
+with gleaming gemstones.  You are in awe as the sun shines down onto the
+street. Villagers pass by discussing various topics.  You hear a villager
+mumble about the tablets but become lost as he sounds very scholarly.  You
+see the road shine to the east and the west.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6910
+DDIR_WEST
+An intersection~
+~
+0 -1 6901
+#6910
+Rue d'Anasazi~
+The street continues to the east and to the west, but at this point you
+notice a very artistic looking house to the south.  The beauty of the
+street is almost blinding as the gemstones reflect sunlight.  Villagers
+walk about discussing village gossip.  You overhear one of the villagers
+say something about the tablets, it sounded important!  Too bad the words
+they use have more letters than words in your vocabulary.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6905
+DDIR_SOUTH
+Maison de Claude~
+~
+0 -1 6957
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6909
+#6911
+Rue d'Anasazi~
+You are here standing on a road built in commemoration of Anasazi, one of
+the village's favorite trading partners.  As you look on, you cannot see
+the end of the road because of the immaculate light.  To the north you see
+an oddly built house that seems to be perfect.  You wonder how a house can
+look so perfect.  Scholarly villagers walk by you talking amongst each
+other.  All you've seen in this village are scholars, it makes you wonder.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Maison d'Henri~
+~
+0 -1 6958
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6912
+DDIR_WEST
+An intersection~
+~
+0 -1 6905
+#6912
+Rue d'Anasazi~
+Here the road seems to lead to a break in the gleaming light from the glowing
+gemstones.  In the break you see a tall tower.  There are not as many villagers
+wandering around here and you wonder what may be in that tall tower.  On the
+other hand, you wonder if it is wise to enter such a tower.  The peacefulness
+of the village seems to make you believe that you should not be afraid, but is
+it just an illusion?
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6911
+DDIR_UP
+Climbing the Tower~
+~
+0 -1 6972
+#6913
+Rue d'Anasazi~
+You are now standing in front of what seems to be an expensively decorated
+home.  You wonder for a second, but then remember the immense wealth of the
+village.  You notice villagers walking and gathering.  They are discussing
+topics of the day.  You attempt to spy what they are saying but it is of no
+use, you cannot understand a word they are saying.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Maison de Jean-Pierre~
+~
+0 -1 6953
+DDIR_EAST
+An intersection~
+~
+0 -1 6901
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6914
+#6914
+Rue d'Anasazi~
+You are travelling on an extravagant road.  It is paved with gemstones that
+catch the sunlight in just the right way to allow beautiful reflections.
+Off the side of the street you see wild plants growing and hear the chatter
+of tropical birds.  Villagers pass by you as they go on with their day.
+They seem to be heading no where in particular, yet have an agenda to fulfill.
+You wonder what they might be thinking.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6913
+DDIR_SOUTH
+Maison d'Antoinette~
+~
+0 -1 6954
+DDIR_WEST
+An intersection~
+~
+0 -1 6906
+#6915
+Rue d'Anasazi~
+Here you notice the street going on to the east and to the west, you wonder
+if it will ever end and what things you will encounter on the way.  So far
+you are amazed at all the wonderous sights and sounds you've taken in.
+Villagers, on the otherhand, walk about as if things are an everyday
+occurance.  To them, they are.  You wonder how much of a paradise it would
+be to live like these villagers.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6906
+DDIR_WEST
+Rue d'Anasazi~
+~
+0 -1 6916
+#6916
+Rue d'Anasazi~
+Here you are now at what seems to be the end of the road, but you cannot tell
+for sure because of shining lights from the roads.  You do notice, however, a
+very large tower that seems accessible from here.  You hear the everyday
+ramblings of the villagers and you are again lost as you cannot comprehend
+what they are talking about.  One of the only words you recognize is tablet.
+It seems that the tablets are responsible for a lot of talk around town.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue d'Anasazi~
+~
+0 -1 6915
+DDIR_UP
+Climbing the Tower~
+~
+0 -1 6973
+#6917
+Rue de Tethyr~
+This street, like many other streets in this village is paved with precious
+stones and gems.  You examine carefully how the villagers walk accross them.
+The older villagers walk on them like it was made of cheap material, yet some
+others walk carefully as not to harm the street.  You occasionally notice a
+visitor attempt to remove a stone.  Unsuccessful, the visitor keeps walking
+down the street.  For some reason you notice the diamonds catch your eye.
+You notice a significant gathering to the south, it must be where everyone
+gathers to discuss matters and catch up.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6918
+DDIR_SOUTH
+Centre du Village~
+~
+0 -1 6900
+#6918
+Rue de Tethyr~
+Travelling down this street, you are amazed and bewildered by the extravagance
+to which the villagers have gone in paving their streets. Emeralds, sapphires,
+diamonds, rubies and gemstones of every kind and size have been used as paving
+stones. The villagers think nothing of walking across them, but you notice many
+a visitor walking as if on eggshells in the vain attempt to avoid stepping on
+any valuable stones. Occasionally, a visitor tries unsuccessfully to remove one
+of the paving stones then, looking around sheepishly, continues on his way.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6901
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6917
+#6919
+Rue de Tethyr~
+As you look around you are overwhelmed by the sights, sounds, and smells.
+The combination of gem paved roads, wild plants, and wild birds create an
+environment that is pleasing to almost all your senses.  Your senses become
+relaxed and you think about resting here for a bit, but you notice the
+villagers moving about and decide otherwise.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6920
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6901
+#6920
+Rue de Tethyr~
+You now find yourself near a very large gate to the city.  The gate looks well
+guarded.  You feel relieved that this village is friendly.  The street covered
+in gemstones lead out of the village to the north.  You notice the emeralds in
+the street catch your eyes.  Looking far south you notice a gathering place and
+wonder what people might be doing there.  The chirping of the birds and the
+smells of the flowers make you want to go deeper into the village rather than
+leaving.  You also notice a large tower not real far, in fact it seems that you
+can reach it from here.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED -1 6949
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6919
+DDIR_UP
+~
+~
+0 -1 6969
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+
+~
+#6921
+Rue de Tethyr~
+You stand here feeling a breeze of water mist hit you in the face, it makes
+you feel very relaxed and refreshed. The water must be coming from the
+fountain to the north. You can hear the chattering of villagers passing by and
+off in the distance.  All the villagers look very witty.  You wonder if you
+could hold a conversation with one without falling into bewilderment.  To the
+south you notice what seems to be a never ending tunnel of light.  You realize
+it is all from the reflection of the sun on the gemstones in the street.  You
+are amazed at how well the gemstones here catch your eye, especially the
+beautiful rubies.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Centre du Village~
+~
+0 -1 6900
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6922
+#6922
+Rue de Tethyr~
+This road continues to the north and south.  The gemstones seem to go on
+forever, you wonder in amazement how much this might have cost! Most villagers
+are walking on them like it is mere dirt.  An occasional visitor examines the
+gems carefully and tries, unsuccessfully, to remove them.  You hear no alerts
+of panic for the villagers and everyone else feel safe in this quaint village.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6921
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6902
+#6923
+Rue de Tethyr~
+Travelling down this street, you are amazed and bewildered by the extravagance
+to which the villagers have gone in paving their streets. Emeralds, sapphires,
+diamonds, rubies and gemstones of every kind and size have been used as paving
+stones. The villagers think nothing of walking across them, but you notice many
+a visitor walking as if on eggshells in the vain attempt to avoid stepping on
+any valuable stones. Occasionally, a visitor tries unsuccessfully to remove one
+of the paving stones then, looking around sheepishly, continues on his way.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6902
+DDIR_SOUTH
+Rue de Tethyr~
+~
+0 -1 6924
+#6924
+Rue de Tethyr~
+You stand here at what seems to be the extreme south of Rue de Tethyr.  You
+notice in the distant north water spraying up into the air.  It is a beautiful
+sight because it is spraying up above the shimmerings of a gemstone paved
+street.  Off the side of the road you notice a large tower.  You wonder to
+yourself what may be up there and if you should go explore.  You don't notice
+any extra precautions made to keep visitors and villagers out of the tower.
+To the south you notice a very large gate that has been decorated very
+beautifully.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Rue de Tethyr~
+~
+0 -1 6923
+DDIR_SOUTH
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED -1 6950
+DDIR_UP
+~
+~
+0 -1 6966
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+
+~
+#6925
+Rue de Coeurvale~
+You are very near the center of the village.  The distant sounds of water
+splashing in the fountain creates a blissful environment. It is almost paradise
+as you feast your eyes on the beautiful array of wild flowers growing off the
+sides of the street.  The street glistens in the sunlight as it is lined in
+beautiful red rubies.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6926
+DDIR_WEST
+Centre du Village~
+~
+0 -1 6900
+#6926
+Rue de Coeurvale~
+You feel yourself in the middle of a bustling village.  Villagers walk by you
+as they go on with their day.  You take in the aromatic smells of the wild
+plants growing on the sides of the street.  This particular street is lined with
+topaz, what a sight!  The environment is such an extraordinary experience, yet
+the villagers act as if it is nothing special.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6904
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6925
+#6927
+Rue de Coeurvale~
+You are walking down the street named for one of the village's many trading
+partners.  You are again amazed at the extravagant beauty of the environment.
+The villagers walk by in enjoyment as they go on with their day.  You notice
+a very beautiful building to the south.  You hear from the mumblings of the
+villagers that it is inhabited by a beautiful young lady.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6928
+DDIR_SOUTH
+Maison de Laura Annette~
+~
+0 -1 6956
+DDIR_WEST
+An intersection~
+~
+0 -1 6904
+#6928
+Rue de Coeurvale~
+You have reached the end of this beautiful road, yet the sights and smells
+still keep you entranced in the beauty of the village.  To the east you notice
+a very beautifully decorated gate.  You also admire a high tower accessible
+here, and wonder if it is wise to enter.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED -1 6951
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6927
+DDIR_UP
+~
+~
+0 -1 6967
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+
+~
+#6929
+Rue de Coeurvale~
+You feel that you are very near to a fountain because you can feel a light mist
+of water gently splash your body.  You feel relaxed as you take in the smells
+of wild plants.  The beauty of the streets amaze you.  They are clean, yet well
+traveled.  This street is lined with beautiful pearls.  It seems that precious
+stones and gems are abundant in this peaceful village.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Centre du Village~
+~
+0 -1 6900
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6930
+#6930
+Rue de Coeurvale~
+You travel along a beautiful road that is a reminder of one of the village's
+trading partners.  It is one of the many roads built to commemorate partners
+of this quaint village.  You hear the sounds of tropical birds and smell the
+aromatic scents of exotic plants.  The villagers brush by you as they go on
+with their buisness.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6929
+DDIR_WEST
+An intersection~
+~
+0 -1 6903
+#6931
+Rue de Coeurvale~
+You are nearing the end of this road, yet the sights and smells are still
+overwhelming.  They seem to keep you from going on, as you feel like taking
+a rest in this beautiful and peaceful environment.  Right off the side of the
+street, which is decorated with gemstones, is a nice spot to rest.  To the
+south you admire a very elegant house.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6903
+DDIR_SOUTH
+Maison d'Audrey Renee-Maree~
+~
+0 -1 6955
+DDIR_WEST
+Rue de Coeurvale~
+~
+0 -1 6932
+#6932
+Rue de Coeurvale~
+You are at the end of this road.  The exotic plants and sounds of tropical
+birds make you feel in paradise.  The road is lined with precious gemstones.
+It is amazing that the village has the confidince that no one will loot the
+streets.  To west you notice a very large and beautiful gate.  Looking up, you
+notice a tower.  You wonder to yourself what may be in that tower.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Coeurvale~
+~
+0 -1 6931
+DDIR_WEST
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED -1 6952
+DDIR_UP
+Climbing the Tower~
+~
+0 -1 6968
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+
+~
+#6933
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. There are obvious signs of care being taken to avoid damaging
+the tablets as you see tracks leading around the tablets worn into the ground.
+{120}     You see a tablet resting here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6934
+DDIR_WEST
+An intersection~
+~
+0 -1 6902
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6934
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. From time to time, you see someone stop to look at the tablets,
+occasionally shaking their heads with the frustration of not being able to
+unlock the secrets hidden therein.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6907
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6933
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6935
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. You feel a strong urge to attempt the wisdom enhancement these
+tablets promise.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6936
+DDIR_WEST
+An intersection~
+~
+0 -1 6907
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6936
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. As you look more carefully at the tablets, they seem to begin
+to make an audible impression on your mind, almost as if someone were magically
+attempting to engrave them into your subconscious mind.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6935
+DDIR_UP
+Climbing the Tower~
+~
+0 -1 6970
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6937
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. Upon careful consideration, you decide to seek the advice of
+others within the village in the off chance they could assist you in your
+endeavors to gain wisdom from these tablets.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6902
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6938
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6938
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. These tablets appear to be written in an unknown format, which
+creates a very difficult time in your comprehension of their meanings.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6937
+DDIR_WEST
+An intersection~
+~
+0 -1 6908
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6939
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. As you ponder the meanings of the tablets, your head starts to
+spin. There seems to be some great wisdom here, but just out of reach.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An intersection~
+~
+0 -1 6908
+DDIR_WEST
+Rue de Comprendre~
+~
+0 -1 6940
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6940
+Rue de Comprendre~
+This street, unlike the others, is paved with inscribed tablets. You see people
+walking along this street studying the various tablets and discussing the topics
+written thereon. If you were wise, you would take the time necessary to learn
+all you could about these tablets. The wealth of this village proves their great
+wisdom and these tablets obviously impart portions of it to any who take the
+time to learn.
+{120}     You see a tablet lying here.{300}
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Rue de Comprendre~
+~
+0 -1 6939
+DDIR_UP
+Climbing the Tower~
+~
+0 -1 6971
+E
+tablet~
+Time flies like an arrow, fruit flies like a banana.
+~
+#6941
+A new street~
+You have happened upon a new street in town. It is still under construction and
+as of yet unnamed. You hear the sounds of shovels and picks as the construction
+is under way to handle the influx of new villagers. You notice large holes
+which make travel much more difficult as the street is still far from being
+completed.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6942
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6908
+#6942
+A new street~
+You stand here at the site of construction.  With the influx of new villagers,
+this village is in the process of expanding.  You hear the joyful sounds of
+construction.  You see piles of material waiting to be used.  You wonder if
+these roads will be as beautiful as ones you have previously seen around town.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6903
+DDIR_SOUTH
+A new street~
+~
+0 -1 6941
+DDIR_WEST
+Maison d'Audrey Renee-Maree~
+~
+0 -1 6955
+#6943
+A new street~
+More of what seems to be a development site, this seems to be the only area of
+the village that looks dirty.  This is only because of the construction.  Even
+though this part of the village is being built, it seems cleaner and more
+peaceful than a lot of the surrounding villages in the realm.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6944
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6903
+#6944
+A new street~
+The construction continues north and south.  You wonder in awe what this will
+all look like when it is completed.  You imagine that it will be beautiful
+beyond belief.  You feel compelled to continue your travels as in the distances
+you see and hear villagers.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6906
+DDIR_SOUTH
+A new street~
+~
+0 -1 6943
+#6945
+A new street~
+This street looks like all the other streets being constructed during this time.
+The construction workers look very happy, they must be well paid.  Some look up
+as you pass by, but they continue on with their work.  You hear the distant
+sounds of construction, this must be a major renovation.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6946
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6907
+#6946
+A new street~
+The sounds of shovels and picks surround you as the workers try hard to finish
+the streets.  You wonder to yourself what this street may be called, maybe it
+is being built in commemoration of a great trading partner.  Whatever it may be
+called, it seems that it will be as beautiful as all the other streets.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6904
+DDIR_EAST
+Maison de Laura Annette~
+~
+0 -1 6956
+DDIR_SOUTH
+A new street~
+~
+0 -1 6945
+#6947
+A new street~
+Looking around you see piles of materials and hear the sounds of workers.  You
+wonder how much longer it will be until these roads are finished.  The
+construction makes it difficult to walk around, but you manage.  Some workers
+pause briefly as you walk by as not to disturb the incoming visitors.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A new street~
+~
+0 -1 6948
+DDIR_SOUTH
+An intersection~
+~
+0 -1 6904
+#6948
+A new street~
+Here you are right in the middle of construction.  This part of the village is
+under heavy construction as you can tell from all the workers.  You see to the
+south even more construction.  You hear the workers talk amongst each other.
+They seem content with their job and act as if they are being paid very well.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An intersection~
+~
+0 -1 6905
+DDIR_SOUTH
+A new street~
+~
+0 -1 6947
+#6949
+Outside the village~
+You have arrived outside New Singase. Standing before you are two guards, intent
+on protecting this peaceful village from any creatures intent on inflicting harm
+on the residents or visitors. To the south, you see an ornate gate beyond which
+can be seen wondrous sights of great wealth. Beside the gate is a large plaque.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A heavily travelled road~
+~
+0 -1 27854
+DDIR_SOUTH
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 6900 6920
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+~
+E
+plaque~
+This plaque is made of pure gold with small emeralds used for the inscription.
+It is written in many different languages, some of which are familiar to you.
+{137}                                                                          {300}
+{137}                                                                          {300}
+{137}        *=================================================*               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                Welcome, friend                  |               {300}
+{137}        |              to our fair village.               |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                  Beware, foe,                   |               {300}
+{137}        |             lest you be destroyed.              |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        *=================================================*               {300}
+{137}                                                                          {300}
+{137}                                                                          {300}
+~
+#6950
+Outside the village~
+You have arrived outside New Singase. Standing before you are two guards, intent
+on protecting this peaceful village from any creatures intent on inflicting harm
+on the residents or visitors. To the north, you see an ornate gate beyond which
+can be seen wondrous sights of great wealth. Beside the gate is a large plaque.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 6900 6924
+DDIR_SOUTH
+A heavily travelled road~
+~
+0 -1 27841
+E
+plaque~
+This plaque is made of pure gold with small emeralds used for the inscription.
+It is written in many different languages, some of which are familiar to you.
+{137}                                                                          {300}
+{137}                                                                          {300}
+{137}        *=================================================*               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                Welcome, friend                  |               {300}
+{137}        |              to our fair village.               |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                  Beware, foe,                   |               {300}
+{137}        |             lest you be destroyed.              |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        *=================================================*               {300}
+{137}                                                                          {300}
+{137}                                                                          {300}
+~
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+~
+#6951
+Outside the village~
+You have arrived outside New Singase. Standing before you are two guards, intent
+on protecting this peaceful village from any creatures intent on inflicting harm
+on the residents or visitors. To the west, you see an ornate gate beyond which
+can be seen wondrous sights of great wealth. Beside the gate is a large plaque.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A heavily travelled road~
+~
+0 -1 27836
+DDIR_WEST
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 6900 6928
+E
+plaque~
+This plaque is made of pure gold with small emeralds used for the inscription.
+It is written in many different languages, some of which are familiar to you.
+{137}                                                                          {300}
+{137}                                                                          {300}
+{137}        *=================================================*               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                Welcome, friend                  |               {300}
+{137}        |              to our fair village.               |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                  Beware, foe,                   |               {300}
+{137}        |             lest you be destroyed.              |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        *=================================================*               {300}
+{137}                                                                          {300}
+{137}                                                                          {300}
+~
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+~
+#6952
+Outside the village~
+You have arrived outside New Singase. Standing before you are two guards, intent
+on protecting this peaceful village from any creatures intent on inflicting harm
+on the residents or visitors. To the east, you see an ornate gate beyond which
+can be seen wondrous sights of great wealth. Beside the gate is a large plaque.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+an ornate gate~
+ornate gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 6900 6932
+DDIR_WEST
+A heavily travelled road~
+~
+0 -1 27846
+E
+plaque~
+This plaque is made of pure gold with small emeralds used for the inscription.
+It is written in many different languages, some of which are familiar to you.
+{137}                                                                          {300}
+{137}                                                                          {300}
+{137}        *=================================================*               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                Welcome, friend                  |               {300}
+{137}        |              to our fair village.               |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        |                  Beware, foe,                   |               {300}
+{137}        |             lest you be destroyed.              |               {300}
+{137}        |                                                 |               {300}
+{137}        |                                                 |               {300}
+{137}        *=================================================*               {300}
+{137}                                                                          {300}
+{137}                                                                          {300}
+~
+E
+ornate gate~
+The ornate gate is made of titanium overlaid with gold and covered in jewels of
+enormous size. The cost of this one gate alone is staggering to contemplate. The
+enormity of its height and thickness provides a daunting task to any who wish to
+enter by any means other than that of a friend of the village.
+~
+#6953
+Maison de Jean-Pierre~
+You have entered Jean-Pierre's house. Portraits of what you deem to be past
+relatives through many generations form the focal point of his house. Each one
+is expertly painted and in an elaborate gold frame. The furniture is made of
+dark, dramatically sculptured wood, overlaid in strategic places to add to its
+aesthetic nature without being overly dramatic. If it weren't for the extreme
+extravagance of the village, you would consider this a dramatic absurdity of the
+use of wealth and an attempt to throw it in your face, but taking the great
+wealth of the city into consideration, it seems actually to be more conservative
+than you would expect.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+Rue d'Anasazi~
+~
+0 -1 6913
+#6954
+Maison d'Antoinette~
+Antoinette's house is full of knick knacks, except that these particular ones
+are of great value. The walls are covered with small shelves for displaying each
+of them in an elegant fashion. The furniture here is quite old, but in great
+condition nonetheless. She has large, expensive rugs lying on the floors, making
+you leary of stepping on them, you might damage them. The soft smell of perfume
+fills the air.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+Rue d'Anasazi~
+~
+0 -1 6914
+#6955
+Maison d'Audrey Renee-Maree~
+As you enter Audrey Renee-Maree's house you are immediately thrown back by its
+elegance and beauty, even for this village! Nothing you have ever seen compares
+to this, except for one other house in this village. The walls are adorned with
+beautiful tapestries and jewel encrusted, gold framed portraits, one of them
+looking quite like Laura Annette, the ceiling, one huge painting depicting a
+story of times long ago, the floors bare but polished so highly that you can see
+your reflection as if there were a second you beneath you. The chaise-longue,
+sofas, short tables, and lighting fixtures are all of the most elegant nature.
+You could spend hours just looking around the house at all the beauty without
+becoming bored.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+Rue de Coeurvale~
+~
+0 -1 6931
+DDIR_EAST
+A new street~
+~
+0 -1 6942
+#6956
+Maison de Laura Annette~
+As you enter Laura Annette's house you are immediately thrown back by its
+elegance and beauty, even for this village! Nothing you have ever seen compares
+to this, except for one other house in this village. The walls are adorned with
+beautiful tapestries and jewel encrusted, gold framed portraits, one of them
+looking quite like Audrey Renee-Maree, the ceiling, one huge painting depicting
+a story of times long ago, the floors bare but polished so highly that you can
+see your reflection as if there were a second you beneath you. The
+chaise-longue, sofas, short tables, and lighting fixtures are all of the most
+elegant nature. You could spend hours just looking around the house at all the
+beauty without becoming bored.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+Rue de Coeurvale~
+~
+0 -1 6927
+DDIR_WEST
+A new street~
+~
+0 -1 6946
+#6957
+Maison de Claude~
+You have entered the home of a hopeless art collector. There are expensive works
+of art everywhere, from walls covered in tapestries with paintings hanging over
+them and each other to the dramatically artistic furniture with sculptures of
+animals, heads, people, plants, and some other stuff that has no meaning laying
+on top, in front, behind, and under it, to elaborate lighting fixtures with
+glass, emerald, diamond and ruby menagerie hanging from them. Each item would
+look absolutely beautiful if it were not for all the other things all around it.
+As it is, the total enormity of numbers and the disarray with which the artwork
+is placed makes it more of an eyesore.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+Rue d'Anasazi~
+~
+0 -1 6910
+#6958
+Maison d'Henri~
+As you enter the home of Henri, you notice the massive use of straight lines and
+angles in the architecture. Actually, everything in the house as well as the
+house itself is designed entirely of straight lines and angles. The floor, in
+keeping with this design scheme, has no rug but relies on strips of hardwood
+interspaced with seemingly random segments of gold and silver, but as you study
+it more intensely, you see an intricate mathematical design in the placement of
+each board, segment of gold or silver, and even the direction of grain and hue
+of stain in the wood. It obviously took intense planning to lay out the floor.
+The furniture is placed with care so as not to disturb the mathematical design,
+and so, enhances it.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+Rue d'Anasazi~
+~
+0 -1 6911
+#6959
+Maison d'Audrey Renee-Maree~
+As you enter Audrey Renee-Maree's house you are immediately thrown back by its
+elegance and beauty, even for this village! Nothing you have ever seen compares
+to this, except for one other house in this village. The walls are adorned with
+beautiful tapestries and jewel encrusted, gold framed portraits, one of them
+looking quite like Laura Annette, the ceiling, one huge painting depicting a
+story of times long ago, the floors bare but polished so highly that you can see
+your reflection as if there were a second you beneath you. The chaise-longue,
+sofas, short tables, and lighting fixtures are all of the most elegant nature.
+You could spend hours just looking around the house at all the beauty without
+becoming bored.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6960
+Maison d'Henri~
+As you enter the home of Henri, you notice the massive use of straight lines and
+angles in the architecture. Actually, everything in the house as well as the
+house itself is designed entirely of straight lines and angles. The floor, in
+keeping with this design scheme, has no rug but relies on strips of hardwood
+interspaced with seemingly random segments of gold and silver, but as you study
+it more intensely, you see an intricate mathematical design in the placement of
+each board, segment of gold or silver, and even the direction of grain and hue
+of stain in the wood. It obviously took intense planning to lay out the floor.
+The furniture is placed with care so as not to disturb the mathematical design,
+and so, enhances it.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6961
+Maison de Laura Annette~
+As you enter Laura Annette's house you are immediately thrown back by its
+elegance and beauty, even for this village! Nothing you have ever seen compares
+to this, except for one other house in this village. The walls are adorned with
+beautiful tapestries and jewel encrusted, gold framed portraits, one of them
+looking quite like Audrey Renee-Maree, the ceiling, one huge painting depicting
+a story of times long ago, the floors bare but polished so highly that you can
+see your reflection as if there were a second you beneath you. The
+chaise-longue, sofas, short tables, and lighting fixtures are all of the most
+elegant nature. You could spend hours just looking around the house at all the
+beauty without becoming bored.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6962
+Maison de Claude~
+You have entered the home of a hopeless art collector. There are expensive works
+of art everywhere, from walls covered in tapestries with paintings hanging over
+them and each other to the dramatically artistic furniture with sculptures of
+animals, heads, people, plants, and some other stuff that has no meaning laying
+on top, in front, behind, and under it, to elaborate lighting fixtures with
+glass, emerald, diamond and ruby menagerie hanging from them. Each item would
+look absolutely beautiful if it were not for all the other things all around it.
+As it is, the total enormity of numbers and the disarray with which the artwork
+is placed makes it more of an eyesore.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6963
+Maison de Jean-Pierre~
+You have entered Jean-Pierre's house. Portraits of what you deem to be past
+relatives through many generations form the focal point of his house. Each one
+is expertly painted and in an elaborate gold frame. The furniture is made of
+dark, dramatically sculptured wood, overlaid in strategic places to add to its
+aesthetic nature without being overly dramatic. If it weren't for the extreme
+extravagance of the village, you would consider this a dramatic absurdity of the
+use of wealth and an attempt to throw it in your face, but taking the great
+wealth of the city into consideration, it seems actually to be more conservative
+than you would expect.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6964
+Maison d'Antoinette~
+Antoinette's house is full of knick knacks, except that these particular ones
+are of great value. The walls are covered with small shelves for displaying each
+of them in an elegant fashion. The furniture here is quite old, but in great
+condition nonetheless. She has large, expensive rugs lying on the floors, making
+you leary of stepping on them, you might damage them. The soft smell of perfume
+fills the air.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+#6965
+Jewelry a la Stephanie~
+As you enter you are thrown aback by the large display of gems of every shape
+and size. There is a separate counter for each stone sold here. The shop walls
+are draped with elegant tapestries from the far corners of the realm.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_PRIVATE|ROOM_SAFE SECT_CITY
+DDIR_DOWN
+Centre du Village~
+~
+0 -1 6900
+#6966
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the south.
+{120}     (10){170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{120}     (24){170}(Glowing){120}You see a two-handed sword hanging on the wall.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6974
+DDIR_DOWN
+In the village~
+~
+0 -1 6924
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+west w we wes~
+To the west, you can see the southwestern tower looming nearby and beyond that
+Singase Plains opens up before you, disappearing around the southwestern tower.
+Obviously, this tower is in a good position to protect the southwestern tower or
+be protected by that same tower in the event of an attack.
+~
+E
+east e ea eas~
+To the east you can see the southeastern tower nearby, and in the distance, you
+can see part of Singase Plains that extend east. Protecting the southeastern
+tower from attack would be quite simple from here, as would it be for the guards
+and soldiers from there to protect this tower.
+~
+E
+south s so sou sout~
+To the south, you can see Singase Plains spreading as far as the eye can see.
+It is easy to see that no enemy can skulk up to the village unseen from that
+direction.
+~
+#6967
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the east.
+{120}     (10){170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{120}     (24){170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6976
+DDIR_DOWN
+In the village~
+~
+0 -1 6928
+E
+s so sou sout south~
+To the south you see the southeastern tower stretching for the stars and in the
+perfect position for mutual protection from attackers. Beyond that, you see the
+plains spreading out before you with nothing to provide cover for any oncoming
+enemies of the village.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+n no nor nort north~
+To the north you see the northeastern tower reaching for the stars. Beyond that
+you can see the Singase Plains spreading out before you, offering up anything
+that attempts to hide from view. The nearby tower is in a perfect position to
+protect this tower and to be protected from this tower against any attack that
+would come against it.
+~
+E
+e ea eas east~
+To the east you see the plains open up before you, showing all its secrets. Far
+in the distance you notice a hidden path ending at a pool of water. Any enemy
+planningan attack on this village must obviously plan on being announced long
+before their arrival and so be strong enough to withstand withering fire from
+the archers who would obviously be firing at them from above, well before they
+could defend themselves.
+~
+#6968
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the west.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6977
+DDIR_DOWN
+In the village~
+~
+0 -1 6932
+E
+n no nor nort north~
+To the north, you see the northwestern tower looming high overhead, providing
+ample protection to the village and giving a coordinated defense of the village
+with this tower. Beyond this, Singase Plains spreads out flatly.
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+w we wes west~
+To the west you see Singase Plains lying unprotected by the wary eye of a guard
+or soldier who would obviously be able to see any approach from many kilometres
+away.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+s so sou sout south~
+To the south you see the southwestern tower straining for the clouds in a very
+foreboding aggressive-defensive stance, protecting the inhabitants from any
+enemy. Beyond the tower, you see more of the plains known as Singase with the
+inability to hide anything.
+~
+#6969
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the north.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6975
+DDIR_DOWN
+In the village~
+~
+0 -1 6920
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+n no nor nort north~
+To the north you see the plains open up to show all it has within it. Near the
+horizon, you see the remains of what you think was a great city in its time and
+wonder what could have happened to cause such decay.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+e ea eas east~
+To the east you see the northeastern tower looming huge in the sky nearby,
+providing excellent symbiotic protection for the village and each tower. Further
+in the distance the plains spread out before you and you notice a nearly hidden
+trail near the horizon and partially hidden by the northeastern tower and wall.
+~
+E
+w we wes west~
+To the west you see the northwestern tower reaching for the sun. It is in a
+perfect position for each tower to provide protection for the other. Beyond this
+you see the plains open up before you, giving no hiding place for any breathing
+thing.
+~
+#6970
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the south or
+the east.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6980
+DDIR_DOWN
+In the village~
+~
+0 -1 6936
+E
+n no nor nort north~
+To the north you see the eastern tower looming nearby, giving extra protection
+to this tower and affording this tower the ability to supply added protection to
+the eastern tower in times of need. Beyond the eastern tower, you see Singase
+Plains spreading out before you, leaving nothing to hide.
+~
+E
+e ea eas east~
+To the east you see the plains spreading out with no sign of a place to hide for
+any who approach the village. As you consider the obvious security of this
+village, you feel absolutely safe and protected inside the walls.
+~
+E
+w we wes west~
+To the west, you see the southern tower stretching for the skies nearby, and it
+is quite obvious that it is in perfect position to supply added protection to
+this tower and for this tower to provide additional protection to it in times of
+great need. Beyond the tower, the plains known as Singase spread out treelessly.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+s so sou sout south~
+To the south you can see the plains spreading out leaving no hiding place for
+animal or person. You cringe as you consider the plight of any oncoming enemy.
+~
+#6971
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the south or
+west.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6981
+DDIR_DOWN
+In the village~
+~
+0 -1 6940
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+n no nor nort north~
+To the north you see the western tower nearby as the village wall bends around.
+Beyond that, you see Singase Plains spreading out. It would be quite easy to
+protect the western tower from here as would it be for the western tower to
+protect this one from its vantage point.
+~
+E
+w we wes west~
+To the west you see Singase Plains spreading out beyond the horizon. It would be
+impossible for any enemy to hide from view of this tower.
+~
+E
+s so sou sout south~
+To the south you see Singase Plains spreading out beyond the horizon, giving no
+hiding place whatsoever to any enemy hoping to surprise the village.
+~
+E
+e ea eas east~
+To the east you see the southern tower looming nearby, giving extra protection
+to this tower and permitting this tower to provide extra protection to the
+southern tower. Beyond that tower, you see Singase Plains spreading out before
+you.
+~
+#6972
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the north or
+east.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6978
+DDIR_DOWN
+In the village~
+~
+0 -1 6912
+E
+s so sou sout south~
+To the south you can see the eastern tower standing as a warning to any foes. It
+seems to say {130}'I dare you to attack!'{300} as it combines with adjoining
+towers to form a formidable defense against all who deem this wealthy village an
+easy target. Beyond this, you see more of the plains baring all it has to any
+onlookers from the towers.
+~
+E
+w we wes west~
+To the west you see the northern tower, large and foreboding, providing for an
+excellent interconnecting defence of the village. Beyond that, you see more of
+the plains lying open.
+~
+E
+e ea eas east~
+To the east you see the plains spreading out, showing all it has within it,
+including any beast or person who may care to approach the village. Far in the
+distance you see a nearly hidden path ending at a large pool.
+~
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+n no nor nort north~
+To the north you see the Singase Plains, treeless, valleyless, void of anything
+capable of hiding person or beast. Near the horizon you see the remains of what
+must have once been a great city.
+~
+#6973
+Climbing the Tower~
+You have entered a conspicuously darkened room in the tower. You see many
+depressions in the walls which can easily hide guards and soldiers who would
+assemble here to protect the village from attackers coming from the north or
+west.
+{020}   (10) {170}(Glowing){120}You see a full suit of armor standing against the wall.{300}
+{020}   (24) {170}(Glowing){120}You see a two-handed sword hanging on the wall.{300}
+
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_UP
+On the tower~
+~
+0 -1 6979
+DDIR_DOWN
+In the village~
+~
+0 -1 6916
+E
+two handed sword~
+The sword is very polished and quite sharp. It appears to be much heavier than
+the average fighter would use. You cringe as you think about the size of fighter
+needed to handle such a weapon! You wouldn't want to meet him in a dark alley!
+~
+E
+full suit armor~
+This suit of armor looks quite formidable indeed. Its material is of unknown
+type. As you handle the suit of armor, you are amazed by its lack of weight yet
+its nearly impenetrable nature. The craftsmanship is quite amazing as you can
+see no seems, joints, welds or anything of that nature connecting the flexible
+portions of the suit to the rigid portions. The fact that this suit is entirely
+complete from the top of the head to the fingertips to the toes and is still
+only in two pieces is mind boggling.
+~
+E
+n no nor nort north~
+To the north you see the plains spreading out flatly. Near the horizon you catch
+a glimpse of the remains of what you consider once must have been a great city.
+It is a dreadful thought to ponder as to how that great city met its demise.
+~
+E
+w we wes west~
+To the west you see the plains lying unprotected from the scanning eye of a
+soldier or guard standing in or on the tower.
+~
+E
+e ea eas east~
+To the east you see the northern tower standing in perfect protection over the
+northern portion of the village wall and in a suitable place for codependant
+defensive tactics. Beyond this, you can see more of the plains.
+~
+E
+s so sou sout south~
+To the south you see the western tower looming high over the plains, providing
+more than adequate protection from any attack. Beyond this you see more of the
+Singase Plains.
+~
+#6974
+The South Tower~
+You have reached the top of the South Tower. The realization of the great height
+of this tower makes you shrink back from the edge of the tower in the fear that
+the slightest breeze could send you plummeting 200 meters to your death. From
+this vantage point, you can see the entire village and surrounding countryside.
+This is a perfect place in your mind to situate archers to rain down death and
+destruction on infidels while they are far from near enough to make any kind of
+offensive stance against the village. It would be foolish for any but the
+strongest foes to attempt an attack. The Southeast and Southwest towers are in
+close proximity, providing the ability to rapidly reinforce this tower if the
+need should arise.
+~
+0 0 SECT_CITY
+DDIR_EAST
+On the wall~
+~
+0 -1 6983
+DDIR_WEST
+On the wall~
+~
+0 -1 6982
+DDIR_DOWN
+Inside the Southern Tower~
+~
+0 -1 6966
+#6975
+The North Tower~
+You have reached the top of the North Tower. The realization of the great height
+of this tower makes you shrink back from the edge of the tower in the fear that
+the slightest breeze could send you plummeting 200 meters to your death. From
+this vantage point, you can see the entire village and surrounding countryside.
+This is a perfect place in your mind to situate archers to rain down death and
+destruction on infidels while they are far from near enough to make any kind of
+offensive stance against the village. It would be foolish for any but the
+strongest foes to attempt an attack. The Northwest and Northeast towers are
+near enough to provide added firepower in a defense of this point of the
+fortress.
+~
+0 0 SECT_CITY
+DDIR_EAST
+On the wall~
+~
+0 -1 6986
+DDIR_WEST
+On the wall~
+~
+0 -1 6987
+DDIR_DOWN
+Inside the Northern tower~
+~
+0 -1 6969
+#6976
+The East Tower~
+You have reached the top of the East Tower. The realization of the great height
+of this tower makes you shrink back from the edge of the tower in the fear that
+the slightest breeze could send you plummeting 200 meters to your death. From
+this vantage point, you can see the entire village and surrounding countryside.
+This is a perfect place in your mind to situate archers to rain down death and
+destruction on infidels while they are far from near enough to make any kind of
+offensive stance against the village. It would be foolish for any but the
+strongest foes to attempt an attack. The Northeast and Southeast towers are
+near enough to supply a coordinated defense of the village.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+On the wall~
+~
+0 -1 6985
+DDIR_SOUTH
+On the wall~
+~
+0 -1 6984
+DDIR_DOWN
+Inside the Eastern Tower~
+~
+0 -1 6967
+#6977
+The West Tower~
+You have reached the top of the West Tower. The realization of the great height
+of this tower makes you shrink back from the edge of the tower in the fear that
+the slightest breeze could send you plummeting 200 meters to your death. From
+this vantage point, you can see the entire village and surrounding countryside.
+This is a perfect place in your mind to situate archers to rain down death and
+destruction on infidels while they are far from near enough to make any kind of
+offensive stance against the village. It would be foolish for any but the
+strongest foes to attempt an attack. The Northwest and Southwest towers are
+near enough to be able to fire on anyone attacking this position, providing an
+added comfort buffer.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+On the wall~
+~
+0 -1 6988
+DDIR_SOUTH
+On the wall~
+~
+0 -1 6989
+DDIR_DOWN
+Inside the Western tower~
+~
+0 -1 6968
+#6978
+The Northeast Tower~
+You have reached the top of the Northeast Tower. The realization of the great
+height of this tower makes you shrink back from the edge of the tower in the
+fear that the slightest breeze could send you plummeting 200 meters to your
+death. From this vantage point, you can see the entire village and surrounding
+countryside. This is a perfect place in your mind to situate archers to rain
+down death and destruction on infidels while they are far from near enough to
+make any kind of offensive stance against the village. It would be foolish for
+any but the strongest foes to attempt an attack. The North and East towers are
+nearby, providing cover in the event this tower were attacked.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+On the wall~
+~
+0 -1 6985
+DDIR_WEST
+On the wall~
+~
+0 -1 6986
+DDIR_DOWN
+Inside the Northeastern tower~
+~
+0 -1 6972
+#6979
+The Northwest Tower~
+You have reached the top of the Northwest Tower. The realization of the great
+height of this tower makes you shrink back from the edge of the tower in the
+fear that the slightest breeze could send you plummeting 200 meters to your
+death. From this vantage point, you can see the entire village and surrounding
+countryside. This is a perfect place in your mind to situate archers to rain
+down death and destruction on infidels while they are far from near enough to
+make any kind of offensive stance against the village. It would be foolish for
+any but the strongest foes to attempt an attack. The North and West towers are
+within arrowshot of this tower, adding to the destruction this tower would
+supply to any infidels.
+~
+0 0 SECT_CITY
+DDIR_EAST
+On the wall~
+~
+0 -1 6987
+DDIR_SOUTH
+On the wall~
+~
+0 -1 6988
+DDIR_DOWN
+Inside the Northwestern tower~
+~
+0 -1 6973
+#6980
+The Southeast Tower~
+You have reached the top of the Southeast Tower. The realization of the great
+height of this tower makes you shrink back from the edge of the tower in the
+fear that the slightest breeze could send you plummeting 200 meters to your
+death. From this vantage point, you can see the entire village and surrounding
+countryside. This is a perfect place in your mind to situate archers to rain
+down death and destruction on infidels while they are far from near enough to
+make any kind of offensive stance against the village. It would be foolish for
+any but the strongest foes to attempt an attack. The South and East towers are
+within an Ogre's stone's throw with the design to develop an insurmountable
+defense of the village.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+On the wall~
+~
+0 -1 6984
+DDIR_WEST
+On the wall~
+~
+0 -1 6983
+DDIR_DOWN
+Inside the Southeast tower~
+~
+0 -1 6970
+#6981
+The Southwest Tower~
+You have reached the top of the Southwest Tower. The realization of the great
+height of this tower makes you shrink back from the edge of the tower in the
+fear that the slightest breeze could send you plummeting 200 meters to your
+death. From this vantage point, you can see the entire village and surrounding
+countryside. This is a perfect place in your mind to situate archers to rain
+down death and destruction on infidels while they are far from near enough to
+make any kind of offensive stance against the village. It would be foolish for
+any but the strongest foes to attempt an attack. The South and West towers are
+near enough to provide reinforcements within a moment's notice of any attempt
+at breaching the defenses at this point.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+On the wall~
+~
+0 -1 6989
+DDIR_EAST
+On the wall~
+~
+0 -1 6982
+DDIR_DOWN
+Inside the Southwest tower~
+~
+0 -1 6971
+#6982
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation.
+{150}A large shadow seems to be moving around this wall.{300}
+{040}A cold chill runs down your spine.{300}
+~
+0 0 SECT_CITY
+DDIR_EAST
+The Southern tower~
+~
+0 -1 6974
+DDIR_WEST
+The Southwestern tower~
+~
+0 -1 6981
+#6983
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. The aisleway is slightly grooved from all the chariot travel
+as the everpresent guards move from tower to tower to the ground in a constant
+vigil of protection.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The Southeastern tower~
+~
+0 -1 6980
+DDIR_WEST
+The Southern tower~
+~
+0 -1 6974
+#6984
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. As you look at the towers, you begin to understand the
+enormity of the challenge undertaken in attacking this village. You cannot see
+anyone or anything that may be in the towers only ten meters above you and yet
+any enemy would be far below your vantage point! They would be risking certain
+death long before reaching a point where they could attack with any accuracy at
+all and even then, wouldn't be able to see the defenders of this fortress.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Eastern tower~
+~
+0 -1 6976
+DDIR_SOUTH
+The Southeastern tower~
+~
+0 -1 6980
+#6985
+On the Wall~
+You are walking on an amazingly wide wall on the east side of the village. It
+has such great breadth that an entire company of soldiers could stand in parade
+formation beginning at one side of the wall and not reach the other side. There
+is no way in your imagination to breach this wall. You can see the entire
+village and a huge amount of the plains stretching out before you. The towers
+loom roughly ten meters higher than your present elevation. The wind here seems
+quite strong and you wonder how anyone could maintain their footing while
+defending the village from assaults. They must be strong and very sure afoot!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Northeastern tower~
+~
+0 -1 6978
+DDIR_SOUTH
+The Eastern tower~
+~
+0 -1 6976
+#6986
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. There are many slots through the outside walls wide enough to
+fire flaming arrows at oncoming foes but not wide enough to chance incoming
+arrows from below.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The Northeastern tower~
+~
+0 -1 6978
+DDIR_WEST
+The Northern tower~
+~
+0 -1 6975
+#6987
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. As you look over the side of the wall, you see the obvious
+markings of flaming oil which the soldiers and guards used to defend this
+village from attackers. There seem to be no enemies now who would dare attack
+such a stronghold.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The Northern tower~
+~
+0 -1 6975
+DDIR_WEST
+The Northwestern tower~
+~
+0 -1 6979
+#6988
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. You can hear the peaceful sounds of the local people as they
+discuss various topics of interest far below you.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Northwestern tower~
+~
+0 -1 6979
+DDIR_SOUTH
+The Western tower~
+~
+0 -1 6977
+#6989
+On the Wall~
+You are walking on an amazingly wide wall. It has such great breadth that an
+entire company of soldiers could stand in parade formation beginning at one side
+of the wall and not reach the other side. There is no way in your imagination to
+breach this wall. You can see the entire village and a huge amount of the plains
+stretching out before you. The towers loom roughly ten meters higher than your
+present elevation. As you look around, you notice signs of many battles here.
+There are gouges in the stone that have been expertly repaired and blood stains
+splattering segments of the walkway.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Western tower~
+~
+0 -1 6977
+DDIR_SOUTH
+The Southwestern tower~
+~
+0 -1 6981
+#0
+
+
+#RESETS
+M 6900 100 6952
+G 6900 100 0
+M 6900 100 6951
+G 6900 100 0
+M 6900 100 6950
+G 6900 100 0
+M 6900 100 6949
+G 6900 100 0
+M 6901 100 6940
+E 6905 100 WEAR_HOLD
+P 6923 100 6905
+P 6922 100 6905
+P 6921 100 6905
+P 6920 100 6905
+P 6919 100 6905
+P 6919 100 6905
+P 6920 100 6905
+P 6919 100 6905
+G 6905 100 0
+M 6902 100 6940
+E 6905 100 WEAR_HOLD
+G 6905 100 0
+M 6903 100 6939
+E 6904 100 WEAR_ABOUT
+G 6919 100 0
+G 6921 100 0
+G 6923 100 0
+M 6904 100 6939
+E 6904 100 WEAR_ABOUT
+E 6903 100 WEAR_WAIST
+M 6902 100 6938
+G 6905 100 0
+M 6903 100 6938
+E 6904 100 WEAR_ABOUT
+E 6903 100 WEAR_WAIST
+M 6901 100 6937
+G 6905 100 0
+M 6904 100 6937
+E 6903 100 WEAR_WAIST
+M 6901 100 6936
+G 6905 100 0
+M 6902 100 6936
+G 6905 100 0
+M 6903 100 6936
+E 6904 100 WEAR_ABOUT
+G 6905 100 0
+M 6904 100 6936
+E 6904 100 WEAR_ABOUT
+M 6903 100 6935
+E 6903 100 WEAR_WAIST
+M 6901 100 6935
+G 6905 100 0
+M 6904 100 6934
+E 6904 100 WEAR_ABOUT
+G 6922 100 0
+G 6920 100 0
+M 6901 100 6934
+G 6905 100 0
+M 6902 100 6932
+G 6905 100 0
+M 6904 100 6932
+E 6903 100 WEAR_WAIST
+G 6919 100 0
+G 6921 100 0
+M 6902 100 6931
+G 6905 100 0
+M 6903 100 6931
+E 6903 100 WEAR_WAIST
+G 6923 100 0
+G 6922 100 0
+G 6921 100 0
+M 6901 100 6930
+G 6905 100 0
+M 6904 100 6930
+E 6904 100 WEAR_ABOUT
+E 6903 100 WEAR_WAIST
+G 6905 100 0
+M 6901 100 6928
+G 6905 100 0
+M 6903 100 6928
+E 6904 100 WEAR_ABOUT
+G 6921 100 0
+G 6919 100 0
+M 6902 100 6927
+G 6905 100 0
+M 6904 100 6927
+E 6903 100 WEAR_WAIST
+G 6919 100 0
+G 6923 100 0
+M 6901 100 6924
+G 6905 100 0
+M 6902 100 6924
+G 6905 100 0
+M 6904 100 6923
+E 6904 100 WEAR_ABOUT
+M 6901 100 6923
+G 6905 100 0
+M 6903 100 6922
+E 6903 100 WEAR_WAIST
+G 6920 100 0
+G 6921 100 0
+G 6922 100 0
+M 6901 100 6922
+G 6905 100 0
+M 6901 100 6919
+G 6905 100 0
+M 6902 100 6919
+G 6905 100 0
+M 6902 100 6919
+G 6905 100 0
+M 6901 100 6918
+G 6905 100 0
+M 6901 100 6918
+G 6905 100 0
+M 6901 100 6918
+G 6905 100 0
+M 6904 100 6916
+E 6903 100 WEAR_WAIST
+G 6921 100 0
+G 6921 100 0
+G 6921 100 0
+M 6904 100 6916
+E 6904 100 WEAR_ABOUT
+E 6903 100 WEAR_WAIST
+G 6923 100 0
+G 6923 100 0
+G 6923 100 0
+G 6923 100 0
+M 6903 100 6916
+E 6905 100 WEAR_HOLD
+E 6903 100 WEAR_WAIST
+E 6904 100 WEAR_ABOUT
+G 6922 100 0
+G 6923 100 0
+G 6919 100 0
+M 6904 100 6915
+E 6904 100 WEAR_ABOUT
+G 6920 100 0
+G 6920 100 0
+G 6921 100 0
+M 6903 100 6915
+E 6903 100 WEAR_WAIST
+G 6905 100 0
+G 6920 100 0
+G 6922 100 0
+G 6923 100 0
+G 6919 100 0
+M 6901 100 6915
+E 6905 100 WEAR_HOLD
+G 6905 100 0
+M 6901 100 6914
+G 6905 100 0
+M 6901 100 6914
+G 6905 100 0
+M 6903 100 6914
+E 6903 100 WEAR_WAIST
+G 6921 100 0
+G 6923 100 0
+G 6920 100 0
+M 6904 100 6914
+E 6904 100 WEAR_ABOUT
+G 6922 100 0
+G 6922 100 0
+G 6922 100 0
+G 6922 100 0
+G 6922 100 0
+M 6903 100 6911
+E 6903 100 WEAR_WAIST
+E 6904 100 WEAR_ABOUT
+G 6923 100 0
+G 6923 100 0
+G 6922 100 0
+M 6903 100 6911
+E 6905 100 WEAR_HOLD
+E 6903 100 WEAR_WAIST
+G 6919 100 0
+G 6921 100 0
+G 6921 100 0
+M 6901 100 6911
+G 6905 100 0
+M 6904 100 6910
+E 6903 100 WEAR_WAIST
+G 6919 100 0
+G 6920 100 0
+G 6921 100 0
+G 6922 100 0
+G 6923 100 0
+M 6903 100 6910
+E 6903 100 WEAR_WAIST
+G 6919 100 0
+G 6919 100 0
+G 6920 100 0
+G 6922 100 0
+M 6902 100 6910
+E 6905 100 WEAR_HOLD
+G 6920 100 0
+G 6921 100 0
+M 6902 100 6908
+G 6905 100 0
+M 6901 100 6908
+G 6905 100 0
+M 6902 100 6907
+E 6905 100 WEAR_HOLD
+G 6905 100 0
+M 6901 100 6907
+E 6905 100 WEAR_HOLD
+G 6905 100 0
+M 6901 100 6906
+E 6905 100 WEAR_HOLD
+M 6901 100 6906
+E 6904 100 WEAR_ABOUT
+G 6905 100 0
+M 6905 100 6955
+E 6907 100 WEAR_BODY
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6906 100 6948
+E 6902 100 WEAR_HOLD
+M 6906 100 6948
+E 6902 100 WEAR_HOLD
+M 6906 100 6947
+E 6902 100 WEAR_HOLD
+M 6906 100 6947
+E 6902 100 WEAR_HOLD
+M 6906 100 6946
+E 6902 100 WEAR_HOLD
+M 6906 100 6946
+E 6902 100 WEAR_HOLD
+M 6906 100 6945
+E 6902 100 WEAR_HOLD
+M 6906 100 6945
+E 6902 100 WEAR_HOLD
+M 6906 100 6944
+E 6902 100 WEAR_HOLD
+M 6906 100 6944
+E 6902 100 WEAR_HOLD
+M 6906 100 6943
+E 6902 100 WEAR_HOLD
+M 6906 100 6943
+E 6902 100 WEAR_HOLD
+M 6906 100 6942
+E 6902 100 WEAR_HOLD
+M 6906 100 6942
+E 6902 100 WEAR_HOLD
+M 6906 100 6941
+E 6902 100 WEAR_WIELD
+M 6906 100 6941
+E 6902 100 WEAR_WIELD
+M 6909 100 6954
+E 6907 100 WEAR_BODY
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6907 100 6956
+E 6907 100 WEAR_BODY
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6908 100 6958
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6911 100 6957
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6910 100 6953
+E 6908 100 WEAR_HEAD
+E 6909 100 WEAR_ABOUT
+M 6912 100 6965
+G 6923 100 0
+G 6922 100 0
+G 6905 100 0
+G 6921 100 0
+G 6920 100 0
+G 6919 100 0
+G 6924 100 0
+G 6925 100 0
+G 6931 100 0
+G 6932 100 0
+M 6913 100 6981
+M 6914 100 6981
+M 6915 100 6981
+M 6915 100 6981
+M 6915 100 6981
+M 6916 100 6981
+M 6916 100 6981
+M 6916 100 6981
+M 6913 100 6980
+E 6941  50 WEAR_LIGHT
+M 6914 100 6980
+E 6941  50 WEAR_LIGHT
+M 6915 100 6980
+M 6915 100 6980
+M 6915 100 6980
+M 6916 100 6980
+M 6916 100 6980
+M 6916 100 6980
+M 6913 100 6979
+E 6941  50 WEAR_LIGHT
+M 6914 100 6979
+E 6941  50 WEAR_LIGHT
+M 6915 100 6979
+M 6915 100 6979
+M 6915 100 6979
+M 6916 100 6979
+M 6916 100 6979
+M 6916 100 6979
+M 6913 100 6978
+E 6941  50 WEAR_LIGHT
+M 6914 100 6978
+E 6941  50 WEAR_LIGHT
+M 6915 100 6978
+M 6915 100 6978
+M 6915 100 6978
+M 6916 100 6978
+M 6916 100 6978
+M 6916 100 6978
+M 6913 100 6977
+E 6938 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6914 100 6977
+E 6939 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6915 100 6977
+E 6934 100 WEAR_ABOUT
+M 6915 100 6977
+E 6936 100 WEAR_LIGHT
+M 6915 100 6977
+E 6933 100 WEAR_ABOUT
+M 6916 100 6977
+E 6935 100 WEAR_WRIST_R
+M 6916 100 6977
+E 6935 100 WEAR_WRIST_L
+M 6916 100 6977
+E 6936 100 WEAR_LIGHT
+M 6913 100 6976
+E 6938 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6914 100 6976
+E 6939 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6915 100 6976
+E 6934 100 WEAR_ABOUT
+M 6915 100 6976
+E 6933 100 WEAR_ABOUT
+M 6915 100 6976
+E 6936 100 WEAR_LIGHT
+M 6916 100 6976
+E 6935 100 WEAR_WRIST_R
+M 6916 100 6976
+E 6933 100 WEAR_ABOUT
+M 6916 100 6976
+E 6936 100 WEAR_LIGHT
+M 6913 100 6975
+E 6938 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6914 100 6975
+E 6939 100 WEAR_BODY
+E 6937 100 WEAR_ABOUT
+M 6915 100 6975
+E 6935 100 WEAR_WRIST_R
+M 6915 100 6975
+E 6936 100 WEAR_LIGHT
+M 6915 100 6975
+E 6934 100 WEAR_ABOUT
+M 6916 100 6975
+E 6933 100 WEAR_ABOUT
+M 6916 100 6975
+E 6935 100 WEAR_WRIST_L
+M 6916 100 6975
+E 6935 100 WEAR_WRIST_L
+M 6913 100 6974
+E 6937 100 WEAR_ABOUT
+E 6938 100 WEAR_BODY
+M 6914 100 6974
+E 6937 100 WEAR_ABOUT
+E 6939 100 WEAR_BODY
+M 6915 100 6974
+E 6934 100 WEAR_ABOUT
+M 6915 100 6974
+E 6933 100 WEAR_ABOUT
+M 6915 100 6974
+E 6936 100 WEAR_LIGHT
+M 6916 100 6974
+E 6935 100 WEAR_WRIST_R
+M 6916 100 6974
+E 6934 100 WEAR_ABOUT
+M 6916 100 6974
+E 6934 100 WEAR_ABOUT
+M 6915 100 6982
+M 6915 100 6982
+M 6916 100 6982
+M 6916 100 6982
+M 6915 100 6983
+M 6915 100 6983
+M 6916 100 6983
+M 6916 100 6983
+M 6916 100 6984
+M 6915 100 6985
+M 6915 100 6986
+M 6916 100 6987
+M 6915 100 6988
+M 6916 100 6989
+M 6901 100 6901
+M 6901 100 6901
+M 6902 100 6901
+M 6902 100 6901
+M 6903 100 6902
+E 6905 100 WEAR_HOLD
+M 6903 100 6902
+E 6905 100 WEAR_HOLD
+M 6904 100 6902
+E 6905 100 WEAR_HOLD
+M 6904 100 6902
+M 6904 100 6903
+M 6903 100 6903
+M 6902 100 6903
+M 6901 100 6903
+M 6901 100 6904
+M 6903 100 6904
+M 6903 100 6904
+E 6905 100 WEAR_HOLD
+M 6904 100 6905
+M 6904 100 6905
+M 6904 100 6905
+M 6901 100 6905
+M 6901 100 6905
+M 6902 100 6909
+M 6902 100 6909
+M 6902 100 6909
+M 6903 100 6912
+E 6905 100 WEAR_HOLD
+M 6904 100 6913
+M 6903 100 6917
+M 6903 100 6917
+E 6905 100 WEAR_HOLD
+M 6904 100 6917
+M 6904 100 6917
+M 6903 100 6920
+M 6903 100 6920
+M 6903 100 6920
+M 6903 100 6920
+M 6902 100 6921
+M 6902 100 6921
+M 6902 100 6921
+M 6902 100 6921
+M 6901 100 6925
+M 6901 100 6925
+M 6902 100 6925
+M 6902 100 6925
+M 6903 100 6926
+M 6903 100 6926
+M 6904 100 6926
+M 6904 100 6926
+M 6904 100 6929
+M 6902 100 6929
+M 6903 100 6929
+M 6901 100 6929
+M 6904 100 6933
+M 6917 100 6900
+G 6901 100 0
+G 6902 100 0
+G 6904 100 0
+G 6903 100 0
+G 6907 100 0
+G 6908 100 0
+G 6909 100 0
+G 6910 100 0
+G 6911 100 0
+G 6912 100 0
+G 6913 100 0
+G 6914 100 0
+G 6915 100 0
+G 6916 100 0
+G 6917 100 0
+G 6918 100 0
+G 6926 100 0
+G 6927 100 0
+G 6928 100 0
+G 6929 100 0
+G 6930 100 0
+O 6906   1 6900
+O 6920 100 6917
+O 6919 100 6920
+O 6921 100 6921
+O 6921 100 6925
+O 6922 100 6926
+O 6923 100 6929
+D 6949 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 6920 DIR_NORTH DOOR_CLOSED
+D 6952 DIR_EAST  DOOR_CLOSED_LOCKED
+D 6932 DIR_WEST  DOOR_CLOSED
+D 6951 DIR_WEST  DOOR_CLOSED_LOCKED
+D 6928 DIR_EAST  DOOR_CLOSED
+D 6950 DIR_NORTH DOOR_CLOSED_LOCKED
+D 6924 DIR_SOUTH DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

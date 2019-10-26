@@ -1,0 +1,4290 @@
+#AREA City of Ruins~
+#AUTHORS Dorothy~
+#VERSION 4
+#RANGES 20 40 1 95
+#OLC_RANGES 12500 12599
+
+
+#HELPS
+0 'CITY OF RUINS'~
+{120}                                City of Ruins
+{300}
+The City of Ruins is set in a city hit hard by a series of unfortunate acts
+of the gods. Earthquakes have caused many of the buildings to collapse and
+much of the city infrastructure is in ruins.
+
+The population is slowly rebuilding their once proud city and business is
+beginning to pick up. This area is the gateway to Raptor Island to the west
+and Vulcano to the east and seems to recieve a steady stream of refugees
+from all over the realms looking for another start in life.
+
+Suitable for players ranging from 20 - 40, this area contains several small
+quests and some unique equipment as described below.
+
+  {120}(A) {050}Quests
+  {120}(B) {050}Equipment
+  {120}(C) {050}Credits
+{a}'CITY_RUINS_QUESTS'
+{b}'CITY_RUINS_EQUIPMENT'
+{c}'CITY_RUINS_VERSION'
+~
+
+0 'CITY_RUINS_QUESTS'~
+{120}                                   Quests
+{300}
+One of the children has been lost and you are able to offer your services to
+help the anxious mother and searching father. Speak with either of them for
+more details.
+
+The citizens and their children have collected many trinkets as they pick
+over the remains of their once lavish houses. Whilst the trinkets have
+little value in themselves, they can be turned into something much more
+valuable if you take them to just the right person.
+
+There is good opportunity to kill some of the local rats. Reports of bands
+of adventurers collecting skulls as trophies have been circulating lately.
+~
+
+0 'CITY_RUINS_EQUIPMENT'~
+{120}                                  Equipment
+{300}
+There are some lower level items of armour that improve intelligence. They are
+useful to wear as they improve your chances of mastering a skill. There are
+several level 40 items of armour that can complete a missing set of damage
+equipment as well.
+
+A collection of various level 30 armor items and some level 40 weapons have
+been included to provide a selection of weapons for the true fighters.
+
+A wonderful kind of light has been found for sale in the city. One that
+combines the essense of the earth inside a simple jar. Powerful magic
+prevents the lava from escaping or causing too much heat.
+
+There are also one or two curious containers that allow you to store your
+items away from the prying eyes of thieves.
+~
+
+98 'CITY_RUINS_QUESTBIT'~
+{120}                               Quest Bit Usage
+{300}
+{000}. {300}Quest Bit
+{000}.   {120}0 - 4{050}     Quest 1
+{000}.     {120}5{050}       Has visited Southgate gate guard
+{000}.     {120}6{050}       Has visited Westgate gate guard
+{000}.     {120}7{050}       Has visited Eastgate gate guard
+{300}
+{050}Quest 1{300} - visit the frustrated mother                 [mob: 12551]
+        - visit the searching father                  [mob: 12552]
+        - find the lost little girl                   [mob: 12553]
+        - return with her to the frustrated mother
+        - give handwritten note to Fasto              [mob: 12501]
+        - buy the items from the shop         [item: 12541, 12542]
+        - completion bit (0 4 7) is set by Fasto      [mob: 12501]
+
+Note that some of the mobs drop trinkets. If these trinkets are given to
+Fasto [mob: 12501] then he will load some replacement equipment for sale.
+
+The rats have a small chance of dropping a skull. If the player takes the
+skull to Meldricko [mob: 12506] and triggers his greet program, then he will
+offer to work on the skull. There is a 25% chance he is able to turn it into
+one of the two enchanted rat skulls [item: 12561, 12562].
+
+The ashen token [object: 12557] loads one of two portals randomly when
+triggered using the trigger {010}jaunt{300}. These portals are single use and
+lead to the rooms directly north, and directly south, of Neyland Square (safe
+room). [room: 12515]
+~
+
+0 'CITY_RUINS_VERSION'~
+{120}                              Acknowledgements
+{300}
+Some of you may recognise certain elements of City of Ruins. I would like
+to thank Crouton for inspiring me with his classic area Pompeii. And of
+course Scandum for creating the OLC (OnLine Creation) code - without which
+this area would never have been created.
+
+{050}  16 May 2003{300} - Version 1.1 released to SoT by Dorothy
+~
+
+0 $~
+
+
+#MOBILES
+#12500
+guesto ogre~
+Guesto the ogre~
+A sallow looking ogre hunches over his counter.~
+Once an ogre with attitude to match his huge size, Guesto is no longer the
+specimen he once was. Bad fortune has a lot to do with it, and a seemingly
+endless stream of bad luck. He still manages a cunning glance at your bag
+of gold and judges your custom accordingly.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+if quest (0,4,$n) == 7
+  bow $n
+  say Welcome back, $n. Stay a while.
+else
+  say What chew need?
+  wink $n
+  nudge $n
+endif
+~
+>give_prog i12540~
+if quest (0,4,$n) == 7
+  mpjunk i12540
+  say Ah, yes... I was expecting you. You know everyone
+  say is talking about the demons that you killed when you
+  say rescued that little girl. Good job, $n.
+  mpoload 12541
+  mpoload 12542
+  mpforce $n list
+  say Take your pick from my "specialist" range.
+  chuckle 
+else
+  say Ummm... what is this for?
+endif
+~
+|
+#12501
+fasto swindler~
+Fasto the swindler~
+A tall figure strikes a pose and smiles at you.~
+You can tell Fasto was an overactive child.  He seems very anxious, as if
+he needs to be doing something. Very little has changed over the years for
+this gangly man... even his fortunes seem to be holding this month.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+say Hello and welcome to Fasto's World of Goods!
+say How may I be of service to you today $n?
+if hasobjnum ($n) == 12528
+or hasobjnum ($n) == 12529
+or hasobjnum ($n) == 12530
+or hasobjnum ($n) == 12531
+  say I see you have some trinkets there. If you give them
+  say to me I am confident I can make something of them.
+  stare 
+endif
+~
+>give_prog trinket~
+if hasobjnum ($i) == 12528
+  mpjunk i12528
+  say I've managed to strengthen it a little... it was quite brittle.
+  mpoload 12532
+endif
+if hasobjnum ($i) == 12529
+  mpjunk i12529
+  say I repaired the cracks... there were quite a few big ones.
+  mpoload 12533
+endif
+if hasobjnum ($i) == 12530
+  mpjunk i12530
+  say I removed the worst of the scorching... it's not looking bad now.
+  mpoload 12534
+endif
+if hasobjnum ($i) == 12531
+  mpjunk i12531
+  say I gave it a bit of a clean... it almost looks new now.
+  mpoload 12535
+endif
+mpforce $n list
+say If you want it back, you'll have to pay.
+stare 
+~
+|
+#12502
+gim dwarf~
+Gim the dwarf~
+Gim the dwarf stands here waiting for you.~
+Gim is a stocky dwarf that still hasn't quite got comfortable living and
+working so close to humans. As with all dwarves, Gim gets a little anxious
+when he notices you don't seem to be buying anything. Better make up your
+mind quickly!
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+say What are you wearing that girly armor for?
+say Buy something from the shop, or clear off!
+~
+|
+#12503
+utho ogre~
+Utho the ogre~
+An overbearing ogre stares blankly at you.~
+An overbuilt ogre stands here dumbly ready to sell you anything you need.
+Since the recent troubles he has had a lot of trouble managing the stock
+levels, the books, and just about everything out of the ordinary. You stop
+short of pity when you watch him pick his nose and smear it on the counter.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+say Nice weapon newbie.
+mpechoat $n $I gives you the secret Fire handshake.
+mpechoaround $n $I gives $N the secret Fire handshake.
+wink $n
+~
+|
+#12504
+zzevelo magician~
+Zzevelo the magician~
+A man in robes and chanting quietly wavers here.~
+An intelligent looking human with a large pair of wire rimmed spectacles
+stands in front of you. He seems to be humming something under his breath
+and his eyes appear half closed. Just when you think he's not paying any
+notice, he looks up and acknowledges your presence.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+bow $n
+say And how may I be of service to you today?
+~
+|
+#12505
+crayola fallen elf~
+Crayola the fallen~
+A fallen elf mopes about in the corner.~
+A seedy looking elf stares back at you. His skin is pale and his hair seems
+to be thinning. He appears unwashed and doesn't appear to care that you have
+walked up to his stall. You catch a smell of some herb and try to imagine
+what would have caused this proud elf to fall so low.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+say If you don't mess with me, I wont mess with you.
+say Now then... what is it you were after?
+~
+|
+#12506
+meldricko mortician~
+Meldricko the mortician~
+A powerfully built elf stands here looking enthusiastic.~
+A small yet powerful looking elf stands here proudly waiting for you to die.
+He is wearing an apron to protect his clothes from the worst of the blood
+that is part of his trade. It seems that people come and go, but morticians
+always have a job.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+emote wipes the blood off of his face and onto his sleeve.
+emote stares at you and smiles.
+if delayed ($i)
+  tell $n I'm busy at the moment.
+  break
+endif
+say Dead again?! C'mon $n, get with the program!
+if hasobjnum ($n) == 12560
+  mpcalculate 1d5 + 5
+  mpdelay self $X 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  say Nice looking skull you have, $X.
+  say I could try my hand at some taxidermy
+  say if you'd like me to give it a go.
+  stare 
+endif
+~
+>give_prog i12560~
+if delayed ($i)
+  tell $X I'm busy with another project at the moment.
+  give i12560 $X
+  drop i12560
+  break
+endif
+mpcalculate 1d5 + 35
+mpecho Meldricko begins work on the skull.
+mpjunk i12560
+mpdelay self $X 2 $n
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  if rand (60)
+    say I'm sorry $X, I was unable to do anything.
+    sigh 
+  else
+    say Here you go, $X...
+    say I'm really quite proud of this one!
+    if rand (50)
+      mpoload 12561
+    else
+      mpoload 12562
+    endif
+    mpquiet on
+    give skull $X
+    mpjunk skull
+    mpquiet off
+  endif
+endif
+~
+|
+#12507
+zorr professor~
+Zorr the professor~
+A thin and whispy old man stares at you down his nose.~
+Having spent all his life travelling the great libraries of the Realm, Zorr
+returned to find his home in ruins. Taking things in his stride he has now
+opened up shop to allow you to practice the skills and magics of all trades
+in safety (and with his expert guidance). You feel confident in his ability.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART
+AFF_SANCTUARY
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+mpechoat $n Zorr the professor looks at you for a moment.
+mpechoaround $n Zorr the professor looks at $n.
+say You look like you could use some more practice.
+~
+|
+#12508
+croutonio ogre~
+Croutonio the ogre~
+A strong and agile ogre waits to train you here.~
+Croutonio has fought many battles and has mastered the art of survival.
+After returning home from travelling he pledged to help rebuild the city
+he grew up in. He is here willing to train you as well as anyone else.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+40 0 0 1d400+746 1d40+10
+50000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+mpforce $n bow croutonio
+say Looking good, $n. OK, I'll train ya!
+~
+|
+#12509
+terro elf~
+Terro the elf~
+A gentle elf looks after his tame pets.~
+While you can tell that he is very dextrous, it surprises you with the ease
+he lifts animals as he goes about his daily business. Elves have a close
+affinity with nature and the animal kingdom, but you rarely see them working
+in pet stores!
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+say Welcome to the Critter Barn! Have a look around and take
+say your time. Don't get too many folks in here nowadays.
+smile $n
+~
+|
+#12510
+bambino chef dwarf~
+Bambino the chef~
+A stocky dwarf is supervising the cooking here.~
+Bambino is a bold stocky dwarf who has found his vocation in cooking. Since
+opening up the Greasy Spoon, he has had a regular stream of hungry punters
+gladly handing over gold. He wipes his greasy hands on his apron and looks
+up at you expectantly.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 1d40+10
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 50~
+shout BBBBBBBBBBBBAAAAAAAAAAAAMMMMMMMMMMMM!!!!
+smile 
+say What's yer poison, $n?
+~
+|
+#12511
+citizen displaced west~
+a displaced citizen~
+A displaced citizen is wandering in dispair here.~
+After suffering a horrific doom in recent times, this citizen is worn out and
+tired of day-to-day existence. He has lived through the destruction of his
+once proud city, and now wanders about in despair.
+~
+ACT_RACE
+0
+0 S
+30 0 0 1d225+410 1d30+6
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 8~
+if rand (50)
+  if rand (50)
+    mpoload 12528
+  else
+    mpoload 12529
+  endif
+else
+  if rand (50)
+    mpoload 12530
+  else
+    mpoload 12531
+~
+>fight_prog 10~
+emote looks about in fear.
+mpquiet on
+cast 'cure light'
+drop all
+mpquiet off
+trip $n
+~
+|
+#12512
+citizen purposeless east ~
+a purposeless citizen~
+A citizen wanders without purpose here.~
+After suffering a horrific doom in recent times, this citizen is worn out and
+tired of day-to-day existence. She has managed to cloth and feed herself and
+what remains of her family, but is reaching the end of her limits. She moves
+about almost without purpose.
+~
+ACT_RACE
+0
+0 S
+29 0 0 1d210+382 1d29+6
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 8~
+if rand (50)
+  if rand (50)
+    mpoload 12528
+  else
+    mpoload 12529
+  endif
+else
+  if rand (50)
+    mpoload 12530
+  else
+    mpoload 12531
+~
+>fight_prog 15~
+emote looks about in fear.
+mpquiet on
+cast 'cure light'
+drop all
+mpquiet off
+trip $n
+~
+|
+#12513
+waif child~
+a waif of a child~
+A waif of a child suffers here.~
+Having lived through the displacement of her family and the loss of those
+close, this poor waif of a child lives only for the moment. No thoughts go
+toward bettering herself, only where the next meal is coming from.
+~
+ACT_RACE
+0
+0 S
+22 0 0 1d121+219 1d22+4
+3000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 8~
+if rand (50)
+  if rand (50)
+    mpoload 12528
+  else
+    mpoload 12529
+  endif
+else
+  if rand (50)
+    mpoload 12530
+  else
+    mpoload 12531
+~
+>fight_prog 10~
+emote looks about in terror.
+shout Help! $n is hurting me!!!
+emote screams in terror.
+mpquiet on
+cast 'cure light'
+cast 'cure serious'
+drop all
+mpquiet off
+~
+|
+#12514
+waif child~
+a waif of a child~
+A waif of a child forages for food here.~
+Having lived through the displacement of his family and the loss of those
+close, this poor waif of a child lives only for the moment. No thoughts go
+toward bettering himself, only where the next meal is coming from.
+~
+ACT_RACE
+0
+0 S
+25 0 0 1d156+283 1d25+5
+3000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 8~
+if rand (50)
+  if rand (50)
+    mpoload 12528
+  else
+    mpoload 12529
+  endif
+else
+  if rand (50)
+    mpoload 12530
+  else
+    mpoload 12531
+~
+>fight_prog 15~
+emote looks about in terror.
+shout Help! $n is bullying me!!!
+emote screams in rage!
+mpquiet on
+cast 'cure light'
+cast 'cure serious'
+drop all
+mpquiet off
+disarm $n
+~
+|
+#12515
+old watchman gate guard ~
+the old gatekeeper~
+The old gatekeeper rests here.~
+Having risen through the ranks of the city guard, this hardened career man
+has been given the dubious responsibility of locking the city gates. He
+looks thoroughly bored of the job, and seems to consider you worth less than
+the effort of acknowledgment.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+27 0 0 10d50+150 4d9+9
+3000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 6~
+open gate
+~
+>time_prog 18~
+lock gate
+~
+>greet_prog 75~
+nod $n
+if delayed ($i)
+  break
+endif
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if inroom ($i) == 12500
+    say Welcome to the Southgate, $T.
+    mpdelay self 1 2 $t
+  endif
+  if inroom ($i) == 12548
+    say Welcome to the Westgate, $T.
+    mpdelay self 1 3 $t
+  endif
+  if inroom ($i) == 12536
+    say Welcome to the Eastgate, $T.
+    mpdelay self 1 4 $t
+  endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (5,1,$t) == 0
+    mpmset $t quest 5 1 1
+    say It's always so nice to see fresh new faces paying
+    say us a visit. There isn't a lot happening here at the
+    say Southgate, but you meet a better sort of adventurer
+    say or so I always say.
+    mpechoaround $t The old gatekeeper glances kindly at $T.
+    chuckle $t
+  else
+    say Good to see you again, have a pleasant day!
+  endif
+  mpdelay self 3 5
+endif
+~
+>delay_prog 3~
+if existsroom ($X)
+  if quest (6,1,$t) == 0
+    mpmset $t quest 6 1 1
+    say I'm afraid that you haven't chosen to visit us at
+    say a particularly good time. There have been a couple
+    say of bad earthquakes this week, and most of the city
+    say is now in ruins. It is rumoured to be caused by the
+    say volcano on Raptor Island just to the west.
+    mpechoaround $t The old gatekeeper looks appraisingly at $T.
+    mpecho The old gatekeeper points west down the road.
+  else
+    say Good to see you again, have a pleasant day!
+  endif
+  mpdelay self 3 5
+endif
+~
+>delay_prog 4~
+if existsroom ($X)
+  if quest (7,1,$t) == 0
+    mpmset $t quest 7 1 1
+    say This isn't the best time to visit us you know.
+    say We had a bad earthquake the other day and now all
+    say these refugees are trying to flood in from all the
+    say villages by the volcano to the east.
+    mpecho The old gatekeeper points east down the road.
+    say Best to move along, $T.
+    smile $t
+  else
+    say Good to see you again, have a pleasant day!
+  endif
+  mpdelay self 3 5
+endif
+~
+>delay_prog 5~
+if rand (50)
+  if rand (50)
+    emote straightens his back and breathes deeply.
+  else
+    emote scuffs his boots on the ground.
+  endif
+else
+  if rand (50)
+    mpechoat $X The old gatekeeper looks over your shoulder into the distance.
+    mpechoaround $X The old gatekeeper looks into the distance.
+  else
+    emote straightens his cloak and looks about impassively.
+  endif
+endif
+~
+|
+#12516
+lava leech~
+a lava leech~
+A leech is stalking you.~
+This black and green looking beast is at home in the molten lava in the
+bowels of the mountains, but seems to be able to survive at more cooler
+temperatures as well. A thick shell and dangerous looking claws tell you
+that it's time to move on.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-200 S
+30 0 0 1d225+410 1d30+6
+8000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+mpechoat $n {010}The lava leech burns you with lava!!!{300}
+mpechoaround $n {010}The lava leech sprays $n with lava!{300}
+mpquiet on
+cast 'harm' $n
+mpquiet off
+trip $n
+~
+>greet_prog 75~
+if delayed ($i)
+  break
+endif
+mpcalculate 1d5 + 1
+mpdelay self $X 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X {100}A lava leech sucks some lava from the ground and {110}glows{100} warmly.
+  mpechoaround $X {100}A lava leech {110}glows{100} warmly.
+endif
+~
+|
+#12517
+small demon~
+a small demon~
+A small demon is contemplating devouring you.~
+Having been summoned from the very depths of beyond, this small devil looks
+angry. He is hovering above the ground, and although his wings remain
+perfectly still, he never falls. You struggle to keep your gaze away from
+his piercing red eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_FLYING
+-100 S
+22 0 0 1d121+219 1d22+4
+9000 0
+POS_RESTING POS_RESTING SEX_MALE
+>greet_prog 50~
+if delayed ($i)
+  break
+endif
+say I have been summoned for this?
+say You can not be serious!!!
+laugh $n
+stand 
+mpcalculate 1d10+1
+mpdelay self $X 1 $n
+~
+>fight_prog 10~
+mpechoat $n {010}The demon sends you flying with a double kick!!!{300}
+mpechoaround $n {010}The small demon kicks $n violently!{300}
+mpquiet on
+cast 'harm' $n
+mpquiet off
+trip $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X {010}The demon pounces on you without thought!
+  mpechoaround $X {010}The demon pounces on $X.
+  mpquiet on
+  mpkill $X
+  mpquiet off
+  trip $X
+endif
+~
+|
+#12518
+medium demon~
+a medium sized demon~
+A medium sized demon is about to consume you.~
+Large, red and angry sums up everything about this evil looking brute. The
+stench that he gives off rivals anything you have smelt in Privy Lane.
+As the demon turns to return your stares you begin to feel uncomfortable
+and have a desire to move on.
+~
+ACT_SENTINEL|ACT_UNDEAD
+AFF_DETECT_INVIS
+-200 S
+29 0 0 1d210+382 1d29+6
+18000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpechoat $n {010}The demon sends you flying with a triple kick!!!
+mpechoaround $n {010}The demon kicks $n violently!
+mpquiet on
+cast 'harm' $n
+mpquiet off
+disarm $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X {010}The demon sends you flying with a triple kick!!!
+  mpechoaround $X {010}The demon kicks $X violently!
+  mpquiet on
+  cast 'harm' $X
+  mpquiet off
+  disarm $X
+endif
+~
+>greet_prog 75~
+if delayed ($i)
+  break
+endif
+mpcalculate 1d5 + 1
+mpdelay self $X 1 $n
+~
+|
+#12519
+large demon~
+a large demon~
+A large demon has been summoned here against his wishes.~
+Having been summoned from the sulphur pits of hell, this is the foulest beast
+you have ever had the misfortune to disturb. He growls at you and his eyes
+turn as black as ink. Is he contemplating cooking you before he consumes
+your soul? Best not stay around to find out!
+~
+ACT_SENTINEL|ACT_UNDEAD
+AFF_DETECT_INVIS
+-500 S
+38 0 0 1d361+669 1d38+9
+27000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpechoat $n {010}The demon sends you flying with a flurry of kicks!!!{300}
+mpechoaround $n {010}The demon kicks $n violently!{300}
+mpquiet on
+cast 'harm' $n
+cast 'harm' $n
+mpquiet off
+trip $n
+~
+>greet_prog 75~
+if delayed ($i)
+  break
+endif
+mpcalculate 1d5 + 1
+mpdelay self $X 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X {010}The demon smites you without blinking!
+  mpechoaround $X {010}The demon smites $X.
+  mpquiet on
+  mpkill $X
+  mpquiet off
+  cripple $X
+endif
+~
+|
+#12520
+earthworm worm~
+an earthworm~
+An earthwoorm rolls about in ignorance here.~
+As large as a dog, this massive earthworm is pitch black. It's skin is
+as tough as any animal hide, and while it can't move fast, you have no
+doubt how much damage something of that weight could do if it wanted.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_TRUESIGHT
+0 S
+30 BODY_TAIL BODY_TAIL 1d225+410 1d30+6
+15000 0
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+>greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (0,4,$n) == 7
+    mpecho The worm wriggles about and tries to escape!
+    mpmadd self level 5
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+|
+#12521
+male onlooker~
+a male onlooker~
+A male onlooker makes sure he has a good view here.~
+Wearing entirely inappropriate clothes for the weather, this onlooker
+seems to be getting some kind of enjoyment from looking at the misfortunes
+of others.
+~
+ACT_SCAVENGER|ACT_BODY
+AFF_SANCTUARY
+200 S
+24 BODY_ARM BODY_ARM 1d144+261 1d24+4
+30000 0
+POS_STANDING POS_STANDING SEX_MALE
+#12522
+female onlooker~
+a female onlooker~
+A female onlooker vies for a better view here.~
+Wearing entirely inappropriate clothes for the weather, this onlooker
+seems to be getting some kind of enjoyment from looking at the misfortunes
+experienced by others. It seems strange to see a woman acting in such a
+vulgar manner.
+~
+ACT_SCAVENGER
+AFF_SANCTUARY
+200 S
+24 0 0 1d144+261 1d24+4
+30000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#12523
+shep dog~
+a dog called Shep~
+A happy dog that answers to Shep runs about here.~
+Many colours have combined and matted together to give this dog a thick
+coat that acts almost like cheap armour. The smell is overpowering, but
+you can't help but smile at his antics. Such a wonderful ray of happiness in
+so much despair and depression about you.
+~
+ACT_BODY
+AFF_HUNT
+0 S
+20 BODY_LEG|BODY_TAIL BODY_MOUTH|BODY_LEG|BODY_TAIL 1d100+182 1d20+4
+30000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpechoat $n {010}Shep bites you with his heavy jaw!!!{300}
+mpechoaround $n {010}Shep the dog bites $n!{300}
+mpquiet on
+cast 'cause light' $n
+cast 'cause light' $n
+mpquiet off
+~
+>greet_prog 75~
+if delayed ($i)
+  mpecho Shep the dog wags his tail.
+  break
+endif
+mpcalculate 1d5 + 10
+mpdelay self $X 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X Shep wags his tail at you and grins madly.
+  mpechoaround $X Shep the dog seems to have found a friend in $X.
+endif
+~
+|
+#12524
+tinker cat~
+a cat called Tinker~
+A cat that sometimes answers to Tinker is here.~
+A grey coloured cat with very little fat and all too much bone showing through
+her dull coat. You watch as she deftly preens herself before setting off on
+another mousing expedition. You wish her good luck as you think of your own
+stomach rumbling.
+~
+ACT_BODY
+AFF_TRUESIGHT
+0 S
+15 BODY_CLAW BODY_CLAW 1d56+105 1d15+3
+30000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $X Tinker the cat rubs herself around your legs and you hear her purring.
+  mpechoaround $X Tinker the cat entwines herself in $X's legs.
+endif
+~
+>fight_prog 10~
+mpechoat $n {010}Tinker scratches you with her razor sharp claws!!!{300}
+mpechoaround $n {010}Tinker the cat scratches $n!{300}
+mpquiet on
+cast 'cause light' $n
+cast 'cause light' $n
+mpquiet off
+~
+>greet_prog 75~
+if delayed ($i)
+  break
+endif
+mpcalculate 1d5 + 5
+mpdelay self $X 1 $n
+~
+|
+#12525
+sea trout~
+a sea trout~
+A sea trout makes strange faces at you.~
+A rare breed of salt water trout has been bred in captivity to provide a
+reliable (if somewhat wet) pet that will love you as much as you love it.
+~
+ACT_BODY
+0
+0 S
+25 BODY_WING|BODY_CLAW|BODY_BEAK BODY_WING|BODY_CLAW|BODY_BEAK 1d156+520 1d25+5
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#12526
+baby dragon gold~
+a baby dragon~
+A baby dragon flaps her tiny wings wings here.~
+Whether a freak of nature or just chance, this baby dragon seems to be
+quite at home away from it's own kind. It even allows others to climb on
+it's back from time to time. You wonder at the patience needed to master
+such a beast.
+~
+ACT_RACE
+AFF_FLYING
+0 S
+35 0 0 1d306+570 2d30+10
+10000 RACE_DRAGON
+POS_STANDING POS_STANDING SEX_FEMALE
+#12527
+slimy rat~
+a slimy rat~
+A slimy rat with beady eyes scitters about here.~
+Dark brown and black fur has been matted together with grease, and mud from
+the open sewers to provide excellent camouflage for night scavenging raids.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_WIMPY|ACT_BODY
+AFF_STEALTH|AFF_HUNT
+-500 S
+20 BODY_TAIL|BODY_CLAW BODY_MOUTH|BODY_EYE|BODY_CLAW 1d110+192 1d20+4
+5000 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>time_prog 5~
+if pcsinarea () > 0
+  emote squeals at you and tears off.
+  mpgoto 12587
+  rest 
+endif
+~
+>time_prog 20~
+if pcsinarea () > 0
+  stand 
+endif
+~
+>greet_prog 100~
+if time () >= 5
+  if time () < 20
+    emote squeals at you and tears off.
+    mpgoto 12587
+    rest 
+  endif
+~
+>death_prog 33~
+mpechoat $n The rat stares at you with it's beady eyes and you feel weak.
+mpquiet on
+cast 'weaken' $n
+cast 'weaken' $n
+cast 'weaken' $n
+if rand (50)
+  if rand (50)
+    mpoload 12528
+  else
+    mpoload 12529
+  endif
+else
+  if rand (50)
+    mpoload 12530
+  else
+    mpoload 12531
+  endif
+endif
+if rand (20)
+  mpoload 12560
+endif
+mpquiet off
+~
+|
+#12528
+refugee man wretch~
+a refugee~
+A refugee stumbles along the road here.~
+This refugee has walked a very long way with the hope of happiness just a
+dream away. He has left his home, and is wandering the realm looking for
+new life and an escape from the constant nightmares that plague him by night.
+~
+ACT_RACE
+0
+-500 S
+30 0 0 1d225+410 1d30+6
+5000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpcalculate 1d10 + 10
+mpdelay self $X 1
+~
+>delay_prog 1~
+if hitprcnt ($i) > 75
+  mpcalculate 1d10 + 40
+  mpmadd self currhp -$X
+endif
+emote coughs up some lung. Yuck!!!
+~
+|
+#12529
+demise_eth M12529~
+a speech assisting ethereal~
+A speech assisting ethereal spirit monitors this place.~
+This mob sits in room 12594 and responds to the speech prog {010}demise{300}.
+Checking the room description will reveal an obviously stated question, and
+this event is encouraging players to be attentive to detail... I hope.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d2256+4906 1d95+47
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog chaos~
+if delayed ($i)
+  break
+endif
+mpechoat $n Lord Chaos smiles down upon you.
+mpechoaround $n Lord Chaos smiles down upon $N.
+mpquiet on
+cast 'bless' $n
+mpquiet off
+mpdelay self 600 1
+~
+|
+#12550
+shade ghost souldeo enraged~
+the shade of Souldeo~
+The enraged soul of Souldeo writhes here.~
+The shade of Souldeo, the sheriff who tried in vain to save his once proud
+city, stands here writhing in agony. He is not yet ready to depart this plane,
+and has remained to torture those that let him die unaided.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_TRUESIGHT|AFF_STEALTH
+0 S
+46 0 BODY_EYE 1d550+1200 7d7+15
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+>greet_prog 75~
+say I am here to harvest your soul, $n.
+say Time for you meet your maker.
+mpkill $n
+~
+|
+#12551
+frustrated mother woman M12551~
+a frustrated mother~
+A frustrated mother is anxiously pacing here.~
+Her face is as white as a ghost, and her eyes are puffed up from constant
+crying and rubbing. Her small nose is bright red and you can't help but
+want to offer her some kind of assistance. Maybe if you agree to help
+her you can solve her problems for her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT
+0 S
+35 0 0 1d280+550 1d35+8
+18000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 7
+  hug $n
+  say Have something to eat, $n.
+  cast 'feast'
+  break
+endif
+if delayed ($i)
+  smile $n
+  tell $n I'm busy right now, come back later please.
+  break
+endif
+if quest (0,4,$n) < 2
+  if quest (0,4,$n) == 1
+    say Oh, you spoke to my husband did you?
+    say What did he have to say? Never mind...
+  endif
+  say Our daughter has been kidnapped from us!
+  say Last night... something came and took my baby!
+  cry $n
+  say Will you help? You're our only hope $n!
+  mpdelay self 2 2
+  break
+endif
+if quest (0,4,$n) == 3
+  tell $n Did you ask my husband about his worst fear?
+  break
+endif
+if quest (0,4,$n) == 4
+  tell $n Did you ask my husband about the Demons?
+  tell $n What did he say?
+  mpechoat $n $I looks at you.
+  mpechoaround $n $I looks at $N.
+  break
+endif
+if quest (0,4,$n) == 5
+  say Have you found her? Have you found my baby yet?
+  cry $n
+  mpdelay self 1 2
+  break
+endif
+if quest (0,4,$n) == 6
+  gasp $n
+  say You found her! You saw my baby!!!
+  break
+endif
+~
+>speech_prog yep yeah yes nod nods ok sure~
+if quest (0,4,$n) < 2
+  hug $n
+  say You are a light in these dark days $n.
+  say Find my husband and ask him how you can help.
+  mpmset $n quest 0 4 2
+else
+  mpechoat $n $I looks at you.
+  mpechoaround $n $I looks at $N.
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$t) == 6
+    mpmset $t quest 0 4 7
+    mpoload 12540
+    say Give this note to Guesto and he will reward you.
+    say I have to go find my husband now!
+    hug $t
+    give i12540 $t
+    drop i12540
+    mppurge self
+  endif
+endif
+~
+>delay_prog 2~
+if rand (50)
+  emote tries unsuccessfully to regain her composure.
+else
+  mpecho The frustrated mother paces anxiously then returns to sobbing.
+endif
+~
+|
+#12552
+searching father man M12552~
+a searching father~
+A father is searching anxiously here.~
+He is beside himself with grief and anxiety. What little hair he had is
+in the process of falling about him as he tears his hair out in frustration.
+His voice is getting hoarse and you get the feeling that he's about to
+collapse any time soon. Maybe you could offer him some help.
+~
+ACT_SMART|ACT_RACE
+AFF_TRUESIGHT
+0 S
+40 0 0 1d300+905 2d20+12
+18000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 0
+  say Have you got news from my wife yet?
+  say What did she say about our daughter?
+  mpmset $n quest 0 4 1
+endif
+if quest (0,4,$n) == 2
+  mpechoat $n The searching father looks at you quizzically for a moment.
+endif
+mpdelay self 2 1 $n
+~
+>speech_prog help~
+if quest (0,4,$n) == 2
+  hug $n
+  say You are indeed a champion, $n.
+  say I've searched all the streets and spoken to most
+  say of the people left, but we fear the worst!
+  mpmset $n quest 0 4 3
+endif
+~
+>speech_prog fear worst~
+if quest (0,4,$n) == 3
+  say Demons have been seen around the city ever since the
+  say city was destroyed by the earthquake. Many people say
+  say that the demons forced their way out of the very roots
+  say of the mountains and need human flesh to feed on!
+  mpechoat $n The man looks about nervously.
+  say I don't believe them, of course... but what if they
+  say did steal our daughter? The Demons stole my baby!
+  cry $n
+  mpmset $n quest 0 4 4
+endif
+~
+>speech_prog demon demons~
+if quest (0,4,$n) == 4
+  say They live beneath the city. You can hear them if you
+  say listen hard enough on a calm night. There are shades
+  say and all sorts rumoured to be down there with them!
+  shake $n
+  say Thank you for your offer of help, $n.
+  say I just hope you have the courage to find her soon.
+  sigh 
+  mpmset $n quest 0 4 5
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$t) == 5
+    say Any luck seeking the way to the demons, $t?
+  endif
+  if quest (0,4,$t) == 6
+    say I know my wife will be worrying so!
+    say Please take my daughter home, $t.
+    break
+  endif
+  say Has anyone seen my daughter? Please? Anyone!
+  sigh 
+endif
+~
+|
+#12553
+lost little girl M12553~
+a lost little girl~
+A little girl has lost her way and needs some help.~
+This grubby little girl is lost and reliant entirely upon you to lead
+her back home. You have no idea how she got so dirty, but there appear to
+be no broken bones.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+20 0 0 1d100+182 1d20+4
+15000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say Will you help me find mommy?!!!
+  endif
+  if quest (0,4,$i) == 1
+    say I'm lost and I want my mommy *sniff*
+    cry $t
+  endif
+  if quest (0,4,$i) == 2
+    if inroom ($i) == 12567
+      if validexit (up)
+      else
+        gasp $t
+        mpechoat $t You look up and notice what looks to be an old well shaft.
+        connect up 12584 both
+      endif
+    endif
+  endif
+  if quest (0,4,$i) == 3
+    follow $t
+  endif
+  if quest (0,4,$i) == 4
+    mpdelay self 60 1 $t
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+else
+  mppurge self
+endif
+~
+>greet_prog 100~
+if inroom ($i) == 12567
+  if rand (20)
+    if hasobjnum ($n) == 12539
+      if hasobjnum ($n) == 12527
+        mpechoat $n The tunnel seems unstable and dirt starts falling from above.
+        mpechoaround $n $N suddenly disappears as lava rushes at $m.
+        mptransfer $n 12558
+        mpat $n mpechoat $n You suddenly find yourself sucked into the lava!
+        mpat $n mpechoaround $n $n Falls from the ceiling and looks stunned.
+        break
+      endif
+    endif
+  endif
+  if delayed ($i)
+    break
+  endif
+  if quest (0,4,$n) == 5
+  or quest (0,4,$n) == 6
+    mpmset $n quest 0 4 6
+    mpdelay self 1 1 $n
+    mpmset self quest 0 4 0
+  endif
+endif
+~
+>entry_prog 100~
+if inroom ($i) == 12542
+  if existsroom (M12551)
+    mpecho The little girl runs to her mother and starts crying again.
+    mpforce M12551 say Thank you so much for your help!
+    mpforce M12551 say You know you are always welcome in our home
+    follow self
+    mpforce M12551 mpdelay self 2 1 $X
+    mpecho The frustrated mother puts her daughter to bed.
+    mppurge self
+  endif
+endif
+~
+>repop_prog 100~
+if inroom ($i) == 12567
+  if validexit (up)
+    connect up -1
+  endif
+endif
+~
+|
+#12554
+tired city guard~
+a tired city guard~
+A city guard looks tired and worn out on patrol.~
+This guardian of the city has spent far too many days on patrol without a
+break. His mettle has been tested to the limits, and his resolve is near
+breaking point (best not to upset him). He has lived through the turmoil of
+recent times and appears detached from those about him.
+~
+ACT_SMART|ACT_RACE
+0
+0 S
+40 0 0 1d400+746 5d10+3
+20000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 30~
+mpechoat $n $I looks you up and down for a moment.
+mpechoaround $n $I looks $n up and down for a moment.
+if delayed ($i)
+  yawn 
+  break
+endif
+nod $n
+mpdelay self 1 1 $n
+~
+>speech_prog demon demons~
+if delayed ($i)
+  blink 
+  break
+endif
+mpechoat $n A tired city guard looks at you fearfully before regaining his composure.
+say Some folks have been talking, I know what you mean.
+~
+>delay_prog 1~
+if rand (50)
+  if rand (50)
+    emote straightens his back and breathes deeply.
+  else
+    emote scuffs his boots on the ground.
+  endif
+else
+  if rand (50)
+    mpechoat $x A tired city guard looks over your shoulder into the distance.
+    mpechoaround $x A tired city guard looks into the distance.
+  else
+    emote straightens his cloak and looks about impassively.
+  endif
+endif
+~
+>speech_prog folk folks talking know mean~
+if delayed ($i)
+  blink 
+  break
+endif
+say I shouldn't be passing on idle gossip like this, but
+say some folk are saying that there are demons under
+say the city. And that they are angry with us for waking
+say them. I don't listen to gossip, of course!
+stare 
+~
+|
+#12555
+slobodan dealer shifty~
+Slobodan the dealer~
+A shifty looking dealer stands around looking nervous.~
+A shifty looking individual with slicked back hair and a greasy smile is
+looking about nervously at people as they pass by. Constantly on the lookout
+for the city guards, Slobodan is ready to run in the opposite direction at
+the mere mention of jail time.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_STEALTH
+-1000 S
+40 0 0 1d10+905 2d9+40
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 20~
+mpgoto 12508
+~
+>time_prog 22~
+mpgoto 12587
+mppurge self
+~
+>greet_prog 25~
+if delayed ($i)
+  break
+endif
+mpdelay self 10 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  tell $t Someone said that the shade of Souldeo seeks
+  tell $t revenge on us all in the bowels of the city!
+endif
+~
+|
+#0
+
+
+#SHOPS
+12500 ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING  200  50  0 23
+12501 ITEM_TYPE_LIGHT ITEM_TYPE_DRINK_CON ITEM_TYPE_TREASURE ITEM_TYPE_AMMO ITEM_TYPE_NOTHING  100  50  0 23
+12502 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12503 ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR ITEM_TYPE_AMMO ITEM_TYPE_FOOD ITEM_TYPE_NOTHING  100  50  0 23
+12504 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_TREASURE ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12505 ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12506 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12509 ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12510 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+12555 ITEM_TYPE_TREASURE ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR ITEM_TYPE_STAFF ITEM_TYPE_PILL  100  50 20 22
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#12500
+silver key~
+a silver key~
+You see a sparkling silver key.~
+This key looks very ornate, but upon close inspection you realise that a
+cheap magical trick has made this steel key look more impressive that it
+really is. You wonder what great gate this key might unlock.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+7 0 0 0 0 0 0 0
+1 10 20
+#12501
+ashen sword~
+an ashen sword~
+An ashen coloured sword is resting on the floor here.~
+The blade is made from folded steel to provide added strength. The balance
+appears fine, and you can feel by it's weight that this is indeed a very
+fine weapon. The colour really sets off your eyes.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 4 10 WEAPON_SLASH 0 0 0 0
+4 23000 45
+#12502
+ashen combat helm~
+an ashen helm~
+You see a combat helm in ashen grey enamel.~
+This battle helm has been decorated an ashen grey using enamels. The end
+result is a stunning example of contemporary workmanship. Something to be
+taking very good care of you imagine.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+3 2000 30
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+A APPLY_DAMROLL 1 0
+#12503
+ashen grey boots~
+a pair of ashen grey boots~
+You see a pair of ash covered boots.~
+These well constructed boots are designed for field combat and appear
+perfectly suited for town and country marching. The sole has been nailed
+onto the rest of the boot using horse-shoe nails for extra wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+3 2000 30
+A APPLY_HITROLL 1 0
+A APPLY_DEX 2 0
+#12504
+ashen grey gauntlets~
+a pair of ashen grey gauntlets~
+You see a pair of grey coloured gauntlets.~
+These heavy gauntlets have had a trim of enamel added on the outside, and
+some supple leather on the inside to protect the knuckles when in battle.
+You marvel at the attention to detail and prize this find.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+9 0 0 0 0 0 0 0
+3 2000 30
+A APPLY_HIT 20 0
+#12505
+grey ashen chest plate~
+a grey chest plate~
+You see an ashen grey chest plate resting on the ground.~
+This broad chest plate has been finished in an ashen grey enamel to act
+as both camouflage and for court wear. The buckles are all new and it
+is obvious that it has had little use at all!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+3 2000 30
+A APPLY_WIS 1 0
+A APPLY_CON 2 0
+#12506
+ashen grey sleeves~
+a pair of ashen sleeves~
+You see a pair of grey coloured sleeves resting here.~
+Offering protection to both upper and lower arms, coloured leather has been
+stretched over steel to create a clever texture that looks unlike anything
+else you have seen before.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+11 0 0 0 0 0 0 0
+3 2000 30
+#12507
+ashen grey shield~
+an ashen grey shield~
+An ashen grey sparring shield is waiting here.~
+This lightweight sparring shield is not as heavy as the usual shields for
+massive campaigns. Rather, this is for court use and settling disagreements
+one-on-one after dinner. The metal has been enamelled over and a simple
+cross is blazed in the centre in bright red.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+3 2000 30
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#12508
+recall scroll~
+a scroll of recall~
+You see a scroll of recall.~
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 15 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#12509
+scroll strength knowledge~
+a scroll of strength and knowledge~
+A scroll of strength and knowledge is folded here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+13 119 253 0 0 0 0 0
+1 7600 15
+S 1 'giant strength'
+S 2 'understand'
+S 3 '-1 slot'
+#12510
+scroll identify~
+a scroll of identify~
+You see a scroll of identify.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+7 143 0 0 0 0 0 0
+1 2800 10
+S 1 'identify'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#12511
+scroll sanctuary shielding~
+a scroll of sanctuary and shielding~
+A scroll of sanctuary and shielding has been folded here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 210 215 0 0 0 0 0
+1 15000 20
+S 1 'sanctuary'
+S 2 'shield'
+S 3 '-1 slot'
+#12512
+scroll passage~
+a scroll of passage~
+A scroll of passage has been folded here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 178 0 0 0 0 0 0
+1 4000 15
+S 1 'pass door'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#12513
+strength knowledge~
+a potion of strength and knowledge~
+A potion of strength and knowledge is resting here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 119 253 0 0 0 0 0
+1 6700 15
+S 1 'giant strength'
+S 2 'understand'
+S 3 '-1 slot'
+#12514
+potion defense~
+a potion of defense~
+A potion of defense is resting here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 215 9 0 0 0 0 0
+1 5800 15
+S 1 'shield'
+S 2 'armor'
+S 3 '-1 slot'
+#12515
+potion passage vision~
+a potion of passage and vision~
+A potion of passage and vision rests here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+29 178 64 0 0 0 0 0
+1 7500 20
+S 1 'pass door'
+S 2 'detect hidden'
+S 3 '-1 slot'
+#12516
+clear potion~
+a clear potion~
+A potion of what appears to be water rests here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 0 0 0 0 0 0 0
+1 500 15
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#12517
+ashen grey ring band~
+an ashen grey ring~
+You see a band of ashen grey metal here.~
+This large ring is remarkably light considering how much metal it contains.
+You suddenly realise that it must be magically enchanted, and as you turn
+it over in your hand you feel the tell-tale tingles of residual magic. Quite
+some prize you imagine.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+7 0 0 0 0 0 0 0
+1 50000 20
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 1 0
+#12518
+bowl pasta~
+a bowl of pasta~
+You see fettucine alfredo.~
+~
+ITEM_TYPE_FOOD
+0
+0
+40 0 0 0 0 0 0 0
+1 10 1
+#12519
+garlic bread~
+a loaf of garlic bread~
+You see garlic bread.~
+~
+ITEM_TYPE_FOOD
+0
+0
+20 0 0 0 0 0 0 0
+1 10 1
+#12520
+red wine carafe~
+a carafe of red wine~
+You see a bottle of red wine.~
+~
+ITEM_TYPE_DRINK_CON
+0
+0
+20 20 LIQ_WINE 0 0 0 0 0
+1 10 1
+#12521
+bottle blood~
+a bottle of blood~
+You see a bottle filled with blood.~
+~
+ITEM_TYPE_DRINK_CON
+0
+0
+20 20 LIQ_BLOOD 0 0 0 0 0
+1 200 1
+#12522
+marble torch~
+a marble torch~
+A marble torch has been dropped on the ground here.~
+This torch has a large bulb of white marble at one end that illuminates
+on demand. Ii is immune to being blown out by gusts of wind, and guaranteed
+not to burn anything if it's dropped. You can't think why anyone would
+continue to use regular flame torches!
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 15000 10
+A APPLY_DAMROLL 2 0
+A APPLY_CON 2 0
+#12523
+fountain~
+a fountain~
+An ivory fountain glistens here.~
+This ivory fountain is cracked and weakened by the stresses that have torn
+this city apart. The stories it could tell reach out to you and plea to be
+heard. You watch as a single drop of water slowly dribbles to your feet.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+#12524
+lava lamp~
+a lava lamp~
+The fires of the earth battle inside a jar on the ground.~
+Lava has been magically sealed into a simple jar to provide a soothing light
+and many hours of relaxing entertainment in the absence of a fireplace.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 100000 20
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_STR 1 0
+#12525
+silver flask~
+a silver flask~
+A silver flask rests sedately on the ground here.~
+This small hip flask is made from solid silver and bears no distinguishing
+marks on it. The cap screws off, but through a clever mechanism is never lost.
+You imagine it would be simple to conceal this should you need to sneak it into
+somewhere for whatever reason.
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+18 18 LIQ_ICEWINE 0 0 0 0 0
+5 14500 25
+#12526
+simple bench~
+a simple bench~
+A simple bench rests here.~
+Built using quality tools, this simple wooden bench does not require any
+nails to wedge together solidly. The back is just the right height and
+judging by the length of the bench a whole party of adventurers could rest
+here comfortably for a while.
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_HUM
+0
+4 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 250 0 0 0 0
+1 10 1
+#12527
+burning key~
+a burning key~
+A key glowing with heat glows here.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10000 20
+P 1
+TRIG_TICK 20
+OPROG_OBJECT_QUEST_IF 0 4 < 10 2 3
+P 2
+TRIG_VOID
+OPROG_QUEST_ADD 0 4 1
+P 2
+TRIG_VOID
+OPROG_ECHO
+The key flares warmly in your hands.
+~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The key flares suddenly and you watch as it turns completely to ash.
+~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#12528
+brittle trinket~
+a brittle trinket~
+A brittle trinket has been dropped here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 20000 15
+#12529
+cracked trinket~
+a cracked trinket~
+A cracked trinket has been dropped here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 20000 15
+#12530
+scorched trinket~
+a scorched trinket~
+A scorched trinket has been dropped here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 20000 15
+#12531
+dirty trinket~
+a dirty trinket~
+A dirty trinket has been dropped here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 20000 15
+#12532
+boots mica~
+a pair of mica boots~
+A pair of mica boots stand patiently here.~
+The shiny mica stones have been baked in the bowels of the earth. They are
+so dark and shiny that you suspect they are magically altering the way light
+is reflected. They have a nice sheepskin protective lining too!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+7 0 0 0 0 0 0 0
+1 15000 19
+A APPLY_INT 2 0
+A APPLY_DEX 2 0
+#12533
+gauntlets mica~
+a pair of mica gauntlets~
+A pair of mica gauntlets have dropped to the ground.~
+These gauntlets are covered with small tiles of mica. Contrasting different
+shades of black, the craftsmen that made these has created a subtle pattern.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS|ITEM_WEAR_ARMS
+7 0 0 0 0 0 0 0
+1 20000 18
+A APPLY_INT 2 0
+A APPLY_DEX 2 0
+#12534
+belt mica~
+a mica belt~
+A mica belt has been cast aside here.~
+Links of mica tiles have been joined together over a combat belt to offer
+added protection from stomach blows. You marvel at how well the belt sits
+together as if it were natural to combine metal with stone.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+7 0 0 0 0 0 0 0
+1 25000 18
+A APPLY_INT 2 0
+A APPLY_STR 2 0
+#12535
+sleeves mica~
+a pair of mica sleeves~
+A pair of mica sleeves have been left here.~
+Mica has been fused to the surface of some strong sleeves to prevent any
+broken bones to the upper arms during combat. You can't see any seams for
+weapons to catch in, making it a very practical means of preventing damage.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+7 0 0 0 0 0 0 0
+1 30000 19
+A APPLY_INT 2 0
+A APPLY_STR 2 0
+#12536
+ashen dagger~
+an ashen dagger~
+An ashen coloured dagger has been lost here.~
+This is a long, thin dagger that has been cut from a single piece of stone
+and polished to a razor point. The grain of the stone gives it an ashen
+grey colour from the tip to the hilt.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 9 WEAPON_STAB 0 0 0 0
+2 20000 40
+#12537
+ashen bull-whip whip~
+an ashen bull-whip~
+An ashen coloured bull-whip os coiled neatly here.~
+A truncheon of granite has had a fine whip of leather and linen attached to
+it as a base. The weight is perfect and leaves your fist free for extra
+attacks. The ashen grey colour of the handle is very subtle.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 5 7 WEAPON_WHIP 0 0 0 0
+1 18000 40
+#12538
+puzzle box~
+a puzzle box~
+A puzzle box has been left here in frustration.~
+This simple children's toy has baffled many a scholar in both it's simplicity
+and in it's complexity. You could study the grooves for some kind of pattern.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+434 CONT_CLOSEABLE 0 150 0 0 0 0
+1 30000 30
+E
+pattern study~
+You notice they form lines across the box.
+~
+E
+lines~
+The lines seem to converge at several points.
+~
+E
+points~
+You see several places where you can press at the same time.
+~
+E
+places~
+You have solved the puzzle box... observation is the key.
+~
+A APPLY_STR 1 0
+#12539
+frozen key~
+a frozen key~
+A key shivering with cold has been left here.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10000 20
+P 1
+TRIG_TICK 20
+OPROG_OBJECT_QUEST_IF 0 4 < 10 2 3
+P 2
+TRIG_VOID
+OPROG_QUEST_ADD 0 4 1
+P 2
+TRIG_VOID
+OPROG_ECHO
+The key melts a little in your hands.
+~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The key finally melts away completely and you are left with a wet hand.
+~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#12540
+handwritten note~
+a handwritten note~
+A hand written note has been dropped here.~
+You can't actually read the scrawl that has been left on the paper, but
+you assume it has meaning to someone.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 20
+#12541
+sash blazing yellow~
+a blazing yellow sash~
+A sash made of blazing yellow has been hung here.~
+This sash is constructed of only the finest of materials to afford maximum
+protection where you need it most. The bright yellow signifies the virility
+and power that you possess to combat your enemies.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+3 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 3 0
+#12542
+blazing red leg guards~
+a pair of blazing red leg guards~
+A pair of red leg guards have been stacked casually here.~
+These spectacular leg guards cover all the major muscle groups and have extra
+padding around the areas where muscle connects to bone. One side uses supple
+leather to prevent chaffing, while the other side is enamelled steel.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+1 100000 40
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 3 0
+#12543
+cot mattress~
+a cot and mattress~
+A simple cot and mattress stand against a wall here.~
+This wooden cot has been reinforced to withstand even the heaviest of abuse.
+While the mattress looks a little lumpy, the stuffing looks fresh and has
+relatively few bugs living in it. You could sleep here, or just take some
+time to rest your weary bones.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_IN|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 250 0 0 0 0
+1 10 1
+#12544
+bench benches row~
+a row of benches~
+A row of benches sits patiently here.~
+These benches are well worn through constant over-use. The legs are sturdy
+and can hold the heaviest of loads. The crafty use of joinery means that no
+pins or nails are exposed that may work loose.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+3 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#12545
+large carpet~
+a large carpet~
+A large carpet covers the ground here.~
+This carpet has a simple weave to it. The motif on the front is a panel
+display of woven flowers. Obviously looted from one of the lavish houses
+that used to stand close by.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+2 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#12546
+small stove~
+a small stove~
+A small stove provides warmth and light in the corner here.~
+There is a small platform with which a pot can be placed to boil water. A trap
+on the front allows coal and wood to be pushed into the firebox. At the base
+is an air flow grill and a tray to collect ash and embers. Very compact.
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+1 0 FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#12547
+small carpet~
+a small carpet~
+A small carpet has been laid out here.~
+The carpet is long and narrow and probably more suited for a hallway than
+a main room. It is an ashen grey colour - whether to camouflage the dirt
+or as the result of it... you will never know for certain.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#12548
+sign small~
+a small sign~
+A small sign hangs here discreetly.~
+Please don't ask for credit, as a smack in the face often offends.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#12549
+small sign~
+a small sign~
+A small sign hangs discretely here.~
+When banks sell diamonds, we will bank cheques.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#12550
+reeds mat~
+a mat of reeds~
+A mat of reeds has been thrown on the floor here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#12551
+culvert drainage sewerage drain~
+a culvert~
+A drainage culvert follows the road.~
+You see very little since the sewerage and waste water is housed completely
+inside the culvert.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#12552
+broken culvert~
+a broken culvert~
+A broken culvert spews sewerage everywhere.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#12553
+wooden box~
+a wooden box~
+A wooden box lies crumpled in the corner.~
+Initially used for transporting goods, this is now the home for some of the
+locals who have nowhere else to go after hours.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_IN 150 0 0 0 0
+1 10 1
+#12554
+tall bookshelf~
+a tall bookshelf~
+A tall bookshelf stands here full of books.~
+The shelves are as close together as possible and books have been crammed in
+closely. Manuals and drawings are all carefully bound and share shelf space
+with maps and ancient spell books.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#12555
+lined coffin~
+a lined coffin~
+A fully lined coffin is presented here for your approval.~
+The coffin is lined with ashen grey silk and finished with steel handles.
+There is plenty of room inside this particular coffin, although you can't
+see the point in having lots of room when you are in need of a coffin.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_IN 100 0 0 0 0
+1 10 1
+#12556
+portal ashen~
+an ashen portal~
+An ashen portal hangs in the air here.~
+The air appears to shimmer about the whole of the portal base. The reflection
+you see in the air is that of ashen grey.
+~
+ITEM_TYPE_PORTAL
+ITEM_FLAG_GLOW
+0
+1 0 GATE_STEP_THROUGH|GATE_RANDOM_AREA 12506 0 0 0 0
+1 10 1
+#12557
+ashen token~
+an ashen token~
+An ashen token has been dropped carelessly here.~
+This small disc of heavy stone has the word {010}jaunt{300} etched on it.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100000 1
+P 1
+TRIG_UNKNOWN 100 jaunt
+OPROG_GOD_COMMAND
+mpecho {108}$I causes an ashen portal to appear like magic!
+mpoload 12556 room
+~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#12559
+gaming box game~
+a gaming box~
+A gaming box rests on the ground here.~
+This wooden box has been carefully finished to protect the gaming tokens
+and playing stones within.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+419 CONT_CLOSEABLE 0 150 0 0 0 0
+1 125000 40
+A APPLY_INT 3 0
+#12560
+rat skull~
+a rat skull~
+The skull of a rat is decaying here.~
+The grey skull of a rat stares back at you as if it were bored. The eyes
+are drying out already, and the torn flesh is starting to turn brown.
+This could make a nice trophy, if only you knew someone who could stuff it.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000 20
+A APPLY_WIS -1 0
+#12561
+rat skull trophy~
+a rat skull~
+The skull of a rat is preserved here.~
+The grey skull of a rat stares back at you as if it were bored. The skull
+has been carefully cleaned and preserved to provide maximum appreciation
+for years to come. This is quite some trophy that you have collected!
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+179 CONT_CLOSEABLE 0 150 0 0 0 0
+1 1000000 30
+A APPLY_DAMROLL 4 0
+A APPLY_DEX 2 0
+#12562
+rat skull trophy~
+a rat skull~
+The skull of a rat is preserved here.~
+The grey skull of a rat stares back at you as if it were bored. The skull
+has been carefully cleaned and preserved to provide maximum appreciation
+for years to come. This is quite some trophy that you have collected!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+1 1000000 30
+A APPLY_INT 2 0
+A APPLY_DEX 2 0
+A APPLY_STR 2 0
+#0
+
+
+#ROOMS
+#12500
+Southgate~
+The gate before you is well constructed from steel reinforced wood. It has
+a large lock to one side, and effectively prevents any access to the city
+once secured. To the south the road meanders away, troubled only by the
+occasional refugee or gypsy who stops off to camp for a while.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+Southgate Road leading to Neyland Square~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12501
+DDIR_SOUTH
+A road wanders south~
+~
+0 -1 12594
+E
+sign~
+Another creation brought to you in Zorro/Crouton-vision (c).
+                             April '95.
+~
+#12501
+Southgate Road~
+The gate directly to the south is braced from the inside as if the gate lock
+is not enough to prevent unwanted access. The guardhouse to the west and east
+provide shelter and a place to question travellers as they attempt to pass
+through. To the north Southgate Road continues toward the main town centre.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Southgate Road leading to Neyland Square~
+~
+0 -1 12529
+DDIR_EAST
+Guard House~
+~
+0 -1 12503
+DDIR_SOUTH
+A road leading to the Southgate~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12500
+DDIR_WEST
+Guard House~
+~
+0 -1 12502
+#12502
+Guard House~
+The guardhouse has been patched up with tiles and recovered stonework. The
+final result is a dry room with several chairs and a table. There are some
+rafters supporting the roof above you, and a large hole where a window would
+normally live to the side. The floor is made of hard packed dirt and has
+been covered with reeds to keep the dust down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The road to town ~
+~
+0 -1 12501
+#12503
+Guard House~
+The guardhouse has been patched up with tiles and recovered stonework. The
+final result is a dry room with several chairs and a table. There are some
+rafters supporting the roof above you, and a large hole where a window would
+normally live to the side. The floor is made of hard packed dirt and has
+been covered with reeds to keep the dust down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The road to town~
+~
+0 -1 12501
+#12504
+Southgate Road~
+The road to Southgate runs from here directly south toward the city gates.
+To the north you can almost make out the city centre surrounded by refugees
+and tourists. The road to the north is muddy due to the large amount of foot
+traffic around Main Street. You can see an expanse of rubble to the west and
+east where once proud houses stood tall.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Southgate Road leading to Neyland Square~
+~
+0 -1 12505
+DDIR_SOUTH
+A road leading to the Southgate~
+~
+0 -1 12529
+#12505
+Main Street~
+The street here is busy with people jostling back and forth as they seek out
+bargains to help them rebuild their shattered lives. To the west and east is
+Privy Lane, but the market stalls almost obscure the street from view. You
+can easily make out the city centre to the north, and to the south you can
+see a road leading to the gates of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Main Street leading to Neyland Square~
+~
+0 -1 12506
+DDIR_EAST
+A merchant stall~
+~
+0 -1 12511
+DDIR_SOUTH
+A road leading to the Southgate~
+~
+0 -1 12504
+DDIR_WEST
+A merchant stall~
+~
+0 -1 12513
+#12506
+Main Street~
+To the north you can see the centre of the city, Neylan Square. Looking to the
+south you see Main Street and then Southgate Road leading to the south gates
+of the city. Alley entrances to the west and east provide alternative routes
+around the city centre. You notice a lot of activity directly to the south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Neyland Square~
+~
+0 -1 12515
+DDIR_EAST
+A Small Alley~
+~
+0 -1 12507
+DDIR_SOUTH
+A road leading to the Southgate~
+~
+0 -1 12505
+DDIR_WEST
+A Small Alley~
+~
+0 -1 12508
+#12507
+A Small Alley~
+This alley links Kingston Pike to the north with Main Street to the west and
+is used as a shortcut for those wanting to bypass the very centre of the city.
+Many of the businesses have closed, and the remainder have moved north to the
+main shopping precinct. You can see extensive damage to the city east of here.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+Kingston Pike~
+~
+0 -1 12517
+DDIR_WEST
+Main Street~
+~
+0 -1 12506
+#12508
+A Small Alley~
+This alley links Kingston Pike to the north, with Main Street to the east.
+The doors are all barred and it appears that local economy is not improving
+fast enough for some. Damage to some of the store fronts has provided easy
+access for those that profit in illict trade and it is rumoured that dealers
+roam about at nights and sell goods on the black market.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+Kingston Pike~
+~
+0 -1 12516
+DDIR_EAST
+Main Street~
+~
+0 -1 12506
+#12509
+Zzevelo's Magic Stall~
+This stall is well sheltered from the worst of the weather with a tent made
+of canvas covering a wide range of parchments and scrolls. To the south you
+see a small jewellery shop and to the east you can see hear the telltale
+sounds of training. The buildings about you are tall and seem to have escaped
+the worst of the destruction.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Stalls and shops crowd together~
+~
+0 -1 12530
+DDIR_SOUTH
+Stalls and shops crowd together~
+~
+0 -1 12514
+#12510
+Crayola's Magic Delights~
+A rack of bottles and potions have been arranged for sale here. To the west
+you can hear animals whilst to the south you spy an array of weapons for sale
+at another stall. Some canvas has been stretched between the buildings to
+provide cover from the elements, and seems to do an adequate job.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_SOUTH
+Stalls and shops crowd together~
+~
+0 -1 12512
+DDIR_WEST
+Stalls and shops crowd together~
+~
+0 -1 12571
+#12511
+Gim's Armor Market~
+The alley way has been completely filled with hawkers, stall holders and
+the general public bustling to get to, or from, somewhere important. Gim has
+had this spot for ages and he commands a lot of space from those around him.
+Privy Lane continues to the west and to the east where it turns residential.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An alley strewn with filth~
+~
+0 -1 12539
+DDIR_WEST
+Main Street~
+~
+0 -1 12505
+#12512
+The Hunter's Companion~
+This small shop has been set up for adventurers, like yourself, who need
+a change in weapon or to do some serious damage. Utho has years of experience
+and is sure to be able to provide you with just the right weapon. You can see
+weapons stacked neatly in piles and to the north, more stalls and hawkers.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+Stalls and shops crowd together~
+~
+0 -1 12510
+#12513
+Fasto's General Goods Stall~
+The alley way has been completely filled with hawkers, stall holders and
+the general public bustling to get to, or from, somewhere important. All the
+activity has turned any semblance of road into mud. To the west Privy Lane
+continues into some residential houses. To the east it crosses through the
+Main Street and continues.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Main Street~
+~
+0 -1 12505
+DDIR_WEST
+An alley strewn with filth~
+~
+0 -1 12552
+#12514
+The Diamond Exchange~
+This small jewellery store specialises in buying and selling cut diamonds.
+Trade has been a little slow recently, and Guesto has been known to trade
+in other goods to turn some coin on a quiet day. To the north you can see
+Zzevelo hawking his scrolls amongst other stalls and stands.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Stalls and shops crowd together~
+~
+0 -1 12509
+#12515
+Neyland Square~
+An enormous ivory fountain shines even though everything around it is has
+become tainted by sulphur. The water merely trickles down the fountain, seeming
+to meander into the cracks and crevices that now adorn this symbol of pride.
+People tend to mill aimlessly around the centre as if they have nothing else
+to do with their simple lives.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+Main Street~
+~
+0 -1 12521
+DDIR_EAST
+Kingston Pike~
+~
+0 -1 12517
+DDIR_SOUTH
+Main Street~
+~
+0 -1 12506
+DDIR_WEST
+Kingston Pike~
+~
+0 -1 12516
+#12516
+Kingston Pike~
+Directly to the east you can see the centre of the city, Neylan Square.
+Looking to the west you can see Kingston Pike leading into Westgate Road.
+There are alley entrances to the north and south to provide alternative
+routes around the city centre.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A Small Alley~
+~
+0 -1 12522
+DDIR_EAST
+Neyland Square~
+~
+0 -1 12515
+DDIR_SOUTH
+A Small Alley~
+~
+0 -1 12508
+DDIR_WEST
+A road leading to the Westgate~
+~
+0 -1 12518
+#12517
+Kingston Pike~
+Directly to the west you see the centre of the city, Neylan Square. Looking
+to the east you see Kingston Pike leading into Eastgate Road. In the far
+distance, the east gate and a small cluster of buildings are just visible.
+Alley entrances to the north and south provide alternative routes around
+the city centre. There is a terrible smell coming from the east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A Small Alley~
+~
+0 -1 12520
+DDIR_EAST
+A road leading to the Eastgate~
+~
+0 -1 12519
+DDIR_SOUTH
+A Small Alley~
+~
+0 -1 12507
+DDIR_WEST
+Neyland Square~
+~
+0 -1 12515
+#12518
+Kingston Pike~
+The road leads into the city centre to the east. The buildings that used to
+stand to the north and south now lie in collapsed ruins. The drainage culverts
+along the sides of the street appear to be functioning well and there is a
+marked improvement in smell. To the west you can see the gates of the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Kingston Pike leading to Neyland Square~
+~
+0 -1 12516
+DDIR_WEST
+A road leading to the Westgate~
+~
+0 -1 12544
+#12519
+Kingston Pike~
+The road leads into the city centre to the west, and has been lined with
+cobblestones to prevent mud from forming. The culverts on the sides of the
+road seem to be in fine working order and if it weren't for the expanse of
+collapsed buildings to the north and south, you would assume that nothing
+was wrong in this city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+A road leading to the Eastgate~
+~
+0 -1 12531
+DDIR_WEST
+Kingston Pike leading to Neyland Square~
+~
+0 -1 12517
+#12520
+A Small Alley~
+This alley links Kingston Pike to the south with Main Street to the west and
+is used as a shortcut for those wanting to bypass the very centre of the city.
+Many of the businesses have closed, and the remainder have moved north to the
+main shopping precinct. You can see extensive damage to the city east of here.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+Kingston Pike~
+~
+0 -1 12517
+DDIR_WEST
+Main Street~
+~
+0 -1 12521
+#12521
+Main Street~
+To the south you can see the centre of the city, Neylan Square. Looking
+to the north you see Main Street as it continues into the markets and shops.
+Alley entrances to the west and east provide alternative routes around the
+city centre. You see many people moving around to the north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Main Street~
+~
+0 -1 12525
+DDIR_EAST
+A Small Alley~
+~
+0 -1 12520
+DDIR_SOUTH
+Neyland Square~
+~
+0 -1 12515
+DDIR_WEST
+A Small Alley~
+~
+0 -1 12522
+#12522
+A Small Alley~
+This alley links Kingston Pike to the south with Main Street to the east and
+is used as a shortcut for those wanting to bypass the very centre of the city.
+A lot of the buildings have suffered damage to some degree, but it looks like
+they are well on the way to returning to daily use.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+Main Street~
+~
+0 -1 12521
+DDIR_SOUTH
+Kingston Pike~
+~
+0 -1 12516
+#12523
+Burning Pool~
+You have jumped into the middle of a burning pool of lava!!! The lava flows
+quite close to the surface here, and sometimes it breaks through. Some of the
+recent earth tremors probably created this gap. You spy an exit a brief climb
+down into a lava tube. It looks very dark down there.
+~
+0 ROOM_NO_MOB SECT_LAVA
+DDIR_NORTH
+A crumbling old building~
+~
+0 -1 12553
+DDIR_DOWN
+The twisting network of lava tubes~
+~
+0 -1 12555
+#12524
+Burning Pool~
+You have jumped into the middle of a burning pool of lava!!! The lava flows
+quite close to the surface here, and sometimes it breaks through. Some of the
+recent earth tremors probably created this gap. You spy an exit a brief climb
+down into a lava tube. It looks very dark down there.
+~
+0 ROOM_NO_MOB SECT_LAVA
+DDIR_NORTH
+A crumbling old building~
+~
+0 -1 12542
+DDIR_DOWN
+The twisting network of lava tubes~
+~
+0 -1 12579
+#12525
+Main Street~
+To the north you see the end of Main Street and more shops. To the south
+you see the centre of the city and in the distance you spot Southgate leading
+towards the city gate. To the west and east are shops and stalls where you
+can re-equip and train in new skills.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The End of Main Street~
+~
+0 -1 12528
+DDIR_EAST
+Morgue~
+~
+0 -1 12527
+DDIR_SOUTH
+Main Street leading to Neyland Square~
+~
+0 -1 12521
+DDIR_WEST
+A Large Floating Castle~
+~
+0 -1 12526
+#12526
+Zorr's Bookshop~
+The walls are covered with bookshelves, and cabinets bulge with manuals of
+instruction and history. Zorr has travelled the realms so you don't have to.
+He will train you here in both the magical and the physical skills that you
+desire. Please keep the noise down - so that others can study.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Main Street~
+~
+0 -1 12525
+#12527
+Meldricko's Morgue~
+The morgue here has had a good trade in recent times. Various coffins are
+presented for viewing and can be custom built for any race or size. You catch
+a glimpse of marble and steel in the back room where corpses are prepared.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+Main Street~
+~
+0 -1 12525
+#12528
+The End of Main Street~
+To the south you can see more shops leading to the centre of the city. In
+the far distance the city continues toward the south gate. Sounds of hawkers
+can be heard to the west and east as the vendors vie for the limited coin.
+To the west you can see a training ground and to the east the sounds of caged
+animals pique your interest.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 16012
+DDIR_EAST
+The Pet Shop~
+~
+0 -1 12571
+DDIR_SOUTH
+Main Street leading to Neyland Square ~
+~
+0 -1 12525
+DDIR_WEST
+A Hovering Humming Glowing Invisible Castle~
+~
+0 -1 12530
+#12529
+Southgate Road~
+The road passes through the worst of the destruction and you can see people
+picking over the sites of lavish houses and buildings. To the south is a
+collection of guard buildings and the gate out of the city, whilst the road
+continues to the north as it leads to the centre of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Southgate Road leading to Neyland Square~
+~
+0 -1 12504
+DDIR_SOUTH
+A road leading to the Southgate~
+~
+0 -1 12501
+#12530
+Workyard~
+The work yard is set up for activity, with weapons stacked along one wall
+and training dummies in the corner. To the east you can see the end of Main
+Street and some more commercial shops to the west.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+End of Main Street~
+~
+0 -1 12528
+DDIR_WEST
+Stalls and shops crowd together~
+~
+0 -1 12509
+#12531
+Eastgate Road~
+The road here leads toward the city centre to the west, and to the east the
+gates of the city. There are several buildings clustered around the gates
+including the gate itself. The devastation to the north and south is obvious
+with buildings half collapsed and people picking over the remains.
+~
+0 0 SECT_CITY
+DDIR_EAST
+A road leading to the Eastgate~
+~
+0 -1 12532
+DDIR_WEST
+Eastgate Road leading to Neyland Square~
+~
+0 -1 12519
+#12532
+Eastgate Road~
+Toward the east you can see the Southgate and a collection of guard houses.
+To the west you can see the city centre and some of the commercial markets
+that feed off the population. A popular diner, the Greasy Spoon, has been
+open to the north for quite some time. It has a reputation for no fighting
+and seems to have a lot of the city guards around for coffee at all hours.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 12557
+DDIR_EAST
+A road leading to the Eastgate~
+~
+0 -1 12534
+DDIR_WEST
+Eastgate Road leading to Neyland Square~
+~
+0 -1 12531
+#12533
+Guard House~
+The guard house is a simple structure made of solid stone and designed to
+keep out the wind. Since the Greasy Spoon opened up, the guard house has been
+kept supplied with free coffee and in return there are always plenty of guards
+around to make sure there is no trouble. The door is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The road to town~
+~
+0 -1 12534
+#12534
+Eastgate Road~
+To the north and south you can see the open doors of the guard houses. The
+city gate to the east is barred and locked to prevent undesirables from
+travelling about freely. To the west you can see Eastgate Road leading to
+the city centre. The mud churned up by traffic and the discharge from the
+Greasy Spoon has created quite a health problem here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Guard House~
+~
+0 -1 12533
+DDIR_EAST
+A road leading to the Eastgate~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12536
+DDIR_SOUTH
+Guard House~
+~
+0 -1 12535
+DDIR_WEST
+Eastgate Road leading to Neyland Square~
+~
+0 -1 12532
+#12535
+Guard House~
+The guard house is a simple structure made of solid stone and designed to keep
+out the wind. Years of use have lead to the installation of a small wooden cot
+and stuffed mattress against one of the walls. The room is without any form of
+window, but you notice a lack of door and assume they are the same.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+The road to town~
+~
+0 -1 12534
+#12536
+Eastgate~
+The gate here is of a solid wood and steel construction with a large lock
+to one side. To the east you see the road disappearing into the distance,
+and the lure to explore overwhelms you for a moment. The gateway is lined
+with flat rocks in a vain attempt to prevent mud from building up. The
+steady influx of visitors seems out of context with recent events.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+A road wanders east~
+~
+0 -1 12591
+DDIR_WEST
+Eastgate Road leading to Neyland Square~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12534
+#12537
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the south, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+An alley strewn with filth~
+~
+0 -1 12539
+#12538
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the south, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+An alley strewn with filth~
+~
+0 -1 12540
+#12539
+Privy Lane~
+Privy Lane continues to the east and becomes a bustling market as it enters
+the Main Street to the west. A nasty smell of raw sewerage seems to be coming
+from the east. To the north and south are decaying hovels. Looking at the
+wanton destruction about you it seems unsafe to live here at all.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The decay almost obscures a hovel~
+~
+0 -1 12537
+DDIR_EAST
+An alley strewn with filth~
+~
+0 -1 12540
+DDIR_SOUTH
+The decay almost obscures a hovel~
+~
+0 -1 12541
+DDIR_WEST
+A merchant stall~
+~
+0 -1 12511
+#12540
+Privy Lane~
+This is the end of Privy Lane and the beginning of an open sewer. With all
+the earth movements recently, sewerage flows everywhere and invades every
+smell. The children appear oblivious to it as they play in the debris of the
+street. The lane continues to the west, whilst to the north and south are
+residential accommodation.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The decay almost obscures a hovel~
+~
+0 -1 12538
+DDIR_SOUTH
+An attempt has been made to rebuild~
+~
+0 -1 12542
+DDIR_WEST
+An alley strewn with filth~
+~
+0 -1 12539
+#12541
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the north, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+An alley strewn with filth~
+~
+0 -1 12539
+#12542
+Crumbling Ruin~
+This used to be a lavish house, but now it has degenerated into nothing more
+practical that an outdoor shelter from the rain. To the south is what would
+have been the garden in better days. The main entrance is to the north, mind
+the open sewer on your way out. You feel like you could stay here for a while.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+An alley strewn with filth~
+~
+0 -1 12540
+DDIR_SOUTH
+Lava has broken through the surface...~
+~
+0 -1 12524
+#12543
+Westgate Road~
+To the north and south you can clearly see the devastation that has befallen
+this city. Buildings are in ruins and the once proud owners are left with
+nothing but rubble. To the west the gates of the city are visible, and to
+the east you can see the city centre with it's over supply of visitors.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Westgate Road leading to Neyland Square~
+~
+0 -1 12544
+DDIR_WEST
+A road leading to the Westgate~
+~
+0 -1 12546
+#12544
+Westgate Road~
+The road here leads toward the city centre to the east, and to the west
+the city gates. The devastation to the north and south is obvious with many
+buildings half collapsed and people picking over the remains. The sewerage
+problems are not as evident here where the culverts are in fine order.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Westgate Road leading to Neyland Square~
+~
+0 -1 12518
+DDIR_WEST
+A road leading to the Westgate~
+~
+0 -1 12543
+#12545
+Guard House~
+The guard house has been patched up with tiles and the worst of the holes have
+been filled with mainly recovered stonework. The final result is a dry room with
+only a few drafts and a small stove in the corner to provide heat, light and the
+steady supply of hot coffee that guards demand. You see the floor is worn stone
+and is covered with scratches and grooves.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The road to town~
+~
+0 -1 12546
+#12546
+Westgate Road~
+The gate before you is braced and locked from unwelcome visitors. You notice
+the ground at your feed is cobbled and this whole part of the city appears
+in good repair. To the north and south you see the guard houses positioned
+close to the gate to discourage anyone from causing trouble.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Guard House~
+~
+0 -1 12545
+DDIR_EAST
+Westgate Road leading to Neyland Square~
+~
+0 -1 12543
+DDIR_SOUTH
+Guard House~
+~
+0 -1 12547
+DDIR_WEST
+A road leading to the Westgate~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12548
+#12547
+Guard House~
+This guard house appears to have escaped the destruction that has touched so
+much of the city. It has solid, plastered walls and the window still has it's
+glass. A fire burns warmly in one of the corners. You see the floor is covered
+by large mats and ill-fitting carpets. Whilst this remains an open building,
+there is little wonder the guards spend more time indoors on duty at this gate.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The road to town~
+~
+0 -1 12546
+#12548
+Westgate~
+The gate before you is well constructed from steel reinforced wood. It has
+a large lock to one side, and effectively prevents any access to the city
+once secured. To the west you can see the peaks of a volcano and a wisp
+of smoke as it belches against the sky. Refugees pick their way in both
+directions along the road in hope of a better future.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+Westgate Road leading to Neyland Square~
+Gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 12500 12546
+DDIR_WEST
+A road wanders west~
+~
+0 -1 12588
+#12549
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the south, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+An alley strewn with filth~
+~
+0 -1 12551
+#12550
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the south, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+An alley strewn with filth~
+~
+0 -1 12552
+#12551
+Privy Lane~
+This is the end of Privy Lane and the beginning of an open sewer. With all
+the earth movements recently, sewerage flows everywhere and invades every
+smell. The children appear oblivious to it as they play in the debris of the
+street. The lane continues to the east, whilst to the north and south are
+residential accommodation.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The decay almost obscures a hovel~
+~
+0 -1 12549
+DDIR_EAST
+An alley strewn with filth~
+~
+0 -1 12552
+DDIR_SOUTH
+An attempt has been made to rebuild ~
+~
+0 -1 12553
+#12552
+Privy Lane~
+Privy Lane continues to the west and becomes a bustling market as it enters
+the Main Street to the east. A nasty smell of raw sewerage seems to be coming
+from the west. To the north and south are decaying hovels. Looking at the
+wanton destruction about you it seems foolish to want to live here at all.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The decay almost obscures a hovel~
+~
+0 -1 12550
+DDIR_EAST
+A merchant stall~
+~
+0 -1 12513
+DDIR_SOUTH
+The decay almost obscures a hovel~
+~
+0 -1 12554
+DDIR_WEST
+An alley strewn with filth~
+~
+0 -1 12551
+#12553
+Crumbling Ruin~
+This used to be a lavish house, but now it has degenerated into nothing more
+practical that an outdoor shelter from the rain. To the south is what would
+have been the garden in better days. Some of the furnishings have been broken
+up for firewood. The main entrance is to the north, mind the open sewer.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+An alley strewn with filth~
+~
+0 -1 12551
+DDIR_SOUTH
+Lava has broken through the surface...~
+~
+0 -1 12523
+#12554
+Decaying Shanty~
+This is just a simple shanty consisting of two small rooms. One is used for
+the children and relatives to sleep in, whilst the other is shared by mom and
+dad in the evenings. The added warmth gained from having so many people in the
+one room means they can exist without any heating... until winter. The entrance
+is to the north, mind the open sewer on your way out.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+An alley strewn with filth~
+~
+0 -1 12552
+#12555
+Lava Tubes~
+You have climbed through to a network of tunnels that look like nothing you
+have seen before. The walls about you are smooth to a level of perfection
+you cannot begin to imagine. The ground is made of the same construction as
+the walls. To the east the lava tubes begin their inward spiral whilst above
+you is the burning pool.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The tubes spiral on...~
+~
+0 -1 12556
+DDIR_UP
+A burning pool of lava!~
+~
+0 -1 12523
+#12556
+Lava Tubes~
+The walls about you are smooth to a level of perfection you cannot begin
+to imagine. The ground is made of the same construction as the walls. To the
+east the lava tubes continue their inward passage whilst to the west they
+spiral outward. There is a gentle draft coming from the west.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The tubes spiral on...~
+~
+0 -1 12581
+DDIR_WEST
+The tubes spiral on...~
+~
+0 -1 12555
+#12557
+Greasy Spoon~
+This fine establishment is a two room affair with the smaller back room
+used for cooking, while the paying customers sit on the simple benches laid
+out in rows in the front room. The roof pitch is high and there is just the
+right combination of heat rising to ensure the air is at least breathable.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 12532
+#12558
+Lava Pool~
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_LAVA
+#12559
+Lava Tubes~
+The walls about you retain their symmetrical perfection with no sign of aging
+or wear. The air however, feels a little charged. To the west the lava tubes
+continue their inward spiral whilst to the north they continue their outward
+passage. The ground remains firm.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The tubes spiral on...~
+~
+0 -1 12580
+DDIR_WEST
+The tubes spiral on...~
+~
+0 -1 12560
+#12560
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The air feels a little clingy about you. To the west the lava
+tubes continue their inward spiral whilst to the east they continue their
+outward spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The tubes spiral on...~
+~
+0 -1 12559
+DDIR_WEST
+The tubes spiral on...~
+~
+0 -1 12561
+#12561
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The air feels a little humid about you. To the north the lava
+tubes continue their inward spiral whilst to the east they continue their
+outward spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The tubes spiral on...~
+~
+0 -1 12562
+DDIR_EAST
+The tubes spiral on...~
+~
+0 -1 12560
+#12562
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The air feels a little stale about you. To the east the lava
+tubes open into a large cavern whilst to the south they begin their outward
+spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The tunnel opens up ahead~
+~
+0 -1 12563
+DDIR_SOUTH
+The tubes spiral on...~
+~
+0 -1 12561
+#12563
+Open Cavern~
+The rock walls have opened out into a massive cavern which looks like it is
+in constant use by a large number of individuals. The air is a little close
+and the temperature seems to have gone up a few degrees. You suddenly feel
+very anxious about your safety. To the west the lava tubes spiral outward.
+~
+0 ROOM_NO_MOB SECT_UNDER_GROUND
+DDIR_WEST
+The tubes spiral on...~
+~
+0 -1 12562
+DDIR_DOWN
+The earth waits silently~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 12539 12564
+#12564
+Down Under~
+Above you is the entrance to this ancient place, whilst to the east you can
+see only that the tunnel continues for quite some time. The walls are made
+of rough rock that are slowly being eaten at by large earth worms. The air
+down here appears surprisingly clean considering. You can feel a zephyr of
+wind to the east.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12565
+DDIR_UP
+An open cavern beckons...~
+~
+0 -1 12563
+#12565
+Down Under~
+Towards the west is the entrance to this place, whilst to the east you
+can see only that the tunnel continues into the gloom. The walls are made
+of rough rock that are slowly being eaten at by large earth worms. The air
+down here appears surprisingly clean considering. You can feel a zephyr of
+wind to the east.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12566
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12564
+#12566
+Down Under~
+Towards the west is the entrance to this place, whilst to the east you
+can see only that the tunnel continues into the gloom. The walls are made
+of rough rock that are slowly being eaten at by large earth worms. The air
+down here appears surprisingly clean considering. You can feel a fair breeze
+of wind to the east.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12567
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12565
+#12567
+Down Under~
+The entrance to this place seems too distant to remember. The walls seem to
+be oppressing you from all sides and you are beginning to feel a little uneasy
+being so deep underground. You can feel a fair breeze escaping through cracks
+in the ceiling above you.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12568
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12566
+#12568
+Down Under~
+To the east lies the entrance to this place, whilst to the west you can see
+only that the tunnel continues into the gloom. The walls are made of rough
+rock that are slowly being eaten at by large earth worms. The air down here
+appears surprisingly clean considering. You can feel a fair breeze of wind
+escaping to the west.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12569
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12567
+#12569
+Down Under~
+Towards the east lies the entrance to this place, whilst to the west you
+can see only that the tunnel continues into the gloom. The walls are made
+of rough rock that are slowly being eaten at by large earth worms. The
+air down here appears surprisingly clean considering. You can feel a zephyr
+of wind to the west.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The earth waits silently~
+~
+0 -1 12570
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12568
+#12570
+Down Under~
+Above you is the entrance to this ancient place, whilst to the west you can
+see only that the tunnel continues for quite some time. The walls are made
+of rough rock that are slowly being eaten at by large earth worms. The air
+down here appears surprisingly clean considering. You can feel a zephyr of
+wind to the west.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_WEST
+The earth waits silently~
+~
+0 -1 12569
+DDIR_UP
+An open cavern beckons...~
+~
+EX_ISDOOR -1 12582
+#12571
+Terro's Critter Barn~
+Custom made cages and pens have been carefully stacked here to show off
+the various stock for sale. To the west you see the end of Main Street and
+to the east you spy more stalls and stands. You are well advised to keep
+a good distance between yourself and the baby dragons.
+~
+0 ROOM_NO_MOB|ROOM_PET_SHOP SECT_INSIDE
+DDIR_EAST
+Stalls and shops crowd together~
+~
+0 -1 12510
+DDIR_WEST
+End of Main Street~
+~
+0 -1 12528
+#12572
+pet storage~
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#12573
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The here air feels a little humid too. To the north the lava
+tubes continue their inward spiral whilst to the west they continue their
+outward spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 12583
+DDIR_WEST
+~
+~
+0 -1 12574
+#12574
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The air feels a little clingy about you. To the east the lava
+tubes continue their inward spiral whilst to the west they continue their
+outward spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 12573
+DDIR_WEST
+~
+~
+0 -1 12575
+#12575
+Lava Tubes~
+The walls about you retain their symmetrical perfection with no sign of
+aging or wear. The air feels a little charged about you. To the east the
+lava tubes continue their inward spiral whilst to the north they continue
+their outward passage. The ground remains firm.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 12576
+DDIR_EAST
+~
+~
+0 -1 12574
+#12576
+Lava Tubes~
+The walls about you retain their symmetrical perfection with hardly a sign
+of age or wear. The air feels a little damp about you. To the south the lava
+tubes continue their inward spiral whilst to the north they continue their
+outward passage. There is a zephyr of a draft coming from the north.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 12577
+DDIR_SOUTH
+~
+~
+0 -1 12575
+#12577
+Lava Tubes~
+The walls about you retain their symmetrical perfection with not a sign
+of age or wear. The air feels a little damp here. To the south the lava
+tubes continue their inward spiral whilst to the east they continue their
+outward passage. There is a gentle draft coming from the east.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 12578
+DDIR_SOUTH
+~
+~
+0 -1 12576
+#12578
+Lava Tubes~
+The walls about you are smooth to a level of perfection you cannot begin
+to imagine. The ground is made of the same construction as the walls. To the
+west the lava tubes continue their inward passage whilst to the east they
+spiral outward. There is a gentle draft coming from the east.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 12579
+DDIR_WEST
+~
+~
+0 -1 12577
+#12579
+Lava Tubes~
+You have climbed through to a network of tunnels that look like nothing you
+have seen before. The walls about you are smooth to a level of perfection
+you cannot begin to imagine. The ground is made of the same construction as
+the walls. To the west the lava tubes begin their inward spiral whilst above
+you is the burning pool.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_WEST
+~
+~
+0 -1 12578
+DDIR_UP
+~
+~
+0 -1 12524
+#12580
+Lava Tubes~
+The walls about you retain their symmetrical perfection with hardly a sign
+of age or wear. The air feels a little damp however. To the south the lava
+tubes continue their inward spiral whilst to the north they continue their
+outward passage. There is a zephyr of a draft coming from the north.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The tubes spiral on...~
+~
+0 -1 12581
+DDIR_SOUTH
+The tubes spiral on...~
+~
+0 -1 12559
+#12581
+Lava Tubes~
+The walls here retain their symmetrical perfection with not a sign of age
+or wear. The air feels a little damp about you. To the south the lava tubes
+continue their inward spiral whilst to the west they continue their outward
+passage. There is a gentle draft coming from the west.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_SOUTH
+The tubes spiral on...~
+~
+0 -1 12580
+DDIR_WEST
+The tubes spiral on...~
+~
+0 -1 12556
+#12582
+Open Cavern~
+The rock walls have opened out into a massive cavern which looks like it is
+in constant use by a large number of individuals. The air is a little close
+and the temperature seems to have gone up a few degrees. You suddenly feel
+very anxious about your safety. To the east the lava tubes spiral outward.
+~
+0 ROOM_NO_MOB SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 12583
+DDIR_DOWN
+The earth waits silently~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 12527 12570
+#12583
+Lava Tubes~
+The walls about you continue their symmetrical perfection with no sign of
+aging or wear. The air feels a little stale about you. To the west the lava
+tubes open into a large cavern whilst to the south they continue their outward
+spiral. The ground remains firm and you see no other signs of passage.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_SOUTH
+~
+~
+0 -1 12573
+DDIR_WEST
+~
+~
+0 -1 12582
+#12584
+Mine Shaft~
+You can see the bottom of the mine shaft below you. As you look up you see
+the entrance is still quite some distance off. The walls have been previously
+bricked over to prevent caving in. They provide some support as you make
+your way precariously upward.
+~
+0 ROOM_DARK SECT_UNDER_GROUND
+DDIR_UP
+The mine shaft continues to get brighter~
+~
+0 -1 12585
+DDIR_DOWN
+A west-east tunnel~
+~
+0 -1 12567
+#12585
+Mine Shaft~
+You see the top of the mine shaft just above you. As you look down you can
+no longer see the bottom of the shaft, and you begin to get vertigo. The
+bricks around this part of the mine shaft have broven away and you realise
+how dangerous this shaft has become.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_UP
+A forgotten mine shaft~
+~
+0 -1 12501
+DDIR_DOWN
+The mine shaft gets darker~
+~
+0 -1 12584
+#12586
+Mob Chute~
+To assist in random distribution of mobs, these chutes allow mobs to "drop"
+in from nowhere using the one-way doors about you. Hope you enjoy the area!
+~
+0 ROOM_SAFE|ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 12543
+DDIR_EAST
+~
+~
+0 -1 12511
+DDIR_SOUTH
+~
+~
+0 -1 12532
+DDIR_WEST
+~
+~
+0 -1 12529
+DDIR_UP
+~
+~
+0 -1 12513
+DDIR_DOWN
+~
+~
+0 -1 12528
+#12587
+Rat Nest~
+To assist in random distribution of mobs, these chutes allow mobs to "drop"
+in from nowhere using the one-way doors about you. This room is specifically
+designed to house the rats and provide a nest for them to "hide in" during
+the day time. Hope you enjoy the area!
+~
+0 ROOM_DARK|ROOM_SAFE|ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_NORTH
+~
+~
+0 -1 12534
+DDIR_EAST
+~
+~
+0 -1 12540
+DDIR_SOUTH
+~
+~
+0 -1 12546
+DDIR_WEST
+~
+~
+0 -1 12551
+DDIR_DOWN
+~
+~
+0 -1 12505
+#12588
+Approaching Westgate~
+As you draw closer to the city you notice the destruction of the buildings
+that once stood so proud. You can't help but wonder at the reason for such
+a large scale act. The road continues to the west as it leaves the city and
+to the east toward the Westgate.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The gates to the city~
+~
+0 -1 12548
+DDIR_WEST
+The road continues west~
+~
+0 -1 12589
+#12589
+Road to Westgate~
+As you draw closer to the city you notice the destruction of the buildings
+that once stood proud. You can't help but wonder at the cause of such a
+large scale act. The road continues to the west as it leaves the city and
+to the east toward the Westgate.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The road to the city~
+~
+0 -1 12588
+DDIR_WEST
+A road wanders west~
+~
+0 -1 12590
+#12590
+Road to Westgate~
+The road here has been well maintained, and the drainage ditches appear to
+have been cleared sometime recently. The steady stream of refugees from the
+east walk the roads as they seek a better life elsewhere. The countryside
+spreads out all about you, and to the east you see a city in the distance.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The road to the city~
+~
+0 -1 12589
+DDIR_WEST
+~
+~
+0 -1 8131
+#12591
+Approaching Eastgate~
+As you draw closer to the city you notice the destruction of the buildings
+that once stood so proud. You can't help but wonder at the reasoning for such
+massive destruction. The road continues to the east as it leaves the city.
+Further along the road to the west is Eastgate.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The road continues east~
+~
+0 -1 12592
+DDIR_WEST
+The gates to the city~
+~
+0 -1 12536
+#12592
+Road to Eastgate~
+As you draw closer to the city you notice the destruction of the buildings
+that once here so stood proud. You are concerned at the powers that could
+cause such a large scale act. The road continues to the east as it leaves
+the city, and to the west as it heads toward the Eastgate.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+The road wanders east~
+~
+0 -1 12593
+DDIR_WEST
+The road to the city~
+~
+0 -1 12591
+#12593
+Road to Eastgate~
+The road here has been well maintained, and the drainage ditches appear to
+have been cleared sometime recently. The steady stream of refugees from the
+west walk the roads as they seek a better life elsewhere. The countryside
+spreads out about you, and in the west you see a city in the distance.
+~
+0 0 SECT_ROAD
+DDIR_EAST
+~
+~
+0 -1 12701
+DDIR_WEST
+The road to the city~
+~
+0 -1 12592
+#12594
+Approaching Southgate~
+As you draw closer to the city you notice the destruction of buildings that
+are rumoured to have once stood so proud. You wonder at the suffering these
+events have caused and ask 'what god would make this happen?' The road heads
+south as it leaves the city, and north from here toward the Southgate.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+The gates to the city~
+~
+0 -1 12500
+DDIR_SOUTH
+The road continues south~
+~
+0 -1 12595
+#12595
+Road to Southgate~
+As you draw closer to the city you notice the destruction of the buildings
+that once stood so proud. You can't help but wonder at the reasons for such
+large scale devastation. The road continues to the south as it leaves the
+city, and to the north as it heads toward the Southgate.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+The road to the city~
+~
+0 -1 12594
+DDIR_SOUTH
+The road continues~
+~
+0 -1 12596
+#12596
+Road to Southgate~
+The road here has been well maintained, and the drainage ditches appear
+to have been cleared sometime recently. The steady stream of refugees from
+the city wander the roads seeking a better life elsewhere. The countryside
+spreads out all about you and to the north you see a city in the distance.
+~
+0 0 SECT_ROAD
+DDIR_NORTH
+The road to the city~
+~
+0 -1 12595
+#0
+
+
+#RESETS
+M 12510 100 12557
+G 12521 200 0
+G 12520 200 0
+G 12519 200 0
+G 12518 200 0
+M 12526 100 12572
+M 12525 100 12572
+M 12554 100 12521
+E 12505  50 WEAR_BODY
+M 12554 100 12506
+E 12507  50 WEAR_SHIELD
+M 12554 100 12503
+E 12501  75 WEAR_WIELD
+E 12504  50 WEAR_HANDS
+M 12554 100 12503
+E 12501  75 WEAR_WIELD
+E 12507  50 WEAR_SHIELD
+M 12554 100 12502
+E 12501  75 WEAR_WIELD
+E 12503  50 WEAR_FEET
+M 12554 100 12502
+E 12501  75 WEAR_WIELD
+E 12506  50 WEAR_ARMS
+M 12515 100 12536
+G 12500 200 0
+D 12536 DIR_WEST  DOOR_CLOSED
+D 12536 DIR_WEST  DOOR_CLOSED_LOCKED
+D 12534 DIR_EAST  DOOR_CLOSED
+D 12534 DIR_EAST  DOOR_CLOSED_LOCKED
+M 12515 100 12500
+G 12500 100 0
+D 12500 DIR_NORTH DOOR_CLOSED
+D 12500 DIR_NORTH DOOR_CLOSED_LOCKED
+D 12501 DIR_SOUTH DOOR_CLOSED
+D 12501 DIR_SOUTH DOOR_CLOSED_LOCKED
+M 12515 100 12548
+G 12500 200 0
+D 12548 DIR_EAST  DOOR_CLOSED
+D 12548 DIR_EAST  DOOR_CLOSED_LOCKED
+D 12546 DIR_WEST  DOOR_CLOSED
+D 12546 DIR_WEST  DOOR_CLOSED_LOCKED
+M 12550 100 12563
+E 12537 100 WEAR_WIELD
+E 12502 100 WEAR_HEAD
+E 12505 100 WEAR_BODY
+E 12503 100 WEAR_FEET
+E 12504 100 WEAR_HANDS
+E 12506 100 WEAR_ARMS
+E 12507 100 WEAR_SHIELD
+G 12527 100 0
+M 12550 100 12582
+E 12502 100 WEAR_HEAD
+E 12501 100 WEAR_WIELD
+E 12505 100 WEAR_BODY
+E 12503 100 WEAR_FEET
+E 12504 100 WEAR_HANDS
+E 12506 100 WEAR_ARMS
+E 12507 100 WEAR_SHIELD
+G 12539 100 0
+D 12582 DIR_DOWN  DOOR_CLOSED
+D 12563 DIR_DOWN  DOOR_CLOSED
+O 12523 100 12515
+M 12551 100 12542
+D 12582 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 12563 DIR_DOWN  DOOR_CLOSED_LOCKED
+M 12516 100 12555
+M 12516 100 12573
+M 12516 100 12575
+M 12516 100 12577
+M 12516 100 12579
+M 12518 100 12574
+M 12517 100 12576
+M 12517 100 12578
+M 12512 100 12520
+M 12512 100 12508
+M 12552 100 12586
+M 12523 100 12586
+M 12524 100 12586
+M 12521 100 12586
+M 12521 100 12586
+M 12521 100 12586
+M 12522 100 12586
+M 12522 100 12586
+M 12522 100 12586
+O 12526 100 12542
+O 12553 100 12507
+M 12511 100 12507
+M 12511 100 12525
+M 12507 100 12526
+M 12506 100 12527
+M 12511 100 12528
+M 12508 100 12530
+M 12504 100 12509
+G 12512 200 0
+G 12509 200 0
+G 12511 200 0
+G 12508 200 0
+G 12510 200 0
+M 12500 100 12514
+G 12538 200 0
+M 12509 100 12571
+M 12505 100 12510
+G 12514 200 0
+G 12513 200 0
+G 12516 200 0
+G 12515 200 0
+M 12503 100 12512
+G 12536 200 0
+G 12537 200 0
+G 12501 200 0
+M 12513 100 12518
+M 12514 100 12519
+M 12554 100 12533
+E 12501  75 WEAR_WIELD
+E 12503  50 WEAR_FEET
+M 12554 100 12533
+E 12501  75 WEAR_WIELD
+E 12502  50 WEAR_HEAD
+M 12554 100 12535
+E 12501  75 WEAR_WIELD
+E 12505  50 WEAR_BODY
+M 12554 100 12535
+E 12501  75 WEAR_WIELD
+E 12504  50 WEAR_HANDS
+M 12554 100 12545
+E 12501  75 WEAR_WIELD
+E 12507  50 WEAR_SHIELD
+M 12554 100 12545
+E 12501  75 WEAR_WIELD
+E 12506  50 WEAR_ARMS
+O 12545 100 12547
+M 12554 100 12547
+E 12501  75 WEAR_WIELD
+E 12502  50 WEAR_HEAD
+M 12554 100 12547
+E 12501  75 WEAR_WIELD
+E 12505  50 WEAR_BODY
+M 12501 100 12513
+G 12559 100 0
+G 12522 200 0
+G 12524 200 0
+G 12525 200 0
+M 12502 100 12511
+G 12506 200 0
+G 12502 200 0
+G 12517 200 0
+M 12511 100 12537
+M 12512 100 12537
+M 12511 100 12538
+M 12512 100 12538
+M 12511 100 12541
+M 12512 100 12541
+M 12513 100 12550
+M 12514 100 12550
+M 12511 100 12554
+M 12512 100 12554
+M 12511 100 12549
+M 12512 100 12549
+M 12511 100 12553
+M 12512 100 12553
+M 12513 100 12552
+M 12514 100 12552
+M 12513 100 12551
+M 12514 100 12551
+M 12513 100 12539
+M 12514 100 12539
+M 12513 100 12540
+M 12514 100 12540
+M 12517 100 12556
+M 12516 100 12581
+M 12517 100 12580
+M 12516 100 12559
+M 12518 100 12560
+M 12516 100 12561
+M 12519 100 12562
+M 12519 100 12583
+M 12520 100 12570
+M 12520 100 12569
+M 12520 100 12569
+M 12520 100 12568
+M 12553 100 12567
+M 12520 100 12566
+M 12520 100 12565
+M 12520 100 12565
+M 12520 100 12564
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+M 12527 100 12587
+O 12543 100 12535
+O 12544 100 12557
+O 12546 100 12545
+O 12546 100 12554
+O 12545 100 12553
+O 12543 100 12537
+O 12547 100 12541
+O 12548 100 12511
+O 12548 100 12512
+O 12549 100 12514
+O 12550 100 12502
+O 12550 100 12503
+O 12551 100 12518
+O 12551 100 12544
+O 12551 100 12543
+O 12551 100 12519
+O 12552 100 12540
+M 12555 100 12587
+G 12557 100 0
+G 12538 100 0
+G 12531   1 0
+G 12530   1 0
+G 12529   1 0
+G 12528   1 0
+O 12553 100 12522
+O 12554 100 12526
+O 12555 100 12527
+M 12528 100 12591
+M 12528 100 12592
+M 12528 100 12593
+M 12528 100 12588
+M 12528 100 12589
+M 12528 100 12590
+M 12528 100 12595
+M 12528 100 12596
+M 12529 100 12594
+M 12528 100 12594
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

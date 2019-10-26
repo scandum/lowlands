@@ -1,0 +1,4388 @@
+#AREA City of Kisangani~
+#AUTHORS Leza~
+#VERSION 4
+#RANGES 30 95 1 95
+
+
+#HELPS
+0 KISANGANI 'CITY OF KISANGANI'~
+{128}
+                              City of Kisangani
+{308}
+Deep within the jungle, it is said that a great city exists there. But no one
+seem to have found it, except for one explorer. His name is ... well whatever
+his name was, he was a great explorer. Within the city walls, is an ancient
+civilization. The natives there are pretty primitive, having little or no
+contact to the outside world. They have live in peace with themselves and
+the creatures that inhabit the jungle for many years now. Now having years of
+influence from the world beyond, the natives have learned to adapt to its new
+environment, but yet they maintain their religion.
+~
+
+0 $~
+
+
+#MOBILES
+#24500
+girl~
+a little girl~
+The little girl is here asking everyone a question.~
+She looks to be but 13 years of age. Why is she asking around for her father?
+Did something happen to him? And where is the mother? You thought to yourself
+all these questions can be answer when the mother is found.
+~
+ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+35 0 0 1d306+564 10d3+20
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if ispc ($n)
+  if quest (0,4,$n) > 0
+    tell $n Have you found my father yet?
+  endif
+else
+  tell $n Excuse me, have you seen my father?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  thank $n
+  tell $n When you find him, tell him that mother and I miss him.
+  tell $n Tell him to come home.
+else
+  tell $n Liar! You're lying to a 13-yr. old. How could you?
+  cry 
+endif
+~
+>speech_prog no~
+if quest (0,4,$n) == 0
+  tell $n Will you help me find him?
+  mpmset $n quest 0 4 1
+endif
+~
+>death_prog 100~
+if quest (7,1,$n) == 0
+  mpmset $n quest 7 1 1
+endif
+~
+|
+#24501
+woman attractive mother~
+a woman~
+An attractive woman is here.~
+She looks to be no older than 30 of age, still quite attractive. What is
+she doing in this part of town? She looks to be the only non-native
+in this area.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+750 S
+45 0 0 1d506+956 6d4+30
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,4,$n) == 2
+  tell $n Is my daughter all right? Oh! What kind of a mother am I,
+  tell $n letting my daughter run around like that.
+  tell $n Ever since a couple years ago when my husband ran off
+  tell $n looking for some silly quest, he hasn't been home since.
+  cry 
+  tell $n Will you help us find him?
+else
+  tell $n Where have that daughter of mine ran off to?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 2
+  tell $n All I know is that he's suppose to go searching with another
+  tell $n guy, but my husband, Kyle Laust, told me that at the last minute
+  tell $n he decided not to go. So if you can find him, maybe he knows
+  tell $n where my husband went. His name is....umm......John Smith.
+  tell $n Please hurry and find my husband.
+  mpmset $n quest 0 4 3
+endif
+~
+>speech_prog no~
+if quest (0,4,$n) == 2
+  tell $n Please reconsider. I have no one else to turn to. You're
+  tell $n the first person to walk in here asking about him.
+endif
+~
+>speech_prog p I change my mind.~
+tell $n I wish you would reconsider.
+~
+>death_prog 100~
+if quest (7,1,$n) == 0
+  mpmset $n quest 7 1 1
+endif
+~
+|
+#24502
+wealthy man~
+a wealthy man~
+A very wealthy man sits behind the desk reading some document.~
+He seems to be preoccupied with his document. Didn't even notice you barging
+in, as though he weren't afraid of whom ever coming through that door.
+Should you be afraid?
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-750 S
+80 0 0 1d1600+5257 1d80+73
+149375 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p John Smith~
+if quest (0,4,$n) == 3
+  tell $n No one has called me that in years. Ever since that...
+  tell $n What do you want?
+  mpmset $n quest 0 4 4
+else
+  tell $n John Smith? Sorry, you must of have the wrong hut.
+endif
+~
+>speech_prog p Kyle Laust~
+if quest (0,4,$n) == 4
+  tell $n I..he....we....us...
+  emote composes himself.
+  tell $n We were suppose to go into the "old city" looking for
+  tell $n a clue. It's suppose to lead us to this "lost city."
+  tell $n But that bastard decided to go without me. Do you believe
+  tell $n the nerve of that guy after all I done for him. Hmmmph.
+  mpmset $n quest 0 4 5
+endif
+~
+>speech_prog p lost city~
+if quest (0,4,$n) == 5
+  tell $n All I know is that it's a legendary city. There is
+  tell $n suppose to be treasure there that's worth a fortune.
+  tell $n But it's also prophesied that "he who takes the treasure,
+  tell $n "dark spirit" shall fall upon them."
+  tell $n Now leave!
+  mpmset $n quest 0 4 6
+  mpforce $n north
+  mpat $n mpecho He usher all of you out of his hut.
+  if rand (16)
+    mpgoto 24642
+    mpmload 24523
+    mpgoto 24549
+  else
+    if rand (20)
+      mpgoto 24643
+      mpmload 24523
+      mpgoto 24549
+    else
+      if rand (25)
+        mpgoto 24644
+        mpmload 24523
+        mpgoto 24549
+      else
+        if rand (33)
+          mpgoto 24645
+          mpmload 24523
+          mpgoto 24549
+        else
+          if rand (50)
+            mpgoto 24646
+            mpmload 24523
+            mpgoto 24549
+          else
+            mpgoto 24647
+            mpmload 24523
+            mpgoto 24549
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>fight_prog 80~
+if rand (40)
+  cast fireball $r
+  cast fireball $r
+endif
+if rand (30)
+  cast earthquake
+  cast earthquake
+else
+  if rand (20)
+    cast tremor
+    cast tremor
+  endif
+endif
+~
+>death_prog 100~
+emote draws whatever is left of his energy.
+if rand (50)
+  cast fireball $r
+  cast fireball $r
+  cast fireball $r
+  cast fireball $r
+else
+  if rand (20)
+    cast earthquake
+    cast earthquake
+    cast earthquake
+    cast earthquake
+  else
+    if rand (10)
+      cast tremor
+      cast tremor
+      cast tremor
+      cast tremor
+    endif
+  endif
+endif
+~
+|
+#24503
+guide bwana mukubwa~
+a guide~
+A bwana mukubwa shows you some of his ware.~
+You're looking at a man who has wisdom beyond his years. He been to places
+you can only dream about. Seen things no civilized man ever saw before.
+Maybe he can take you to some of those places...
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (5,2,$n) == 0
+  if quest (12,3,$n) == 4
+    if hasobjnum ($n) == 24509
+      tell $n Where did you find that diamond?
+      tell $n I haven't seen one like that in a long time.
+      tell $n You're telling me the jeweler gave it to you?
+      tell $n You might as well know, the diamond contains a very
+      tell $n powerful magic. It is said that it can replenish your magic
+      tell $n by zapping your vitality.
+      tell $n If you want to know how to activate it, you'll have to do
+      tell $n one thing for me. You'll have to kill the chieftain.
+      tell $n Go see the trainer, he knows a way in to see the chieftain.
+      tell $n Tell him, "He sent me".
+      mpmset $n quest 12 3 5
+      mpmset $n quest 5 2 1
+    endif
+  endif
+else
+  say How may I help you?
+endif
+if quest (5,2,$n) == 2
+  if quest (12,3,$n) == 5
+    tell $n You killed the chieftain.
+    tell $n As for your reward, the command is "zsms."
+    tell $n Memorize it, I won't tell you again.
+    mpmset $n quest 5 2 3
+  endif
+endif
+~
+>speech_prog guide hire~
+if quest (0,4,$n) == 8
+  say Where do you want to go?
+  mpmset $n quest 0 4 9
+else
+  say Sorry, but I'm between jobs right now. Try back later.
+endif
+~
+>speech_prog dawa dawa.~
+if inroom ($n) != 24700
+  if quest (0,4,$n) == 9
+    mptransfer $n 24700
+    mpat $n mpecho You begin your journey.
+    mpat $n mpecho "To boldly go where no man has gone before."
+    mpat $n mpecho After years of traversing the jungle.
+    mpat $n mpecho You have finally reached your destination.
+    mpat $n say This is as far as I can take you, I will go no further.
+    mpat $n say The rest of the way you have to travel alone.
+    mpat $n say Beware of the "dark spirits."
+  endif
+~
+|
+#24504
+male native~
+a male native~
+A male native is here doing his daily chores.~
+He stares at you, wondering what you're looking at. Is there something you
+need, he seems to implied.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+45 0 0 2d100+1200 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+say Welcome to our humble city. Hope you enjoy your stay here.
+~
+>greet_prog 10~
+say Stay away from the OLD CITY. Monsters infest there now.
+~
+>death_prog 100~
+shout $n is a murderer!
+if quest (7,1,$n) == 0
+  mpmset $n quest 7 1 1
+endif
+~
+|
+#24505
+guard Sanga~
+a guard~
+The guard stands here alert.~
+He stares back showing no emotion. The one thing you felt is that he's ready
+to take you down if you try anything stupid, like causing a disturbance in
+this peaceful city.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+95 0 0 1d1+7999 1d95+46
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (7,1,$n) == 1
+  rescale 24505 $n 180
+  shout $n has taken a innocents' life.
+  mpechoat $n The guard lunges at you with his sword drawn.
+  mpkill $n
+  disarm 
+else
+  if rand (20)
+    rescale 24505 $n 150
+    say If you violate the sanctity of this fair city,
+    say you will be executed on site.
+    say Other than that, welcome to this fair city.
+    say Hope you enjoy your stay here.
+    grin 
+  else
+    rescale 24505 $n 100
+  endif
+endif
+~
+|
+#24506
+guard teke~
+a guard~
+A guard is here patrolling the area.~
+The guard is here to keep this peaceful city peaceful. He stares back
+at you. Waiting for you to make his day.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SNEAK
+0 S
+95 0 0 1d1+7999 1d95+46
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (7,1,$n) == 1
+  rescale 24506 $n 180
+  shout $n has taken a innocents' life.
+  mpechoat $n The guard lunges at you with his sword drawn.
+  mpkill $n
+  disarm 
+else
+  if rand (40)
+    rescale 24506 $n 100
+    say Hope you enjoy your stay here.
+  else
+    if rand (20)
+      rescale 24506 $n 200
+      look $n
+      say You look like a troublemaker. Just don't let me catch you or else...
+    else
+      rescale 24506 $n 150
+    endif
+  endif
+endif
+~
+>kill_prog 100~
+mpmset $n quest 7 1 0
+~
+|
+#24507
+Hungawa~
+Hungawa~
+Hungawa the shaman stands here.~
+You're looking at a shaman who seems to know what's he doing. He has an
+aura of power around him. You feel as though you can learn a lot from him.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-350 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 75~
+say What would you like to learn?
+~
+|
+#24508
+Shaka~
+Shaka The Warrior~
+Shaka is sparring with a few of his students.~
+He seems to be able to hold his own against six students. I'd wouldn't
+mess around with him, but maybe you can learn a few things from him.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-350 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 75~
+say Come, spar with us. It will improve your skills.
+~
+>speech_prog p He sent me~
+if quest (5,2,$n) == 1
+  tell $n So you wants to know how to get in to see the chieftain.
+  tell $n Well, I owe him a favor, so I'll help you this one time.
+  tell $n Go to the entrance before the throne room and
+  tell $n say 'I'm here to see the chieftain'.
+else
+  tell $n I'm busy training, come back later.
+endif
+~
+|
+#24509
+Malawi~
+Malawi~
+Malawi is here trying to sell you some native clothing.~
+Malawi saw you glancing at him. He tries to strike a conversation with you.
+You don't seem to understand what's he trying to say. He's showing you some
+clothing he took off of the rack. Guess he wants you to buy it.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#24510
+Kivu~
+Kivu~
+Kivu is here cleaning his spear.~
+He has the look of a master of weapons. You notice many scars all over his
+body. Seems he been in many battles. Care to be his next victim? No,
+well buy something from him then.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+emote flexes his muscle.
+~
+|
+#24511
+Tanganyiks~
+Tanganyiks~
+Tanganyiks is busying cooking up something.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#24512
+Mobutu~
+Mobutu~
+Mobuto is here mixing some potions.~
+All of a sudden you feel someone is spying on you. It seems to started
+when you look at the shaman. Can he sense you starring at him?
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#24513
+Imposter~
+Imposter~
+A white man salesman is here.~
+You look at him. You see nothing strange about him. Just another foreign
+man who's trying to make a fortune off the natives here. And it seems
+like he's not doing so badly, pretty good in fact.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-500 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if rand (30)
+  if quest (12,3,$n) == 0
+    look $n
+    tell $n You look like an adventurer.
+    tell $n Would you like to go on a quest for me?
+    tell $n I'll pay you handsomely after you complete it.
+    mpmset $n quest 12 3 1
+  endif
+endif
+if hasobjnum ($n) == 24534
+  tell $n I see you have found the diamond.
+  tell $n Now give it to me.
+  mpmset $n quest 12 3 3
+endif
+~
+>speech_prog yes~
+if quest (12,3,$n) == 1
+  tell $n I'm looking for a very unique diamond.
+  tell $n It's lost somewhere in the old city, when the city was destroyed.
+  tell $n It's been so long now, I don't know where to start.
+  tell $n There had been many mission, but all has failed.
+  tell $n Not to discourage you or anything,
+  tell $n but I have a feeling you will succeed.
+  tell $n I guess you must be on your way now, g'luck.
+  mpmset $n quest 12 3 2
+  if rand (16)
+    mpgoto 24647
+    mpmload 24524
+    mpgoto 24530
+  else
+    if rand (20)
+      mpgoto 24646
+      mpmload 24524
+      mpgoto 24530
+    else
+      if rand (25)
+        mpgoto 24645
+        mpmload 24524
+        mpgoto 24530
+      else
+        if rand (33)
+          mpgoto 24644
+          mpmload 24524
+          mpgoto 24530
+        else
+          if rand (50)
+            mpgoto 24643
+            mpmload 24524
+            mpgoto 24530
+          else
+            mpgoto 24642
+            mpmload 24524
+            mpgoto 24530
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>give_prog i24534~
+if quest (12,3,$n) == 3
+  mpjunk i24534
+  emote eyes gleam when he saw the diamond.
+  mpecho As soon as he got the diamond, he headed toward the backroom.
+  mpecho A few minutes later, he return with a smaller diamond in his hand.
+  say I went to the back to cut the gem. This is a piece of it.
+  say As for your payment, I give you this gem.
+  mpoload 24509
+  give i24509 $n
+  mpmset $n quest 12 3 4
+else
+  thank $n
+  say Why thank you for such a lovely gift. I'll treasure it always.
+endif
+~
+|
+#24514
+Inca~
+Inca~
+The curator of the morgue stands here.~
+You see a pale thin man running this place. He looks to be very old.
+Seems he been running this place for centuries.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 0 0 1d3600+12681 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if rand (20)
+  if class ($n) == class_elementalist
+    if hasobjnum ($n) == 24509
+      tell $n I see you have a very special diamond on you.
+      tell $n But do you know there exist a diamond that's far
+      tell $n greater than the one you currently have?
+      tell $n This diamond can repell the fowl creatures
+      tell $n that infest the old city.
+      tell $n Well my friend, since you are a fellow druid,
+      tell $n I'll exchange the diamond if you can answer me a question.
+      tell $n Give me the diamond to recieve your question.
+    endif
+  endif
+else
+  if rand (40)
+    say Are you here to retrieve a corpse?
+    say Just look around, one of them could be yours.
+  endif
+endif
+~
+>give_prog i24509~
+if class ($n) == class_elementalist
+  mpjunk i24509
+  mpmset $n quest 19 1 1
+  tell $n This thing all things devour;
+  tell $n Birds, beast, trees, flowers;
+  tell $n Gnaws iron, bites steel;
+  tell $n Grinds hard stones to meal;
+  tell $n Slays king, ruins town,
+  tell $n And beats high mountain down.
+  tell $n What am I?
+else
+  tell $n Why thank you for such a generous gift.
+  thank $n
+endif
+~
+>speech_prog time~
+if quest (19,1,$n) == 1
+  mpmset $n quest 19 1 0
+  mpquiet on
+  mpoload 24536
+  cast 'giant strength' $n
+  mpquiet off
+  mpmset $n quest 15 1 0
+  give i24536 $n
+  tell $n Well there you go, have fun with it.
+endif
+~
+|
+#24515
+chieftain~
+Chieftain~
+The chieftain is here sitting upon his throne.~
+You look upon him. He looks old, yet with a aura of strength left in him. You
+notice he's no ordinarily chieftain. He wore several magical items about him.
+You can't seem to detect what type of magic it emits. But one thing for sure,
+it's very powerful if you can't detect it.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL
+300 S
+120 0 0 1d3600+12681 10d10+100
+100000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (5,2,$n) == 1
+  say I see that you been with my enemy, now prepare to die!
+  mpkill $n
+else
+  if quest (8,4,$n) > 10
+    mpmset $n quest 7 1 0
+    shout $n is pardon of all his/her crime.
+    mpmset $n quest 8 4 0
+  else
+    if quest (7,1,$n) == 1
+      mpechoat $n The chieftain twitches his nose as you enter the throne room.
+      say I can smell the stench of your deeds on you.
+      say You have disregard my warnings and kill my people.
+      say Since this is your first offense I'll disregard the deed.
+      say BUT you must enter the "old city",
+      say and clean if of the fowl creatures that infest there.
+      say Only then can I forgive thee, now begone.
+      mpmset $n quest 8 4 1
+    else
+      say Welcome to my wonderful city, is there anything I can help you with?
+    endif
+  endif
+endif
+~
+>fight_prog 100~
+if rand (75)
+  cast "fireball" $r
+endif
+if rand (50)
+  cast "earthquake"
+endif
+if rand (25)
+  cast "tremor"
+endif
+if rand (30)
+  cast "heal"
+endif
+~
+>death_prog 100~
+if quest (5,2,$n) == 1
+  mpmset $n quest 5 2 2
+endif
+if class ($n) == class_elementalist
+  if rand (30)
+    mpoload 24511
+  endif
+else
+  if rand (10)
+    mpoload 24511
+  endif
+endif
+~
+|
+#24516
+man~
+a wealthy man~
+A very wealthy man is here sitting behind the desk reading some documents.~
+He seems to be preoccupied with his document. Didn't even notice you barging
+in, as though he weren't afraid of whoever coming through that door.
+Should you be afraid?
+~
+ACT_SENTINEL|ACT_SMART
+0
+-100 S
+45 0 0 1d506+956 4d5+30
+49171 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p John Smith~
+tell $n John Smith? Sorry, you must of have the wrong hut.
+~
+>death_prog 100~
+shout $n is a murderer!!!
+if quest (7,1,$n) == 0
+  mpmset $n quest 7 1 1
+endif
+~
+|
+#24517
+female native~
+a female native~
+A female native is here doing her house work.~
+She looks like any other female natives. The male goes out looking for
+food while the female does the cooking and cleaning at home.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+45 0 0 1d506+956 4d4+30
+1000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 75~
+say Please leave my hut, you aren't welcome here...
+~
+>death_prog 100~
+shout $n is a murderer!!!
+if quest (7,1,$n) == 0
+  mpmset $n quest 7 1 1
+endif
+~
+|
+#24518
+rat~
+a giant rat~
+A giant rat is here.~
+You never seen a rat this size before and he looks to be very hungry.
+I wouldn't want to be his next meal. Better high tail it outta here.
+~
+0
+AFF_SNEAK|AFF_HIDE
+0 S
+200 0 0 1d10000+28010 1d200+202
+13918 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if wearsobjnum ($n) == 24509
+  mpechoat $n The rat charges at you, but an invisible force kept it at bay.
+else
+  growl $n
+  mpkill $n
+~
+>death_prog 100~
+if quest (8,4,$n) > 0
+  if quest (8,4,$n) < 15
+    mpmadd $n quest 8 4 1
+  endif
+endif
+~
+|
+#24519
+bat~
+a giant bat~
+A giant bat is asleep on the ceiling here.~
+You see a very big bat. With a wing span of a condor if it ever open up.
+~
+0
+AFF_SNEAK|AFF_HIDE
+0 S
+200 0 0 1d10000+28010 1d200+202
+12319 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if wearsobjnum ($n) == 24512
+  bow $n
+else
+  mpkill $n
+~
+>death_prog 100~
+if quest (8,4,$n) > 0
+  if quest (8,4,$n) < 15
+    mpmadd $n quest 8 4 1
+  endif
+endif
+~
+|
+#24520
+ethchief~
+a guard~
+The ethchief mob stands here.~
+The ethchief mob looks back at you!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p I'm here to see the chieftain.~
+if quest (5,2,$n) == 1
+  connect west 24509
+  say You may pass.
+  mpecho A door opens up and you are usher in.
+  mpforce $n west
+  connect west -1
+else
+  say The chieftain is very busy.
+  say Come back later.
+endif
+~
+>speech_prog p Open up~
+if class ($n) == class_elementalist
+  connect west 24509
+  mpecho A guard says, 'You may pass.'
+  mpecho A door opens up and you are usher in.
+  mpforce $n west
+  connect west -1
+endif
+~
+|
+#24523
+ghost Kyle Laust man father husband~
+a ghost~
+A ghost is hoovering here.~
+You see the outline of what was once a man, but now he's just a astral form.
+Looking carefully at his faceful outlines, you notice a small similarity to
+the little girl.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+75 0 0 1d1406+4580 1d75+66
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p Kyle Laust~
+if quest (0,4,$n) == 6
+  tell $n I was once a man known by that name.
+  tell $n But what is left of me is an empty shell.
+  tell $n I can never go back to see my daughter or my
+  tell $n beautiful wife ever again.
+  cry 
+  tell $n This is the fate of a treasure hunter.
+  tell $n It's funny how I died, I was running away from
+  tell $n something and didn't look where I was going.
+  tell $n I hit the side of the well and fell in.
+  laugh 
+  tell $n But I do have some unfinish business in this world.
+  tell $n And only you can help me now.
+  tell $n Will you help me?
+  mpmset $n quest 0 4 7
+else
+  moan 
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 7
+  smile 
+  thank $n
+  tell $n I'd still have this urge to seek out the treasure
+  tell $n in the lost city, but I cannot for I can't leave
+  tell $n this dwelling. But before I died, I did manage to
+  tell $n put a name to the place it is located.
+  tell $n Go find a guide and hire him to take you to "dawa".
+  tell $n G'luck my friend, may I call you friend?
+  tell $n Don't mind me, being trap here for eternity is
+  tell $n not something I enjoy.
+  mpmset $n quest 0 4 8
+  mpecho The ghost disappear through the wall.
+  mppurge self
+endif
+~
+|
+#24524
+sprite~
+a sprite~
+A sprite is here grinning mischievously.~
+You see a very very small sprite buzzing around. Rumors has it that sprite
+has a tendency to cause mischief. I advise caution when approaching one.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+75 0 0 1d1406+4580 1d75+66
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+if quest (12,3,$r) == 2
+  say I have a very special item.
+  say Do you want it?
+  say Of course you do, people are greedy. I'm a fool to ask otherwise.
+  say If you can guess what it is I may give it to you.
+endif
+~
+>speech_prog diamond~
+if quest (12,3,$n) == 2
+  grin $n
+  tell $n I see that you're looking for the diamond.
+  tell $n Well, i'll give you a diamond if you can answer this question.
+  if rand (25)
+    tell $n What is not alive but still is?
+    mpmset $n quest 15 1 1
+    mpmset $n quest 16 1 0
+    mpmset $n quest 17 1 0
+    mpmset $n quest 18 1 0
+  else
+    if rand (33)
+      tell $n I am sometimes strong and sometimes weak,
+      tell $n But I am nobody's fool.
+      tell $n For there is no language I can't speak,
+      tell $n Though I never went to school.
+      tell $n What am I?
+      mpmset $n quest 16 1 1
+      mpmset $n quest 15 1 0
+      mpmset $n quest 17 1 0
+      mpmset $n quest 18 1 0
+    else
+      if rand (50)
+        tell $n There is a thing that nothing is, and yet is has a name.
+        tell $n It's sometimes long and sometime's short,
+        tell $n Joins our talks, joins our sport,
+        tell $n And plays at every game.
+        tell $n What am I?
+        mpmset $n quest 17 1 1
+        mpmset $n quest 15 1 0
+        mpmset $n quest 16 1 0
+        mpmset $n quest 18 1 0
+      else
+        tell $n What is better than God and worse than the devil?
+        tell $n Dead people eat it always and
+        tell $n The living who eat it die slowly.
+        mpmset $n quest 18 1 1
+        mpmset $n quest 17 1 0
+        mpmset $n quest 16 1 0
+        mpmset $n quest 15 1 0
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog ghost~
+if quest (12,3,$n) == 2
+  if quest (15,1,$n) == 1
+    mpmset $n quest 15 1 0
+    tell $n How did you guess?
+    tell $n Well, I guess you win, here's your prize.
+    mpoload 24534
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i24534 $n
+    mpecho The sprite flew away, looking very angry that you solve his puzzle.
+    mppurge self
+  endif
+endif
+~
+>speech_prog echo~
+if quest (12,3,$n) == 2
+  if quest (16,1,$n) == 1
+    mpmset $n quest 16 1 0
+    tell $n How did you guess?
+    tell $n Well, I guess you win, here's your prize.
+    mpoload 24534
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i24534 $n
+    mpecho The sprite flew away, looking very angry that you solve his puzzle.
+    mppurge self
+  endif
+endif
+~
+>speech_prog shadow~
+if quest (12,3,$n) == 2
+  if quest (17,1,$n) == 1
+    mpmset $n quest 17 1 0
+    tell $n How did you guess?
+    tell $n Well, I guess you win, here's your prize.
+    mpoload 24534
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i24534 $n
+    mpecho The sprite flew away, looking very angry that you solve his puzzle.
+    mppurge self
+  endif
+endif
+~
+>speech_prog nothing~
+if quest (12,3,$n) == 2
+  if quest (18,1,$n) == 1
+    mpmset $n quest 18 1 0
+    tell $n How did you guess?
+    tell $n Well, I guess you win, here's your prize.
+    mpoload 24534
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i24534 $n
+    mpecho The sprite flew away, looking very angry that you solve his puzzle.
+    mppurge self
+  endif
+endif
+~
+|
+#24527
+rat~
+a tiny defenseless rat~
+A tiny defenseless rat is here.~
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+40 0 0 1d400+746 0d0+30
+5000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if level ($n) < 50
+  glare $n
+  grin $n
+  mpkill $n
+endif
+~
+|
+#0
+
+
+#SHOPS
+24503 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+24509 ITEM_TYPE_ARMOR ITEM_TYPE_LIGHT ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+24510 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+24511 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+24512 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_NOTHING  100  50  0 23
+24514 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#24500
+well~
+a well~
+You see a well here.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+E
+well~
+It's a well. What you expect it to look like? You know, water comes out
+of it. You either drink from it or take it home for other task.
+~
+#24501
+hide skirt~
+a dark hide skirt~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+18 0 0 0 0 0 0 0
+40 100000 75
+#24502
+hide sandal~
+a dark hide sandal~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+18 0 0 0 0 0 0 0
+40 10000 75
+#24503
+hide shirt~
+a dark hide shirt~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+18 0 0 0 0 0 0 0
+40 10000 75
+#24504
+skull ring~
+a skull ring~
+A ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+5 100000 35
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+#24505
+tooth necklace~
+a tooth necklace~
+A set of animal tooth lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+5 100000 35
+A APPLY_DAMROLL 4 0
+A APPLY_STR 1 0
+#24506
+spear~
+a spear~
+A spear rests here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 7 7 WEAPON_STAB 0 0 0 0
+10 50000 75
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 2 0
+#24507
+bolder~
+bolder~
+A large boulder blocks your way.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+5 10 1
+E
+boulder~
+This large boulder blocks your path. You might be able to climb over it,
+if only you have a tool. A rope or something.
+~
+#24508
+canoe~
+a canoe~
+A canoe lies here.~
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 50000 10
+#24509
+diamond~
+a diamond~
+A shiny stone lies here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000000 15
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#24510
+well~
+a well~
+You see a worn-down well here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+well~
+You peer into the well. You can't see very far down. You shout into the well.
+A echo vibrates down telling you about how deep the well is. You see some
+groves along the far interior of the well. It looks to be climbable.
+~
+#24511
+fiery mace~
+a fiery mace~
+A dimly glow of reddish color emits here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 2 2 WEAPON_POUND 0 0 0 0
+10 10 95
+A APPLY_SAVING_SPELL -10 0
+A APPLY_MANA 100 0
+A APPLY_AC -10 0
+P 1
+TRIG_HIT 5
+OPROG_IF OIF_WEAR_LOC = WEAR_WIELD 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The mace glows dimly, rejuvinating you.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 100
+#24512
+talisman~
+a talisman of the dead~
+A talisman lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+15 0 0 0 0 0 0 0
+4 10 95
+A APPLY_SAVING_SPELL -8 0
+A APPLY_MANA 150 0
+#24513
+ring Kanyamagufa~
+a ring of Kanyamagufa~
+A shiny ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+15 0 0 0 0 0 0 0
+5 10 95
+A APPLY_SAVING_SPELL -8 0
+A APPLY_MANA 100 0
+#24514
+rope ropes~
+some ropes~
+Some ropes lies here.~
+~
+ITEM_TYPE_FURNITURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 50000 35
+P 1
+TRIG_UNKNOWN 100 climb
+OPROG_IF OIF_USER_ROOM_NUM = 24534 15 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24574 16 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24595 17 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24644 18 5
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24601 19 6
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24647 20 7
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24610 21 8
+P 8
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24646 22 9
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24607 23 10
+P 10
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24645 24 11
+P 11
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24632 25 12
+P 12
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24643 26 13
+P 13
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24639 27 14
+P 14
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 24642 28 0
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24574 
+ mpechoat $ You take out the rope and climb over the boulder.~
+P 16
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24534 
+ mpechoat $ You take out the rope and climb over the boulder.~
+P 17
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24644 
+ mpechoat $ You take out the rope and use it.~
+P 18
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24595 
+ mpechoat $ You take out the rope and use it.~
+P 19
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24647 
+ mpechoat $ You take out the rope and use it.~
+P 20
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24601 
+ mpechoat $ You take out the rope and use it.~
+P 21
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24646 
+ mpechoat $ You take out the rope and use it.~
+P 22
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24610 
+ mpechoat $ You take out the rope and use it.~
+P 23
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24645 
+ mpechoat $ You take out the rope and use it.~
+P 24
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24607 
+ mpechoat $ You take out the rope and use it.~
+P 25
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24643 
+ mpechoat $ You take out the rope and use it.~
+P 26
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24632 
+ mpechoat $ You take out the rope and use it.~
+P 27
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24642 
+ mpechoat $ You take out the rope and use it.~
+P 28
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 24639 
+ mpechoat $ You take out the rope and use it.~
+#24515
+hide hyena shirt~
+a hyena hide shirt~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+30 100000 52
+#24516
+hyena hide skirt~
+a hyena hide skirt~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+15 0 0 0 0 0 0 0
+30 100000 52
+#24517
+hyena hide cloak~
+a hyena hide cloak~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+15 0 0 0 0 0 0 0
+30 100000 52
+#24518
+spear~
+a spear~
+A spear lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 4 9 WEAPON_PIERCE 0 0 0 0
+5 50000 50
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 4 0
+#24519
+hide cloak~
+a dark hide cloak~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+15 0 0 0 0 0 0 0
+40 100000 75
+#24520
+hyena hide sandal~
+a hyena hide sandal~
+A animal hide lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+30 100000 52
+#24521
+Kanyamaguta band~
+the Kanyamaguta band~
+A band lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+15 0 0 0 0 0 0 0
+3 10 95
+A APPLY_SAVING_SPELL -8 0
+A APPLY_MANA 100 0
+#24522
+diamond~
+a diamond~
+A shiny stone lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+1 2000000 45
+A APPLY_CON 3 0
+A APPLY_WIS 3 0
+A APPLY_INT 3 0
+#24523
+nuts~
+some nuts~
+Some nuts are here on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+5 0 0 0 0 0 0 0
+1 10 1
+#24524
+acorn~
+a few acorns~
+A few acorns are here on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 20 1
+#24525
+inga fruit~
+a Inga fruit~
+A fruit is here on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+20 0 0 0 0 0 0 0
+2 50 1
+#24526
+fungus~
+some tree fungus~
+Some tree fungus is here on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+40 0 0 0 0 0 0 0
+1 100 1
+#24527
+gourd~
+a gourd~
+A gourd is lying here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+20 20 LIQ_WATER 0 0 0 0 0
+4 20 1
+#24528
+Kejite leave~
+a Kejite leaves~
+A fig lies here.~
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 0 0 132 0 0 0 0
+2 20000 50
+S 3 'haste'
+#24529
+Kubata potion~
+a Kubata potion~
+A potion is here on the ground.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 9 235 110 0 0 0 0
+1 50000 50
+S 1 'armor'
+S 2 'stone skin'
+S 3 'flamestrike'
+#24530
+Kubata scroll~
+a Kubata scroll~
+A scroll is here on the ground.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 9 235 110 0 0 0 0
+1 50000 50
+S 1 'armor'
+S 2 'stone skin'
+S 3 'flamestrike'
+#24531
+knife~
+a knife~
+A knife lies here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 5 WEAPON_PIERCE 0 0 0 0
+2 8000 28
+#24532
+spear~
+a spear~
+A spear lies here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 5 6 WEAPON_PIERCE 0 0 0 0
+3 8000 34
+#24533
+paper~
+a paper~
+A piece of paper rest on the corpse hand.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+paper~
+You can't seem to read the beginning, but after skimming toward the end of
+the paper. You notice something about a magical forest, the native called
+it 'dawa.' Now you must try to find a guide to take you there. Good luck.
+~
+#24534
+diamond diamond11~
+a diamond~
+A shiny stone lies here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000000 15
+#24535
+torch~
+a torch~
+A torch is left here.~
+A torch, a plain and simple torch!
+~
+ITEM_TYPE_LIGHT
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 100 0 0 0 0 0
+1 10 1
+#24536
+diamond~
+a diamond~
+A shiny stone lies here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000000 15
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#0
+
+
+#ROOMS
+#24500
+Entrance~
+You are standing at the entrance to the City of Kisangani. You can hear
+voices coming from the north. To the east and west you notice several guard
+towers. They are built to see intruders coming to give advance warning.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24503
+DDIR_EAST
+~
+~
+0 -1 24501
+DDIR_WEST
+~
+~
+0 -1 24502
+#24501
+Guard Tower~
+A tower looms over the entrance to guard against a possible invasion attempt.
+With it's high towers, the guards can see miles ahead, giving ample time
+for the city to beef up it's defense and offense. Doesn't seem like anyone
+can sneak up on them with these towers in place.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 24500
+#24502
+Guard Tower~
+A tower looms over the entrance to guard against a possible invasion attemp.
+With it's high towers, the guards can see miles ahead, giving ample time
+for the city to beef up it's defense and offense. Doesn't seem like anyone
+can sneak up on them with these towers in place.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24500
+#24503
+A Stone Path~
+You're walking along the stone path. Looking down on the pavements, you notice
+that the stone are recently put in. The cement are just barely drying, with
+people's mark already permanently engrave in the stone. Maybe if you stomp
+down hard enough, you can leave a footprint.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24504
+DDIR_EAST
+~
+~
+0 -1 29498
+DDIR_SOUTH
+~
+~
+0 -1 24500
+#24504
+A Stone Path~
+You're walking along the stone path. Looking down on the pavements, you notice
+that the stone are recently put in. The cement are just barely drying, with
+people's mark already permanently engrave in the stone. Maybe if you stomp
+down hard enough, you can leave a footprint.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24505
+DDIR_SOUTH
+~
+~
+0 -1 24503
+#24505
+A Stone Path~
+You are standing at a junction. To the west is where the chieftain throne
+room is located. It is also where the guards barrack are. While to the north
+you continue on into the heart of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24516
+DDIR_SOUTH
+~
+~
+0 -1 24504
+DDIR_WEST
+~
+~
+0 -1 24506
+#24506
+Mislu Road~
+This is the beginning of Mislu Road, where all the guards barrack are located.
+At the end of this road you'll find the Chieftains' throne room. To the north
+and south you see some huts.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24510
+DDIR_EAST
+~
+~
+0 -1 24505
+DDIR_SOUTH
+~
+~
+0 -1 24511
+DDIR_WEST
+~
+~
+0 -1 24507
+#24507
+Mislu Road~
+This is the end of Mislu Road. What a short road it is to. To the north and
+south are huts where the guards sleep in. To the west you see the entrance to
+the Chieftain throne room. By the looks of it, he's not seeing anyone right now.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24512
+DDIR_EAST
+~
+~
+0 -1 24506
+DDIR_SOUTH
+~
+~
+0 -1 24513
+DDIR_WEST
+~
+~
+0 -1 24508
+#24508
+Entrance To The Throne Room~
+You are standing at the entrance to the throne room. You notice several guards
+blocking your way. To see the chieftain you have to get through those guards.
+But the door looks solid, I don't think you can just open the door and walk
+in. To the north and south are more huts.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24514
+DDIR_EAST
+~
+~
+0 -1 24507
+DDIR_SOUTH
+~
+~
+0 -1 24515
+#24509
+Throne Room~
+This is where the Chieftain presides over his subject. You see him starring at
+you from his throne. You wonder if you made a mistake coming into here. But
+too late...he motion for you to step forward.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24508
+#24510
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24506
+#24511
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24506
+#24512
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24507
+#24513
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24507
+#24514
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24508
+#24515
+A Barrack~
+You are standing in the guards living quarters. You notice several guards are
+still asleep. You assume their shift has ended or haven't begin yet. But
+either way, I wouldn't wanna wake them up. Besides the cot, and a few other
+furniture, there's nothing special that drawn you're attention.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24508
+#24516
+A Stone Path~
+You're walking along the stone path. Looking down on the pavements, you notice
+that the stone are recently put in. The cement are just barely drying, with
+people's mark already permanently engrave in the stone. Maybe if you stomp
+down hard enough, you can leave a footprint.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24517
+DDIR_SOUTH
+~
+~
+0 -1 24505
+#24517
+A Stone Path~
+You are walking along the stone path. As you stop to take a breath and look
+around. You see the center of the village to the north of you. There seem to
+be a well there. All of a sudden you feel thirsty from all this walking.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24518
+DDIR_SOUTH
+~
+~
+0 -1 24516
+#24518
+A Well~
+As you step into the room, you feel relax. No danger will happen to you while
+you're in this room. You can rest now. There is a sign here.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24532
+DDIR_EAST
+~
+~
+0 -1 24535
+DDIR_SOUTH
+~
+~
+0 -1 24517
+DDIR_WEST
+~
+~
+0 -1 24519
+#24519
+Kinshasa Path~
+You are on Kinshasa Path. This is the western end of the street. You hear many
+voices coming from the west. It's probably from the market that lies at the
+end of this street. The closer you are, the louder it gets.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 24518
+DDIR_WEST
+~
+~
+0 -1 24520
+#24520
+Kinshasa Path~
+The voices get louder and louder as you get nearer and nearer. You wonder
+what's going on there. Only one way to find out. Hope there's no big sale
+today, you don't want to have to squeeze through the crowds.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 24519
+DDIR_WEST
+~
+~
+0 -1 24521
+#24521
+Kinshasa Path~
+As you take a few step closer to the voices. You can make out a few things
+they are saying. "Hey..........clothing..........survival......don't....."
+That's all you can make out. Well those who were the loudest.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 24520
+DDIR_WEST
+~
+~
+0 -1 24522
+#24522
+Kinshasa Path~
+You walk into a very crowded room. So this is the marketplace. Wonder what they
+sell here. You look west and see a clothing store. To the north and south the
+marketplace continues.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24524
+DDIR_EAST
+~
+~
+0 -1 24521
+DDIR_SOUTH
+~
+~
+0 -1 24526
+DDIR_WEST
+~
+~
+0 -1 24523
+#24523
+Malawi's Jungle Wear~
+The local native weaver. This is where you can find all those wonderful
+clothing the natives wear.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24522
+#24524
+N. Kinshasa Path~
+You are at the northern end of the marketplace. To the west you can see a
+weapon shop. To the north you smell something-wonderful aromating from there.
+And to the east you see a glamorous hut. Well as glamorous as a hut can be.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24525
+DDIR_EAST
+~
+~
+0 -1 24530
+DDIR_SOUTH
+~
+~
+0 -1 24522
+DDIR_WEST
+~
+~
+0 -1 24531
+#24525
+Tanganiks's Grub~
+So this is where that wonderful smell is coming from. You wonder what they have
+here? So lets take a look at the menu...
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24524
+#24526
+S. Kinshasa Path~
+You are standing at the southern end of the marketplace. You feel a sense of
+dread as you look toward the east. While the hut to the south looks plain.
+A few supplies are stack outside it. You hear chanting coming from the west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24522
+DDIR_EAST
+~
+~
+0 -1 24528
+DDIR_SOUTH
+~
+~
+0 -1 24527
+DDIR_WEST
+~
+~
+0 -1 24529
+#24527
+Guide~
+You are standing in an ordinarily room. There's really nothing special
+about it. Just like any other native huts. But you do notice the owner
+of the place.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24526
+#24528
+Kanyamagufu~
+You almost passed out from the smell in the hut. This is where the local
+takes care of their corpse. No wonder you feel something bad about this
+room. You don't want to end up in here now do you?
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 24526
+#24529
+Shaman's Ingredients~
+You found the shaman's hut. Now you can get a remedy for that headache of
+yours. Hope he sells you the right potion, he doesn't seem to quite understand
+what you were saying.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24526
+#24530
+Imposeters' Jewelry~
+As you step into this hut, you see many diamonds of all shape and sizes in
+here. You wonder where they all come from. Who in the village can afford to
+buy or sell it? You look at the owner....
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 24524
+#24531
+Kivu's Survival Shop~
+You notice many type of native weapons on the the far wall as soon as you
+walk in. How good are you at using one to kill a wild animal? Only one way
+to find out.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see nothing special.~
+~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 24512 24649
+DDIR_EAST
+~
+~
+0 -1 24524
+#24532
+A Stone Path~
+You see a sign here. It reads:
+
+                             "Warning: Stay Away!"
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24533
+DDIR_SOUTH
+~
+~
+0 -1 24518
+#24533
+A Stone Path~
+You see another sign:
+
+                    "Please do not continue any further.
+                     Danger lies ahead."
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24534
+DDIR_SOUTH
+~
+~
+0 -1 24532
+#24534
+A Stone Path~
+To the north you see the old part of the city. It look as bad, maybe worse
+then the native claims. You see a sign here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 24533
+#24535
+Kinshasa Path~
+This is the eastern end of the street. You see many housing to the east.
+It must be the residential district. There's many people walking around here,
+mother holding their children, guards patrolling the streets and the husband
+getting to work.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 24536
+DDIR_WEST
+~
+~
+0 -1 24518
+#24536
+Kinshasa/Mukenko Intersection~
+You are standing at a intersection. You see many small and worn out huts
+toward the northern end. While the south have many big huts. The citizen
+on this end of the city can't afford the many luxury of life.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24554
+DDIR_SOUTH
+~
+~
+0 -1 24537
+DDIR_WEST
+~
+~
+0 -1 24535
+#24537
+S. Mukenko Path~
+You are standing on a very well paved road. Look like they update this road
+regularly to keep it from deteriorating. Of course most of the money comes
+from the rich inhabitant of this part of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24536
+DDIR_SOUTH
+~
+~
+0 -1 24538
+#24538
+S. Mukenko Path~
+You are standing on a very well paved road. Look like they update this road
+regularly to keep it from deteriorating. Of course most of the money comes
+from the rich inhabitant of this part of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24537
+DDIR_EAST
+~
+~
+0 -1 24539
+#24539
+S. Mukenko Path~
+You are standing in the better part of the residential district. You see
+many large huts all around you. The citizen are dress in luxurious clothing,
+the best money can buy. They spare no expense telling people how much they
+really are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24552
+DDIR_EAST
+~
+~
+0 -1 24540
+DDIR_SOUTH
+~
+~
+0 -1 24553
+DDIR_WEST
+~
+~
+0 -1 24538
+#24540
+S. Mukenko Path~
+You are standing in the better part of the residential district. You see
+many large huts all around you. The citizen are dress in luxurious clothing,
+the best money can buy. They spare no expense telling people how much they
+really are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24550
+DDIR_EAST
+~
+~
+0 -1 24541
+DDIR_SOUTH
+~
+~
+0 -1 24551
+DDIR_WEST
+~
+~
+0 -1 24539
+#24541
+S. Mukenko Path~
+You are standing in the better part of the residential district. You see
+many large huts all around you. The citizen are dress in luxurious clothing,
+the best money can buy. They spare no expense telling people how much they
+really are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24548
+DDIR_EAST
+~
+~
+0 -1 24542
+DDIR_SOUTH
+~
+~
+0 -1 24549
+DDIR_WEST
+~
+~
+0 -1 24540
+#24542
+S. Mukenko Path~
+You are standing in the better part of the residential district. You see
+many large huts all around you. The citizen are dress in luxurious clothing,
+the best money can buy. They spare no expense telling people how much they
+really are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24546
+DDIR_EAST
+~
+~
+0 -1 24543
+DDIR_SOUTH
+~
+~
+0 -1 24547
+DDIR_WEST
+~
+~
+0 -1 24541
+#24543
+S. Mukenko Path~
+You are standing in the better part of the residential district. You see
+many large huts all around you. The citizen are dress in luxurious clothing,
+the best money can buy. They spare no expense telling people how much they
+really are.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24544
+DDIR_SOUTH
+~
+~
+0 -1 24545
+DDIR_WEST
+~
+~
+0 -1 24542
+#24544
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24543
+#24545
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24543
+#24546
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24542
+#24547
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24542
+#24548
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24541
+#24549
+A Large Hut~
+You are in a very spacious hut. It's interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24541
+#24550
+A Large Hut~
+You are in a very spacious hut. Its interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24540
+#24551
+A Large Hut~
+You are in a very spacious hut. Its interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24540
+#24552
+A Large Hut~
+You are in a very spacious hut. Its interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24539
+#24553
+A Large Hut~
+You are in a very spacious hut. Its interior are like no other huts you visit
+before cause each person have different taste. Walking into each of these
+huts are like taking a trip through the many cultures of world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24539
+#24554
+N. Mukenko Path~
+As you get nearer and nearer to this part of the city, you notice its the
+bad part of town. Bad, as in the people who lives here can't afford to live
+elsewhere.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24555
+DDIR_SOUTH
+~
+~
+0 -1 24536
+#24555
+Mukenko/Dirt Intersection~
+You are standing at the intersection. To the north the path continues. To
+the west you smell herbal plants coming from it. To the east you see many
+worn out huts.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24556
+DDIR_EAST
+~
+~
+0 -1 24559
+DDIR_SOUTH
+~
+~
+0 -1 24554
+DDIR_WEST
+~
+~
+0 -1 24558
+#24556
+N. Mukenko Path~
+You reach the end of N. Mukenko Path. To the west you can hear people fighting.
+It looks like a training center of some sort. Why don't you walk in there and
+find out, maybe that will save your life one day.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 24555
+DDIR_WEST
+~
+~
+0 -1 24557
+#24557
+Shaka's Training Ground~
+You are standing in a very large hut. You see many people in the background
+fighting each other. Maybe you can learn a thing or two here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24556
+#24558
+Shaman Hungawa's Hut~
+You notice a shaman teaching, or looks like he's teaching his students on the
+fine arts of being a shaman. Is there anything you want to learn from him?
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24555
+#24559
+Dirt Path~
+You stand and look around you. No matter where you walk it looks the same.
+All the huts are worn down and looks like it hasn't been fix for years. You
+wonder how these people can live like this, well they sure can't live anywhere
+else for that matter. It's too costly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24572
+DDIR_EAST
+~
+~
+0 -1 24560
+DDIR_SOUTH
+~
+~
+0 -1 24573
+DDIR_WEST
+~
+~
+0 -1 24555
+#24560
+Dirt Path~
+You stand and look around you. No matter where you walk it looks the same.
+All the huts are worn down and looks like it hasn't been fix for years. You
+wonder how these people can live like this, well they sure can't live anywhere
+else for that matter. It's too costly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24570
+DDIR_EAST
+~
+~
+0 -1 24561
+DDIR_SOUTH
+~
+~
+0 -1 24571
+DDIR_WEST
+~
+~
+0 -1 24559
+#24561
+Dirt Path~
+You stand and look around you. No matter where you walk it looks the same.
+All the huts are worn down and looks like it hasn't been fix for years. You
+wonder how these people can live like this, well they sure can't live anywhere
+else for that matter. It's too costly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24568
+DDIR_EAST
+~
+~
+0 -1 24562
+DDIR_SOUTH
+~
+~
+0 -1 24569
+DDIR_WEST
+~
+~
+0 -1 24560
+#24562
+Dirt Path~
+You stand and look around you. No matter where you walk it looks the same.
+All the huts are worn down and looks like it hasn't been fix for years. You
+wonder how these people can live like this, well they sure can't live anywhere
+else for that matter. It's too costly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24566
+DDIR_EAST
+~
+~
+0 -1 24563
+DDIR_SOUTH
+~
+~
+0 -1 24567
+DDIR_WEST
+~
+~
+0 -1 24561
+#24563
+Dirt Path~
+You stand and look around you. No matter where you walk it looks the same.
+All the huts are worn down and looks like it hasn't been fix for years. You
+wonder how these people can live like this, well they sure can't live anywhere
+else for that matter. It's too costly.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 24564
+DDIR_SOUTH
+~
+~
+0 -1 24565
+DDIR_WEST
+~
+~
+0 -1 24562
+#24564
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24563
+#24565
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture's
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24563
+#24566
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24562
+#24567
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24562
+#24568
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24561
+#24569
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24561
+#24570
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24560
+#24571
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24560
+#24572
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24559
+#24573
+A Small Hut~
+You are standing in a very small, worn down hut. There's only a few furniture
+lying around and it looks to be worn out. If it gets any worse, it just might
+break apart if you sit on it. Guess making a living in this city isn't as easy
+as it may looks in the other part of town.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24559
+#24574
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24594
+DDIR_EAST
+~
+~
+0 -1 24580
+DDIR_WEST
+~
+~
+0 -1 24575
+#24575
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24595
+DDIR_EAST
+~
+~
+0 -1 24574
+DDIR_WEST
+~
+~
+0 -1 24576
+#24576
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24596
+DDIR_EAST
+~
+~
+0 -1 24575
+DDIR_WEST
+~
+~
+0 -1 24577
+#24577
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24597
+DDIR_EAST
+~
+~
+0 -1 24576
+DDIR_WEST
+~
+~
+0 -1 24578
+#24578
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24598
+DDIR_EAST
+~
+~
+0 -1 24577
+DDIR_WEST
+~
+~
+0 -1 24579
+#24579
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24599
+DDIR_EAST
+~
+~
+0 -1 24578
+#24580
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24593
+DDIR_EAST
+~
+~
+0 -1 24581
+DDIR_WEST
+~
+~
+0 -1 24574
+#24581
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24592
+DDIR_EAST
+~
+~
+0 -1 24582
+DDIR_WEST
+~
+~
+0 -1 24580
+#24582
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24591
+DDIR_EAST
+~
+~
+0 -1 24583
+DDIR_WEST
+~
+~
+0 -1 24581
+#24583
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24590
+DDIR_EAST
+~
+~
+0 -1 24584
+DDIR_WEST
+~
+~
+0 -1 24582
+#24584
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24589
+DDIR_EAST
+~
+~
+0 -1 24585
+DDIR_WEST
+~
+~
+0 -1 24583
+#24585
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24588
+DDIR_EAST
+~
+~
+0 -1 24586
+DDIR_WEST
+~
+~
+0 -1 24584
+#24586
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24587
+DDIR_WEST
+~
+~
+0 -1 24585
+#24587
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24600
+DDIR_SOUTH
+~
+~
+0 -1 24586
+DDIR_WEST
+~
+~
+0 -1 24588
+#24588
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24587
+DDIR_SOUTH
+~
+~
+0 -1 24585
+DDIR_WEST
+~
+~
+0 -1 24589
+#24589
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24602
+DDIR_EAST
+~
+~
+0 -1 24588
+DDIR_SOUTH
+~
+~
+0 -1 24584
+DDIR_WEST
+~
+~
+0 -1 24590
+#24590
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24589
+DDIR_SOUTH
+~
+~
+0 -1 24583
+DDIR_WEST
+~
+~
+0 -1 24591
+#24591
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24606
+DDIR_EAST
+~
+~
+0 -1 24590
+DDIR_SOUTH
+~
+~
+0 -1 24582
+DDIR_WEST
+~
+~
+0 -1 24592
+#24592
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24612
+DDIR_EAST
+~
+~
+0 -1 24591
+DDIR_SOUTH
+~
+~
+0 -1 24581
+DDIR_WEST
+~
+~
+0 -1 24593
+#24593
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24592
+DDIR_SOUTH
+~
+~
+0 -1 24580
+DDIR_WEST
+~
+~
+0 -1 24594
+#24594
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24617
+DDIR_EAST
+~
+~
+0 -1 24593
+DDIR_SOUTH
+~
+~
+0 -1 24574
+DDIR_WEST
+~
+~
+0 -1 24595
+#24595
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24594
+DDIR_SOUTH
+~
+~
+0 -1 24575
+DDIR_WEST
+~
+~
+0 -1 24596
+#24596
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24595
+DDIR_SOUTH
+~
+~
+0 -1 24576
+DDIR_WEST
+~
+~
+0 -1 24597
+#24597
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24596
+DDIR_SOUTH
+~
+~
+0 -1 24577
+DDIR_WEST
+~
+~
+0 -1 24598
+#24598
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24632
+DDIR_EAST
+~
+~
+0 -1 24597
+DDIR_SOUTH
+~
+~
+0 -1 24578
+DDIR_WEST
+~
+~
+0 -1 24599
+#24599
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24637
+DDIR_EAST
+~
+~
+0 -1 24598
+DDIR_SOUTH
+~
+~
+0 -1 24579
+#24600
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24601
+DDIR_SOUTH
+~
+~
+0 -1 24587
+#24601
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 24600
+#24602
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24603
+DDIR_EAST
+~
+~
+0 -1 24604
+DDIR_SOUTH
+~
+~
+0 -1 24589
+DDIR_WEST
+~
+~
+0 -1 24605
+#24603
+A Hut~
+You seem to stumble upon a worn down hut. You search around the place,
+but nothing seem to catch your eye. This place looks like it hasn't been
+inhabitant in years, there are dust everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24602
+#24604
+A Hut~
+You seem to stumble upon a worn down hut. You search around the place,
+but nothing seem to catch your eye. This place looks like it hasn't been
+inhabitant in years, there are dust everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 24602
+#24605
+A Hut~
+You seem to stumble upon a worn down hut. You search around the place,
+but nothing seem to catch your eye. This place looks like it hasn't been
+inhabitant in years, there are dust everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24602
+#24606
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24607
+DDIR_SOUTH
+~
+~
+0 -1 24591
+DDIR_WEST
+~
+~
+0 -1 24612
+#24607
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24608
+DDIR_SOUTH
+~
+~
+0 -1 24606
+DDIR_WEST
+~
+~
+0 -1 24613
+#24608
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24609
+DDIR_EAST
+~
+~
+0 -1 24611
+DDIR_SOUTH
+~
+~
+0 -1 24607
+DDIR_WEST
+~
+~
+0 -1 24614
+#24609
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24610
+DDIR_SOUTH
+~
+~
+0 -1 24608
+DDIR_WEST
+~
+~
+0 -1 24615
+#24610
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 24611
+DDIR_WEST
+~
+~
+0 -1 24609
+#24611
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24610
+DDIR_WEST
+~
+~
+0 -1 24608
+#24612
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24613
+DDIR_EAST
+~
+~
+0 -1 24606
+DDIR_SOUTH
+~
+~
+0 -1 24592
+#24613
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24614
+DDIR_EAST
+~
+~
+0 -1 24607
+DDIR_SOUTH
+~
+~
+0 -1 24612
+#24614
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24615
+DDIR_EAST
+~
+~
+0 -1 24608
+DDIR_SOUTH
+~
+~
+0 -1 24613
+#24615
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24609
+DDIR_SOUTH
+~
+~
+0 -1 24614
+DDIR_WEST
+~
+~
+0 -1 24616
+#24616
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24615
+#24617
+Cave Entrance~
+This is a entrance to a cave. You hear many loud voices coming from inside.
+"SQUUUEEAAKK! SQQUUUEEEAAKKK!" Sounds like a very big bat, or it could be
+many big bats are inside.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24618
+DDIR_SOUTH
+~
+~
+0 -1 24594
+#24618
+Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24619
+DDIR_WEST
+~
+~
+0 -1 24617
+#24619
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24620
+DDIR_SOUTH
+~
+~
+0 -1 24618
+#24620
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24619
+DDIR_WEST
+~
+~
+0 -1 24621
+#24621
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24620
+DDIR_SOUTH
+~
+~
+0 -1 24622
+#24622
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24621
+DDIR_WEST
+~
+~
+0 -1 24623
+#24623
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24625
+DDIR_EAST
+~
+~
+0 -1 24622
+DDIR_WEST
+~
+~
+0 -1 24624
+#24624
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24623
+#24625
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24623
+DDIR_WEST
+~
+~
+0 -1 24626
+#24626
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24625
+DDIR_WEST
+~
+~
+0 -1 24627
+#24627
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24626
+DDIR_SOUTH
+~
+~
+0 -1 24628
+#24628
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24627
+DDIR_SOUTH
+~
+~
+0 -1 24629
+#24629
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24628
+DDIR_EAST
+~
+~
+0 -1 24630
+#24630
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 24631
+DDIR_WEST
+~
+~
+0 -1 24629
+#24631
+A Cave~
+This cave seems to go on forever. With it's many lengthy and windy trail. Its
+also very humid and dark in here, no wonder certain creatures like to make its
+home here. I wouldn't want someone walking into my house uninvited.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 24630
+#24632
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24633
+DDIR_SOUTH
+~
+~
+0 -1 24598
+DDIR_WEST
+~
+~
+0 -1 24637
+#24633
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24634
+DDIR_SOUTH
+~
+~
+0 -1 24632
+DDIR_WEST
+~
+~
+0 -1 24638
+#24634
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24635
+DDIR_SOUTH
+~
+~
+0 -1 24633
+DDIR_WEST
+~
+~
+0 -1 24639
+#24635
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24636
+DDIR_SOUTH
+~
+~
+0 -1 24634
+DDIR_WEST
+~
+~
+0 -1 24640
+#24636
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_WEST
+~
+~
+0 -1 24635
+#24637
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24638
+DDIR_EAST
+~
+~
+0 -1 24632
+DDIR_SOUTH
+~
+~
+0 -1 24599
+#24638
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24639
+DDIR_EAST
+~
+~
+0 -1 24633
+DDIR_SOUTH
+~
+~
+0 -1 24637
+#24639
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 24640
+DDIR_EAST
+~
+~
+0 -1 24634
+DDIR_SOUTH
+~
+~
+0 -1 24638
+#24640
+A Trail~
+You are standing on a trail. It is very dark here, you can't seem to see very
+far in front of you. Better watch your steps and take it slowly. You can also
+hear a lot of animals shuffling around, you wouldn't want to stumble onto one
+unexpectedly now would you?
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 24635
+DDIR_SOUTH
+~
+~
+0 -1 24639
+#24641
+Guards Precint~
+This is where the guards start their patrol.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24535
+DDIR_EAST
+~
+~
+0 -1 24538
+DDIR_SOUTH
+~
+~
+0 -1 24556
+DDIR_WEST
+~
+~
+0 -1 24543
+#24642
+Inside the well~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place except for the corpse here.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24643
+Inside the well.~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24644
+Inside the well.~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24645
+Inside the well.~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24646
+Inside the well.~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24647
+Inside the well.~
+You reach the bottom of the well. There doesn't seem to be any
+water left in here. Looking around you notice nothing peculiar
+about this place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#24648
+Empty Room~
+You are in a empty room.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#24649
+A Trail~
+You found yourself within a secret hallway. By the looks of things no one has
+been in here for ages. You're probably the first person to step into this path.
+I'll be very careful. It hasn't been use for a very long time.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 24650
+DDIR_SOUTH
+~
+~
+0 -1 24531
+#24650
+A Trail~
+You first glance of the place gives you a very dreadful feeling. You feel a
+ghostly presence in the room. Being the brave adventurer that you are, you
+shrug off the feeling and show no emotion once again.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 24649
+#0
+
+
+#RESETS
+M 24508 100 24557
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24507 100 24558
+E 24501 100 WEAR_LEGS
+M 24501 100 24566
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24517 100 WEAR_NECK_A
+E 24520 100 WEAR_FEET
+M 24500 100 24566
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+E 24517 100 WEAR_NECK_A
+O 24500   1 24518
+M 24503 100 24527
+E 24504   2 WEAR_FINGER_L
+E 24505   2 WEAR_NECK_A
+E 24501 100 WEAR_LEGS
+G 24508 100 0
+G 24514 100 0
+M 24514 100 24528
+E 24501 100 WEAR_LEGS
+M 24512 100 24529
+E 24501 100 WEAR_LEGS
+E 24504   2 WEAR_FINGER_L
+E 24504   2 WEAR_FINGER_R
+E 24505   2 WEAR_NECK_A
+G 24529 100 0
+G 24530 100 0
+G 24528 100 0
+M 24509 100 24523
+E 24501 100 WEAR_LEGS
+G 24515 100 0
+G 24516 100 0
+G 24517 100 0
+G 24520 100 0
+M 24510 100 24531
+E 24501 100 WEAR_LEGS
+G 24531 100 0
+G 24532 100 0
+M 24511 100 24525
+E 24501 100 WEAR_LEGS
+G 24523 100 0
+G 24524 100 0
+G 24525 100 0
+G 24526 100 0
+G 24527 100 0
+M 24513 100 24530
+E 24535 900 WEAR_LIGHT
+E 24503 100 WEAR_BODY
+E 24501 100 WEAR_LEGS
+E 24502 100 WEAR_FEET
+M 24505 100 24502
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24502
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24501
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24501
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24500
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24500
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+O 24507   2 24534
+M 24502 100 24549
+E 24504   2 WEAR_FINGER_L
+E 24505   2 WEAR_NECK_B
+E 24503 100 WEAR_BODY
+E 24501 100 WEAR_LEGS
+E 24502 100 WEAR_FEET
+E 24519 100 WEAR_NECK_A
+M 24505 100 24511
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24511
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24510
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24510
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24512
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24512
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24513
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24513
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24508
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24505 100 24508
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+O 24510 100 24595
+O 24510 100 24632
+O 24510 100 24639
+O 24510 100 24607
+O 24510 100 24601
+O 24510 100 24610
+M 24515 100 24509
+E 24512   1 WEAR_NECK_A
+E 24501 100 WEAR_LEGS
+E 24513   1 WEAR_FINGER_R
+E 24521   1 WEAR_WRIST_L
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24506 100 24641
+E 24501 100 WEAR_LEGS
+E 24506 100 WEAR_WIELD
+M 24516 100 24552
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24516 100 24553
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24516 100 24551
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24516 100 24548
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24516 100 24546
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24516 100 24545
+E 24517 100 WEAR_NECK_A
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+E 24520 100 WEAR_FEET
+M 24504 100 24570
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24570
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24571
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24571
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24568
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24568
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24569
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24569
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24567
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24567
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24564
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24564
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24565
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24565
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24572
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24572
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24504 100 24573
+E 24517 100 WEAR_NECK_A
+E 24516 100 WEAR_LEGS
+E 24518 100 WEAR_WIELD
+M 24517 100 24573
+E 24517 100 WEAR_NECK_B
+E 24515 100 WEAR_BODY
+E 24516 100 WEAR_LEGS
+M 24518 100 24593
+M 24518 100 24601
+M 24518 100 24610
+M 24518 100 24616
+M 24518 100 24586
+M 24518 100 24592
+M 24518 100 24575
+M 24518 100 24579
+M 24518 100 24632
+M 24518 100 24639
+M 24518 100 24639
+M 24518 100 24636
+M 24519 100 24624
+M 24519 100 24624
+M 24519 100 24631
+M 24519 100 24631
+M 24519 100 24627
+M 24519 100 24620
+M 24518 100 24593
+M 24518 100 24601
+M 24518 100 24610
+M 24518 100 24616
+M 24518 100 24586
+M 24518 100 24592
+M 24518 100 24575
+M 24518 100 24579
+M 24518 100 24632
+M 24518 100 24639
+M 24518 100 24639
+M 24518 100 24636
+M 24519 100 24624
+M 24519 100 24624
+M 24519 100 24631
+M 24519 100 24631
+M 24519 100 24627
+M 24519 100 24620
+O 24507   2 24574
+M 24520 100 24508
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

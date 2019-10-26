@@ -1,0 +1,1770 @@
+#AREA Isle of Mist~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 40 60 1 95
+#OLC_RANGES 10700 10799
+
+
+#HELPS
+0 'ISLE OF MIST'~
+{128}                                Isle of Mist
+{308}
+This is the map of the Isle of Mist, created by Presto 7-11-94:
+The Isle of Mist is located west of the Northern Continent.
+                                 _   _
+               _____            |_| |_|
+              |  _  | The Isle   ^   ^ 
+          _   |_  | |            |___|
+   _    _| |   _|  _|    of     |_____|
+  | |  |   |<-|_  |              ^ 
+  | |<-|_  |    | |     Mist   __|__
+  |_|  |_  |   _| |_   _____  |  _  |_        * - City Entrance
+         |_|<-|_    | |  _  |_| | |_  |
+                |_  |_| |*|___   _|  _|
+                  |_______|   |_____|
+~
+
+0 $~
+
+
+#MOBILES
+#10700
+dragon mist~
+a Mist Dragon~
+A mist dragon sits here letting off some steam.~
+This is the strangest looking dragon you have ever seen.
+You can almost see right through it.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+60 0 0 1d1089+2183 1d66+22
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+tell $n Welcome to my hilltop.  Have a seat and enjoy the view.
+~
+>fight_prog 15~
+cast 'gas breath'
+~
+>rand_prog 5~
+cast 'control weather' worse
+~
+>death_prog 10~
+mpoload 10724
+~
+|
+#10701
+monster sea~
+a Sea Monster~
+A sea monster here is looking for a meal.~
+This is the strangest looking sea monster you have ever seen.
+You can almost see right through it.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_STEALTH
+-800 S
+40 0 0 1d484+912 4d9+15
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 20~
+emote dives to prepare for another attack.
+~
+|
+#10702
+mist demon~
+a Mist Demon~
+The mist here has taken on the shape of a demon.~
+This is the strangest demon you have ever seen.
+You can almost see right through it.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_STEALTH|AFF_HUNT
+-100 S
+45 0 0 1d600+1146 10d7+10
+50000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#10703
+guardian lake~
+the Guardian of the Lake~
+The Guardian of the Lake is here, making sure you keep your distance.~
+This is quite a powerful being.  It looks half scorpion, half dragon.
+You better flee and never return!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_PROTECT_GOOD|AFF_FLYING|AFF_HASTE
+-500 S
+90 0 0 1d1+15000 1d99+51
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+shout You are forbidden from coming near the lake!
+mpkill $n
+~
+>fight_prog 10~
+emote hits you with his tail.
+~
+>fight_prog 10~
+cast poison $r
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#10704
+golem mist~
+a Mist Golem~
+A golem made almost entirely of mist stands here, looking out over the sea.~
+This is the strangest golem you have ever seen.
+You can almost see right through it.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_PROTECT_EVIL
+0 S
+40 0 0 1d484+912 6d7+10
+59859 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+say Don't jump off.
+~
+|
+#10705
+knight mist~
+a Mist Knight~
+A mist knight is here, enforcing the rule to keep off the grass.~
+This is the strangest knight you have ever seen.
+In fact, you can almost see right through it.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_FLYING|AFF_HUNT
+500 S
+50 0 0 1d756+1469 30d2+0
+33333 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if rand (50)
+  say Have a nice day.  =)
+else
+  shout $n is walking on the grass!
+  mpkill $n
+endif
+~
+|
+#10706
+chango wizard mist isle~
+Chango~
+Chango the High Wizard of the Isle of Mist is here.~
+You have found the Wizard of Mist Isle, aka Chango.
+Chango has the unique ability of instantly transporting you to Mist Isle
+if you pay him to send you there.  Just give him 100,000 gold pieces.
+Warning, if you are not prepared for the challenge of Mist Isle, don't
+pay him to send you there.  Have a nice day.
+~
+ACT_SCAVENGER|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_FLYING|AFF_CLEAR|AFF_HUNT
+0 S
+95 0 0 100d100+5505 1d95+46
+111522 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Hi $n. Would you like to hear my story?
+~
+>speech_prog yes~
+say I was born on a magical island in the northern ocean.
+say If you give me 1,000 gold, I will send you there.
+~
+>fight_prog 50~
+if rand (20)
+  cast 'faerie fire' $r
+else
+  if rand (50)
+    kick 
+  else
+    if rand (50)
+      cast 'cure serious'
+    else
+      flee 
+    endif
+  endif
+endif
+~
+>bribe_prog 1000~
+if inroom ($i) != 10747
+  mptransfer $n 10747
+endif
+~
+>rand_prog 3~
+bye 
+cast teleport
+~
+>give_prog I10916~
+cast 'enhanced revive' $n
+cast 'enhanced heal' $n
+cast 'enhanced rest' $n
+mpjunk i10916
+cast teleport
+~
+|
+#10707
+dragon baby mist~
+a Mist Dragon Baby~
+A Mist Dragon Baby is here, chewing on some grass.~
+This is only a baby, but wow is it big.  This is the strangest baby you have
+ever seen.  In fact, you can almost see right through him.
+~
+ACT_SENTINEL|ACT_MOUNT
+AFF_HUNT
+0 S
+30 0 0 1d272+499 10d5+10
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+cast "gas breath"
+~
+|
+#10708
+dweller mist forest pine~
+a Forest Dweller~
+A Forest Dweller is here attending the pine trees.~
+This it the strangest humanoid you have ever seen.
+You can almost see right through him.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_WIMPY|ACT_SMART
+AFF_STEALTH
+500 S
+40 0 0 1d484+912 10d3+15
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+say Would you like to help me tend these trees?
+~
+>speech_prog no nope~
+say Then you don't belong here!
+~
+>speech_prog yes sure ok~
+say Thanks, $n
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#10700
+sabre mist~
+a mist sabre~
+A deep-gray sabre lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 10 3 WEAPON_SLASH 0 0 0 0
+5 50000 48
+A APPLY_STR 1 0
+A APPLY_HITROLL 5 0
+#10701
+dagger mist~
+a mist dagger~
+A deep-gray dagger lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 10 3 WEAPON_PIERCE 0 0 0 0
+3 50000 48
+A APPLY_STR 1 0
+A APPLY_HITROLL 5 0
+#10702
+hammer mist~
+a mist hammer~
+A deep-gray hammer lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 10 3 WEAPON_BLAST 0 0 0 0
+7 50000 48
+A APPLY_STR 1 0
+A APPLY_HITROLL 5 0
+#10703
+map paper~
+a map~
+A crumpled piece of paper lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+map paper~
+The map:
+==========================
+  ___
+ /   \    Isle
+#     |    of
+#  o  |   Mist
+#    /         .---__---.
+ \   '--------'  *    *  \
+  \__        ____________/
+     \______/
+#-cliffs *-hilltops o-lake
+==========================
+~
+#10704
+lake~
+a lake~
+A vast lake with incredibly clear water lies here.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+16960 10 1
+#10705
+ball mist~
+a mist ball~
+A deep-gray ball lies here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+5 55555 30
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+#10706
+ring mist hit~
+a mist ring~
+A deep-gray ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL -2 0
+#10707
+ring mist damage~
+a mist ring~
+A deep-gray ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL -2 0
+#10708
+broach mist~
+a mist broach~
+A deep-gray broach lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HIT 15 0
+A APPLY_SAVING_SPELL -2 0
+#10709
+cloak mist~
+a mist cloak~
+A deep-gray cloak lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_MANA 20 0
+A APPLY_CON 1 0
+A APPLY_SAVING_SPELL -2 0
+#10710
+plate mist~
+a mist plate~
+A deep-gray plate lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+15 55555 30
+A APPLY_STR 2 0
+A APPLY_SAVING_SPELL -2 0
+#10711
+helm mist~
+a mist helm~
+A deep-gray helm lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+A APPLY_SAVING_SPELL -2 0
+#10712
+leggings mist~
+a mist set of leggings~
+A deep-gray set of leggings lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_STR 2 0
+A APPLY_DEX 2 0
+A APPLY_SAVING_SPELL -2 0
+#10713
+boots mist~
+a mist set of boots~
+A deep-gray set of boots lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL -2 0
+#10714
+gloves mist~
+a mist set of gloves~
+A deep-gray set of gloves lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_SAVING_SPELL -2 0
+#10715
+sleeves mist~
+a mist set of sleeves~
+A deep-gray set of sleeves lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_DEX 2 0
+A APPLY_STR 2 0
+A APPLY_SAVING_SPELL -2 0
+#10716
+shield mist~
+a mist shield~
+A deep-gray shield lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+10 55555 30
+A APPLY_WIS 2 0
+A APPLY_CON 1 0
+A APPLY_SAVING_SPELL -2 0
+#10717
+robe mist~
+a mist robe~
+A deep-gray robe lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HIT 15 0
+A APPLY_SAVING_SPELL -2 0
+#10718
+belt mist~
+a mist belt~
+A deep-gray belt lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_CON 2 0
+A APPLY_SAVING_SPELL -2 0
+#10719
+bracelet mist int~
+a mist bracelet~
+A deep-gray bracelet lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_HIT 10 0
+A APPLY_INT 1 0
+A APPLY_SAVING_SPELL -2 0
+#10720
+bracelet mist wis~
+a mist bracelet~
+A deep-gray bracelet lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_MANA 20 0
+A APPLY_WIS 1 0
+A APPLY_SAVING_SPELL -2 0
+#10721
+sceptre mist~
+a mist sceptre~
+A deep-gray sceptre lies here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+300 0 0 0 0 0 0 0
+5 55555 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_SAVING_SPELL -2 0
+#10722
+ring plutonium mist~
+a plutonium ring~
+A warm, glowing circle of metal lies here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+200 0 -1 0 0 0 0 0
+100 10 65
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 7 0
+#10723
+sign~
+a sign~
+A sign has been staked into the beach here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+sign~
+The sign:
+                     ___________________________
+                    |     The Isle of Mist      |
+                    | ------------------------- |
+                    ||   KEEP OFF THE GRASS!   ||
+                    ||       -=========-       ||
+                    ||    INTRUDERS BEWARE!    ||
+                    ||       -=========-       ||
+                    ||  (= Have a nice day =)  ||
+                    | ------------------------- |
+                    | created by Presto 7-11-94 |
+                    |___________________________|
+                                |   |
+                                |   |
+                           \\/__|___|__\//
+~
+#10724
+ring mist special~
+a mist ring~
+A deep-gray ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+15 0 0 0 0 0 0 0
+1 55555 65
+A APPLY_DAMROLL 5 0
+#10725
+staff recall mist~
+a mist staff~
+A deep-gray staff lies here.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 20 20 266 0 0 0 0
+10 50000 25
+S 3 'word of recall'
+#10726
+wand magic missile mist~
+a magic wand~
+A deep-gray wand lies here.~
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 4 4 161 0 0 0 0
+3 50000 41
+S 3 'magic missile'
+#10727
+potion mist misty vial~
+a misty vial~
+A deep-gray vial lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 32 0 0 0 0 0 0
+3 50000 65
+S 1 'call lightning'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10728
+bottle potion mist misty~
+a misty bottle~
+A deep-grey bottle lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 190 0 0 0 0 0 0
+5 50000 43
+S 1 'protection evil'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#0
+
+
+#ROOMS
+#10700
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#10701
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+Exits lead in all directions.
+~
+0 ROOM_DARK|ROOM_SMOKE SECT_OCEAN
+DDIR_NORTH
+You see the mist.~
+~
+0 -1 10704
+DDIR_EAST
+You see the mist.~
+~
+0 -1 10702
+DDIR_SOUTH
+You see the mist.~
+~
+0 -1 10747
+DDIR_WEST
+~
+~
+0 -1 10998
+#10702
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+~
+0 ROOM_SMOKE SECT_OCEAN
+DDIR_NORTH
+You see the mist.~
+~
+0 -1 10705
+DDIR_EAST
+You see the mist.~
+~
+0 -1 10703
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10701
+#10703
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+~
+0 ROOM_DARK|ROOM_SMOKE SECT_OCEAN
+DDIR_NORTH
+You see the mist.~
+~
+0 -1 10706
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10702
+#10704
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+Exits lead in all directions.
+~
+0 ROOM_SMOKE SECT_OCEAN
+DDIR_EAST
+You see the mist.~
+~
+0 -1 10705
+DDIR_SOUTH
+You see the mist.~
+~
+0 -1 10701
+DDIR_WEST
+~
+~
+0 -1 10997
+#10705
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+~
+0 ROOM_SMOKE SECT_OCEAN
+DDIR_NORTH
+You see the mist.~
+~
+0 -1 15909
+DDIR_EAST
+You see the mist.~
+~
+0 -1 10706
+DDIR_SOUTH
+You see the mist.~
+~
+0 -1 10702
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10704
+#10706
+Floating in the Mist~
+You don't seem to be able to see anything through this mist.
+~
+0 ROOM_DARK|ROOM_SMOKE SECT_OCEAN
+DDIR_EAST
+You see the mist.~
+~
+0 -1 13664
+DDIR_SOUTH
+You see the mist.~
+~
+0 -1 10703
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10705
+#10707
+The Cliffs~
+These cliffs are extremely high!  In fact, you feel a little light-headed
+from the lack of oxygen.  You better move before you faint.  Exits lead
+south and west.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the cliffs.~
+~
+0 -1 10708
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10705
+#10708
+The Cliffs~
+These cliffs are extremely high!  In fact, you feel a little light-headed
+from the lack of oxygen.  You better move before you faint.  Exits lead
+north, west, south, and down.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the cliffs.~
+~
+0 -1 10707
+DDIR_SOUTH
+You see the cliffs.~
+~
+0 -1 10709
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10705
+DDIR_DOWN
+You see the woods.~
+~
+0 -1 10715
+#10709
+The Cliffs~
+These cliffs are extremely high!  In fact, you feel a little light-headed
+from the lack of oxygen.  You better move before you faint.  Exits lead
+north and west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the cliffs.~
+~
+0 -1 10708
+DDIR_WEST
+You see the mist.~
+~
+0 -1 10705
+#10710
+A Hilltop~
+You have reached a hilltop, which is dominated by a mist dragon!
+The only exit is back down.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+You see a trail.~
+~
+0 -1 10720
+#10711
+A Hilltop~
+You have reached the hilltop, which is dominated by a mist dragon!
+The only exit is back down.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+You see a trail.~
+~
+0 -1 10722
+#10712
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  The only exit is south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 10729
+DDIR_SOUTH
+You see more pine trees.~
+~
+0 -1 10714
+#10713
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  Exits lead east and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You see more pine trees.~
+~
+0 -1 10714
+DDIR_SOUTH
+You see more pine trees.~
+~
+0 -1 10715
+#10714
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  Exits lead north, west, south and down.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see more pine trees.~
+~
+0 -1 10712
+DDIR_SOUTH
+You see more pine trees.~
+~
+0 -1 10716
+DDIR_WEST
+You see more pine trees.~
+~
+0 -1 10713
+DDIR_DOWN
+You see grasslands.~
+~
+0 -1 10731
+#10715
+The Pine Forest~
+You are standing in a pine forest.  it smells excellent.  You can't
+however see very far.  Exits lead north, east and up.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see more pine trees.~
+~
+0 -1 10713
+DDIR_EAST
+You see more pine trees.~
+~
+0 -1 10716
+DDIR_UP
+You see the top of some cliffs.~
+~
+0 -1 10708
+#10716
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  Exits lead north, west and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see more pine trees.~
+~
+0 -1 10714
+DDIR_SOUTH
+You see more pine trees.~
+~
+0 -1 10718
+DDIR_WEST
+You see more pine trees.~
+~
+0 -1 10715
+#10717
+A Clearing at the Lake~
+This is a beautiful clearing.  The water here looks extremely refreshing.
+The only problem is that a guardian is here trying to keep intruders
+from touching his water.  The only exit is back to the east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see pine trees.~
+~
+0 -1 10718
+#10718
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  Exits lead north, west and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see more pine trees.~
+~
+0 -1 10716
+DDIR_SOUTH
+You see more pine trees.~
+~
+0 -1 10719
+DDIR_WEST
+You can barely make out a small clearing.~
+~
+0 -1 10717
+#10719
+The Pine Forest~
+You are standing in a pine forest.  It smells excellent.  You can't
+however see very far.  Exits lead north and down.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see more pine trees.~
+~
+0 -1 10718
+DDIR_DOWN
+You see grasslands.~
+~
+0 -1 10735
+#10720
+Climbing a Hill~
+You are halfway up the path of this huge hill.  The foliage of the jungle
+below has already been left behind.  Exits lead up, down and east.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+You see a valley through the mist.~
+~
+0 -1 10721
+DDIR_UP
+You see the hilltop.~
+~
+0 -1 10710
+DDIR_DOWN
+You see a dense jungle.~
+~
+0 -1 10753
+#10721
+The Mist Valley~
+This is an incredibly vast valley.  You can't however see very much
+of it through all the mist.  Exits lead east and west.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see another hill.~
+~
+0 -1 10722
+DDIR_WEST
+You see a hill.~
+~
+0 -1 10720
+#10722
+Climbing Another Hill~
+Here you go again.  But at least there isn't much mist on these hills.
+Exits lead up and west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+You see a valley in the mist.~
+~
+0 -1 10721
+DDIR_UP
+You see a hilltop.~
+~
+0 -1 10711
+#10723
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead east and south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You clearly see the trail.~
+~
+0 -1 10724
+DDIR_SOUTH
+You clearly see the trail.~
+~
+0 -1 10726
+#10724
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine                                           |
+that reaches it unimpeded.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You clearly see the trail.~
+~
+0 -1 10725
+DDIR_WEST
+You clearly see the trail.~
+~
+0 -1 10723
+DDIR_DOWN
+~
+~
+0 -1 10744
+#10725
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead west and south.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You clearly see the trail.~
+~
+0 -1 10728
+DDIR_WEST
+You clearly see the trail.~
+~
+0 -1 10724
+#10726
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead north and east.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You clearly see the trail.~
+~
+0 -1 10723
+DDIR_EAST
+You clearly see the trail.~
+~
+0 -1 10727
+#10727
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead west and south.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You clearly see the trail.~
+~
+0 -1 10729
+DDIR_WEST
+You clearly see the trail.~
+~
+0 -1 10726
+#10728
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead north and south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You clearly see the trail.~
+~
+0 -1 10725
+DDIR_SOUTH
+You clearly see the trail.~
+~
+0 -1 10730
+#10729
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine                                                 |     |                 |     |
+that reaches it unimpeded.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You clearly see the trail.~
+~
+0 -1 10727
+DDIR_EAST
+You clearly see the trail.~
+~
+0 -1 10730
+DDIR_SOUTH
+~
+~
+0 -1 10712
+#10730
+A Sunny Trail Free of Mist~
+The grass of this trail is a very dark green, due to the amount of sunshine
+that reaches it unimpeded.  Exits lead north and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You clearly see the trail.~
+~
+0 -1 10728
+DDIR_WEST
+You clearly see the trail.~
+~
+0 -1 10729
+#10731
+The Base of a Pine Tree Line~
+You stand at the base of a great sloping hill.  Mist has shrouded the
+landscape.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see mist rolling toward you.~
+~
+0 -1 10732
+DDIR_UP
+You see pine trees.~
+~
+0 -1 10714
+#10732
+Along the Sea, Below the Hills~
+The sea is to your right.  The hills are to your left.  Mist has shrouded
+the landscape.
+~
+0 ROOM_DARK SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 10733
+DDIR_WEST
+You see the base of a great hill.~
+~
+0 -1 10731
+#10733
+The Black Road~
+You have wondered onto the black road!  Now that you see it up close, you
+notice that it's not so much a physical road as it a scar on the landscape.
+You also notice that the grass is moving by it's own free will.
+~
+0 ROOM_DARK SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 10734
+DDIR_WEST
+~
+~
+0 -1 10732
+#10734
+The Black Road~
+You have wondered onto the black road!  Now that you see it up close, you
+notice that it's not so much a physical road as it a scar on the landscape.
+You also notice that the grass is moving by it's own free will.
+~
+0 ROOM_DARK SECT_FIELD
+DDIR_SOUTH
+You see a sandy beach.~
+~
+0 -1 10736
+DDIR_WEST
+~
+~
+0 -1 10733
+#10735
+The Base of a Pine Tree Line~
+You stand at the base of a great sloping hill.  Mist has shrouded the
+landscape.  Exits lead up and east.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10736
+DDIR_UP
+You see pine trees.~
+~
+0 -1 10719
+#10736
+A Sandy Beach~
+You are standing on a beach made entirely of gray sand!  It blends in
+perfectly with the mist.  You can make out exits in all directions.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a scar on the landscape.~
+~
+0 -1 10734
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10737
+DDIR_SOUTH
+You see a sandy beach.~
+~
+0 -1 10738
+DDIR_WEST
+You see the base of a hill.~
+~
+0 -1 10735
+#10737
+A Sandy Beach~
+You are standing on a beach made entirely of gray sand!  It blends in
+perfectly with the mist.  You can make out exits west and south.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see a sandy beach.~
+~
+0 -1 10739
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10736
+#10738
+A Sandy Beach~
+You are standing on a beach made entirely of gray sand!  It blends in
+perfectly with the mist.  You can make out exits north and east.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a sandy beach.~
+~
+0 -1 10736
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10739
+#10739
+A Sandy Beach~
+You are standing on a beach made entirely of gray sand!  It blends in
+perfectly with the mist.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a sandy beach.~
+~
+0 -1 10737
+DDIR_EAST
+~
+~
+0 -1 10740
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10738
+#10740
+A Sandy Beach~
+You are standing on a beach made entirely of gray sand!  It blends in
+perfectly with the mist.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a narrow stretch of beach.~
+~
+0 -1 10741
+DDIR_WEST
+~
+~
+0 -1 10739
+#10741
+A Narrow Stretch of Beach~
+The island is not very wide here.  You can see the sea by looking both
+north and south.  Exits lead east and west.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10742
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10740
+#10742
+The Southern Beach of the Isle~
+You can clearly see water south of you.  The sand of this beach is as gray
+as the mist that shrouds the island.  Exits lead north, east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see mist.~
+~
+0 -1 10745
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10743
+DDIR_WEST
+You see a narrow stretch of beach.~
+~
+0 -1 10741
+#10743
+The Southern Beach of the Island~
+You can clearly see water south of you.  The sand of this beach is as gray
+as the mist that shrouds the island.  Exits lead west.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10742
+#10744
+A Clearing~
+The land here has been cleared of all mist and foliage.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 10765
+DDIR_UP
+~
+~
+0 -1 10724
+#10745
+A Sandy Beach~
+The beach here is completely shrouded in mist.  Exits are north and south.
+~
+0 ROOM_DARK SECT_FIELD
+DDIR_NORTH
+You see a sandy beach.~
+~
+0 -1 10746
+DDIR_SOUTH
+You see a sandy beach.~
+~
+0 -1 10742
+#10746
+The Northern Beach of the Island~
+You can clearly see water north of you.  The sand of this beach is as gray
+as the mist that shrouds the island.  Exits lead east and south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10747
+DDIR_SOUTH
+You see mist.~
+~
+0 -1 10745
+#10747
+The Isle of Mist~
+Welcome to the Isle of Mist!  You are standing on the north beach of the
+island, which you can't make out very much of due to the mist.  Exits
+lead north, east and west.  Have fun!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see water with a layer of thick mist on top.~
+~
+0 -1 10701
+DDIR_EAST
+You see a sandy beach.~
+~
+0 -1 10748
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10746
+#10748
+The Northern Beach of the Island~
+The beach here is made entirely of gray sand.  To the north is the sea,
+south is a trail into a jungle.  More of the beach is to the west.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see a trail into a jungle.~
+~
+0 -1 10749
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10747
+#10749
+The Entrance to a Dark Jungle~
+You are standing before a high arch made of branches of the jungle.  It
+looks VERY dark inside.  The choice to enter is yours.  Exits lead
+north and east.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see a sandy beach.~
+~
+0 -1 10748
+DDIR_EAST
+You see the jungle.  Your conscience is telling you to stay out.~
+~
+0 -1 10750
+#10750
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see anything!
+Exits lead east and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You ony see darkness.~
+~
+0 -1 10751
+DDIR_WEST
+You see the entrance to the jungle.~
+~
+0 -1 10749
+#10751
+A Dark Jungle Intersection~
+Every exit from this intersection leads into a darkness so thick you can
+almost taste it.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10754
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10752
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10764
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10750
+#10752
+At the Base of a Hill~
+You are standing at the base of a hill in the dark jungle.  You can actually
+see a decent place to climb to the north.  The jungle is west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see a place to climb the hill.~
+~
+0 -1 10753
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10751
+#10753
+Climbing a Hill~
+You have started your trek up the hill.  Exits lead south and up.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10752
+DDIR_UP
+You see more of the hill.~
+~
+0 -1 10720
+#10754
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead north and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10755
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10751
+#10755
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead east and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10756
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10754
+#10756
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead east and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10757
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10755
+#10757
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead west and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10758
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10756
+#10758
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead north and east.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10757
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10759
+#10759
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead south and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10760
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10758
+#10760
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead north and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10759
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10761
+#10761
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead east and south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10760
+DDIR_SOUTH
+You only see darkness.~
+~
+0 -1 10762
+#10762
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead north and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10761
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10763
+#10763
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead east and west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10762
+DDIR_WEST
+You only see darkness.~
+~
+0 -1 10764
+#10764
+A Dark Jungle Trail~
+This is the darkest jungle you have ever been in.  You can't see a thing!
+You hear rustling in the bushes.  Exits lead north and east.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You only see darkness.~
+~
+0 -1 10751
+DDIR_EAST
+You only see darkness.~
+~
+0 -1 10763
+#10765
+A Clearing~
+The land here has been cleared of all mist and foliage.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 10766
+DDIR_SOUTH
+~
+~
+0 -1 10744
+#10766
+A Clearing~
+The land here has been cleared of all mist and foliage.  To the north is a
+huge wall with a gate.  "What is behind the wall?" you ask yourself.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 10930
+DDIR_SOUTH
+~
+~
+0 -1 10765
+#0
+
+
+#RESETS
+M 10700 100 10710
+M 10700 100 10711
+M 10701 100 10701
+M 10701 100 10701
+M 10701 100 10702
+M 10701 100 10702
+M 10701 100 10703
+M 10701 100 10703
+M 10701 100 10704
+M 10701 100 10704
+M 10701 100 10705
+M 10701 100 10705
+M 10701 100 10706
+M 10701 100 10706
+M 10702 100 10754
+E 10705   1 WEAR_LIGHT
+M 10702 100 10755
+E 10706   1 WEAR_FINGER_L
+M 10702 100 10755
+E 10707   1 WEAR_FINGER_L
+M 10702 100 10756
+E 10708   1 WEAR_NECK_A
+M 10702 100 10757
+E 10709   1 WEAR_NECK_A
+M 10702 100 10757
+E 10710   1 WEAR_BODY
+M 10702 100 10758
+E 10711   1 WEAR_HEAD
+M 10702 100 10759
+E 10712   1 WEAR_LEGS
+M 10702 100 10759
+E 10713   1 WEAR_FEET
+M 10702 100 10760
+E 10714   1 WEAR_HANDS
+M 10702 100 10761
+E 10715   1 WEAR_ARMS
+M 10702 100 10761
+E 10716   1 WEAR_SHIELD
+M 10702 100 10762
+E 10721   1 WEAR_DUAL_WIELD
+M 10702 100 10762
+E 10717   1 WEAR_ABOUT
+M 10702 100 10763
+E 10718   1 WEAR_WAIST
+M 10702 100 10763
+E 10719   1 WEAR_WRIST_L
+M 10702 100 10764
+E 10720   1 WEAR_WRIST_L
+M 10703 100 10717
+E 10722   1 WEAR_WRIST_L
+E 10722   1 WEAR_NECK_A
+O 10704   1 10717
+O 10723   1 10747
+O 10703   1 10738
+M 10704 100 10707
+E 10701   1 WEAR_WIELD
+M 10704 100 10708
+E 10702   1 WEAR_WIELD
+M 10704 100 10709
+E 10700   1 WEAR_WIELD
+M 10705 100 10723
+G 10725   2 0
+M 10705 100 10724
+G 10726   2 0
+M 10705 100 10725
+G 10725   2 0
+M 10705 100 10726
+G 10728   2 0
+M 10705 100 10727
+G 10726   2 0
+M 10705 100 10728
+G 10727   2 0
+M 10705 100 10729
+G 10727   2 0
+M 10705 100 10730
+G 10728   2 0
+M 10706 100 10747
+M 10707 100 10720
+M 10707 100 10721
+M 10707 100 10721
+M 10707 100 10722
+M 10708 100 10712
+M 10708 100 10713
+M 10708 100 10714
+M 10708 100 10715
+M 10708 100 10716
+M 10708 100 10718
+M 10708 100 10719
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

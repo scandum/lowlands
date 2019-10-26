@@ -1,0 +1,4040 @@
+#AREA Ofcol~
+#AUTHORS Hatchet~
+#VERSION 4
+#RANGES 5 35 1 95
+#OLC_RANGES 600 799
+
+
+#HELPS
+0 OFCOL~
+{128}
+                                    Ofcol
+{308}
+Updated by Chaste Rukawa and Hammer :)
+~
+
+0 $~
+
+
+#MOBILES
+#600
+cityguard guard~
+the Ofcol cityguard~
+An Ofcol cityguard is standing here, making sure there is no trouble.~
+This guard is surely a trained and skilled fighter.  He is fully armed and
+armored, and he uses his equipment with a practiced precision.  Luckily for
+you, this guard will only use his deadly skills for the good of the citizens of
+Ofcol.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+19 BODY_TORSO BODY_LEG|BODY_ARM 1d90+272 1d19+6
+4000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 80~
+if quest (0,10,$n) == 4
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#601
+marshall diana~
+Marshall Diana~
+Diana, the Marshall of Ofcol, stands here proudly.~
+Diana is a beautiful, powerfully built woman.  She wears platinum armor for
+three reasons.  The first is to show she is strong enough to withstand the
+weight.  The second is to show her rank of office.  The third is that platinum
+is the hardest metal she can find.  She is willing to defend Ofcol to her
+death.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+50 BODY_TORSO BODY_LEG|BODY_ARM 33d33+900 1d33+30
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if ispc ($n)
+  if quest (0,10,$n) == 1
+    mpmset $n quest 0 10 2
+    mpmset self quest 0 10 7
+  endif
+endif
+~
+>rand_prog 70~
+if quest (0,10,$i) > 0
+  if quest (0,10,$i) == 7
+    mpecho A fat man arrives suddenly.
+    mpmload 636
+    mpforce questjack say M'Lady. I brought you some food,
+    mpforce questjack say just my humble way of saying thanks
+    mpforce questjack say for taking care of this fine town.
+  endif
+  if quest (0,10,$i) == 6
+    mpforce questjack emote gives Diana some food.
+    say You should not have Salyn. It is my duty to
+    say protect this town.
+    smile 
+  endif
+  if quest (0,10,$i) == 5
+    mpforce questjack emote shivers nervously.
+    say Are you alright Salyn, you dont look that good.
+  endif
+  if quest (0,10,$i) == 4
+    mpforce questjack say I am fine.
+    mpforce questjack say A bit tired maybe but I am fine.
+  endif
+  if quest (0,10,$i) == 3
+    say Are you sure, maybe you should go home and get some rest.
+    mpforce questjack emote giggles nervously..
+    mpforce questjack say Wont you try those apple pie that me wife
+    mpforce questjack say made for you?
+  endif
+  if quest (0,10,$i) == 2
+    say You and Sunflower are so sweet.
+    smile 
+    say Very well than, I will have some of her pie.
+    say I am sure that it taste great.
+  endif
+  if quest (0,10,$i) == 1
+    emote takes out a pie and is about to eat it...........
+    mpmset self quest 11 4 1
+  endif
+  if quest (0,10,$i) > 0
+    mpmadd self quest 0 10 -1
+  endif
+else
+  if quest (20,5,$i) > 0
+    if quest (20,5,$i) == 8
+      say Salyn! Why!?
+      say Oh you son of a pig! After all I have done for you!
+      say You bring me this Death Pie!?!
+    endif
+    if quest (20,5,$i) == 7
+      mpforce questjack say No, do do dont kill me! I beg thee!
+      mpforce questjack say M'Lady, it is Telarin! He forced me!
+      mpforce questjack say He would kill me.. and and my family!!
+      mpforce questjack say if I dont do this!
+    endif
+    if quest (20,5,$i) == 6
+      say You could have come to me, but you did not!
+      say So does he pay you well, is that what this is all about!?
+      say Money!? You would sell hundreds of innocent people's life
+      say for money!!
+    endif
+    if quest (20,5,$i) == 5
+      mpforce questjack say I am wrong! I was not thinking! Please..
+      mpforce questjack say M'Lady! Forgive me!
+    endif
+    if quest (20,5,$i) == 4
+      say I can forgive you for trying to kill me.. or even killing me!
+      say But I cannot forgive you for risking the lives of hundreds!
+      say Just so you have more money to feed that already fat tummy
+      say of yours!
+      say Your crimes must be punish by death!
+    endif
+    if quest (20,5,$i) == 3
+      mpforce questjack say No.. M'Lady mercy.. mercy!!!!!!!
+      mpforce questjack emote kisses Diana's foot.
+      say I would not show one who has no mercy any mercy!
+      say You have just spoken your last words! Now, you must DIE!
+      slay questjack
+    endif
+    if quest (20,5,$i) == 2
+      say Thank you for saving my life.
+      say Salyn is... I mean WAS a kind man... but he got greedy..
+      sigh 
+    endif
+    if quest (20,5,$i) == 1
+      say I dunno how to thank you.
+      say Please accept this ring, it was given to me by my mother.
+      say Do you?
+      mpmset self quest 11 4 3
+    endif
+    if quest (20,5,$i) > 0
+      mpmadd self quest 20 5 -1
+    endif
+  endif
+endif
+~
+>speech_prog no stop~
+if quest (0,10,$n) == 2
+  if quest (11,4,$i) == 1
+    say What!? Who are you!?
+    mpforce $n say It is poison! This PIG is trying to poison you!
+    emote cuts the pie with her sword.
+    mpecho the tip of the Holy Avenger turns black!
+    mpmset self quest 20 5 8
+    mpmset self quest 11 4 2
+    mpmset $n quest 0 10 3
+  endif
+endif
+~
+>speech_prog yes accept~
+if quest (0,10,$n) == 3
+  if quest (11,4,$i) == 3
+    mpmset $n quest 0 10 4
+    mpoload 668
+    give i668 $n
+    if sex ($n) == 1
+      kiss $n
+      say My hero.
+    else
+      smile $n
+    endif
+    say Now if you will excuse me, I have to pay Telarin a visit.
+    emote casts a spell and disappears into nothingness.
+    mpmset self quest 11 4 0
+    mppurge self
+  endif
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#602
+captainmob derrick captain guard cityguard~
+Captain Derrick~
+Derrick, Captain of the Guard, is here protecting the Priestess.~
+Derrick is a very big man.  He has acquired this station, not by brains or
+charm, but by brute strength.  He had fought in three orc wars and is a
+descendent of a surviving cityguard of old Thalos.  He believes that everything
+has to be hard won to be kept, and that laxity is for the weak.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+27 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d182+549 1d27+6
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+if quest (0,10,$n) == 4
+  say I heard that you have saved Lady Diana's life.
+  say Although she is young, she has risked her life many times
+  say to protect this town from the Drow. How can we thank you enough.
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#603
+jacklyn captain guard cityguard~
+Captain Jacklyn~
+Jacklyn, Captain of the Citadel Guard, is here guarding the Temple.~
+Jacklyn is pale and wiry, but then, so are most other witches.  The fact that
+Jacklyn is a mage and a warrior makes her the perfect captain of the citadel
+guards.  Jacklyn is very beautiful, but whether it is due to her pale softness
+or her magic, no one has ever found out.  She isn't very strong physically, but
+she need not be.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+27 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d182+549 1d27+6
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 20~
+if quest (0,10,$n) == 4
+  say I heard that you have saved Lady Diana's life.
+  say Although she is young, she has risked her life many times
+  say to protect this town from the Drow. How can we thank you enough.
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#604
+jim blacksmith~
+Jim the Blacksmith~
+Jim the Blacksmith is here, selling his latest works of metal.~
+Jim is big and brawny, just like what you'd expect of a blacksmith.  He is
+smiling a very big smile, as he looks at your coins.  You wonder if he likes
+the metals or the value of the coins.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+1000 S
+130 BODY_TORSO BODY_LEG|BODY_ARM 1d1+20000 1d130+150
+21077 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#605
+sam~
+Sam~
+Sam is here, selling his leather works.~
+Sam is a middle-aged workman.  He looks tired, but never too tired to get that
+last sale from you.  He grins at you slightly.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+1000 S
+130 BODY_TORSO BODY_LEG|BODY_ARM 1d1+20000 1d130+150
+15000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#606
+madam tracy~
+Madam Tracy~
+Madam Tracy is here, selling and buying little treasures.~
+Madam Tracy is a bit old, but not to the point of senility.  Besides, she knows
+the hard ways of this world and is ready for it.  She spends her time at the
+shop, trading little things (for a wee bit of profit).
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+1000 S
+120 BODY_TORSO BODY_LEG|BODY_ARM 1d3600+12681 1d4+225
+14938 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#607
+marty~
+Marty~
+Marty the meat store owner is here, selling you his choice meats.~
+Marty is a big man.  He used to hunt the animals he sells, but now he lets his
+son, Jim, raise and slaughter the animals for him.  Marty still knows how to
+kill, though.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+1000 S
+130 BODY_TORSO BODY_LEG|BODY_ARM 1d1+20000 1d4+203
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#608
+elizabeth farmer~
+Farmer Elizabeth~
+Farmer Elizabeth is here, selling the latest crop.~
+Elizabeth is a very happy woman.  She can't believe the nice weather here in
+Ofcol, and the great vegetables this land produces is unbelievable to her too.
+Farmer Elizabeth smiles at you nicely, but you bet she is doing that just to
+get a good price off of you!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+1000 S
+120 BODY_TORSO BODY_LEG|BODY_ARM 1d3600+12681 1d4+225
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#609
+granny jenkins~
+Granny Jenkins~
+Granny Jenkins is here, running the still.~
+Granny Jenkins is a feeble woman, but she knows her brew.  She might be very
+old, but she is still in charge of the still.  She cackles lightly at herself
+every time she tastes her whiskey, which is quite often!
+Granny Jenkins cackles again.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_PROTECT_EVIL
+500 S
+8 BODY_TORSO BODY_LEG|BODY_ARM 1d16+55 1d8+2
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#610
+jack~
+Jack~
+Jack is here slaughtering away at the animals.~
+Jack is the son of Marty, and you can see the family resemblance (especially in
+their shared affinity for slaughtering animals.)  Jack leers at you as you
+enter.  "Came by to watch, eh?", he asks.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+0
+200 S
+12 BODY_TORSO BODY_LEG|BODY_ARM 1d36+113 4d1+10
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#611
+sara farmer~
+Farmer Sara~
+Farmer Sara is here, milking the cows.~
+Farmer Sara is all covered with bits of straw and grime, but underneath all
+that, she doesn't look that bad.  She smiles at you demurely, and goes back to
+her work.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+0
+800 S
+8 BODY_TORSO BODY_LEG|BODY_ARM 1d16+55 1d8+2
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#612
+chicken hen~
+a hen~
+A hen is here, squawking at your intrusion.~
+The hen has yellow feathers and small wings.  It looks like a chicken, if
+you've ever seen one.
+~
+ACT_WIMPY|ACT_BODY
+0
+0 S
+1 BODY_TORSO BODY_LEG|BODY_CLAW 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+mpecho The hen goes 'Bekbek BEkeeR!'
+~
+|
+#613
+cow~
+the cow~
+A cow is here, munching on grass.~
+The cow is here happily grazing.  It moos at you and goes back to grazing.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+1 BODY_TORSO BODY_LEG 1d5+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho Mooooooooooooooooooooooooooooo!
+~
+|
+#614
+cow~
+the cow~
+A cow is here, waiting to be milked.~
+The cow is just standing here.  She moos at you and otherwise ignores you.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+1 BODY_TORSO BODY_LEG|BODY_ARM 1d5+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+mpecho Mooooooooooooooooooooooooooooo!
+~
+|
+#615
+horse young~
+the young horse~
+A young horse is here, grazing.~
+The horse whinnies at you, then runs around you a few times, then just goes
+back to grazing.
+~
+ACT_AGGRESSIVE|ACT_WIMPY|ACT_BODY
+0
+0 S
+8 BODY_TORSO BODY_LEG|BODY_ARM 1d16+55 1d7+3
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#616
+pig~
+the pig~
+A pig is playing here, getting itself and you dirty.~
+The pig looks dirty.  It snorts and sniffs at you, then goes back to its slop.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+8 BODY_TORSO BODY_LEG|BODY_ARM 1d16+55 1d9+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#617
+citizen man~
+the citizen~
+A citizen is here, smiling at you.~
+The citizen smiles at you.  He is having a great day, and he wishes the same
+for you.  He looks at you strangely, though, wondering why you are so armed and
+armored.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+500 S
+10 BODY_TORSO BODY_LEG|BODY_ARM 1d25+100 1d16+4
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#618
+citizen woman~
+the citizen~
+A citizen is here, smiling at you.~
+The citizen smiles at you.  She is having a great day, and she wishes the same
+for you.  She looks at you strangely, though, wondering why you are so armed
+and armored.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+0 S
+5 BODY_TORSO BODY_LEG|BODY_ARM 1d6+27 1d6+3
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if sex ($r) == sex_male
+  say Hi there.
+  smile seductively $r
+endif
+endif
+~
+|
+#619
+child boy~
+the boy~
+A boy is here, playing tag and other kids' games.~
+The little boy looks up at you and says, 'Hi.  Can I have a piece of candy?'
+He then smiles and runs away, remembering his game.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+0 S
+3 BODY_TORSO BODY_LEG|BODY_ARM 1d2+16 1d4+2
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if sex ($r) == sex_female
+  kiss $r
+  blush 
+  giggle 
+endif
+~
+|
+#620
+child girl~
+the girl~
+A girl is here, playing jump jacks and other kids' games.~
+The little girl looks up at you and says, 'Hi.  Can I have a pretty little
+coin?'  She then smiles and runs away, remembering her game.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+0 S
+3 BODY_TORSO BODY_LEG|BODY_ARM 1d2+16 1d4+2
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if sex ($r) == sex_female
+  look $r
+  say Wow, your ..... are so big!
+  emote . o O (mine are so tiny.. sniff!)
+  pout 
+endif
+~
+|
+#621
+maid woman~
+the maid~
+A maid is here, cleaning the house and preparing the next meal.~
+The maid startles at your presence.  'You are ruining my floors!  Wait till
+Master and Mistress come back.  You will get me in trouble!  Shoo!', she says.
+She hits you with her broom.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+0 S
+5 BODY_TORSO BODY_LEG|BODY_ARM 1d6+27 1d6+3
+50 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+grumble 
+say Darn kids, they always leave tons of trash behind!
+~
+|
+#622
+Nyles~
+Nyles the Bartender~
+Nyles the Bartender is here, ready to serve you up a good brew.~
+Nyles is a hefty guy, who looks like he's waiting for the next bar fight to
+join in.  He keeps an eye on you and his glasses, making sure you don't steal
+any.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+1000 S
+130 BODY_TORSO BODY_LEG|BODY_ARM 1d1+22239 1d5+225
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#623
+cityguard guard~
+the Ofcol cityguard~
+An Ofcol cityguard is posted here to guard the gate.~
+This guard is surely a trained and skilled fighter.  He is fully armed and
+armored, and he uses his equipment with a practiced precision.  Luckily for
+you, this guard will only use his deadly skills for the good of the citizens of
+Ofcol.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+19 BODY_TORSO BODY_LEG|BODY_ARM 1d90+272 1d19+6
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 10~
+if quest (0,10,$n) == 4
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#624
+bard~
+a bard~
+A bard is here, singing of the glories of Ofcol.~
+After years of traveling around the world, this bard has decided to stay in the
+peaceful city of Ofcol, and to sing of its unmatched glories.  He smiles at
+you, hinting toward a tip from you in ever a subtle way.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+800 S
+13 BODY_TORSO BODY_LEG|BODY_ARM 1d42+131 1d18+4
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#625
+servant~
+a servant~
+A servant is here, carrying the duties of the Keeper of the Golden Citadel.~
+The servant smiles good-naturedly at you, then goes on his duties.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+1000 S
+6 BODY_TORSO BODY_LEG|BODY_ARM 1d9+35 1d6+3
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#626
+squire~
+a squire~
+A squire is here, scurrying from duty to duty.~
+This young man smiles at you, but is too busy to chat.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+1000 S
+7 BODY_TORSO BODY_LEG|BODY_ARM 1d12+44 1d1+5
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#627
+page~
+a page~
+A page is here, sending a message to his knight.~
+The page smiles for you, asking if he can do you a favor too.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+1000 S
+5 BODY_TORSO BODY_LEG|BODY_ARM 1d6+27 1d7+2
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#628
+priestess~
+the Priestess of Ofcol~
+The Priestess of Ofcol is here, blessing you
+with her beatific smile.~
+The Priestess of Ofcol is an old woman, perfectly at peace with herself and
+with the world.  She devotes all her time to help teach you the ways of her
+god, Bahamut.  The dragon symbol around her neck looks almost alive.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+30 BODY_TORSO BODY_LEG|BODY_ARM 30d30+300 1d4+20
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 20~
+if quest (0,10,$n) == 4
+  say I heard that you have saved Diana's life.
+  say She has been always like a daughter to me.
+  say Thank you $n... thank you.
+  smile $n
+endif
+~
+>fight_prog 100~
+mpforce captainmob mpkill $n
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+>rand_prog 20~
+cast "cure critical" $r
+~
+|
+#629
+chaplain Jerrold~
+Chaplain Jerrold~
+Jerrold, the chaplain of this Citadel, is here
+directing the activities of the people around here.~
+He smiles at you, with the enthusiasm of a little kid.  "What're you doing just
+STANDING here, young man?  Go help that other squire there!", he yells.  He
+turns to you and with a consipatory tone, whispers, "Kids!"
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+20 BODY_TORSO BODY_LEG|BODY_ARM 20d20+200 1d4+20
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+if quest (0,10,$n) == 4
+  say I heard that you have saved Lady Diana's life.
+  say Although she is young, she has risked her life many times
+  say to protect this town from the Drow. How can we thank you enough.
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#630
+dragonlord lord dragon~
+a Dragonlord~
+A knight wearing the scales of a dragon stands here.~
+This person looks almost like a dragon itself.  His golden scales gleam with
+power.  He smiles at you with a vicious grin.  You're happy that he doesn't
+look upset at your presence.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+29 BODY_TORSO BODY_LEG|BODY_ARM 29d29+290 1d4+20
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (20,1,$n) == 1
+  shout $n is an enemy of the Dragons! Die!
+  mpkill $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#631
+ancient gold dragon m631~
+the Ancient Gold Dragon~
+An old dragon shimmering with the colors of this
+cavern peers at you sleepily.~
+This dragon's head is taller than you.  He is annoyed at your disturbance, but
+realizing that you're no danger to him, he ignores you.  He waves to one of
+his attendants to escort you away.
+~
+ACT_SENTINEL|ACT_DRUNK|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+37 BODY_TORSO BODY_HEAD|BODY_LEG|BODY_TAIL|BODY_CLAW 37d37+770 1d4+30
+51451 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+mpechoat $n You hear a deep and ominous rumble coming from the Ancient Gold Dragon.
+~
+>speech_prog yes~
+mpechoat $n The Ancient Gold Dragon says 'Ho! What news!'
+~
+>speech_prog no~
+mpechoat $n The Ancient Gold Dragon says 'I thought not.'
+~
+>rand_prog 10~
+mpechoat $r The Ancient Gold Dragon says 'You are dismissed, $r, leave me now.'
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+>fight_prog 30~
+cast 'fire breath' $n
+~
+>death_prog 100~
+if ispc ($n)
+  mpmset $n quest 20 1 1
+  if level ($n) > 50
+    mppurge self
+  endif
+endif
+~
+|
+#632
+attendant~
+an attendant of the dragon~
+A person robed in gold is attending to the Keeper of the Citadel.~
+This elder servant to the Gold Dragon is very loyal to him, willing to risk
+his life for his liege.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+21 BODY_TORSO BODY_LEG|BODY_ARM 1d110+332 1d21+13
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpechoat $r The Attendant clears his throat meaningfully.
+mpechoat $r The Attendant says 'You may leave now $r.'
+~
+|
+#633
+dragonknight knight dragon~
+a Dragonknight~
+A person dressed in the scales of a gold dragon
+stands here, guarding the Golden Citadel.~
+This person looks like a dragon itself.  His golden scales gleam with power.
+He smiles at you, showing very sharp teeth.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+21 BODY_TORSO BODY_LEG|BODY_ARM 1d110+332 1d21+13
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (25)
+  say The Foreign Legion must re-group. We must march on the city of the accursed
+  say drow before it is too late.
+else
+  if rand (33)
+    say If what Kato says is true, our grip on Calimarra has never been stronger.
+  else
+    if rand (50)
+      say These rumours of some rebel group are obviously just that: Rumours.
+    else
+      say If necessary, we can send in the dragonknights elite regiment. We would
+      say crush them beneath our talons.
+    endif
+  endif
+endif
+~
+>all_greet_prog 50~
+if quest (20,1,$n) == 1
+  shout $n is an enemy of the Dragons! Die!
+  mpkill $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#634
+cityguard guard~
+the Ofcol cityguard~
+An Ofcol cityguard is posted here to guard the gate.~
+This guard is surely a trained and skilled fighter.  He is fully armed and
+armored, and he uses his equipment with a practiced precision.  Luckily for
+you, this guard will only use his deadly skills for the good of the citizens of
+Ofcol.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+19 BODY_TORSO BODY_LEG|BODY_ARM 1d90+272 1d19+6
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 10~
+if quest (0,10,$n) == 4
+  say Greetings $n.
+  bow $n
+endif
+~
+>death_prog 100~
+if level ($n) > 50
+  mppurge self
+endif
+~
+|
+#635
+questmobdrow hooded figure drow male telarin~
+Telarin~
+A hooded figure is here.~
+He looks very slim, and stands about 5 feet 6 inches tall. Other than
+that, you cannot see much about this strange man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+-1000 S
+60 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 0d0+4000 1d60+19
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 75~
+if quest (0,5,$i) > 0
+  if quest (0,5,$i) == 11
+    say Must we meet here, in a pig sty!?
+    say Damn it.
+  endif
+  if quest (0,5,$i) == 10
+    mpforce questjack say M'Lord, one cannot be too careful....
+    mpforce questjack emote looks around him nervously.
+  endif
+  if quest (0,5,$i) == 9
+    say Coward! Why did I ever pick you for this job.
+    grumble 
+    say Let's get on with business then.
+    emote takes out a glowing bottle from his sleeves.
+    emote gives the bottle to the nervous looking fat man.
+  endif
+  if quest (0,5,$i) == 8
+    say Put that in Diana's food.
+    say Do not fail me on such a simple mission!
+    say You know what I like to do to failures...
+  endif
+  if quest (0,5,$i) == 7
+    grin questjack
+    say Do you not, fat man!
+  endif
+  if quest (0,5,$i) == 6
+    mpforce questjack shiver
+    mpforce questjack say Yes, M'Lord, I would not fail you...
+  endif
+  if quest (0,5,$i) == 5
+    grin 
+    say You had better not, or you would end up like these pigs.
+    say B A C O N!
+  endif
+  if quest (0,5,$i) == 4
+    say Not to mention what I would do to you fat wife!
+    say ....... and your lovely daughter.
+  endif
+  if quest (0,5,$i) == 3
+    say One last thing..
+    mpforce questjack say Yes .. M'Lord...
+    emote slaps Salyn across the face sending him staggering.
+    say WHY ARE YOU STILL STANDING HERE! GET GOING YOU PIG!
+  endif
+  if quest (0,5,$i) == 2
+    mpforce questjack say Yes M'Lord.. yes.. my bad..
+    mpforce questjack emote puts the bottle in his sleeves.
+    mpforce questjack emote leaves the pig sty.
+    mppurge questjack
+    say Darn humans!
+    emote spits on the ground. 
+  endif
+  if quest (0,5,$i) == 1
+    grin 
+    say Diana you bitch, once you are dead, Ofcol will belong to
+    say the mighty Drow Empire!
+    laugh diabolically 
+    emote utters the words 'kxandus har'.
+    emote disappears into thin air.
+    mppurge self
+  endif
+  if quest (0,5,$i) > 0
+    mpmadd self quest 0 5 -1
+  endif
+endif
+~
+|
+#636
+questjack salyn fat nervous man human male~
+Salyn~
+A fat and nervous looking human male is here.~
+If he was not standing on his legs, you could hardly tell him apart
+from the pigs in the pig sty.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+60 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d900+1774 1d60+19
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#637
+etherealone~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+96 0 0 0d0+10000 0d0+100
+100000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if ispc ($n)
+  if quest (0,10,$n) == 0
+    mpmset $n quest 0 10 1
+    mpechoat $n You suddenly step on some pig shit and fall down!
+    mpechoat $n As you try to get up, you see two strange
+    mpechoat $n figures comming towards your direction.
+    mpechoat $n You become curious and decide to lay low for a
+    mpechoat $n while to see what is going on......
+    mpmload 636
+    mpmload 635
+    mpmset questmobdrow quest 0 5 11
+    mppurge self
+  endif
+endif
+~
+|
+#638
+katosonmob kato son bansu~
+Bansu~
+A stern looking young man, dressed in ofcol foreign legion armour.~
+He looks young, but extremely confident and sure of himself. He looks at
+you with an irritated expression on your face. He must share his father's
+distrust of strange intruders.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+21 BODY_TORSO BODY_LEG|BODY_ARM 1d110+332 1d21+13
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 30~
+if inroom ($i) == 690
+  if quest (6,6,$n) == 0
+    mpechoat $n Bansu stares at you for a moment than nods briefly.
+    mpmset $n quest 6 6 1
+  endif
+endif
+~
+>rand_prog 20~
+if inroom ($i) == 690
+  if rand (20)
+    say My father needs more troops! The Phoenix is gaining in strength and power as we waste time here!
+  else
+    if rand (25)
+      say Each day, more soldiers die in bizarre "accidents". It has to stop!
+    else
+      if rand (33)
+        say Let me through to see the grand dragon! He will give us the help we need.
+      else
+        if quest (6,6,$r) == 1
+          mpechoat $r Bansu passes you a small note unseen by the dragonknights.
+          mpoload 669
+          mpquiet on
+          give i669 $r
+          drop i669
+          mpquiet off
+          mpmset $r quest 6 6 2
+        endif
+      endif
+    endif
+  endif
+endif
+if inroom ($i) == 757
+  if quest (0,5,$i) > 0
+    if quest (0,5,$i) == 11
+      say Hi. I suppose you're wondering what this is all about.
+      say Well, okay. My father sent me here to get support from the dragonknights.
+    endif
+    if quest (0,5,$i) == 10
+      say Against the enemy we face in Calimarra, the terrorists known as Phoenix.
+      say If you havent heard of them before there is a group of rebels working
+    endif
+    if quest (0,5,$i) == 9
+      say against the Ofcol Foreign Legion in Calimarra. They gain in strength every day
+      say And the legion just doesnt have the strength to counter their guerrila
+    endif
+    if quest (0,5,$i) == 8
+      say attacks. Unfortunately, due to the current political situation in Ofcol
+      say The occupation of Calimarra is no longer a topic of debate. They seem to be
+    endif
+    if quest (0,5,$i) == 7
+      say more concerned with some drow plot to kill their precious little Diana.
+      say All Diana ever did for this place was hang around in her bloody expensive
+    endif
+    if quest (0,5,$i) == 6
+      say armour and look nice. Who gives a shit if she dies ?? Certainly not I
+      say and definitely not the soldiers that die in Calimarra every day in the name
+      say of Ofcol.
+    endif
+    if quest (0,5,$i) == 5
+      say Excuse my little rant. I feel very strongly on this issue and the bastard
+      say dragonknights wont even let me thru to see the Grand Dragon.
+    endif
+    if quest (0,5,$i) == 4
+      say If they were to realise that they arent safe from the pheonix here...
+      say then they would give us the troops we need so badly.
+    endif
+    if quest (0,5,$i) == 3
+      emote grins.
+      say That's where you come in
+      say I want you to kill one of the squires and leave this pheonix dagger
+      say on the scene of the crime.
+      grin 
+    endif
+    if quest (0,5,$i) == 2
+      laugh 
+      say Don't worry. The squire has been well paid. He knows the score.
+      say He isnt even human. He is one of the Dragnarokh, shape changers
+      say He'll emulate a corpse long enough for our plan to succeed
+    endif
+    if quest (0,5,$i) == 1
+      say Are you with me or against me ?
+      emote looks at you with a stern but hopeful gleam in his eyes.
+    endif
+    if quest (0,5,$i) > 0
+      mpmadd $i quest 0 5 -1
+    endif
+  endif
+~
+>speech_prog yes~
+if inroom ($i) == 757
+  say Excellent!
+  mpmset $n quest 6 6 4
+  mpoload 670
+  give i670 $n
+  drop i670
+  say That is the dagger...the squire you seek is north of the temple..
+  say I must return, lest the dragonknights grow suspicious.
+  emote leaves east.
+  mpgoto 670
+  emote arrives.
+  say Excuse me. I suspect I picked up some unfortunate tropical diseases fighting
+  say for the glory of Ofcol.
+endif
+~
+|
+#639
+etherealtwo~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+1000 S
+60 BODY_TORSO BODY_LEG|BODY_ARM|BODY_HAND 1d900+1774 1d60+19
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if ispc ($n)
+  if quest (6,6,$n) == 2
+    mpmset $n quest 6 6 3
+    mpgoto 690
+    mpforce katosonmob say Excuse me please, my bowels bother me sorely.
+    mpforce katosonmob bow
+    mpforce katosonmob emote leaves east.
+    mptransfer katosonmob 757
+    mpgoto 757
+    mpecho Bansu arrives.
+    mpecho Bansu looks around the room and smiles when he sees you.
+    mpmset katosonmob quest 0 5 11
+    mppurge self
+  endif
+endif
+~
+|
+#640
+squire~
+a squire~
+A squire is here, scurrying from duty to duty.~
+This young man smiles at you, but is too busy to chat.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+1000 S
+7 BODY_TORSO BODY_LEG|BODY_ARM 1d12+44 1d1+5
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,6,$n) == 4
+  wink $n
+  say Do it, $n
+endif
+~
+>death_prog 100~
+if quest (6,6,$n) == 4
+  mpmset $n quest 6 6 5
+  shout Assassins...ugh
+  chuckle 
+~
+|
+#641
+trainer~
+the Trainer of Ofcol~
+Ofcol's new trainer stands here, ready to improve your skills.~
+The trainer is tall and handsome, and has a wonderful smile.
+He's probably been trying to get this job for a long time.
+~
+ACT_SENTINEL|ACT_TRAIN
+AFF_DETECT_INVIS
+0 S
+95 0 0 1d1+9999 1d1+99
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+604 ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+605 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+606 ITEM_TYPE_TREASURE ITEM_TYPE_FURNITURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+607 ITEM_TYPE_NOTHING ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  10  0 23
+608 ITEM_TYPE_NOTHING ITEM_TYPE_DRINK_CON ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  10  0 23
+622 ITEM_TYPE_NOTHING ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  10  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#600
+handaxe hand axe~
+a handaxe~
+A handaxe is on the floor here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 4 2 WEAPON_SLASH 0 0 0 0
+10 100 2
+E
+handaxe hand axe~
+You see a finely made axe.  Iron, with a nice wooden shaft, this axe can
+withstand years of use.
+~
+#601
+meat cleaver~
+a meat cleaver~
+A sharp meat cleaver is just lying on the floor here!~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 2 4 WEAPON_SLASH 0 0 0 0
+5 150 3
+E
+meat cleaver~
+This meat cleaver is made of good steel.
+~
+#602
+side meat beef~
+a side of beef~
+A side of beef is here on the floor.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+10 50 1
+#603
+side meat pork~
+a side of pork~
+A side of pork is here on the floor.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+23 0 0 0 0 0 0 0
+10 45 1
+#604
+side meat horse~
+a side of horse~
+A side of horse is here on the floor.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+30 0 0 0 0 0 0 0
+12 60 1
+#605
+meat chicken~
+a defeathered chicken~
+A defeathered chicken is here on the floor.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+16 0 0 0 0 0 0 0
+5 30 1
+#606
+emerald ring~
+an emerald ring~
+An emerald ring is on the floor, gathering dust.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+3 10000 1
+#607
+glass trinket~
+a glass trinket~
+A glass trinket is on the floor, gathering dust.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 1
+A APPLY_SAVING_SPELL -1 0
+#608
+golden necklace~
+a golden necklace~
+A golden necklace is on the floor, gathering dust.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+0 0 0 0 0 0 0 0
+2 10000 1
+A APPLY_WIS -1 0
+#609
+cabbage~
+a head of cabbage~
+Some fresh cabbage is here, get it while it lasts!~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 20 1
+#610
+lettuce~
+a head of lettuce~
+Some fresh lettuce is here, get it while it lasts!~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 20 1
+#611
+milk bottle~
+a bottle of milk~
+A glass bottle of milk is on a shelf here, fresh from the cow.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+20 20 LIQ_MILK 0 0 0 0 0
+5 40 1
+#612
+apple~
+an apple~
+An apple is on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+8 0 0 0 0 0 0 0
+1 10 1
+#613
+corn~
+an ear of corn~
+An ear of corn is on the ground.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+8 0 0 0 0 0 0 0
+1 10 1
+#614
+hay pile~
+a pile of hay~
+There is a big pile of hay here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+20 10 2
+#615
+pitchfork fork~
+a pitchfork~
+A pitchfork is on the floor.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 3 3 WEAPON_PIERCE 0 0 0 0
+10 50 2
+#616
+vest~
+a leather vest~
+A leather vest is on the floor.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+10 50 6
+#617
+sleeves~
+some leather sleeves~
+Some leather sleeves are on the floor.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+2 0 0 0 0 0 0 0
+2 50 2
+#618
+leggings~
+some leather leggings~
+Some leather leggings are on the floor.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+2 0 0 0 0 0 0 0
+2 50 2
+#619
+boots~
+some leather boots~
+Some leather boots are on the floor.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+2 0 0 0 0 0 0 0
+2 50 2
+#620
+signet ring~
+an Ofcol signet ring~
+A shiny ring of gold is in the dirt.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+6 0 0 0 0 0 0 0
+1 1000 16
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HITROLL 1 0
+#621
+plate brass~
+brass plate~
+A pile of brass plates is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+10 1000 13
+#622
+helm brass~
+a brass helm~
+A brass helm is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+7 0 0 0 0 0 0 0
+10 1000 13
+A APPLY_WIS 1 0
+A APPLY_DEX 1 0
+#623
+leggings brass~
+brass leggings~
+A pile of brass plates is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+6 0 0 0 0 0 0 0
+10 1000 16
+A APPLY_SAVING_SPELL -1 0
+A APPLY_DAMROLL 1 0
+#624
+boots brass~
+brass boots~
+Some brass boots are against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+10 1000 17
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#625
+gauntlets brass~
+brass gauntlets~
+Some brass gauntlets are against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+10 1000 17
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#626
+sleeves brass~
+brass sleeves~
+A pile of brass plates is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+6 0 0 0 0 0 0 0
+10 1000 17
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#627
+shield brass~
+a brass shield~
+A big plate of brass is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+6 0 0 0 0 0 0 0
+10 1000 14
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#628
+girth brass~
+a brass girth~
+A brass girth is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+6 0 0 0 0 0 0 0
+10 1000 17
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#629
+bracer brass~
+a brass bracer~
+A brass bracer is against the wall here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+6 0 0 0 0 0 0 0
+10 1000 14
+A APPLY_SAVING_SPELL -1 0
+A APPLY_HIT 5 0
+#630
+claymore sword~
+a claymore~
+A VERY big sword is against the wall here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 2 6 WEAPON_SLICE 0 0 0 0
+16 1000 20
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 3 0
+#631
+plate silver~
+silver plate~
+A pile of silver plating and chain is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 10 0
+A APPLY_STR 1 0
+#632
+helm silver~
+a silver helm~
+A shiny helm is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_DEX 1 0
+#633
+leggings silver~
+silver leggings~
+Some shiny leggings are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_INT 1 0
+#634
+boots silver~
+silver boots~
+Some shiny boots are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_WIS 1 0
+#635
+gauntlets silver~
+silver gauntlets~
+Some shiny gauntlets are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_CON 1 0
+#636
+sleeves silver~
+silver sleeves~
+Some shiny sleeves are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_HITROLL 1 0
+#637
+shield silver~
+the silver shield~
+A shiny shield is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+9 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+#638
+girth silver~
+the silver girth~
+A shiny girth is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+20 2000 20
+A APPLY_MANA 5 0
+A APPLY_DAMROLL 1 0
+#639
+plate platinum~
+platinum plate~
+A pile of silvery metal is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+9 0 0 0 0 0 0 0
+50 10000 24
+A APPLY_DEX 1 0
+A APPLY_CON 2 0
+#640
+helmet platinum~
+the platinum helmet~
+A silvery helmet is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+9 0 0 0 0 0 0 0
+30 10000 24
+A APPLY_MANA 10 0
+A APPLY_WIS 2 0
+#641
+leggings platinum~
+platinum leggings~
+Some silvery leggings are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+9 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+A APPLY_DEX 2 0
+#642
+boots platinum~
+platinum boots~
+Some silvery boots are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+9 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+#643
+gauntlets platinum~
+platinum gauntlets~
+A pair of silvery gauntlets are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+9 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+A APPLY_HITROLL 2 0
+#644
+sleeves platinum~
+platinum sleeves~
+A pair of silvery sleeves are on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+A APPLY_STR 2 0
+#645
+shield spiked platinum~
+the platinum spiked shield~
+A jagged, silvery shield is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+7 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+A APPLY_DAMROLL 3 0
+#646
+girth platinum~
+the platinum girth~
+A silvery girth is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+9 0 0 0 0 0 0 0
+40 10000 24
+A APPLY_HIT 10 0
+A APPLY_SAVING_SPELL -3 0
+#647
+avenger holy sword~
+holy Avenger~
+A glowing silvery sword is hovering here, ready to possess an owner.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 9 WEAPON_SLASH 0 0 0 0
+25 10000 24
+#648
+whiskey shot~
+a shot of whiskey~
+A shot of whiskey is on the table.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+5 5 LIQ_WHISKY 0 0 0 0 0
+1 10 1
+#649
+ale quart~
+a quart of ale~
+A quart of ale is on the table.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+50 50 LIQ_ALE 0 0 0 0 0
+8 20 1
+#650
+port brew quart~
+a quart of port brew~
+A quart of port brew is on the table.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+50 50 LIQ_DARKALE 0 0 0 0 0
+8 20 1
+#651
+key citadel~
+the citadel key~
+A key is on the floor.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 14
+#652
+symbol holy~
+the Holy Symbol of Bahamut~
+A very shiny symbol is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+5 1000 22
+A APPLY_MANA 10 0
+A APPLY_WIS 2 0
+#653
+ranseur polearm~
+a ranseur~
+A heavy polearm is against the wall here, ready to inflict damage.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 2 6 WEAPON_STAB 0 0 0 0
+20 10000 20
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL -1 0
+#654
+torso dragonscale golden~
+a golden dragonscale torso~
+A golden dragonscale torso is on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+9 0 0 0 0 0 0 0
+25 5000 18
+A APPLY_HITROLL 2 0
+#655
+dragonhelm golden~
+a golden dragonhelm~
+A golden dragonhelm is on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#656
+leggings golden~
+golden dragonscale leggings~
+Some golden dragonscale leggings are on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#657
+boots golden~
+golden dragonscale boots~
+Some golden dragonscale boots are on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#658
+gauntlets golden~
+golden dragonscale gauntlets~
+Some golden dragonscale gauntlets are on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#659
+sleeves golden~
+golden dragonscale sleeves~
+Some golden dragonscale sleeves are on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#660
+shield golden~
+a golden dragonscale shield~
+A golden dragonscale shield is on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#661
+girth golden~
+a golden dragonscale girth~
+A golden dragonscale girth is on the floor!~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_HITROLL 2 0
+#662
+claw golden~
+the Golden Claw~
+A huge golden claw is on the floor~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 4 4 WEAPON_CLAW 0 0 0 0
+20 5000 20
+A APPLY_DAMROLL 3 0
+#663
+orb dragonorb~
+the Gold Dragon Orb~
+A very large pearl-like sphere is in the center of this room.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 5 5 134 0 0 0 0
+30 100000 27
+A APPLY_INT 2 0
+A APPLY_WIS 2 0
+S 3 'heal'
+#664
+robe golden~
+a golden robe~
+A golden robe is on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+9 0 0 0 0 0 0 0
+10 5000 18
+A APPLY_INT 2 0
+#665
+house key~
+a house key~
+A house key is on the floor.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 3
+#666
+broom~
+a broom~
+A broom is against the wall here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 2 3 WEAPON_POUND 0 0 0 0
+8 100 3
+A APPLY_HITROLL 1 0
+#667
+chest~
+a chest~
+A chest is on the floor here.~
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+100 0 0 0 0 0 0 0
+10 100 4
+#668
+beautiful silver ring~
+a beautiful silver ring~
+A silvery ring is left on the ground.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+2 0 0 0 0 0 0 0
+1 9231 1
+A APPLY_CON 1 0
+A APPLY_DEX 1 0
+A APPLY_DAMROLL 1 0
+#669
+note paper handwritten~
+a handwritten note~
+A small folded piece of paper lies on the ground.~
+Reading the note you find it says: I need your help, meet me in the back room
+of Nyles house of ale as soon as is convienent.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#670
+pheonix dagger~
+a pheonix dagger~
+A dagger with a stylized fiery handle is here.~
+The pommel of the dagger has a phoenix drawing etched in amber. The hilt is
+constructed of some type of metal that seems to glow with a red fire-like
+glow. The blade is made of burnished steel and is warm to the touch.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 12 WEAPON_PIERCE 0 0 0 0
+4 100000 20
+P 1
+TRIG_UNKNOWN 100 martin
+OPROG_IF OIF_USER_AREA = 13300 2 100
+P 2
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 5 = 0 3 4
+P 3
+TRIG_VOID
+OPROG_ECHO
+You are holding a pheonix dagger! And you havent had it very long :)
+~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ This is the second time you typed martin with this dagger :) 
+mpmset $ quest 20 5 1
+~
+P 5
+TRIG_UNKNOWN 100 gallwey
+OPROG_IF OIF_USER_AREA = 13300 6 100
+P 6
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 5 = 1 7 8
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ You have used the command 'martin' before while holding this dagger!
+mpmset $ quest 20 5 2
+~
+P 8
+TRIG_VOID
+OPROG_ECHO
+You've never typed martin while holding this dagger!
+~
+P 9
+TRIG_UNKNOWN 100 rockslick
+OPROG_IF OIF_USER_AREA = 13300 10 100
+P 10
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 20 5 > 0 11 12
+P 11
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ Reseting quest bits.
+mpmset $ quest 20 5 0
+~
+P 12
+TRIG_VOID
+OPROG_ECHO
+Reset WHAT quest bits ?
+~
+P 100
+TRIG_VOID
+OPROG_ECHO
+You arent in the city of entropy.~
+#0
+
+
+#ROOMS
+#600
+Granny's Still Room~
+You are in Granny Jenkins' still room.  The smell of whiskey is heady, and
+the bottles of it on the floor make your mouth water and your mind swirl.  You
+also see a very large still.  So THIS is why there are so many grain fields!
+The exit is to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the storage shed.~
+door~
+EX_ISDOOR|EX_CLOSED -1 616
+#601
+The Big Intersection~
+You are in the big intersection between Raff Way and Impy Way.  Crowds
+of people walk past you as they go on their daily tasks.  Raff Way continues
+east and west, and Impy Way runs north and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Impy Way continues north.~
+~
+0 0 625
+DDIR_EAST
+Raff Way continues east.~
+~
+0 0 666
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 602
+DDIR_WEST
+Raff Way continues west.~
+~
+0 0 753
+#602
+Impy Way~
+You are on Impy Way.  You can see a leather shop east and a blacksmith
+west.  To the north you see a big intersection, and Impy Way continues south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the big intersection.~
+~
+0 0 601
+DDIR_EAST
+You see the leather shop.~
+~
+0 0 604
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 605
+DDIR_WEST
+You see the blacksmith.~
+~
+0 0 603
+#603
+The Blacksmith~
+You are in a black and smelly room.  Pieces of metal are strewn all over
+the floor, and a wave of heat from a big furnace hits you.  An anvil sits on
+one side of the room, and on the other side is a workbench.  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+~
+0 0 602
+#604
+The Leather Shop~
+You are in a brown and smelly room.  Pieces of leather are strewn all over
+the floor.  The smell of burnt hide assaults your nose.  You can tell by the
+looks that the tanning is done VERY CLOSE to here!   A table is near the
+entrance.  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see Impy Way.~
+~
+0 0 602
+#605
+Impy Way~
+You are on Impy Way.  To the east is a meat store, and to the west is a
+pawn shop.  Impy Way continues north and south.  People are rushing around you
+to go to these stores.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Impy Way continues North.~
+~
+0 0 602
+DDIR_EAST
+You see the Meat Store.~
+~
+0 0 607
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 608
+DDIR_WEST
+You see the Pawn Shop.~
+~
+0 0 606
+#606
+The Pawn Shop.~
+You are in a little shop filled with a lot of knick knacks and semi-
+valuable goods.  There is a display case full of little treasures that you are
+sure that you or any other little kid would like to touch!  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+~
+0 0 605
+#607
+The Meat Store~
+You are in a meat store.  Hanging on hooks are meats of many kinds of
+animals.  In the background, you can hear the sound of blade against flesh.
+It smells like meat here (which is not a good smell).  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see Impy Way.~
+~
+0 0 605
+#608
+Impy Way~
+You are on Impy Way.  To the east is Farmer's Market, and to the west is
+Nyles' House of Ale.  Impy Way runs north and ends south of here.  You can hear
+the sound of housewives gossiping at the market.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+Impy Way continues north.~
+~
+0 0 605
+DDIR_EAST
+You see the Farmer's Market.~
+~
+0 0 610
+DDIR_SOUTH
+You see the end of Impy Way.~
+~
+0 0 611
+DDIR_WEST
+You see Nyles' House of Ale.~
+~
+0 0 609
+#609
+Nyles' House of Ale~
+This is a very busy bar, with everyone holding homemade bottles of
+ale.  You see even the more gentile persons here, laughing along with
+Nyles, who offers you a quart of ale too.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+~
+0 0 608
+DDIR_WEST
+You see the back room.~
+~
+0 0 757
+#610
+Farmer's Market~
+You see many carts filled with fruits and vegetables.  Many farmers are
+all trying to sell you their produce, each saying their's is better.  The exit
+is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see Impy Way.~
+~
+0 0 608
+#611
+The End of Impy Way~
+You are at the end of Impy and of the city part of Ofcol.  To the east is
+a dirt road leading toward the farm animals.  West from here are fields.  Impy
+Way continues north.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Impy Way continues north.~
+~
+0 0 608
+DDIR_EAST
+You see the dirt road.~
+~
+0 0 668
+DDIR_WEST
+You see the fields.~
+~
+0 0 612
+#612
+Fields~
+You are in a corn field.  You can't see far, since the corn stalks are
+taller than you are.  You remember that the end of Impy Way is east of here,
+and you think you see a building to the north.  The field continues south and
+west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You think you see a building north of here.~
+~
+0 0 616
+DDIR_EAST
+You remember that the end of Impy Way is east.~
+~
+0 0 611
+DDIR_SOUTH
+You can make a path to the fields south.~
+~
+0 0 613
+DDIR_WEST
+You can make a path to the fields west.~
+~
+0 0 615
+#613
+Fields~
+You are among fruit trees in a field.  You see many apple and orange
+trees.  You can make out the corn fields north and some vegetable patches west.
+The sight of the fruit makes your mouth water.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the corn fields.~
+~
+0 0 612
+DDIR_WEST
+You see the vegetable fields.~
+~
+0 0 614
+#614
+Fields~
+You are among the vegetable fields.  You see many cabbage and lettuce
+patches, along with tomato bushes and potato plants.  To the east are some
+fruit trees, and north are some wheat fields.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the wheat fields.~
+~
+0 0 615
+DDIR_EAST
+You see the fruit trees.~
+~
+0 0 613
+#615
+Fields~
+You are among the wheat fields.  The gentle caress of the wheat and the
+cool shadow from the tall stalks and scarecrow lulls you to sleep and dream
+of a little girl and little dog from a faraway place.  To the east are the corn
+stalks, and south of you are the vegetable patches.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the corn fields.~
+~
+0 0 612
+DDIR_SOUTH
+You see the vegetable patches.~
+~
+0 0 614
+#616
+The Shed~
+You are in the storage shed.  Bales of wheat, corn and hay are piled
+against the wall, and some vegetables are in carts.  You see a small door
+on the west door.  The main exit is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the faint outline of a small hatch in the corner of the east wall.~
+~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN -1 757
+DDIR_SOUTH
+You see the corn fields.~
+~
+0 0 612
+DDIR_WEST
+You see the door.~
+door~
+EX_ISDOOR|EX_CLOSED -1 600
+#617
+Slaughterhouse~
+You are in the slaughterhouse, where all the animals are slaughtered so
+that they can be sold or their skins be tanned.  The scream of dying animals
+makes your stomach churn.  The exit is to the west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the dirt road.~
+~
+0 0 668
+#618
+Dirt Road~
+You are on a dirt road.  To the east is a barn, and you see a big chicken
+coop south of you.  The dirt road continues north and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the dirt road.~
+~
+0 0 668
+DDIR_EAST
+You see the barn.~
+~
+0 0 620
+DDIR_SOUTH
+You see the chicken coop.~
+coop~
+EX_ISDOOR|EX_CLOSED -1 619
+DDIR_WEST
+You see the dirt road.~
+~
+0 0 621
+#619
+Chicken Coop~
+You are in the chicken coop.  The smell of chickens and chicken droppings
+makes you gasp.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You can sense the fresh air.~
+door~
+EX_ISDOOR|EX_CLOSED -1 618
+#620
+Barn~
+You are in a barn.  There are some cows here, munching on mounds of hay.
+Milk is milked and bottled here.  You see the exit west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the dirt road.~
+~
+0 0 618
+#621
+Dirt Road~
+You are on a dirt road.  To the north and south, you see some grass
+fields.  There is a pigsty west, and the dirt road continues east.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see some grass fields.~
+~
+0 0 622
+DDIR_EAST
+You see the dirt road.~
+~
+0 0 618
+DDIR_SOUTH
+You see some grass fields.~
+~
+0 0 623
+DDIR_WEST
+You see the pigsty.~
+~
+0 0 624
+#622
+Grass Field~
+You are in a grass field.  Fences block the way north, east, and west.
+The dirt road is to the south.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see the dirt road.~
+~
+0 0 621
+#623
+Grass Field~
+You are in a grass field.  Fences block the way south, east, and west.
+The dirt road is to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the dirt road.~
+~
+0 0 621
+#624
+Pig Sty~
+For some reason, you are in a pig sty.  You wonder why you are standing in
+muck.  To realize your senses and notice the dirt road is to the east.
+~
+0 ROOM_SAFE SECT_FIELD
+DDIR_EAST
+You see the dry dirt road.~
+~
+0 0 621
+#625
+Impy Way~
+You are on Impy Way.  East and west of you are big houses.  Impy Way
+continues north and reaches a big intersection south.  Children are running to
+from home to home.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Impy Way continues north.~
+~
+0 0 632
+DDIR_EAST
+You see a big house.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 626
+DDIR_SOUTH
+You see a big intersection.~
+~
+0 0 601
+DDIR_WEST
+You see a big house.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 629
+#626
+Big House~
+You are in a big house.  Evidently, the owners of this house are richer
+than the average citizen, since there is more than one room to this house.  A
+door leads to the kitchen east, and a bedroom is upstairs.  The exit is to the
+west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the kitchen.~
+~
+0 0 628
+DDIR_WEST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 625
+DDIR_UP
+You see the bedroom.~
+~
+0 0 627
+#627
+Bedroom~
+You are in the bedroom.  There isn't much of interest except for a bed and
+a closet.  The stairs lead back down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You see the main room of the house.~
+~
+0 0 626
+#628
+Kitchen~
+You are in a kitchen.  There isn't much of interest here.  The main room
+is west of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the main room of the house.~
+~
+0 0 626
+#629
+Big House~
+You are in a big house.  Evidently, the owners of this house are richer
+than the average citizen, since there is more than one room to this house.  A
+door leads to the kitchen west, and a bedroom is upstairs.  The exit is to the
+east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 625
+DDIR_WEST
+You see the kitchen.~
+~
+0 0 631
+DDIR_UP
+You see the bedroom.~
+~
+0 0 630
+#630
+Bedroom~
+You are in the bedroom.  There isn't much of interest except for a bed and
+a closet.  The stairs lead back down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You see the main room of the house.~
+~
+0 0 629
+#631
+Kitchen~
+You are in a kitchen.  There isn't much of interest here.  The main room
+is east of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the main room of the house.~
+~
+0 0 629
+#632
+Impy Way~
+You are on Impy Way.  Houses are to the east and west of here.  Impy Way
+continues north and south.  There are many people walking along the streets.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Impy Way continues north.~
+~
+0 0 637
+DDIR_EAST
+You see a house.~
+door~
+EX_ISDOOR|EX_CLOSED -1 633
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 625
+DDIR_WEST
+You see a house.~
+door~
+EX_ISDOOR|EX_CLOSED -1 635
+#633
+House~
+You are in a house.  The living room and kitchen are all bundled into
+this room.  There is a bedroom south of here.  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the bedroom.~
+~
+0 0 634
+DDIR_WEST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED -1 632
+#634
+Bedroom~
+You are in a bedroom.  There isn't much of interest here except for a bed
+and a dresser.  The main room of the house is north of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main room of the house.~
+~
+0 0 633
+#635
+House~
+You are in a house.  The living room and kitchen are all bundled into
+this room.  There is a bedroom south of here.  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED -1 632
+DDIR_SOUTH
+You see the bedroom.~
+~
+0 0 636
+#636
+Bedroom~
+You are in a bedroom.  There isn't much of interest here except for a bed
+and a dresser.  The main room of the house is north of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main room of the house.~
+~
+0 0 635
+#637
+Impy Way~
+You are on Impy Way.  Houses are to the east and west of here.  Impy Way
+continues south.  To the north is a big intersection.  There are many people
+walking along the streets.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a big intersection.~
+~
+0 0 642
+DDIR_EAST
+You see a house.~
+door~
+EX_ISDOOR|EX_CLOSED -1 638
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 632
+DDIR_WEST
+You see a house.~
+door~
+EX_ISDOOR|EX_CLOSED -1 640
+#638
+House~
+You are in a house.  The living room and kitchen are all bundled into
+this room.  There is a bedroom south of here.  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the bedroom.~
+~
+0 0 639
+DDIR_WEST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED -1 637
+#639
+Bedroom~
+You are in a bedroom.  There isn't much of interest here except for a bed
+and a dresser.  The main room of the house is north of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main room of the house.~
+~
+0 0 638
+#640
+House~
+You are in a house.  The living room and kitchen are all bundled into
+this room.  There is a bedroom south of here.  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED -1 637
+DDIR_SOUTH
+You see the bedroom.~
+~
+0 0 641
+#641
+Bedroom~
+You are in a bedroom.  There isn't much of interest here except for a bed
+and a dresser.  The main room of the house is north of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the main room of the house.~
+~
+0 0 640
+#642
+The Big Intersection~
+You are on the intersection of Impy Way and Swiftest Way.  To the north of you
+is a big house.  Swifest Way runs west, and Impy way continues south.  There are
+quite a few people on this intersection.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the big house.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 643
+DDIR_SOUTH
+Impy Way continues south.~
+~
+0 0 637
+DDIR_WEST
+Swiftest Way continues west.~
+~
+0 0 649
+#643
+Big House~
+You are in a big house.  Evidently, the owners of this house are richer
+than the average citizen, since there is more than one room to this house.  A
+door leads to the kitchen north, and a bedroom is upstairs.  The exit is to
+the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the kitchen.~
+~
+0 0 645
+DDIR_SOUTH
+You see Impy Way.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 665 642
+DDIR_UP
+You see the bedroom.~
+~
+0 0 644
+#644
+Bedroom~
+You are in the bedroom.  There isn't much of interest except for a bed
+and a closet.  The stairs lead back down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You see the main room of the house.~
+~
+0 0 643
+#645
+Kitchen~
+You are in a kitchen.  There isn't much of interest here.  The main room
+is east of here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the main room of the house.~
+~
+0 0 643
+#646
+Swiftest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses are
+north, south and west of you.  Swiftest Way continues east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 652
+DDIR_EAST
+Swiftest Way continues east.~
+~
+0 0 647
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 653
+DDIR_WEST
+~
+~
+0 -1 665
+#647
+Swiftest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses
+are north and south of you.  Swiftest Way continues east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 654
+DDIR_EAST
+You see the end of Swiftest Way.~
+~
+0 0 648
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 655
+DDIR_WEST
+Swiftest Way continues west.~
+~
+0 0 646
+#648
+Swifest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses
+are north and south of you.  Swiftest Way continues east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 656
+DDIR_EAST
+~
+~
+0 -1 651
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 658
+DDIR_WEST
+Swiftest Way continues west.~
+~
+0 0 647
+#649
+Swiftest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses
+are north and south of you.  Swiftest Way continues west, and to the east you
+see a big intersection.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 659
+DDIR_EAST
+You see the big intersection.~
+~
+0 0 642
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 660
+DDIR_WEST
+Swiftest Way continues west.~
+~
+0 0 650
+#650
+Swiftest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses
+are north and south of you.  Swiftest Way continues east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 661
+DDIR_EAST
+Swiftest Way continues east.~
+~
+0 0 649
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 662
+DDIR_WEST
+You see the end of Swiftest Way.~
+~
+0 0 651
+#651
+Swiftest Way~
+You are on Swiftest Way, the commoner's residential area.  Small houses
+are north and south of you.  Swiftest Way continues east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a small house.~
+~
+0 0 663
+DDIR_EAST
+Swiftest Way continues east.~
+~
+0 0 650
+DDIR_SOUTH
+You see a small house.~
+~
+0 0 664
+DDIR_WEST
+You see a small house.~
+~
+0 0 648
+#652
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see Swiftest Way.~
+~
+0 0 646
+#653
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see Swiftest Way.~
+~
+0 0 646
+#654
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see Swiftest Way.~
+~
+0 0 647
+#655
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see Swiftest Way.~
+~
+0 0 647
+#656
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the end of Swiftest Way.~
+~
+0 0 648
+#658
+Large lawn~
+This is a large lawn in the heart of the residential area of New Ofcol.
+The road continues to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the end of Swiftest Way.~
+~
+0 0 648
+#659
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see Swiftest Way.~
+~
+0 0 649
+#660
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see Swiftest Way.~
+~
+0 0 649
+#661
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see Swiftest Way.~
+~
+0 0 650
+#662
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see Swiftest Way.~
+~
+0 0 650
+#663
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the end of Swiftest Way.~
+~
+0 0 651
+#664
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the end of Swiftest Way.~
+~
+0 0 651
+#665
+Small House~
+You are in a small house, owned by a commoner of Ofcol.  There isn't much
+of value here to you, but you'd bet that the owner really cherishes the pile
+of stuff here.  The exit is to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the end of Swiftest Way.~
+~
+0 0 646
+#666
+Raff Way~
+You are on Raff Way.  To the west, you can see a big intersection.  To
+the east, you see Raff Way continue toward the Golden Citadel.  There are
+beautiful flowers growing along the road here, making this more of a garden
+than a road.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Raff Way continues east.~
+~
+0 0 667
+DDIR_WEST
+You see the big intersection.~
+~
+0 0 601
+#667
+Raff Way~
+You are on Raff Way.  Raff Way continues west to the city of Ofcol.  To
+the east, you see Raff Way continue toward the Golden Citadel.  There are
+beautiful flowers growing along the road here, making this more of a garden
+than a road.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 0 11495
+DDIR_EAST
+You see the entrance of the Golden Citadel.~
+~
+0 0 699
+DDIR_WEST
+Raff Way continues west.~
+~
+0 0 666
+#668
+Dirt Road~
+You are on a dirt road.  To the east is a large building with a bad smell
+emanating from it.  To the west is the end of Impy Way, and this road continues
+south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the large building with the bad smell.~
+~
+0 0 617
+DDIR_SOUTH
+The dirt road continues south.~
+~
+0 0 618
+DDIR_WEST
+You see the end of Impy Way.~
+~
+0 0 611
+#669
+The Temple of Ofcol~
+You are in the Temple of Ofcol.  Golden tiles cover the floor, and solid
+gold columns reach the twelve foot ceiling of this vast chamber.  Servants in
+golden livery wander this place, making even the raggiest messenger boy look
+richer than you are.  Exits lead to the anterooms in the cardinal directions.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 670
+DDIR_EAST
+~
+~
+0 0 672
+DDIR_SOUTH
+~
+~
+0 0 673
+DDIR_WEST
+~
+~
+0 0 671
+#670
+The Anteroom to the Temple of Ofcol~
+You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
+floor, and servants in golden livery pass you by peaceably.  The temple is to
+the south, and to the north is a hallway.  A stairways leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 675
+DDIR_SOUTH
+~
+~
+0 0 669
+DDIR_UP
+~
+~
+0 0 686
+#671
+The Anteroom to the Temple of Ofcol~
+You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
+floor, and servants in golden livery pass you by peaceably.  The temple is to
+the east, and to the west is a hallway.  A stairways leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 669
+DDIR_WEST
+~
+~
+0 0 679
+DDIR_UP
+~
+~
+0 0 687
+#672
+The Anteroom to the Temple of Ofcol~
+You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
+floor, and servants in golden livery pass you by peaceably.  The temple is to
+the west, and to the east is a hallway.  A stairways leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 680
+DDIR_WEST
+~
+~
+0 0 669
+DDIR_UP
+~
+~
+0 0 689
+#673
+The Anteroom to the Temple of Ofcol~
+You are in an anteroom to the Temple of Ofcol.  Gold tiles cover the
+floor, and servants in golden livery pass you by peaceably.  The temple is to
+the north, and to the south is a hallway.  A stairways leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 669
+DDIR_SOUTH
+~
+~
+0 0 684
+DDIR_UP
+~
+~
+0 0 690
+#674
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead east and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 675
+DDIR_SOUTH
+~
+~
+0 0 677
+#675
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead east, west, and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 676
+DDIR_SOUTH
+~
+~
+0 0 670
+DDIR_WEST
+~
+~
+0 0 674
+#676
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead west and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 678
+DDIR_WEST
+~
+~
+0 0 675
+#677
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead north and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 674
+DDIR_SOUTH
+~
+~
+0 0 679
+#678
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead north and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 676
+DDIR_SOUTH
+~
+~
+0 0 680
+#679
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead to the cardinal directions, with the east leading
+toward the Temple of Ofcol, and west leading toward the City of Ofcol.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 677
+DDIR_EAST
+~
+~
+0 0 671
+DDIR_SOUTH
+~
+~
+0 0 681
+DDIR_WEST
+~
+~
+0 0 698
+#680
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead west, north and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 678
+DDIR_SOUTH
+~
+~
+0 0 682
+DDIR_WEST
+~
+~
+0 0 672
+#681
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead north and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 679
+DDIR_SOUTH
+~
+~
+0 0 683
+#682
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead north and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 680
+DDIR_SOUTH
+~
+~
+0 0 685
+#683
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead north and east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 681
+DDIR_EAST
+~
+~
+0 0 684
+#684
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead east, west, and north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 673
+DDIR_EAST
+~
+~
+0 0 685
+DDIR_WEST
+~
+~
+0 0 683
+#685
+A Hallway of the Golden Citadel~
+You are in a hallway of the Golden Citadel.  Gold tiles cover the floors,
+and rich golden tapestries drape the walls.  Servants in golden livery pass you
+by peaceably.  Exits lead west and north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 682
+DDIR_WEST
+~
+~
+0 0 684
+#686
+An Upper Chamber of the Golden Citadel~
+You are in one of the upper chambers of the Golden Citadel.  The decora-
+tions of this place surpass even those of the first floor.  Gold tiles etched
+with platinum cover the floor, walls and the ceiling.  The lights from numerous
+torches reflect from these shimmering planes, giving the illusion that you are
+standing in a gem.  Stairways lead up and down, and the hall leads south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 688
+DDIR_UP
+~
+~
+0 0 691
+DDIR_DOWN
+~
+~
+0 0 670
+#687
+An Upper Chamber of the Golden Citadel~
+You are in one of the upper chambers of the Golden Citadel.  The decora-
+tions of this place surpass even those of the first floor.  Gold tiles etched
+with platinum cover the floor, walls and the ceiling.  The lights from numerous
+torches reflect from these shimmering planes, giving the illusion that you are
+standing in a gem.  Stairways lead up and down, and the hall leads east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 688
+DDIR_UP
+~
+~
+0 0 692
+DDIR_DOWN
+~
+~
+0 0 671
+#688
+The Hall of the DragonLords~
+You are in a vast hall, filled with the commanders of the Golden Citadel.
+Golden tiles etched with platinum cover the floors, and weapons of all types
+are mounted on the walls of this meeting hall.  Surrounding a solid gold table
+are four sons of the Keeper of the Golden Citadel.  They smile at you and ask
+you to join them in lunch.  Exits lead to the cardinal directions.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 686
+DDIR_EAST
+~
+~
+0 0 689
+DDIR_SOUTH
+~
+~
+0 0 690
+DDIR_WEST
+~
+~
+0 0 687
+#689
+An Upper Chamber of the Golden Citadel~
+You are in one of the upper chambers of the Golden Citadel.  The decora-
+tions of this place surpass even those of the first floor.  Gold tiles etched
+with platinum cover the floor, walls and the ceiling.  The lights from numerous
+torches reflect from these shimmering planes, giving the illusion that you are
+standing in a gem.  Stairways lead up and down, and the hall leads west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 0 688
+DDIR_UP
+~
+~
+0 0 694
+DDIR_DOWN
+~
+~
+0 0 672
+#690
+An Upper Chamber of the Golden Citadel~
+You are in one of the upper chambers of the Golden Citadel.  The decora-
+tions of this place surpass even those of the first floor.  Gold tiles etched
+with platinum cover the floor, walls and the ceiling.  The lights from numerous
+torches reflect from these shimmering planes, giving the illusion that you are
+standing in a gem.  Stairways lead up and down, and the hall leads north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 688
+DDIR_UP
+~
+~
+0 0 695
+DDIR_DOWN
+~
+~
+0 0 673
+#691
+A Top Chamber of the Golden Citadel~
+You are in one of the top chambers of the Golden Citadel.  The decorations
+of this room looks like a dragon's hoard.  The whole room is carved out of pure
+gold, and gems of all types glitter from the walls, ceiling, even the floor.
+It is obvious that this room was not meant for you to intrude upon.  A stair-
+case leads back down, and a doorway leads south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 693
+DDIR_DOWN
+~
+~
+0 0 686
+#692
+A Top Chamber of the Golden Citadel~
+You are in one of the top chambers of the Golden Citadel.  The decorations
+of this room looks like a dragon's hoard.  The whole room is carved out of pure
+gold, and gems of all types glitter from the walls, ceiling, even the floor.
+It is obvious that this room was not meant for you to intrude upon.  A stair-
+case leads back down, and a doorway leads east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 693
+DDIR_DOWN
+~
+~
+0 0 687
+#693
+The Dragon Chamber~
+You are in a vast chamber carved from gold and platinum.  Gems the size of
+a man's fist protrude from the walls, ceiling, and the floor, making your step
+painful.  A vast open sky-light lets fresh air come in from the top.  In the
+center of this chamber, you see a great wealth of coins, and on top of that
+pile of coins, you see a golden dragon squinting at you.  Exits lead to the
+cardinal directions to the anterooms.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 691
+DDIR_EAST
+~
+~
+0 0 694
+DDIR_SOUTH
+~
+~
+0 0 695
+DDIR_WEST
+~
+~
+0 0 692
+DDIR_UP
+~
+~
+0 0 696
+#694
+A Top Chamber of the Golden Citadel~
+You are in one of the top chambers of the Golden Citadel.  The decorations
+of this room looks like a dragon's hoard.  The whole room is carved out of pure
+gold, and gems of all types glitter from the walls, ceiling, even the floor.
+It is obvious that this room was not meant for you to intrude upon.  A stair-
+case leads back down, and a doorway leads west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 0 693
+DDIR_DOWN
+~
+~
+0 0 689
+#695
+A Top Chamber of the Golden Citadel~
+You are in one of the top chambers of the Golden Citadel.  The decorations
+of this room looks like a dragon's hoard.  The whole room is carved out of pure
+gold, and gems of all types glitter from the walls, ceiling, even the floor.
+It is obvious that this room was not meant for you to intrude upon.  A stair-
+case leads back down, and a doorway leads north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 695
+DDIR_DOWN
+~
+~
+0 0 690
+#696
+Above the Dragon Chamber~
+You are above the Dragon Chamber.  You curiously note that this shaft that
+connects the chamber to the sky is wide enough that even a dragon can fit
+through.  This shaft leads up and down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+~
+~
+0 0 697
+DDIR_DOWN
+~
+~
+0 0 693
+#697
+In the Shaft from the Dragon Chamber~
+You are in the shaft leading from the Dragon Chamber.  Below you lies the
+Dragon Chamber of the Golden Citadel.  Above you, you see the sky, but
+currently, the way out is sealed by a layer of diamond that looks impenetrable.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+~
+~
+0 0 696
+#698
+Inside the Entrance to the Golden Citadel~
+You are inside the entrance to the Golden Citadel.  Rich golden tapestries
+line the walls, and golden tiles cover the floors.  The exit to this citadel is
+to the west, while the citadel itself is to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 679
+DDIR_WEST
+~
+gate~
+EX_ISDOOR 651 699
+#699
+Outside the Entrance to the Golden Citadel~
+You are outside the entrance to the Golden Citadel.  A great gate is to
+to the east, marking the entranceway into the citadel.  The road also leads
+back west to Raff Way.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+door~
+EX_ISDOOR 651 698
+DDIR_WEST
+~
+~
+0 0 667
+#750
+Village street~
+You stand at the small village street in Ofcol.
+From here you see small houses and only few people.
+North of here the village street continues up to the small
+square where some people are gathered as always.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You look up the village street noticing nothing special at all.~
+~
+0 -1 751
+DDIR_SOUTH
+~
+~
+0 -1 17130
+#751
+Village street~
+You are standing on the village street of Ofcol.
+East from here is a small alley and north you enter the village
+square. Towards the south you can leave Ofcol.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The village square is as usual not overcrowded.~
+~
+0 -1 752
+DDIR_EAST
+The small alley looks relative peaceful.~
+~
+0 -1 753
+DDIR_SOUTH
+You see the village street eventually becoming the wide road.~
+~
+0 -1 750
+#752
+Village square~
+The village square is a place where inhabitants of Ofcol gather
+to talk, trade and sell items and just have a good time.
+You see a small shop to the west and the local inn to the north.
+If you leave south you go to village street.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a local inn called 'The Ofcol Local Inn'. Looks nice.~
+~
+0 -1 756
+DDIR_EAST
+~
+~
+0 -1 16004
+DDIR_SOUTH
+You see the village street of Ofcol.~
+~
+0 -1 751
+DDIR_WEST
+A small shop with the sign 'Luxan's Mixed goods' hanging in front of it.~
+~
+0 -1 755
+#753
+The small alley~
+You are in a small, quiet alley.  From here you see the village street
+to the west and a small room lies to the south.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see a big intersection.~
+~
+0 0 601
+DDIR_SOUTH
+It looks like the new training room.~
+~
+0 -1 754
+DDIR_WEST
+You notice nothing but the village street.~
+~
+0 -1 751
+#754
+The new training room~
+The new training yard has finally been built!  To the north you can
+see a small alley.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+You are able to see the small alley, really not very interesting.~
+~
+0 -1 753
+#755
+Luxan's mixed shop~
+You are standing in a small shop, filled with all kinds of goods.
+Here you might be able to find just the thing you're looking for.
+The only exit is east to village square.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+The village square is as usual not overcrowded.~
+~
+0 -1 752
+#756
+The Local Inn~
+You are in the local inn, where the peaceful citizens of Ofcol
+gather to have a drink or 5 if they have dry throats.
+You can't help thinking that Ofcol is a dry city, when you see the
+many people here.
+The only exit is south to the village square.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The village square is as usual not overcrowded.~
+~
+0 -1 752
+#757
+Nyle's backroom~
+This is quite a quiet room, compared to the bar outside. The walls and ceiling
+are a dark wood and there are several small booths around the room. There are
+several people sitting, talking quietly amongst themselves, and you can hear
+giggles coming from one corner of the room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see Impy Way.~
+~
+0 0 609
+DDIR_WEST
+You see the faint outline of a small hatch in the corner of the west wall.~
+~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN -1 616
+#758
+Floating in a void~
+~
+0 0 SECT_INSIDE
+#0
+
+
+#RESETS
+D 618 DIR_SOUTH DOOR_CLOSED
+D 619 DIR_NORTH DOOR_CLOSED
+D 600 DIR_EAST  DOOR_CLOSED
+D 616 DIR_WEST  DOOR_CLOSED
+D 625 DIR_EAST  DOOR_CLOSED_LOCKED
+D 626 DIR_WEST  DOOR_CLOSED_LOCKED
+D 625 DIR_WEST  DOOR_CLOSED_LOCKED
+D 629 DIR_EAST  DOOR_CLOSED_LOCKED
+D 642 DIR_NORTH DOOR_CLOSED_LOCKED
+D 643 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 632 DIR_EAST  DOOR_CLOSED
+D 632 DIR_WEST  DOOR_CLOSED
+D 633 DIR_WEST  DOOR_CLOSED
+D 635 DIR_EAST  DOOR_CLOSED
+D 637 DIR_EAST  DOOR_CLOSED
+D 637 DIR_WEST  DOOR_CLOSED
+D 638 DIR_WEST  DOOR_CLOSED
+D 640 DIR_EAST  DOOR_CLOSED
+M 641 100 754
+M 637 100 624
+M 600 100 605
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 622  99 WEAR_HEAD
+M 600 100 604
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 623  99 WEAR_LEGS
+M 600 100 601
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 624  99 WEAR_FEET
+M 600 100 650
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 625  99 WEAR_HANDS
+M 600 100 642
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 626  99 WEAR_ARMS
+M 600 100 647
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+M 600 100 667
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 628  99 WEAR_WAIST
+M 600 100 637
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 629  99 WEAR_WRIST_L
+M 601 100 601
+E 620  99 WEAR_FINGER_L
+E 639  99 WEAR_BODY
+E 640  99 WEAR_HEAD
+E 641  99 WEAR_LEGS
+E 642  99 WEAR_FEET
+E 643  99 WEAR_HANDS
+E 644  99 WEAR_ARMS
+E 645  99 WEAR_SHIELD
+E 646  99 WEAR_WAIST
+E 647  99 WEAR_WIELD
+M 602 100 669
+E 620  99 WEAR_FINGER_L
+E 631  99 WEAR_BODY
+E 653  99 WEAR_WIELD
+E 632  99 WEAR_HEAD
+E 633  99 WEAR_LEGS
+E 634  99 WEAR_FEET
+E 635  99 WEAR_HANDS
+E 626  99 WEAR_ARMS
+E 627  99 WEAR_SHIELD
+E 628  99 WEAR_WAIST
+M 603 100 699
+E 620  99 WEAR_FINGER_L
+E 631  99 WEAR_BODY
+E 653  99 WEAR_WIELD
+E 632  99 WEAR_HEAD
+E 623  99 WEAR_LEGS
+E 624  99 WEAR_FEET
+E 625  99 WEAR_HANDS
+E 636  99 WEAR_ARMS
+E 637  99 WEAR_SHIELD
+E 638  99 WEAR_WAIST
+M 623 100 699
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 623 100 699
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 623 100 699
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 634 100 698
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 634 100 698
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 634 100 698
+E 620  99 WEAR_FINGER_L
+E 621  99 WEAR_BODY
+E 630  99 WEAR_WIELD
+E 627  99 WEAR_SHIELD
+G 651  99 0
+M 604 100 603
+G 600  99 0
+G 601  99 0
+G 615  99 0
+G 667  99 0
+M 605 100 604
+G 616  99 0
+G 617  99 0
+G 618  99 0
+G 619  99 0
+M 606 100 606
+G 606  99 0
+G 607  99 0
+G 608  99 0
+M 607 100 607
+G 602  99 0
+G 603  99 0
+G 604  99 0
+G 605  99 0
+M 622 100 609
+G 648  99 0
+G 649  99 0
+G 650  99 0
+M 608 100 610
+G 609  99 0
+G 610  99 0
+G 611  99 0
+G 612  99 0
+G 613  99 0
+M 609 100 600
+O 649  99 600
+M 610 100 617
+E 601  99 WEAR_WIELD
+M 611 100 620
+E 615  99 WEAR_WIELD
+O 614  99 620
+O 611  99 620
+M 612 100 619
+M 612 100 619
+M 612 100 619
+M 612 100 619
+M 613 100 623
+M 613 100 623
+M 613 100 623
+M 614 100 620
+M 614 100 620
+M 615 100 622
+M 615 100 622
+M 615 100 622
+M 615 100 622
+M 616 100 624
+M 616 100 624
+M 616 100 624
+M 616 100 624
+M 617 100 601
+M 617 100 650
+M 617 100 648
+M 618 100 611
+M 618 100 666
+M 618 100 637
+M 619 100 661
+M 619 100 655
+M 620 100 635
+M 620 100 652
+M 624 100 609
+M 621 100 627
+G 665  99 0
+E 666  99 WEAR_WIELD
+M 621 100 629
+G 665  99 0
+E 666  99 WEAR_WIELD
+M 621 100 643
+G 665  99 0
+E 666  99 WEAR_WIELD
+M 625 100 674
+M 625 100 673
+M 626 100 682
+M 626 100 683
+M 627 100 678
+M 628 100 669
+E 620  99 WEAR_FINGER_L
+E 664  99 WEAR_ABOUT
+E 652  99 WEAR_NECK_A
+M 629 100 698
+E 664  99 WEAR_ABOUT
+M 630 100 688
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+E 656  99 WEAR_HEAD
+E 657  99 WEAR_LEGS
+M 630 100 688
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+E 657  99 WEAR_FEET
+E 658  99 WEAR_HANDS
+M 630 100 688
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+E 659  99 WEAR_ARMS
+E 661  99 WEAR_WAIST
+M 631 100 693
+E 620  99 WEAR_FINGER_L
+E 662  99 WEAR_WIELD
+E 663  99 WEAR_DUAL_WIELD
+M 632 100 693
+E 620  99 WEAR_FINGER_L
+E 664  99 WEAR_ABOUT
+M 632 100 693
+E 620  99 WEAR_FINGER_L
+E 664  99 WEAR_ABOUT
+M 633 100 690
+M 638 100 690
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+M 633 100 676
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+M 633 100 681
+E 620  99 WEAR_FINGER_L
+E 654  99 WEAR_BODY
+E 660  99 WEAR_SHIELD
+E 662  99 WEAR_WIELD
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

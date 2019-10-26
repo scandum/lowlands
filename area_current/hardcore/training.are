@@ -1,0 +1,3373 @@
+#AREA Tower of Training~
+#AUTHORS Desmond~
+#VERSION 4
+#RANGES 1 10 1 10
+#OLC_RANGES 3700 3799
+#FLAGS AFLAG_NOTELEPORT
+
+
+#HELPS
+-1 'TOWER OF TRAINING' NEWBIE~
+{130}
+                              Tower of Training
+{120}
+     The Tower of Training is the place where new adventurers would try
+     to kill their first mob,  or get killed for the very first time by
+     one.   The first tip that you will get from this help file is:  do
+     not rush into leveling, but take your time to read the help files.
+     Read all the room description carefully, and learn to use the help
+     command. If you're still confused, ask people for help, but try to
+     find things out for yourself before you ask someone else for help.
+
+     Type HELP without an argument to enter the help menu. While in the
+     help menu you can type  a  b  c  d  e  etc to choose from the menu
+     options. Typing any non listed menu option will make you leave the
+     help menu.
+~
+
+0 $~
+
+
+#MOBILES
+#3700
+oblivion recruiter avatar m3700~
+Oblivion~
+(Sizzling Aura) Oblivion is eager to answer your questions.~
+He is a warm and friendly looking man, with chestnut brown hair and deep grey
+eyes.  He wears vestments of crimson velvet, crisply tailored to fit his lean,
+muscular frame.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+1000 S
+50 0 BODY_EYE 1d756+1469 1d220+61
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (4,4,$n) == 0
+  say Want to do something BAD $n?
+  grin $n
+endif
+if quest (4,4,$n) == 3
+  mpechoat $n Oblivion sniffs the air and grins at you.
+  mpechoaround $n Oblivion sniffs the air and grins at $n.
+  say Well done!
+  say Here is your reward.
+  mpoload 3737
+  give i3737 $n
+  mpmset $n quest 4 4 4
+~
+>speech_prog defective~
+say The token is defective? Give it to me and
+say if it is then I'll replace it for you.
+~
+>speech_prog bad~
+if quest (4,4,$n) == 0
+  say It's something..
+  say Frenetic, Pyromanic, INSANE!
+endif
+~
+>speech_prog insane~
+if quest (4,4,$n) == 0
+  say It's time for a little Bon Fire
+  snicker self
+  say And I need your HELP cause I can't leave my
+  say office.. Wouldn't want a defenseless newbie
+  say walking into the arms of one of the other
+  say recruiter!
+endif
+~
+>speech_prog help barrel spill~
+if quest (4,4,$n) == 0
+  say I'll give you a barrel filled with a very flammable liquid inside it.
+  say SPILL it over the floors of the recruiting office of Order, then LIGHT it with a banner from the store.
+  say After that run for safety! Cause it will be one hell of a lovely fire in her garden!
+  smile 
+  say If you're interested simply say I WANT THE JOB.
+  break
+endif
+if quest (4,4,$n) < 3
+  say Look at the barrel, it should explain itself $n.
+  smile $n
+endif
+~
+>speech_prog p I want the job~
+if quest (4,4,$n) == 0
+  say Here you go.
+  mpoload 3735
+  give I3735 $n
+  mpmset $n quest 4 4 1
+endif
+~
+>give_prog I3729~
+say You're right.  Here's a new token. Sorry.
+mpdamage all
+mpoload 3730
+give I3730 $n
+~
+>speech_prog p set the grey lord free~
+say WHAT?
+mpecho The Recruiter of Chaos utters the words, 'glmpesd'.
+if quest (0,4,$n) == 3
+  gasp 
+  say Thank you for the information. You can watch me
+  say slay the traitor if you like.
+  mpmset $n quest 0 4 4
+  mptransfer m3725
+  shout Recruiter of Order!  You broke the pact!
+  emote drags in the Recruiter of Order by her hair!
+  mpkill m3725
+else
+  if inroom ($i) == 3742
+    mpecho The Recruiter of Chaos laughs nervously.
+    say You must have been misinformed.  You better go
+    say practice some more.
+~
+>death_prog 100~
+say Lord Chaos will punish you for this!
+groan 
+mpecho $N utters the words, 'agem pzar'.
+mpecho $N's wounds disappear.
+restore m3725
+mpareaecho You hear $I's death cry!
+mpforce m3725 grin
+mpforce m3725 shout Let that be a lesson to you, traitor.
+if inroom ($i) != 3743
+  mptransfer m3725 3743
+~
+|
+#3701
+gargoyle~
+the gargoyle~
+There is a Gargoyle here seeking revenge against his captors.~
+You enter and are immediately confronted by an enormous creature whose skin
+appears to be made of stone.  You can see that his talons are long, sharp and,
+unquestionably, tipped in blood!  You may wish to consider whether you are truly
+ready to fight this gargantuan.  If not, now would be a good time to FLEE ...
+unless you wish to suffer the consequences!
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+5 BODY_HEAD BODY_HEAD|BODY_LEG|BODY_WING 0d0+40 1d2+3
+50 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 100~
+mpdelay self 1 1
+~
+>delay_prog 1~
+restore self
+~
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if actorwearsobjnum (3712)
+or actorwearsobjnum (3706)
+  mpdelay self 1 3 $n
+else
+  mpdelay self 1 2 $n
+~
+>delay_prog 2~
+if isfight ($i)
+  break
+endif
+if existsroom ($X)
+  if quest (33,1,$t) == 1
+    switch numberrange (1,4)
+      case 1
+        mpechoat $t $I moves into a defensive position, eyeing you sharply.
+        mpechoaround $t $I moves into a defensive position, eyes $t sharply.
+      case 2
+        mpechoat $t $I growls at your entrance, taking a step away from you.
+        mpechoaround $t $I growls at $t's entrance, taking a step away from $M.
+      case 3
+        mpechoat $t $I nods at you as you enter, planting $l feet firmly on the floor.
+        mpechoaround $t $I nods at $t as $E enters, planting $l feet firmly on the floor.
+      case 4
+        mpechoat $t $I faces you with false bravado as you enter, grinning broadly.
+        mpechoaround $t $I faces $t with false bravado as $E enters, grinning broadly.
+    endswitch
+  else
+    switch numberrange (1,4)
+      case 1
+        mpechoat $t $I clenches $l stone fists, eyeing you up lightly.
+        mpechoat $t $I clenches $l stone fists, eyeing $t up lightly.
+      case 2
+        mpechoat $t $I lunges forward, almost decapitating you with $l claws.
+        mpechoaround $t $I lunges forward, almost decapitating $t with $l claws.
+      case 3
+        mpecho $I grins broadly, chewing on the remainders of an unfortunate adventurer.
+      case 4
+        mpechoat $t $I turns toward you, daring you with $l eyes to come closer.
+        mpechoaround $t $I turns toward $t, daring $M with $l eyes to come closer.
+~
+>death_prog 100~
+mpmset $n quest 33 1 1
+~
+>delay_prog 3~
+if existsroom ($X)
+  switch numberrange (1,4)
+    case 1
+      mpechoat $t $I turns toward you, sizing you up.
+      mpechoaround $t $I turns toward $t, sizing $M up.
+    case 2
+      mpechoat $t $I flashes $l eyes over you and snarls.
+      mpechoaround $t $I flashes $l eyes over $t and snarls.
+    case 3
+      mpechoat $t $I glances in your direction, sharpening $l claws on the wall.
+      mpechoaround $t $I glances in $t's direction, sharpening $l claws on the wall.
+    case 4
+      mpechoat $t $I's eyes rake over you quickly as $j takes a step toward you.
+      mpechoaround $t $I's eyes rake over $t quickly as $j takes a step toward $M.
+  endswitch
+~
+|
+#3702
+gold drakeling~
+the gold drakeling~
+There is a gold drakeling whizzing around the room.~
+This is a smaller drakeling, a fire-breathing lizard with scales of pure gold! 
+Its wings are rose-colored and leathery, and although they look fragile, they
+flap powerfully.  It looks more than a bit dangerous and you jump as you see a
+slender flame snake out of its mouth.  As it flies around your head you can see
+that there are some items draped about its neck that could be of some use to
+you.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_FLYING
+0 S
+3 BODY_WING|BODY_CLAW BODY_WING|BODY_TAIL|BODY_CLAW 1d1+15 1d2+1
+25 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 15~
+mpecho {168}The gold drakeling inhales deeply...
+mpdamage $n 1 4 'flaming breath'
+~
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch numberrange (1,4)
+    case 1
+      mpechoat $t $I's golden scales glitter in the dim light as it swoops towards you.
+      mpechoaround $t $I's golden scales glitter in the dim light as it swoops towards $t.
+    case 2
+      mpechoat $t $I breathes out, scorching the wall behind you.
+      mpechoaround $t $I breathes out, scorching the wall behind $t.
+    case 3
+      mpechoat $t $I flies swiftly around you, talons raised in preparation for battle.
+      mpechoaround $t $I flies swiftly around $t, talons raised in preparation for battle.
+    case 4
+      mpechoat $t $I opens $l jaws widely, a sharp flame searing your skin.
+      mpechoaround $t $I opens $l jaws widely, a sharp flame searing $t's skin.
+~
+|
+#3703
+pixie~
+the forest pixie~
+There is a small pixie fluttering about the room.~
+The pixie is a small, female warrior.  Though tiny in stature she appears
+dangerous in attitude.  Short, shining blonde hair caps her tiny head, and her
+eyes are a glittering emerald green.  Her iridescent wings flutter and gleam in
+the dim light.  She holds a miniature dagger at her waist and narrows her eyes
+at your approach.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_WIMPY|ACT_BODY
+AFF_FLYING
+0 S
+3 BODY_WING|BODY_HAND BODY_EYE|BODY_WING|BODY_HAND 1d1+15 1d2+1
+10 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if isfight ($i)
+  break
+endif
+if existsroom ($X)
+  switch numberrange (1,4)
+    case 1
+      mpecho $I flutters $l wings in an attempt to look small and innocent.
+    case 2
+      mpechoat $t $I raises $l head, eyes glittering dangerously as you approach.
+      mpechoaround $t $I raises $l head, eyes glittering dangerously as $t approaches.
+    case 3
+      mpechoat $t $I quickly adjusts $l helmet, preparing to do battle at your entrance.
+      mpechoaround $t I quickly adjusts $l helmet, preparing to do battle at $t's enrance.
+    case 4
+      mpecho $I gracefully somersaults in midair as $j rises to the challenge.
+~
+|
+#3704
+demonic worm~
+the demonic worm~
+There is a worm from the plane of Avernus slithering right toward you!~
+This worm from hell is huge ... at least six feet long and a foot around!  As it
+squirms along the ground it leaves in its wake a trail of putrid, black mucus. 
+Its mouth gapes open as it slithers towards you, but you stand your ground. 
+Why?  You've noticed some important pieces of equipment mired in its slimy body,
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+2 BODY_TAIL|BODY_PINCERS BODY_TAIL|BODY_PINCERS 1d1+12 1d2+1
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if isfight ($i)
+  break
+endif
+if existsroom ($X)
+  switch numberrange (1,4)
+    case 1
+      mpechoat $t $I snakes its way towards you, maw opened wide.
+      mpechoaround $t $I snakes its way towards you, maw opened wide.
+    case 2
+      mpechoat $t $I leaves a trail of slime in its wake as it slithers towards you.
+      mpechoaround $t $I leaves a trail of slime in its wake as it slithers towards $t.
+    case 3
+      mpechoat $t $I hisses angrily, slithering swiftly toward you.
+      mpechoaround $t $I hisses angrily, slithering swiftly toward $t.
+    default
+      mpechoat $t $I slithers towards you, $l enormous body slick with grime.
+      mpechoaround $t $I slithers towards you, $l enormous body slick with grime.
+  endswitch
+  mpkill $t
+~
+|
+#3705
+crater kobold~
+the crater kobold~
+A small, gnarled kobold stands here, glaring at your intrusion.~
+The kobold is short, roughly the height of a human child, with greyish skin,
+large, pointed ears and the face of an ugly dog.  It is wearing whatever armor
+it has managed to scrounge from around the Tower.  Second-hand armor, yes, but
+it would still be of good use to you.  Don't let it's small size deceive you ...
+this is a dangerous opponent.  The kobold mutters at you as you enter, its
+beady, black eyes fixed on your weapon.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+3 BODY_HEAD BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d1+15 1d2+1
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if isfight ($i)
+  break
+endif
+if existsroom ($X)
+  switch numberrange (1,4)
+    case 1
+      mpechoat $t $I rises from $l pile of straw, beady black eyes considering you.
+      mpechoaround $t $I rises from $l pile of straw, beady black eyes considering $t.
+    case 2
+      mpecho $I stands quickly, a claw-like hand combing through $l matted hair.
+    case 3
+      mpecho $I hisses through its teeth, gnarled hands curled into tight fists.
+    case 4
+      mpechoat $t $I watches you carefully through the hair falling over $l slitted eyes.
+      mpechoaround $t $I watches $t carefully through the hair falling over $l slitted eyes.
+~
+|
+#3706
+brawny human warrior~
+the brawny warrior~
+There is a brawny human warrior here staring at you contemptuously.~
+The warrior is more than 6 feet tall, with long, dark hair and a full beard. 
+His muscles bulge through his spirit armor which, by the way, doesn't seem to be
+BIG enough for him!  He is powerfully built and stands in the middle of the
+room, his arms crossed in front of his barrel-like chest as he waits for you to
+cross the line.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+4 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d1+20 1d4+1
+20 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (34,1,$n) == 0
+  mpdelay self 1 1 $n
+  mpmset self quest 0 4 0
+~
+>death_prog 100~
+mpmset $n quest 34 1 1
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    grin $X
+  endif
+  if quest (0,4,$i) == 1
+    say I dare you to cross this line, wuss.
+  endif
+  if quest (0,4,$i) == 2
+    mpechoaround $X The brawny warrior lobs a huge glob of spit at $X's boots.
+    mpechoat $X The brawny warrior lobs a huge glob of spit at your boots.
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 2 1 $X
+~
+|
+#3707
+avatar~
+the Avatar of Chaos~
+An Avatar of Chaos is here, eagerly helping you to slaughter monsters.~
+Looking at her you are trapped first by her eyes, deep-set and almost the color
+of topaz.  Her burgundy-colored hair sweeps around her shoulders, falling in
+lush waves.  She wears vestments of the color of a midnight sky, setting off her
+pale, ivory skin.  You can sense the pure power radiating from this Avatar, and
+you feel her desire to heal and protect you through her spells.  A deep love of
+Fire dwells within her heart.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+1000 S
+30 0 0 1d272+499 1d33+7
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if hitprcnt ($r) < 100
+  cast 'heal' $r
+  break
+endif
+if isaffected ($r) != giant
+  cast giant $r
+endif
+~
+|
+#3710
+minion~
+the minion~
+A minion of the Grey Lord is here looking at you fearfully.~
+The minion is really quite indescribable.  He seems to be humanoid and
+about one half of your height, but all of its distinguishing features
+flicker and change as if it isn't quite able to decide what form to take.
+He looks weak.
+~
+ACT_BODY
+0
+0 S
+2 BODY_HEAD|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_HAND|BODY_FOOT 1d1+12 1d2+1
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#3711
+minion~
+the minion~
+A minion of the Grey Lord is here trying to escape from confinement.~
+The minion is really quite indescribable.  He seems to be humanoid and
+about three quarters of your height, but all of its distinguishing features
+flicker and change as if it isn't quite able to decide what form to take.
+He looks like a tough fight.
+~
+ACT_RACE
+0
+0 S
+3 0 0 1d1+15 1d3+1
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#3712
+minion~
+the minion~
+A minion of the Grey Lord is here trying to run away from you.~
+The minion is really quite indescribable. He seems to be humanoid and
+about one quarter of your height, but all of its distinguishing features
+flicker and change as if it isn't quite able to decide what form to take.
+He looks pretty weak.
+~
+ACT_WIMPY|ACT_BODY
+0
+0 S
+2 BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d1+12 1d2+1
+5 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#3714
+chief minion~
+the chief minion~
+The chief minion of the Grey Lord is here eyeing you cunningly.~
+The minion is really quite indescribable. He seems to be humanoid and
+about one and a half times your height, but all of its distinguishing
+features flicker and change as if it isn't quite able to decide what form
+to take. You see the light of intelligence in its eyes.
+~
+ACT_SMART
+0
+0 S
+5 0 0 1d1+25 1d4+1
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+say Greetings $n.
+if quest (0,4,$n) == 0
+  mpdelay self 2 1
+~
+>fight_prog 50~
+if quest (0,4,$n) == 0
+  mpecho {138}The chief minion shouts 'Wait! Don't kill me!'
+endif
+~
+>delay_prog 1~
+say You must ask me about the GREY LORD.
+~
+>speech_prog p grey lord~
+say The Grey Lord was the God of Neutrality.  He made sure
+say the balance between the gods was kept.  But they did
+say not want perfect balance.  So they joined together to
+say strip him of his power and locked him up somewhere in
+say this TOWER.  They torture him even now!
+~
+>speech_prog tower~
+say I don't know exactly where to find him.  But I was able
+say to steal a key to his prison.  If you HELP him, I am
+say sure he will do you a favor you will never forget..
+~
+>speech_prog help~
+say If you agree to help him, I will give you the key.
+say Will you help my master?
+say If so, tell me to GIVE the key.
+~
+>speech_prog give~
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  mpoload 3719
+  cast 'giant strength' $n
+  mpquiet off
+  give I3719 $n
+  say Use it wisely.  I thank you for your help.
+else
+  say But I already gave it to you!
+endif
+~
+|
+#3715
+minion~
+the minion~
+A minion of the Grey Lord is here looking at you vengefully.~
+The minion is really quite indescribable.  He seems to be humanoid and
+about the same height as you, but all of its distinguishing features
+flicker and change as if it isn't quite able to decide what form to take.
+He looks very tough.
+~
+ACT_AGGRESSIVE|ACT_BODY
+0
+0 S
+4 BODY_LEG|BODY_HAND|BODY_FOOT BODY_LEG|BODY_HAND|BODY_FOOT 1d1+20 1d4+1
+40 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#3717
+avatar~
+the Avatar of Order~
+An Avatar of Order is here, conjuring bread and selling you stuff.~
+She is a friendly looking lady with brown hair and brown eyes. Her vestments
+are pure green and crisply cut.  The Avatar radiates an aura of pure power.
+You are sure she can conjure more than just bread.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+50 0 0 1d1+2000 1d1+75
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#3718
+avatar order~
+the Avatar of Order~
+An Avatar of Order is here, training new mortals.~
+He is a friendly looking man with blond hair and blue eyes. His vestments
+are pure white and crisply cut. The Avatar radiates an aura of pure power
+and seems to be able to train you in every way.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+50 0 0 1d1+2000 1d1+75
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (32,1,$n) == 0
+  mpdelay self 1 1 $n
+  mpmset self quest 0 4 0
+  mpmset $n quest 32 1 1
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say Greetings $t
+  endif
+  if quest (0,4,$i) == 1
+    say I recommend training your wisdom and constitution.
+  endif
+  if quest (0,4,$i) == 2
+    say You can always use CHAT if you have any questions.
+  endif
+  if quest (0,4,$i) == 3
+    say And don't forget.  Always read the signs in the rooms.
+  endif
+  if quest (0,4,$i) == 4
+    smile $t
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 4 1 $t
+~
+|
+#3719
+avatar chaos~
+the Avatar of Chaos~
+The Avatar of Chaos is here and will sell you spells.~
+He is a slightly crazed looking man with dark hair and blue eyes.  His
+vestments are of the purest blue and cut in a haphazard manner.  The
+Avatar radiates an aura of pure power and seems willing to help you learn
+some skills.  He seems even more willing to laugh at your mistakes.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_DETECT_INVIS|AFF_SANCTUARY
+1000 S
+30 0 0 1d272+499 1d33+7
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 50~
+if rand (10)
+  if quest (0,1,$i) == 0
+    say I'm here to help you practice your skills. If you
+    say are so new that you don't know what to do, then
+    say look at the sign.
+  else
+    say By the way, if you are wounded I can heal you. It
+    say only costs ten gold.  Just give me the money and
+    say I'll do it.
+  endif
+  mpmadd self quest 0 1 1
+  break
+endif
+if isaffected ($r) != giant
+  cast 'giant strength' $r
+  break
+endif
+if isaffected ($r) != bless
+  cast 'bless' $r
+  break
+endif
+if isaffected ($r) != righteous
+  cast 'righteous fury' $r
+  break
+endif
+if rand (2)
+  say Are you having fun yet?
+  cackle 
+endif
+~
+>bribe_prog 10~
+cast 'cure critical' $n
+~
+|
+#3720
+statue~
+the stone statue~
+A noble statue stands proud upon a pedestal.~
+The plaque which used to bear the name for this statue has been eroded by time,
+but time has not yet had its way with the statue itself.  It stands proud and
+noble, a figure captured in the prime of life.  As you stare, it seems almost
+lifelike.  Was that a flicker of light in one grey eye?
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_HIDDEN
+0 S
+7 0 0 1d1+50 1d1+7
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+say You have done well $n
+say The obelisk outside the tower can help you
+say find an even greater challenge
+mpecho $I crumbles into a million fragments.
+if quest (37,1,$n) == 0
+  mpmset $n quest 37 1 1
+  mpmadd $n gold 1000
+endif
+~
+>greet_prog 100~
+if quest (36,1,$n) == 0
+  mpechoat $n $I looks at you kindly.
+  mpechoaround $n $I looks at $n kindly.
+  say Can I HELP you?  Do you have any questions yet, young one?
+~
+>speech_prog yes help~
+mpmset self quest 0 4 1
+if quest (36,1,$n) == 0
+  mpmset $n quest 36 1 1
+  mpecho $I stands down slowly from his pedestal.
+  mpecho The stone begins to fall from him, revealing a handsome noble.
+  say I will try to answer your questions.
+  say Though, ask me only one at a time.
+  emote smiles.
+~
+>speech_prog food hungry hunger~
+mpmset self quest 0 4 1
+say Well, please remember that you can often eat the parts of the body that fall off of the creatures you kill.
+say You may also buy food at the shop here and in other areas you visit on your travels.
+~
+>speech_prog spells cast~
+mpmset self quest 0 4 1
+say Spellcasting is an art, my friend.
+say You must make sure that you have practiced the spell you wish to use.
+say If you have, then you would type cast 'spellname' name.
+say If it is a harming spell, make sure you add the victim's name so that you don't harm yourself.
+say If it is a healing or helping spell, you may add the name of a friend.
+~
+>speech_prog chat fos~
+mpmset self quest 0 4 1
+say If you want to chat about general game questions, or friendly talk, use the chat command by typing chat and then whatever you wish to say.
+say If what you wish to say could be viewed as nasty, rude, or beyond normal conversation you would use FOS in place of chat.
+~
+>speech_prog armor clothes~
+mpmset self quest 0 4 1
+say The spirit equipment you get through your kills here is actually very good.
+say You shouldn't have to get any more for a little bit.
+say But make sure you killed that Gargoyle upstairs for his rings!
+~
+>speech_prog gods chaos order~
+mpmset self quest 0 4 1
+say You may follow a god once you have reached level 10.
+say However, understand that by following you enter a holy war.
+say Followers of other gods will be able to rip and tear you apart.
+say They will bloody your armor and dog your every step.
+say Their presence can make a difficult journey even more trying.
+~
+>speech_prog stone~
+mpmset self quest 0 4 1
+say Stone?
+ponder 
+say The gargoyle high up in the tower has a stone.
+~
+>speech_prog obelisk~
+mpmset self quest 0 4 1
+say The obelisk is just out of the tower, look at it.
+say Say the names of destinations listed on it to be transported.
+say Don't forget to buy some recall scrolls in case you get lost.
+~
+>speech_prog reincarnate reincarnation~
+mpmset self quest 0 4 1
+say Although you are still only a young adventurer, once you have gained 95 levels you may reincarnate yourself.
+say You will grow more powerful with each reincarnation.
+~
+>speech_prog practice~
+mpmset self quest 0 4 1
+say As a lower level player, you can practice at the University, Chakkor and Holy Grove.
+say These are areas all accessible by the obelisk beneath this tower.
+say Use the skills command to see a list of stuff you can practice.
+~
+>speech_prog skills~
+mpmset self quest 0 4 1
+say Just type 'skills classname' to see what that class can practice.
+~
+>speech_prog gray grey lord~
+mpmset self quest 0 4 1
+say The Grey Lord, poor soul, can be found in a Torture Chamber quite near where we are now.
+say I do hope you find him.
+~
+>speech_prog question~
+mpmset self quest 0 4 1
+say Just say something and I'll try to answer.
+say But try to keep it simple, I am not that smart.
+~
+>speech_prog token~
+mpmset self quest 0 4 1
+say The token of completion is defective.
+say Perhaps one of the recruiters knows what to do with it.
+say If you kill me it's yours.
+~
+>speech_prog p how old are you~
+mpmset self quest 0 4 1
+say older than you
+grin $n
+~
+>speech_prog p torture chamber~
+mpmset self quest 0 4 1
+say It is very near here, sadly.
+say Look for the Storeroom below me.
+~
+>speech_prog p who are you~
+mpmset self quest 0 4 1
+say I'm a stone statue.
+~
+>speech_prog recall~
+mpmset self quest 0 4 1
+say You need scrolls of recall in order to recall. They can be purchased in the city of Chakkor.
+~
+>speech_prog mop mopping~
+mpmset self quest 0 4 1
+say You won't find any blood here I think, I don't bleed.
+say Try mopping the battle floor below the recruiters.
+say Just wear that mop and 'mop' every room once.
+~
+>speech_prog defective~
+mpmset self quest 0 4 1
+say Hrm, maybe tell one of the recruiters the token is defective.
+~
+>speech_prog hi greetings hello~
+mpmset self quest 0 4 1
+say Hello $n
+~
+>speech_prog p meaning of life~
+mpmset self quest 0 4 1
+say 42
+~
+>speech_prog globe~
+mpmset self quest 0 4 1
+say The globe of air?
+say The recruiter should have told you about that, pay attention to what they say.
+~
+>speech_prog ok thanx thank~
+mpmset self quest 0 4 1
+say You're very welcome.
+~
+>speech_prog oblivion~
+mpmset self quest 0 4 1
+say Oblivion is a recruiter for the god Chaos.
+~
+>speech_prog level~
+mpmset self quest 0 4 1
+say You gain experience points towards levelling by killing creatures (or mobs) in different areas.  You can see how many points you need to level by typing "level".
+~
+>speech_prog shit piss fuck damn asshole arsehole shit~
+mpmset self quest 0 4 1
+say Is that any way to talk?  You should be ashamed of yourself!
+~
+>speech_prog glathkar~
+mpmset self quest 0 4 1
+say Glathkar is a powerful dagger which the Grey Lord awards to any who can successfully aid him.
+~
+>speech_prog 1+1~
+mpmset self quest 0 4 1
+ponder 
+emote counts on his fingers.
+say 2 I think.
+smile $n
+~
+>speech_prog p are you bored~
+mpmset self quest 0 4 1
+say Not yet, though I've been asked more interesting questions.
+~
+>speech_prog p idiot~
+mpmset self quest 0 4 1
+ponder $n
+say nobody calls me an idiot!
+kill $n
+~
+>speech_prog p kill players~
+mpmset self quest 0 4 1
+say In theory you can, in practice you'll get killed more likely
+say I would stay away from the Gods and their bloody business..
+~
+>speech_prog barrel~
+mpmset self quest 0 4 1
+say You need to spill what's inside the barrel, then light it with a banner that can be purchased in the shop above the recruiters.
+~
+>speech_prog p fight me~
+mpmset self quest 0 4 1
+say As you wish $n
+kill $n
+~
+>speech_prog p torture chamber~
+mpmset self quest 0 4 1
+say The torture chamber is below us.
+~
+>speech_prog orb~
+mpmset self quest 0 4 1
+say Orb? Perhaps you mean a globe, or a stone?
+~
+>speech_prog gargoyle~
+mpmset self quest 0 4 1
+say I believe there is a gargoyle in this tower, it lives high up in the tower.
+~
+>speech_prog p what is my name~
+mpmset self quest 0 4 1
+say Your name is $N.
+say Write it down if you keep forgetting it.
+~
+>speech_prog p no~
+say Very good, there's no such thing as a stupid question.
+say Especially one that hasn't been asked.
+~
+>speech_prog game~
+say You just lost the game ;)
+~
+|
+#3722
+grey lord prisoner~
+the Grey Lord~
+There is a prisoner here, screaming in agony!~
+The Grey Lord still bears the semblance of a human male, but radiates an eerie,
+almost unearthly power.  His once fine clothing hangs from his body in filthy
+tatters.  The gruesome spikes piercing his body almost make you look away from
+him until you realize he does not bleed!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+1000 S
+10 0 0 1d1+199 1d1+6
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 1
+or quest (0,4,$n) == 0
+  say Are you here to AID me $n?
+else
+  if quest (0,4,$n) == 2
+    if hasobjnum ($n) == 3720
+      say Yes!  I see you have found the stone!
+      say Now give it to me $n!
+      emote beams from excitement at you.
+    else
+      say You should look high up in the tower for the stone of concealment $n.
+    endif
+  endif
+  if quest (0,4,$n) == 4
+    cackle 
+    say Good job $n.
+    say Now don't forget to ask for your REWARD
+  endif
+endif
+~
+>time_prog 24~
+mpasound From somewhere nearby you hear a voice scream in agony!
+mpecho The Grey Lord cries out in pain and agony!
+if position ($i) == pos_standing
+  mpquiet on
+  sit machine
+  mpquiet off
+endif
+mpmadd self currhp 200
+mpmadd self currhp -100
+~
+>speech_prog aid~
+mpecho The Grey Lord narrows his eyes and looks at you carefully.
+if quest (0,4,$n) == 1
+  mpecho The Grey Lord sighs in relief.
+  say I am glad my servant was able to find you. It is not
+  say possible for you to help me escape, but you can help
+  say me gain revenge against my captors. The first step
+  say is to CONCEAL my presence from the recruiters.
+else
+  say The mark of my servant is not upon you. If you have
+  say helped me in the past, I am sorry that I do not
+  say remember you. If you are a thief I warn you: if you
+  say attempt to harm me you will regret it!
+endif
+~
+>speech_prog conceal~
+mpecho The Grey Lord narrows his eyes and examines you again.
+if quest (0,4,$n) <= 2
+  mpmset $n quest 0 4 2
+  say There was a time when I was the master of this tower and
+  say of all its contents.  Then the thrice damned servants of
+  say Order and Chaos joined together to strip me of my powers.
+  grin 
+  say As I was captured I managed to hide a powerful Stone of
+  say Concealment in one of the force cages.  Find it and give
+  say it to me so I can implement the next step of my plan.
+else
+  say Have you been spying on one of my helpers?  I see no mark
+  say upon you.  Begone before it is too late!
+endif
+~
+>give_prog I3720~
+if quest (0,4,$n) == 2
+or quest (0,4,$n) == 1
+  say At last!
+  mpecho The Grey Lord utters the words 'dsepmlg'.
+  mpecho The Stone of Concealment begins to glow brightly!
+  mpmset $n quest 0 4 3
+  say Now hurry.  Since they cannot detect my presence it
+  say will be simple to instigate a fight. Tell either of
+  say the recruiters that:
+  say The other recruiter set the grey lord free
+  say Come back to me afterward and I will REWARD you
+  say handsomely.
+else
+  say At last, the stone!
+  mpecho The Grey Lord narrows his eyes and examines you.
+  say You do not have the mark of one of my helpers. Are you
+  say a spy for Order and Chaos?  You will get no information
+  say from me!
+endif
+mpjunk i3720
+~
+>speech_prog reward~
+if quest (0,4,$n) == 4
+  nod $n
+  say I am happy enough now to last another 1000 years of this
+  say torture.  Let me reward you by giving you this rune
+  say dagger. It is weak, but will help to keep you safe from
+  say harm.
+  mpoload 3721
+  mpmset $n quest 0 4 5
+  give I3721 $n
+  say Now leave me to my torment.
+  mpjunkperson $n I3719
+else
+  say You haven't fulfilled your part of the bargain yet.
+endif
+~
+>fight_prog 100~
+peace 
+mpecho $I lets out a rattling scream as glowing bands of energy pour from the torture machine and restrain him.
+mpquiet on
+sit machine
+mpquiet off
+mpmadd self currhp 200
+mpmadd self currhp -100
+~
+|
+#3723
+newbie sprite~
+the Newbie Sprite~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 0 0 0d0+20 0d0+2
+100 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (35,1,$n) == 0
+  mpechoat $n {168}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {168}flies in and lands on your shoulder.
+  mpechoaround $n {308}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {308}flies in and lands on $n's shoulder.
+  mpechoat $n {008}
+  mpechoat $n {138}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {138}whispers in your ear 'Do you want a gift from the gods?'
+  mpechoat $n {138}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {138}whispers in your ear 'If so, just say YES'
+endif
+~
+>speech_prog yes~
+if quest (35,1,$n) == 0
+  mpmset $n quest 35 1 1
+  mpquiet on
+  mpoload 3726
+  mpoload 3728
+  open I3726
+  put all I3726
+  close I3726
+  give I3726 $n
+  mpquiet off
+  mpechoat $n {168}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {168}gives you a newbie bag.
+  mpechoaround $n {308}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {308}gives $n a newbie bag.
+  mpechoat $n {138}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {138}whispers in your ear 'Enjoy $n'
+  mpechoat $n {008}
+  mpecho {308}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {308}utters the words 'sakimost'
+  mpecho {308}A {128}Ne{138}wb{178}ie {128}Sp{138}ri{178}te {308}fades out of existance.
+endif
+~
+|
+#3725
+jasmine avatar recruiter m3725~
+Jasmine~
+(Earth Aura) Jasmine is sitting here to speak with you.~
+Jasmine, the Recruiter, has a sweet, natural smile, and her green eyes sparkle
+as you enter.  She has soft, auburn hair, which cascades down to her waist, and
+her skin is the color of fresh cream.  She wears vestments of deep forest green,
+with a flowing white underdress.  A wreath of ivy is on her head and a chain of
+bluebells is about her waist.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+1000 S
+50 0 BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d756+1469 1d220+61
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog defective~
+say The token is defective? Give it to me and
+say if it is then I'll replace it for you.
+~
+>give_prog I3729~
+say You're right.  Here's a new token.  Sorry.
+mpjunk all
+mpoload 3730
+give I3730 $n
+~
+>speech_prog p set the grey lord free~
+say WHAT?!?
+mpecho The Recruiter of Order utters the words, 'glmpesd'.
+if quest (0,4,$n) == 3
+  gasp 
+  say Thank you for the information. You can watch me
+  say slay the traitor if you like.
+  mpmset $n quest 0 4 4
+  mptransfer m3700
+  shout Recruiter of Chaos! You broke the pact!
+  emote drags in the Recruiter of Chaos by his hair!
+  mpkill m3700
+else
+  if quest (0,4,$n) != 4
+    mpecho The Recruiter of Order laughs nervously.
+    say You must have been misinformed. You better
+    say go practice some more.
+~
+>death_prog 100~
+say Lord Order will punish you for this!
+groan 
+mpecho $N utters the words, 'agem pzar'.
+mpecho $N's wounds disappear.
+restore m3700
+mpareaecho You hear $I's death cry!
+mpforce m3700 cackle
+mpforce m3700 shout Let that be a lesson to you, traitor!
+if inroom ($i) != 3742
+  mptransfer m3700 3742
+~
+>repop_prog 100~
+mppurge i3736
+~
+>greet_prog 100~
+if quest (8,4,$n) == 0
+  smile 
+  say You seem to me to be the TIDY sort $n.
+endif
+if quest (8,4,$n) == 1
+  say You missed a few spots.
+  say I'll see you when you're finished.
+  smile $n.
+endif
+if quest (8,4,$n) == 2
+  say Wonderful Job!  The tower is sparkling! :)
+  say Unfortunately these floors will be bloodied again before long.  Now give me back my mop and I will give you your reward.
+~
+>speech_prog tidy~
+if quest (8,4,$n) == 0
+  say I thought so!
+  say Would you like to ASSIST me with a small task?
+~
+>speech_prog assist~
+if quest (8,4,$n) == 0
+  say I have noticed that, with all of the "training" here, there seems to be quite a bit of blood on the floors.
+  say If you are interested, just say I WANT THE JOB.
+~
+>speech_prog p want the job~
+if quest (8,4,$n) == 0
+  say Well, the floors need to be cleaned.
+  say I have a MOP here that should do the job well.
+~
+>speech_prog mop~
+if quest (8,4,$n) == 0
+  smile 
+  mpoload 3743
+  give i3743 $n
+  say Hold this and "mop" every room of the battle floor below me.
+  say Please return when you are finished and I will have a handsome reward for your efforts.
+  mpmset $n quest 8 4 1
+~
+>give_prog i3743~
+if quest (8,4,$n) == 2
+  mpjunk i3743
+  mpmset $n quest 8 4 3
+  say Whilst traveling throughout these lands, a fine pair of boots can make the leagues go easier.
+  mpoload 3742
+  give i3742 $n
+  say These boots will serve you well, my friend.
+  say Good luck and thanks!
+~
+|
+#3726
+ethereal fire starter~
+the ethereal fire starter~
+The ethereal fire starter has been loaded here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+mpmadd self quest 0 5 1
+if quest (0,5,$i) == 1
+  mpecho {118}Flames quickly arise from the flammable liquid!
+endif
+if quest (0,5,$i) == 3
+  mpecho {168}The Recruiter of Order jumps up screaming, trying to put out the flames!
+endif
+if quest (0,5,$i) == 5
+  mpecho {168}You watch the Recruiter's cloths starting to burn.
+endif
+if quest (0,5,$i) == 6
+  mpecho {138}The Recruiter of Order shouts 'Help!! I'm on fire!!'
+endif
+if quest (0,5,$i) == 7
+  mpecho {018}An inferno of flames makes you run out of the room!
+  mptransfer pcs 3741
+  mppurge m3725
+  mpoload 3736
+  drop i3736
+endif
+if quest (0,5,$i) == 9
+  mpareaecho You hear the recruiter of Order's death cry.
+  mppurge self
+~
+|
+#3727
+ethereal mob m3727~
+an ethereal mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog mop_trigger~
+if actorwearsobjnum (3743)
+  switch inroom ($i)
+    case 3739
+      if quest (20,1,$n) == 0
+        mpmset self quest 0 4 1
+      endif
+    case 3733
+      if quest (21,1,$n) == 0
+        mpmset self quest 0 4 1
+      endif
+    case 3729
+      if quest (22,1,$n) == 0
+        mpmset self quest 0 4 1
+      endif
+    case 3735
+      if quest (23,1,$n) == 0
+        mpmset self quest 0 4 1
+      endif
+  endswitch
+  if quest (0,4,$i) == 1
+    mpechoat $n You toil hard at your task as the bloodstained floors become clean.
+    mpechoaround $n Sweat drips from $n's forehead as $e scrubs at the floor.
+  else
+    mpechoat $n Your hard work yields no results.
+    mpechoaround $n Sweat drips from $n's forehead as $e scrubs at the floor.
+  endif
+  switch inroom ($i)
+    case 3739
+      mpmset $n quest 20 1 1
+    case 3733
+      mpmset $n quest 21 1 1
+    case 3729
+      mpmset $n quest 22 1 1
+    case 3735
+      mpmset $n quest 23 1 1
+  endswitch
+  if quest (20,4,$n) == 15
+    if quest (8,4,$n) == 1
+      mpmset $n quest 8 4 2
+    endif
+  endif
+else
+  mpechoat $n You must hold the mop in order to mop.
+endif
+mppurge self
+~
+|
+#3729
+ethereal mob~
+an ethereal mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpmset self quest 0 4 0
+switch inroom ($i)
+  case 3739
+    if quest (20,1,$n) == 0
+      mpmset self quest 0 4 1
+    endif
+  case 3733
+    if quest (21,1,$n) == 0
+      mpmset self quest 0 4 1
+    endif
+  case 3729
+    if quest (22,1,$n) == 0
+      mpmset self quest 0 4 1
+    endif
+  case 3735
+    if quest (23,1,$n) == 0
+      mpmset self quest 0 4 1
+    endif
+endswitch
+if quest (0,4,$i) == 1
+  mpechoat $n {118}Trails of blood lead in all directions.
+~
+|
+#0
+
+
+#SHOPS
+3717 ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_DRINK_CON ITEM_TYPE_FOOD ITEM_TYPE_ARMOR  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#3700
+spirit mace~
+a spirit mace~
+You see an insubstantial mace here.~
+You see a mace that shines with beauty and power. Unfortuneately it is
+created from the matter of the spirit realm and is relatively powerless
+on this plane.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 1 6 WEAPON_POUND 0 0 0 0
+1 100 1
+#3701
+spirit dagger~
+a spirit dagger~
+You see an insubstantial dagger here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 3 WEAPON_PIERCE 0 0 0 0
+1 100 1
+E
+dagger~
+You see a dagger that shines with beauty and power. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+#3702
+spirit sword~
+a spirit sword~
+You see an insubstantial sword here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 2 WEAPON_SLASH 0 0 0 0
+2 100 1
+E
+sword~
+You see a sword that shines with beauty and power. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+#3703
+spirit breast breastplate plate~
+a spirit breastplate~
+You see an insubstantial breastplate here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+3 0 0 0 0 0 0 0
+1 10 1
+E
+plate~
+You see a breastplate that shines with beauty and protection. Unfortuneately
+it is created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+#3704
+spirit shield~
+a spirit shield~
+You see an insubstantial shield here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+2 0 0 0 0 0 0 0
+1 10 1
+E
+shield~
+You see a shield that shines with beauty and power. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_DAMROLL 1 0
+#3705
+spirit cloak~
+a spirit cloak~
+You see an insubstantial cloak here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+2 0 0 0 0 0 0 0
+1 10 1
+E
+cloak~
+You see a cloak that shines with beauty and quickness. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_DEX 1 0
+#3706
+spirit helmet~
+a spirit helmet~
+You see an insubstantial helmet here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+2 0 0 0 0 0 0 0
+1 10 1
+E
+helmet~
+You see a helmet that shines with beauty and intelligence. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_INT 1 0
+#3707
+spirit greaves~
+a pair of spirit greaves~
+You see a pair of insubstantial greaves here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+2 0 0 0 0 0 0 0
+1 10 1
+E
+greaves~
+You see a pair of greaves that shine with beauty and toughness. Unfortuneately
+they are created from the stuff of the spirit realm and are relatively
+powerless on this plane.
+~
+A APPLY_HIT 5 0
+#3708
+spirit boots~
+a pair of spirit boots~
+You see a pair of insubstantial boots here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+2 0 0 0 0 0 0 0
+1 10 1
+E
+boots~
+You see a pair of boots that shine with beauty and quickness. Unfortuneately
+they are created from the stuff of the spirit realm and are relatively
+powerless on this plane.
+~
+A APPLY_DEX 1 0
+#3709
+spirit gauntlets~
+a pair of spirit gauntlets~
+You see a pair of insubstantial gauntlets here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+2 0 0 0 0 0 0 0
+1 10 1
+E
+gauntlets~
+You see a pair of gauntlets that shine with beauty and strength.
+Unfortuneately they are created from the stuff of the spirit realm and are
+relatively powerless on this plane.
+~
+A APPLY_STR 1 0
+#3710
+spirit vambraces~
+a pair of spirit vambraces~
+You see a pair of insubstantial vambraces here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+2 0 0 0 0 0 0 0
+1 10 1
+E
+vambraces~
+You see a pair of vambraces that shine with beauty and health.
+Unfortuneately they are created from the stuff of the spirit realm and are
+relatively powerless on this plane.
+~
+A APPLY_CON 1 0
+#3711
+spirit cape~
+a spirit cape~
+You see an insubstantial cape here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+2 0 0 0 0 0 0 0
+1 10 1
+E
+cape~
+You see a cape that shines with beauty and efficiency. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_HITROLL 1 0
+#3712
+spirit sash~
+a spirit sash~
+You see an insubstantial sash here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+2 0 0 0 0 0 0 0
+1 10 1
+E
+sash~
+You see a sash that shines with beauty and quickness. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_DEX 1 0
+#3713
+spirit bracer~
+a spirit bracer~
+You see an insubstantial bracer here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+2 0 0 0 0 0 0 0
+1 10 1
+E
+bracer~
+You see a bracer that shines with beauty and strength. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_STR 1 0
+#3714
+key~
+a key~
+You see a very important key here!~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#3715
+nothing~
+tower of training sign~
+An impressive looking sign is on the wall here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 11
+#3716
+banner glowing~
+a glowing banner~
+A glowing banner is on the floor here.~
+Wear this so you can find your way in dark places, or at night.  Ofcourse
+be careful, you wouldn't want to burn yourself or "light" something with it.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 1200 0 0 0 0 0
+1 70 1
+#3717
+spirit amulet~
+a spirit amulet~
+You see an insubstantial amulet here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+2 0 0 0 0 0 0 0
+1 200 1
+E
+amulet~
+You see a amulet that shines with beauty and wisdom. Although it is
+created from the stuff of the spirit realm, it seems to have retained some
+of its power on this plane.
+~
+A APPLY_WIS 1 0
+#3718
+loaf bread~
+a loaf of bread~
+There is a freshly conjured loaf of bread here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+36 0 0 0 0 0 0 0
+1 10 5
+E
+loaf~
+You see a loaf of bread that has been conjured straight from the hands of
+an Avatar of Order. It's soft and fluffy and mmmmm.... so good.
+~
+#3719
+charred key~
+a charred force key~
+You see a blackened glowing key here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+key~
+You see a dimly glowing key that appears to have been charred by a great
+fire. It is warm to the touch.
+~
+#3720
+stone~
+a stone~
+There is a round, grey stone speckled with black and white here.~
+This small stone is round and fits snugly into the palm of your hand.  It might
+seem to be a piece of trash if it weren't for the runes carved into it!
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 250 1
+A APPLY_DAMROLL 1 0
+#3721
+glathkar drinker dagger~
+glathkar the Drinker~
+A twisted grey dagger covered with silver runes is here.~
+You see a twisted grey dagger that is covered with runes carved out of pure
+silver. There is a grey opal in the pommel and around the hilt the name
+'Glathkar the Drinker' is engraved.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 3 4 WEAPON_STAB 0 0 0 0
+3 22000 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_STR 1 0
+C
+thrust~
+0
+>damage_prog 20~
+if wearloc ($o) != wear_none
+  if hitprcnt ($i) > 15
+    mpechoat self You feel a rush of energy run up your arm!
+    mpmadd self currhp 10
+  else
+    if sex ($i) == sex_female
+      mpechoat self {038}Glathkar the Drinker murmurs 'I recommend withdrawing from the fight, Mistress.'
+    else
+      mpechoat self {038}Glathkar the Drinker murmurs 'I recommend withdrawing from the fight, Master.'
+    endif
+  endif
+endif
+~
+>wear_prog 100~
+if sex ($i) == sex_female
+  mpechoat self {038}Glathkar the Drinker murmurs 'Greetings Mistress.'
+else
+  mpechoat self {038}Glathkar the Drinker murmurs 'Greetings Master.'
+endif
+~
+|
+#3722
+nothing~
+a tower of training sign~
+An impressive looking sign is on the railing here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 100 1
+#3723
+buffalo water skin waterskin~
+a buffalo waterskin~
+a buffalo waterskin is left on the ground.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+24 24 LIQ_WATER 0 0 0 0 0
+1 40 1
+#3724
+spirit band~
+a spirit band~
+You see an insubstantial band here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+2 0 0 0 0 0 0 0
+1 10 1
+E
+band~
+You see a band that shines with beauty and wisdom. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_WIS 1 0
+#3725
+spirit ring~
+a spirit ring~
+You see an insubstantial ring here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+2 0 0 0 0 0 0 0
+1 10 1
+E
+ring~
+You see a ring that shines with beauty and health. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_CON 1 0
+#3726
+newbie bag~
+a newbie bag~
+A newbie bag has been left here.~
+To open this bag type: OPEN BAG
+To see what is inside the bag type: LOOK IN BAG
+To get something out of this bag type: GET ALL BAG or GET <item> BAG
+To put something back in this bag type: PUT ALL BAG or PUT <item> BAG
+
+Enjoy
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_BLESS|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+50 CONT_CLOSEABLE|CONT_CLOSED -1 0 0 0 0 0
+1 1000 1
+#3728
+black leather waterskin~
+a black leather waterskin~
+A waterskin made from black leather lies here.~
+To drink from this waterskin type: DRINK WATERSKIN
+
+We guarantee the milk in it is fresh and from the best cows
+us Gods could create.
+
+For any complains about the quality, send a letter to:
+Lowlands Milk Company
+Rainbow Avenue 13
+Chakkor
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+100 100 LIQ_MILK 0 0 0 0 0
+1 100 1
+#3729
+token completion~
+the token of completion~
+A small token has been left here.~
+Show this token to prove you have completed your tower training.
+It is supposed to have magical effects on your abilities if you hold it
+but it appears to be DEFECTIVE. If you get into a life and death situation
+use it to RECALL.  Stamped into the side of the token are the words:
+{078}
+'Minted by the Recruiters of the Gods.'
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 10
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#3730
+token completion~
+the token of completion~
+A small token has been left here.~
+Show this token to prove you have completed your tower training.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 100 1
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+A APPLY_INT 1 0
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#3731
+spirit bracelet~
+a spirit bracelet~
+You see an insubstantial bracelet here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+3 0 0 0 0 0 0 0
+1 10 1
+E
+bracelet~
+You see a bracelet that shines with beauty and strength. Unfortuneately it is
+created from the stuff of the spirit realm and is relatively powerless
+on this plane.
+~
+A APPLY_HITROLL 1 0
+#3734
+map chakkor~
+a map of Chakkor~
+A map of Chakkor lies here.~
+{078}The map contains a drawing and some scribbles.
+
+To look at the drawing type {178}LOOK DRAWING{078}, to look at the scribbles type {178}LOOK SCRIBBLES{078}.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+drawing~
+{278}                        | North|
+{278}   o--------------------o Gate o------+-------------+-------------------o
+{278}   |                            Smith | Magic       |  Temple of Chaos  |
+{278}   |                                  | Shop        |                   |
+{278}   |      o------+------o      o------o      o      o      o      o-----+
+{278}   |      | Ilu  |Leather                    |             |            |
+{278}   |      |Guild | Shop                      |             |            |
+{278}   |      |      o------o      o------+------+------o      o------+-----+
+{278}   |Nec   |             |        Gla  |  Mar               |General     |
+{278}   |Guild |Morgue       |       Guild | Guild              |Store       |
+{278}   |      |      o      o------o      o------o      o      o------o     |
+{278}   |      |      |             |      Obelisk|      |                   |
+{278}   |      |      |             |             |      |                   |
+{278}---o      o------o      o      o------o      |      o------o      o     |
+{278} West                   |     Stables |      |Indentifier  |      |Jewel|
+{278} Gate                   |             |      |             |      |Shop |
+{278}---+------o      o------o      o      |      o------o      o      o-----+---
+{278}   |                                         Training                  East
+{278}   |                                  Fountain  Hall                   Gate
+{278}   |      o------o      o      o------o      o      o------+------+-----+---
+{278}   |Magic |Ale                   Inn  |Tower | Ele  |Armor |Weapon|Pet  |
+{278}   |Shop  |House                      |      |Guild |Shop  |Shop  |Shop |
+{278}   +-------------o      o      o------+------+------o      o      o     |
+{278}   |Griffon                                                             |
+{278}   |Airline                                                             |
+{278}   |      o------o      o-------------o      o------o      o      o-----+
+{278}   |      | Ran         |             |      | Mon  |         Temple of |
+{278}   |      |Guild        |             |      |Guild |           Order   |
+{278}   +------+------+------+-------------o      |      o      o      o     |
+{278}   | Nin                                     |             |      |     |
+{278}   |Guild                        South       |             |      |     |
+{278}   o---------------------------o Gate o------+-------------+------+-----o
+{278}                               |      |
+~
+E
+scribbles~
+From Chakkor fountain:
+
+Ran guild: w w s s w s w
+Gla guild: n n w n d w s
+Mar guild: e e n w n n w
+Nin guild: w w s s e e s s w w w w
+Ele guild: e s w
+Ill guild: w w n n w n w n
+Mon guild: w w s s e e e e s s w
+Nec guild: w w w w n w n n u
+
+The morgue: w w n n w n w s
+The obelisk: n n
+The trainer: e d
+~
+#3735
+barrel~
+a barrel~
+A barrel filled with a smelly liquid stands on the ground here.~
+{078}This barrel is one of your first objects that contains a program. Go the the
+recruiting office of Order and type {178}SPILL{078} next if you are carrying a banner you
+can type {178}LIGHT{078} to light the flammable liquid.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 1 LIQ_SLIME 0 0 0 0 0
+1 10 1
+>unknown_prog spill~
+mpechoat self You begin spilling the liquid in the barrel over the floor.
+if inroom ($i) == 3743
+  if questr (3700,4,4,self) == 1
+    mpmset self questr 3700 4 4 2
+  endif
+  if questr (3700,4,4,$i) == 2
+    mpechoat self You shake the last drops of liquid from the barrel.
+    mpjunk $o
+  endif
+else
+  mpechoat self You realize you're spilling the liquid in the wrong room and stop at once!
+~
+|
+#3736
+corpse~
+a corpse~
+The scorched corpse of the recruiter of Order lies here.~
+It looks blackened, the smell of roasted meat rising up from it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+0 0 0 0 0 0 0 0
+9999 10 1
+#3737
+flaming battle suit~
+a flaming battle suit~
+A flaming suit lies here.~
+The flames feel warm to the touch, but do not seem to harm you.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+3 0 0 0 0 0 0 0
+1 100 3
+A APPLY_CON 1 0
+A APPLY_DAMROLL 1 0
+A APPLY_STR 1 0
+#3739
+ethereal object~
+an ethereal object~
+An ethereal object is here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY|ITEM_FLAG_ETHEREAL
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 99
+A APPLY_DAMROLL -4 0
+A APPLY_HIT 75 0
+#3741
+comfortable chair~
+a comfortable chair~
+A comfortable chair has been placed here for visitors.~
+The chair is made of dark, heavily padded, burgundy leather, and looks very
+comfortable.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+4 0 FURNITURE_SIT_IN|FURNITURE_SIT_ON 200 0 0 0 0
+1 10 1
+#3742
+boots sharkskin~
+a pair of sharkskin boots~
+Some tough pieces of sharkskin are laying here.~
+These boots are tall, reaching almost to your knees, and are crafted of pale
+grey sharkskin.  They still have a bit of bite left in them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+4 0 0 0 0 0 0 0
+1 10 3
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_CON 1 0
+#3743
+mop~
+a soapy mop~
+A soapy cleaning tool is lying here.~
+It is a mop made of finely woven rope, filled with clean soap.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+>unknown_prog mop~
+mpmload 3727
+mpechoat m3727 mop_trigger
+~
+|
+#3744
+torture machine~
+a torture machine~
+Right in the middle of the room stands a machine.~
+The glowing machine has two slabs of, one on each side. The slabs are slowly
+coming together and the spikes are already sunk deep into the prisoner.
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+10 0 FURNITURE_SIT_IN 100 0 0 0 0
+1 10 1
+#3750
+spirit spear~
+a spirit spear~
+You see an insubstantial spear here.~
+You see a spear that shines with beauty and power. Unfortuneately it is
+created from the matter of the spirit realm and is relatively powerless
+on this plane.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 1 6 WEAPON_PIERCE 0 0 0 0
+1 100 1
+#3751
+spirit staff~
+a spirit staff~
+You see an insubstantial staff here.~
+You see a staff that shines with beauty and power. Unfortuneately it is
+created from the matter of the spirit realm and is relatively powerless
+on this plane.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 1 6 WEAPON_BLAST 0 0 0 0
+1 100 1
+#3752
+spirit whip~
+a spirit whip~
+You see an insubstantial whip here.~
+You see a whip that shines with beauty and power. Unfortuneately it is
+created from the matter of the spirit realm and is relatively powerless
+on this plane.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 1 6 WEAPON_WHIP 0 0 0 0
+1 100 1
+#0
+
+
+#ROOMS
+#3700
+Pinnacle Of The Training Tower~
+You have materialized into existence on a small platform at the top of the Tower
+of Training.  A delicate golden railing keeps you from falling to your death,
+and you can see the city of Chakkor spread in all its splendor beneath you.
+Your spirit has been reincarnated to be a hero of this world, but even that
+knowledge is fading as your soul becomes more firmly attached to its new body.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+A stairway leads down into the tower.~
+~
+0 -1 3757
+E
+sign~
+{078}
+To move around, use the simple commands: {178}NORTH{078}, {178}SOUTH{078}, {178}EAST{078}, {178}WEST{078}, {178}UP{078}, {178}DOWN{078}.
+These commands, like all commands, can be shortened to a few letters.
+Some commands work with less than 3 letters, nearly all will work with 3.
+The direction commands, since they are used often, can be typed with one
+letter.  Therefore to move around, simply enter: {178}N{078}, {178}S{078}, {178}E{078}, {178}W{078}, {178}U{078}, or {178}D{078}.
+
+Type {178}HELP TOWER OF TRAINING{078}, when you are done, type {178}DOWN{078}.
+~
+#3701
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows. Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+As you become increasingly aware of your mortal body, you notice that the
+clothing you are wearing is more appropriate for a spirit of the astral
+plane than a flesh and blood humanoid.  A small plaque is on the wall here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see the stairs leading up to the Training Room.~
+~
+0 -1 3758
+DDIR_DOWN
+You see the stairs leading downward.~
+~
+0 -1 3702
+E
+plaque~
+{078}
+This zone (originally Mud School) was created by Hatchet for any Merc Mud.
+Copyright 1992, 1993. The Tower of Training is a derivative of Mud School
+edited by Desmond for use with any MrMud.
+~
+E
+sign~
+{078}
+{078}Equipment check time!  Type {178}EQUIPMENT{078} to see your current equipment.
+
+As you go through the tower, you will acquire a complete set of equipment.
+Though the Tower of Training exists only partially on the mortal plane, the
+equipment available here is quite suitable for mortal life.
+
+To pick up items on the ground as you see them, type {178}GET <ITEM>{078}.
+To wear an item, type {178}WEAR <ITEM>{078}.
+To wear all your gear type {178}WEAR ALL{078} the mud will select the best pieces.
+To stop using a piece of equipment, type {178}REMOVE <ITEM>{078}.
+Finally, to see the items in your inventory, type {178}INVENTORY{078}.
+~
+#3702
+The Center Room~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a room.~
+~
+0 0 3707
+DDIR_EAST
+You see a room.~
+~
+0 0 3708
+DDIR_SOUTH
+You see a room.~
+~
+0 0 3705
+DDIR_WEST
+You see a room.~
+~
+0 0 3704
+DDIR_UP
+You see a room.~
+~
+0 0 3701
+DDIR_DOWN
+You see the room down that will lead you to the next section.~
+~
+0 0 3703
+E
+sign~
+{078}
+This is the direction practicing room.  The directions you can go in any
+room are: north, south, east, west, up, or down.  Of course, not all rooms
+have all exits available.
+
+To see the obvious exits in a room, type {178}EXITS{078}.
+
+When you are done, or are already familiar with directions, go {178}DOWN{078}.
+~
+#3703
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The golden stairs lead up and down.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see the central room.~
+~
+0 -1 3702
+DDIR_DOWN
+You see the next station ahead.~
+~
+0 0 3709
+E
+sign~
+{078}
+Since you are here, let us have another lesson.  We have already seen how
+to use 'score' to see your statistics. If you wish to see what spells are
+currently affecting you, you can type {178}AFFECTS{078}. To see how much experience
+you need to advance in level, you can type {178}LEVEL{078}. You may try these now
+if you wish.
+~
+#3704
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows. Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The only exit is east.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the central room.~
+~
+0 0 3702
+E
+sign~
+{078}
+Just go east to the central room.
+~
+#3705
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The only exit is north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the central room.~
+~
+0 0 3702
+E
+sign~
+{078}
+Just go north to the central room.
+~
+#3707
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The only exit is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the central room.~
+~
+0 0 3702
+E
+sign~
+{078}
+Just go south to the central room.
+~
+#3708
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The only exit is west.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the central room.~
+~
+0 0 3702
+E
+sign~
+{078}
+Just go west to the central room.
+~
+#3709
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+The golden stairway leads both upward and downward.  To the west, you can see
+a doorway that is covered by an glowing wall of force.  As you brush the wall
+of force it disappears and you catch a glimpse of a creature inside.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a force cage.~
+~
+0 -1 3710
+DDIR_UP
+You see a room in the Tower.~
+~
+0 -1 3703
+DDIR_DOWN
+You see the next station of the Tower.~
+~
+0 0 3711
+E
+sign~
+{078}
+Welcome to combat training.
+
+The first lesson is knowing whom to fight.  Use the command {178}CONSIDER{078} to
+consider killing a monster.  Avoid fighting monsters that will kill you
+easily.
+
+The second lesson is running away.  There is a monster in the room west.
+He is too strong for you to kill, but he won't kill you.  So go {178}WEST{078} from
+here, then {178}CONSIDER{078} him, then {178}KILL{078} him.  After a while, type {178}FLEE{078} to
+escape from him.
+{078}
+You can also set your character to flee automatically with the {178}WIMPY{078}
+command. Type {178}HELP WIMPY{078} to find out more about wimpy.
+{078}
+After you flee, you will be back in this room.  Don't worry, the wall of
+force will keep the creature from following you. When you are ready to go on
+to the next station, go {178}DOWN{078}.
+~
+#3710
+A Force Cage~
+You are in a cage bounded by glowing walls of force.  This particular cage
+usually contains a quite powerful Gargoyle and is littered with the bloody
+remains of it's last meal. It would be wise to wait to fight this creature until
+you have gathered some armor and experience through battles below.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a safe room to the east.~
+~
+0 0 3709
+E
+sign~
+{078}
+Remember, don't fight the Gargoyle to the finish!  Just type {178}KILL GARGOYLE{078}, then
+when you are fighting, type {178}FLEE{078}, until you flee and are out of here.  If you
+think you are powerful enough right now to kill the Gargoyle... think again.
+
+To look at the Gargoyle type {178}LOOK GARGOYLE{078} which will show you what the Gargoyle
+is wearing.
+~
+#3711
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows. Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see the tower station that you just completed.~
+~
+0 0 3709
+DDIR_DOWN
+You see the combat hall.~
+~
+0 0 3712
+E
+sign~
+{078}Welcome to the next station. Here, you will actually fight real monsters,
+without fleeing.  Kill every monster, since they hold equipment you need.
+
+To start, go {178}DOWN{078}.
+~
+#3712
+First Floor of Introductory Combat~
+You are in the first of the combat zones that are in the tower.  Small, magical
+globes of energy drift lazily around the ceiling which provide you with light to
+see.  More force cages are in each of the four cardinal directions.  The
+stairway leads up and down.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see a cage labeled 'Demonic Worms'.~
+~
+0 -1 3713
+DDIR_EAST
+You see a cage labeled 'Gold Drakelings'.~
+~
+0 -1 3716
+DDIR_SOUTH
+You see a cage labeled 'Forest Pixies'.~
+~
+0 -1 3715
+DDIR_WEST
+You see a cage labeled 'Crater Kobolds'.~
+~
+0 -1 3714
+DDIR_UP
+You see a room in the Tower.~
+~
+0 -1 3711
+DDIR_DOWN
+You see the next station below.~
+~
+0 -1 3721
+E
+sign~
+{078}The avatars of the Training Tower have summoned some monsters for you to kill.
+In the four force cages are four monsters of various types.  Kill them all.
+
+To attack the first monster in the room use {178}K{078} this is short for {178}KILL{078}.
+If you want to attack a more specific target use {178}KILL TARGET{078} where target is
+at least the first 2 letters of the monster's name.
+
+After you kill a monster you will automatically {178}SACRIFICE{078} the corpse, equipment
+held by the monster will fall from the corpse into the room. You can pick up
+the equipment using {178}GET ALL{078}.  You can then use the command {178}WEAR ALL{078} to wear
+your newly won equipment.  If you already have the equipment lying in the room
+use {178}SACRIFICE ALL{078} to get rid of it.
+
+If you get wounded in combat you may need to {178}SLEEP{078} to regenerate hit points.
+After you are back at full health you can use {178}WAKE{078} or {178}STAND{078} to get back up.
+~
+#3713
+A Force Cage~
+You are in a force cage.  Disgusting black mucus coats the entire floor.  Most
+likely, it comes from the creature that is caged here.  It seems Avatars don't
+know how to use a mop and aren't willing to pay someone who can!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the Combat Hall.~
+~
+0 -1 3712
+E
+sign~
+{078}
+There should be a demonic worm in this room.  Kill him and get out of here
+fast!  Remember to loot and sacrifice the corpse.
+~
+#3714
+A Force Cage~
+You are in a force cage.  In one corner of the room is a nest made out of torn
+up cloth. In another corner is a pile of offal that you avoid looking at but
+your nose smells all too clearly.  The only exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the Combat Hall.~
+~
+0 -1 3712
+E
+sign~
+{078}
+There should be a crater kobold in this room.  Kill him and get out of
+here fast!  Remember to loot and sacrifice the corpse.
+~
+#3715
+A Force Cage~
+You are in a force cage filled with miniature furniture. There is a tiny little
+bed, a tiny little easy chair, a tiny little end table upon which sits ... you
+guessed it ... a tiny little book.  The only exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the Cage Room.~
+~
+0 -1 3712
+E
+sign~
+{078}
+There should be a pixie in this room.  Kill it and get out of here fast!
+Remember to loot and sacrifice the corpse.
+~
+#3716
+A Force Cage~
+You are in a force cage.  The ceiling is covered with scorch marks and the
+floor is layered in straw.  Some of the straw has been burned to a crisp.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the Cage Room.~
+~
+0 -1 3712
+E
+sign~
+{078}
+There should be a gold drakeling in this room.  Kill him and get out of here
+fast! Remember to loot and sacrifice the corpse.
+~
+#3717
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see a stair leading up to the Combat Hall.~
+~
+0 -1 3721
+DDIR_DOWN
+You see a room in the tower.~
+~
+0 -1 3719
+E
+sign~
+{078}
+Time for another lesson.  You will find that it can get annoying to
+constantly have to loot and sacrifise a corpse.  You can have alot
+of things be taken care of by the mud itself.  Type {178}CONFIG{078} and you
+will be placed into a config menu.  It explains itself.  Take some
+time checking it out.  You can always leave the config menu by
+typing {178}X{078}.
+~
+#3718
+The Tower Shop~
+You are in a wide open room.  Stacked neatly on shelves are a few sparse
+items and packages.  Small, magical globes of energy drift lazily around the
+ceiling which provide you with light to see.  A counter made of some strange
+grey material displays some freshly conjured loaves of bread.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the only exit out of here.~
+~
+0 0 3719
+E
+sign~
+{078}
+By now, you must be hungry and thirsty.  Time to buy groceries!
+This is a store.  Inside the store, you can use these commands:
+{078}
+{178}        BUY{078} - Buy something from the storekeeper.
+{178}       LIST{078} - The storekeeper will tell you what's for sale.
+{178}      VALUE{078} - The storekeeper will tell you how much he will give to you for
+{178}           {078}   that item.
+{178}       SELL{078} - Sell that item to the storekeeper.
+{178}   IDENTIFY{078} - The storekeeper will tell you everything about the item...
+{178}           {078}   for a price.
+{178}   EVALUATE{078} - Let's you decide whether an item for sale is better than what
+{178}           {078}   you already have.
+{078}
+{078}You may find that you do not have enough gold to buy the items that you need.
+{078}The only solution for this is to go back and kill a few more monsters first.
+{078}
+{078}After buying some food and drink, you can {178}EAT{078} and {178}DRINK{078} it.
+~
+#3719
+A Room in the Tower~
+You are in a austere, brightly-lit room.  The walls are grey and there are
+no windows.  Small, magical globes of energy drift lazily around the ceiling
+which provide you with light to see.  The entire place is out of this world.
+There is a pitch black room to the north and to the south is a store of some
+sort.  Both stairs are covered with force doors and the one leading downward
+appears to be locked.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a darkened room inside.~
+~
+0 0 3720
+DDIR_SOUTH
+You see a store for new mortals.~
+~
+0 0 3718
+DDIR_UP
+You see a stair leading up to the Combat Halls.~
+~
+0 0 3717
+DDIR_DOWN
+You see the next station of the Tower.~
+force door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 3714 3741
+E
+sign~
+{078}
+North of you is a dark room.  You will need a banner to see inside.  If you
+do not have one already, you will have to go to the store and buy one.
+{078}
+In the room is a monster with a key that you need.  After killing the
+monster and getting the key, come back here, {178}UNLOCK DOWN{078}, {178}OPEN DOWN{078},
+and continue.
+~
+#3720
+The Darkened Force Cage~
+This room has been magically darkened so that you would be forced to get a
+light source to see your way through.  Now that you can see the room, you
+notice it is yet another of the magical force cages.  This one has a line
+drawn across the floor which cuts the room into two halves.  The line seems
+to be a challenge of some sort.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the room that you have come from.~
+~
+0 0 3719
+#3721
+Second Floor of Introductory Combat~
+You are in the the second of the combat zones that are in the tower. Small,
+magical globes of energy drift lazily around the ceiling which provide you with
+light to see. More force cages are in each of the four cardinal directions.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a cage labeled 'Demonic Worms'.~
+~
+0 -1 3722
+DDIR_EAST
+You see a cage labeled 'Gold Drakelings'.~
+~
+0 -1 3723
+DDIR_SOUTH
+You see a cage labeled 'Forest Pixies'.~
+~
+0 -1 3724
+DDIR_WEST
+You see a cage labeled 'Crater Kobolds'.~
+~
+0 -1 3725
+DDIR_UP
+You see a room in the Tower.~
+~
+0 -1 3712
+DDIR_DOWN
+You see the next station below.~
+~
+0 -1 3717
+#3722
+A Force Cage~
+You are in a force cage.  Disgusting black mucus coats the entire floor.  It
+probably comes from the creature that lives here.  It seems that  Avatars don't
+know how to use a mop and aren't willing to pay someone who can!  The only exit
+is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the Combat Hall.~
+~
+0 -1 3721
+#3723
+A Force Cage~
+You are in a force cage. The ceiling is covered with scorch marks and the
+floor is layered in straw. Some of the straw has been burned to a crisp.
+The only exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the Cage Room.~
+~
+0 -1 3721
+#3724
+A Force Cage~
+You are in a force cage filled with miniature furniture. There is a tiny little
+bed, a tiny little easy chair, a tiny little end table upon which sits ... you
+guessed it ... a tiny little book.  The only exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the Cage Room.~
+~
+0 -1 3721
+#3725
+A Force Cage~
+You are in a force cage.  In one corner of the room is a nest made out of torn
+up cloth. In another corner is a pile of offal that you avoid looking at but
+your nose smells all too clearly.  The only exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the Combat Hall.~
+~
+0 -1 3721
+#3728
+A Corner of a Combat Hall~
+You are in a corner of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3733
+DDIR_EAST
+~
+~
+0 0 3729
+#3729
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3734
+DDIR_EAST
+~
+~
+0 0 3730
+DDIR_WEST
+~
+~
+0 0 3728
+#3730
+A Corner of the Combat Hall~
+You are in the corner of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3735
+DDIR_WEST
+~
+~
+0 0 3729
+#3733
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3738
+DDIR_EAST
+~
+~
+0 0 3734
+DDIR_SOUTH
+~
+~
+0 0 3728
+#3734
+The Intermediate Hall of Combat~
+You are in the center of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3739
+DDIR_EAST
+~
+~
+0 0 3735
+DDIR_SOUTH
+~
+~
+0 0 3729
+DDIR_WEST
+~
+~
+0 0 3733
+DDIR_UP
+You see the recruitment offices above.~
+~
+0 0 3741
+DDIR_DOWN
+You see a practice room below.~
+~
+0 -1 3759
+E
+sign~
+{078}
+Train here in this chamber for level one through three. The monsters will not
+attack you and you can always return to the center of the room which has a
+ward that prevents the creatures from entering.
+~
+#3735
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3740
+DDIR_SOUTH
+~
+~
+0 0 3730
+DDIR_WEST
+~
+~
+0 0 3734
+#3738
+A Corner of the Combat Hall~
+You are in the corner of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 3739
+DDIR_SOUTH
+~
+~
+0 0 3733
+#3739
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 3740
+DDIR_SOUTH
+~
+~
+0 0 3734
+DDIR_WEST
+~
+~
+0 0 3738
+#3740
+A Corner of the Combat Hall~
+You are in the corner of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light shines far
+enough to catch glimpses of small, frightened creatures scuttling through
+the shadows.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 3735
+DDIR_WEST
+~
+~
+0 0 3739
+#3741
+Recruitment Center~
+You are standing in a large grey room.  Various banners on the wall praise the
+virtues of either Order or Chaos. Perhaps they are trying to sway you to their
+side?  The always-present stairway leads up and down.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 3743
+DDIR_SOUTH
+~
+~
+0 0 3742
+DDIR_UP
+You see a room in the tower.~
+force door~
+EX_ISDOOR|EX_CLOSED 0 3719
+DDIR_DOWN
+You see the Hall of Intermediate Combat.~
+~
+0 -1 3734
+E
+sign~
+By now you must have noticed that there are several gods controlling this world.
+Here is your chance to go into each office and talk with their Recruiters. They
+will tell you why you should become a follower of their god.  Don't worry, there
+is no need to make any hasty decisions. You cannot actually make a commitment
+here.
+
+If one of the Recruiters says something in all capital letter, try saying that
+word back to them. This will prompt the recruiter to tell you about that
+statement. These 'keywords' as they are called will not always be capitalized,
+but it has been done so in this area so that you can practice the concept. 
+Beside one word, you may be required to answer with one whole sentence.
+
+When you are finished talking with the Recruiters, continue practicing with your
+mortal body by using the Intermediate Combat Hall downstairs.
+~
+#3742
+Chaos's Recruiting Office~
+You are in a recruiting office for Chaos.  The walls of the room are covered in
+soft, burgundy leather.  Golden sconces lit with ivory candles brighten the
+surroundings, and a fire pops and crackles in the hearth on the south wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3741
+E
+sconces~
+They are finely wrought, with golden flames licking their way up to where a
+candle brightly burns.
+~
+E
+hearth~
+The hearth is completely hewn from one solid piece of black marble.
+~
+#3743
+Order's Recruiting Office~
+You have entered a recruiting office of Order.  The ceiling is made of glass,
+allowing the glow of sunlight and coolness of moonlight to stream in.  Dark
+wooden shelves display rare and beautiful plants and flowers and a small rowan
+tree grows in the east corner.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the anteroom for the Recruitment Center.~
+~
+0 -1 3741
+>unknown_prog light~
+if hasobjnum ($i) == 3716
+  if quest (4,4,$i) == 2
+    mpechoat self You light the flammable liquid!!
+    mpmload 3726
+    mpmset self quest 4 4 3
+    break
+  endif
+  mpechoat self Light what where how?
+~
+|
+#3744
+The Chamber of Testing~
+This room, or chamber, is softly lit, and its centerpiece is a low, marble
+pedestal.  A gentle twinge beneath your ribs affirms that your first true test
+is at hand.  You are suddenly captured by the grey stone gaze of the statue
+before you.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You see the stairs ascending.~
+~
+0 0 3748
+DDIR_DOWN
+You see the stairs descending.~
+~
+0 -1 3760
+E
+sign~
+{078}
+If you can kill the stone statue then you have passed the Tower's Test
+of Completion.  As a reward you can pick up your token of completion from
+the golem's corpse.  Make sure that you can at least handle the intermediate
+hall of combat before you try to kill the statue.  The entrance hallway of
+the tower is beneath you.  Beyond it lies the city of Chakkor.
+{078}
+If you need more help during the game, type {178}HELP{078}.  If you see something
+wrong or have comments, use the {178}NOTE{078} system to report them.
+~
+#3745
+Storeroom~
+This room is a treasure trove of advanced magical knowledge.  Summoning wands of
+all shapes and sizes line the wall, each labeled with the name of a different
+monster.  Unfortunately, all of these things are sealed away beyond your reach,
+behind powerful magical force walls. Almost escaping your notice is a small
+force door to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a locked force door.~
+force door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 3719 3746
+DDIR_UP
+You see the entrance hallway.~
+~
+0 0 3760
+#3746
+Torture Chamber~
+You have entered a scene of horror! You are in a gruesome torture chamber.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 3745
+#3748
+The Advanced Hall of Combat~
+You are in the center of a huge dimly-lit room. It is so large that it must
+fill the entire width of this section of the tower. Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the north wall.~
+~
+0 0 3750
+DDIR_EAST
+You see the east wall.~
+~
+0 0 3753
+DDIR_SOUTH
+You see the south wall.~
+~
+0 0 3755
+DDIR_WEST
+You see the west wall.~
+~
+0 0 3752
+DDIR_UP
+You see a practice room above.~
+~
+0 -1 3759
+DDIR_DOWN
+You see the testing chamber below.~
+~
+0 -1 3744
+E
+sign~
+{078}
+Train here in this chamber for level four through five. The monsters WILL
+attack you, so be careful. You can always return to the center of the room
+which has a ward that prevents the creatures from entering.
+~
+#3749
+A Corner of the Combat Hall~
+You are in a corner of a huge dimly-lit room. It is so large that it must
+fill the entire width of this section of the tower. Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the north wall.~
+~
+0 0 3750
+DDIR_SOUTH
+You see the south wall.~
+~
+0 0 3752
+#3750
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the north east corner.~
+~
+0 0 3751
+DDIR_SOUTH
+You see the center of the hall.~
+~
+0 0 3748
+DDIR_WEST
+You see the north west corner.~
+~
+0 0 3749
+#3751
+A Corner of the Combat Hall~
+You are in a corner of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light does not
+shine far enough to see anything, but a feeling of dread comes over you as
+you realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the east wall.~
+~
+0 0 3753
+DDIR_WEST
+You see the north wall.~
+~
+0 0 3750
+#3752
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light does not
+shine far enough to see anything, but a feeling of dread comes over you as
+you realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the north west corner.~
+~
+0 0 3749
+DDIR_EAST
+You see the center of the hall.~
+~
+0 0 3748
+DDIR_SOUTH
+You see the south west corner.~
+~
+0 0 3754
+#3753
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room.  It is so large that it must
+fill the entire width of this section of the tower.  Your light does not
+shine far enough to see anything, but a feeling of dread comes over you as
+you realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the north east corner.~
+~
+0 0 3751
+DDIR_SOUTH
+You see the south east corner.~
+~
+0 0 3756
+DDIR_WEST
+You see the center of the hall.~
+~
+0 0 3748
+#3754
+A Corner of the Combat Hall~
+You are in a corner of a huge dimly-lit room. It is so large that it must
+fill the entire width of this section of the tower. Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the north wall.~
+~
+0 0 3752
+DDIR_EAST
+You see the south wall.~
+~
+0 0 3755
+#3755
+In A Combat Hall~
+You are on the edge of a huge dimly-lit room. It is so large that it must
+fill the entire width of this section of the tower. Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the center of the hall.~
+~
+0 0 3748
+DDIR_EAST
+You see the south east corner.~
+~
+0 0 3756
+DDIR_WEST
+You see the south west corner.~
+~
+0 0 3754
+#3756
+A Corner of the Combat Hall~
+You are in a corner of a huge dimly-lit room. It is so large that it must
+fill the entire width of this section of the tower. Your light does not shine
+far enough to see anything, but a feeling of dread comes over you as you
+realize that you are not alone in here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the east wall.~
+~
+0 0 3753
+DDIR_WEST
+You see the south wall.~
+~
+0 0 3755
+#3757
+Top Of The Tower~
+You are in the top most room of the Tower of Training. This tower is very
+special and was created by the gods themselves to train new mortals. The
+avatars of the gods that dwell here are your teachers and they stock the
+tower with creatures against which you can test your strength.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You see a Training Room.  Go there to train your attributes.~
+~
+0 0 3758
+E
+sign~
+{078}
+To find out your attributes, type {178}SCORE{078}.  You can improve your attributes
+in the Training Room below. Later on, you will be able to practice your
+skills and spells in by finding your guild in the city of Chakkor. You
+can continue through mud school by going down.
+
+Another way to look at your attributes is by typing {178}STATUS{078}. It is slightly
+shorter and shows only the most essential information.
+~
+#3758
+The Training Room~
+You are in the Training Room of the Tower. The room is watched over by an
+Avatar who seems to create training tools out of thin air. The whole room is
+filled with an aura of hard work. When you are finished here, you should
+continue downward. As you descend through the tower, you will learn all of
+the basics of being a mortal.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_UP
+~
+~
+0 0 3757
+DDIR_DOWN
+You sense more lessons will be learned if you go this way.~
+~
+0 0 3701
+E
+sign~
+{078}
+Welcome to the Training Room.  Here you can train your attributes.  To train
+an attribute, you need enough practices.  To find out how many practice
+sessions you have, type {178}TRAIN{078} while you are in this room.  To train for a
+specific attribute, type {178}TRAIN <ATTR>{078} where attr is the first 3 letters of
+the attribute you want increased.  Type {178}HELP TRAIN{078} for more information.
+Generally, your prime attribute costs three practice sessions to increase.
+Any other attribute costs five sessions. Type {178}HELP STATS{078} to find out about
+your prime attribute.
+~
+#3759
+The Practice Room~
+You are in the Practice Room of the Tower. The room is watched over by an
+Avatar who seems to create practice tools out of thin air. The whole room is
+filled with an aura of hard work. The golden stairs lead up and down. A
+scream occasionally echoes up from the chamber below.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_UP
+You see the intermediate combat hall above.~
+~
+0 0 3734
+DDIR_DOWN
+You see the advanced combat hall below.~
+~
+0 -1 3748
+E
+sign~
+{078}
+Welcome to the Practice Room.  Here you can learn your skills and spells.
+You are forbidden to learn skills until you reach at least third level. If
+you aren't third level, go back to the top of the tower to train more of your
+attributes instead. To see a partial list of skills and spells you can
+practice and how many practice sessions you have, type {178}PRACTICE{078}.  To
+practice the specific skill, type {178}PRACTICE <SKILL>{078}, where SKILL is the skill
+or spell you wish to practice. Practicing increases the amount you know of
+that skill or spell, up to a certain maximum.
+
+It is important to note that this practice room is only for use before you
+leave the tower. Once fully into the mortal world you should seek out your
+guildhouse to practice in.
+~
+#3760
+Entrance Hall of the Tower~
+You are standing in the Entrance Hall of the Tower of Training, although Exit
+Hall might be more appropriate, since new mortals materialize at the very
+Pinnacle of the Tower.  The hall is pearl grey and a golden stairway leads both
+upward and downward.  The City of Chakkor can be seen through a huge,
+vaulted doorway to the north.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 9755
+DDIR_UP
+You see stairs leading up.~
+~
+0 0 3744
+DDIR_DOWN
+You see a store room.~
+~
+0 0 3745
+#0
+
+
+#RESETS
+M 3701 100 3710
+E 3739 100 WEAR_BODY
+E 3720 100 WEAR_HOLD
+E 3725 100 WEAR_FINGER_R
+E 3724 100 WEAR_WAIST
+M 3702 100 3716
+E 3705 100 WEAR_NECK_A
+E 3717 100 WEAR_NECK_B
+M 3703 100 3715
+E 3706 100 WEAR_HEAD
+E 3711 100 WEAR_ABOUT
+M 3704 100 3713
+E 3707 100 WEAR_LEGS
+E 3712 100 WEAR_WAIST
+M 3705 100 3714
+E 3708 100 WEAR_FEET
+E 3713 100 WEAR_WRIST_L
+M 3702 100 3723
+E 3705 100 WEAR_NECK_A
+E 3717 100 WEAR_NECK_B
+M 3703 100 3724
+E 3706 100 WEAR_HEAD
+E 3711 100 WEAR_ABOUT
+M 3704 100 3722
+E 3707 100 WEAR_LEGS
+E 3712 100 WEAR_WAIST
+M 3705 100 3725
+E 3708 100 WEAR_FEET
+E 3713 100 WEAR_WRIST_L
+M 3717 100 3718
+G 3734 100 0
+G 3716 100 0
+G 3718 100 0
+G 3723 100 0
+M 3706 100 3720
+E 3709 100 WEAR_HANDS
+E 3710 100 WEAR_ARMS
+E 3714 100 WEAR_HOLD
+E 3731 100 WEAR_WRIST_L
+M 3700 100 3742
+M 3712 100 3729
+M 3711 100 3730
+M 3710 100 3733
+M 3712 100 3739
+M 3710 100 3735
+M 3711 100 3738
+M 3714 100 3749
+M 3711 100 3750
+M 3711 100 3752
+M 3715 100 3751
+M 3715 100 3754
+M 3707 100 3712
+M 3720 100 3744
+E 3729 100 WEAR_HOLD
+M 3718 100 3758
+M 3719 100 3759
+O 3744 100 3746
+M 3722 100 3746
+M 3723 100 3721
+M 3725 100 3743
+O 3722 100 3700
+O 3715 100 3701
+O 3715 100 3702
+O 3715 100 3703
+O 3715 100 3704
+O 3715 100 3705
+O 3715 100 3707
+O 3715 100 3708
+O 3715 100 3709
+O 3715 100 3710
+O 3715 100 3711
+O 3715 100 3712
+O 3715 100 3713
+O 3715 100 3714
+O 3715 100 3715
+O 3715 100 3716
+O 3715 100 3718
+O 3715 100 3719
+O 3715 100 3717
+O 3715 100 3741
+O 3722 100 3757
+O 3715 100 3758
+O 3715 100 3759
+O 3715 100 3744
+O 3715 100 3734
+O 3715 100 3748
+D 3719 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 3741 DIR_UP    DOOR_CLOSED
+O 3741 100 3742
+O 3741 100 3743
+M 3729 100 3739
+M 3729 100 3733
+M 3729 100 3729
+M 3729 100 3735
+D 3745 DIR_SOUTH DOOR_CLOSED_LOCKED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

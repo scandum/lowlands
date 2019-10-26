@@ -1,0 +1,3107 @@
+#AREA Mount Kolvir~
+#AUTHORS Desmond~
+#VERSION 4
+#RANGES 50 95 1 95
+
+
+#MOBILES
+#10301
+manticore~
+the manticore~
+A manticore prowls around here looking for Amberites to eat.~
+The manticore has the body of a lion, with reptilian wings and a long,
+scorpion-like stinger tail. Despite its human head, there is little
+intelligence in the manticore's eyes. It snarls at you angrily.
+~
+ACT_AGGRESSIVE
+AFF_DETECT_HIDDEN|AFF_HUNT
+-485 S
+42 0 0 1d441+826 8d3+25
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if isgood ($r)
+  mpecho $I snarls angrily!
+  mpkill $r
+endif
+~
+>hitprcnt_prog 15~
+mpecho $I whimpers in pain.
+cast "cure critical"
+~
+|
+#10302
+soldier werewolf~
+the werewolf soldier~
+One of Corwin's werewolfs is here looking for an enemy to shoot.~
+Prince Corwin recruited this soldier from a far off shadow where the dominant
+humanoid species was canine. Consequently he looks like a werewolf.
+The soldier is holding an extremely odd missile weapon in his hands.
+~
+0
+AFF_DETECT_HIDDEN|AFF_STEALTH
+485 S
+46 0 0 1d529+1002 4d4+25
+7500 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 99~
+if hasobjnum ($i) == 10391
+  if rand (50)
+    west 
+    shoot east $n
+  else
+    east 
+    shoot west $n
+  endif
+else
+  mpkill $n
+endif
+~
+>death_prog 50~
+mpjunk all
+~
+>hitprcnt_prog 15~
+mpecho $I calls out to his god, Corwin!
+cast "cure critical" $i
+~
+|
+#10303
+soldier amberite~
+the soldier of Amber~
+An Amberite soldier is here attempting to drive away the forces of chaos.~
+You see a simple soldier in the service of Amber. Of course an Amberite
+is more than a match against an ordinary human.
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_PROTECT_EVIL
+715 S
+48 0 0 1d576+1097 3d4+35
+15000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if isevil ($r)
+  say Tis a servant of entropy! Attack!
+  mpkill $r
+else
+  if rand (25)
+    say Forward! Let's drive these creatures back to the Abyss!
+  else
+    if rand (33)
+      mpecho $I wipes the blood off his blade.
+    else
+      if rand (50)
+        say I hate fighting in the rain!
+        say I wish Prince Eric would stop playing with the weather.
+      else
+        say I wonder who those furry guys are.....
+        say Well at least they aren't shooting at me.
+      endif
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 15~
+mpecho $I gasps and mutters a prayer to the Unicorn.
+cast "heal"
+~
+|
+#10304
+shapeshifter shifter~
+the shapeshifter of entropy~
+A shapeshifter from the Courts of Entropy is here trying to destroy Amber.~
+It is hard to guess the natural shape of this entity because it keeps
+changing. One moment it resembles something demonic, the next a pillar of
+fire, and then changing again into a grotesque blob. It is never the same
+form twice, but every shape is deadly.
+~
+ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_HUNT
+-715 S
+52 0 0 1d676+1302 4d4+40
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 95~
+if isgood ($n)
+  say Die, weakling!
+  mpkill $n
+endif
+~
+>rand_prog 5~
+if rand (25)
+  mpecho $I shapechanges into a hideous demon!
+else
+  if rand (33)
+    say Don't bother trying to stop me or I will destroy you.
+  else
+    if rand (50)
+      mpecho $I shapechanges into a pillar of fire!
+    else
+      cackle 
+    endif
+  endif
+endif
+~
+>fight_prog 33~
+if rand (33)
+  cackle 
+else
+  if rand (50)
+    cast "acid" $r
+  else
+    cast "earthquake"
+  endif
+endif
+~
+>hitprcnt_prog 15~
+mpecho $I calls upon the force of the Logrus!
+cast "heal" $i
+~
+|
+#10305
+vines grass clinging~
+the animated, clinging vines~
+Some vines are about to rise up out of the grass and attempt to
+squeeze you to death!~
+It is hard to concentrate on looking at the grass when you are slowing
+being crushed, but you can see that the vines have somehow been animated
+by the cursed power of the black road. They are very strong and are
+attempting to pull you down to the ground so they can strangle you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_WEAK
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HIDE
+-350 S
+38 0 0 1d1+873 2d10+20
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#10306
+Eric prince~
+Eric~
+Prince Eric of Amber is here making a final stand against the forces of
+Entropy.~
+Eric is a handsome man with blue-black hair and beard. Even in the midst of
+what could be his final battle, he grins and shouts challenges to his enemies.
+He is dressed simply in a leather jacket and leggings, a plain cloak and
+boots. A red sword belt is clasped around his waist and a pair of black scale
+gloves hang from it. He seems superbly confident of his abilities.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+375 S
+85 0 0 1d1806+5988 5d4+70
+170000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10307
+citizen~
+the citizen of Amber~
+A citizen of Amber is going about his business here.~
+You see a common citizen of Amber. He is wearing ordinary looking clothing
+and does not appear to be armed. Still, no one from Amber is an ordinary
+human. Amberites can rip ordinary humans in half.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART
+0
+400 S
+50 0 0 1d625+1197 1d50+13
+22500 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+shout Help me! I'm being attacked by brigands!
+~
+>greet_prog 50~
+if rand (33)
+  smile $n
+else
+  if rand (50)
+    say Hello. What's your name stranger?
+  endif
+endif
+~
+|
+#10308
+city guardian~
+the Amber city guard~
+A city guard of Amber is here watching you in case you make trouble.~
+Every city guard in Amber is a distinguished former soldier of Amber's
+already elite army. So you can see why you wouldn't want to make trouble.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_HUNT
+800 S
+70 0 0 16d16+3050 4d5+50
+30000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 25~
+say Welcome to Amber!
+~
+>rand_prog 5~
+if isevil ($r)
+  mpechoat $r $I looks sharply at you.
+  mpechoaround $r $I looks sharply at $r.
+  say You bastard! You are a spy of entropy!
+  mpkill $r
+endif
+~
+|
+#10309
+thug~
+the thug~
+A scruffy-looking thug is waiting in ambush for you!~
+The thug is big, bad, and ugly. He has a big, bad and ugly looking club
+in his hand. When he gets through with you, you're the one who's gonna
+look ugly!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_HIDDEN|AFF_HIDE
+-400 S
+55 0 0 1d756+1469 1d55+16
+25000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (33)
+  groan 
+  mpecho {030}A Thug whispers, 'My legs are killing me.'
+else
+  if rand (50)
+    mpasound You hear a voice from the alley say, 'Psst.. Let's make a deal.'
+    mpecho {030}A Thug whispers, 'No one's coming.... Maybe we scared them all away.'
+  else
+    mpecho {030}A Thug whispers, 'Those bowmen better not be asleep again.'
+  endif
+endif
+~
+|
+#10310
+ruffian~
+the ruffian~
+A ruffian is peering over the ledge looking for people to shoot.~
+This guy was gonna ambush some poor innocent citizen, or maybe even you!
+He's probably working with the guys down on the street to rob you. Other
+than the fact that he's holding a bow in his hand, the man does not
+impress you as being very unusual.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_HIDDEN|AFF_HIDE
+-450 S
+60 0 0 50d3+2050 2d10+45
+25000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10311
+priest~
+the Priest of the Unicorn~
+A Priest of the Unicorn is standing at the pulpit, giving a sermon and
+showering you with benedictions.~
+The Priest is a small man with dark brown hair and a wild look in his eyes.
+He is wearing a white cassock and holding in his hands the sacred Book of
+the Unicorn.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_WIMPY|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL
+650 S
+75 0 0 1d1406+4580 1d75+29
+65000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 33~
+if time () == 22
+or time () == 23
+  if inroom ($i) != 10396
+    yawn 
+    mpecho The Priest of the Unicorn sleeps.
+    mpgoto 10396
+    stealth 
+  endif
+endif
+if time () == 1
+  mpgoto 10384
+  if quest (0,2,$i) == 0
+    emote looks about nervously.
+  endif
+  if quest (0,2,$i) == 1
+    emote opens the guestbook
+  endif
+  if quest (0,2,$i) == 2
+    emote writes a false name into the guest book.
+  endif
+  if quest (0,2,$i) < 2
+    mpmadd self quest 0 2 1
+  endif
+endif
+if time () == 2
+  emote finishes signing names into the guestbook.
+  mpgoto 10396
+  mpmset self quest 0 2 0
+endif
+if time () == 3
+  mpgoto 10385
+  mpecho The Priest of the Unicorn wakes and stands up.
+endif
+if inroom ($i) == 10385
+  if rand (50)
+    cast "cure critical" $r
+  else
+    if rand (33)
+      cast "cure blind" $r
+    else
+      cast "bless" $r
+    endif
+  endif
+endif
+~
+>fight_prog 50~
+if rand (33)
+  emote utters a few words from the book of the Unicorn!
+  brandish book
+else
+  cast "heal" $i
+endif
+~
+|
+#10312
+waitress~
+the waitress~
+A waitress is standing here waiting for you to place your order.~
+The waitress has a bored look on her face but waits patiently for you to
+finally make up your mind. She has a nice figure and is wearing a pretty
+gown made of light cashmere.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+425 S
+70 0 0 1d1225+3954 1d70+25
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#10313
+desk clerk~
+the desk clerk~
+The desk clerk is here waiting for you to rent a room.~
+The desk clerk is a young man with the exuberance and nervousness of his
+first day on the job. He wears a spiffy uniform and has a little round
+hat on his head.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+425 S
+70 0 0 1d1225+3954 1d70+25
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10314
+Andy~
+Andy~
+Andy is the owner and proprietor of Bloody Bill's. He is waiting
+here to take your order.~
+Andy is a pleasant, clean-shaven man wearing normal clothing and bar apron.
+He holds a note pad and pencil at the ready so he can jot down your order.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+425 S
+70 0 0 1d1225+3954 1d70+25
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10315
+smith blacksmith head~
+the head blacksmith~
+The head blacksmith is here trying to alternate between helping you and
+screaming his lungs out at his bumbling assistants.~
+The smith is an older, more experienced man then the other smiths in the
+shop. His hair is graying but he has an incredible physique that he gained
+from pounding away at the forge all of his life. He smiles at you.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+0
+650 S
+70 0 0 20d20+2900 10d3+45
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10316
+assistant blacksmith~
+the assistant smith~
+An assistant smith is here trying to work the bellows of the forge.~
+The assistant smith is a young man with blond hair and blue eyes. He looks
+like he would much rather be fishing than doing this hot, heavy work.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+0
+600 S
+55 0 0 10d10+1900 3d10+30
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10317
+Barmen Lord~
+Lord Barmen~
+Lord Barmen is here looking appraisingly at the armor you are wearing.~
+Lord Barmen is a distinguished looking gentleman wearing rich clothing
+of purple and gold color. He does maintain a military posture though and
+its easy to guess that he served with the army in some command position.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+600 S
+80 0 0 1d1600+5257 1d80+33
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10318
+sorceress~
+the young sorceress~
+A young sorceress stands behind the counter with a smile on her face.~
+The sorceress is so young that she could still be considered a girl. She
+has blond hair and green eyes and smiles continuously. The red velvet robe
+she wears is embroidered with magical symbols that glow bright enough to
+be noticed even during the day.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+600 S
+80 0 0 1d1600+5257 1d80+33
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#10319
+Peltier Lady~
+Lady Peltier~
+Lady Peltier is here waiting for a chance to sell you a useful item.~
+Lady Peltier is a handsome women of advancing years with long silver hair.
+She wears a dress of silver and black color and has a green ribbon in her
+hair. She chats with every customer that comes through the door and seems
+to enjoy her business.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART
+AFF_SANCTUARY
+600 S
+80 0 0 1d1600+5257 1d80+33
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#10320
+crown actor~
+the actor~
+An actor from the Crown's troop is here reciting a soliloquy.~
+This actor is wearing a fine costume, fit for his role in the famous
+historical play, "Dworkin and the Unicorn". His lines roll out in a deep
+baritone voice but he stands as still as a statue. He seems rather boring.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_MOUNT|ACT_WIMPY|ACT_SMART
+0
+450 S
+55 0 0 1d756+1469 1d55+16
+35000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10321
+player actor~
+the actor~
+An actor from the Unicorn troop is practicing his extremely gory death scene.~
+This actor is wearing a rather threadbare costume that appears to have been
+made on short notice. He is wielding a prop sword in what appears to be an
+imaginary sword fight while shouting exclamations and obscenities. That play,
+"The Siege of Amber" must be pretty exciting.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_MOUNT|ACT_WIMPY|ACT_SMART
+0
+450 S
+55 0 0 1d756+1469 3d5+35
+35000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10322
+Rein Lord~
+Lord Rein~
+Lord Rein is here directing the preparations for the next show.~
+Lord Rein is a tall man with reddish hair and a roguish grin. He wears fine
+clothing and is a Master Bard in the court of Amber. His latest epic is
+"The Siege of Amber". Unfortunately, it is has not been very popular because
+of its blatant support for the unsuccessful attack of Prince Corwin against
+his brother, Prince Eric.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL
+800 S
+75 0 0 1d1+4000 1d75+29
+85000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10324
+Corwin Prince~
+Corwin~
+Prince Corwin is sitting here eating a picnic lunch.~
+Prince Corwin is a handsome man with dark hair and green eyes. He sports a
+muscular build and seems supremely healthy. He is wearing clothing and a
+cape in his colors of silver and black. About his neck is a silver clasp in
+the shape of a rose and he wears the sword Greyswandir at his side.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_HUNT
+950 S
+85 0 0 1d1806+5988 15d2+75
+169618 0
+POS_STANDING POS_STANDING SEX_MALE
+#10325
+Caine Prince~
+Caine~
+Prince Caine stands here in the darkness watching you intensely.~
+Prince Caine is dark haired man with long sideburns and wide eyebrows. He
+stands before you in armor of an emerald hue and a green silk cape. Upon his
+head rests a jaunty, buccaneers cap with a long plume down the back. A single
+dagger with an emerald on the pommel rests on his belt.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_STEALTH
+400 S
+99 0 0 1d2450+8326 5d3+162
+190000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 20~
+mass 'faerie fire'
+mass 'acid blast'
+~
+|
+#10326
+Unicorn~
+the Unicorn~
+The Unicorn herself is standing only a short distance away!~
+You have been graced by the very rare chance of seeing the Unicorn itself.
+The Unicorn is a beautiful creature that resembles a horse only vaguely. It
+is delicate looking, with cloven hooves and a golden spiriling horn upon its
+head. The green bejeweld eyes seem to be looking into your very soul. You
+would never dream of attacking this beautiful creature that is the very
+embodiment of order and reason.
+~
+ACT_WIMPY|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_CLEAR
+1000 S
+99 0 0 1d2450+8326 1d100+142
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if rand (50)
+  mpecho $I turns and seems to look deep into your soul.
+else
+  mpecho $I shies and backs a few steps away from you.
+endif
+~
+>hitprcnt_prog 5~
+cast "heal" unicorn
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#0
+
+
+#SHOPS
+10312 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  110  50  0 23
+10314 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  110  50  0 23
+10317 ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+10318 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_NOTHING  105  15  0 23
+10319 ITEM_TYPE_LIGHT ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_DRINK_CON ITEM_TYPE_BOAT  150  40  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#10301
+emerald dagger~
+an emerald dagger~
+An incredibly exquisite dagger with a huge emerald on the pommel rests here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 7 7 WEAPON_PIERCE 0 0 0 0
+18 200000 95
+A APPLY_DEX 3 0
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 5 0
+#10302
+fountain water~
+a beautiful fountain~
+In the midst of the square stands a huge, ivory fountain.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+50 50 LIQ_WATER 0 0 0 0 0
+500 3000 1
+#10303
+scroll recall~
+a scroll of recall~
+A scroll that will bring you home is lying here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+55 266 0 0 0 0 0 0
+1 15000 59
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10304
+scroll communication~
+a scroll of communication~
+A carefully prepared scroll has been left lying on the ground.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+55 243 253 0 0 0 0 0
+1 50000 67
+S 1 'tongues'
+S 2 'understand'
+S 3 '-1 slot'
+#10305
+potion curing~
+a potion of curing~
+A tiny flask of yellow liquid has been abandoned here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE
+55 54 69 134 0 0 0 0
+1 250000 55
+S 1 'cure critical'
+S 2 'dispel evil'
+S 3 'heal'
+#10306
+potion revelation~
+a potion of revelation~
+A beautiful vial of orange liquid is lying here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+55 61 63 0 0 0 0 0
+1 100000 55
+S 1 'detect evil'
+S 2 'detect good'
+S 3 '-1 slot'
+#10307
+book unicorn~
+the Book of the Unicorn~
+The holy Book of the Unicorn lies here unattended.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 10 10 82 0 0 0 0
+10 1000000 75
+A APPLY_INT 2 0
+A APPLY_WIS 2 0
+S 3 'earthquake'
+#10308
+amber helm~
+an Amber helm~
+A helm emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+10 240000 40
+#10309
+amber plate~
+an Amber plate~
+A plate emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+16 0 0 0 0 0 0 0
+25 320000 65
+#10310
+amber greaves~
+a pair of Amber greaves~
+A pair of greaves emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+12 0 0 0 0 0 0 0
+15 240000 40
+#10311
+amber boots~
+a pair of Amber boots~
+A pair of boots emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+12 0 0 0 0 0 0 0
+10 240000 40
+#10312
+amber gauntlets~
+a pair of Amber gauntlets~
+A pair of gauntlets emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+12 0 0 0 0 0 0 0
+10 240000 40
+#10313
+amber sleeves~
+a pair of Amber sleeves~
+A pair of sleeves emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+12 0 0 0 0 0 0 0
+15 240000 40
+#10314
+amber shield~
+an Amber shield~
+A shield emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+16 0 0 0 0 0 0 0
+20 320000 65
+#10315
+plate fish chips~
+a plate of fish and chips~
+A plate of fish and chips is sitting here and cooling rapidly.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+20 0 0 0 0 0 0 0
+1 50 25
+#10316
+bottle piss white wine~
+a bottle of Bayle's piss~
+A bottle of Bayle's low quality white wine is sitting here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+4 4 LIQ_BEER 0 0 0 0 0
+2 75 25
+#10317
+scroll sleep soliloquy~
+a soliloquy~
+A scroll upon which a soliloquy is written lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+50 219 0 0 0 0 0 0
+1 350000 50
+S 1 'sleep'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#10318
+silver rose clasp~
+a silver rose clasp~
+A cloak clasp in the shape of a silver rose lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+10 10000000 90
+A APPLY_DAMROLL 10 0
+#10319
+caviar~
+a jar of caviar~
+A jar of caviar is here, waiting to be spread on crackers.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+20 0 0 0 0 0 0 0
+1 750 30
+#10320
+filet mignon~
+a filet mignon~
+A tender, juicy filet is here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+40 0 0 0 0 0 0 0
+5 400 30
+#10321
+orange duck~
+an orange glazed duck~
+A baked duck rests on a plate here next to a cup of orange sauce.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+65 0 0 0 0 0 0 0
+8 550 30
+#10322
+pot coffee~
+a pot of coffee~
+A pot of coffee is steaming here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+6 6 LIQ_COFFEE 0 0 0 0 0
+3 200 30
+#10323
+bottle red wine~
+a bottle of Bayle's red wine~
+A bottle of Bayle's finest red wine is chilling here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+4 4 LIQ_WINE 0 0 0 0 0
+2 350 30
+#10324
+bar light~
+a bar of solid light~
+A bar of solid light is slowly dimming here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 4 0 0 0 0 0
+5 50000 62
+A APPLY_DAMROLL 4 0
+#10325
+inflatable boat~
+an inflatable boat~
+The inflatable boat is here waiting to be blown up.~
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 50000 30
+#10326
+grappling hook~
+a grappling hook~
+A grappling hook and rope are resting here.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 1 1 113 0 0 0 0
+20 250000 55
+S 3 'fly'
+#10327
+emerald breast plate~
+a breast plate of emerald hue~
+A breast plate of emerald hue lies here in the shadows.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+20 0 0 0 0 0 0 0
+100 150000 95
+A APPLY_DAMROLL 4 0
+#10328
+emerald vambraces~
+a pair of emerald vambraces~
+A pair of vambraces of emerald hue lie here in the shadows.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+20 0 0 0 0 0 0 0
+100 150000 95
+A APPLY_DAMROLL 4 0
+#10329
+emerald greaves~
+a pair of emerald greaves~
+A pair of greaves of emerald hue lie here in the shadows.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+20 0 0 0 0 0 0 0
+100 150000 95
+A APPLY_DAMROLL 4 0
+#10330
+spiked club~
+a spiked club~
+A nasty looking spiked club lies here waiting to be used.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 7 5 WEAPON_BLAST 0 0 0 0
+22 445000 55
+#10331
+caustic whip~
+a caustic whip~
+A viscious looking whip that drips with acid lies coiled here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_EVIL|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 7 5 WEAPON_WHIP 0 0 0 0
+18 445000 50
+#10332
+amber blade~
+a amber blade~
+A blade emblazoned with the symbol of Amber lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 7 5 WEAPON_SLASH 0 0 0 0
+20 445000 50
+#10333
+bag holding~
+a bag of holding~
+An ordinary looking bag that appears empty is laying here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+800 CONT_CLOSEABLE|CONT_CLOSED -1 0 0 0 0 0
+2 250000 50
+#10334
+rifle~
+a sniper rifle~
+An odd missile weapon made out of gleaming black metal lies here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_BLOWPIPE 3 12 WEAPON_CRUSH 0 0 0 0
+21 1000000 72
+#10355
+pattern blade~
+a Pattern blade~
+A Pattern blade used by the Amber royal family lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 12 3 WEAPON_SLASH 0 0 0 0
+21 2000000 80
+A APPLY_AC -5 0
+A APPLY_DAMROLL 5 0
+#10391
+bullet~
+a bullet~
+A tiny metal cylinder filled with pink putty is laying here.~
+~
+ITEM_TYPE_AMMO
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+13 25 12 2 0 0 0 0
+5 25000 72
+#10397
+key~
+a room key~
+A room key lies on the ground here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#10300
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#10301
+Road to Amber~
+You are walking along the road to the great city of Amber. It is a wide, paved
+road that seems well used even in these troubled times. When you look down at
+your feet, you notice glowing runes warding the path from danger. Perhaps it
+would be better not to leave the road...
+The road leads east and west, but the land to the south seems passable.
+
+     A sign hangs in mid-air in front of you and refuses
+     to get out of your way until you have read it once.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+You see the road to Amber.~
+~
+0 -1 10302
+DDIR_SOUTH
+The slope heads down into a strange valley.~
+~
+0 -1 10305
+DDIR_WEST
+You see a road block ahead.~
+~
+0 -1 10125
+E
+sign~
+{300}
+          ---------------------------------------------------------
+	  |  Just so everyone knows, this area is as yet without  |
+	  |  any items of ultimate power. I intend to include     |
+	  |  some interesting things for you to get your greedy   |
+	  |  little hands on, but these things take time. I am    |
+	  |  inventing special quests for them. In the meantime   |
+	  |  the area is here as yet another alternative for      |
+	  |  getting experience.                                  |
+	  |                                        ---- Desmond   |
+	  |_______________________________________________________|
+~
+#10302
+Road to Amber~
+You are walking along the road to the great city of Amber. It is a wide, paved
+road that seems well used even in these troubled times. When you look down at
+your feet, you notice glowing runes warding the path from danger. Perhaps it
+would be better not to leave the road...
+The road leads east and west, but the land to the south seems passable.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+You see the road to Amber.~
+~
+0 -1 10303
+DDIR_SOUTH
+The slope heads down into a strange valley.~
+~
+0 -1 10306
+DDIR_WEST
+You see the road to Amber.~
+~
+0 -1 10301
+#10303
+Road to Amber~
+You are walking along the road to the great city of Amber. It is a wide, paved
+road that seems well used even in these troubled times. When you look down at
+your feet, you notice glowing runes warding the path from danger. Perhaps it
+would be better not to leave the road. Mount Kolvir looms ahead.
+The road leads east and west, but the land to the south seems passable.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+You see the road to Amber.~
+~
+0 -1 10304
+DDIR_SOUTH
+The slope heads down into a strange valley.~
+~
+0 -1 10307
+DDIR_WEST
+You see the road to Amber.~
+~
+0 -1 10302
+#10304
+Road to Amber~
+You are standing at the base of Mount Kolvir where it intersects the road to
+Amber. A grand stairway begins its climb up the mountain to the city of Amber
+at its top. When you look down at your feet, you notice glowing runes warding
+the path from danger. Perhaps it would be better not to leave the road.
+The stairway leads east and the road west, but the land to the south seems
+passable.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+You see a grand stairway cut into the mountain.~
+~
+0 -1 10344
+DDIR_SOUTH
+The slope heads down into a strange valley.~
+~
+0 -1 10308
+DDIR_WEST
+You see the road to Amber.~
+~
+0 -1 10303
+#10305
+Valley of Garnath~
+You stand on the edge of a slope that leads into the valley of Garnath. While
+the valley may have been beautiful once, the land has been cursed. The area
+lies wreathed in fog and strange noises can be heard from the darkness.
+The valley leads down to the east, but it might be safer to return to the
+road to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the road to Amber.~
+~
+0 -1 10301
+DDIR_EAST
+The slope leads farther into the valley.~
+~
+0 -1 10306
+#10306
+Valley of Garnath~
+You stand on the edge of a slope that leads into the valley of Garnath. While
+the valley may have been beautiful once, the land has been cursed. The area
+lies wreathed in fog and strange noises can be heard from the darkness.
+The valley leads down to the east, but it might be safer to return to the
+road to the north.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the road to Amber.~
+~
+0 -1 10302
+DDIR_EAST
+The slope leads farther into the valley.~
+~
+0 -1 10307
+DDIR_WEST
+The slope heads up towards the road.~
+~
+0 -1 10305
+#10307
+Valley of Garnath~
+You stand on the edge of a slope that leads into the valley of Garnath. While
+the valley may have been beautiful once, the land has been cursed. The area
+lies wreathed in fog and strange noises can be heard from the darkness.
+The valley leads down to the south and east, but it might be safer to return
+to the road to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the road to Amber.~
+~
+0 -1 10303
+DDIR_EAST
+The slope leads farther into the valley.~
+~
+0 -1 10308
+DDIR_SOUTH
+The slope leads down to the valley floor.~
+~
+0 -1 10309
+DDIR_WEST
+The slope heads up towards the road.~
+~
+0 -1 10306
+#10308
+Valley of Garnath~
+You stand on the edge of a slope that leads into the valley of Garnath. While
+the valley may have been beautiful once, the land has been cursed. The area
+lies wreathed in fog and strange noises can be heard from the darkness.
+The valley leads down to the south, but it might be safer to return to the
+road to the north.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the road to Amber.~
+~
+0 -1 10304
+DDIR_SOUTH
+The slope leads down to the valley floor.~
+~
+0 -1 10310
+DDIR_WEST
+The slope heads up towards the road.~
+~
+0 -1 10307
+#10309
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+North leads up towards the road while heading south or east will send you
+closer to the battle in the valley.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+The slope heads up towards the road.~
+~
+0 -1 10307
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10310
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10311
+#10310
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+North and west leads up towards the road while heading south will send you
+closer to the battle in the valley.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The slope heads up towards the road.~
+~
+0 -1 10308
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10312
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10309
+#10311
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+North leads up towards the road while heading east will send you closer to
+the battle in the valley.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10309
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10312
+#10312
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+North and west leads up towards the road while heading south or east will
+send you closer to the battle in the valley.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10310
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10313
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10314
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10311
+#10313
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+West leads up towards the road while heading south will send you closer to
+the battle in the valley.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10315
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10312
+#10314
+The valley floor~
+You are walking along the floor of the valley of Garnath. Although the fog
+continues to prevent you from seeing anything nearby, there is no doubt that
+you are standing at the edge of a battlefield. Screams and shouts echo from
+nearby and corpses of both humans and monsters are strewn about.
+North leads up towards the road while heading east will send you straight
+into some of the thickest fighting!
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10312
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10315
+#10315
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northwestern edge of the battlefield.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10313
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10316
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10322
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10314
+#10316
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10317
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10323
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10315
+#10317
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northern edge of the battlefield.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_EAST
+You see the black road.~
+~
+0 -1 10318
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10324
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10316
+#10318
+The black road~
+You have wandered onto the black road! Now that you can see it up close, you
+notice that it isn't actually a road but a long strip of land where all the
+plants have turned a silvery black color. The advancing forces seem to be
+drawing their strength from the road itself. You only notice at the last
+moment that the grasses are waving... even though there is no wind!
+The road leads south from here, although you don't have to follow it. To the
+north the road ends at the very foot of Mount Kolvir.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the beginning of a rocky trail.~
+~
+0 -1 10338
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10319
+DDIR_SOUTH
+You see the black road.~
+~
+0 -1 10325
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10317
+#10319
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10320
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10326
+DDIR_WEST
+You see the black road.~
+~
+0 -1 10318
+#10320
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10321
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10327
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10319
+#10321
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the northeastern edge of the battlefield.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10328
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10320
+#10322
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the western edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10315
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10323
+#10323
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10316
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10324
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10329
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10322
+#10324
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10317
+DDIR_EAST
+You see the black road.~
+~
+0 -1 10325
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10330
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10323
+#10325
+The black road~
+You have wandered onto the black road! Now that you can see it up close, you
+notice that it isn't actually a road but a long strip of land where all the
+plants have turned a silvery black color. The advancing forces seem to be
+drawing their strength from the road itself. You only notice at the last
+moment that the grasses are waving... even though there is no wind!
+The road leads north and south, but you don't have to follow it.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the black road.~
+~
+0 -1 10318
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10326
+DDIR_SOUTH
+You see the black road.~
+~
+0 -1 10331
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10324
+#10326
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10319
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10327
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10332
+DDIR_WEST
+You see the black road.~
+~
+0 -1 10325
+#10327
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10320
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10328
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10333
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10326
+#10328
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the eastern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10321
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10327
+#10329
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the southwestern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10323
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10330
+#10330
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10324
+DDIR_EAST
+You see the black road.~
+~
+0 -1 10331
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10334
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10329
+#10331
+The black road~
+You have wandered onto the black road! Now that you can see it up close, you
+notice that it isn't actually a road but a long strip of land where all the
+plants have turned a silvery black color. The advancing forces seem to be
+drawing their strength from the road itself. You only notice at the last
+moment that the grasses are waving... even though there is no wind!
+The road leads north and south, but you don't have to follow it.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the black road.~
+~
+0 -1 10325
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10332
+DDIR_SOUTH
+You see the black road.~
+~
+0 -1 10335
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10330
+#10332
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently in the center of the battlefield! Not smart.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10326
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10333
+DDIR_SOUTH
+You see the valley floor.~
+~
+0 -1 10336
+DDIR_WEST
+You see the black road.~
+~
+0 -1 10331
+#10333
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the southeastern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10327
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10332
+#10334
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the southern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10330
+DDIR_EAST
+You see the black road.~
+~
+0 -1 10335
+#10335
+The black road~
+You have wandered onto the black road! Now that you can see it up close, you
+notice that it isn't actually a road but a long strip of land where all the
+plants have turned a silvery black color. The advancing forces seem to be
+drawing their strength from the road itself. You only notice at the last
+moment that the grasses are waving... even though there is no wind!
+The road leads north and south, but you don't have to follow it.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the black road.~
+~
+0 -1 10331
+DDIR_EAST
+You see the valley floor.~
+~
+0 -1 10336
+DDIR_SOUTH
+You see the black road.~
+~
+0 -1 10337
+DDIR_WEST
+You see the valley floor.~
+~
+0 -1 10334
+#10336
+The valley floor~
+As you move about through the valley, the fog dissipates slightly and you can
+see that you are standing smack in the middle of two armies. Humanoid forces
+from Amber are attempting to defend a trail that leads up into the mountains
+while a host of manticores and other forms advance from a nearby black road.
+You are currently on the southern edge of the battlefield.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the valley floor.~
+~
+0 -1 10332
+DDIR_WEST
+You see the black road.~
+~
+0 -1 10335
+#10337
+The black road~
+You have wandered onto the black road! Now that you can see it up close, you
+notice that it isn't actually a road but a long strip of land where all the
+plants have turned a silvery black color. The advancing forces seem to be
+drawing their strength from the road itself. You only notice at the last
+moment that the grasses are waving... even though there is no wind!
+The road leads north although you don't have to follow it. The road seems
+to stretch on infinitely to the south, which is too far to check out now.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_NORTH
+You see the black road.~
+~
+0 -1 10335
+#10338
+Beginning of a rocky trail~
+You are standing in what looks to be the center of defense for the army of
+Amber. Unfortunately, some of the forces of chaos seem to have already broken
+through. From here the trail leads up the mountain to Amber itself, while the
+battle still rages along the black road to the south.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+You see a rocky trail.~
+~
+0 -1 10339
+DDIR_SOUTH
+You see the black road.~
+~
+0 -1 10318
+#10339
+A rocky trail~
+As you work your way along the trail, you catch site of the grove of the
+unicorn to the east. It looks very peaceful compared to the stress of battle
+which echoes up from the Valley of Garnath below.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_WEST
+You see a rocky trail.~
+~
+0 -1 10338
+DDIR_UP
+On a slope above you lies the grove of the unicorn.~
+~
+0 -1 10340
+#10340
+The grove of the unicorn~
+A restful feeling falls over you as you stride through the grove of the
+Unicorn. It is here that the Unicorn, the symbol and patron saint of Amber,
+was first sighted. The grove looks down upon the cursed valley of Garnath,
+which tends to spoil the view.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the grove of the unicorn.~
+~
+0 -1 10341
+DDIR_EAST
+You see the grove of the unicorn.~
+~
+0 -1 10342
+DDIR_DOWN
+You see a rocky trail below you.~
+~
+0 -1 10339
+#10341
+The grove of the unicorn~
+A restful feeling falls over you as you stride through the grove of the
+Unicorn. It is here that the Unicorn, the symbol and patron saint of Amber,
+was first sighted. The grove looks down upon the cursed valley of Garnath,
+which tends to spoil the view.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the grove of the unicorn.~
+~
+0 -1 10343
+DDIR_SOUTH
+You see the grove of the unicorn.~
+~
+0 -1 10340
+#10342
+The grove of the unicorn~
+A restful feeling falls over you as you stride through the grove of the
+Unicorn. It is here that the Unicorn, the symbol and patron saint of Amber,
+was first sighted. The grove looks down upon the cursed valley of Garnath,
+which tends to spoil the view.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the grove of the unicorn.~
+~
+0 -1 10343
+DDIR_WEST
+You see the grove of the unicorn.~
+~
+0 -1 10340
+#10343
+The grove of the unicorn~
+A restful feeling falls over you as you stride through the grove of the
+Unicorn. It is here that the Unicorn, the symbol and patron saint of Amber,
+was first sighted. The grove looks down upon the cursed valley of Garnath,
+which tends to spoil the view.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the grove of the unicorn.~
+~
+0 -1 10342
+DDIR_WEST
+You see the grove of the unicorn.~
+~
+0 -1 10341
+DDIR_UP
+On a slope above you lies a forested trail.~
+~
+0 -1 10383
+#10344
+A grand stairway~
+You pause at the foot of a great stair that twists its way to the top of
+Mount Kolvir. The steps seem to be quite solidly constructed out of stone,
+but you notice the absense of hand rails. If you get into a fight on these
+stairs, it is quite possible that you will plummet to your death.
+The stairs lead up the mountain, and the road heads west toward the majestic
+forest of Arden.
+~
+0 0 SECT_HILLS
+DDIR_WEST
+You see the road to Amber.~
+~
+0 -1 10304
+DDIR_UP
+The grand stairway ascends above you.~
+~
+0 -1 10345
+#10345
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight down the stairs or ascend to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the grand stairway.~
+~
+0 -1 10346
+DDIR_DOWN
+The grand stairway decends below you.~
+~
+0 -1 10344
+#10346
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight up the stairs or descend to the south.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the grand stairway.~
+~
+0 -1 10345
+DDIR_UP
+The grand stairway ascends above you.~
+~
+0 -1 10347
+#10347
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight down the stairs or ascend to the south.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the grand stairway.~
+~
+0 -1 10348
+DDIR_DOWN
+The grand stairway descends below you.~
+~
+0 -1 10346
+#10348
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight up the stairs or descend to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the grand stairway.~
+~
+0 -1 10347
+DDIR_UP
+The grand stairway ascends above you.~
+~
+0 -1 10349
+#10349
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight down the stairs or ascend to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the grand stairway.~
+~
+0 -1 10350
+DDIR_DOWN
+The grand stairway descends below you.~
+~
+0 -1 10348
+#10350
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight up the stairs or descend to the south.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the grand stairway.~
+~
+0 -1 10349
+DDIR_UP
+The grand stairway ascends above you.~
+~
+0 -1 10351
+#10351
+A grand stairway~
+You are climbing a great stair that twists its way to the top of the Mount
+Kolvir. The steps seem to be quite solidly constructed out of stone, but you
+notice the absense of hand rails. If you get into a fight on these stairs,
+it is quite possible that you will plummet to your death.
+You can head straight down the stairs or ascend to the landing east of here.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the landing.~
+~
+0 -1 10352
+DDIR_DOWN
+The grand stairway descends below you.~
+~
+0 -1 10350
+#10352
+The landing~
+You are at the crest of the great stair. Below, you can see a striking view
+of the majestic forest of Arden stretching out to the west. Of course the
+grand gate to Amber gathers almost as much attention to the east. Between
+these two sites, a worn and rugged trail passes almost unnoticed to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see an old, rugged trail.~
+~
+0 -1 10353
+DDIR_EAST
+You see the Grand Gate of Amber.~
+~
+0 -1 10360
+DDIR_WEST
+You see the grand stairway.~
+~
+0 -1 10351
+#10353
+A rugged trail~
+You are walking upon an little used trail that ascends even higher up the
+mountain then the city itself. Clearly nothing of general interest lies on
+this path or else it would be used more often. The trail heads north while
+the city is only slightly south of here.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see an old, rugged trail.~
+~
+0 -1 10354
+DDIR_SOUTH
+You see the landing.~
+~
+0 -1 10352
+#10354
+A rugged trail~
+You are walking upon an little used trail that ascends even higher up the
+mountain then the city itself. Clearly nothing of general interest lies on
+this path or else it would be used more often. The trail heads north into a
+clearing, while the city is some distance to the south.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see a clearing ahead.~
+~
+0 -1 10355
+DDIR_SOUTH
+You see an old, rugged trail.~
+~
+0 -1 10353
+#10355
+Outside Corwin's Tomb~
+You are in a clearing upon a rugged trail north of the city of Amber. Perhaps
+there is something of interest on the trail after all. Before you stands the
+tomb of Prince Corwin of Amber. It is a long, ivy-covered building with
+arched double doors. Two benches beside the tomb provide a resting place for
+visitors. There are words engraved above the door. Also, the trail does not
+end here, but continues to the east.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The old, rugged trail continues.~
+~
+0 -1 10357
+DDIR_SOUTH
+You see the trail leading back to Amber.~
+~
+0 -1 10354
+DDIR_WEST
+You can see inside Corwin's tomb.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10399 10356
+E
+words~
+The engraved script reads as follows:
+
+	 ///////////////////////////////////////////////////////
+				CORWIN
+		     "A Beloved Prince of Amber"
+	 Although his body lies here not, we fervently hope that
+		  his spirit rests here comfortably.
+	 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+There is also something scribled in much smaller lettering beneath
+the main body of text. You can't quite make it out from here.
+~
+E
+lettering~
+Beneath the engraved script is some tiny lettering that appears to
+have been carved in with a pocket knife. It reads simply:
+"Corwin was here."
+~
+#10356
+Inside Corwin's Tomb~
+After going to all the work of desecrating a tomb, there building appears to
+be empty. Emptier than any tomb should be as a matter of fact. There isn't
+even a body in the casket!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_HILLS
+DDIR_EAST
+You can see the clearing in front of the tomb.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10399 10355
+#10357
+A rugged trail~
+You are walking upon an little used trail that ascends even higher up the
+mountain then the city itself. It remains to be seen if there is anything
+else of interest at the end of the path. The trail heads west into a
+clearing, while the trail continues to the east.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see an bend in the trail ahead.~
+~
+0 -1 10358
+DDIR_WEST
+You see a clearing.~
+~
+0 -1 10355
+#10358
+A rugged trail~
+You are beside a bend in a little used trail that ascends even higher up the
+mountain then the city itself. It remains to be seen if there is anything
+else of interest at the end of the path. The trail leads west to the tomb
+and also exits into another clearing to the north.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the end of the trail.~
+~
+0 -1 10359
+DDIR_WEST
+You see an old, rugged trail.~
+~
+0 -1 10357
+#10359
+End of the rugged trail~
+The trail comes to a seemingly dead end at this clearing at the very peak of
+the mountain. The only feature of interest is a rock formation that looks
+like the first three steps of a great stairway.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see a bend in the trail.~
+~
+0 -1 10358
+#10360
+The Grand Gate of Amber~
+You are standing inside the grand gate of Amber. The gate is guarded at all
+times by a force of elite guardsmen. Vine street begins to the east. To the
+west, you can see the landing of the great stairway.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the beginning of Vine street.~
+~
+0 -1 10361
+DDIR_WEST
+You see the landing.~
+~
+0 -1 10352
+#10361
+Vine street~
+This is Vine street, where all of the richest and most powerful of Amberites
+make their residence. Huge mansions line both sides of the road, but they
+also have large, impressive looking gates. The gates are closed. You probably
+can't go into any of them. To your east you can see the an intersection,
+while the grand gate lies to the west.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the intersection of Vine and Temple streets.~
+~
+0 -1 10362
+DDIR_WEST
+You see the Grand Gate of Amber.~
+~
+0 -1 10360
+#10362
+Intersection~
+You have come to a busy intersection where Vine and Temple streets meet. Vine
+street leads east and west from here, while Temple street lies to the south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see Vine street.~
+~
+0 -1 10364
+DDIR_SOUTH
+You see Temple street.~
+~
+0 -1 10363
+DDIR_WEST
+You see Vine street.~
+~
+0 -1 10361
+#10363
+Temple street~
+You are standing on Temple street. Although there is a branch of the Temple
+of the Unicorn located on this street, this avenue is also host to all of
+performing arts theaters in Amber. The Unicorn Temple can be found south of
+here, while a playhouse is located on each side of the street.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the intersection of Vine and Temple streets.~
+~
+0 -1 10362
+DDIR_EAST
+You see the Players of the Unicorn theatre.~
+~
+0 -1 10377
+DDIR_SOUTH
+You see the Unicorn Temple.~
+~
+0 -1 10384
+DDIR_WEST
+You see the Crown theatre.~
+~
+0 -1 10366
+#10364
+Vine street~
+This is Vine street, where all of the richest and most powerful of Amberites
+make their residence. A huge mansion lies on the south side of the road,
+but its gates are closed and locked. To the north is a large and expensive
+looking restaurant. Intersections with other streets lie to the east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a pleasant cafe.~
+~
+0 -1 10386
+DDIR_EAST
+You see the great square.~
+~
+0 -1 10365
+DDIR_WEST
+You see the intersection of Vine and Temple streets.~
+~
+0 -1 10362
+#10365
+Great square~
+You are standing in the midst of a great square. The two largest streets in
+the city cross here, so you can find people passing to and fro at every hour
+of the day. The Main Concourse starts its northward stretch from here and
+Vine street runs east to west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the Main Concourse.~
+~
+0 -1 10367
+DDIR_EAST
+You see Vine street.~
+~
+0 -1 10370
+DDIR_SOUTH
+~
+~
+0 -1 16010
+DDIR_WEST
+You see Vine street.~
+~
+0 -1 10364
+#10366
+The Crown Theater~
+This beautiful theater is called the Crown because its pentagonal shape is
+similar to the crown of Amber. It is the oldest theater on the street and
+has a reputation for its renditions of the classic plays of Amber. The stage
+is currently set up for the showing of "Dworkin and the Unicorn".
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see Temple street.~
+~
+0 -1 10363
+#10367
+Main Concourse~
+You are on the main concourse. It is a wide, paved boulevard with pretty
+trees lining either side. The greatest shops in Amber are located on this
+street, but nothing comes cheap. Hope you brought A LOT of money with you.
+The great square lies to the south and the main concourse continues north.
+Shops for armor and supplies abound on this section of the concourse.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the Main Concourse.~
+~
+0 -1 10368
+DDIR_EAST
+You see an armor shop.~
+~
+0 -1 10387
+DDIR_SOUTH
+You see the great square.~
+~
+0 -1 10365
+DDIR_WEST
+You see an provisions shop.~
+~
+0 -1 10388
+#10368
+Main Concourse~
+You are on the main concourse. It is a wide, paved boulevard with pretty
+trees lining either side. The greatest shops in Amber are located on this
+street, but nothing comes cheap. Hope you brought A LOT of money with you.
+The local branch of the blacksmiths guild can be found on this section of
+boulevard along with shops devoted to more arcane subjects. The entrance
+to Castle Amber itself lies to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the castle gate.~
+~
+0 -1 10369
+DDIR_EAST
+You see an enchantment shop.~
+~
+0 -1 10389
+DDIR_SOUTH
+You see the Main Concourse.~
+~
+0 -1 10367
+DDIR_WEST
+You see a branch of the blacksmith guild.~
+~
+0 -1 10390
+#10369
+Castle Gate~
+You stand before the gate that guards the entrance to the Castle of Amber.
+The castle is the center of government for the entire realm and it is also
+where they royal family lives. Most citizens of Amber never even get to see
+inside much less a foreigner, but perhaps you will get lucky someday.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the castle.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 0 10397
+DDIR_SOUTH
+You see the Main Concourse.~
+~
+0 -1 10368
+#10370
+Vine street~
+This is Vine street, where all of the richest and most powerful of Amberites
+make their residence. A huge mansion lies on the south side of the road,
+but its gates are closed and locked. To the north is a large and expensive
+looking hotel. Intersections with other streets lie to the east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see an inn.~
+~
+0 -1 10391
+DDIR_EAST
+You see the great square.~
+~
+0 -1 10371
+DDIR_WEST
+You see a three-way intersection.~
+~
+0 -1 10365
+#10371
+Intersection~
+You have come to the place where Vine street changes direction and where
+Death Alley begins. This intersection isn't as busy, both because there is
+little of interest on this end of Vine street and because bad things can
+happen to people who get too close to Death Alley. You make a mental note to
+yourself that Death Alley is east of here. Therefore you should stay on Vine
+which leads west and south.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see Death alley.~
+~
+0 -1 10372
+DDIR_SOUTH
+You see South Vine street.~
+~
+0 -1 10375
+DDIR_WEST
+You see Vine street.~
+~
+0 -1 10370
+#10372
+Death Alley~
+This street isn't what you expected. The street is wide and the buildings look
+in fine condition. However, the dead body in the middle of the alley that is
+filled with crossbow bolts tips you off right away that this might not be a
+safe place.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+You see Death alley.~
+~
+0 -1 10373
+DDIR_WEST
+You see a three-way intersection.~
+~
+0 -1 10371
+DDIR_UP
+You see a ledge atop a nearby residence.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 10395
+#10373
+Death Alley~
+Surprisingly enough, you have made it even farther into Death Alley. This
+section of the street actually seems almost pleasant. The smell of freshly
+cooked fish wafts from a bar to the north.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+You see a dangerous looking bar and grill.~
+~
+0 -1 10374
+DDIR_WEST
+You see Death alley.~
+~
+0 -1 10372
+#10374
+Bloody Bill's~
+You are standing in the middle of a rough looking bar. The bar has a
+particularly long and violent history. The last owner was named Bill and the
+restaurant was at that time called Bloody Sam's. After Bill was stabbed to
+death, his cousin Andy took over the place and renamed it Bloody Bill's.
+This tragic pattern has occurred many times... nobody remembers what the
+original name of the bar used to be. Despite this the bar consistently serves
+the best seafood in Amber.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_SOUTH
+You see Death alley.~
+~
+0 -1 10373
+#10375
+South Vine street~
+This is Vine street, where all of the richest and most powerful of Amberites
+make their residence. Huge mansions line both sides of the road, but they
+also have large, impressive looking gates. The gates are closed. You probably
+can't go into any of them. To your north you can see the an intersection,
+while the Garnath gate lies to the south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see an intersection.~
+~
+0 -1 10371
+DDIR_SOUTH
+You see the south gate.~
+~
+0 -1 10376
+#10376
+The Garnath Gate of Amber~
+You are standing inside the Garnath gate of Amber. The gate is guarded at all
+times by a force of elite guardsmen. South Vine street begins to the north.
+To the south, you can see a trail leading down the mountain.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see South Vine street.~
+~
+0 -1 10375
+DDIR_SOUTH
+You see a hard beaten trail.~
+~
+0 -1 10378
+#10377
+Players of the Unicorn Theater~
+This theater still smells fresh and new from its construction. The admission
+price is less than half what The Crown is charging and the actors practicing
+here appear to be somewhat livelier. The stage is currently set up for the
+showing of "The Siege of Amber".
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_WEST
+You see Temple street.~
+~
+0 -1 10363
+#10378
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. The city gate is within sight to the north,
+while the trail leads west to the valley.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the Garnath gate.~
+~
+0 -1 10376
+DDIR_WEST
+You see a forested trail.~
+~
+0 -1 10379
+#10379
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. The city lies to the east, while the
+valley is still far below you.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see a forested trail.~
+~
+0 -1 10378
+DDIR_DOWN
+You see a forested trail below you.~
+~
+0 -1 10380
+#10380
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. The city lies farther up the mountain,
+while the valley lies toward the west.
+~
+0 0 SECT_HILLS
+DDIR_WEST
+You see a forested trail.~
+~
+0 -1 10381
+DDIR_UP
+You see a forested trail above you.~
+~
+0 -1 10379
+#10381
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. The city lies farther to the east, while
+the valley is getting closer as the trail descends.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see a forested trail.~
+~
+0 -1 10380
+DDIR_DOWN
+You see a forested trail below you.~
+~
+0 -1 10382
+#10382
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. Faint sounds can be heard from the valley
+farther to the south, but the mountain climbs toward the city.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see a forested trail.~
+~
+0 -1 10383
+DDIR_UP
+You see a forested trail above you.~
+~
+0 -1 10381
+#10383
+Trail to Garnath~
+You are hiking along the trail that leads from Amber to the Valley of Garnath.
+The trail hasn't been used very often since the valley was cursed, and is
+currently in a state of disrepair. The one bright spot on this trail is the
+grove of the Unicorn which lies at the bottom of this slope. You can also
+make out the city of Amber which looks like a sparkling gem at the very peak
+of the mountain.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+You see a forested trail.~
+~
+0 -1 10382
+DDIR_DOWN
+On a slope below you is the grove of the unicorn.~
+~
+0 -1 10343
+#10384
+Temple entrance hall~
+You are standing in entrance hall to the Temple of the Unicorn. Although the
+temple is quite large, the hall has an air of disuse about it. It occurs to
+you that the general population of Amber is a little too cynical to be highly
+devoted to any religion. The sanctuary of the temple is located to the south.
+    There is a podium here supporting a large guest book.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see Temple street.~
+~
+0 -1 10363
+DDIR_SOUTH
+You see the temple sanctuary.~
+~
+0 -1 10385
+E
+book~
+Wow! Although from all appearances the temple is not well attended, the
+guest book shows otherwise. According to this book, every member of the royal
+family attends the temple on a regular basis as well as many other noble
+families. The book is literally filled to capacity with the names of the
+attendees.
+~
+#10385
+Temple sanctuary~
+You are standing in a large vaulted sanctuary. Near the front of the chamber,
+a raised platform holds a podium and behind that, a beautiful statue of the
+Unicorn. Long benches lining the rest of the hall hold only a few faithful
+members of the church.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_FIELD
+DDIR_NORTH
+You see the temple entryway.~
+~
+0 -1 10384
+E
+unicorn~
+The Unicorn is a beautiful creature that resembles a horse only vaguely. It
+is delicate looking, with cloven hooves and a golden spiriling horn upon its
+head. The green bejeweld eyes seem to be looking into your very soul. Hard
+to believe this is only a statue.
+~
+E
+benches~
+The benches are nicely padded and look as if they might be comfortable
+enough to actually sleep in.
+~
+#10386
+Cafe'~
+You stand upon a wide veranda. A waitress leads you to one of the many tables
+scattered about. The umbrella shielding your table, the pretty potted plants,
+and the beautiful view of the rest of the city all combine to form a pleasant
+eating environment. The food here must cost a fortune though.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see Vine street.~
+~
+0 -1 10364
+#10387
+Barmen's Battle Gear~
+Lord Barmen established this shop many years ago and it has been very well
+received by the warrior community. The Lord stocks little standard equipment,
+instead preferring to deal with rare items from far off places. Almost
+anything can be found here if you check in often enough. Even now there are
+several interesting pieces of equipment lining the walls.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_WEST
+You see the Main Concourse.~
+~
+0 -1 10367
+#10388
+Simply Essentials~
+The name says it all. This particular shop deals in a variety of useful items
+including lanterns, hiking equipment and even small watercraft. Lady Peltier,
+the owner of the establishment, has also been known to buy interesting
+items that her customers have found while out on the road.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the Main Concourse.~
+~
+0 -1 10367
+#10389
+The Quintessential Mage~
+It is a mystery as to who actually owns this shop. Whoever it is must have
+tremendous resources because the store is continuously stocked with magical
+items which can be found almost no where else. The store also has an immense
+reputation for the magical power of its salespeople.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_WEST
+You see the Main Concourse.~
+~
+0 -1 10368
+#10390
+The Golden Circle Forge~
+Every successful city has a blacksmith to repair things and Amber is no
+exception. The Golden Circle Forge provides round the clock service and
+staffs several skilled craftsmen to ensure that any item can be repaired
+instantly --- for a suitable fee of course.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+You see the Main Concourse.~
+~
+0 -1 10368
+#10391
+The King's Rest Inn~
+This hotel is so large that it is almost a palace. A plaque upon the wall
+states that King Oberon himself once slept here, hence the name of the place.
+Why would Oberon sleep here though when the palace is only a mile away? The
+place is extremely comfortable but is also hideously expensive. A stairway
+leads up to the hotel rooms, but payment must be in advance.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_SOUTH
+You see Vine street.~
+~
+0 -1 10370
+DDIR_UP
+You see stairs leading up.~
+~
+0 -1 10392
+#10392
+Hallway~
+The hallway of the hotel is extremely clean and is furnished with several
+small endtables that hold exotic vases and statuettes. The carpet is so plush
+that you have to wade through it towards the rooms. The only two vacant rooms
+at located to the north and east. The stairs lead back down to the front
+desk of the inn.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10397 10393
+DDIR_EAST
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10398 10394
+DDIR_DOWN
+You see stairs leading down.~
+~
+0 -1 10391
+#10393
+Hotel room~
+True to form, this guest room is extravagantly furnished and immaculately
+cleaned. The huge, king-sized bed even has a canopy and drawable curtains
+for privacy. Of course privacy is the best thing about this hotel room, you
+cannot be disturbed here by anyone. The hallway lies to the south.
+~
+0 ROOM_INDOORS|ROOM_SOLITARY SECT_INSIDE
+DDIR_SOUTH
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10397 10392
+#10394
+Hotel room~
+True to form, this guest room his extravagantly furnished and immaculately
+cleaned. The huge, king-sized bed even has a canopy and drawable curtains
+for privacy. Of course privacy is the best thing about this hotel room, you
+cannot be disturbed here by anyone. The hallway lies to the west.
+~
+0 ROOM_INDOORS|ROOM_SOLITARY SECT_FIELD
+DDIR_WEST
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 10398 10392
+#10395
+Rooftop~
+You stand on the rooftop of a building that overlooks Death Alley. It looks
+like a very convenient place from which a band of crooks could ambush some
+poor guy on the street. You can climb back down the side of the building
+to return to street level.
+~
+0 ROOM_DARK SECT_AIR
+DDIR_DOWN
+Below you lies Death alley.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 10372
+#10396
+Desmond's Mob Staging Area~
+This room has all the markings of a mad-scientists lair. Preliminary
+versions of several denizens of Amber stand frozen here in contorted
+positions. On first inspection the room appears to have a skylight, but
+then you notice that it is actually a distorted, one-way rift leading
+directly into the sun. Consider yourself lucky to have found the place
+at all as there is no apparant entrance to this complex, only exits.
+~
+0 ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+You see the road to Arden.~
+~
+0 -1 10301
+#10397
+Inside the Castle~
+You've just entered the Castle of Amber.  Before you is a simple guard
+chamber.  The walls are dirty and the floor needs swept.  The room is
+quite dark and not much can be seen.  A light beams down on a table in
+the center of the room with a single chair drawn up beside it. The main
+gate of the castle is south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+You see the castle gates.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 0 10369
+E
+table~
+Looking closer at the table, you can see what looks like a deck of tarots
+spread out in an odd pattern on the table's surface.
+~
+E
+tarots~
+There are about twelve cards that you can see and each has a picture of a
+member of the royal family of Amber upon them. The images on the cards are
+unusually lifelike.
+~
+#0
+
+
+#RESETS
+D 10369 DIR_NORTH DOOR_CLOSED_LOCKED
+D 10397 DIR_SOUTH DOOR_CLOSED_LOCKED
+M 10301 100 10311
+M 10301 100 10314
+M 10303 100 10316
+E 10332  30 WEAR_WIELD
+M 10303 100 10316
+E 10332  30 WEAR_WIELD
+M 10301 100 10317
+M 10302 100 10317
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10302 100 10318
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10303 100 10318
+E 10332  30 WEAR_WIELD
+M 10305 100 10318
+M 10305 100 10318
+M 10301 100 10319
+M 10303 100 10319
+E 10332  30 WEAR_WIELD
+M 10304 100 10319
+E 10331  30 WEAR_WIELD
+M 10302 100 10320
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10302 100 10320
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10303 100 10320
+E 10332  30 WEAR_WIELD
+M 10301 100 10321
+M 10304 100 10321
+E 10331  30 WEAR_WIELD
+M 10303 100 10322
+E 10332  30 WEAR_WIELD
+M 10304 100 10322
+E 10331  30 WEAR_WIELD
+M 10301 100 10323
+M 10301 100 10323
+M 10303 100 10323
+E 10332  30 WEAR_WIELD
+M 10303 100 10324
+E 10332  30 WEAR_WIELD
+M 10303 100 10324
+E 10332  30 WEAR_WIELD
+M 10301 100 10325
+M 10301 100 10325
+M 10305 100 10325
+M 10305 100 10325
+M 10304 100 10326
+E 10331  30 WEAR_WIELD
+M 10301 100 10327
+M 10303 100 10327
+E 10332  30 WEAR_WIELD
+M 10302 100 10328
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10304 100 10328
+E 10331  30 WEAR_WIELD
+M 10302 100 10329
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10301 100 10330
+M 10304 100 10330
+E 10331  30 WEAR_WIELD
+M 10303 100 10331
+E 10332  30 WEAR_WIELD
+M 10304 100 10331
+E 10331  30 WEAR_WIELD
+M 10305 100 10331
+M 10305 100 10331
+M 10301 100 10332
+M 10301 100 10332
+M 10302 100 10333
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10304 100 10333
+E 10331  30 WEAR_WIELD
+M 10301 100 10334
+M 10301 100 10335
+M 10305 100 10335
+M 10305 100 10335
+M 10303 100 10336
+E 10332  30 WEAR_WIELD
+M 10304 100 10337
+E 10331  30 WEAR_WIELD
+M 10304 100 10337
+E 10331  30 WEAR_WIELD
+M 10305 100 10337
+M 10305 100 10337
+M 10303 100 10338
+E 10332  30 WEAR_WIELD
+M 10303 100 10338
+E 10332  30 WEAR_WIELD
+M 10304 100 10338
+E 10331  30 WEAR_WIELD
+M 10304 100 10338
+E 10331  30 WEAR_WIELD
+M 10304 100 10338
+E 10331  30 WEAR_WIELD
+M 10304 100 10338
+E 10331  30 WEAR_WIELD
+M 10306 100 10338
+M 10326 100 10341
+M 10324 100 10355
+E 10318   1 WEAR_NECK_A
+D 10355 DIR_WEST  DOOR_CLOSED_LOCKED
+D 10356 DIR_EAST  DOOR_CLOSED_LOCKED
+M 10308 100 10360
+E 10332  30 WEAR_WIELD
+M 10308 100 10360
+E 10332  30 WEAR_WIELD
+M 10307 100 10361
+M 10308 100 10362
+E 10332  30 WEAR_WIELD
+M 10307 100 10363
+M 10307 100 10363
+M 10308 100 10365
+E 10332  30 WEAR_WIELD
+M 10307 100 10365
+O 10302  10 10365
+M 10320 100 10366
+E 10317  10 WEAR_DUAL_WIELD
+M 10320 100 10366
+E 10317  10 WEAR_DUAL_WIELD
+M 10320 100 10366
+E 10317  10 WEAR_DUAL_WIELD
+M 10320 100 10366
+E 10317  10 WEAR_DUAL_WIELD
+M 10307 100 10367
+M 10308 100 10369
+E 10332  30 WEAR_WIELD
+M 10308 100 10369
+E 10332  30 WEAR_WIELD
+M 10307 100 10370
+M 10308 100 10371
+E 10332  30 WEAR_WIELD
+M 10309 100 10372
+E 10330  10 WEAR_WIELD
+M 10309 100 10372
+E 10330  10 WEAR_WIELD
+M 10309 100 10372
+E 10330  10 WEAR_WIELD
+M 10309 100 10372
+E 10330  10 WEAR_WIELD
+D 10372 DIR_UP    DOOR_CLOSED_LOCKED
+M 10307 100 10373
+M 10307 100 10374
+M 10307 100 10374
+M 10314 100 10374
+G 10315 250 0
+G 10316 250 0
+M 10308 100 10376
+E 10332  30 WEAR_WIELD
+M 10308 100 10376
+E 10332  30 WEAR_WIELD
+M 10321 100 10377
+M 10321 100 10377
+M 10321 100 10377
+M 10321 100 10377
+M 10322 100 10377
+M 10302 100 10378
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10302 100 10380
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10302 100 10382
+E 10334  15 WEAR_WIELD
+G 10391  45 0
+G 10391  45 0
+M 10311 100 10385
+E 10307   1 WEAR_DUAL_WIELD
+M 10312 100 10386
+G 10319 250 0
+G 10320 250 0
+G 10321 250 0
+G 10322 250 0
+G 10323 250 0
+M 10317 100 10387
+G 10308   5 0
+G 10309   5 0
+G 10310   5 0
+G 10311   5 0
+G 10312   5 0
+G 10313   5 0
+G 10314   5 0
+G 10332  30 0
+M 10307 100 10388
+M 10319 100 10388
+G 10324  20 0
+G 10325  50 0
+G 10326  20 0
+G 10333  30 0
+M 10307 100 10389
+M 10318 100 10389
+G 10303 300 0
+G 10304 100 0
+G 10305  50 0
+G 10306 100 0
+M 10315 100 10390
+M 10316 100 10390
+M 10316 100 10390
+M 10313 100 10391
+D 10392 DIR_NORTH DOOR_CLOSED_LOCKED
+D 10392 DIR_EAST  DOOR_CLOSED_LOCKED
+D 10393 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 10394 DIR_WEST  DOOR_CLOSED_LOCKED
+M 10310 100 10395
+M 10310 100 10395
+M 10310 100 10395
+M 10325 100 10397
+E 10301   1 WEAR_WIELD
+E 10327   1 WEAR_BODY
+E 10328   1 WEAR_ARMS
+E 10329   1 WEAR_LEGS
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,4024 @@
+#AREA Landover~
+#AUTHORS Jaxom~
+#VERSION 4
+#RANGES 15 25 1 95
+#OLC_RANGES 15000 15099
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT
+
+
+#HELPS
+0 LANDOVER~
+{120}                                  Landover
+{300}
+Landover is a small Kingdom.  No one knows its precise location. It is rumored,
+however, that Meeks, former Court Wizard of Landover's royal house, is able to
+provide magical transport for adventurers to this mysterious kingdom. Meeks
+resides above Rosen's Store in Roterodamum.
+{140}
+Modified by Damiana and Scandum
+~
+
+0 $~
+
+
+#MOBILES
+#15000
+rosen shopkeeper man~
+Rosen the Shopkeeper~
+Rosen the Shopkeeper sits at the counter.~
+He doesn't look like a guy that would own a store, but what do you know?
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+10 0 0 1d25+51 1d10+2
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+say Welcome to my humble shop, $n.
+say Can I interest you in anything today?
+emote rubs his hands together and winks.
+~
+>speech_prog yes~
+say Certainly!  I'm very glad to hear it!
+smile 
+say I would strongly urge you to purchase one of our
+say lovely sterling silver scrolls.
+emote smiles and winks.
+mpforce $n list
+~
+|
+#15001
+meeks old man~
+Meeks~
+An old man sits at the desk waiting for you.~
+He may look old, but you guess that you wouldn't want to tangle with him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+30 BODY_HAND BODY_HAND 1d225+410 1d30+6
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if quest (0,4,$n) == 0
+  mpechoat $n Meeks stands up and shakes your hand before sitting back down.
+  mpechoaround $n Meeks stands up and shakes $n's hand before sitting back down.
+  say What can I do for you?
+else
+  say Hello, my friend, hello!
+  mpechoat $n Meeks stands up and shakes your hand before sitting back down.
+  mpechoaround $n Meeks stands up and shakes $n's hand before sitting back down.
+~
+>bribe_prog 1000~
+if hasobjnum ($n) == 15000
+  say Oh, I am sorry $n, I only have one medallion in stock.
+  give i3 $n
+else
+  mpjunk all
+  mpoload 15000
+  give i15000 $n
+  say When you are ready to begin your travel to that beloved country,
+  say put on the medallion and think "Landover".  When you wish to
+  say return home, remove the medallion and think of "home".
+  mpechoaround $n $I kisses $n on each cheek.
+  mpechoat $n $I kisses you on each cheek.
+  say Good luck, my friend.
+  if quest (0,4,$n) == 0
+    mpmset $n quest 0 4 1
+~
+>give_prog I15000~
+mpjunk all
+say I am so sorry that you don't seem to have enjoyed Landover.
+say Perhaps you can come again sometime.
+~
+>speech_prog landover~
+if delayed ($i)
+  break
+endif
+mpmset self quest 0 4 0
+mpdelay self 1 1 $n
+~
+>speech_prog yes~
+say Simply give to me 1,000 gold coins, and the Kingdom can be yours.
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say Oh, you are interested in Landover.
+    emote smiles wistfully.
+  endif
+  if quest (0,4,$i) == 1
+    say It was almost two score years ago that the King of Landover
+    say passed away.  He left his son, Michael, as the only heir.
+  endif
+  if quest (0,4,$i) == 2
+    say Michael did not want to be king, and asked me to help him.
+    emote looks away, lost in thought.
+  endif
+  if quest (0,4,$i) == 3
+    say At any rate, we have since had thirty-two would be kings in Landover.
+    emote looks at you appraisingly.
+  endif
+  if quest (0,4,$i) == 4
+    say You look as if you would make a fine king of Landover, $X.
+    say Are you interested?
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 4 1 $X
+~
+|
+#15002
+iron mark~
+the Iron Mark~
+The Iron Mark charges you!~
+He is at least eight feet tall.  Serrated spines run the length
+of his limbs and back, and bright crimson eyes shine through his
+death's head helmet.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_PASS_DOOR|AFF_TONGUES
+-1000 S
+30 0 0 1d225+410 1d30+6
+34297 RACE_DEMON
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (0,4,$n) == 10
+  mpecho The Mark screams as the death blow is dealt.
+  mpmset $n quest 0 4 12
+  mpoload 15025
+  mpoload 15026
+  mpoload 15027
+  mpoload 15028
+  mpmset heart quest 0 4 0
+  mpdelay heart 3 2 $n
+~
+|
+#15003
+parsnip kobold~
+Parsnip the Kobold~
+Parsnip the Kobold stands here waiting to serve dinner.~
+He looks like half monkey, half porcupine.  His ears are reminiscent
+of Dumbo and his toes are prehensile.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+20 BODY_HEAD BODY_HAND|BODY_FOOT 1d100+182 1d20+4
+40000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+if hasobjnum ($n) == 15000
+  if quest (0,4,$n) == 12
+    mpechoat $n Parsnip hisses at you happily.
+  endif
+endif
+~
+>rand_prog 5~
+if rand (50)
+  mpecho Parsnip grins at you showing all his needle sharp teeth.
+else
+  mpecho Parsnip gestures trying to ask if you want something to eat.
+endif
+~
+|
+#15004
+kallendbor lord man~
+Lord Kallendbor~
+Lord Kallendbor waits to hear from Landover's newest King.~
+He creates an imposing figure at almost seven feet tall, with raven black hair
+and emerald green eyes.  His arms ripple with muscles.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+25 0 BODY_HEAD|BODY_ARM|BODY_HAND 0d0+500 1d25+5
+32892 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 2
+  mpmset self quest 0 4 0
+  mpdelay self 1 1 $n
+else
+  if quest (0,4,$n) > 3
+    if sex ($n) != sex_female
+      say Welcome to Rhyndweir, High Lord $n
+    else
+      say Welcome to Rhyndweir, High Lady $n
+    endif
+  else
+    nod $n
+~
+>speech_prog fisticuffs~
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 2
+  mpmset self quest 0 4 0
+  mpdelay self 1 2 $n
+~
+>hitprcnt_prog 50~
+if quest (0,4,$n) == 2
+  if hitprcnt ($n) >= 50
+    mpecho $I drops to the ground unconscious.
+    mpmset self quest 0 4 0
+    mpdelay self 6 3 $n
+    peace 
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    bow 
+  endif
+  if quest (0,4,$i) == 1
+    say Well met and welcome to my castle and keep.
+  endif
+  if quest (0,4,$i) == 2
+    say However, be well warned, $t.
+  endif
+  if quest (0,4,$i) == 3
+    say My welcome does not mean I will support a weak King.
+  endif
+  if quest (0,4,$i) == 4
+    emote smiles coldly.
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say You challenge me at fisticuffs to determine if I will bow to you?
+  endif
+  if quest (0,4,$i) == 1
+    say I accept.
+  endif
+  if quest (0,4,$i) == 2
+    say Defend yourself $t!
+  endif
+  if quest (0,4,$i) == 3
+    mpkill $t
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+>delay_prog 3~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpecho $I regains consciousness, shaking his head, he puts one hand to his knee, struggling back to his feet.
+  endif
+  if quest (0,4,$i) == 1
+    say My liege and lord, you have defeated me in fair combat and will surely have my support.
+  endif
+  if quest (0,4,$i) == 2
+    mpmset $t quest 0 4 4
+    mpecho Kallendbor leaves to gather the support of his vassals.
+    mppurge self
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 5 3 $X
+~
+|
+#15005
+crow~
+a Crow~
+A Crow stands on a branch watching you.~
+She has glossy black feathers tipped in pure white.  She watches, waiting to see
+what you will do next.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+25 BODY_HEAD BODY_CLAW 1d156+283 1d25+5
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog Nightshade~
+if delayed ($i)
+  break
+endif
+mpmset self quest 0 4 0
+mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpecho The crow begins to undergo a metamorphosis.
+  endif
+  if quest (0,4,$i) == 1
+    mpecho The crow expands against the black velvet of the night, shimmering with an aura of crimson light.
+  endif
+  if quest (0,4,$i) == 2
+    mpecho The crow's shadow rises up, thinning, turning grey, like a wraith set free.
+  endif
+  if quest (0,4,$i) == 3
+    mpecho The crimson aura dies away and the crow has disappeared.
+  endif
+  if quest (0,4,$i) == 4
+    mpecho Nightshade now stands before you.
+  endif
+  if quest (0,4,$i) == 5
+    mpmload 15006
+    mpforce nightshade mpdelay self 3 1 $t
+    mppurge self
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+|
+#15006
+nightshade witch~
+Nightshade~
+Nightshade stands here looking at you.~
+She is tall and sharp-featured, her skin white and flawless, her hair
+raven black except for a single streak of white that runs down its center.
+She is neither old nor young, but somewhere in between.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+-500 S
+30 BODY_HEAD 0 1d225+410 1d30+6
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    if quest (0,4,$t) == 8
+      glare $t
+      mpdelay self 3 2 $t
+      break
+    endif
+    if quest (0,4,$t) != 6
+      mpkill $t
+      break
+    endif
+    mpechoat $t Nightshade's face contorts in anger, your blood turning to ice water in your veins as she stares at you.
+    mpechoaround $t Nightshade's face contorts in anger, staring at $t.
+  endif
+  if quest (0,4,$i) == 1
+    cackle 
+    shout You ask me to bow down ... to YOU?
+  endif
+  if quest (0,4,$i) == 2
+    mpecho Nightshade's face suddenly relaxes.
+    mpechoat $t She smiles at you as your heart beats heavily in your chest.
+    mpechoaround $t Nightshade smiles at $t.
+  endif
+  if quest (0,4,$i) == 3
+    say There is a way I would consider paying homage to you.
+  endif
+  if quest (0,4,$i) == 4
+    say Strabo, that irritating dragon, has been troubling me lately.
+  endif
+  if quest (0,4,$i) == 5
+    say Take care of him and I will pledge my allegiance to you.
+  endif
+  if quest (0,4,$i) == 6
+    mpoload 15004
+    give i15004 $t
+    mpmset $t quest 0 4 7
+  endif
+  if quest (0,4,$i) == 7
+    say This dust will be of use to you.
+  endif
+  if quest (0,4,$i) == 8
+    snicker self
+  endif
+  if quest (0,4,$i) == 9
+    say At the least, it will give you a chance for success.
+  endif
+  if quest (0,4,$i) == 10
+    cackle 
+  endif
+  if quest (0,4,$i) == 11
+    mpecho Nightshade turns back into a crow and flies away.
+    mppurge self
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say Curses!
+  endif
+  if quest (0,4,$i) == 1
+    say I will keep my promise.
+  endif
+  if quest (0,4,$i) == 2
+    say But you will pay for not slaying Strabo while you had the chance!
+  endif
+  if quest (0,4,$i) == 3
+    mpecho Nightshade morphs again into a crow and flies away, her wings fluttering wildly.
+    mpmset $t quest 0 4 9
+    mppurge self
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+>time_prog 24~
+if delayed ($i)
+  break
+endif
+mpecho Nightshade turns back into a crow and flies away.
+mppurge self
+~
+>death_prog 100~
+mpoload 15004
+~
+|
+#15007
+River Master~
+the River Master~
+The River Master is here waiting to hear your speech.~
+He is a lean figure with a slim silver diadem about his forehead.
+His skin is of a silver cast, almost scaled, but his hair is black and
+thick about the nape of his neck and forearms.  He has the look of
+something carved out of wood.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+20 BODY_HEAD BODY_HAND 1d100+182 1d20+4
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 5
+  mpmset self quest 0 4 0
+  mpdelay self 1 1 $n
+else
+  if quest (0,4,$n) > 11
+    if sex ($n) != sex_female
+      say Good to see you again, Son.
+    else
+      say Good to see you again, Daughter.
+    endif
+  else
+    nod $n
+  endif
+endif
+~
+>speech_prog daughter marriage son~
+if delayed ($i)
+  break
+endif
+mpmset self remember $1
+if name ($X) == daughter
+  if sex ($n) == sex_female
+    break
+  endif
+endif
+if name ($X) == son
+  if sex ($n) != sex_female
+    break
+  endif
+endif
+if quest (0,4,$n) == 5
+  mpmset self quest 0 4 0
+  mpdelay self 1 2 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    grin $t
+  endif
+  if quest (0,4,$i) == 1
+    say I have heard that you conned Kallendbor into giving you his support.
+  endif
+  if quest (0,4,$i) == 2
+    say You will find that I am not nearly as gutless.
+  endif
+  if quest (0,4,$i) == 3
+    say You will not be able to deceive me so easily.
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    say Wretch!
+  endif
+  if quest (0,4,$i) == 1
+    if sex ($t) != sex_female
+      say You are so contemptible as to use the love of a father for his daughter to thwart him?
+    else
+      say You are so despicable that you use my affection for my son to bedevil me?
+    endif
+  endif
+  if quest (0,4,$i) == 2
+    mpecho The River Master thinks for a moment.
+  endif
+  if quest (0,4,$i) == 3
+    mpecho A broad smile spreads across his lean face.
+  endif
+  if quest (0,4,$i) == 4
+    if sex ($t) != sex_female
+      say Very well.  You may marry my daughter if, and only if, you win the support of both Nightshade and Strabo.
+    else
+      say Very well.  You may marry my son if, and only if, you win the support of both Nightshade and Strabo.
+    endif
+    mpmset $t quest 0 4 6
+  endif
+  if quest (0,4,$i) == 5
+    mpecho The River Master laughs in triumph.
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+|
+#15008
+strabo dragon~
+Strabo~
+Strabo the Dragon eyes you hungrily.~
+He looks like most dragons, large, mean and hungry.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_FLYING|AFF_TONGUES
+0 S
+30 BODY_HEAD 0 1d225+410 1d30+6
+29293 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if level ($n) < 45
+  mpoload 15033
+endif
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+>all_greet_prog 100~
+emote roars loudly.
+if quest (0,4,$n) == 7
+  say You dare to enter my domain, you counterfeit King?
+  say You should feel the lick of my fire for your impudence!
+else
+  if quest (0,4,$n) > 7
+    shout You will now surely die, $n, for what you have done!
+    mpecho The Dragon rises back on his haunches and attacks!
+  else
+    say You will surely die for daring to enter my domain!
+    mpecho The Dragon rises back on his haunches and attacks!
+  endif
+endif
+mpkill $n
+~
+>give_prog i15004~
+if quest (0,4,$n) == 7
+  peace 
+  mpmset $n quest 0 4 8
+  mpjunk i15004
+  mpmset self quest 0 4 0
+  mpdelay self 1 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpecho Strabo inhales, gasping in shock as he realizes what has been given to him.
+  endif
+  if quest (0,4,$i) == 1
+    mpechoat $t As the dust works its magic, Strabo now recognizes you as his new King.
+    mpechoaround $t $t has a brief, yet peculiar, conversation with Strabo.
+  endif
+  if quest (0,4,$i) == 2
+    mpechoat $t You climb onto Strabo's back and in a flash you arrive again at Deep Fell.
+    mpechoaround $t After this discourse, Strabo kneels to $t, who climbs onto his back and they fly into the western skies.
+    mptransfer $t 15028
+    mpgoto 15028
+  endif
+  if quest (0,4,$i) == 3
+    mpechoat $t As soon as you dismount, Strabo disappears into the east.
+    mpgoto 15068
+    mpecho After a few moments, Strabo returns ... alone.
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+|
+#15009
+questor thews wizard~
+Questor~
+Questor Thews, Court Wizard stands here.~
+He is tall and angular, with bushy, protruding eyebrows of silver and grey.  His
+eyes are large and blue, and he wears round, silver framed glasses.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+25 BODY_HEAD BODY_HAND 1d156+283 1d25+5
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if hasobjnum ($n) != 15000
+  say I see you have gotten rid of your medallion
+  say thus relinquishing your rule of landover.
+  say Very well.  Return to Meeks!
+  mpmset $n quest 0 4 0
+  mptransfer $n 15075
+  break
+endif
+if delayed ($i)
+  break
+endif
+if quest (0,4,$n) == 1
+or quest (0,4,$n) == 4
+or quest (0,4,$n) == 6
+or quest (0,4,$n) == 7
+or quest (0,4,$n) == 9
+  mpmset self quest 0 4 0
+  mpdelay self 1 1 $n
+else
+  bow $n
+endif
+~
+>speech_prog landsview~
+say You may use the landsview to view parts of landover
+say from this castle.  Just say the name of the place you
+say want to view and the landsview will do the rest.
+~
+>speech_prog p Deep Fell~
+if quest (0,4,$n) == 12
+  mptransfer pcs 15028
+  mpat 15028 mpforce $n look
+endif
+~
+>speech_prog p Fire Springs~
+if quest (0,4,$n) == 12
+  mptransfer pcs 15068
+  mpat 15068 mpforce $n look
+endif
+~
+>speech_prog p Ryhndweir~
+if quest (0,4,$n) == 12
+  mptransfer pcs 15061
+  mpat 15061 mpforce $n look
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$t) == 1
+    if quest (0,4,$i) == 0
+      if sex ($t) != sex_female
+        say Welcome High Lord.
+      else
+        say Welcome High Lady.
+      endif
+    endif
+    if quest (0,4,$i) == 1
+      say I am Your Court Wizard, and I am at your disposal.
+    endif
+    if quest (0,4,$i) == 2
+      say You are the thirty-third in a long line of kings, so you will have to establish yourself before your crown is challenged.
+    endif
+    if quest (0,4,$i) == 3
+      say There are many people that may back your claim, but I suggest you start with Lord Kallendbor in Ryhndweir.
+      mpmset $t quest 0 4 2
+      break
+    endif
+  endif
+  if quest (0,4,$t) == 4
+    if quest (0,4,$i) == 0
+      say Congratulations on your defeat of Kallendbor.
+    endif
+    if quest (0,4,$i) == 1
+      say You are well on your way towards becoming a king in fact as well as name.
+    endif
+    if quest (0,4,$i) == 2
+      say The next person I suggest you talk to is the River Master in the lake country.
+      mpmset $t quest 0 4 5
+      break
+    endif
+  endif
+  if quest (0,4,$t) == 6
+    if quest (0,4,$i) == 0
+      say You have won a concession from the River Master.
+    endif
+    if quest (0,4,$i) == 1
+      say It is hope though in truth the task seems daunting.
+    endif
+    if quest (0,4,$i) == 2
+      say You had best go see Nightshade now.  She resides in Deep Fell.
+      break
+    endif
+  endif
+  if quest (0,4,$t) == 7
+    if quest (0,4,$i) == 0
+      say You survived your encounter with Nightshade, a victory in itself.
+    endif
+    if quest (0,4,$i) == 1
+      say If you succeed in gaining control of Strabo, all the powerhouses in the kingdom will bow down to you.
+      break
+    endif
+  endif
+  if quest (0,4,$t) == 9
+    if quest (0,4,$i) == 0
+      say Good and Bad news has arrived since I last saw you.
+    endif
+    if quest (0,4,$i) == 1
+      if sex ($t) != sex_female
+        say The good news is that the River Master has given his consent for his daughter to marry you.
+      else
+        say The good news is that the River Master has given his consent for his son to marry you.
+      endif
+    endif
+    if quest (0,4,$i) == 2
+      say The bad news is that the wedding will have to wait, for the Iron Mark has been seen in the kingdom.
+    endif
+    if quest (0,4,$i) == 3
+      say It is rumoured that when all the kingdom meets at the Heart for your coronation, The Mark will be there to kill you.
+    endif
+    if quest (0,4,$i) == 4
+      if sex ($t) != sex_female
+        say If you manage to kill the mark, then you will gain both a kingdom and a wife.
+      else
+        say If you manage to kill the mark, then you will gain both a kingdom and a husband.
+      endif
+      mpmset $t quest 0 4 10
+      break
+    endif
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 5 1 $t
+~
+|
+#15010
+abernathy scribe~
+Abernathy~
+Abernathy, the Court Scribe waits on your desire.~
+He is short and rotund, with a round, pink face and silvery hair.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+20 BODY_HEAD BODY_MOUTH 1d100+182 1d20+4
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if rand (50)
+  if sex ($n) != sex_female
+    say How may I serve you, High Lord?
+  else
+    say How may I serve you, High Lady?
+  endif
+endif
+mpdelay self 3 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$t) == 2
+    say I understand that Lord Kallendbor is interested in fisticuffs.
+  endif
+  if quest (0,4,$t) == 5
+    if sex ($t) != sex_female
+      say I hear that the River Master has a daughter named
+      say Willow.  She is said to be a great beauty, and is
+      say of an age to marry.
+    else
+      say I hear that the River Master has a son named
+      say Birch.  He is said to be very handsome, and is of
+      say an age to marry.
+    endif
+  endif
+  if quest (0,4,$t) == 6
+    say I understand that Nightshade can take the shape of a crow.
+  endif
+  if quest (0,4,$t) == 11
+    say It is rumoured that The Paladin has been seen in the kingdom.
+  endif
+~
+|
+#15011
+crag troll~
+a Crag Troll~
+A Crag Troll tries to figure a way to make you its slave.~
+It is tall, with huge shoulders, a barrel-like chest and long, stringy hair.
+It's face is hideous and it gives off a foul stench.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+20 BODY_HEAD BODY_MOUTH|BODY_CLAW 5d10+260 1d10+13
+10000 RACE_TROLL
+POS_STANDING POS_STANDING SEX_MALE
+#15012
+wump bog~
+a Bog Wump~
+A Bog Wump stalks you!~
+It is a variety of forest wight, a spiny, flesh-eating creature
+that burrows in marshy earth and paralyses its victims with
+its tongue.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+25 BODY_HEAD BODY_MOUTH|BODY_CLAW 5d10+360 1d10+17
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#15013
+dryad fairy~
+a Dryad~
+A dryad dances here.~
+This small creature is part fairy and has short, silvery hair.  Her wings are
+iridescent and transparent and her eyes are large and luminous.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+20 BODY_HEAD 0 5d10+260 1d10+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#15014
+timberwolf wolf~
+a Timberwolf~
+A timberwolf stalks you.~
+It has a coat of silver and black, with a long nose and large, sharp teeth.  It
+is broad at the shoulders and stands almost six feet tall, on its rear legs.
+~
+ACT_BODY
+AFF_SNEAK
+0 S
+15 BODY_HEAD BODY_MOUTH|BODY_CLAW 5d10+180 1d10+11
+6399 0
+POS_STANDING POS_STANDING SEX_MALE
+#15015
+wight cave~
+a Cave Wight~
+A wight hunts for food, and you are it!~
+It has spindly arms and legs and sharp teeth.  Its wild hair
+almost makes you laugh, but its noxious smell almost makes
+you puke.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+30 BODY_HEAD BODY_MOUTH|BODY_CLAW 1d225+410 1d10+17
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 25~
+if level ($n) < 45
+  mpoload 15018
+~
+|
+#15016
+ethereal heart~
+the Ethereal Heart~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if delayed ($i)
+  break
+endif
+if existsroom (mark)
+  break
+endif
+if quest (0,4,$n) == 10
+  mpmset self quest 0 4 0
+  mpdelay self 1 1 $n
+  break
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpechoat $t All of the prominent figures in the kingdom have appeared for your coronation.
+    mpechoaround $t All of the prominent figures in the kingdom have appeared for $t's coronation.
+  endif
+  if quest (0,4,$i) == 1
+    mpecho Among those figures is the Iron Mark.
+  endif
+  if quest (0,4,$i) == 2
+    mpechoat $t As the Iron Mark spies you it couches its lance to charge.
+    mpechoaround $t As the Iron Mark spies $t it couches its lance to charge.
+  endif
+  if quest (0,4,$i) == 3
+    mpechoat $t Suddenly you feel strength and bloodlust course through you and you know that you will win this battle!
+  endif
+  if quest (0,4,$i) == 4
+    mpforce $t shout I am the Paladin, and I will save Landover from the Mark!
+  endif
+  if quest (0,4,$i) == 5
+    mpmload 15002
+    mpforce mark mpkill $t
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpechoat $t Your head spins as the enormity of your situation sinks in.
+  endif
+  if quest (0,4,$i) == 1
+    mpechoat $t The medallion of the King of Landover has let you become the Paladin and defeat the Iron Mark!
+  endif
+  if quest (0,4,$i) == 2
+    mpechoat $t You know that from now on you will always have a part of the Paladin within you.
+  endif
+  if quest (0,4,$i) == 3
+    mpecho The guests return to the Heart once the Iron Mark is dead.
+  endif
+  if quest (0,4,$i) == 4
+    if sex ($t) != sex_female
+      mpechoat $t The guests decide that you are most interested in the River Master's daughter, Willow.
+    else
+      mpechoat $t The guests decide that you are most interested in the River Master's son, Birch.
+    endif
+  endif
+  if quest (0,4,$i) == 5
+    mpechoat $t You have decided to add a wedding to the day's list of events, as well as a coronation.
+  endif
+  if quest (0,4,$i) == 6
+    if sex ($t) != sex_female
+      mpmload 15018
+      mpforce willow follow $t
+      mpforce $t group willow
+    else
+      mpmload 15019
+      mpforce birch follow $t
+      mpforce $t group birch
+    endif
+  endif
+  if quest (0,4,$i) == 7
+    mpechoat $t Both the wedding and the coronation are carried out smoothly and your subjects sing your praises eternally.
+    if sex ($t) != sex_female
+      mpmset $t long High Lord $t of Landover.
+    else
+      mpmset $t long High Lady $t of Landover.
+    endif
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+|
+#15017
+thrall peasant man~
+a Thrall~
+A peasant man tills the field here.~
+He looks like your ordinary downtrodden peasant.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+25 BODY_HEAD 0 5d10+360 1d10+17
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#15018
+willow sylph~
+Willow the Sylph~
+Willow the Sylph is here.~
+She is slender and graceful, with long dark hair and hazel eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+-500 S
+25 BODY_HEAD BODY_MOUTH 1d156+283 1d25+5
+30238 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if isfollow ($i)
+  kiss $t
+else
+  mppurge self
+~
+|
+#15019
+birch faun~
+Birch the Faun~
+Birch the Faun is here.~
+He is strikingly handsome, with dark hair and piercing blue eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+-500 S
+25 BODY_HEAD BODY_MOUTH 1d156+283 1d25+5
+28111 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if isfollow ($i)
+  kiss $t
+else
+  mppurge self
+~
+|
+#15020
+rydall sterlingmob~
+Rydall~
+Rydall, King of Marnhull, is here.~
+He is an imposing figure, very tall and well muscled.  You cannot make out his
+features, for the visor of his helmet is pulled down, however, you are still
+able to see his piercing emerald eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_TONGUES
+0 S
+40 BODY_HEAD BODY_HAND|BODY_FOOT 1d400+746 1d40+10
+65740 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog accept~
+if quest (0,4,$n) == 12
+  if quest (4,4,$n) == 0
+    mpdelay self 1 2 $n
+    mpmset self quest 0 4 0
+~
+>death_prog 100~
+if quest (4,4,$n) == 6
+  mpoload 15029
+  mpoload 15030
+  mpoload 15031
+  mpoload 15032
+  mpmset $n quest 4 4 7
+  mpmset sterling quest 0 4 0
+  mpforce sterling mpdelay self 3 2 $n
+  mppurge horse
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpecho Rydall throws down his gauntlet, before speaking to you.
+  endif
+  if quest (0,4,$i) == 1
+    say I am Rydall, King of Marnhull and of all the lands east beyond the fairy mists to the Great Impassable.
+  endif
+  if quest (0,4,$i) == 2
+    say I have come to seek your surrender, $t.
+  endif
+  if quest (0,4,$i) == 3
+    say My army is set to sweep through Landover like a plague and destroy everything in its path.
+  endif
+  if quest (0,4,$i) == 4
+    say You have no choice but to accept my challenge.
+  endif
+  if quest (0,4,$i) == 12
+    mppurge horse
+    emote rides off seeking someone to accept his challenge.
+    mppurge self
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 1 $t
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    emote nods, a sneer curling his upper lip.
+  endif
+  if quest (0,4,$i) == 1
+    say I knew you would accept my challenge.
+  endif
+  if quest (0,4,$i) == 2
+    say Five champions chosen by me will each appear here to do battle with you.
+  endif
+  if quest (0,4,$i) == 3
+    snicker 
+  endif
+  if quest (0,4,$i) == 4
+    say If you defeat them all, then I will let you and your pathetic kingdom survive.
+  endif
+  if quest (0,4,$i) == 5
+    say If you do not defeat them, you and your subjects shall all perish, by my hand!
+  endif
+  if quest (0,4,$i) == 6
+    emote laughs madly.
+  endif
+  if quest (0,4,$i) == 7
+    emote rides off, happy that you have accepted his challenge.
+    mpmset $t quest 4 4 1
+    mppurge horse
+    mppurge self
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+>delay_prog 3~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    shout NO! $t could not have defeated all my champions!
+  endif
+  if quest (0,4,$i) == 1
+    shout Landover will be mine!
+  endif
+  if quest (0,4,$i) == 2
+    mpecho Rydall sallies forth to attack!
+  endif
+  if quest (0,4,$i) == 3
+    mpkill $t
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 3 $t
+~
+>rand_prog 10~
+if delayed ($i)
+  break
+endif
+mppurge horse
+emote rides off seeking someone to accept his challenge.
+mppurge self
+~
+|
+#15021
+giant sterlingmob~
+a Giant~
+A Giant with stony features is here.~
+He is large and seems to gain power from the earth.
+~
+ACT_SENTINEL|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+20 0 0 1d100+182 1d20+4
+15268 RACE_TROLL
+POS_STANDING POS_STANDING SEX_MALE
+>delay_prog 1~
+if existsroom ($X)
+  mpechoat $t $I attacks, swinging his club at your head!
+  mpechoaround $t $I attacks, swinging his club at $t's head!
+  mpkill $t
+else
+  mppurge self
+~
+>death_prog 100~
+if quest (4,4,$n) == 1
+  mpoload 15024
+  mpmset $n quest 4 4 2
+~
+|
+#15022
+paladin sterlingmob~
+a Paladin~
+A Paladin stands here.~
+He is the spitting image of the Paladin that you summon
+with your medallion.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+24 0 0 1d144+261 1d24+4
+21722 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,4,$n) == 2
+  mpmset $n quest 4 4 3
+~
+|
+#15023
+golem sterlingmob~
+a Golem~
+A metal golem is here.~
+He is made completely out of metal and seems to be animated
+only by magic.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+28 0 0 1d196+356 1d28+5
+25567 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,4,$n) == 3
+  mpmset $n quest 4 4 4
+~
+|
+#15024
+wurm sterlingmob~
+a Wurm~
+A Wurm is here.~
+It is an enormous worm with many rows of teeth in its round mouth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+32 BODY_HEAD BODY_MOUTH|BODY_TAIL|BODY_PINCERS 1d256+468 1d32+7
+59646 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,4,$n) == 4
+  mpmset $n quest 4 4 5
+~
+|
+#15025
+ardsheal sterlingmob~
+an Ardsheal~
+An Ardsheal elemental stands here.~
+It is a huminoid shape standing slightly taller than a man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+36 0 0 1d324+598 1d36+8
+33197 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,4,$n) == 5
+  mpmset $n quest 4 4 6
+~
+|
+#15026
+darklingmob~
+a Darkling~
+A darkling is here grinning wickedly.~
+It is a small spindly thing that looks kind of spiderish.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD BODY_HAND|BODY_FOOT 1d225+680 1d10+25
+33663 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 0~
+mpecho $I vanishes in a puff of smoke.
+mppurge self
+~
+|
+#15027
+g'home gnome~
+a G'home gnome~
+A G'home gnome is here.~
+It is a small dirty gnome which looks at your pouches greedily.
+The phrase, 'Go Home Gnome' immediately leaps to mind.
+~
+ACT_SCAVENGER|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SNEAK
+0 S
+15 BODY_HEAD BODY_HAND|BODY_FOOT 1d56+105 1d15+3
+22511 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+#15028
+sterling ethereal~
+sterling ethereal~
+~
+Loads challengers.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND|BODY_FOOT 1d1+10 1d1+1
+25 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if delayed ($i)
+  break
+endif
+if existsroom (sterlingmob)
+  break
+endif
+if quest (0,4,$n) == 12
+  if quest (4,4,$n) < 7
+    mpdelay self 5 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (4,4,$t) == 0
+    mpmload 15020
+    mpmload 15030
+    mpquiet on
+    mpforce rydall tame horse
+    mpforce rydall mount horse
+    mpquiet off
+    mpecho Rydall arrives mounted on a black horse.
+    mpforce rydall mpdelay self 3 1 $t
+  endif
+  if quest (4,4,$t) == 1
+    mpmload 15021
+    mpecho A stony giant approaches the gate calling for $t.
+    mpforce sterlingmob mpdelay self 3 1 $t
+  endif
+  if quest (4,4,$t) == 2
+    mpmload 15022
+    mpecho You have to look twice when you see what looks like a paladin coming towards the castle gate.
+    mpechoat $t When you go out to meet him, he attacks!
+    mpforce sterlingmob mpkill $t
+  endif
+  if quest (4,4,$t) == 3
+    mpmload 15023
+    mpecho A man sized metal golem strides jerkily up to the gate and attacks!
+    mpforce sterlingmob mpkill $t
+  endif
+  if quest (4,4,$t) == 4
+    mpmload 15024
+    mpecho The largest worm you have ever seen slithers up and attacks!
+    mpforce sterlingmob mpkill $t
+  endif
+  if quest (4,4,$t) == 5
+    mpmload 15025
+    mpecho An ardsheal walks smoothly up to the gate, locates $t, and attacks!
+    mpforce sterlingmob mpkill $t
+  endif
+  if quest (4,4,$t) == 6
+    mpmload 15020
+    mpmload 15030
+    mpquiet on
+    mpforce rydall tame horse
+    mpforce rydall mount horse
+    mpquiet off
+    mpecho Rydall arrives mounted on a black horse.
+    mpforce rydall mpdelay self 3 3 $t
+  endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 0
+    mpechoat $t Once Rydall is dead, you kneel down, lifting his visor to get a look at him.
+  endif
+  if quest (0,4,$i) == 1
+    mpechoat $t You gasp in astonishment, for the face revealed is that of Lord Kallendbor!
+  endif
+  if quest (0,4,$i) == 2
+    mpechoat $t You knew that he had always considered himself above you, but never suspected him of treason!
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 3 2 $t
+~
+|
+#15029
+bunion kobold~
+Bunion the Kobold~
+Bunion the Kobold hides here.~
+He looks like half monkey, half porcupine.  His ears are reminiscent
+of Dumbo and his toes are prehensile.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_HIDE
+0 S
+15 BODY_HEAD BODY_HAND|BODY_FOOT 1d56+105 1d15+3
+14921 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+~
+|
+#15030
+horse~
+a horse~
+A horse paws the ground here.~
+His hair glows like fine ebony, and his dark eyes flash with tempered lightning.
+~
+ACT_SENTINEL|ACT_MOUNT|ACT_BODY
+AFF_BLIND
+0 S
+10 BODY_LEG BODY_FOOT 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+15000 ITEM_TYPE_TRASH ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING  100  50  0 23
+15003 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#15000
+medallion kings~
+King's Medallion~
+The King's Medallion lies here.~
+It bears the portrait of a brave paladin standing before a castle.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DEX 1 0
+P 1
+TRIG_UNKNOWN 100 landover
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 15075 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $I vanishes.
+mpgoto 15001
+mpechoat self You blink and find yourself somewhere else.~
+P 4
+TRIG_UNKNOWN 100 home
+OPROG_IF OIF_USER_AREA = 15000 5 0
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_POSITION = POS_FIGHTING 0 6
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoaround self $I vanishes.
+mpgoto 15075
+~
+P 6
+TRIG_VOID
+OPROG_ECHO
+You blink as you find yourself back at Meeks' Office.
+You give Meeks the King's Medallion.
+~
+P 6
+TRIG_VOID
+OPROG_JUNK
+#15001
+wine bottle~
+wine bottle~
+A wine bottle lies here.~
+It is a bottle of red wine.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 1 LIQ_WINE 0 0 0 0 0
+1 100 5
+#15002
+stew bowl~
+bowl of stew~
+A bowl of stew lies here.~
+It is stew.  You are not sure what meat is in it though.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 20 5
+#15003
+sterling scroll~
+a Sterling Scroll~
+A scroll of sterling silver lies here shining softly.~
+x-------------------------------------x
+|        LOOKING FOR ADVENTURE?       |
+|                                     |
+| All it takes is 100,000 gold coins  |
+|  and a conversation with the man    |
+|upstairs - and we don't mean Chaos!  |
+|                                     |
+| Talk to Meeks and mention Landover  |
+|      You'll be glad you did!        |
+|                                     |
+x-------------------------------------x
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#15004
+io dust pod~
+io dust~
+A pod of Io Dust lies here~
+It is a small seed pod full of dust.
+~
+ITEM_TYPE_WAND
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 2 2 39 0 0 0 0
+1 1000 15
+S 3 'charm person'
+#15005
+sterling silver shining boots~
+sterling boots~
+A pair of shining silver boots lies here~
+They are made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+#15006
+sterling silver shining gauntlets~
+sterling gauntlets~
+A pair of shining silver gauntlets lies here~
+They are made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+#15007
+sterling silver shining greaves~
+sterling greaves~
+A pair of shining silver greaves lies here~
+They are made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+#15008
+sterling silver shining helmet~
+a sterling helmet~
+A shining silver helmet lies here~
+It is made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+#15009
+sterling silver shining armor~
+sterling armor~
+Shining silver armor lies here~
+It is made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+#15010
+sterling silver shining arm guards~
+sterling arm guards~
+A pair of shining silver arm guards lies here~
+They are made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+#15011
+sterling silver shining shield~
+a sterling shield~
+A shining silver shield lies here~
+It is made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 3 0
+#15012
+sterling cloak shining silver~
+a sterling cloak~
+A shining silver cloak lies here~
+It is made of heavy plate and polished to a brilliant sheen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+4 0 0 0 0 0 0 0
+2 1000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+#15013
+questor's ring~
+questor's ring~
+Questor's ring lies on the ground.~
+It is very old and worn, you don't know why you even picked it up in
+the first place.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+2 1000 20
+A APPLY_HIT 20 0
+A APPLY_MANA 20 0
+#15014
+tanglebox box~
+the Tanglebox~
+The Tanglebox is here.~
+It is a small box without any openings that you can see.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+1 100000 20
+A APPLY_SAVING_SPELL -3 0
+#15015
+lectern silver~
+a silver lectern~
+A silver lectern rests here.~
+The lectern stands about 5 feet high.  Its gleaming sides are carved in detail
+with filigreed portraits of trees and wildlife.  This is the work of an artisan.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+30 100000 1
+#15016
+bed large canopied~
+a large canopied bed~
+A large canopied bed dominates the room.~
+It is made of oak and iron.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+2 0 FURNITURE_SLEEP_IN|FURNITURE_REST_ON|FURNITURE_SIT_ON 300 0 0 0 0
+1000 10 99
+#15017
+throne wooden~
+a wooden throne~
+A wooden throne sits atop the dais.~
+It is made of black walnut, and carved with royal chrysanthemums.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SIT_IN 200 0 0 0 0
+1000 10 99
+#15018
+wight's claw~
+a wight's claw~
+A wight's claw lies on the ground.~
+It is the claw of a cave weight.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 5 5 WEAPON_PIERCE 0 0 0 0
+1 10 25
+#15019
+timber wolf's tooth~
+a timber wolf's tooth~
+A timber wolf's tooth lies on the ground here.~
+It is the canine tooth of a timber wolf of course
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 3 5 WEAPON_PIERCE 0 0 0 0
+1 10 15
+#15020
+questor's amulet~
+questor's amulet~
+Questor's amulet lies on the ground.~
+It is very old and worn, you don't know why you even picked it up in
+the first place.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+2 1000 20
+A APPLY_HIT 20 0
+A APPLY_MANA 20 0
+#15021
+questor's bracer~
+questor's bracer~
+Questor's bracer lies on the ground.~
+It is very old and worn, you don't know why you even picked it up in
+the first place.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+2 1000 20
+A APPLY_HIT 20 0
+A APPLY_MANA 20 0
+#15023
+darkling bottle~
+a darkling bottle~
+A darkling bottle lies here.~
+It is made of glass and has clowns painted on it.  You wonder
+what would happen if you were to PULL its cork.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 10000 30
+P 1
+TRIG_UNKNOWN 100 pull
+OPROG_IF OIF_USER_ALIGNMENT < 0 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho The darkling crawls out of the bottle laughing wickedly.
+mpmload 15026
+mpechoat self The darkling tells you that your desire is its command.
+mpforce darklingmob follow $i~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho The darkling crawls out of the bottle laughing wickedly.
+mpmload 15026
+mpechoat self The darkling attacks when it sees that you look on it with disgust.
+mpforce darklingmob mpkill $i~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#15024
+club iron bound~
+an iron-bound club~
+An iron-bound club lies on the ground.~
+It is an enourmous tree trunk wrapped in iron bands.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 3 11 WEAPON_POUND 0 0 0 0
+5 100 25
+#15025
+tarnished silver armor~
+tarnished armor~
+A suit of tarnished silver armor lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15026
+tarnished silver sleeves~
+tarnished sleeves~
+A set of tarnished silver sleeves lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15027
+tarnished silver leg plates~
+tarnished leg plates~
+A set of tarnished silver leg plates lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15028
+tarnished silver gauntlets~
+tarnished gauntlets~
+A set of tarnished silver gauntlets lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15029
+tarnished silver boots~
+tarnished boots~
+A set of tarnished silver boots lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15030
+tarnished silver bracer~
+a tarnished bracer~
+A tarnished silver bracer lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15031
+tarnished silver helm~
+a tarnished helm~
+A tarnished silver helm lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15032
+tarnished silver shield~
+a tarnished shield~
+A tarnished silver shield lies here.~
+It might once have been a beautiful piece of armor,
+but now it is tarnished beyond repair.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+9 0 0 0 0 0 0 0
+2 10000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+#15033
+strabo's head strabos~
+Strabo's head~
+Strabo's head lies here disconnected from the rest of him.~
+It is the head of a large and powerful dragon.  Well he WAS large and powerful.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 30
+#0
+
+
+#ROOMS
+#15000
+Rosen's Store~
+This is a very small shop, but clean and warm. The floors are of highly polished
+maple, and green velvet curtains hang at the windows. The proprietor sits on a
+tall stool next to a counter made of dark green jade.  There aren't many things
+for sale, but he still seems to be quite prosperous.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 9774
+DDIR_UP
+You see a small office.~
+~
+0 -1 15075
+#15001
+Tunnel of Mist~
+Dark purple mist rises up from the damp ground, swirling around your ankles.
+The leafy canopies of trees can be seen in the distance, rising above the mist.
+The complete silence here is broken by a faraway chirp of crickets.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+You sense the woodland ahead.~
+~
+0 -1 15002
+E
+mist~
+The mist is purple and opaque making it difficult to see a path.
+~
+#15002
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15003
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15013
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15018
+E
+gorse~
+The gorse bushes are full of prickly thorns.
+~
+#15003
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands continue.~
+~
+0 -1 15004
+DDIR_EAST
+You see a court in the forest.~
+~
+0 -1 15026
+DDIR_SOUTH
+You see the woodlands continue.~
+~
+0 -1 15002
+#15004
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15005
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15003
+#15005
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15006
+DDIR_EAST
+You see a vast field of green in the distance.~
+~
+0 -1 15010
+DDIR_SOUTH
+You see a court in a meadow.~
+~
+0 -1 15026
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15004
+#15006
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the beginning of a marsh.~
+~
+0 -1 15027
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15007
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15005
+#15007
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15008
+DDIR_EAST
+Greensward~
+~
+0 -1 15041
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15010
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15006
+#15008
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15009
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15007
+DDIR_WEST
+You see the beginning of a marsh.~
+~
+0 -1 15027
+#15009
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the entrance to a mine.~
+~
+0 -1 15029
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15042
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15041
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15008
+#15010
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15007
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15040
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15011
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15005
+#15011
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15010
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15039
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15012
+DDIR_WEST
+You see a court in the forest.~
+~
+0 -1 15026
+#15012
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15011
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15038
+DDIR_SOUTH
+Lake Stirling~
+~
+0 -1 15076
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15013
+#15013
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a court in the forest.~
+~
+0 -1 15026
+DDIR_EAST
+You see the woodlands continue.~
+~
+0 -1 15012
+DDIR_SOUTH
+You see the woodlands continue.~
+~
+0 -1 15014
+DDIR_WEST
+You see the woodlands continue.~
+~
+0 -1 15002
+#15014
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15013
+DDIR_EAST
+Lake Stirling~
+~
+0 -1 15076
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15015
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15018
+#15015
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15014
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15016
+#15016
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Lake Stirling~
+~
+0 -1 15076
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15020
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15017
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15015
+#15017
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15016
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15030
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15096
+#15018
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands continue.~
+~
+0 -1 15002
+DDIR_EAST
+You see a small lake in the distance.~
+~
+0 -1 15014
+#15019
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15038
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15051
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15020
+DDIR_WEST
+Lake Stirling~
+~
+0 -1 15076
+#15020
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15019
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15021
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15030
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15016
+#15021
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15051
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15033
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15031
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15020
+#15022
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15052
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15023
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15033
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15051
+#15023
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15053
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15024
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15025
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15022
+#15024
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15054
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15087
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15023
+#15025
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15023
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15034
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15033
+#15026
+The Heart~
+This is the fabled Heart of Landover, where all Kings of this small fiefdom are
+crowned.  Surprisingly, it is merely a small meadow, buried deep in the woods.
+In its center rises a platform made of darkly burnished oak, the royal coat of
+arms carved into its apron.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15005
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15011
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15013
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15003
+#15027
+Deep Fell~
+The grass has become mossy, slippery, dissolving into a marsh that somehow
+absorbs light, giving the area a dead feel.  It is easy to sense an evil,
+otherworldly presence here.  There is no sound whatsoever, aside from the quick
+beating of your heart.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15008
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15006
+DDIR_DOWN
+You see the marsh stretch onwards.~
+~
+0 -1 15028
+#15028
+Deep Fell~
+The grass has become mossy, slippery, dissolving into a marsh that somehow
+absorbs light, giving the area a dead feel.  It is easy to sense an evil,
+otherworldly presence here.  There is no sound whatsoever, aside from the quick
+beating of your heart.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_PRIVATE SECT_INSIDE
+DDIR_UP
+You see the marsh stretch onwards.~
+~
+0 -1 15027
+#15029
+Mines of Melchor~
+The walls of this mine are black as ebony, glittering with droplets of water
+that cling to them.  There is a foul, fetid smell here, and the ground threatens
+to give way if put to any stress.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_DEEP_EARTH
+DDIR_NORTH
+You see the mine continue onward.~
+~
+0 -1 15097
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15009
+#15030
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15020
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15031
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15036
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15017
+#15031
+Lake Country~
+The grass beneath your feet is pale green, soft and young.  Bluebells dot the
+hillside and the musical sound of water rushing over the rocks can be heard in
+the distance.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15021
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15032
+DDIR_SOUTH
+Lake Irrylyn~
+~
+0 -1 15037
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15030
+#15032
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15033
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15034
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15035
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15031
+#15033
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15022
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15025
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15032
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15021
+#15034
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15025
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15088
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15081
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15032
+#15035
+Lake Country~
+The grass beneath your feet is pale green, soft and young.  Bluebells dot the
+hillside and the musical sound of water rushing over the rocks can be heard in
+the distance.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15032
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15081
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15079
+DDIR_WEST
+Lake Irrylyn~
+~
+0 -1 15037
+#15036
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15030
+DDIR_EAST
+Lake Irrylyn~
+~
+0 -1 15037
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15077
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15096
+#15037
+Lake Irrylyn~
+This is an oval lake, filled with water so clear you can see the sands covering
+its bottom.  It is surrounded with densely planted reeds, and water lilies float
+lazily in its center.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15031
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15035
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15078
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15036
+#15038
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15039
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15050
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15019
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15012
+#15039
+Greensward~
+Old-fashioned rose bushes, as tall as a dwarf, are planted in groups of twos and
+threes here.  The air is redolent with their musky scent, and bumblebees busily
+harvest their pollen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15040
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15049
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15038
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15011
+#15040
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15041
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15048
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15039
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15010
+#15041
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15009
+DDIR_EAST
+You see a castle dooming up at the horizon.~
+~
+0 -1 15061
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15040
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15007
+#15042
+Greensward~
+Sharp and shining holly bushes are planted in clusters here, their bright red
+berries a cheerful statement amongst the green.  Yew trees are planted near
+them, giving a sweet and pungent scent to the air.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15043
+DDIR_SOUTH
+You see a castle dooming up at the horizon.~
+~
+0 -1 15061
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15009
+#15043
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15044
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15046
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15042
+#15044
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15045
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15043
+#15045
+Greensward~
+Old-fashioned rose bushes, as tall as a dwarf, are planted in groups of twos and
+threes here.  The air is redolent with their musky scent, and bumblebees busily
+harvest their pollen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15044
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15060
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15057
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15046
+#15046
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15043
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15045
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15047
+DDIR_WEST
+You see a castle dooming up at the horizon.~
+~
+0 -1 15061
+#15047
+Greensward~
+Sharp and shining holly bushes are planted in clusters here, their bright red
+berries a cheerful statement amongst the green.  Yew trees are planted near
+them, giving a sweet and pungent scent to the air.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15046
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15057
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15059
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15048
+#15048
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a castle dooming up at the horizon.~
+~
+0 -1 15061
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15047
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15049
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15040
+#15049
+Greensward~
+Old-fashioned rose bushes, as tall as a dwarf, are planted in groups of twos and
+threes here.  The air is redolent with their musky scent, and bumblebees busily
+harvest their pollen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15048
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15059
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15050
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15039
+#15050
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15049
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15052
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15051
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15038
+#15051
+Greensward~
+Sharp and shining holly bushes are planted in clusters here, their bright red
+berries a cheerful statement amongst the green.  Yew trees are planted near
+them, giving a sweet and pungent scent to the air.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15050
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15022
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15021
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15019
+#15052
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15059
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15053
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15022
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15050
+#15053
+Greensward~
+Old-fashioned rose bushes, as tall as a dwarf, are planted in groups of twos and
+threes here.  The air is redolent with their musky scent, and bumblebees busily
+harvest their pollen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15058
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15054
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15023
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15052
+#15054
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15055
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15062
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15024
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15053
+#15055
+Greensward~
+Sharp and shining holly bushes are planted in clusters here, their bright red
+berries a cheerful statement amongst the green.  Yew trees are planted near
+them, giving a sweet and pungent scent to the air.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15056
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15063
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15054
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15058
+#15056
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15060
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15064
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15055
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15057
+#15057
+Greensward~
+Old-fashioned rose bushes, as tall as a dwarf, are planted in groups of twos and
+threes here.  The air is redolent with their musky scent, and bumblebees busily
+harvest their pollen.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15045
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15056
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15058
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15047
+#15058
+Greensward~
+The deep green of the grass here is perfectly suited to the dark purple of the
+hills far in the distance.  Large black and white cows dot the landscape,
+peacefully nibbling at the emerald bounty.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15057
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15055
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15053
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15059
+#15059
+Greensward~
+Sharp and shining holly bushes are planted in clusters here, their bright red
+berries a cheerful statement amongst the green.  Yew trees are planted near
+them, giving a sweet and pungent scent to the air.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15047
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15058
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15052
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15049
+#15060
+Greensward~
+This part of the Greensward is covered in tall grasses which wave in alternate
+shades of green and silver in the soft breeze.  The scent of freshly cut grass
+is in the air, and the ground is soft beneath one's feet.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15065
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15056
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15045
+#15061
+Ryhndweir~
+This is the castle and town of Ryhndweir.  The castle is built of smooth stone
+from the countryside, and flags bearing the crest of the castle's lord,
+Kallendbor, are mounted on its gate.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+You see a vast field of green.~
+~
+0 -1 15042
+DDIR_EAST
+You see a vast field of green.~
+~
+0 -1 15046
+DDIR_SOUTH
+You see a vast field of green.~
+~
+0 -1 15048
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15041
+#15062
+Eastern Wastelands~
+The wastelands here are barren, with nothing but sand to be seen all around.
+Not one shrub grows here, and the only movement is the quick darting of a
+scorpion as it crosses to hide from the sun under a rock.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15063
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15086
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15087
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15054
+#15063
+Eastern Wastelands~
+The sand here is dark, the color of tanned hide, and it rises and falls in
+waving hills.  A prairie dog runs quickly across the terrain only to be sucked
+deep within the grasp of deadly quicksand.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15064
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15067
+DDIR_SOUTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15062
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15055
+#15064
+Eastern Wastelands~
+Out of nowhere rises a forest, but not a typical one.  This is a petrified
+forest, filled with the ancient ghosts of trees long dead.  Their skeletal
+remains are a distant reminder of life long past.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15065
+DDIR_EAST
+You look out over a scorched ravine.~
+~
+0 -1 15068
+DDIR_SOUTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15063
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15056
+#15065
+Eastern Wastelands~
+The wastelands here are barren, with nothing but sand to be seen all around.
+Not one shrub grows here, and the only movement is the quick darting of a
+scorpion as it crosses to hide from the sun under a rock.
+~
+0 0 SECT_DESERT
+DDIR_EAST
+You see a barren desert stretch onwards.~
+~
+0 -1 15066
+DDIR_SOUTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15064
+DDIR_WEST
+You see a vast field of green.~
+~
+0 -1 15060
+#15066
+Eastern Wastelands~
+The sand here is dark, the color of tanned hide, and it rises and falls in
+waving hills.  A prairie dog runs quickly across the terrain only to be sucked
+deep within the grasp of deadly quicksand.
+~
+0 0 SECT_DESERT
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15083
+DDIR_SOUTH
+You look out over a scorched ravine.~
+~
+0 -1 15068
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15065
+#15067
+Eastern Wastelands~
+Out of nowhere rises a forest, but not a typical one.  This is a petrified
+forest, filled with the ancient ghosts of trees long dead.  Their skeletal
+remains are a distant reminder of life long past.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+You look out over a scorched ravine.~
+~
+0 -1 15068
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15085
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15086
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15063
+#15068
+Fire Springs~
+A broad, misshapen ravine sprawls here, filled with innumerable craters, their
+bowls filled with a bluish liquid on which yellow-red flames dance and burn,
+casting shadows upon the walls.  A purple mist surrounds the edges of the
+ravine, which seems to breath with a life of its own.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15066
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15084
+DDIR_SOUTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15067
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15064
+#15069
+Sterling Silver~
+Sterling Castle shone with the gitter and sheen of silver in its glory days.
+Her walls are now tarnished, a bitter haze of copper and bronze, rising into the
+clouds unashamed.
+~
+0 0 SECT_INSIDE
+DDIR_UP
+Great Hall~
+~
+0 -1 15070
+DDIR_DOWN
+Sterling Lake~
+~
+0 -1 15076
+#15070
+Great Hall~
+The Great Hall is created from strong, marbled buttresses.  Its high beams are
+made of highly polished mahogany and its floors of well scrubbed granite.  The
+walls are hung with intricate tapestries depicting battle scenes from long ago.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+King's Bedroom~
+~
+0 -1 15071
+DDIR_SOUTH
+Dining Hall~
+~
+0 -1 15072
+DDIR_UP
+Lands View~
+~
+0 -1 15074
+DDIR_DOWN
+Sterling Silver~
+~
+0 -1 15069
+#15071
+King's Bedroom~
+This is a vast chamber of tapestries and silken hangings, of polished oak
+and heraldic stone sculptures.  A great canopied bed of oak and iron looks
+as though it might successfully double as a barge.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Great Hall~
+~
+0 -1 15070
+#15072
+Dining Hall~
+You enter a cavernous dining hall with a huge tressel table and well-cushioned
+chairs upholstered in scarlet silk.  Chandeliers of tarnished silver hang low
+from the ceiling.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Great Hall~
+~
+0 -1 15070
+#15074
+Landsview~
+The wall here opens halfway around from floor to ceiling into clouds of grey
+mist that swirl past the towers of the castle as they rise darkly against the
+coming night.  The first of the evening stars can be seen in the dark blue
+velvet of the sky.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+Great Hall~
+~
+0 -1 15070
+#15075
+Meeks' Office~
+This is a small, cramped office, dominated by an enormous teak desk.  The desk
+is piled with neatly stacked papers, some of which are yellowed with age.
+Behind the desk sits an old man, his fingers inkstained, his teeth as yellow as
+some of the papers before him.
+~
+0 ROOM_INDOORS|ROOM_PRIVATE SECT_INSIDE
+DDIR_DOWN
+You see a small shop.~
+~
+0 -1 15000
+#15076
+Sterling Lake~
+The waters of the lake lap softly against a bank of marshy grasses.  Weeds
+grow in thick tufts where the shoreline has eroded and stagnant pools have
+formed.  Frogs croak and insects hum, and the lake smells faintly of fish.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15012
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15019
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15016
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15014
+DDIR_UP
+Stirling Silver~
+~
+0 -1 15069
+#15077
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15036
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15078
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15094
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15095
+#15078
+Lake Country~
+The grass beneath your feet is pale green, soft and young.  Bluebells dot the
+hillside and the musical sound of water rushing over the rocks can be heard in
+the distance.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+Lake Irrylyn~
+~
+0 -1 15037
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15079
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15093
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15077
+#15079
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15035
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15080
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15092
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15078
+#15080
+Lake Country~
+The grass beneath your feet is pale green, soft and young.  Bluebells dot the
+hillside and the musical sound of water rushing over the rocks can be heard in
+the distance.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15081
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15090
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15091
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15079
+#15081
+Lake Country~
+Softly rolling hills of pale green define this beautiful Lake Country.  Silvery
+streams cut gently through the green and run into blue lakes.  The trees here
+grow tall and true, rising high into the skies.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15034
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15089
+DDIR_SOUTH
+You see grass covered hillsides.~
+~
+0 -1 15080
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15035
+#15082
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15086
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15087
+#15083
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15084
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15066
+#15084
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15083
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15085
+DDIR_WEST
+You look out over a scorched ravine.~
+~
+0 -1 15068
+#15085
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15084
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15067
+#15086
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15067
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15082
+DDIR_WEST
+You see a barren desert stretch onwards.~
+~
+0 -1 15062
+#15087
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a barren desert stretch onwards.~
+~
+0 -1 15062
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15082
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15024
+#15088
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15089
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15034
+#15089
+Woods of Landover~
+The roots of the trees grow up almost like the skeletons of long forgotten
+dragons, and the grass has turned to moss.  Fern grows in patches, and the
+seedlings of other trees are beginning to poke up through the worn dirt.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15088
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15090
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15081
+#15090
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15089
+DDIR_WEST
+You see grass covered hillsides.~
+~
+0 -1 15080
+#15091
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15080
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15092
+#15092
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15079
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15091
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15093
+#15093
+Woods of Landover~
+You walk among the bonnie blues finding it hard to believe that such a
+beautiful land could hide such ferocious dangers.  It is hard for you to
+concentrate on the fact that a monster could be hiding behind the next
+bush, considering you lunch.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15078
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15092
+DDIR_WEST
+You see the woodlands stretch onward.~
+~
+0 -1 15094
+#15094
+Woods of Landover~
+The woods are deceptively tranquil.  The silence is broken suddenly by a soft
+rustling beneath fallen leaves and then another sound, more urgent, from behind
+some small gorse bushes.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see grass covered hillsides.~
+~
+0 -1 15077
+DDIR_EAST
+You see the woodlands stretch onward.~
+~
+0 -1 15093
+#15095
+Woods of Landover~
+The ground is damp and soft here, and there is a scent of moss in the cool air.
+The surrounding trees create a hazy, blue-green light, and the senses are
+heightened by the pervading silence.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15096
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15077
+#15096
+Woods of Landover~
+The birches in this part of the woods create a ghostly affect, their silver bark
+pale and almost glowing.  The plaintive sound of a nightingale floats upon the
+air and a wolf howls in return.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the woodlands stretch onward.~
+~
+0 -1 15017
+DDIR_EAST
+You see grass covered hillsides.~
+~
+0 -1 15036
+DDIR_SOUTH
+You see the woodlands stretch onward.~
+~
+0 -1 15095
+#15097
+Mines of Melchor~
+The walls of this mine are black as ebony, glittering with droplets of water
+that cling to them.  There is a foul, fetid smell here, and the ground threatens
+to give way if put to any stress.
+~
+0 ROOM_DARK SECT_DEEP_EARTH
+DDIR_SOUTH
+You see the mine continue onward.~
+~
+0 -1 15029
+DDIR_DOWN
+You see the mine continue onward.~
+~
+0 -1 15098
+#15098
+Mines of Melchor~
+The walls of this mine are black as ebony, glittering with droplets of water
+that cling to them.  There is a foul, fetid smell here, and the ground threatens
+to give way if put to any stress.
+~
+0 ROOM_DARK SECT_DEEP_EARTH
+DDIR_NORTH
+You see the mine continue onward.~
+~
+0 -1 15099
+DDIR_UP
+You see the mine continue onward.~
+~
+0 -1 15097
+#15099
+Mines of Melchor~
+The walls of this mine are black as ebony, glittering with droplets of water
+that cling to them.  There is a foul, fetid smell here, and the ground threatens
+to give way if put to any stress.
+~
+0 ROOM_DARK SECT_DEEP_EARTH
+DDIR_SOUTH
+You see the mine continue onward.~
+~
+0 -1 15098
+#0
+
+
+#RESETS
+M 15000 100 15000
+G 15003  10 0
+G 15014 500 0
+M 15001 100 15075
+M 15003 100 15072
+G 15001 500 0
+G 15002 500 0
+M 15004 100 15061
+M 15005 100 15028
+M 15007 100 15037
+E 15007 500 WEAR_LEGS
+E 15008 500 WEAR_HEAD
+M 15008 100 15068
+M 15009 100 15074
+E 15013 500 WEAR_FINGER_R
+E 15020 500 WEAR_NECK_B
+E 15021 500 WEAR_WRIST_R
+M 15010 100 15070
+E 15005 100 WEAR_FEET
+E 15006 100 WEAR_HANDS
+M 15011 100 15029
+M 15011 100 15097
+M 15011 100 15098
+M 15011 100 15099
+M 15012 100 15062
+M 15012 100 15063
+M 15012 100 15064
+M 15012 100 15065
+M 15012 100 15066
+M 15012 100 15067
+M 15013 100 15030
+M 15013 100 15031
+M 15013 100 15032
+M 15013 100 15033
+M 15013 100 15034
+M 15013 100 15035
+M 15013 100 15036
+M 15013 100 15077
+M 15013 100 15078
+M 15013 100 15079
+M 15013 100 15080
+M 15013 100 15081
+M 15014 100 15003
+M 15014 100 15005
+M 15014 100 15007
+E 15019 500 WEAR_WIELD
+M 15014 100 15009
+M 15014 100 15011
+E 15019 500 WEAR_WIELD
+M 15014 100 15013
+M 15014 100 15015
+M 15014 100 15017
+M 15014 100 15019
+E 15019 500 WEAR_WIELD
+M 15014 100 15021
+M 15014 100 15023
+M 15014 100 15025
+M 15014 100 15083
+M 15014 100 15085
+E 15019 500 WEAR_WIELD
+M 15014 100 15087
+M 15014 100 15089
+M 15014 100 15091
+M 15014 100 15093
+E 15019 500 WEAR_WIELD
+M 15014 100 15095
+M 15015 100 15004
+M 15015 100 15006
+M 15015 100 15008
+M 15015 100 15010
+M 15015 100 15012
+M 15015 100 15014
+M 15015 100 15016
+M 15015 100 15018
+M 15015 100 15020
+M 15015 100 15022
+M 15015 100 15024
+M 15015 100 15082
+M 15015 100 15084
+M 15015 100 15086
+M 15015 100 15088
+M 15015 100 15090
+M 15015 100 15092
+M 15015 100 15094
+M 15015 100 15096
+M 15016 100 15026
+M 15017 100 15038
+M 15017 100 15039
+M 15017 100 15040
+M 15017 100 15041
+M 15017 100 15042
+M 15017 100 15043
+M 15017 100 15044
+M 15017 100 15045
+M 15017 100 15046
+M 15017 100 15047
+M 15017 100 15048
+M 15017 100 15049
+M 15017 100 15050
+M 15017 100 15051
+M 15017 100 15052
+M 15017 100 15053
+M 15017 100 15054
+M 15017 100 15055
+M 15017 100 15056
+M 15017 100 15057
+M 15017 100 15058
+M 15017 100 15059
+M 15017 100 15060
+M 15027 100 15009
+E 15012 500 WEAR_NECK_A
+E 15009 500 WEAR_BODY
+G 15023 500 0
+M 15028 100 15069
+M 15029 100 15038
+E 15011 100 WEAR_SHIELD
+E 15010 100 WEAR_ARMS
+O 15015   1 15074
+O 15016   1 15071
+O 15017   1 15026
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

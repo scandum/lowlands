@@ -1,0 +1,930 @@
+#AREA City of Sarglam~
+#AUTHORS Elspeth~
+#VERSION 4
+#RANGES 50 70 1 95
+#FLAGS AFLAG_NOCASTLE
+
+
+#HELPS
+0 'CITY OF SARGLAM' SARGLAM~
+{120}                               City of Sarglam
+{300}
+The City of Sarglam is a small city resting in the shadow of the great
+Valdemar, which has been lucky enough to be blessed with a stop on the
+Griffon Airlines.  The men and women of this city have long led peaceful
+lives, but recently they have been troubled by a creature that only walks
+the streets at night and kills in back alleys.  Perhaps they could use the
+services of a brave hero.
+{140}
+This area was originally written by Elspeth as City of Spam and Lag.
+
+Last update, juli 2001
+~
+
+0 $~
+
+
+#MOBILES
+#13701
+boy sarglam small~
+a boy of Sarglam~
+There is a small boy of Sarglam wandering around here.~
+As you look at the child, you start missing things.  Annoying little
+bugger, isn't he?  You feel the urge to kill him!
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_CURSE
+0 S
+54 0 0 1d1+1731 1d20+33
+12000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+say I've gotta go, sorry. It was fun!
+~
+|
+#13702
+girl small sarglam~
+a girl of Sarglam~
+There is a small girl of Sarglam wandering around here.~
+She is a small girl about waist high with long brown hair done up in pigtails.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_CURSE
+0 S
+49 0 0 0d0+1400 1d10+33
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+say I have to go, sorry.
+~
+|
+#13703
+sarglam armorer man~
+a Sarglam armorer~
+There is a man of Sarglam here, making armor.~
+This man is repeating his blows, to shape the armor as he wills...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say welcome, please look around and choose something!
+if quest (0,3,$n) == 1
+  say You come to hear about the beast?
+  say Well, I can tell you that it is often seen in the
+  say dark alleys of Sarglam.  I understand however that
+  say normal weapons do not harm it.  You may wish to talk
+  say to the weaponsmith about one that will.
+  mpmset $n quest 0 3 2
+endif
+~
+|
+#13704
+Sarglam weaponsmith~
+a Sarglam weaponsmith~
+There is a man of Sarglam here, selling weapons.~
+This man is slowly, very slowly, forming steel into weapons...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Welcome to my humble shop.
+say Feel free to look around.
+if quest (0,3,$n) == 2
+  say Sure I can help you with a weapon against
+  say this beast.  Just buy this etched knife.
+  mpmset $n quest 0 3 3
+endif
+~
+|
+#13705
+sarglam man~
+a man of Sarglam~
+There is a man here.~
+The man takes a long time to get from here to there, and he irritates many
+while doing so. perhaps as a public heroic move you could kill him?
+~
+ACT_SCAVENGER|ACT_BODY|ACT_RACE
+AFF_SNEAK
+0 S
+60 0 0 1d1+2200 1d20+40
+31027 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#13706
+woman sarglam~
+a woman of Sarglam~
+There is a woman of Sarglam here.~
+The woman does stuff many many times, as she is a bit crazy.
+~
+ACT_SCAVENGER|ACT_BODY|ACT_RACE
+AFF_SNEAK
+0 S
+55 0 0 1d1+1800 1d20+33
+42569 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#13707
+king sarglam~
+the king of Sarglam~
+The king of Sarglam is here.~
+This is the man who makes sure that Sarglam continues to make a difference
+in the world.  Makes you mad that he doesn't care about what you do, no?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_HUNT|AFF_TONGUES
+0 S
+90 0 0 1d1+6239 1d40+67
+161487 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+>greet_prog 100~
+if quest (0,3,$n) == 0
+  say $n!  Surely you have come to rid
+  say us of this beast that plagues our streets.
+else
+  if quest (0,3,$n) == 4
+    mpjunk all
+    say Thank you $n, for ridding our city of that foul beast.
+    say Take these in thanks.
+    mpquiet on
+    mpoload 13701
+    give steel $n
+    mpoload 13702
+    give steel $n
+    mpoload 13703
+    give steel $n
+    mpoload 13704
+    give steel $n
+    mpoload 13705
+    give steel $n
+    mpoload 13706
+    give steel $n
+    mpoload 13707
+    give steel $n
+    mpoload 13708
+    give steel $n
+    mpoload 13709
+    give steel $n
+    drop all
+    mpquiet off
+    mpmset $n quest 0 3 0
+  else
+    say How goes the hunt for the beast?
+  endif
+endif
+~
+>speech_prog yes sure yup ok help~
+if quest (0,3,$n) == 0
+  smile $n
+  say Talk to the armorer for more information
+  say on how you can find and kill this beast.
+  mpmset $n quest 0 3 1
+endif
+~
+|
+#13708
+queen sarglam~
+the queen of Sarglam~
+The queen of Sarglam is here.~
+This is the woman who makes sure that Sarglam continues in the world.
+Makes you mad that she doesn't care about what you do, no?
+~
+ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d1+6239 1d40+67
+164088 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_FEMALE
+#13709
+guard sarglam~
+a guard of Sarglam~
+A guard is here, making sure Sarglam is protected.~
+The guard is an amazingly intelligent man.  He is stupid in some things
+though, one is his intense love of Sarglam.  Watch out for him
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_SNEAK
+0 S
+70 0 0 1d1+3000 1d30+46
+70730 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 40~
+say welcome to the City of Sarglam.
+say Have a good, long stay, and come again!
+~
+|
+#13710
+wererat# deformed woman rat~
+a wererat~
+A deformed rat-headed woman is here.~
+She is a wererat, cursed with the disease lycanthopy.  Her twisted form at
+the moment is part rat and part human.  It is all ugly.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_SNEAK|AFF_HUNT|AFF_TONGUES
+0 S
+89 0 0 1d1+6000 1d90+40
+154088 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,3,$n) == 3
+  growl $n
+endif
+~
+>fight_prog 50~
+if quest (0,4,$n) == 11
+  if hasobjnum ($n) == 13710
+    if rand (20)
+      mpechoat $n {160}The wererat winces as your knife hits her.
+    endif
+  else
+    mpechoat $n {160}Your weapon is unable to pierce the wererat's hide.
+  endif
+endif
+~
+>hitprcnt_prog 25~
+if quest (0,4,$n) == 11
+  if hasobjnum ($n) == 13710
+    break
+  endif
+endif
+if time () > 20
+or time () < 2
+  rescale 13710 $n 150
+  mpecho {100}The dark dready forces of the night crawl into the wererat.
+endif
+~
+>death_prog 100~
+if quest (0,3,$n) == 3
+  if hasobjnum ($n) == 13710
+    mpechoat $n {160}The wererat dies as you thrust your knife into its heart.
+    mpmset $n quest 0 3 4
+  endif
+endif
+~
+|
+#13711
+wereratethereal~
+wereratethereal~
+wereratethereal~
+wereratethereal
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 0d0+2
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,3,$n) == 3
+  if quest (3,1,self) == 0
+    if time () > 22
+    or time () < 2
+      mpmload 13710
+      rescale 13710 $n 120
+      mpmset self quest 3 1 1
+    endif
+  endif
+endif
+~
+>rand_prog 20~
+if time () > 22
+or time () < 2
+  break
+else
+  mpforce wererat# mpecho The wererat sneaks off into the shadows.
+  mppurge wererat#
+  mpmset self quest 3 1 0
+endif
+~
+|
+#0
+
+
+#SHOPS
+13703 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1 23
+13704 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#13701
+armor steel studded~
+Steel Studded Armor~
+There is some armor here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+12 72824 50
+A APPLY_DEX 2 0
+A APPLY_STR 1 0
+#13702
+boots steel studded~
+Steel Studded Boots~
+There is a pair of boots here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+12 72824 59
+A APPLY_DEX 1 0
+A APPLY_MOVE 50 0
+#13703
+gloves steel studded~
+Steel Studded Gloves~
+There is a pair of gloves here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+12 72824 60
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 5 0
+#13704
+cloak steel studded~
+a Steel Studded Cloak~
+A cloak is here~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+15 0 0 0 0 0 0 0
+12 72824 49
+A APPLY_INT 1 0
+A APPLY_WIS 1 0
+#13705
+bracer steel studded~
+Steel Studded a Bracer~
+There is a bracer here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+15 0 0 0 0 0 0 0
+12 72824 69
+A APPLY_MANA 30 0
+A APPLY_HIT 30 0
+#13706
+ring steel studded~
+a Steel Studded Ring~
+There is a ring here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+8 0 0 0 0 0 0 0
+12 72824 51
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 5 0
+#13707
+helmet steel studded~
+a Steel Studded Helmet~
+There is a helmet here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+12 72824 53
+A APPLY_INT 2 0
+A APPLY_WIS 2 0
+#13708
+robe steel studded~
+a Steel Studded Robe~
+There is a robe here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+18 0 0 0 0 0 0 0
+12 72824 69
+#13709
+belt steel studded~
+a Steel Studded Belt~
+There is a belt here.~
+It is made of leather and steel studs have been driven into it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+15 0 0 0 0 0 0 0
+12 72824 63
+A APPLY_CON 3 0
+A APPLY_STR 2 0
+#13710
+knife etched~
+an etched knife~
+There is a knife here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 7 7 WEAPON_STAB 0 0 0 0
+12 72824 60
+A APPLY_AC 9 0
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+C
+cut~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_WEAR 101
+OPROG_GOD_COMMAND
+mpmset self questr 13700 3 1 1~
+P 2
+TRIG_REMOVE 101
+OPROG_GOD_COMMAND
+mpmset self questr 13700 3 1 0~
+#0
+
+
+#ROOMS
+#13700
+A dark alley~
+You have entered a dark alley of a street in the city of Sarglam.
+Trash is lying all over the ground back here and the stink of refuse
+is overpowering.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+a street in the city~
+~
+0 -1 13704
+#13701
+The gates of the city~
+You are in front of the famous Gates of the City of Sarglam.  It is said
+that these gates open repeatedly every day without closing, and that they
+take so long to open, you can fall asleep watching it.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A Street of the City of Sarglam~
+gate gates~
+EX_ISDOOR -1 13702
+DDIR_SOUTH
+~
+~
+0 0 17590
+#13702
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The center square of the city~
+~
+0 -1 13710
+DDIR_EAST
+A street of the city~
+~
+0 -1 13704
+DDIR_SOUTH
+The Gates of City of Sarglam~
+gate~
+EX_ISDOOR -1 13701
+DDIR_WEST
+A street of the city~
+~
+0 -1 13703
+#13703
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A street of the city~
+~
+0 -1 13705
+DDIR_EAST
+A street of the city~
+~
+0 -1 13702
+DDIR_SOUTH
+~
+~
+0 -1 16020
+#13704
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A street of the city~
+~
+0 -1 13706
+DDIR_SOUTH
+a dark alley~
+~
+0 -1 13700
+DDIR_WEST
+A street of the city~
+~
+0 -1 13702
+#13705
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of the city~
+~
+0 -1 13707
+DDIR_EAST
+Center of the city~
+~
+0 -1 13710
+DDIR_SOUTH
+Street of the city~
+~
+0 -1 13703
+DDIR_WEST
+Park road~
+~
+0 -1 13712
+#13706
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of the city~
+~
+0 -1 13709
+DDIR_EAST
+Park road~
+~
+0 -1 13711
+DDIR_SOUTH
+Street of the city~
+~
+0 -1 13704
+DDIR_WEST
+Center of the city~
+~
+0 -1 13710
+#13707
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_EAST
+A street of the city~
+~
+0 -1 13708
+DDIR_SOUTH
+A street of the city~
+~
+0 -1 13705
+DDIR_WEST
+The weapon shop~
+~
+0 -1 13723
+#13708
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The castle~
+~
+0 -1 13721
+DDIR_EAST
+A street~
+~
+0 -1 13709
+DDIR_SOUTH
+The center~
+~
+0 -1 13710
+DDIR_WEST
+A street~
+~
+0 -1 13707
+#13709
+A street in the city~
+You are in a street of the City of Sarglam.  They are repairing a part
+of the pavement over there, doing the same thing over and over slowly...
+how boring!
+~
+0 0 SECT_CITY
+DDIR_EAST
+The armor shop~
+~
+0 -1 13724
+DDIR_SOUTH
+A street in the city~
+~
+0 -1 13706
+DDIR_WEST
+A street in the city~
+~
+0 -1 13708
+#13710
+The center of the city~
+You are in the center of City of Sarglam.  Feel free to do whatever you
+feel is necessary.  Roads lead from the square in all directions and off in
+the distance you can see the castle to the north.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+A street in the city~
+~
+0 -1 13708
+DDIR_EAST
+A street in the city~
+~
+0 -1 13706
+DDIR_SOUTH
+A street in the city~
+~
+0 -1 13702
+DDIR_WEST
+A street in the city~
+~
+0 -1 13705
+#13711
+A park road~
+You are on a park road in the City of Sarglam.  The trees grow very
+slowly, and make many branches. They do this every year.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13713
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13706
+#13712
+A park road~
+You are on a park road in the City of Sarglam.  The trees grow very
+slowly, and make many branches. They do this every year.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13705
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13714
+#13713
+The park center~
+You are in a park center.  There are trees all around you, and many citizens
+wander through this place.  The trees reach down, and try to grab you, and
+you wonder what else is really wrong here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+More of the city of Sarglam lies here~
+~
+0 -1 13715
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13716
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13717
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13711
+#13714
+The park center~
+You are in a park center.  There are trees all around you, and many citizens
+ander through this place.  The trees reach down, and try to grab you, and
+you wonder what else is really wrong here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+More of the city of Sarglam lies here~
+~
+0 -1 13718
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13712
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13720
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13719
+#13715
+A park~
+You are in a park in the City of Sarglam.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13713
+#13716
+A park~
+You are in a park in the City of Sarglam.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13713
+#13717
+A park~
+You are in a park in the City of Sarglam.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+More of the city of Sarglam lies here~
+~
+0 -1 13713
+#13718
+A park~
+You are in a park in the City of Sarglam.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13714
+#13719
+A park~
+You are in a park in the City of Sarglam.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13714
+#13720
+A park~
+You are in a park in the City of Spam and Lag.  There are many birds, singing
+the same song very slowly.  There are more of those stunted trees here, and
+you have this need to leave.  There is a picnic bench here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+More of the city of Sarglam lies here~
+~
+0 -1 13714
+#13721
+The castle road~
+There is a small street here, that leads to the castle to the north.
+Citizens of this city traverse this road in order to air their complaints
+to the king.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+More of the city of Sarglam lies here~
+~
+0 -1 13722
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13708
+#13722
+The Throne Room~
+You've entered the throne room.  the queen and king are disgusting, ugly, old
+and other things pathetically sick, so they don't get much company these days
+you're a welcome relief.  Knowing that, you might want to leave pretty soon
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+More of the city of Sarglam lies here~
+~
+0 -1 13721
+#13723
+The weapons shop~
+This is the weapons shop.  Weapons line the walls and you find that you can't
+even put a name to half of them.  You would bet that you can sell stuff here,
+but there's such a selection you may not get much for your sale.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+More of the city of Sarglam lies here~
+~
+0 -1 13707
+#13724
+The armor shop~
+This is the armor shop.  Armor of all types line the walls and you figure
+that you could armor your whole body several times over with all the stuff
+in this shop.  You can probably sell stuff here, but there is so much already
+here that you may not receive much for you effort.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+More of the city of Sarglam lies here~
+~
+0 -1 13709
+#0
+
+
+#RESETS
+M 13708 100 13722
+M 13707 100 13722
+M 13703 100 13724
+M 13704 100 13723
+G 13710   3 0
+M 13709 100 13701
+M 13709 100 13701
+M 13709 100 13721
+M 13709 100 13712
+M 13709 100 13711
+M 13711 100 13700
+M 13701   5 13705
+M 13702   5 13705
+M 13705   5 13705
+M 13706   5 13705
+M 13701   5 13708
+M 13702   5 13708
+M 13705   5 13708
+M 13706   5 13708
+M 13701   5 13706
+M 13702   5 13706
+M 13705   5 13706
+M 13706   5 13706
+M 13701   5 13702
+M 13702   5 13702
+M 13705   5 13702
+M 13706   5 13702
+M 13701   5 13715
+M 13702   5 13715
+M 13705   5 13715
+M 13706   5 13715
+M 13701   5 13716
+M 13702   5 13716
+M 13705   5 13716
+M 13706   5 13716
+M 13701   5 13717
+M 13702   5 13717
+M 13705   5 13717
+M 13706   5 13717
+M 13701   5 13718
+M 13702   5 13718
+M 13705   5 13718
+M 13706   5 13718
+M 13701   5 13720
+M 13702   5 13720
+M 13705   5 13720
+M 13706   5 13720
+M 13701   5 13719
+M 13702   5 13719
+M 13705   5 13719
+M 13706   5 13719
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,1345 @@
+#AREA King Menos' Maze~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 75 95 60 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT|AFLAG_NORECALL
+
+
+#HELPS
+0 'KING MENOS MAZE'~
+{128}                              King Menos's Maze
+{308}
+The maze is the final episode in the Isle of Mist trilogy, which consists
+of The Isle of Mist, Mist City, and King Menos' Maze.  This maze is taken
+from Greek legend.  Inside the maze you can find giant rats, gelatinus
+cubes, athenian men and women sentenced to their deaths, Theseus, the famed 
+slayer of the minotaur, and of course .. the minotaur.  Recalling is not an 
+option from within the maze.  MUHAHAHA
+~
+
+0 $~
+
+
+#MOBILES
+#11200
+minotaur~
+the Minotaur~
+The Minotaur is here!  Prepare to die!~
+This is the most powerful being on the isle.  Kiss your ass goodbye!
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT|AFF_TONGUES|AFF_HASTE
+-1000 S
+150 BODY_HEAD|BODY_MOUTH|BODY_CLAW BODY_HEAD|BODY_MOUTH|BODY_HORN|BODY_CLAW 0d0+20000 15d15+80
+289122 0
+POS_RESTING POS_RESTING SEX_MALE
+>all_greet_prog 100~
+stand 
+shout RRRRRRRRRROOOOOOOOOOAAAAAAAAAARRRRRRRRRR!!!!!!!!!!
+mpkill $n
+~
+>entry_prog 100~
+shout RRRRRRRRRROOOOOOOOOOAAAAAAAAAARRRRRRRRRR!!!!!!!!!!
+mpkill $r
+~
+>fight_prog 50~
+if rand (50)
+  bash 
+else
+  if rand (80)
+    growl $r
+  else
+    emote goes berserk!
+    berserk 
+  endif
+endif
+~
+>rand_prog 20~
+mpquiet on
+cast heal
+mpquiet off
+mpkill athenian
+mpkill theseus
+~
+>death_prog 99~
+if rand (33)
+  mpoload 11201
+else
+  if rand (50)
+    mpoload 11202
+  else
+    mpoload 11206
+  endif
+endif
+if rand (33)
+  mpoload 11200
+else
+  if rand (50)
+    mpoload 11204
+  else
+    mpoload 11205
+  endif
+endif
+~
+>rand_prog 2~
+stand 
+~
+|
+#11201
+theseus~
+Theseus~
+Theseus is here, looking for the minotaur.~
+This is Theseus, the famed hero who ventured into King Menos' maze and
+slew the minotaur, so you thought.  If he's still here, then perhaps
+the minotaur is as well.
+~
+ACT_SCAVENGER|ACT_BODY
+AFF_SANCTUARY|AFF_STEALTH
+1000 S
+85 BODY_HAND BODY_HAND 0d0+9000 1d80+40
+167964 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 99~
+if rand (75)
+  mpoload 11200
+else
+  if rand (50)
+    mpoload 11202
+  else
+    if rand (50)
+      mpoload 11204
+    endif
+  endif
+endif
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#11202
+athenian~
+a young Athenian~
+A young Athenian woman is here, trapped in the labyrinth.~
+She is young, and quite beautiful.  You wonder what possessed Menos to
+send such a beautiful woman to her doom.
+~
+ACT_SMART|ACT_BODY
+AFF_PROTECT_EVIL
+250 S
+75 BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d3000+2500 9d7+30
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 25~
+mpechoaround $r The athenian mistakes $r for the minotaur and attacks!
+mpechoat $r The athenian mistakes you for the minotaur and attacks!
+mpkill $r
+~
+>death_prog 99~
+if rand (4)
+  mpoload 11200
+else
+  if rand (5)
+    mpoload 11201
+  else
+    if rand (6)
+      mpoload 11202
+    else
+      if rand (7)
+        mpoload 11204
+      else
+        if rand (8)
+          mpoload 11205
+        else
+          if rand (10)
+            mpoload 11206
+          else
+            mpoload 11207
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#11203
+athenian~
+a young Athenian~
+A young Athenian man is here, trapped in the labyrinth.~
+He is young and healthy, but not very happy, so it seems.
+Maybe you should just put him out of his misery.
+~
+ACT_SMART|ACT_BODY
+AFF_PROTECT_EVIL
+-250 S
+75 BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d3000+2500 9d7+30
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpechoaround $r The athenian mistakes $r for the minotaur and attacks!
+mpechoat $r The athenian mistakes you for the minotaur and attacks!
+mpkill $r
+~
+>death_prog 99~
+if rand (4)
+  mpoload 11200
+else
+  if rand (5)
+    mpoload 11201
+  else
+    if rand (6)
+      mpoload 11202
+    else
+      if rand (7)
+        mpoload 11204
+      else
+        if rand (8)
+          mpoload 11205
+        else
+          if rand (10)
+            mpoload 11206
+          else
+            mpoload 11207
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#11204
+rat~
+a Huge Rat~
+A huge rat is here, looking for athenian flesh to eat.~
+It looks like a normal rat, except it's three feet long!
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_BODY
+AFF_SNEAK
+0 S
+50 BODY_MOUTH BODY_MOUTH 0d0+2000 5d5+25
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpkill $r
+~
+>entry_prog 100~
+mpkill $r
+~
+>rand_prog 5~
+mpkill athenian
+~
+|
+#11205
+cube gelatinus~
+a Gelatine Cube~
+A large, wobbling cube wonders the hallway here.~
+This cube looks delicious, but don't let its appearance fool you.
+~
+ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+65 0 0 50d99+50 5d10+30
+15392 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpkill $r
+~
+>entry_prog 100~
+mpkill $r
+~
+>rand_prog 50~
+if rand (20)
+  mpkill rat
+endif
+emote dissolves everything on the floor.
+mpquiet on
+sacrifice all
+mpquiet off
+~
+>fight_prog 10~
+cast "earth"
+~
+|
+#11206
+demon mist~
+a mist demon sentry~
+A demon is here, and it looks hungry for blood!~
+Upon closer observation, this is the fiercest demon you have ever seen.
+You better leave him alone, unless you wish to join the dead.  He's 
+already drooling over you.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+75 BODY_MOUTH|BODY_CLAW BODY_MOUTH|BODY_CLAW 0d0+5000 1d60+40
+100000 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>all_greet_prog 100~
+if level ($n) >= 50
+  mpkill $n
+endif
+~
+>fight_prog 15~
+growl $r
+~
+>time_prog 0~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mpecho $I fades into mist.
+  mppurge self
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11200
+dagger elemental~
+an elemental dagger~
+A dagger lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 7 7 WEAPON_PIERCE 0 0 0 0
+3 10000000 85
+E
+dagger~
+This dagger seems to be made of rock, but fire has enveloped the blade.  
+A breeze that seems to come from nowhere fans the flames to increase their 
+power.  Your hand would be toast if it weren't for a steady flow of water
+circulating around the hilt to keep it cool.  This dagger truly has been
+created from the elements.
+~
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+C
+dagger~
+FLAG_CLASS_ELEMENTALIST
+#11201
+claws fire flaming pair~
+a pair of fire claws~
+A flaming pair of dragon claws lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 6 6 WEAPON_BLAST 0 0 0 0
+6 10000000 80
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL -6 0
+C
+punch~
+FLAG_CLASS_MONK
+#11202
+boots fire flaming pair~
+a pair of fire boots~
+A flaming pair of boots lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+10 1000000 65
+A APPLY_DAMROLL 6 0
+P 1
+TRIG_TICK 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -10
+#11203
+crack fountain~
+a crack in the floor~
+There is a crack in the floor here, allowing moisture to come in.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+2000 10 1
+#11204
+sword singing~
+a singing sword~
+There is a sword here, humming for no reason.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 50 WEAPON_SLASH 0 0 0 0
+20 500000 70
+A APPLY_HITROLL 5 0
+P 1
+TRIG_HIT 20
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO A singing sword cries out in pain!~
+P 3
+TRIG_DAMAGE 15
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 4 0
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+RECHO A singing sword cackles with insane glee!~
+#11205
+rolex sundial~
+a rolex sundial~
+There is a small sundial lying on the ground here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+1 10000000 75
+A APPLY_AC -15 0
+A APPLY_INT 3 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+Tick....~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA -1
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -2
+#11206
+scroll torn~
+a torn scroll~
+A torn scroll is lying here.~
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000000 55
+E
+scroll torn~
+The scroll:
+   _________________________________________________________________________
+--|_________________________________________________________________________|--
+    |                                                                     |
+    |                    To use this scroll, just type                    |
+    |    ______                  ___    ___                               |
+    |    |     \      _______    |  \  /  |                ___     ___    |
+    |    |      \     |          |   \/   |                |  \     |     |
+    |    |       |    |          |        |     ______     |   \    |     |
+    |    |       |    |          |        |    /      \    |    \   |     |
+     ---------.  |   .-----.     |      .---------.    \   |     \  |     |
+               ------       ---. |    .-           ---. |  |    .---------
+                                ------                 ---.| .--
+                                                           --
+~
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+P 1
+TRIG_UNKNOWN 100 demon
+OPROG_GOD_COMMAND
+mpmload 11206~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#11207
+coins gold~
+a pile of coins~
+A pile of coins is here.~
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+100 0 0 0 0 0 0 0
+1 100 1
+#11208
+shield minotaur~
+the Shield of the Minotaur~
+A large shield lies here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+500 CONT_CLOSEABLE -1 0 0 0 0 0
+15 100000 90
+A APPLY_SAVING_SPELL -10 0
+A APPLY_AC -10 0
+#0
+
+
+#ROOMS
+#11200
+The Minotaur's Chamber~
+You have entered the main chamber of the minotaur.  Before you stands a
+creature responsible for thousands of deaths.  Will you become another
+victim?  The only exit is up.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_PRIVATE SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11227
+DDIR_UP
+You see a beach.~
+~
+0 -1 10747
+#11201
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11202
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11208
+#11202
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11240
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11201
+#11203
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11210
+#11204
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11200
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11205
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11231
+#11205
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11206
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11204
+#11206
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11213
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11205
+#11207
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11214
+#11208
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11201
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11209
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11215
+#11209
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11216
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11208
+#11210
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11203
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11217
+#11211
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11212
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11218
+#11212
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11211
+#11213
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11206
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11214
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11220
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11212
+#11214
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11207
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11213
+#11215
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11208
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11222
+#11216
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11209
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11217
+#11217
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11210
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11218
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11216
+#11218
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11211
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11219
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11217
+#11219
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11220
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11226
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11218
+#11220
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11213
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11227
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11219
+#11221
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11243
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11228
+#11222
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11215
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11229
+#11223
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11224
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11230
+#11224
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11225
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11223
+#11225
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11232
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11224
+#11226
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11219
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11233
+#11227
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11220
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11228
+#11228
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11221
+DDIR_SOUTH
+~
+~
+0 -1 11235
+#11229
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11222
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11230
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11236
+#11230
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11223
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11237
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11229
+#11231
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11232
+#11232
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11225
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11239
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11231
+#11233
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11226
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11234
+#11234
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11235
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11233
+#11235
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11228
+#11236
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11229
+#11237
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11230
+DDIR_SOUTH
+~
+~
+0 -1 11244
+#11238
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11245
+#11239
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11232
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11246
+#11240
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11241
+#11241
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11248
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11240
+#11242
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11249
+#11243
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room is a dead end!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11244
+#11244
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11245
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11243
+#11245
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11238
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11246
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11244
+#11246
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11239
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11247
+DDIR_SOUTH
+You see another room in the maze.~
+~
+0 -1 11250
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11245
+#11247
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11248
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11246
+#11248
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11241
+DDIR_EAST
+You see another room in the maze.~
+~
+0 -1 11249
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11247
+#11249
+A Room in the Maze~
+You are standing in a room in King Menos' Maze.  This room looks like
+all the others.  Don't get lost.  MUHAHAHA!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11242
+DDIR_WEST
+You see another room in the maze.~
+~
+0 -1 11248
+#11250
+The Entrance to King Menos' Maze~
+You stand before the maze of the minotaur!  The only way out now is to
+recall from this room, die, or complete the maze.  Have a nice day.  =)
+There is a sign staked in the ground by the archway.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see another room in the maze.~
+~
+0 -1 11246
+DDIR_UP
+You see a tunnel.~
+~
+0 -1 10952
+E
+sign~
+The sign:             ________________________________
+		     |                                |
+		     |        King Menos' Maze        |
+		     |                                |
+		     | Inside lurks the most powerful |
+		     | creature on the entire island! |
+		     |                                |
+		     |    Enter at your own risk!!    |
+		     |                                |
+		     |  created by Presto Nov 9 1994  |
+		     |________________________________|
+		                    |  |
+		       _____        |  |        _____
+		      /     \       |  |       /     \
+		     |       |      |  |      |       |
+		     | R I P |      |  |      | R I P |
+		     |       |      |  |      |       |
+		     |_______|  \\/_|__|_\//  |_______|
+~
+#11251
+A Room in the Maze~
+This is a mob chute for athenians.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 11202
+DDIR_EAST
+~
+~
+0 -1 11213
+DDIR_SOUTH
+~
+~
+0 -1 11218
+DDIR_WEST
+~
+~
+0 -1 11228
+DDIR_UP
+~
+~
+0 -1 11241
+DDIR_DOWN
+~
+~
+0 -1 11243
+#11252
+A Room in the Maze~
+This is a mob chute for athenians.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 11205
+DDIR_EAST
+~
+~
+0 -1 11208
+DDIR_SOUTH
+~
+~
+0 -1 11224
+DDIR_WEST
+~
+~
+0 -1 11229
+DDIR_UP
+~
+~
+0 -1 11238
+DDIR_DOWN
+~
+~
+0 -1 11247
+#0
+
+
+#RESETS
+M 11200 100 11200
+E 11208   1 WEAR_SHIELD
+M 11201 100 11233
+M 11202 100 11251
+M 11202 100 11251
+M 11202 100 11251
+M 11202 100 11251
+M 11202 100 11251
+M 11202 100 11251
+M 11202 100 11251
+M 11203 100 11252
+M 11203 100 11252
+M 11203 100 11252
+M 11203 100 11252
+M 11203 100 11252
+M 11203 100 11252
+M 11203 100 11252
+M 11204 100 11209
+M 11204 100 11211
+M 11204 100 11213
+M 11204 100 11223
+M 11204 100 11225
+M 11204 100 11227
+M 11204 100 11237
+M 11204 100 11239
+M 11204 100 11241
+M 11205 100 11215
+M 11205 100 11219
+M 11205 100 11231
+M 11205 100 11249
+O 11203   1 11250
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,8465 @@
+#AREA Piscyra~
+#AUTHORS Grimace~
+#VERSION 4
+#RANGES 25 60 1 95
+#OLC_RANGES 28700 28999
+#FLAGS AFLAG_NOTELEPORT|AFLAG_AUTOSAVE
+
+
+#HELPS
+0 PISCYRA~
+{128}                                   Piscyra
+{308}
+The rumours of the existance of a floating city somewhere to the north
+of the eastern continent of the realms have been around for years,
+though, as is the nature with folklore, the facts have become blurred with
+time and the telling.  The most reliable report comes from an old hermit
+who makes his home on the beach north of Olympus in a small shack
+constructed of dessicated whale bone and driftwood.  In a short interview
+we had over a sandpit-fried squid, he spoke to me in moments of lucidity
+punctuated by manic laughter.  He told a tale of a prosperous slave trade
+presided over by a foul pirate, whose ship holds are full of mushroom
+women and children.  He also spoke of a band of refugees from an island
+paradise who were driven to the sea by a huge turquoise wave which sunk
+their island and the reefs around it.  Some say it was fate, some say it
+was Lord Neptune, but there is no doubt that this island sunk into an
+abyss, taking most of its population with it.  The few survivors of this
+catastrophe used their advanced technological knowledge to construct a
+walled city in the middle of the sea, where their descendents still live
+today.  Shortly after the interview, the hermit stripped off his crusty
+leather loincloth and ran away, screaming and laughing, down the beach.
+{148}
+                              Grimace 6/97
+~
+
+0 $~
+
+
+#MOBILES
+#28700
+old hermit~
+an old hermit~
+An old man flashes a crooked smile while peering at you through one eye.~
+The old hermit has a long straggly beard which enables him to run around
+buck naked on the beach with minimal embarrassment.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 1d2256+7613 1d95+93
+2 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+say When I was just a wee lad, I travelled the realm.
+say I've been across the sea, I've seen
+say amazing places and far-away lands, I've even seen
+say a walled CITY afloat in the middle of the sea.  Oh to
+say be young again.
+sigh 
+~
+>speech_prog city~
+say Ahhh, so you seek the floating city of Piscyra?
+grin $n
+say Perhaps this will help:  Sail north across the sea
+say and you shall find Piscyra on the eastern horizon.
+say Good luck, traveller.
+mpforce $n bow
+~
+|
+#28701
+barracuda~
+a barracuda~
+A long dark shape turns toward you with surprising quickness...~
+The barracuda has rows of sharp teeth and pockmarks all over its body from
+other struggles.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_SNEAK|AFF_HIDE
+0 S
+30 BODY_MOUTH BODY_MOUTH 1d225+410 1d1+21
+21133 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#28702
+shark~
+a shark~
+A dorsal fin suddenly breaches the surface of the water...~
+The shark is covered with blood and stares at you will black hollow eyes.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_SNEAK|AFF_HIDE
+0 S
+30 BODY_MOUTH BODY_MOUTH 1d225+410 1d1+21
+21134 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#28703
+sea urchin~
+a sea urchin~
+The black spines of a sea urchin jut out from a crack in the rocks.~
+The sea urchin has eaked out a meager existance in this rough environment.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+0
+0 S
+30 0 0 1d272+499 1d1+21
+2223 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#28704
+man piscyrean~
+a Piscyrean man~
+A man dressed in cheap but exotic rags lowers his head as you approach.~
+The Piscyrean man is dressed in an assortment of cheap
+but bright rags which speak of a pride much deeper than
+his appearance might show.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+100 S
+43 BODY_HEAD|BODY_HAND BODY_HEAD 1d462+868 1d43+10
+67133 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog pirate~
+mpecho {138}The Piscyrean man screams, 'PIRATES!! WHERE?!  Aghhhhhhhhh!'
+mpecho then runs out of the room.
+mpgorand 28810 28861 0 1
+~
+>fight_prog 10~
+if rand (33)
+  glare $n
+else
+  if rand (50)
+    mpecho You see large beads of sweat breaking on the man's brow.
+  else
+    kick 
+  endif
+~
+|
+#28705
+woman piscyrean~
+a Piscyrean woman~
+A woman of the city shuffles her feet nervously as you approach.~
+The Piscyrean woman is dressed in plain but well-made
+clothes which fall loosely around her shapely curves.
+~
+ACT_SMART|ACT_BODY
+0
+100 S
+40 BODY_HEAD|BODY_HAND BODY_HEAD 1d400+746 1d40+9
+39119 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 3~
+if rand (33)
+  mpecho The Piscyrean woman whimpers softly and looks at you with pleading eyes.
+else
+  mpecho You catch a glimpse of needle and thread in the woman's pouch.
+endif
+~
+>fight_prog 3~
+grovel $n
+~
+>give_prog i28744~
+smile $n
+if quest (0,4,self) == 0
+  say Four more pieces of loach skin like that,
+  say and I'd be able to sew a fine sash.
+  mpmset self quest 0 4 1
+else
+  if quest (0,4,self) == 1
+    say Three more pieces of loach skin would be nice.
+    mpmset self quest 0 4 2
+  else
+    if quest (0,4,self) == 2
+      say Two more pieces, and I'm all set.
+      mpmset self quest 0 4 3
+    else
+      if quest (0,4,self) == 3
+        say One more piece, and you have yourself a sash.
+        say Let me get started.
+        mpecho The woman whips out a needle and some thread.
+        mpmset self quest 0 4 4
+      else
+        if quest (0,4,self) == 4
+          say There we go!
+          mpecho The woman carefully sews together the pieces of loach skin.
+          say And... here you go.
+          mpoload 28743
+          mpquiet on
+          cast 'remove curse' self
+          mpquiet off
+          drop i28743
+          bow $n
+          mpmset self quest 0 4 0
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#28706
+child piscyrean~
+a Piscyrean child~
+A child flashes you an evil grin, then turns to play with a bit of string.~
+The Piscyrean child looks well-kept but unruly and defiant.
+~
+ACT_BODY
+0
+100 S
+30 BODY_HEAD BODY_HEAD 1d225+410 1d1+21
+23524 0
+POS_STANDING POS_STANDING SEX_MALE
+#28707
+city elder~
+a city elder~
+A man with a long grey beard looks at you with disdain.~
+The elder is dressed predominantly in turquoise-colored rags which seem to
+indicate an elevated social status.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+100 S
+50 BODY_HEAD|BODY_HAND BODY_HEAD|BODY_HAND 1d625+1197 1d50+13
+97188 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 50~
+if quest (0,5,$i) == 1
+  mpecho The elder clears his throat, as if about to speak.
+endif
+if quest (0,5,$i) == 2
+  say Have you any water?  Fresh water?
+endif
+mpjunk all
+mpmadd self quest 0 5 1
+~
+>give_prog i19402~
+mpecho The elder studies the apple for a second.
+say Ahhhh... Food for my people!
+say Thank you, kind stranger.
+mpoload 28745
+drop i28745
+~
+>give_prog i31213~
+mpecho The elder takes a tug on the flask.
+mpecho The elder grins from ear to ear.
+say Ahhhh... fresh water
+say from the old desalination plant!
+say Thank you, kind stranger.
+mpoload 28746
+drop i28746
+~
+>fight_prog 25~
+if rand (33)
+  say I cast thee OUT, infidel!
+else
+  if rand (50)
+    say Leave my people alone.  They've suffered enough.
+  else
+    glare $n
+  endif
+endif
+~
+|
+#28708
+wall sentinel~
+a wall sentinel~
+A sentinel keeps the watch from on high.~
+The sentinel is both well-armored and well-armed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+100 S
+65 BODY_HEAD|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM BODY_HEAD|BODY_HIP|BODY_LEG|BODY_ARM 1d1260+2563 1d71+26
+48484 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 4~
+mpecho The sentinel shifts his weight uneasily.
+~
+>fight_prog 25~
+if rand (10)
+  mpecho The sentinel launches a furious assault.
+else
+  if rand (11)
+    mpecho The sentinel lashes out in anger.
+  else
+    if rand (12)
+      mpecho The sentinel raises his voice in a horrific war cry.
+    else
+      if rand (14)
+        glare $n
+      else
+        if rand (16)
+          kick 
+        else
+          if rand (20)
+            if isgood ($n)
+              break
+            endif
+            mpecho The sentinel looks to the sea and makes a silent prayer to Neptune.
+            mpforce $n remove all
+            grin $n
+          else
+            if rand (25)
+              say Pirate scum!   You shall fall to my mighty blade!
+            else
+              if rand (33)
+                say Die, maggot!
+              else
+                if rand (50)
+                  mpecho The sentinel flips around and lifts his tunic, giving
+                  mpecho you an up-close look at his backside.
+                else
+                  say In the name of Lord Neptune, you will perish!
+                  mpecho The sea rumbles and waves crash against the wall.
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#28709
+piscyrean city guard~
+a Piscyrean city guard~
+A Piscyrean city guard is on patrol, looking for trouble.~
+The Piscyrean city guard is both well-armored and well-armed.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+350 S
+65 BODY_HEAD|BODY_HAND BODY_HEAD|BODY_HAND 1d1056+2111 1d65+22
+31133 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 3
+  bow $n
+else
+  if existsroom ($n)
+    mpecho {138}The guard yells, 'Be gone, pirate scum!'
+    mptransfer $n 28700
+~
+>fight_prog 25~
+if rand (11)
+  wear blade
+  mpecho The guard feints left, then lunges right.
+else
+  if rand (12)
+    wear blade
+    mpechoat $n The guard cross-steps left to avoid your attack.
+    mpechoaround $n The guard cross-steps left to avoid $n's attack.
+  else
+    if rand (14)
+      wear blade
+      mpechoat $n You narrowly dodge the guard's thrust.
+      mpechoaround $n $n narrowly dodges the guard's thrust.
+    else
+      if rand (16)
+        wear blade
+        mpechoat $n The guard shifts the grip on his blade and advances toward you.
+        mpechoaround $n The guard shifts the grip on his blade and advances toward $n.
+      else
+        if rand (20)
+          wear blade
+          mpecho The guard takes a step backward to recompose himself.
+        else
+          if rand (25)
+            wear blade
+            mpecho The guard raises his blade high above his head.
+          else
+            if rand (33)
+              wear blade
+              glare $n
+            else
+              if rand (50)
+                kick 
+              else
+                slap $n
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#28710
+piscyrean gate guard~
+the Piscyrean gate guard~
+The Piscyrean gate guard blocks entrance to the city.~
+The Piscyrean gate guard wears glowing turquoise armor all over her body.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+75 BODY_HEAD BODY_HEAD 1d1406+4580 1d75+66
+147886 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 0
+  say I knew you'd come.  You're here to help?
+else
+  if quest (0,4,$n) == 1
+  or quest (0,4,$n) == 2
+    say How goes the quest?
+  else
+    if quest (0,4,$n) == 3
+      smile $n
+      unlock gate
+      open gate
+      say All hail $N!
+      say Pax Piscyra.
+      mpechoat $n The gate guard bows his head as you pass.
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 0
+  say Excellent.  Bring me the head of the vile
+  say pirate who has been tirelessly assaulting
+  say our city, and you shall be rewarded.
+  mpmset $n quest 0 4 1
+endif
+~
+>speech_prog no~
+if quest (0,4,$n) == 0
+  say Then be gone.  You're worthless to me.
+endif
+~
+>speech_prog good~
+if quest (0,4,$n) == 1
+or quest (0,4,$n) == 2
+  say I'm glad to hear it.  Bring me that head.
+endif
+~
+>speech_prog bad~
+if quest (0,4,$n) == 1
+or quest (0,4,$n) == 2
+  say This isn't a quest for the faint of heart.
+  sigh 
+endif
+~
+>give_prog I28738~
+if quest (0,4,$n) == 2
+  mpmset $n quest 0 4 3
+  say Ahhhh, yes...
+  say The bastard finally met his bloody end.
+  mpecho The gate guard calls to a small boy who grabs the head and then disappears.
+  say We shall stick that foul creature's head on
+  say a spike and display it for all who might
+  say consider threatening our way of life again.
+  mpoload 28739
+  give I28739 $n
+  say Thank you, $N.
+  bow $n
+  unlock gate
+  open gate
+  mpjunk all
+endif
+~
+>fight_prog 50~
+if rand (11)
+  wear blade
+  mpecho The guard feints left, then lunges right.
+else
+  if rand (12)
+    wear blade
+    mpechoat $n The guard cross-steps left to avoid your attack.
+    mpechoaround $n The guard cross-steps left to avoid $n's attack.
+  else
+    if rand (14)
+      wear blade
+      mpechoat $n You narrowly dodge the guard's thrust.
+      mpechoaround $n $n narrowly dodges the guard's thrust.
+    else
+      if rand (16)
+        wear blade
+        mpechoat $n The guard shifts the grip on his blade and advances toward you.
+        mpechoaround $n The guard shifts the grip on his blade and advances toward $n.
+      else
+        if rand (20)
+          wear blade
+          mpecho The guard takes a step backward to recompose himself.
+        else
+          if rand (25)
+            wear blade
+            mpecho The guard raises his blade high above his head.
+          else
+            if rand (33)
+              wear blade
+              glare $n
+            else
+              if rand (50)
+                kick 
+              else
+                slap $n
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#28711
+pirate captain~
+the pirate captain~
+The pirate captain sits here, slumped in his chair.~
+The pirate captain scowls at your glance.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+30 BODY_HEAD BODY_HEAD 1d272+499 1d1+21
+35018 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,4,$n) == 1
+  say So you're the best they could come
+  say up with?  Some champion.
+  laugh $n
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 1
+  mpoload 28738
+  mpmset $n quest 0 4 2
+endif
+~
+>rand_prog 2~
+mpecho The old pirate growls at you through blackened teeth.
+~
+>fight_prog 33~
+if rand (20)
+  wear cutlass
+  mpechoat $n The old pirate raises his cutlass above his head and slashes you with a vicious cut.
+  mpechoaround $n The old pirate raises his cutlass above his head and slashes $n
+  mpechoaround $n with a vicious cut.
+else
+  if rand (25)
+    mpquiet on
+    remove cutlass
+    mpquiet off
+    mpecho The pirate captain breaks off the end of an old wine bottle
+    mpecho but discards it in favor of his cutlass.
+    wear cutlass
+  else
+    if rand (33)
+      glare $n
+    else
+      if rand (50)
+        mpechoat $n The pirate sneers at you.
+        mpechoaround $n The pirate sneers at $n.
+      else
+        kick 
+      endif
+    endif
+  endif
+endif
+~
+|
+#28712
+first mate~
+the first mate~
+The first mate glares at you.~
+The first mate has a long cicatrice running down his face from above his
+right eye to behind his left ear.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+-500 S
+30 BODY_HEAD BODY_HEAD 1d225+410 1d1+21
+22240 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 3~
+mpecho The first mate growls at you through blackened teeth.
+~
+>fight_prog 25~
+if rand (20)
+  wear cutlass
+  mpechoat $n The first mate raises his cutlass above his head and slashes you with a vicious cut.
+  mpechoaround $n The first mate raises his cutlass above his head and slashes $n
+  mpechoaround $n with a vicious cut.
+else
+  if rand (25)
+    say Noone messes with the cap'n!
+  else
+    if rand (33)
+      glare $n
+    else
+      if rand (50)
+        mpechoat $n The pirate sneers at you.
+        mpechoaround $n The pirate sneers at $n.
+      else
+        kick 
+      endif
+    endif
+  endif
+endif
+~
+|
+#28713
+pirate~
+a pirate~
+A pirate scowls at your approach.~
+The pirate reeks of sauerkraut and hard tack.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+0
+-350 S
+25 BODY_HEAD BODY_HEAD 1d1+380 1d1+19
+18737 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 2~
+mpecho The first mate growls at you through blackened teeth.
+~
+>fight_prog 25~
+if rand (20)
+  wear cutlass
+  mpechoat $n The pirate raises his cutlass above his head and slashes you with a vicious cut.
+  mpechoaround $n The pirate raises his cutlass above his head and slashes $n
+  mpechoaround $n with a vicious cut.
+else
+  if rand (25)
+    say Noone messes with the cap'n!
+  else
+    if rand (33)
+      glare $n
+    else
+      if rand (50)
+        mpechoat $n The pirate sneers at you.
+        mpechoaround $n The pirate sneers at $n.
+      else
+        kick 
+      endif
+    endif
+  endif
+endif
+~
+|
+#28714
+giant coolee loach~
+a giant coolee loach~
+A giant coolee loach hangs off the float, its tail dangling in the water.~
+The coolee loach has a long sucker it uses to feed on algae and barnacles.
+~
+ACT_SENTINEL|ACT_BODY
+0
+-1000 S
+43 BODY_MOUTH BODY_MOUTH 1d552+1049 1d47+12
+41441 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 4~
+mpecho The coolee loach shifts its sucker grip to graze on some algae.
+~
+>fight_prog 4~
+mpechoat $n The coolee loach plants its sucker on your forehead.  Ouch!
+mpechoaround $n The coolea loach plants its sucker on $N's forehead.
+mpquiet on
+cast 'weaken' $n
+mpquiet off
+~
+>death_prog 30~
+mpoload 28744
+~
+|
+#28715
+baby abyssal shark~
+a baby abyssal shark~
+A baby abyssal shark stares at you with blank eyes.~
+The baby abyssal shark is completely blind, but its teeth are nevertheless
+quite lethal.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+30 BODY_MOUTH BODY_MOUTH 1d225+410 20d2+1
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#28716
+gull sharp beak~
+a sharp-beaked gull~
+A sharp-beaked gull dive-bombs your head.~
+The gull seems to have a particularly bad temperament.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING
+0 S
+28 BODY_HEAD 0 1d196+356 18d2+1
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+#28717
+mushroom village female~
+a mushroom village female~
+A female of the village stands here, lamenting her torn dress as tears stream down her face.~
+The female villager makes a ready, if unwilling, slave.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+27 BODY_HEAD BODY_HEAD 1d182+331 17d2+1
+1 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#28718
+genetically-engineered squid~
+a genetically-engineered squid~
+The most perfect squid you've ever seen waves its tentacles at you.~
+The squid has been genetically engineered to improve both appearance and
+performance.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+25 BODY_TENTACLE BODY_TENTACLE 1d1+350 16d2+1
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#28719
+peddlar~
+a peddlar~
+A peddlar wearing a large turban winks at you.~
+The peddlar wears loose clothing to hide his flabby gut.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+123911 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28720
+A peddlar~
+a peddlar~
+A peddlar wearing a leather breastplate greets you with a smile.~
+The peddlar is no warrior, but his breastplate looks sturdy.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+162825 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28721
+peddlar~
+a peddlar~
+A peddlar waves at you with a long staff, then chuckles to himself.~
+The peddlar seems to be a jolly fellow.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+150731 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28722
+merchant~
+a merchant~
+A prosperous merchant struts proudly behind his table.~
+The merchant is decked out in turquoise and wields a small whip.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+128959 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28723
+beggar~
+a beggar~
+A beggar grovels at your feet.~
+The beggar is almost entirely naked, and his ribs are quite prominant.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+160628 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>bribe_prog 1~
+mpecho The beggar smiles, then licks your boots.
+~
+|
+#28724
+peddlar~
+a peddlar~
+A peddlar displays her wares, glancing nervously over her shoulder.~
+The peddlar returns your gaze with a furtive glance.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+161950 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28725
+peddlar~
+a peddlar~
+A peddlar runs his hands through his greasy hair.~
+The peddlar carries a large burlap sack dyed to a turquoise sheen.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+127972 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28726
+wise man city~
+a wise man of the city~
+A wise man of the city sits cross-legged in the corner.~
+The wise man wears a large turquoise turban, and his beard pools in his lap.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+166035 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28727
+wise man city~
+a wise man of the city~
+A wise man of the city sits cross-legged in the corner.~
+The wise man wears a large turquoise turban, and his beard pools in his lap.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+7613 1d1+167
+161210 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#28734
+sand fly~
+a sand fly~
+A small biting fly crawls here in the sand.~
+The sand fly tries to suck moisture from your eyelashes.
+~
+ACT_SENTINEL
+0
+1000 S
+5 0 0 1d6+27 1d1+5
+1043 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if rand (5)
+  mpecho The sand fly buzzes its wings and burrows deeper into the sand.
+endif
+~
+|
+#0
+
+
+#SHOPS
+28700 ITEM_TYPE_BOAT ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  150  50  0 23
+28719 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  150  50  0 23
+28720 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  150  50  0 23
+28721 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL  150  50  0 23
+28722 ITEM_TYPE_CORPSE_NPC ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+28723 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  150  50  0 23
+28724 ITEM_TYPE_TREASURE ITEM_TYPE_FURNITURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  150  50  0 23
+28725 ITEM_TYPE_CONTAINER ITEM_TYPE_LIGHT ITEM_TYPE_FURNITURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING  150  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#28700
+driftwood raft~
+a driftwood raft~
+The raft is constructed from coarsely-bound driftwood scavenged from the
+beach.~
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+35 126000 1
+#28701
+mollusk blade~
+a mollusk blade~
+A blade fashioned from a piece of mollusk and sharpened has been
+abandoned here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 4 6 WEAPON_SLICE 0 0 0 0
+1 26333 26
+#28702
+conch helmet~
+a conch helmet~
+A helmet carved out of a large shell rolls on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28703
+kelp tunic~
+a kelp tunic~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28704
+kelp leggings~
+some kelp leggings~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28705
+kelp booties~
+some kelp booties~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28706
+plain dress kelp~
+a dress of kelp~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28707
+seashell bracelet~
+a seashell bracelet~
+A seashell bracelet has been abandoned here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28708
+crinoid ring~
+a crinoid ring~
+A star-shaped crinoid ring has been scavenged from the sea-bed by some
+intrepid explorer.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28709
+kelp knickers~
+some kelp knickers~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28710
+turquoise wrap~
+a turquoise wrap~
+Some turquoise cloth has been left here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+5 14141 25
+A APPLY_MOVE -20 0
+A APPLY_SAVING_SPELL -3 0
+#28711
+sentinel warhammer~
+a sentinel's warhammer~
+An enormous hammer has been abandoned here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 8 6 WEAPON_CRUSH 0 0 0 0
+40 42242 60
+#28712
+sentinel breastplate~
+a sentinel's breastplate~
+A large breastplate which depicts Lord Neptune riding a swordfish has
+been dropped here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+40 14222 60
+A APPLY_DAMROLL 5 0
+A APPLY_SAVING_SPELL -3 0
+A APPLY_STR 1 0
+#28713
+sentinel shield~
+a sentinel's shield~
+A gigantic shield featuring Lord Order and his minion Neptune
+drinking wine has been left here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+12 0 0 0 0 0 0 0
+40 14222 60
+A APPLY_DAMROLL 5 0
+A APPLY_SAVING_SPELL -3 0
+A APPLY_CON 1 0
+#28714
+Neptune broadsword~
+neptune's broadsword~
+A large sword touched by Neptune himself lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 6 WEAPON_SLASH 0 0 0 0
+10 222222 40
+A APPLY_SAVING_SPELL -5 0
+A APPLY_DAMROLL 3 0
+A APPLY_INT -3 0
+#28715
+suit aragonite armor~
+a suit of aragonite armor~
+A suit of armor shines here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+5 23232 60
+A APPLY_DAMROLL -5 0
+A APPLY_SAVING_SPELL -3 0
+#28716
+pair aragonite gauntlets~
+a pair of aragonite gauntlets~
+A pair of gauntlets shines here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+15 0 0 0 0 0 0 0
+5 22552 60
+A APPLY_SAVING_SPELL -6 0
+#28717
+pair aragonite boots~
+a pair of aragonite boots~
+A pair of boots shines here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+5 22552 60
+A APPLY_SAVING_SPELL -6 0
+#28718
+banda~
+a pirate's banda~
+A banda lies in a little heap on the floor.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+5 23222 19
+A APPLY_INT -2 0
+A APPLY_HIT 8 0
+A APPLY_DAMROLL 2 0
+#28719
+bloody cutlass~
+a bloody cutlass~
+A cutlass has been dropped here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 4 6 WEAPON_SLASH 0 0 0 0
+1 3423 20
+#28720
+eyepatch~
+an eyepatch~
+An eyepatch has been dropped here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+2 0 0 0 0 0 0 0
+5 22223 4
+A APPLY_DAMROLL 1 0
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+#28721
+sextant~
+a sextant~
+A sextant has been abandoned here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+12 0 0 0 0 0 0 0
+1 209999 29
+A APPLY_STR -4 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#28722
+pirate rapier~
+a pirate's rapier~
+A rapier has been abandoned here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 4 5 WEAPON_PIERCE 0 0 0 0
+1 41444 25
+A APPLY_HIT -20 0
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 3 0
+#28723
+chest large~
+a large chest~
+A large chest sits in the corner.~
+~
+ITEM_TYPE_CONTAINER
+0
+0
+1000 CONT_CLOSEABLE|CONT_EASY_PICK 6 11 0 0 0 0
+5555 10 67
+#28724
+figurehead~
+a large figurehead~
+A large figurehead depicting Neptune graces the bow of the ship.~
+~
+ITEM_TYPE_TOTEM
+0
+0
+29 29 29 29 0 0 0 0
+1 10 100
+S 1 'breath water'
+S 2 'breath water'
+S 3 'breath water'
+#28725
+pair shackles~
+a pair of shackles~
+A pair of shackles is attached to the hull.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 1 0 0 0 0 0 0
+5 10 1
+#28726
+kelp turban~
+a kelp turban~
+Some stitched, dyed kelp lies in a pile here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+5 23333 25
+A APPLY_STR -3 0
+A APPLY_SAVING_SPELL 3 0
+#28727
+phosphorescent squid~
+a phosphorescent squid~
+A phosphorescent squid shines brightly.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 1 1000 11 0 0 0 0
+5 333333 40
+A APPLY_MOVE -50 0
+A APPLY_MANA 55 0
+A APPLY_AC -5 0
+#28728
+abalone shell~
+an abalone shell~
+An abalone shell lies here.~
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+287 0 -1 0 0 0 0 0
+5 333333 21
+#28729
+gourd fresh water containing~
+a gourd containing fresh water~
+A gourd containing fresh water has been left here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 20 LIQ_WATER 0 0 0 0 0
+5 221311 1
+#28730
+bowl bouillabase~
+a bowl of bouillabase~
+A bowl of bouillabase steams here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 0 0 0 0 0 0 0
+2 22 1
+#28731
+loach fillet~
+a loach fillet~
+A loach fillet has been dropped here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 0 0 0 0 0 0 0
+2 22 1
+#28732
+loaf fish bread~
+a loaf of fish bread~
+A loaf of bread has been abandoned here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+5 22 1
+#28733
+black pearl~
+a black pearl~
+A beautiful black pearl has been carelessly dropped here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+5 333333 40
+A APPLY_MOVE -50 0
+A APPLY_MANA 55 0
+#28734
+aragonite potion~
+an aragonite potion~
+An aragonite potion shines here.~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 113 150 206 0 0 0 0
+5 111110 25
+S 1 'fly'
+S 2 'invis'
+S 3 'rift'
+#28735
+aragonite scroll~
+an aragonite scroll~
+An aragonite scroll~
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 113 150 206 0 0 0 0
+2 111110 25
+S 1 'fly'
+S 2 'invis'
+S 3 'rift'
+#28736
+calcite potion~
+a calcite potion~
+A calcite potion sits here.~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 240 208 208 0 0 0 0
+1 111110 28
+S 1 'teleport'
+S 2 'rip'
+S 3 'rip'
+#28737
+calcite scroll~
+a calcite scroll~
+A calcite scroll sits here.~
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 240 208 208 0 0 0 0
+1 111110 28
+S 1 'teleport'
+S 2 'rip'
+S 3 'rip'
+#28738
+pirate captain head~
+the pirate captain's head~
+The pirate captain's head has become disconnected from his body.~
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 1 FURNITURE_SLEEP_ON|FURNITURE_REST_IN 11 0 0 0 0
+5 10 1
+A APPLY_AGE 287 0
+#28739
+suit seaweed armor~
+a suit of seaweed armor~
+A pile of seaweed lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+5 1000000 25
+A APPLY_DAMROLL -3 0
+A APPLY_SAVING_SPELL 3 0
+#28741
+gate key~
+the gate key~
+A key lies here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 121212 1
+#28742
+gauntlets peace~
+gauntlets of peace~
+Some glowing kelp lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+2 0 0 0 0 0 0 0
+5 2000000 7
+A APPLY_STR 1 0
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 1 0
+P 1
+TRIG_HIT 5
+OPROG_IF OIF_WEAR_LOC = WEAR_HANDS 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 10
+P 2
+TRIG_VOID
+OPROG_ECHO
+Green out, peach in... Green out, peach in...~
+#28743
+loachskin sash~
+loachskin sash~
+Some leathery fishskin lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+2 23000 25
+A APPLY_DEX 1 0
+A APPLY_DAMROLL -3 0
+A APPLY_SAVING_SPELL 3 0
+#28744
+piece loach skin~
+a piece of loach skin~
+A piece of loach skin lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 10 1
+#28745
+staff spacial displacement~
+a staff of spacial displacement~
+A glimmering staff lies here.~
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 6 6 208 0 0 0 0
+1 100000 28
+S 3 'rip'
+#28746
+staff spacial linkage~
+a staff of spacial linkage~
+A scintillating staff lies here.~
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 6 6 206 0 0 0 0
+1 100000 28
+S 3 'rift'
+#0
+
+
+#ROOMS
+#28700
+On the Beach~
+You are standing on a wind-swept beach.  Some dessicated
+seaweed has putrified in the hot sun, marking the advance
+of the tides up the steep, sandy slope.  The bleached bones
+of an old whale carcass jut from the sand, a monument to
+the rhythm of life at the boundary of sea and land.  There
+is a sign here.
+~
+0 0 SECT_DESERT
+DDIR_NORTH
+~
+~
+0 -1 28701
+DDIR_SOUTH
+~
+~
+0 -1 28902
+DDIR_DOWN
+~
+hole~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 28916
+E
+sign~
+{308}
+                  ----------------------------------------
+                  |         Welcome to Piscyra!          |
+                  |          Enjoy your stay.            |
+                  |                                      |
+                  |         -Grimace, 12/27/96           |
+                  -----------------| |--------------------
+                  \                | |
+                  /\/   \|\/      \| |/    \|/    \/|/\|/
+~
+#28701
+The Lagoon~
+Gentle waves lap at your face as you swim through the warm, salty water.
+Bright coral colors the water with scarlet, orange, and aquamarine, and
+the lagoon teems with life.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 28706
+DDIR_EAST
+~
+~
+0 -1 28703
+DDIR_SOUTH
+~
+~
+0 -1 28700
+DDIR_WEST
+~
+~
+0 -1 28702
+#28702
+The Lagoon~
+The green water is warm and salty, and just as you begin to drift off into
+euphoria, you realize that a rather strong current is dragging you through a
+narrow channel out to sea.  You wince as you glance off a sea urchin tucked
+away in the rocks.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 28704
+DDIR_EAST
+~
+~
+0 -1 28701
+#28703
+The Lagoon~
+Tiny fish tickle your navel as you swim into the ever-deepening lagoon.
+Brain coral has established itself in large islands, and the ripples in
+the sand at the bottom of the lagoon cast strange striped shadows which
+remind you of fine Elven cloth.  You look up just in time to realize that
+you are being carried out to sea through a narrow channel by a strong
+current.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 28705
+DDIR_WEST
+~
+~
+0 -1 28701
+#28704
+The Narrow Channel~
+Sand-covered coral crops out on both sides as the powerful current carries
+you relentlessly out to sea.  Sea urchins cling tenously just below the
+surface of the water, and schools of larger fish feed on nutrients carried
+from the lagoon.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 28707
+DDIR_SOUTH
+~
+~
+0 -1 28702
+#28705
+The Narrow Channel~
+The water sweeps you past a row of small breakers which threaten to spear
+you on the spines of the large urchins clinging to the rocks in this hostile
+setting.  High spires of dead coral rise above you on either side, and the
+deep blue sea extends all the way to the northern horizon.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 28708
+DDIR_SOUTH
+~
+~
+0 -1 28703
+#28706
+Atop the Barrier Island~
+You have climbed up on a sandy island which seperates the lagoon from the
+deep blue sea to the north.  A huge line of breakers, three or four
+whitecaps deep, speak of dangerous undertow and riptides that would make
+travel to the north unadvisable.  As you turn to return the way you came,
+you notice a small shack constructed of driftwood.
+~
+0 0 SECT_DESERT
+DDIR_SOUTH
+~
+~
+0 -1 28701
+#28707
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28709
+DDIR_SOUTH
+~
+~
+0 -1 28704
+DDIR_WEST
+~
+~
+0 -1 28725
+#28708
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28705
+DDIR_WEST
+~
+~
+0 -1 28709
+#28709
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28710
+DDIR_EAST
+~
+~
+0 -1 28708
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28707
+#28710
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28711
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28709
+DDIR_WEST
+~
+~
+0 -1 28725
+#28711
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28712
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28710
+DDIR_WEST
+~
+~
+0 -1 28725
+#28712
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28713
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28711
+DDIR_WEST
+~
+~
+0 -1 28725
+#28713
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28714
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28712
+DDIR_WEST
+~
+~
+0 -1 28725
+#28714
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28715
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28713
+DDIR_WEST
+~
+~
+0 -1 28725
+#28715
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28716
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28714
+DDIR_WEST
+~
+~
+0 -1 28725
+#28716
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28717
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28715
+DDIR_WEST
+~
+~
+0 -1 28725
+#28717
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28718
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28716
+DDIR_WEST
+~
+~
+0 -1 28725
+#28718
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28719
+DDIR_EAST
+~
+~
+0 -1 28971
+DDIR_SOUTH
+~
+~
+0 -1 28717
+DDIR_WEST
+~
+~
+0 -1 28725
+#28719
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28720
+DDIR_EAST
+~
+~
+0 -1 28970
+DDIR_SOUTH
+~
+~
+0 -1 28718
+DDIR_WEST
+~
+~
+0 -1 28725
+#28720
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28721
+DDIR_EAST
+~
+~
+0 -1 28969
+DDIR_SOUTH
+~
+~
+0 -1 28719
+DDIR_WEST
+~
+~
+0 -1 28725
+#28721
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28722
+DDIR_EAST
+~
+~
+0 -1 28968
+DDIR_SOUTH
+~
+~
+0 -1 28720
+DDIR_WEST
+~
+~
+0 -1 28725
+#28722
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28723
+DDIR_EAST
+~
+~
+0 -1 28967
+DDIR_SOUTH
+~
+~
+0 -1 28721
+DDIR_WEST
+~
+~
+0 -1 28725
+#28723
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28965
+DDIR_EAST
+~
+~
+0 -1 28897
+DDIR_SOUTH
+~
+~
+0 -1 28722
+DDIR_WEST
+~
+~
+0 -1 28725
+#28724
+Before a Floating City~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28744
+DDIR_EAST
+~
+~
+0 -1 28793
+DDIR_SOUTH
+~
+~
+0 -1 28770
+DDIR_WEST
+~
+~
+0 -1 28897
+#28725
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 ROOM_NO_MOB|ROOM_MAZE SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28726
+DDIR_EAST
+~
+~
+0 -1 28734
+DDIR_SOUTH
+~
+~
+0 -1 28730
+DDIR_WEST
+~
+~
+0 -1 28738
+#28726
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28727
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28725
+#28727
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28728
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28726
+DDIR_WEST
+~
+~
+0 -1 28725
+#28728
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28729
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28727
+DDIR_WEST
+~
+~
+0 -1 28725
+#28729
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28709
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28728
+DDIR_WEST
+~
+~
+0 -1 28725
+#28730
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28731
+DDIR_WEST
+~
+~
+0 -1 28725
+#28731
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28730
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28732
+DDIR_WEST
+~
+~
+0 -1 28725
+#28732
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28731
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28733
+DDIR_WEST
+~
+~
+0 -1 28725
+#28733
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28732
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28709
+DDIR_WEST
+~
+~
+0 -1 28725
+#28734
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28735
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28725
+#28735
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28736
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28734
+#28736
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28737
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28735
+#28737
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28709
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28736
+#28738
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28739
+#28739
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28738
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28740
+#28740
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28739
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28741
+#28741
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28725
+DDIR_EAST
+~
+~
+0 -1 28740
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28709
+#28742
+A Mob Chute~
+If you are standing here, there's a bug in my code...
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 28717
+DDIR_EAST
+~
+~
+0 -1 28743
+DDIR_SOUTH
+~
+~
+0 -1 28721
+DDIR_WEST
+~
+~
+0 -1 28723
+DDIR_UP
+~
+~
+0 -1 28713
+DDIR_DOWN
+~
+~
+0 -1 28715
+#28743
+A Mob Chute~
+If you're standing here, the code is buggy...
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 28734
+DDIR_EAST
+~
+~
+0 -1 28738
+DDIR_SOUTH
+~
+~
+0 -1 28741
+DDIR_WEST
+~
+~
+0 -1 28742
+DDIR_UP
+~
+~
+0 -1 28726
+DDIR_DOWN
+~
+~
+0 -1 28730
+#28744
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28745
+DDIR_SOUTH
+~
+~
+0 -1 28724
+DDIR_WEST
+~
+~
+0 -1 28966
+#28745
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to be
+built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28746
+DDIR_SOUTH
+~
+~
+0 -1 28744
+DDIR_WEST
+~
+~
+0 -1 28964
+#28746
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28747
+DDIR_SOUTH
+~
+~
+0 -1 28745
+DDIR_WEST
+~
+~
+0 -1 28962
+#28747
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  Here, two walls come together to form a
+sharp corner, though know rivet marks can be discerned, at least from your
+vantage point.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28933
+DDIR_EAST
+~
+~
+0 -1 28748
+DDIR_SOUTH
+~
+~
+0 -1 28746
+DDIR_WEST
+~
+~
+0 -1 28960
+#28748
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28934
+DDIR_EAST
+~
+~
+0 -1 28749
+DDIR_WEST
+~
+~
+0 -1 28747
+#28749
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28935
+DDIR_EAST
+~
+~
+0 -1 28750
+DDIR_WEST
+~
+~
+0 -1 28748
+#28750
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to be
+built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28936
+DDIR_EAST
+~
+~
+0 -1 28751
+DDIR_WEST
+~
+~
+0 -1 28749
+#28751
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28937
+DDIR_EAST
+~
+~
+0 -1 28752
+DDIR_WEST
+~
+~
+0 -1 28750
+#28752
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to be
+built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28938
+DDIR_EAST
+~
+~
+0 -1 28753
+DDIR_WEST
+~
+~
+0 -1 28751
+#28753
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out
+of the depths at a shocking angle.  The barrier extends to the west and to
+the south in a dazzling display of protective might.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28939
+DDIR_EAST
+~
+~
+0 -1 28929
+DDIR_SOUTH
+~
+~
+0 -1 28754
+DDIR_WEST
+~
+~
+0 -1 28752
+#28754
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28753
+DDIR_EAST
+~
+~
+0 -1 28925
+DDIR_SOUTH
+~
+~
+0 -1 28755
+#28755
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to be
+built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28754
+DDIR_EAST
+~
+~
+0 -1 28921
+DDIR_SOUTH
+~
+~
+0 -1 28756
+#28756
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28755
+DDIR_EAST
+~
+~
+0 -1 28917
+DDIR_SOUTH
+~
+~
+0 -1 28757
+#28757
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  Off towards the eastern horizon you spot
+what appears to be a sail.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28756
+DDIR_EAST
+~
+~
+0 -1 28771
+DDIR_SOUTH
+~
+~
+0 -1 28758
+#28758
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to be
+built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28757
+DDIR_EAST
+~
+~
+0 -1 28983
+DDIR_SOUTH
+~
+~
+0 -1 28759
+#28759
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress
+to be built upon some jagged tooth of a sea-mount, save for the slow
+rhythmic heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28758
+DDIR_EAST
+~
+~
+0 -1 28982
+DDIR_SOUTH
+~
+~
+0 -1 28760
+#28760
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28759
+DDIR_EAST
+~
+~
+0 -1 28981
+DDIR_SOUTH
+~
+~
+0 -1 28761
+#28761
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  The walls are black, so black, in fact,
+that they seem to suck light from the surroundings.  You feel suddenly cold.
+The walls extend to the north and west.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28760
+DDIR_EAST
+~
+~
+0 -1 28980
+DDIR_SOUTH
+~
+~
+0 -1 28978
+DDIR_WEST
+~
+~
+0 -1 28762
+#28762
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 28761
+DDIR_SOUTH
+~
+~
+0 -1 28977
+DDIR_WEST
+~
+~
+0 -1 28763
+#28763
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 28762
+DDIR_SOUTH
+~
+~
+0 -1 28976
+DDIR_WEST
+~
+~
+0 -1 28764
+#28764
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 28763
+DDIR_SOUTH
+~
+~
+0 -1 28975
+DDIR_WEST
+~
+~
+0 -1 28765
+#28765
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 28764
+DDIR_SOUTH
+~
+~
+0 -1 28974
+DDIR_WEST
+~
+~
+0 -1 28766
+#28766
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+~
+0 -1 28765
+DDIR_SOUTH
+~
+~
+0 -1 28973
+DDIR_WEST
+~
+~
+0 -1 28767
+#28767
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  A seabird perched high atop the walls
+stares at you with an unblinking eye, then lets forth a tremendous squawk,
+leaps into the air, and drops a large liquid present for you which splatters
+on your upper arm.  The walls continue east and north.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28768
+DDIR_EAST
+~
+~
+0 -1 28766
+DDIR_SOUTH
+~
+~
+0 -1 28972
+DDIR_WEST
+~
+~
+0 -1 28970
+#28768
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28769
+DDIR_SOUTH
+~
+~
+0 -1 28767
+DDIR_WEST
+~
+~
+0 -1 28969
+#28769
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28770
+DDIR_SOUTH
+~
+~
+0 -1 28768
+DDIR_WEST
+~
+~
+0 -1 28968
+#28770
+Along the Base of the Wall~
+Rolling waves lap gently at the mammoth iron-plated walls which jut out of
+the depths at a shocking angle.  You would almost believe the fortress to
+be built upon some jagged tooth of a sea-mount, save for the slow rhythmic
+heaving and sighing of this gigantic barrier.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28724
+DDIR_SOUTH
+~
+~
+0 -1 28769
+DDIR_WEST
+~
+~
+0 -1 28967
+#28771
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.  Off to the east you spot a sail.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28917
+DDIR_EAST
+~
+~
+0 -1 28772
+DDIR_SOUTH
+~
+~
+0 -1 28983
+DDIR_WEST
+~
+~
+0 -1 28757
+#28772
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.  The sail on the eastern horizon appears to be getting
+bigger.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28918
+DDIR_EAST
+~
+~
+0 -1 28773
+DDIR_SOUTH
+~
+~
+0 -1 28984
+DDIR_WEST
+~
+~
+0 -1 28771
+#28773
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction.  You can now make out a smaller black pennant flapping
+in the breeze atop the main sail.  There are three masts on the boat, and
+its shape identifies it as a dwarven merchantman or elven cargo fluyt.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28919
+DDIR_EAST
+~
+~
+0 -1 28774
+DDIR_SOUTH
+~
+~
+0 -1 28985
+DDIR_WEST
+~
+~
+0 -1 28772
+#28774
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air,
+and the horizon disappears for long stretches of time as you drop into the
+troughs.  The water is warm and briny, and it extends to the horizon in
+every direction. You are now close enough to the vessel to make out the
+distinctive Jolly Roger skull and crossbones flying in the gentle breeze.
+The ship lies directly to the southeast, and it looks like there is a ladder
+on the port side directly to your south.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28920
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28775
+DDIR_WEST
+~
+~
+0 -1 28773
+#28775
+Alongside the Pirate Vessel~
+You have pulled alongside the pirate vessel near the bow on the port side.
+There is no immediate access to the portholes just out of reach above your
+head, but a ladder hangs over the side to the south.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28774
+DDIR_SOUTH
+~
+~
+0 -1 28776
+DDIR_WEST
+~
+~
+0 -1 28985
+#28776
+Alongside the Pirate Vessel~
+An old rope ladder made from twisted hemp has been left dangling over the
+side of the ship.  The ladder disappears into the water below, and the lack
+of any water ring or barnacles on the ship's hull indicates that it is
+riding quite low in the water.  You hear quite a commotion above.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28775
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28987
+DDIR_UP
+~
+~
+0 -1 28777
+#28777
+On the Deck of the Pirate Vessel~
+You stand at almost exactly the middle of the ship, the bow to your left and
+the stern to your right.  The deck is strewn with cargo, and a gaggle of
+geese in a rusty cage greet you with much squawking and wing-flapping.
+The cargo netting usually used by crew members to scale the main mast has
+been piled in one corner on the deck, and the sails area in the process of
+being dropped.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28778
+DDIR_EAST
+~
+~
+0 -1 28782
+DDIR_SOUTH
+~
+~
+0 -1 28784
+DDIR_DOWN
+~
+~
+0 -1 28776
+#28778
+On the Deck of the Pirate Vessel~
+You make your way along the port side of the ship, dodging rope and iron in
+piles and almost tripping over a sack of sugar.  A smaller mast rises
+overhead, unclimbable, and a ladder leads up to the bow.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28781
+DDIR_SOUTH
+~
+~
+0 -1 28777
+DDIR_UP
+~
+~
+0 -1 28779
+#28779
+The Bow of the Pirate Vessel~
+You find yourself on the bow of the ship.  A huge chain leads over the side
+of the ship, presumably connecting to an anchor somewhere in the depths
+below.  The bowsprit juts out to the north, and a ladder leads back down
+to the deck.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28780
+DDIR_DOWN
+~
+~
+0 -1 28778
+#28780
+Clinging to the Bowsprit of the Pirate Vessel~
+You scramble out onto the bowsprit to take a closer look at the magnificant
+figurehead of the ship, which depicts a mighty swordfish ridden by Lord
+Neptune himself.  The intricate carving is undoubtably of elven origin,
+whose fine works have travelled the realm because of their unparalleled
+craftsmanship.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 28779
+#28781
+On the Deck of the Pirate Vessel~
+You make your way along the starboard side of the ship, studying with
+curiosity the goings-on around you.  The deck is alive with activity,
+concerning mainly the portage of goods from below deck onto the deck
+above. A small gangplank leads off the side.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28782
+DDIR_WEST
+~
+~
+0 -1 28778
+#28782
+On the Deck of the Pirate Vessel~
+You make your way alongside the starboard side of the vessel.  As you dodge
+the cargo strewn about the deck, your feet nearly become entangled in a
+large cargo net, once attached to the main mast and used by the crew for
+gaining the strategic vantage point of the crow's nest. A quick look above
+your head reveals that the crow's nest has been dismantled and removed.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28781
+DDIR_SOUTH
+~
+~
+0 -1 28783
+DDIR_WEST
+~
+~
+0 -1 28777
+#28783
+On the Deck of the Pirate Vessel~
+You make your way along the starboard side of the ship. Towards the stern,
+you sea an ornate carved wooden door, made from finer wood than the
+worm-riddled planking under your feet.  There is also a ladder leading up
+above the door.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28782
+DDIR_SOUTH
+~
+ornate door~
+EX_ISDOOR|EX_CLOSED -1 28791
+DDIR_WEST
+~
+~
+0 -1 28784
+DDIR_UP
+~
+~
+0 -1 28790
+#28784
+On the Deck of the Pirate Vessel~
+You make your way along the port side of the ship.  A ladder leads up
+toward the stern, and a large hatch in the deck is open, revealing the
+holds below which yawn at you with the stale odor of hard tack and unwashed
+sailors.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28777
+DDIR_EAST
+~
+~
+0 -1 28783
+DDIR_UP
+~
+~
+0 -1 28789
+DDIR_DOWN
+~
+~
+0 -1 28785
+#28785
+In the Holds of the Pirate Vessel~
+As you drop into the darkness, it takes a second for your eyes to grow
+accustomed to the scene before you.  You realize that you're standing in
+about 3 feet of seawater, and cargo floats like bloated carcasses all around
+you.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28786
+DDIR_EAST
+~
+~
+0 -1 28788
+DDIR_UP
+~
+~
+0 -1 28784
+#28786
+In the Holds of the Pirate Vessel~
+You slosh your way through the holds of the pirate vessel, trying to avoid
+the swimming rats which bite at your arms and legs in their panic.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28787
+DDIR_SOUTH
+~
+~
+0 -1 28785
+#28787
+In the Holds of the Pirate Vessel~
+The water spraying through a large crack in the hull tells of an unfortunate
+collision with an uncharted sea-mount and is undoubtably the source of the
+mass shipwide panic.  The water is flooding the hull at a slow but steady
+and undeniable rate.
+~
+0 0 SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 28786
+#28788
+In the Holds of the Pirate Vessel~
+As you slosh through the 3 feet of water which chills your legs and numbs
+your toes, you inadvertanly trip over something rather hard.  You reach
+into the brine and pull on nothing other than a pair of shackles.  You've
+heard tales of the rampant slave-trading that's been occuring during the
+great Ofcol expansion, but you'd always thought them merely rumours...
+~
+0 0 SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 28785
+#28789
+At the Stern of the Pirate Vessel~
+You find yourself at the stern of the pirate vessel.  The helm has been tied
+down with a piece of hemp, though the ship is not moving, in any case.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28790
+DDIR_DOWN
+~
+~
+0 -1 28784
+#28790
+At the Stern of the Pirate Vessel~
+You find yourself at the stern of the ship, which possesses a commanding
+view in all directions.  The most surprising feature of the stern of this
+particular vessel is the absence of the captain or the first-mate, or any
+crew member, in fact.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 28789
+DDIR_DOWN
+~
+~
+0 -1 28783
+#28791
+In the Captain's Cabin~
+The captain's personal accomodations have been attractively decorated to
+his own taste.  A large oak table dominates the room, and the walls are
+lined with lipped shelves which carry all manner of chart and navigational
+aid.  You see a small but ornately carved bunk and a leather chair at the
+west end of the room.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+ornate door~
+EX_ISDOOR|EX_CLOSED -1 28783
+DDIR_WEST
+~
+~
+0 -1 28792
+#28792
+In the Captain's Cabin~
+This end of the room is illuminated by a single brass porthole.  The
+captain's personal bunk looks hard but comfortable, and the exotic leather
+chair is one of the few luxuries afforded any crew member, including the
+captain, in such extreme circumstances.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 28791
+#28793
+The Gate~
+A large heavy portcullis has been constructed to bridge a gap in the huge
+iron walls on either side.  High above, a makeshift winch is tied with
+braided hemp to two large rings on top of the gate.  The gate extends deep
+into the murky water below, and you see no immediate way to enter the city
+other than by permission of the gateguard who stands before you.
+~
+0 0 SECT_OCEAN
+DDIR_EAST
+~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 28741 28795
+DDIR_WEST
+~
+~
+0 -1 28724
+#28794
+Bonus Quest Room!~
+You've stumbled upon a bonus quest room!  You lucky dog.  Here's your
+reward...
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#28795
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.  The water in
+this artificial, protected harbor is glassy and calm.  The walls rise all
+around you, and a city has been hung all the way up to the top.  The
+gate opens to the west as you approach.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28796
+DDIR_EAST
+~
+~
+0 -1 28798
+DDIR_SOUTH
+~
+~
+0 -1 28800
+DDIR_WEST
+~
+gate~
+EX_ISDOOR -1 28793
+DDIR_DOWN
+~
+~
+0 -1 28882
+#28796
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.  The water in
+this artificial, protected harbor is glassy and calm, disturbed only by
+your boat as you scrape along the base of the walls.  A series of rickety
+docks lies directly to the north.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28809
+DDIR_EAST
+~
+~
+0 -1 28797
+DDIR_SOUTH
+~
+~
+0 -1 28795
+DDIR_DOWN
+~
+~
+0 -1 28883
+#28797
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.
+The water in this artificial, protected harbor is glassy and
+calm.  The residents of this makeshift city call to you as
+you approach the docks.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28808
+DDIR_EAST
+~
+~
+0 -1 28900
+DDIR_SOUTH
+~
+~
+0 -1 28798
+DDIR_WEST
+~
+~
+0 -1 28796
+DDIR_DOWN
+~
+~
+0 -1 28884
+#28798
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.
+The water in this artificial, protected harbor is glassy and calm.
+A large dock lies directly to the east.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28797
+DDIR_EAST
+~
+~
+0 -1 28805
+DDIR_SOUTH
+~
+~
+0 -1 28799
+DDIR_WEST
+~
+~
+0 -1 28795
+DDIR_DOWN
+~
+~
+0 -1 28885
+#28799
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.  The water in this
+artificial, protected harbor is glassy and calm.  The residents of this
+makeshift city call to you as you approach the docks.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28798
+DDIR_EAST
+~
+~
+0 -1 28804
+DDIR_SOUTH
+~
+~
+0 -1 28802
+DDIR_WEST
+~
+~
+0 -1 28800
+DDIR_DOWN
+~
+~
+0 -1 28886
+#28800
+The Sheltered Harbor~
+You are inside the forbidding walls of the floating city.  The water in this
+artificial, protected harbor is glassy and calm, disturbed only by your
+boat as you scrape along the base of the walls.  A series of rickety docks
+lies directly to the south.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28795
+DDIR_EAST
+~
+~
+0 -1 28799
+DDIR_SOUTH
+~
+~
+0 -1 28801
+DDIR_DOWN
+~
+~
+0 -1 28887
+#28801
+The Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above your
+head acts as a roof, giving some protection from the elements. The marina
+extends to the east, and a ladder made from dried kelp leads through a small
+hole to the room above.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28800
+DDIR_EAST
+~
+~
+0 -1 28802
+DDIR_UP
+~
+~
+0 -1 28819
+#28802
+The Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above your
+head acts as a roof, giving some protection from the elements. You notice a
+peddlar seated crosslegged next to a large sack. The docks lead off to the
+east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28799
+DDIR_EAST
+~
+~
+0 -1 28803
+DDIR_WEST
+~
+~
+0 -1 28801
+#28803
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  It appears that you've entered a
+shop of some sort, for the ceiling is hung with a number of curios and
+tokens.  A long narrow table stands before you, rocking with the general
+rocking of the city, making the balance sitting upon it fairly useless,
+you should think.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28804
+DDIR_WEST
+~
+~
+0 -1 28802
+#28804
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above your
+head acts as a roof, giving some protection from the elements. You notice a
+peddlar seated crosslegged next to a large sack. The docks lead off to the
+north and south, and a braided kelp ladder twists through a small hole in
+the ceiling above.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28805
+DDIR_SOUTH
+~
+~
+0 -1 28803
+DDIR_WEST
+~
+~
+0 -1 28799
+DDIR_UP
+~
+~
+0 -1 28816
+#28805
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  This part of the dock appears to be
+abandoned, and judging from the condition of the planks beneath your feet,
+it is not hard to guess why.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28900
+DDIR_SOUTH
+~
+~
+0 -1 28804
+DDIR_WEST
+~
+~
+0 -1 28798
+#28807
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  It appears that you've entered a
+shop of some sort, for the ceiling is hung with a number of curios and
+tokens.  A long narrow table stands before you, rocking with the general
+rocking of the city, making the balance sitting upon it fairly useless,
+you should think.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 28900
+DDIR_WEST
+~
+~
+0 -1 28808
+#28808
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above your
+head acts as a roof, giving some protection from the elements. You notice a
+peddlar seated crosslegged next to a large sack. The docks lead off to the
+east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28807
+DDIR_SOUTH
+~
+~
+0 -1 28797
+DDIR_WEST
+~
+~
+0 -1 28809
+#28809
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above
+your head acts as a roof, giving some protection from the elements.
+The marina extends to the east, and a ladder made from dried kelp
+leads through a small hole to the room above.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28808
+DDIR_SOUTH
+~
+~
+0 -1 28796
+DDIR_UP
+~
+~
+0 -1 28810
+#28810
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north serves as a shelter and
+the ladder twists both upward and downward.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28834
+DDIR_EAST
+~
+~
+0 -1 28812
+DDIR_WEST
+~
+~
+0 -1 28811
+DDIR_UP
+~
+~
+0 -1 28836
+DDIR_DOWN
+~
+~
+0 -1 28809
+#28811
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28835
+DDIR_EAST
+~
+~
+0 -1 28810
+#28812
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28833
+DDIR_EAST
+~
+~
+0 -1 28813
+DDIR_WEST
+~
+~
+0 -1 28810
+#28813
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north and east serves as a
+shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28832
+DDIR_EAST
+~
+~
+0 -1 28830
+DDIR_SOUTH
+~
+~
+0 -1 28814
+DDIR_WEST
+~
+~
+0 -1 28812
+#28814
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter. A
+twisted kelp ladder leads down through a small hole.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28813
+DDIR_EAST
+~
+~
+0 -1 28829
+DDIR_SOUTH
+~
+~
+0 -1 28815
+DDIR_DOWN
+~
+~
+0 -1 28900
+#28815
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28814
+DDIR_EAST
+~
+~
+0 -1 28828
+DDIR_SOUTH
+~
+~
+0 -1 28816
+#28816
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter. A
+twisted kelp ladder leads down through a small hole.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28815
+DDIR_EAST
+~
+~
+0 -1 28827
+DDIR_SOUTH
+~
+~
+0 -1 28817
+DDIR_DOWN
+~
+~
+0 -1 28804
+#28817
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east and south serves as a
+shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28816
+DDIR_EAST
+~
+~
+0 -1 28826
+DDIR_SOUTH
+~
+~
+0 -1 28824
+DDIR_WEST
+~
+~
+0 -1 28818
+#28818
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the south serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28817
+DDIR_SOUTH
+~
+~
+0 -1 28823
+DDIR_WEST
+~
+~
+0 -1 28819
+#28819
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the south serves as a shelter and
+the ladder twists both upward and downward.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28818
+DDIR_SOUTH
+~
+~
+0 -1 28822
+DDIR_WEST
+~
+~
+0 -1 28820
+DDIR_UP
+~
+~
+0 -1 28844
+DDIR_DOWN
+~
+~
+0 -1 28801
+#28820
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28819
+DDIR_SOUTH
+~
+~
+0 -1 28821
+#28821
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28820
+DDIR_EAST
+~
+~
+0 -1 28822
+#28822
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28819
+DDIR_EAST
+~
+~
+0 -1 28823
+DDIR_WEST
+~
+~
+0 -1 28821
+#28823
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28818
+DDIR_EAST
+~
+~
+0 -1 28824
+DDIR_WEST
+~
+~
+0 -1 28822
+#28824
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28817
+DDIR_EAST
+~
+~
+0 -1 28825
+DDIR_WEST
+~
+~
+0 -1 28823
+#28825
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A ladder made of braided
+kelp twists through a small hole in the ceiling.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28826
+DDIR_WEST
+~
+~
+0 -1 28824
+DDIR_UP
+~
+~
+0 -1 28850
+#28826
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28827
+DDIR_SOUTH
+~
+~
+0 -1 28825
+DDIR_WEST
+~
+~
+0 -1 28817
+#28827
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28828
+DDIR_SOUTH
+~
+~
+0 -1 28826
+DDIR_WEST
+~
+~
+0 -1 28816
+#28828
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28829
+DDIR_SOUTH
+~
+~
+0 -1 28827
+DDIR_WEST
+~
+~
+0 -1 28815
+#28829
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28830
+DDIR_SOUTH
+~
+~
+0 -1 28828
+DDIR_WEST
+~
+~
+0 -1 28814
+#28830
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28831
+DDIR_SOUTH
+~
+~
+0 -1 28829
+DDIR_WEST
+~
+~
+0 -1 28813
+#28831
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A ladder made of braided
+kelp twists through a small hole in the ceiling.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 28830
+DDIR_WEST
+~
+~
+0 -1 28832
+DDIR_UP
+~
+~
+0 -1 28856
+#28832
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28831
+DDIR_SOUTH
+~
+~
+0 -1 28813
+DDIR_WEST
+~
+~
+0 -1 28833
+#28833
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28832
+DDIR_SOUTH
+~
+~
+0 -1 28812
+DDIR_WEST
+~
+~
+0 -1 28834
+#28834
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28833
+DDIR_SOUTH
+~
+~
+0 -1 28810
+DDIR_WEST
+~
+~
+0 -1 28835
+#28835
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28834
+DDIR_SOUTH
+~
+~
+0 -1 28811
+#28836
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north serves as a shelter and a
+ladder twists downward through a small hole.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28859
+DDIR_EAST
+~
+~
+0 -1 28837
+DDIR_WEST
+~
+~
+0 -1 28861
+DDIR_DOWN
+~
+~
+0 -1 28810
+#28837
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28858
+DDIR_EAST
+~
+~
+0 -1 28838
+DDIR_WEST
+~
+~
+0 -1 28836
+#28838
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the north and east serves as a
+shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28857
+DDIR_EAST
+~
+~
+0 -1 28855
+DDIR_SOUTH
+~
+~
+0 -1 28839
+DDIR_WEST
+~
+~
+0 -1 28837
+#28839
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28838
+DDIR_EAST
+~
+~
+0 -1 28854
+DDIR_SOUTH
+~
+~
+0 -1 28840
+#28840
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28839
+DDIR_EAST
+~
+~
+0 -1 28853
+DDIR_SOUTH
+~
+~
+0 -1 28841
+#28841
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east serves as a shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28840
+DDIR_EAST
+~
+~
+0 -1 28852
+DDIR_SOUTH
+~
+~
+0 -1 28842
+#28842
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the east and south serves as a
+shelter.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28841
+DDIR_EAST
+~
+~
+0 -1 28851
+DDIR_SOUTH
+~
+~
+0 -1 28849
+DDIR_WEST
+~
+~
+0 -1 28843
+#28843
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28842
+DDIR_SOUTH
+~
+~
+0 -1 28848
+DDIR_WEST
+~
+~
+0 -1 28844
+#28844
+On a Braided Kelp Walkway~
+You stand upon a braided kelp walkway which trembles a bit to your step.
+You can see the docks below through the holes in the mesh, making you a
+little dizzy.  A protected overhang to the south serves as a shelter and a
+ladder twists downward through a small hole.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28843
+DDIR_SOUTH
+~
+~
+0 -1 28847
+DDIR_WEST
+~
+~
+0 -1 28845
+DDIR_DOWN
+~
+~
+0 -1 28819
+#28845
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28844
+DDIR_SOUTH
+~
+~
+0 -1 28846
+#28846
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A twisted ladder made
+from braided kelp leads up to a grate in the ceiling.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28845
+DDIR_EAST
+~
+~
+0 -1 28847
+DDIR_UP
+~
+grate~
+EX_ISDOOR -1 28876
+#28847
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28844
+DDIR_EAST
+~
+~
+0 -1 28848
+DDIR_WEST
+~
+~
+0 -1 28846
+#28848
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28843
+DDIR_EAST
+~
+~
+0 -1 28849
+DDIR_WEST
+~
+~
+0 -1 28847
+#28849
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28842
+DDIR_EAST
+~
+~
+0 -1 28850
+DDIR_WEST
+~
+~
+0 -1 28848
+#28850
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A twisted ladder made
+from braided kelp leads up to a grate in the ceiling, and another leads down
+through a hole in the floor.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28851
+DDIR_WEST
+~
+~
+0 -1 28849
+DDIR_UP
+~
+grate~
+EX_ISDOOR -1 28872
+DDIR_DOWN
+~
+~
+0 -1 28825
+#28851
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28852
+DDIR_SOUTH
+~
+~
+0 -1 28850
+DDIR_WEST
+~
+~
+0 -1 28842
+#28852
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28853
+DDIR_SOUTH
+~
+~
+0 -1 28851
+DDIR_WEST
+~
+~
+0 -1 28841
+#28853
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28854
+DDIR_SOUTH
+~
+~
+0 -1 28852
+DDIR_WEST
+~
+~
+0 -1 28840
+#28854
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28855
+DDIR_SOUTH
+~
+~
+0 -1 28853
+DDIR_WEST
+~
+~
+0 -1 28839
+#28855
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28856
+DDIR_SOUTH
+~
+~
+0 -1 28854
+DDIR_WEST
+~
+~
+0 -1 28838
+#28856
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A twisted ladder made
+from braided kelp leads up to a grate in the ceiling, and another leads down
+through a hole in the floor.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 28855
+DDIR_WEST
+~
+~
+0 -1 28857
+DDIR_UP
+~
+grate~
+EX_ISDOOR -1 28866
+DDIR_DOWN
+~
+~
+0 -1 28831
+#28857
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28856
+DDIR_SOUTH
+~
+~
+0 -1 28838
+DDIR_WEST
+~
+~
+0 -1 28858
+#28858
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28857
+DDIR_SOUTH
+~
+~
+0 -1 28837
+DDIR_WEST
+~
+~
+0 -1 28859
+#28859
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28858
+DDIR_SOUTH
+~
+~
+0 -1 28836
+DDIR_WEST
+~
+~
+0 -1 28860
+#28860
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.  A twisted ladder made
+from braided kelp leads up to a grate in the ceiling.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28859
+DDIR_SOUTH
+~
+~
+0 -1 28861
+DDIR_UP
+~
+grate~
+EX_ISDOOR -1 28862
+#28861
+Under the Protective Overhang~
+The enormous wall which protects the city also provides protection to the
+homes carved into it. Seagrass pallets mark the sleeping area, and a small
+brass kettle hangs from a spit near the edge of the overhang.  A few sacks
+spill grain at your feet, and you get the sense that despite their meagre
+existence, these people are getting by just fine.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28860
+DDIR_EAST
+~
+~
+0 -1 28836
+#28862
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28863
+DDIR_SOUTH
+~
+~
+0 -1 28881
+DDIR_DOWN
+~
+door~
+EX_ISDOOR -1 28860
+#28863
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28864
+DDIR_WEST
+~
+~
+0 -1 28862
+#28864
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28865
+DDIR_WEST
+~
+~
+0 -1 28863
+#28865
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28866
+DDIR_WEST
+~
+~
+0 -1 28864
+#28866
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.  There is a grate in the floor.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 28867
+DDIR_WEST
+~
+~
+0 -1 28865
+DDIR_DOWN
+~
+door~
+EX_ISDOOR -1 28856
+#28867
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  In fact, you can barely
+make out a sail on the eastern horizon...
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28866
+DDIR_SOUTH
+~
+~
+0 -1 28868
+#28868
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  In fact, you can barely
+make out a sail on the eastern horizon...
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28867
+DDIR_SOUTH
+~
+~
+0 -1 28869
+#28869
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  In fact, you can barely
+make out a sail on the eastern horizon...
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28868
+DDIR_SOUTH
+~
+~
+0 -1 28870
+DDIR_WEST
+The entrance to the airship landing area is west.~
+~
+0 -1 43367
+#28870
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  In fact, you can barely
+make out a sail on the eastern horizon...
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28869
+DDIR_SOUTH
+~
+~
+0 -1 28871
+#28871
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  In fact, you can barely
+make out a sail on the eastern horizon...
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28870
+DDIR_SOUTH
+~
+~
+0 -1 28872
+#28872
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.  There is a grate in the floor.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28871
+DDIR_WEST
+~
+~
+0 -1 28873
+DDIR_DOWN
+~
+door~
+EX_ISDOOR -1 28850
+#28873
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28872
+DDIR_WEST
+~
+~
+0 -1 28874
+#28874
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28873
+DDIR_WEST
+~
+~
+0 -1 28875
+#28875
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 28874
+DDIR_WEST
+~
+~
+0 -1 28876
+#28876
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.  There is a grate in the floor.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28877
+DDIR_EAST
+~
+~
+0 -1 28875
+DDIR_DOWN
+~
+door~
+EX_ISDOOR -1 28846
+#28877
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28878
+DDIR_SOUTH
+~
+~
+0 -1 28876
+#28878
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28879
+DDIR_SOUTH
+~
+~
+0 -1 28877
+#28879
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28880
+DDIR_SOUTH
+~
+~
+0 -1 28878
+#28880
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28881
+DDIR_SOUTH
+~
+~
+0 -1 28879
+#28881
+On Top of the Wall~
+The view from the top of the wall is spectacular, making it an ideal spot to
+scan the horizon for marauding bands of pirates.  You can hear the gentle
+lapping of the waves against the wall below, and a seagull floats in the
+breeze above your head.  There is a grate in the floor.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28862
+DDIR_SOUTH
+~
+~
+0 -1 28880
+#28882
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  You can see the gate to the west extending down into darkness.
+~
+0 ROOM_NO_MOB SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28883
+DDIR_EAST
+~
+~
+0 -1 28885
+DDIR_SOUTH
+~
+~
+0 -1 28887
+DDIR_UP
+~
+~
+0 -1 28795
+#28883
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  You can see the dark wall to the west extending down into
+darkness.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28896
+DDIR_EAST
+~
+~
+0 -1 28884
+DDIR_SOUTH
+~
+~
+0 -1 28882
+DDIR_UP
+~
+~
+0 -1 28796
+#28884
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  A COLD upwelling chills your toes as you swim.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28895
+DDIR_EAST
+~
+~
+0 -1 28893
+DDIR_SOUTH
+~
+~
+0 -1 28885
+DDIR_WEST
+~
+~
+0 -1 28883
+DDIR_UP
+~
+~
+0 -1 28797
+#28885
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  A COLD upwelling chills your toes as you swim.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28884
+DDIR_EAST
+~
+~
+0 -1 28892
+DDIR_SOUTH
+~
+~
+0 -1 28886
+DDIR_WEST
+~
+~
+0 -1 28882
+DDIR_UP
+~
+~
+0 -1 28798
+#28886
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  A cold upwelling chills your toes as you swim.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28885
+DDIR_EAST
+~
+~
+0 -1 28891
+DDIR_SOUTH
+~
+~
+0 -1 28889
+DDIR_WEST
+~
+~
+0 -1 28887
+DDIR_UP
+~
+~
+0 -1 28799
+#28887
+Under the Sheltered Harbor~
+The water glows blue-green with the light filtering down from the artificial
+bay above.  The dark wall to the west descends to unknown depths below you.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28882
+DDIR_EAST
+~
+~
+0 -1 28886
+DDIR_SOUTH
+~
+~
+0 -1 28888
+DDIR_UP
+~
+~
+0 -1 28800
+#28888
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28887
+DDIR_EAST
+~
+~
+0 -1 28889
+#28889
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28886
+DDIR_EAST
+~
+~
+0 -1 28890
+DDIR_WEST
+~
+~
+0 -1 28888
+#28890
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28891
+DDIR_WEST
+~
+~
+0 -1 28889
+#28891
+Under the Docks~
+You can barely make out the dark shapes of the floats
+which support the dock above you.
+Tiny fish nibble at your flesh, and you can make out the
+wall beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28892
+DDIR_SOUTH
+~
+~
+0 -1 28890
+DDIR_WEST
+~
+~
+0 -1 28886
+#28892
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28893
+DDIR_SOUTH
+~
+~
+0 -1 28891
+DDIR_WEST
+~
+~
+0 -1 28885
+#28893
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 28894
+DDIR_SOUTH
+~
+~
+0 -1 28892
+DDIR_WEST
+~
+~
+0 -1 28884
+#28894
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_SOUTH
+~
+~
+0 -1 28893
+DDIR_WEST
+~
+~
+0 -1 28895
+#28895
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 28894
+DDIR_SOUTH
+~
+~
+0 -1 28884
+DDIR_WEST
+~
+~
+0 -1 28896
+#28896
+Under the Docks~
+You can barely make out the dark shapes of the floats which support the dock
+above you.  Tiny fish nibble at your flesh, and you can make out the wall
+beyond, an impassable barrier in your path.
+~
+0 0 SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 28895
+DDIR_SOUTH
+~
+~
+0 -1 28883
+#28897
+Drifting on the Opean Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28966
+DDIR_EAST
+~
+~
+0 -1 28724
+DDIR_SOUTH
+~
+~
+0 -1 28967
+DDIR_WEST
+~
+~
+0 -1 28723
+#28898
+A Mob Chute~
+If you are standing here, you are DAMNED good with a teleport...
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 28823
+DDIR_EAST
+~
+~
+0 -1 28899
+DDIR_SOUTH
+~
+~
+0 -1 28831
+DDIR_WEST
+~
+~
+0 -1 28835
+DDIR_UP
+~
+~
+0 -1 28820
+DDIR_DOWN
+~
+~
+0 -1 28828
+#28899
+A Mob Chute~
+If you are standing here, you are DAMNED good with a teleport...
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 28849
+DDIR_EAST
+~
+~
+0 -1 28853
+DDIR_SOUTH
+~
+~
+0 -1 28861
+DDIR_WEST
+~
+~
+0 -1 28898
+DDIR_UP
+~
+~
+0 -1 28845
+DDIR_DOWN
+~
+~
+0 -1 28857
+#28900
+A Sheltered Dock~
+You stand upon a rickety dock made, evidently, from whatever wood could be
+scavenged from the surrounding realms.  The floor of the home above your
+head acts as a roof, giving some protection from the elements. You notice
+a peddlar seated crosslegged next to a small pen. The docks lead off to the
+east and west, and a braided kelp ladder twists through a small hole in the
+ceiling above.
+~
+0 ROOM_PET_SHOP SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 28807
+DDIR_SOUTH
+~
+~
+0 -1 28805
+DDIR_WEST
+~
+~
+0 -1 28797
+DDIR_UP
+~
+~
+0 -1 28814
+#28901
+Pet Load Area~
+A place for loading pets.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+#28902
+On the Dirt Track~
+You are standing on a small dirt track which leads through the dune grasses.
+It leads off to the north and south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 28700
+DDIR_SOUTH
+~
+~
+0 -1 28903
+#28903
+On the Dirt Track~
+You are travelling along a faint dirt track which leads across grass-covered
+dunes to the north and heads into a forest to the south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 28902
+DDIR_SOUTH
+~
+~
+0 -1 28904
+#28904
+On a Faint Path~
+You stand upon what you can barely make out to be a path leading through the
+forest.  The path leads west, and a faint track heads off to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28903
+DDIR_WEST
+~
+~
+0 -1 28905
+#28905
+On a Faint Path~
+You stand upon what you can barely make out to be a path leading through the
+forest.  The path leads east and south.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 28904
+DDIR_SOUTH
+~
+~
+0 -1 28906
+#28906
+At the End of a Flagstone Road~
+You are standing at the end of a flagstone road, whose terminus has created
+a small clearing in the forest.  A few rough stones lie in a pile to the
+side and hint of another large idea which fizzled when the rich coffers of
+the road builder ran dry.  The paving stones are scuffed and rounded from
+heavy use.  The road leads off to the south, and a faint path continues
+into the woods to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28905
+DDIR_SOUTH
+~
+~
+0 -1 28907
+#28907
+On the Flagstone Road~
+A broad flagstone roadway tears a path through the forest.  The paving
+stones are scuffed and rounded from heavy use.  The forest is eerily silent
+to either side.  The road leads north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28906
+DDIR_SOUTH
+~
+~
+0 -1 28908
+#28908
+On the Flagstone Road~
+A broad flagstone roadway tears a path through the forest.  The paving
+stones are scuffed and rounded from heavy use.  The forest is eerily silent
+to either side.  The road leads north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28907
+DDIR_SOUTH
+~
+~
+0 -1 28909
+#28909
+On the Flagstone Road~
+A broad flagstone roadway tears a path through the forest.  The paving
+stones are scuffed and rounded from heavy use.  The forest is eerily silent
+to either side.  The road leads north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28908
+DDIR_SOUTH
+~
+~
+0 -1 28910
+#28910
+On the Flagstone Road~
+A broad flagstone roadway tears a path through the forest.  The paving
+stones are scuffed and rounded from heavy use.  The forest is eerily silent
+to either side.  The road leads north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28909
+DDIR_SOUTH
+~
+~
+0 -1 28911
+#28911
+On the Flagstone Road~
+A broad flagstone roadway tears a path through the forest.  The paving
+stones are scuffed and rounded from heavy use.  The forest is eerily silent
+to either side.  The road leads north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 28910
+DDIR_SOUTH
+~
+~
+0 -1 28912
+#28912
+On the Flagstone Road~
+You are standing on a solidly-built flagstone road, which is scuffed and
+polished from heavy use.  The road enters a forest to the north, and you can
+make out the hulk of Mt. Olympus disappearing high into the clouds to the
+southwest.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 28911
+DDIR_SOUTH
+~
+~
+0 -1 28913
+#28913
+At the End of the Flagstone Road~
+You are standing at the end of a road hewn from flagstone.  The stones are
+rounded and polished from heavy use, and a pile of rough-cut stones
+lies discarded to one side.  The road heads across the plains to the north,
+and two wagon ruts continue southward across the foothills of Mt. Olympus.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 28912
+DDIR_SOUTH
+~
+~
+0 -1 28914
+#28914
+Following the Wagon Track~
+High atop a large hill at the base of Mt. Olympus, you have a commanding
+view of the central massif and the jagged turrets framing either side.  The
+peak of the mountain is obscured by thick and forbidding clouds.
+The wagon ruts lead across the foothills to the north and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 28913
+DDIR_WEST
+~
+~
+0 -1 28915
+#28915
+The Wagon Track~
+Mt. Olympus looms over your head as you skirt the base of the mountain
+and its many foothills.  A great road of the realm lies just to your west,
+and the wagon track you're following leads off to the east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 28914
+DDIR_WEST
+~
+~
+0 -1 17493
+#28916
+In the Sand~
+You've burrowed down into the sand, and you're not alone...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+~
+hole~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 28700
+#28917
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28921
+DDIR_EAST
+~
+~
+0 -1 28918
+DDIR_SOUTH
+~
+~
+0 -1 28771
+DDIR_WEST
+~
+~
+0 -1 28756
+#28918
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28922
+DDIR_EAST
+~
+~
+0 -1 28919
+DDIR_SOUTH
+~
+~
+0 -1 28772
+DDIR_WEST
+~
+~
+0 -1 28917
+#28919
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28923
+DDIR_EAST
+~
+~
+0 -1 28920
+DDIR_SOUTH
+~
+~
+0 -1 28773
+DDIR_WEST
+~
+~
+0 -1 28918
+#28920
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28924
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28774
+DDIR_WEST
+~
+~
+0 -1 28919
+#28921
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28925
+DDIR_EAST
+~
+~
+0 -1 28922
+DDIR_SOUTH
+~
+~
+0 -1 28917
+DDIR_WEST
+~
+~
+0 -1 28755
+#28922
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28926
+DDIR_EAST
+~
+~
+0 -1 28923
+DDIR_SOUTH
+~
+~
+0 -1 28918
+DDIR_WEST
+~
+~
+0 -1 28921
+#28923
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28927
+DDIR_EAST
+~
+~
+0 -1 28924
+DDIR_SOUTH
+~
+~
+0 -1 28919
+DDIR_WEST
+~
+~
+0 -1 28922
+#28924
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28928
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28920
+DDIR_WEST
+~
+~
+0 -1 28923
+#28925
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28929
+DDIR_EAST
+~
+~
+0 -1 28926
+DDIR_SOUTH
+~
+~
+0 -1 28921
+DDIR_WEST
+~
+~
+0 -1 28754
+#28926
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28930
+DDIR_EAST
+~
+~
+0 -1 28927
+DDIR_SOUTH
+~
+~
+0 -1 28922
+DDIR_WEST
+~
+~
+0 -1 28925
+#28927
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28931
+DDIR_EAST
+~
+~
+0 -1 28928
+DDIR_SOUTH
+~
+~
+0 -1 28923
+DDIR_WEST
+~
+~
+0 -1 28926
+#28928
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28932
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28924
+DDIR_WEST
+~
+~
+0 -1 28927
+#28929
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28940
+DDIR_EAST
+~
+~
+0 -1 28930
+DDIR_SOUTH
+~
+~
+0 -1 28925
+DDIR_WEST
+~
+~
+0 -1 28753
+#28930
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28941
+DDIR_EAST
+~
+~
+0 -1 28931
+DDIR_SOUTH
+~
+~
+0 -1 28926
+DDIR_WEST
+~
+~
+0 -1 28929
+#28931
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28942
+DDIR_EAST
+~
+~
+0 -1 28932
+DDIR_SOUTH
+~
+~
+0 -1 28927
+DDIR_WEST
+~
+~
+0 -1 28930
+#28932
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28943
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28928
+DDIR_WEST
+~
+~
+0 -1 28931
+#28933
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28944
+DDIR_EAST
+~
+~
+0 -1 28934
+DDIR_SOUTH
+~
+~
+0 -1 28747
+DDIR_WEST
+~
+~
+0 -1 28958
+#28934
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28945
+DDIR_EAST
+~
+~
+0 -1 28935
+DDIR_SOUTH
+~
+~
+0 -1 28748
+DDIR_WEST
+~
+~
+0 -1 28933
+#28935
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28946
+DDIR_EAST
+~
+~
+0 -1 28936
+DDIR_SOUTH
+~
+~
+0 -1 28749
+DDIR_WEST
+~
+~
+0 -1 28934
+#28936
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28947
+DDIR_EAST
+~
+~
+0 -1 28937
+DDIR_SOUTH
+~
+~
+0 -1 28750
+DDIR_WEST
+~
+~
+0 -1 28935
+#28937
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28948
+DDIR_EAST
+~
+~
+0 -1 28938
+DDIR_SOUTH
+~
+~
+0 -1 28751
+DDIR_WEST
+~
+~
+0 -1 28936
+#28938
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28949
+DDIR_EAST
+~
+~
+0 -1 28939
+DDIR_SOUTH
+~
+~
+0 -1 28752
+DDIR_WEST
+~
+~
+0 -1 28937
+#28939
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28950
+DDIR_EAST
+~
+~
+0 -1 28940
+DDIR_SOUTH
+~
+~
+0 -1 28753
+DDIR_WEST
+~
+~
+0 -1 28938
+#28940
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28951
+DDIR_EAST
+~
+~
+0 -1 28941
+DDIR_SOUTH
+~
+~
+0 -1 28929
+DDIR_WEST
+~
+~
+0 -1 28939
+#28941
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28952
+DDIR_EAST
+~
+~
+0 -1 28942
+DDIR_SOUTH
+~
+~
+0 -1 28930
+DDIR_WEST
+~
+~
+0 -1 28940
+#28942
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28953
+DDIR_EAST
+~
+~
+0 -1 28943
+DDIR_SOUTH
+~
+~
+0 -1 28931
+DDIR_WEST
+~
+~
+0 -1 28941
+#28943
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28954
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28932
+DDIR_WEST
+~
+~
+0 -1 28942
+#28944
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28945
+DDIR_SOUTH
+~
+~
+0 -1 28933
+DDIR_WEST
+~
+~
+0 -1 28956
+#28945
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28946
+DDIR_SOUTH
+~
+~
+0 -1 28934
+DDIR_WEST
+~
+~
+0 -1 28944
+#28946
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28947
+DDIR_SOUTH
+~
+~
+0 -1 28935
+DDIR_WEST
+~
+~
+0 -1 28945
+#28947
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28948
+DDIR_SOUTH
+~
+~
+0 -1 28936
+DDIR_WEST
+~
+~
+0 -1 28946
+#28948
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28949
+DDIR_SOUTH
+~
+~
+0 -1 28937
+DDIR_WEST
+~
+~
+0 -1 28947
+#28949
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28950
+DDIR_SOUTH
+~
+~
+0 -1 28938
+DDIR_WEST
+~
+~
+0 -1 28948
+#28950
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28951
+DDIR_SOUTH
+~
+~
+0 -1 28939
+DDIR_WEST
+~
+~
+0 -1 28949
+#28951
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28952
+DDIR_SOUTH
+~
+~
+0 -1 28940
+DDIR_WEST
+~
+~
+0 -1 28950
+#28952
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28953
+DDIR_SOUTH
+~
+~
+0 -1 28941
+DDIR_WEST
+~
+~
+0 -1 28951
+#28953
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28954
+DDIR_SOUTH
+~
+~
+0 -1 28942
+DDIR_WEST
+~
+~
+0 -1 28952
+#28954
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs. 
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28988
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28943
+DDIR_WEST
+~
+~
+0 -1 28953
+#28955
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28956
+DDIR_SOUTH
+~
+~
+0 -1 28957
+DDIR_WEST
+~
+~
+0 -1 28999
+#28956
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28999
+DDIR_EAST
+~
+~
+0 -1 28944
+DDIR_SOUTH
+~
+~
+0 -1 28958
+DDIR_WEST
+~
+~
+0 -1 28955
+#28957
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28955
+DDIR_EAST
+~
+~
+0 -1 28958
+DDIR_SOUTH
+~
+~
+0 -1 28959
+DDIR_WEST
+~
+~
+0 -1 28999
+#28958
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28956
+DDIR_EAST
+~
+~
+0 -1 28933
+DDIR_SOUTH
+~
+~
+0 -1 28960
+DDIR_WEST
+~
+~
+0 -1 28957
+#28959
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28957
+DDIR_EAST
+~
+~
+0 -1 28960
+DDIR_SOUTH
+~
+~
+0 -1 28961
+DDIR_WEST
+~
+~
+0 -1 28999
+#28960
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28958
+DDIR_EAST
+~
+~
+0 -1 28747
+DDIR_SOUTH
+~
+~
+0 -1 28962
+DDIR_WEST
+~
+~
+0 -1 28959
+#28961
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28959
+DDIR_EAST
+~
+~
+0 -1 28962
+DDIR_SOUTH
+~
+~
+0 -1 28963
+DDIR_WEST
+~
+~
+0 -1 28999
+#28962
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28960
+DDIR_EAST
+~
+~
+0 -1 28746
+DDIR_SOUTH
+~
+~
+0 -1 28964
+DDIR_WEST
+~
+~
+0 -1 28961
+#28963
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28961
+DDIR_EAST
+~
+~
+0 -1 28964
+DDIR_SOUTH
+~
+~
+0 -1 28965
+DDIR_WEST
+~
+~
+0 -1 28999
+#28964
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28962
+DDIR_EAST
+~
+~
+0 -1 28745
+DDIR_SOUTH
+~
+~
+0 -1 28966
+DDIR_WEST
+~
+~
+0 -1 28963
+#28965
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28963
+DDIR_EAST
+~
+~
+0 -1 28966
+DDIR_SOUTH
+~
+~
+0 -1 28723
+DDIR_WEST
+~
+~
+0 -1 28999
+#28966
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28964
+DDIR_EAST
+~
+~
+0 -1 28744
+DDIR_SOUTH
+~
+~
+0 -1 28897
+DDIR_WEST
+~
+~
+0 -1 28965
+#28967
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28897
+DDIR_EAST
+~
+~
+0 -1 28770
+DDIR_SOUTH
+~
+~
+0 -1 28968
+DDIR_WEST
+~
+~
+0 -1 28722
+#28968
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28967
+DDIR_EAST
+~
+~
+0 -1 28769
+DDIR_SOUTH
+~
+~
+0 -1 28969
+DDIR_WEST
+~
+~
+0 -1 28721
+#28969
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28968
+DDIR_EAST
+~
+~
+0 -1 28768
+DDIR_SOUTH
+~
+~
+0 -1 28970
+DDIR_WEST
+~
+~
+0 -1 28720
+#28970
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28969
+DDIR_EAST
+~
+~
+0 -1 28767
+DDIR_SOUTH
+~
+~
+0 -1 28971
+DDIR_WEST
+~
+~
+0 -1 28719
+#28971
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28970
+DDIR_EAST
+~
+~
+0 -1 28972
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28718
+#28972
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28767
+DDIR_EAST
+~
+~
+0 -1 28973
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28971
+#28973
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28766
+DDIR_EAST
+~
+~
+0 -1 28974
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28972
+#28974
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28765
+DDIR_EAST
+~
+~
+0 -1 28975
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28973
+#28975
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28764
+DDIR_EAST
+~
+~
+0 -1 28976
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28974
+#28976
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28763
+DDIR_EAST
+~
+~
+0 -1 28977
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28975
+#28977
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28762
+DDIR_EAST
+~
+~
+0 -1 28978
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28976
+#28978
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28761
+DDIR_EAST
+~
+~
+0 -1 28979
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28977
+#28979
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28980
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28978
+#28980
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28981
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28979
+DDIR_WEST
+~
+~
+0 -1 28761
+#28981
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28982
+DDIR_EAST
+~
+~
+0 -1 28725
+DDIR_SOUTH
+~
+~
+0 -1 28980
+DDIR_WEST
+~
+~
+0 -1 28760
+#28982
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28983
+DDIR_EAST
+~
+~
+0 -1 28986
+DDIR_SOUTH
+~
+~
+0 -1 28981
+DDIR_WEST
+~
+~
+0 -1 28759
+#28983
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28771
+DDIR_EAST
+~
+~
+0 -1 28984
+DDIR_SOUTH
+~
+~
+0 -1 28982
+DDIR_WEST
+~
+~
+0 -1 28758
+#28984
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28772
+DDIR_EAST
+~
+~
+0 -1 28985
+DDIR_SOUTH
+~
+~
+0 -1 28986
+DDIR_WEST
+~
+~
+0 -1 28983
+#28985
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28773
+DDIR_EAST
+~
+~
+0 -1 28775
+DDIR_SOUTH
+~
+~
+0 -1 28987
+DDIR_WEST
+~
+~
+0 -1 28984
+#28986
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28984
+DDIR_EAST
+~
+~
+0 -1 28987
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28982
+#28987
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28985
+DDIR_EAST
+~
+~
+0 -1 28776
+DDIR_SOUTH
+~
+~
+0 -1 28725
+DDIR_WEST
+~
+~
+0 -1 28986
+#28988
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28989
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28954
+DDIR_WEST
+~
+~
+0 -1 28999
+#28989
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28990
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28988
+DDIR_WEST
+~
+~
+0 -1 28999
+#28990
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28991
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28989
+DDIR_WEST
+~
+~
+0 -1 28999
+#28991
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28992
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28990
+DDIR_WEST
+~
+~
+0 -1 28999
+#28992
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28993
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28991
+DDIR_WEST
+~
+~
+0 -1 28999
+#28993
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28994
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28992
+DDIR_WEST
+~
+~
+0 -1 28999
+#28994
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28995
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28993
+DDIR_WEST
+~
+~
+0 -1 28999
+#28995
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28996
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28994
+DDIR_WEST
+~
+~
+0 -1 28999
+#28996
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28997
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28995
+DDIR_WEST
+~
+~
+0 -1 28999
+#28997
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28998
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28996
+DDIR_WEST
+~
+~
+0 -1 28999
+#28998
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 40999
+DDIR_EAST
+~
+~
+0 -1 28999
+DDIR_SOUTH
+~
+~
+0 -1 28997
+DDIR_WEST
+~
+~
+0 -1 28999
+#28999
+Drifting on the Open Sea~
+You are drifting on the open sea.  Broad swells carry you far into the air, and
+the horizon disappears for long stretches of time as you drop into the troughs.
+The water is warm and briny, and it extends to the horizon in every direction.
+~
+0 ROOM_NO_MOB|ROOM_MAZE SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 28920
+DDIR_EAST
+~
+~
+0 -1 28956
+DDIR_SOUTH
+~
+~
+0 -1 28941
+DDIR_WEST
+~
+~
+0 -1 28951
+#0
+
+
+#RESETS
+M 28700 100 28706
+G 28700 100 0
+M 28701 100 28742
+M 28701 100 28742
+M 28701 100 28742
+M 28701 100 28742
+M 28702 100 28743
+M 28702 100 28743
+M 28702 100 28743
+M 28702 100 28743
+M 28701 100 28743
+M 28701 100 28743
+M 28701 100 28743
+M 28701 100 28743
+M 28702 100 28742
+M 28702 100 28742
+M 28702 100 28742
+M 28702 100 28742
+M 28703 100 28704
+M 28703 100 28704
+M 28703 100 28705
+M 28703 100 28705
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28898
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28898
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28706 100 28898
+E 28709 100 WEAR_LEGS
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28704 100 28899
+E 28703 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28705 100 28899
+E 28708 100 WEAR_FINGER_L
+E 28706 100 WEAR_BODY
+E 28707 100 WEAR_WRIST_L
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28706 100 28899
+E 28709 100 WEAR_LEGS
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28898
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28707 100 28899
+E 28710 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28705 100 WEAR_FEET
+E 28701 100 WEAR_WIELD
+M 28709 100 28898
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28728 100 WEAR_DUAL_WIELD
+M 28709 100 28898
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28728 100 WEAR_DUAL_WIELD
+M 28709 100 28898
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28728 100 WEAR_DUAL_WIELD
+M 28709 100 28898
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28728 100 WEAR_DUAL_WIELD
+M 28709 100 28899
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28733 100 WEAR_DUAL_WIELD
+M 28709 100 28899
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28733 100 WEAR_DUAL_WIELD
+M 28709 100 28899
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28733 100 WEAR_DUAL_WIELD
+M 28709 100 28899
+E 28715 100 WEAR_BODY
+E 28702 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28714 100 WEAR_WIELD
+E 28733 100 WEAR_DUAL_WIELD
+M 28710 100 28793
+E 28727 100 WEAR_LIGHT
+E 28708 100 WEAR_FINGER_L
+E 28715 100 WEAR_BODY
+E 28726 100 WEAR_HEAD
+E 28704 100 WEAR_LEGS
+E 28717 100 WEAR_FEET
+E 28716 100 WEAR_HANDS
+E 28713 100 WEAR_SHIELD
+E 28707 100 WEAR_WRIST_L
+E 28714 100 WEAR_WIELD
+E 28733 100 WEAR_DUAL_WIELD
+G 28741 100 0
+M 28708 100 28862
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28863
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28864
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28865
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28866
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28867
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28868
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28869
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28870
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28871
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28872
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28873
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28874
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28875
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28876
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28877
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28878
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28879
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28880
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28708 100 28881
+E 28712 100 WEAR_BODY
+E 28713 100 WEAR_SHIELD
+E 28711 100 WEAR_WIELD
+M 28711 100 28792
+E 28720 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+O 28723   1 28792
+P 28721   2 28723
+M 28712 100 28779
+E 28718 100 WEAR_HEAD
+E 28722 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28787
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28783
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28713 100 28789
+E 28718 100 WEAR_HEAD
+E 28719 100 WEAR_WIELD
+M 28714 100 28888
+M 28714 100 28889
+M 28714 100 28890
+M 28714 100 28891
+M 28714 100 28892
+M 28714 100 28893
+M 28714 100 28894
+M 28714 100 28895
+M 28714 100 28896
+M 28719 100 28802
+G 28730 999 0
+G 28731 999 0
+G 28732 999 0
+G 28729 999 0
+M 28720 100 28803
+G 28733 999 0
+G 28742 999 0
+M 28721 100 28804
+G 28734 999 0
+G 28735 999 0
+G 28736 999 0
+G 28737 999 0
+M 28722 100 28805
+M 28723 100 28900
+M 28724 100 28807
+M 28725 100 28808
+G 28728 999 0
+G 28727 999 0
+M 28726 100 28801
+M 28727 100 28809
+D 28793 DIR_EAST  DOOR_CLOSED_LOCKED
+D 28791 DIR_NORTH DOOR_CLOSED
+D 28783 DIR_SOUTH DOOR_CLOSED
+D 28916 DIR_UP    DOOR_OPEN
+D 28700 DIR_DOWN  DOOR_OPEN
+O 28724   1 28780
+O 28725   4 28785
+O 28725   4 28786
+O 28725   4 28787
+O 28725   4 28788
+M 28715 100 28901
+M 28716 100 28901
+M 28717 100 28901
+M 28718 100 28901
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+M 28734 100 28916
+D 28795 DIR_WEST  DOOR_OPEN
+M 28701 100 28942
+M 28701 100 28949
+M 28702 100 28934
+M 28702 100 28925
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,2601 @@
+#AREA Raptor Island~
+#AUTHORS Grim~
+#VERSION 4
+#RANGES 50 80 1 95
+#RESETMSG The ground shakes from a gigantic roar!~
+
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 'RAPTOR ISLAND' RAPTORISLAND~
+{128}
+                                Raptor Island
+{308}
+Raptor Island somehow never evolved through the ancient ages as most other
+areas throughout the Realms. As a result, it is home to creatures of a
+sort that cannot be found elsewhere. There are rumors that the area has
+been used as a refuge for pirates and their stolen booty. Others claim it
+is a safe harbor for all sea-going vessels and should not be feared.
+
+  This area was originally created by Grim.
+
+  Revised by Emperor on January 4th, 1998.
+~
+
+0 $~
+
+
+#MOBILES
+#8201
+lizard tiny~
+the tiny lizard~
+A tiny lizard is here, standing on its hind legs looking at you.~
+It looks like a normal lizard except that it only has three toes
+and is standing on its hind legs.
+~
+ACT_WIMPY
+0
+0 S
+52 0 0 1d676+1302 4d5+30
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#8202
+survivor~
+the shipwreck survivor~
+A shipwreck survivor is here, staring at you with crazed eyes.~
+You can tell that this guy has been here for a while, by the
+ripped up rags he's wearing.  He seems to have lost all hope
+of rescue.  He also appears to have lost his grip on his sanity
+a while back.
+~
+ACT_WIMPY|ACT_SMART
+AFF_DETECT_INVIS
+250 S
+45 0 0 1d506+956 2d7+30
+300 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) == 0
+  say Help me $n!
+  mpecho The shipwreck survivor falls to his knees.
+endif
+~
+>speech_prog p help~
+if quest (0,2,$n) == 0
+  say If you help me, I will tell give you valuable information
+  mpecho The shipwreck survivor coughs and gags.
+endif
+~
+>speech_prog information~
+if quest (0,2,$n) == 0
+  mpmset $n quest 0 2 1
+  say Bring me some moss to eat
+  say and I will tell you how to get pirate treasure!
+endif
+~
+>give_prog i8203~
+if quest (0,2,$n) == 1
+  mpmset $n quest 0 2 2
+  mpjunk i8203
+  mpecho The shipwreck survivor eats the moss.
+  say Thank you $n...
+  say Deep below the surface somewhere on this island
+  say is a hidden pirate ship with valuable treasure!
+  say It is located just outside the cabin of Captain Dread
+  say But, you need a code word to get to it!
+  say I don't know the word, but Tongo might....
+  say He's the most knowledgeable one on the island
+  say Good luck!
+  mpecho The shipwreck survivor goes back to eating the moss.
+endif
+~
+|
+#8203
+turtle snapping~
+the snapping turtle~
+A snapping turtle is here.~
+This appears to be a rather large version of the snapping turtles
+normally found along riverbanks.
+~
+0
+0
+0 S
+47 0 0 1d552+1049 4d3+32
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8204
+deinonychus~
+the viscious deinonychus~
+A deinonychus is here growling viciously at you.~
+This throw back to an earlier time stands over 6 feet tall with
+sharp teeth and extremely dangerous looking claws.  It moves with
+a quickness that suggests it could run down a horse if it had to.
+It raises its head and sniffs the wind, it knows where you are!
+~
+0
+AFF_DETECT_INVIS
+-300 S
+49 0 0 1d600+1146 5d6+25
+200 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>time_prog 24~
+mpasound You hear the footsteps of large animals.
+~
+>rand_prog 10~
+mpkill $r
+~
+|
+#8205
+plesiosaurus~
+the plesiosaurus~
+A plesiosaurus is here, swimming gracefully.~
+The small head that sticks out of the water gives no indication of
+the large animal that it actually is.  Rows of sharp teeth gleam
+in the sun as it catches and eats fish and water birds.
+~
+ACT_SENTINEL
+0
+0 S
+47 0 0 1d650+1249 4d7+24
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+growl 
+~
+|
+#8206
+leech giant~
+the giant leech~
+A disgusting giant leech is waiting here.~
+Yuck! and you thought regular leeches were disgusting.  The very
+thought of this 3 foot creature sucking on your arm sends shivers
+up and down your spine.
+~
+ACT_SMART
+0
+0 S
+43 0 0 1d462+868 5d4+29
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+mpecho The giant leech latches onto your skin and begins to suck!!
+mpquiet on
+cast 'weaken' $n
+mpquiet off
+~
+>rand_prog 10~
+mpkill $r
+~
+|
+#8207
+neandrathal~
+the simple neandrathal~
+A simple minded neanderthal is here trying to create fire.~
+You gaze in wonder at what could only be one of man's distant
+ancestors.  He wears only a small loincloth and walks with an apelike
+gait.  He stares at you with a blank look in his eyes.
+~
+0
+0
+150 S
+53 0 0 5d5+1700 2d8+32
+50 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The simple neandrathal looks up at you.
+mpecho The simple neandrathal grunts.
+~
+|
+#8208
+apatosaurus~
+the immense apatosaurus~
+An immense apatosaurus is here nibbling on the tops of trees.~
+This huge creature's head rises over 30 feet into the air.  The ground
+shakes like thunder as it walks.  You get the feeling that it could
+step on and smash you like a bug.
+~
+0
+0
+100 S
+70 0 0 2d100+3400 3d7+50
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+mpasound The ground shakes momentarily.
+~
+|
+#8209
+triceratops~
+the triceratops~
+A triceratops is here ready to charge at you.~
+After looking at the three horns sticking out of this thing's head you
+start to feel that maybe you should have brought a better weapon along.
+It trumpets out a challenge and prepares to charge.
+~
+ACT_SMART
+0
+-200 S
+66 0 0 4d100+2600 4d6+45
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+growl 
+~
+>rand_prog 10~
+mpkill $r
+~
+|
+#8210
+tiger sabre toothed~
+the sabre toothed tiger~
+A sabre toothed tiger stalks here, moving towards you.~
+A big cat with big fangs.
+~
+0
+AFF_DETECT_INVIS
+-100 S
+59 0 0 1d870+1710 3d8+38
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+mpecho The sabre toothed tiger roars loudly!
+mpasound You hear a terrible growl.
+~
+>rand_prog 10~
+mpkill $r
+~
+|
+#8211
+Tongo~
+Tongo the jungle man~
+Tongo the jungle man is here, grunting at you curiously.~
+It looks like his parents were shipwreck victims and after they died
+he was raised in the jungles of this island.  He is extemely strong
+looking and appears to be the true king of this island.  He lets out
+an earsplitting yell letting you know that this is his territory.
+~
+ACT_SMART
+AFF_DETECT_INVIS
+400 S
+75 0 0 1d1406+2892 1d75+30
+200 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if rand (85)
+  say Chumba wumba
+  say Pirate say: walla walla
+  mpecho Tongo grunts at you.
+else
+  shout Ahh Ayayeeyawwwwwww Ayahoo!
+endif
+~
+|
+#8212
+stegosaurus~
+the stegosaurus~
+A stegosaurus is here, utterly brainless.~
+Although not overly bright looking, you still would not want to be on
+the recieving end of the spikes on its tail.
+~
+ACT_WIMPY
+0
+100 S
+66 0 0 5d45+2700 4d6+53
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The stegosaurus munches on some leaves.
+~
+|
+#8213
+pteranodon~
+the pteranodon~
+A pteranodon is here guarding its nest from intruders.~
+This huge bat-like creature has a 25 foot wingspan.  It takes off with
+an ease that you wouldn't expect of a creature of this size.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_FLYING
+0 S
+54 0 0 1d870+1710 1d59+18
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#8214
+tyrannosaurus rex~
+the Tyrannosaurus Rex~
+A tyrannosaurus rex is here, looming over you.~
+You are looking at the most feared predator of all time.  All 50 feet of it.
+~
+ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-300 S
+75 0 0 6d50+3900 5d6+50
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 2~
+shout ROOAARR!
+mpasound The ground shakes with giant footsteps!
+~
+|
+#8215
+Nova captain~
+Captain Nova~
+Captain Nova stands here, looking at a map of the coast.~
+He has an aura of command about him.  You almost feel obliged to
+salute.  He has the look of one who has learned to be a survivor
+the hard way. You can see why it is he who commands "The Remora".
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS
+650 S
+68 0 0 1d1369+2808 1d74+28
+2500 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (2,2,$n) == 0
+  look $n
+  mpecho Captain Nova draws his sword.
+  say Who goes there?
+  say Do you come in peace?
+else
+  nod $n
+endif
+~
+>speech_prog p yes~
+if quest (2,2,$n) == 0
+  mpmset $n quest 2 2 1
+  nod 
+  say Good. Wouldn't want any trouble
+  say We're fixing to debark from this island
+  say as soon as we can figure out how
+  say I sure could use a sextant to help find my way
+  say I seem to have misplaced mine...
+endif
+~
+>give_prog i8212~
+if quest (2,2,$n) == 1
+  mpmset $n quest 2 2 2
+  mpjunk sextant
+  say Wow! My sextant, you found it!
+  smile $n
+  say This will be of great help for me and my crew
+  say Please, take my hat in return for your help
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 8213
+  mpquiet off
+  give hat $n
+  say Thanks again $n
+endif
+~
+|
+#8216
+crewman~
+the loyal crewman~
+A loyal crewman is here, standing at attention.~
+You feel sure that this 'old salt' has many a tale of the high seas
+to tell you.
+~
+0
+0
+700 S
+56 0 0 1d784+1527 1d20+35
+250 0
+POS_STANDING POS_STANDING SEX_MALE
+#8217
+crab giant~
+the gigantic crab~
+A rather large crab is here.~
+Looks like a normal crab, except hundreds of times bigger.
+~
+0
+AFF_DETECT_INVIS
+0 S
+64 0 0 2d100+2700 2d10+45
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8218
+fly trap plant~
+the giant venus fly trap~
+A venus fly trap with tremendous teeth grows here.~
+The plant lover's nightmare.
+~
+0
+0
+0 S
+54 0 0 1d729+1412 1d20+36
+10 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+mpkill $r
+~
+>fight_prog 30~
+mpecho The giant venus fly trap begins to gnaw on your skin!
+mpquiet on
+cast 'weaken' $n
+mpquiet off
+~
+|
+#8219
+gorilla~
+the gorilla~
+A gorilla is here, pounding on his chest as you approach.~
+This largest of the primates looks as though it has the strength
+to uproot tree trunks.
+~
+0
+0
+100 S
+57 0 0 1d812+1587 1d20+38
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#8220
+bee giant~
+the giant bee~
+A giant bee is here buzzing loudly around you.~
+This look like a normal honeybee magnified hundreds of times.
+~
+0
+AFF_FLYING
+0 S
+54 0 0 1d729+1412 1d10+39
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8221
+bee giant queen~
+the giant queen bee~
+A giant queen bee is here eating royal jelly.~
+This insect is huge. It looks closer in size to a condor then a normal
+bee.
+~
+ACT_SENTINEL|ACT_WIMPY
+AFF_FLYING
+0 S
+59 0 0 1d1024+2041 1d64+21
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#8222
+Shark great white~
+the great white shark~
+A great white shark is here ready to attack you.~
+This huge fish is over 20 feet long with a mouth full of sharp teeth
+capable of ripping a horse in half with one bite.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+0
+0 S
+17 0 0 2d10+300 2d8+8
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8223
+fruit bat giant~
+the giant fruit bat~
+A giant fruit bat is here stretching its wings lazily.~
+Even though its rather large it still looks rather harmless.
+~
+0
+AFF_DETECT_INVIS
+0 S
+53 0 0 1d702+1356 2d10+33
+0 0
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+#8224
+pirate~
+the pirate~
+A pirate with an eye patch and wooden leg is here.~
+He looks like the typical pirates you've read about, except much more
+real.
+~
+ACT_AGGRESSIVE
+0
+-600 S
+60 0 0 1d900+1774 1d60+20
+400 0
+POS_STANDING POS_STANDING SEX_MALE
+#8225
+dread captain~
+Captain Dread~
+The infamous Captain Dread is here, planning your demise.~
+This is the man responsible for sacking and looting the coastal provinces
+of Midgaard for many years.  Who knows how many people have gone down under
+the sharp blade of his cutlass.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+35 0 0 1d1000+1000 1d100+1
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say You've come for my treasure have you!
+say Well, you'll never get it!
+mpkill $n
+~
+>fight_prog 20~
+glare $n
+~
+|
+#8226
+elemental fire~
+the fire elemental~
+A huge fire elemental is here, powering the oars of 'the Remora'.~
+It appears to be a huge ball of living flame.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS
+0 S
+70 0 0 1d1482+3066 1d77+30
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8227
+larva bee~
+the bee larva~
+An ugly bee larva crawls around in here.~
+Doesn't exactly look like something you'd want as a pet.
+~
+ACT_SENTINEL
+0
+0 S
+53 0 0 1d841+1648 1d58+17
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#8228
+ethereal~
+the ethereal~
+The ethereal is here.~
+This mob should be invisible to you.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+90 0 0 1d10+10000 1d10+100
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p walla~
+if quest (0,2,$n) == 2
+  mpecho You hear the squeak of rope and pulleys.
+  mpecho A secret door slides open.
+  mpechoat $n You fall through the open hatch!
+  mptransfer $n 8125
+  mpecho $n falls through the open hatch!
+  mpecho The hatch slides shut.
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#8201
+stick totem~
+a totem stick~
+A stick with a long forgotten god carved in it lies here.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 5000 25
+E
+totem stick~
+The stick has the inscription 'zeebyyommerbop'.
+~
+A APPLY_SAVING_SPELL 1 0
+#8202
+tooth tyrannosaurus~
+a tyrannosaurus tooth~
+A tooth from a tyrannosaurus rex lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 5 5 WEAPON_PIERCE 0 0 0 0
+2 10000 28
+A APPLY_STR 2 0
+#8203
+moss glowing~
+the glowing moss~
+A heap of glowing moss lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+1 100 10
+E
+glowing moss~
+You see a pile of oddly glowing moss.
+~
+#8204
+wooden leg~
+a wooden leg~
+A wooden leg lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE|ITEM_FLAG_MYTHICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+5 0 0 0 0 0 0 0
+1 15000 50
+A APPLY_STR 2 0
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 3 0
+#8205
+treasure captain dread's~
+captain Dread's treasure~
+The treasure of the infamous Captain Dread lies here.~
+~
+ITEM_TYPE_MONEY
+0
+ITEM_WEAR_TAKE
+2000 0 0 0 0 0 0 0
+10 900 20
+#8206
+boots furred~
+furred boots~
+A pair of furry booted lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+2 250 57
+E
+furry boots~
+A very comfortable looking pair of furred boots.
+~
+A APPLY_DEX 1 0
+#8207
+cutlass~
+a cutlass~
+A pirate's cutlass lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 6 6 WEAPON_SLASH 0 0 0 0
+5 900 40
+E
+a cutlass~
+A pirate's cutlass, very sharp too.
+~
+#8208
+stick nova~
+nova stick~
+A shock stick belonging to Captain Nova lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_NODROP|ITEM_FLAG_MYTHICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 6 8 WEAPON_STAB 0 0 0 0
+4 30000 47
+E
+shock stick~
+A stick with a glowing point on it.  It has the words 'C. Nova' carved into
+it.
+~
+#8209
+belt dinosaur skin~
+a dinosaur skin belt~
+A belt made out of pure dinosaur skin is here.~
+This belt is made out of pure dinosaur hide.  It feels much tougher then
+normal leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+16 0 0 0 0 0 0 0
+2 8000 60
+A APPLY_STR 2 0
+A APPLY_CON 2 0
+A APPLY_DEX 2 0
+#8210
+egg golden~
+a golden egg~
+A golden pteranodon egg lies here.~
+This appears to be an ordinary looking egg except for the fact that it has
+the shape and texture of gold.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1000 0 0 0 0 0 0 0
+3 9000 20
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#8211
+jelly royal~
+royal jelly~
+A heap of royal jelly lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+36 0 0 0 0 0 0 0
+1 250 1
+E
+royal jelly~
+This appears to be the best honey made by bees intended to feed their
+queen.
+~
+#8212
+sextant captain nova~
+the sextant of Captain Nova~
+A brass sextant lies on the ground here.~
+The sextant has the initials C. Nova engraved into its edge.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1000 0 0 0 0 0 0 0
+1 10 14
+A APPLY_DEX 1 0
+#8213
+hat captain nova~
+the hat of Captain Nova~
+A captain's hat lies here.~
+The hat is regal and adorned with medals.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+18 0 0 0 0 0 0 0
+1 200000 62
+A APPLY_WIS 2 0
+A APPLY_DEX 2 0
+A APPLY_INT 2 0
+#0
+
+
+#ROOMS
+#8100
+The Side of the Volcano~
+The wide ledge ends here.  You can either go back to the west or go
+upwards.
+~
+0 0 SECT_HILLS
+DDIR_WEST
+~
+~
+0 -1 8298
+DDIR_UP
+~
+~
+0 -1 8101
+#8101
+The Rim of the Crater~
+It is incredibly hot here.  Looking in the crater you can see a lake of
+molten lava.  Much smoke and ash rise from here making breathing difficult.
+To the north you see a glowing pool of lava.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+Doesn't look like the wisest thing to do.~
+~
+0 -1 8102
+DDIR_DOWN
+~
+~
+0 -1 8100
+#8102
+Boiling in Lava~
+You jump into the lake of lava feeling invincible, unfortunately you're
+not.  You almost immediately burst into flames and burn up, but not
+before you see all of your equipment melt away.  Maybe next time you'll
+try a little caution.
+~
+0 ROOM_SMOKE|ROOM_NO_MOB SECT_LAVA
+#8105
+The Hidden Entrance~
+You are amazed to see an entrance to what appears to be a network of
+tunnels behind the waterfall.  This place is extremely damp due to the
+continued spray from the waterfall coming in.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 8106
+DDIR_UP
+~
+~
+0 -1 8237
+#8106
+Three Way Intersection~
+Tunnels branch off from here to the east, west, and south.  You hear the
+sound of running water in the distance.  You can see an odd glow coming
+from the south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8105
+DDIR_SOUTH
+~
+~
+0 -1 8114
+DDIR_WEST
+~
+~
+0 -1 8107
+#8107
+A Quiet Tunnel~
+You can hear nothing except the echoes of you own footsteps in this part
+of the cave network.  Even with your light source it is impossible to see
+more then a few feet in any direction.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8108
+DDIR_EAST
+~
+~
+0 -1 8106
+DDIR_WEST
+~
+~
+0 -1 8109
+#8108
+A Dead End~
+The cave seems to have collasped in on itself at this end of the tunnel,
+perhaps due to continued volcanic activity.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8107
+#8109
+A Turn in the Tunnels~
+The tunnel angles away to the south and east here.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8107
+DDIR_SOUTH
+~
+~
+0 -1 8110
+#8110
+The Top of a Crude Stairway~
+You are standing at the top of what seems to be a stairway carved out of
+the rock leading to the darkness below.  Although crude it appears too
+uniform to have been created naturally.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8109
+DDIR_DOWN
+~
+~
+0 -1 8111
+#8111
+The Bottom of a Crude Stairway~
+This is the bottom of a crude stairway.  You can see nothing but darkness
+looking up.  You see some light from the east and hear what to your surprise
+sounds like singing.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8112
+DDIR_UP
+~
+~
+0 -1 8110
+#8112
+The Hidden Cove~
+You see a gigantic carvern filled with water.  You see where this hidden
+lake leads to a large opening to the outside.  You think that this would
+be an excellant place to hide a boat just as you look south and see a
+docked pirate ship, apparently someone else had that idea too.  The
+singing and cursing of drunken pirates reaches your ears.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8113
+DDIR_WEST
+~
+~
+0 -1 8111
+#8113
+Sneaking aboard the Pirate Ship 'Vengence'~
+You are shocked to discover that this is the 'Vengence' the ship of
+the infamous Captain Dread the pirate who has been looting the coast of
+Shine for years.  Many pirates wander about falling drunkenly over each
+other.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 8112
+DDIR_SOUTH
+~
+~
+0 -1 8126
+#8114
+Glowing Tunnel~
+The strange green glow that lights up this cave appears to come from
+moss lining the walls.  Apparently it has evolved to provide its own
+light for photosynthesis.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8106
+DDIR_EAST
+~
+~
+0 -1 8115
+DDIR_SOUTH
+~
+~
+0 -1 8116
+#8115
+The Grand Cavern~
+This carvern is a spelunkers dream come true.  It is magnificent looking
+with perfectly formed stalagtites and stalagmites all around.  The
+only thing it lacks is more then one exit.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 8114
+#8116
+A Turn in the Tunnel~
+The tunnel curves to the north and east from here.  Light can be seen from
+the north, and the tunnel seems to slope downwards to the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8114
+DDIR_EAST
+~
+~
+0 -1 8117
+#8117
+The Top of a Spiral Stairway~
+You stand at the top of a metal spiral stairway leading down through a
+large hole in the floor.  This can only be the work of some significant
+intelligence you think.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 8116
+DDIR_DOWN
+~
+~
+0 -1 8118
+#8118
+The Bottom of a Spiral Stairway~
+This is the bottom of a spiral metal stairway that leads up through a
+hole in the ceiling.  You can see nothing but darkness upwards, but
+a faint flicker to the east catches you eye.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8119
+DDIR_UP
+~
+~
+0 -1 8117
+#8119
+A Camp in the Caves~
+You wander into a large cave filled with tents.  A coffee pot rests above
+a still glowing campfire. This definitely did not evolve naturally.  More
+light and the sound of water reaches you from the south.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8120
+DDIR_WEST
+~
+~
+0 -1 8118
+#8120
+The Dock on the Underground River~
+You have come to what seems to be a dock.  Torches hung from poles provide
+light.  You walk to the edge and look down to see an underground river.
+As you look to the north you see that the river flows through the carvern
+and under the rock.  You wonder what use this dock could be since to use it
+a ship would have to sail underwater, which is an absurd idea.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8119
+DDIR_SOUTH
+~
+~
+0 -1 8121
+#8121
+The End of the Dock~
+You are at the edge of the dock wondering what purpose it could serve,
+when something catches your eye to the east of the dock.  It at first
+glance looks to be a monstrous fish but upon further inspection it looks
+like a ship completely covered over in metal just floating there tied
+to the dock.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8120
+DDIR_EAST
+~
+~
+0 -1 8122
+#8122
+'The Remora'~
+As you walk up the gangplank you meet a sailor who explains that this ship
+is called 'The Remora' and is capable of traveling under the water.  He
+explains that man who built this ship, Captain Nova, is quite remarkable.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 8123
+DDIR_WEST
+~
+~
+0 -1 8121
+#8123
+Deep Inside 'the Remora'~
+As you wander the corridors of this ship you wonder just what powers it and
+where the captain is.  You questions are soon answered as you come across
+the entrance to the engine room.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 8124
+DDIR_WEST
+~
+~
+0 -1 8122
+#8124
+The Engine Room of 'the Remora'~
+You gasp in awe at this so ingenius yet simple solution to power.  A huge
+fire elemental is chained here.  A pump brings in seawater which the
+elemental heats and turns into steam which runs this ship.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 8123
+#8125
+The Treasure Hold~
+All of the pirates stolen booty is stored here in this storage hatch.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_CITY
+DDIR_UP
+~
+~
+0 -1 8113
+#8126
+Captain Dread's Cabin~
+This is the cabin of the bloodthirsty pirate Captain Dread.  It is
+richly adorned to suite a pirate of his status.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 8113
+#8127
+Inside the Cave~
+You walk through the immense entrance into a cave over 30 feet high and
+almost as wide.  The smell of rotting flesh wafts in from the east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8128
+DDIR_WEST
+~
+~
+0 -1 8257
+#8128
+Deeper in the Cave~
+Bones and half eaten bodies of all sorts of creatures (some human looking)
+are scattered all over this room.  The stench is almost unbearable. the
+cave continues to the west and north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8129
+DDIR_WEST
+~
+~
+0 -1 8127
+#8129
+The Lair~
+You enter in this large cavern.  The smell of death is strong here.  From
+the looks of the tracks in here something very big and mean calls this place
+home.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8128
+#8130
+The Bottom of the Cliff~
+You stand at the bottom of the cliff.  You see before you and immense
+graveyard filled with the bones of giant animals.  You can go east, west,
+south, or back up.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8131
+DDIR_SOUTH
+~
+~
+0 -1 8135
+DDIR_WEST
+~
+~
+0 -1 8132
+DDIR_UP
+~
+~
+0 -1 8256
+#8131
+The Edge of the Field~
+This is the edge of the field that contains the remains of so many
+animals.  The jungle begins here but is too dense to enter.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 12590
+DDIR_SOUTH
+~
+~
+0 -1 8134
+DDIR_WEST
+~
+~
+0 -1 8130
+#8132
+The Fighting Grounds~
+All around this area bones have been smashed to dust as though some
+huge creatures were fighting among them.  You all of a sudden feel
+the ground shake as a trumpeting sound reaches your ears, followed
+seconds later bye a loud crashing sound.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8130
+DDIR_SOUTH
+~
+~
+0 -1 8133
+#8133
+The Field~
+As you enter this field to the west of the graveyard you are stopped dead
+in your tracks at the sight of two Triceratops battling each other for
+territory.  The ground trembles as they charge each other.  Perhaps it would
+be wise to leave before they notice you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8132
+DDIR_EAST
+~
+~
+0 -1 8135
+#8134
+The Edge of the Field~
+The jungle grows thick, too thick to cross, to the east of here. The
+only exits are north and west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8131
+DDIR_WEST
+~
+~
+0 -1 8135
+#8135
+The Graveyard of Dinosaurs~
+This appears to be the place the creatures of this island  come
+when they feel they are about to die (providing they live a full
+life in this place).  Bones, some as bigger then a full grown horse,
+lie all over this graveyard.  You can leave in all directions.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8130
+DDIR_EAST
+~
+~
+0 -1 8134
+DDIR_SOUTH
+~
+~
+0 -1 8136
+DDIR_WEST
+~
+~
+0 -1 8133
+#8136
+The North Edge of the Island~
+You are standing in a little cove on the south side of the island.  Large
+cliffs isolate this place from the other parts of the coast to the east and
+west.  The surf is too violent to attempt to enter it.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8135
+#8201
+Barrier Reef~
+You have drifted into a rather shallow barrier reef.  You can see the peaks
+of an island rising up beyond the mist to the south.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 8469
+DDIR_SOUTH
+Odd, you don't remember seeing it on any of the maps~
+~
+0 -1 8202
+#8202
+Raptor Island~
+You can see the remains of several shipwrecked vessels lining
+the shore as you draw close to the beach.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+~
+~
+0 -1 8201
+DDIR_SOUTH
+You think you saw something move out on the island, but you can't be
+sure due to the dense mist which oddly seems to end at the beach.~
+~
+0 -1 8203
+#8203
+A Beach~
+The hot sun beats down on you as you walk through the sand.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8202
+DDIR_EAST
+~
+~
+0 -1 8205
+DDIR_SOUTH
+~
+~
+0 -1 8210
+DDIR_WEST
+~
+~
+0 -1 8204
+#8204
+A Beach~
+The hot sun beats down on you as you walk through the sand.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8203
+DDIR_WEST
+~
+~
+0 -1 8206
+#8205
+A Beach~
+The hot sun beats down on you as you walk through the sand.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8207
+DDIR_WEST
+~
+~
+0 -1 8203
+#8206
+Western end of the Main Beach~
+You reach the end of the beach.  The heat is unbearable.
+Impenetrable jungles lies to the south while what looks like
+quicksand blocks the way west.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8204
+DDIR_WEST
+Doesn't look like to smart of a direction to go in.  Unless of course
+you happen to like sinking in quicksand.~
+~
+0 -1 8208
+#8207
+Eastern end of the main beach~
+The beach ends here and look as if it turns into marsh lands to the east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8240
+DDIR_WEST
+~
+~
+0 -1 8205
+#8208
+The Quicksand Pits~
+As you step into the quicksand and start
+          Sink
+              Sink
+                  Sink
+you wonder just how many other creature were dumb enough
+to step into this.  Oh well, goodbye cruel world!
+~
+0 ROOM_SMOKE|ROOM_NO_MOB SECT_INSIDE
+#8210
+A Jungle Path~
+The cries of lots of strange animals can be heard on this thin
+path through the jungle.  Impenetrable jungles lines the sides
+of the path.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8203
+DDIR_SOUTH
+~
+~
+0 -1 8211
+#8211
+A Jungle Path~
+The cries of lots of strange animals can be heard on this thin
+path through the jungle.  A dark trail leads away from the path
+to the west and the path continues north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8210
+DDIR_SOUTH
+~
+~
+0 -1 8212
+DDIR_WEST
+~
+~
+0 -1 8220
+#8212
+A Jungle Path~
+The cries of lots of strange animals can be heard on this thin
+path through the jungle.  Dark trails lead away to the east and
+west, and the path continues north and south
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8211
+DDIR_EAST
+~
+~
+0 -1 8223
+DDIR_SOUTH
+~
+~
+0 -1 8213
+DDIR_WEST
+~
+~
+0 -1 8221
+#8213
+A Jungle Path~
+The cries of lots of strange animals can be heard on this thin
+path through the jungle.  The jungles path leads north, south, and
+east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8212
+DDIR_EAST
+~
+~
+0 -1 8215
+DDIR_SOUTH
+~
+~
+0 -1 8214
+#8214
+A Turn in the Path~
+The path takes a turn to the east here, or you can go back the way
+you came, which from the sounds that you keep hearing might not be
+such a bad idea you think.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8213
+DDIR_EAST
+~
+~
+0 -1 8217
+#8215
+The Path through the Dense Jungle~
+You are truly surprised that any daylight gets in at all here.  The
+jungle is incredibly thick. The path at this point appears to be
+little more then a trail of stomped grass.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8216
+DDIR_WEST
+~
+~
+0 -1 8213
+#8216
+A Split in the Path~
+Here the path leads both north and south to dark looking trails
+and west.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8224
+DDIR_SOUTH
+~
+~
+0 -1 8225
+DDIR_WEST
+~
+~
+0 -1 8215
+#8217
+A Jungle Path~
+The cries of lots of strange animals can be heard on this thin
+path through the jungle.  The path leads both west and south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8218
+DDIR_WEST
+~
+~
+0 -1 8214
+#8218
+The End of the Jungle~
+The jungle finally begins to clear up here.  The ground becomes
+rocky and the smell of sulfur reaches your nose.  You look ahead
+and see the peak of a volcano rising above the island.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8217
+DDIR_EAST
+~
+~
+0 -1 8226
+DDIR_SOUTH
+~
+~
+0 -1 8250
+#8220
+A Dark Trail~
+The jungle is so dense here that no light gets through.  You get the
+paranoid feeling that you are being watched.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8211
+DDIR_SOUTH
+~
+~
+0 -1 8221
+#8221
+A Dark Trail~
+Walking through this place you thank the gods that you have a light
+source with you.  You hear the faint splashing of water in the
+distance.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8220
+DDIR_EAST
+~
+~
+0 -1 8212
+DDIR_SOUTH
+~
+~
+0 -1 8222
+#8222
+A Dark Trail~
+The path leads north from here.  You can hear splashing sounds
+coming from the west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8221
+DDIR_WEST
+~
+~
+0 -1 8230
+#8223
+A Dark Trail~
+The jungle is so dense here that no light gets through.  You get the
+paranoid feeling that you are being watched.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8224
+DDIR_WEST
+~
+~
+0 -1 8212
+#8224
+A Turn in the Trail~
+The trail bends to the south where you can see some light, and back
+to the west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8216
+DDIR_WEST
+~
+~
+0 -1 8223
+#8225
+A Dark Trail~
+The jungle is so dense here that no light gets through.  You get the
+paranoid feeling that you are being watched.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8216
+DDIR_SOUTH
+~
+~
+0 -1 8226
+#8226
+A Four-way Junction in the Dark Trail~
+This is a dark trail leading through the jungle.  Paths branch off in
+all directions from here.  Strange vines hang off the trees here.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8225
+DDIR_EAST
+~
+~
+0 -1 8228
+DDIR_SOUTH
+~
+~
+0 -1 8227
+DDIR_WEST
+~
+~
+0 -1 8218
+DDIR_UP
+~
+~
+0 -1 8260
+#8227
+The Jungle Clearing~
+This is a clearing in the jungle.  The only way out is to the north.
+Smoke still rises from a circle of rocks in the center of the clearing
+making you realize that someone has used this place as a camp recently.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8226
+#8228
+Edge of the Jungle~
+The jungle finally seems to end here.  You are glad to be able
+to finally see the open sky again.  Paths lead east and west.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8229
+DDIR_WEST
+~
+~
+0 -1 8226
+#8229
+The Cliff~
+You stand on this cliff overlooking the surrounding ocean.  Looking
+around you can see the beach, and the shallows surrounding the island,
+and from the looks of the shadows in the water you can tell that some
+pretty big things are swimming around down there.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_WEST
+~
+~
+0 -1 8228
+DDIR_DOWN
+You see water.~
+~
+0 -1 8280
+#8230
+The Edge of the Jungle Lagoon~
+You stand at the edge of a beautiful jungle lagoon.  You can see
+little creatures skampering in an out of the water, and at the far
+end you see a magnificent waterfall cascading into the lagoon.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8222
+DDIR_WEST
+~
+~
+0 -1 8231
+#8231
+Swimming in the Lagoon~
+You swim around in the warm water throughly enjoying yourself.
+Ah, this is the life.  You think you hear a loud splash behind
+you but when you turn nothing is there.  Must be your imagination.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 8230
+DDIR_SOUTH
+~
+~
+0 -1 8232
+DDIR_WEST
+~
+~
+0 -1 8234
+#8232
+The Middle of the Lagoon~
+You float lazily on your back as you paddle in the middle of
+the lagoon.  You see a duck land on the water as you close your eyes
+and relax, but when you open your eyes the bird is gone and you
+don't see it flying away anywhere...  Hmmmmmmmm.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 8231
+DDIR_WEST
+~
+~
+0 -1 8233
+#8233
+The Far End of the Lagoon~
+You can feel the mist from the waterfall as you near this end of
+the lagoon.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 8234
+DDIR_EAST
+~
+~
+0 -1 8232
+DDIR_WEST
+~
+~
+0 -1 8235
+#8234
+The Edge of the Lagoon~
+You have reached the shore at this end of the lagoon. You can climb up
+on dry land and get a good look at the rest of the lagoon from here.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 8231
+DDIR_SOUTH
+~
+~
+0 -1 8233
+DDIR_WEST
+It doesn't look too smart to try going this way~
+~
+0 -1 8236
+#8235
+A Rock Near the Waterfall~
+You climb up onto a rock and stretch out for a quick snooze.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8236
+DDIR_EAST
+~
+~
+0 -1 8233
+#8236
+Being Pounded by the Waterfall~
+You walk under the waterfall to see if anything is on the other side
+and are hit with such a blast of water that you fall and are
+momentarily pinned.  However, you manage to get up and continue on
+your journey.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8234
+DDIR_SOUTH
+~
+~
+0 -1 8235
+DDIR_WEST
+You might be able to make it, but then again you might not.~
+~
+0 -1 8237
+#8237
+Behind the Waterfall~
+You can't believe you are actually standing in a little alcove
+behind the waterfall. You can either go through it now, or
+you can check around in here to see if there is anything of
+interest.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8236
+DDIR_DOWN
+~
+~
+0 -1 8105
+#8240
+The Marsh~
+You are standing knee-deep in peat colored water. The sounds of all
+sorts of creatures reach your ears making it impossible to know for
+certain what is out there.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 8241
+DDIR_SOUTH
+~
+~
+0 -1 8242
+DDIR_WEST
+~
+~
+0 -1 8207
+#8241
+Deep in the Marsh~
+Right about now you can think of lots of places you'd rather be as you
+wade through waist deep water wondering if you'll happen to accidentily
+step into a sinkhole.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 8243
+DDIR_WEST
+~
+~
+0 -1 8240
+#8242
+The Deep Dark Marsh~
+As you wade through the waist deep brackish water you remember
+back to a time when you were crawling around the sewers, and
+realize how good you had it compared to being in this place.
+Strange smells and sounds assault your senses from every direction.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 8240
+DDIR_SOUTH
+~
+~
+0 -1 8245
+DDIR_WEST
+~
+~
+0 -1 8244
+#8243
+The Edge of the Marsh~
+The vegetation is extremely dense here.  You can only go north or
+south.  You see light from the South.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 8241
+DDIR_SOUTH
+~
+~
+0 -1 8275
+#8244
+An Island in the Marsh~
+This seems to be the only dry land within this swamp.  Strange mounds of
+earth cover this place as if they were deliberately put here, and
+stranger footprints surround the mounds.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 8242
+#8245
+The Edge of the Marsh~
+The vegetation is extremely dense here.  You can only go north and
+east.  You see light coming from the east.
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 8242
+DDIR_EAST
+~
+~
+0 -1 8275
+#8250
+The Rocky Path~
+The ground is nearly empty of large vegetation in this section of
+the island.  You see steam rising from the south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8218
+DDIR_SOUTH
+~
+~
+0 -1 8252
+DDIR_WEST
+~
+~
+0 -1 8251
+#8251
+A Rocky Clearing~
+The only vegetation growing here are small bushes.  Otherwise the only
+things this place has to offer are small pebbles which make up the
+ground here.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 8250
+#8252
+The Hot Springs~
+Many geisers send scalding hot water and steam into the air all
+around you. You see the source of the heat, a volcano, to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8250
+DDIR_SOUTH
+~
+~
+0 -1 8253
+#8253
+The Base of the Volcano~
+You are standing at the base of a volcano the rises several thousand
+feet above the rest of the island.  The minute tremors you feel and
+smoke you see pouring out of the top indicate that this volcano is
+still very alive.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8252
+DDIR_EAST
+~
+~
+0 -1 8258
+DDIR_WEST
+~
+~
+0 -1 8254
+DDIR_UP
+~
+~
+0 -1 8290
+#8254
+A Rocky Path around the Volcano~
+You follow this path that leads around the base of the huge volcano.
+You can follow it either south or east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8253
+DDIR_SOUTH
+~
+~
+0 -1 8255
+#8255
+A Rock Bridge~
+You climb over this rock bridge leading over what looks like a riverbed.
+You look down and see not water but a river of lava flowing past you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8254
+DDIR_SOUTH
+~
+~
+0 -1 8256
+#8256
+A Cliff~
+You stand here on a cliff overlooking what looks like an animal
+graveyard.  You can see a vast field covered with immense bones
+of animals you can't even begin to identify.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8255
+DDIR_EAST
+~
+~
+0 -1 8257
+DDIR_DOWN
+~
+~
+0 -1 8130
+#8257
+A Large Cave Opening~
+You are standing in front of an opening in the rock that is big enough
+to roll a siege tower through.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 8127
+DDIR_WEST
+~
+~
+0 -1 8256
+#8258
+A Rocky Path around the Volcano~
+You follow this path which leads around the base of the huge volcano.
+You can follow it either west of south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 8259
+DDIR_WEST
+~
+~
+0 -1 8253
+#8259
+The End of the Path~
+The path ends here in a dead end, apparently due to rockslides that
+have covered the trail and blocked the way. The only exit is north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 8258
+#8260
+At the Top of the Tree~
+You see around you a vast treetop network, connected by vines and crude
+rope bridges, which had to have been made by some intelligent being.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 8266
+DDIR_WEST
+~
+~
+0 -1 8261
+DDIR_DOWN
+~
+~
+0 -1 8226
+#8261
+A Rope Bridge between the Trees~
+You walk across this crude bridge suspended over 100 feet in the air
+between two huge trees.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8263
+DDIR_EAST
+~
+~
+0 -1 8260
+DDIR_WEST
+~
+~
+0 -1 8262
+#8262
+On the Top of a Tree~
+You are standing in the top branches of a massive tree.  It appears
+that all of the lower branches have been eaten away by some large
+herbivore, which leaves no way to climb down from here except to dive
+head first.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8264
+DDIR_EAST
+~
+~
+0 -1 8261
+#8263
+A Hollowed-out Tree Top~
+You enter a small room that has been hollowed out of the top of this
+tree.  It appears that this was designed to be a crude shelter against
+the weather for someone or something.
+~
+0 ROOM_INDOORS SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 8261
+#8264
+Swinging on Vines~
+You feel a little childish swinging on these sturdy vines between the
+trees, but nevertheless you do enjoy yourself doing it.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 8262
+DDIR_WEST
+~
+~
+0 -1 8265
+#8265
+A Rope Bridge~
+You can see that the tree at the west end of this rope bridge has no more
+connections leading elsewhere.  Apparently this treetop network is
+still under some continued construction.  You also happen to glance down
+and see the lagoon about 100 feet below you.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8264
+DDIR_DOWN
+You see water.~
+~
+0 -1 8271
+#8266
+A Rope Bridge between the Trees~
+You walk across this crude bridge suspended over 100 feet over the
+ground between two trees.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8260
+DDIR_SOUTH
+~
+~
+0 -1 8267
+#8267
+On a Tree~
+A loud squeek alerts you to the fact that this tree appears to be already
+occupied.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8266
+DDIR_EAST
+~
+~
+0 -1 8268
+#8268
+Outside a Tree House~
+You are standing outside hut that seems to have been built on the top
+of a tree.  It appears rather unexceptional looking, except for the fact
+that it is over 100 feet to the ground below.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED -1 8270
+DDIR_SOUTH
+~
+~
+0 -1 8269
+DDIR_WEST
+~
+~
+0 -1 8267
+#8269
+Up a Tree~
+You hear the angry grunting of apes as you invade their territoy.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8268
+#8270
+Tongo's Hut~
+You have entered the hut of Tongo the king of the jungle.  Animal skins
+line the wall.  A table and a bed are the only pieces of furniture apparent.
+>From the relics lying around you can deduce that his parents were shipwrecked
+here long ago, and when they died he was raised in the wild.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED -1 8268
+#8271
+Diving into the Lagoon~
+You somehow get the idea that leaping off the bridge would be a fun idea.
+Well as you fall down
+                     down
+                         down
+and hit the water with a splash you realize that it was fun!
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 8231
+#8275
+The Beach~
+This is the end of the beach on the east side of the island.  The marsh
+lies to the north and west.  Here the surf mercilessly pounds the shore.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8243
+DDIR_SOUTH
+~
+~
+0 -1 8276
+DDIR_WEST
+~
+~
+0 -1 8245
+#8276
+The Beach~
+You are walking on a beach on the west side of the island.  The surf has
+quieted here and it is possible to swim out to the shallows.  Odd marks
+indented into the sand line the beach all around here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8275
+DDIR_EAST
+~
+~
+0 -1 8278
+DDIR_SOUTH
+~
+~
+0 -1 8277
+#8277
+The Beach~
+You at the south end of this western beach.  The surf is quiet here making
+it possible to swim out to the shallows.  Odd marks in the sand lie all
+over the beach.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 8276
+DDIR_EAST
+~
+~
+0 -1 8279
+#8278
+Swimming in the Shallows~
+You swim out into the shallow water.  Small fish swim rapidly past you
+as you paddle out farther.  You enjoy the clear warm water too much to
+wonder why the fish were in such a hurry.
+~
+0 0 SECT_LAKE
+DDIR_SOUTH
+~
+~
+0 -1 8279
+DDIR_WEST
+~
+~
+0 -1 8276
+#8279
+Swimming near the Coral Reef~
+You swim to a small coral reef just off the shore, and watch all
+the tiny sea animals scurry away at your approach.  You feel that in
+this isolated spot you can momentarily forget about the harshness of
+the rest of the island.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 8278
+DDIR_WEST
+~
+~
+0 -1 8277
+#8280
+Cliff-Diving~
+Looking at the water below gave you the urge to do something daring.
+So you decide to see whether you can survive this little adventure or not.
+you jump off and fall
+                      Down
+                         Down
+                             Down
+                                SPLASH!!
+You luckily manage to hit the water without breaking your neck.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 8279
+#8290
+Climbing the Volcano~
+You are holding on with you fingertips to a small outcropping of rock
+on the side of the volcano.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_UP
+~
+~
+0 -1 8291
+DDIR_DOWN
+~
+~
+0 -1 8253
+#8291
+The Side of the Volcano~
+You are inching your way along the volcano's side.  You can go up, down,
+or you see a small ledge that leads off to the east.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 8292
+DDIR_UP
+~
+~
+0 -1 8296
+DDIR_DOWN
+~
+~
+0 -1 8290
+#8292
+Strange Cave Openings~
+You come to a series of huge cave openings.  Its too dark to see whats
+in there but a definite humming sound can be heard from inside.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8293
+DDIR_WEST
+~
+~
+0 -1 8291
+#8293
+The Giant Bee Hive~
+You are astonished to see huge bees busy caring for a gigantic hive.
+Some of the honeycombs alone must weigh tons.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 8294
+DDIR_WEST
+~
+~
+0 -1 8292
+#8294
+The Nest~
+Numerous larva (they look like huge grubs Yuck!) crawl around here being
+cared for by the workers.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8295
+DDIR_SOUTH
+~
+~
+0 -1 8293
+#8295
+The Queen Bee's Lair~
+This large room filled with huge mounds of royal jelly can only be the
+lair of the queen of this hive, and from the loud sound of buzzing you
+hear she can't be too far away.
+~
+0 0 SECT_HILLS
+DDIR_WEST
+~
+~
+0 -1 8294
+#8296
+A Ledge~
+You are able to take a breather on this ledge leading around the side of
+the volcano.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 8297
+DDIR_DOWN
+~
+~
+0 -1 8291
+#8297
+A Ledge~
+You are able to take a breather on this ledge leading around the side of
+the volcano.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 8296
+DDIR_UP
+~
+~
+0 -1 8298
+#8298
+A Large Ledge leading Two Ways~
+You are standing on a wide ledge more then two thirds of the way up the
+volcano.  It leads both east and west.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8100
+DDIR_WEST
+~
+~
+0 -1 8299
+DDIR_DOWN
+~
+~
+0 -1 8297
+#8299
+Pteranodon Nest~
+You wander into a large nest.  Unhatched eggs lie scattered about.
+The creature which laid them would not be too happy to have you
+intruding upon them.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 8298
+#0
+
+
+#RESETS
+M 8201 100 8211
+M 8201 100 8223
+M 8201 100 8215
+M 8201 100 8226
+M 8201 100 8214
+M 8202 100 8204
+M 8202 100 8204
+M 8203 100 8241
+M 8204 100 8222
+M 8204 100 8220
+M 8205 100 8232
+M 8206 100 8245
+M 8207 100 8227
+E 8206 999 WEAR_FEET
+M 8207 100 8227
+E 8206 999 WEAR_FEET
+M 8207 100 8227
+E 8206 999 WEAR_FEET
+G 8201   2 0
+M 8208 100 8244
+M 8209 100 8133
+M 8209 100 8132
+M 8210 100 8258
+M 8211 100 8270
+E 8209   1 WEAR_WAIST
+G 8201   2 0
+M 8212 100 8250
+M 8213 100 8299
+M 8213 100 8299
+G 8210   1 0
+M 8214 100 8129
+G 8202   2 0
+M 8215 100 8123
+E 8208 999 WEAR_WIELD
+M 8216 100 8119
+M 8216 100 8120
+M 8216 100 8121
+M 8217 100 8276
+M 8218 100 8223
+M 8218 100 8213
+M 8218 100 8221
+M 8219 100 8269
+M 8219 100 8269
+G 8203   3 0
+M 8220 100 8293
+M 8220 100 8294
+M 8227 100 8294
+M 8227 100 8294
+M 8221 100 8295
+G 8211   2 0
+M 8222 100 8278
+M 8223 100 8267
+M 8223 100 8267
+M 8224 100 8113
+E 8207 999 WEAR_WIELD
+M 8224 100 8113
+E 8207 999 WEAR_WIELD
+M 8224 100 8113
+E 8207 999 WEAR_WIELD
+M 8225 100 8126
+E 8207 999 WEAR_WIELD
+E 8204 999 WEAR_LEGS
+O 8205   1 8125
+O 8212   1 8125
+M 8226 100 8124
+O 8203   5 8106
+O 8203   5 8107
+O 8203   5 8114
+M 8228 100 8113
+D 8268 DIR_EAST  DOOR_CLOSED
+D 8270 DIR_WEST  DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

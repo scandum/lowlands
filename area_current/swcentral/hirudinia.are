@@ -1,0 +1,5206 @@
+#AREA Hirudinia~
+#AUTHORS Ozman~
+#VERSION 4
+#RANGES 70 95 1 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_NORIP
+
+
+#HELPS
+0 Hirudinia~
+{128}
+                                  Hirudinia
+{308}
+Hirudinia is a small mining colony deep within the heart of the Order
+territories.  Its people mine the land for magic, which they feed off of to
+live and which they give to their Lord, the Lord of Earth, Order to power
+his desire for Stability.  Recently, a powerful witch has taken over their
+underground mining operation and is sapping the ground of all its magical
+energy.
+
+Hirudinia created by Ozman  1-99
+~
+
+0 $~
+
+
+#MOBILES
+#29401
+Hirudine citizen~
+a Hirudine citizen~
+A Hirudine citizen is here.~
+A citizen of this great city, his skin is as bright as the sunlight.
+Standing over seven feet tall, he has a very imposing stature, but a kind
+demeanor.  You can see the energy flashing in his eyes.  His magical
+prowess is incredible.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES|AFF_HASTE
+0 S
+85 BODY_HEAD|BODY_TORSO|BODY_HAND BODY_HAND|BODY_FOOT 1d1806+3821 1d85+38
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29402
+Maynard man~
+Maynard~
+A strange man is selling items from behind the counter.~
+With only one glance at this man, you can see that he is a troubled soul.
+Completely bald and naked, he feels perfectly at home with customers in his
+store.  He has an interesting tattoo of a spine along his back.  His
+demented look, and lack of clothing, sends chills up and down your spine.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 1d1+10 0d0+2
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Relax...
+~
+|
+#29403
+Albert wizard~
+Albert~
+Albert the wizard is here to train you.~
+A wise man, Albert knows exactly why you are here.  His great sageness
+shall lead you from the path of darkness into the light.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_SANCTUARY|AFF_FLYING
+0 S
+1 0 0 1d1+10 0d0+2
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+#29404
+Anthony paladin~
+Anthony~
+Anthony the paladin is here waiting to pump you up.~
+A strong man, with bulging muscles, patiently walks around the training
+room, teaching the fine art of warfare to his pupils.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_SANCTUARY
+0 S
+1 0 0 1d1+10 0d0+2
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+#29405
+Enchantress maiden beautiful~
+the Enchantress~
+A beautiful maiden is here ready for your love.~
+The mother of all that is evil awaits you.  Her beauty is unmatched, as is
+her ability to deceive.  One look in her lusting eyes brings you to your
+knees to fulfill her every wish and desire.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_GOOD|AFF_FLYING
+-1000 S
+150 BODY_HEAD BODY_MOUTH|BODY_CLAW 0d0+30000 10d10+150
+250000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 9
+  say I see you have made it this far, so you
+  say must be worthy opponents.  I shall give
+  say you a choice.  You appear to be very
+  say powerful, so may help me and leave with
+  say your lives, or i will fight and you will
+  say die.  But it is up to you to decide.
+else
+  if quest (0,5,$n) == 22
+    say You have done well by slaying the Bishop.
+    say I fear there is yet another problem in
+    say my way.  One of my minions has turned
+    say its back on me and is slaughtering the
+    say massive hordes in my armies.  Destroy
+    say the scorpion, and bring me its tail.
+    mpmset $n quest 0 5 23
+  else
+    if quest (0,5,$n) == 24
+      say Again you have served my purposes well, child.
+      say Give me the tail of that vile, foul beast.
+      mpmset $n quest 0 5 25
+    endif
+  endif
+endif
+~
+>speech_prog fight~
+if quest (0,5,$n) == 9
+  say You will never defeat me!
+  mpkill $n
+endif
+~
+>speech_prog leave help~
+if quest (0,5,$n) == 9
+  mpmset $n quest 0 5 21
+  say I need your help to overthrow the Earthen forces of
+  say this land.  The Bishop of this city must pay with
+  say his life.  Kill him, and return to me for further
+  say instructions.  Fail me, and you will perish in the
+  say bowels of Hell for all Eternity.
+endif
+~
+>fight_prog 33~
+mass 'vampiric touch'
+~
+>death_prog 100~
+if quest (0,5,$n) == 9
+  mpmset $n quest 0 5 10
+  say You have defeated me in my own lair! How is that
+  say possible?!?
+  sigh 
+  say You may RETURN to your world with your lives this
+  say time.  But beware... do not return, or you will
+  say surely die a death most painful.
+  mpecho $I slumps over in defeat and disappears.
+  mpquiet on
+  mpforce $n get all
+  mpquiet off
+else
+  mpjunk all
+endif
+~
+>give_prog i29465~
+if quest (0,5,$n) == 25
+  say Beautiful! Beautiful, my child!
+  cackle 
+  say I can only offer you very little reward for
+  say your services.  You may pick from my vast
+  say collection of treasures.  Would you like
+  say more powerful magic or more powerful
+  say offense?
+  mpmset $n quest 0 5 26
+  mpjunk i29465
+endif
+~
+>speech_prog magic~
+if quest (0,5,$n) == 26
+  say Very well, my child.
+  mpquiet on
+  cast 'giant strenght' $n
+  mpoload 29462
+  mpoload 29463
+  mpoload 29464
+  mpquiet off
+  mpmset $n quest 0 5 27
+  give i29462 $n
+  give i29463 $n
+  give i29464 $n
+endif
+~
+>speech_prog offense~
+if quest (0,5,$n) == 26
+  say Very well, my child.
+  mpquiet on
+  cast 'giant strenght' $n
+  mpoload 29458
+  mpoload 29459
+  mpoload 29460
+  mpoload 29461
+  mpquiet off
+  mpmset $n quest 0 5 27
+  give i29458 $n
+  give i29459 $n
+  give i29460 $n
+  give i29461 $n
+endif
+~
+|
+#29406
+fett protector~
+Fett the Protector~
+The protector of the enchantress is here.~
+A vile and evil man stands before you.  Hunter by profession, killer by
+choice, he is a walking nightmare.  Scalps of his victims hang over his
+shoulder in a sadistic fashion.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_GOOD|AFF_STEALTH
+-1000 S
+130 BODY_HEAD BODY_HORN|BODY_CLAW|BODY_FOOT 50d50+22000 1d99+100
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 100~
+if rand (40)
+  cast blindness $r
+else
+  if rand (30)
+    cast 'energy drain' $r
+    cast 'energy drain' $r
+  else
+    if rand (10)
+      say I will NOT let you reach my queen!
+    endif
+  endif
+endif
+~
+|
+#29407
+Emeril chef master~
+Chef Emeril~
+A master chef is here waiting to serve you.~
+A man of great stature, he furiously stirs away at the stew in his pot, not
+noticing that you are standing here.  He sings to himself as he throws
+peppers and spices around the room.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+10 0d0+2
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+say Hey! Try the squid!
+~
+>rand_prog 5~
+if rand (50)
+  say Lets kick it up a notch!
+  say BAM!
+else
+  say Double BAM!
+endif
+~
+|
+#29408
+Mustaine man thin blacksmith~
+Mustaine~
+A wiry, thin blacksmith stands here pondering life.~
+A man, darkened from coal dust, works angrily over the fire casting swords
+and shields from iron.  His life is his work, and his work will never be
+finished.  His long dirty blonde hair is tied behind his head.  He stares
+at you with a sly eye and an evil grin.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+150 BODY_HEAD BODY_HEAD|BODY_LEG|BODY_HAND 0d0+20000 1d99+150
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p Portman sent me~
+if quest (0,5,$n) == 11
+  say I see.  So have you come for your reward?
+endif
+~
+>speech_prog yes~
+if quest (0,5,$n) == 11
+  say Well, I can finish some armor for you if you bring
+  say me some metal from the mine.
+  mpmset $n quest 0 5 12
+endif
+~
+>speech_prog reward~
+if quest (0,5,$n) == 11
+  say Do I look like I give to charities?
+  say Are you trying to cheat me?
+  shout Guards!! I am being cheated!
+  laugh diabolically 
+  mpkill $n
+endif
+~
+>give_prog i29451~
+if quest (0,5,$n) == 14
+  mpjunk i29451
+  mpecho The blacksmith turns his back to begin his work.
+  mpmset $n quest 0 5 15
+  mpmset self long (Busy) Mustaine is working on some armor here.
+endif
+~
+>give_prog i29455~
+if quest (0,5,$n) == 19
+  mpjunk i29455
+  mpmset $n quest 0 5 20
+  mpecho The blacksmith turns his back to begin his work.
+  mpmset self long (Busy) Mustaine is working on some armor here.
+endif
+~
+>rand_prog 33~
+if quest (0,5,$r) == 15
+  mpecho The blacksmith returns from his work.
+  say This sure is some nice armor!
+  mpquiet on
+  cast 'giant strength' $r
+  mpquiet off
+  if rand (50)
+    mpoload 29438
+    give i29438 $r
+  else
+    mpoload 29439
+    give i29439 $r
+  endif
+  if rand (33)
+    mpoload 29440
+    give i29440 $r
+  else
+    if rand (50)
+      mpoload 29449
+      give i29449 $r
+    else
+      mpoload 29450
+      give i29450 $r
+    endif
+  endif
+  say I have some more mercury left over, but I'm going
+  say to need some powerful magic to mold it.
+  mpmset $r quest 0 5 16
+  mpmset self long null
+else
+  if quest (0,5,$r) == 20
+    mpecho The blacksmith returns from his work carrying more armor.
+    mpoload 29432
+    drop i29432
+    mpoload 29452
+    drop i29452
+    mpoload 29453
+    drop i29453
+    mpmset $r quest 0 5 27
+    mpmset self long null
+  endif
+endif
+~
+>speech_prog magic~
+if quest (0,5,$n) == 16
+  say Talk to the bishop.  He might know of something.
+endif
+~
+>speech_prog sword fix~
+say I can't fix swords, but the guy next door can.
+~
+|
+#29409
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+95 BODY_HEAD BODY_MOUTH|BODY_CLAW 0d0+8000 1d99+50
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+if quest (8,4,$n) == 0
+  mpoload 29401
+  mpmset $n quest 8 4 1
+else
+  if quest (8,4,$n) == 5
+    mpoload 29406
+    mpmset $n quest 8 4 6
+  endif
+endif
+~
+|
+#29410
+miner~
+a miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (8,4,$n) == 1
+  mpoload 29402
+  mpmset $n quest 8 4 2
+else
+  if quest (8,4,$n) == 6
+    mpoload 29407
+    mpmset $n quest 8 4 7
+  endif
+endif
+if rand (50)
+  mpoload 29422
+endif
+~
+|
+#29411
+miner~
+a miner~
+A miner is resting on a pickax.~
+Slouched over resting on his pickax, his stature is deceiving.  His skin
+has an ethereal glow that is partially hidden by the dirt and grime on his
+face.  In the darkness of the mine, his face shimmers like that of a ghost.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_TORSO BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (8,4,$n) == 2
+  mpoload 29403
+  mpmset $n quest 8 4 3
+else
+  if quest (8,4,$n) == 7
+    mpoload 29428
+    mpmset $n quest 8 4 8
+  endif
+endif
+if rand (50)
+  mpoload 29422
+endif
+~
+|
+#29412
+Al Jourgensen~
+Jourgensen~
+A dark man is sitting here reading a thick old book.~
+A man, tall and dressed completely in black, stands before you ominously.
+Wearing dark black glasses and a black hat, his demented grin gives you
+the idea that he is a world weary traveller and his knowledge is greatly
+underappreciated.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+20 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p What are you reading?~
+if rand (20)
+  say Your death warrent!
+  slay $n
+else
+  say Psalm 69
+endif
+~
+|
+#29413
+Scorpion~
+a scorpion~
+A giant scorpion is here.~
+This massive armored creature lurks around the room, blood dripping from
+its claws.  From its glowing stinger drips poisonous venom.  Spawned from
+magic, its powers unleash upon you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_GOOD|AFF_STEALTH|AFF_TONGUES
+0 S
+99 BODY_CLAW BODY_TAIL|BODY_CLAW 1d2450+8326 4d5+150
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 40~
+mpecho The scorpion spews stomach acid all over you.
+mass 'acid blast'
+~
+>death_prog 100~
+if quest (0,5,$n) == 23
+  mpmset $n quest 0 5 24
+  mpoload 29465
+  drop i29465
+else
+  if rand (30)
+    mpoload 29427
+  else
+    mpoload 29426
+  endif
+endif
+~
+|
+#29414
+guard~
+a Gate guard~
+A Guard stands here at the gate.~
+A muscle-bound man, clad in full battle regalia eyes you down suspiciously.  You
+better be careful, or else his ax may meet your head.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HUNT|AFF_TONGUES
+1000 S
+99 BODY_HEAD BODY_HEAD|BODY_HIP|BODY_LEG|BODY_HAND 10d10+8500 1d99+50
+160000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 85~
+mpoload 29424
+~
+|
+#29415
+mortician osbourne old man~
+Osbourne~
+A crazy old man is here dancing with cadavers.~
+This crazy old fart is running around the room with a goofy look on his
+face.  His tattooed body is wrinkled and sagging, but he moves with the
+intensity of a young man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_EYE 0d0+20 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 45~
+say The road to nowhere leads to me.
+~
+|
+#29416
+Jennifer young lady~
+Jennifer~
+A young lady is here drinking the wine.~
+You see a crazy young girl with long dark hair. She is wearing her best
+whites, and sampling the wine.  By the glassy look in her eyes, you can
+tell that she is very drunk.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+20 0d0+2
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>entry_prog 100~
+mpecho $i stumbles in, drunk off her ass.
+giggle 
+~
+>greet_prog 100~
+say Need some drinks?
+say Well i sure need another.
+giggle 
+say Cheers!
+mpecho $i quickly downs another bottle of wine.
+~
+|
+#29417
+wiseman patrick sage wise old~
+Patrick, the wise~
+A wise old sage is meditating here.~
+You see a man sitting here, in deep meditation, as he talks to himself and
+to his belongings.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+99 BODY_HEAD BODY_HEAD 1d2450+8326 10d10+100
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (8,4,$n) == 10
+  say I see you have found some magic books.  I only need
+  say the books that are mine to be able to harness this
+  say great magical energy.
+endif
+~
+>speech_prog bishop~
+if quest (0,5,$n) == 17
+  say Yes, I think I can help you.
+  say What is it that you need?
+endif
+~
+>speech_prog magic~
+if quest (0,5,$n) == 17
+  say I will need my old magic books to create something
+  say that powerful.  Those bastards that are taking over
+  say the mine stole my books from me.  You must get them
+  say back before I can help you.
+  mpmset $n quest 0 5 18
+endif
+~
+>give_prog i29443~
+if quest (0,5,$n) == 18
+  if quest (5,3,$n) == 4
+    mpjunk all
+    mpoload 29455
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i29455 $n
+    mpmset $n quest 0 5 19
+    mpmset $n quest 5 3 5
+  else
+    say That book isn't mine.
+    give i29443 $n
+  endif
+endif
+~
+>give_prog i29401~
+say That book isn't mine.
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give i29401 $n
+~
+>give_prog i29402~
+if quest (0,5,$n) == 18
+  if quest (5,3,$n) == 0
+    mpjunk all
+    mpmset $n quest 5 3 1
+    say That's one.  Now the next?
+  else
+    say That book isn't mine.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i29402 $n
+  endif
+endif
+~
+>give_prog i29403~
+say That book isn't mine.
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give i29403 $n
+~
+>give_prog i29404~
+if quest (0,5,$n) == 18
+  if quest (5,3,$n) == 1
+    mpjunk all
+    mpmset $n quest 5 3 2
+    say That's two.  Now the next?
+  else
+    say That book isn't mine.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i29404 $n
+  endif
+endif
+~
+>give_prog i29405~
+if quest (0,5,$n) == 18
+  if quest (5,3,$n) == 2
+    mpjunk all
+    mpmset $n quest 5 3 3
+    say That's three.  Now the next?
+  else
+    say That book isn't mine.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i29405 $n
+  endif
+endif
+~
+>give_prog i29406~
+say That book isn't mine.
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give i29406 $n
+~
+>give_prog i29407~
+say That book isn't mine.
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give i29407 $n
+~
+>give_prog i29428~
+say That book isn't mine.
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give i29428 $n
+~
+>give_prog i29442~
+if quest (0,5,$n) == 18
+  if quest (5,3,$n) == 3
+    mpjunk all
+    mpmset $n quest 5 3 4
+    say That's four.  Now the last?
+  else
+    say That book isn't mine.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    give i29442 $n
+  endif
+endif
+~
+|
+#29419
+armorer burton man tall thin~
+Burton~
+A tall thin man stands behind the counter.~
+A tall man, Burton stands nearly seven feet tall.  His imposing stature is
+overwhelming, as he stands there drinking a beer.  He has a dark and ominous
+look in his eyes.  He wears a shirt that says "Cliff 'em all!".
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+20 0d0+2
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i29457~
+if quest (0,5,$n) > 10
+  mpjunk i29457
+  mpoload 29400
+  mpecho $i skillfully reconstructs that old battered sword.
+  say Its mine now!
+  mpecho $i cackles insanely. MUHAHAHAHA!
+  say You want it?
+  say You gotta pay me for it!
+  grin 
+  mpforce $n list
+endif
+~
+>speech_prog sword fix~
+say I can give it a try.
+~
+|
+#29420
+hermit~
+hermit~
+A hermit is sleeping here on the ground.~
+Drained of all his valuable life's magic, he is virtually devoid of life as
+he once knew it.  No longer does he shimmer with the magical glow shared by
+all Hirudines.  The loss of the greatest aspect of his life made him run
+hiding, seeking shelter in the mines and branded as an outcast.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_ARM BODY_MOUTH|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (8,4,$n) == 3
+  mpoload 29404
+  mpmset $n quest 8 4 4
+else
+  if quest (8,4,$n) == 8
+    mpoload 29442
+    mpmset $n quest 8 4 9
+  endif
+endif
+~
+|
+#29421
+beggar~
+a beggar~
+A beggar is here, asking for hand outs.~
+Lacking magical power, but too proud to hide like the outcast that he is,
+this once wealthy man has resorted to a life of crime, begging for handouts
+and stealing from unsuspecting travelers.  A feint glow still resides in
+his eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HIDE|AFF_TONGUES
+0 S
+75 BODY_HEAD BODY_HEAD 1d1406+2892 1d75+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29422
+innkeeper stein~
+Stein~
+Stein stands behind the desk.~
+A man, wise and grayed in his age, he is a foreigner to the city, but has
+managed to uphold a fine and respectable business.  He speaks to you in a
+very flat and monotone voice, and looks at you inquisitively.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+say Enjoy the night.
+~
+>rand_prog 5~
+say Bueller?
+~
+|
+#29423
+man richmanmob operator portman~
+the rich man~
+A rich mining operator stands here in all his glory.~
+With skin glowing brightly and riches beyond belief, this gentleman is
+obviously doing well, even though his mines are being invaded and drained
+of everything that has brought him so much success.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_HEAD 1d2256+4906 1d95+47
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog help~
+if quest (0,5,$n) == 1
+  say My mine has been overtaken by evil beasts.
+  say Please destroy them and there will be a reward.
+  mpmset $n quest 0 5 9
+endif
+~
+>speech_prog blacksmith~
+if quest (0,5,$n) == 12
+  say If the blacksmith needs some metal, feel free
+  say to take anything that you can find in the mines.
+  say Just talk to the foreman before you take anything.
+  mpmset $n quest 0 5 13
+endif
+~
+|
+#29424
+healer priest~
+a Order Priest~
+A Priest of Order is here, aiding everyone.~
+Granted his powers by the Great Lord Order, this Hirudine holds the highest
+position allowable for a non-humanoid race in the Temple of Order.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if whichgod ($r) == god_order
+  mpquiet on
+  cast heal $r
+  cast heal $r
+  cast feast
+  mpquiet off
+endif
+~
+|
+#29425
+steve agent~
+Agent Steve~
+Agent Steve of the New Squid Empire is here.~
+You are looking at the hero of Roterodamum.  He is wearing a tie dyed shirt
+that reads, 'New Squid Empire 4-Ever.'  He has a tattoo of a Giant Squid
+on his right arm that appears to swim up and down his biceps when he flexes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Hey man, this is a private residence.
+say What do you want?
+~
+>rand_prog 5~
+say Damn nihilists
+~
+|
+#29426
+miner~
+a miner~
+A miner is sleeping here behind some machinery.~
+Obviously tired from working nonstop, this Hirudine has decided to call it
+quits for the moment, and has taken a break from his digging.  If the
+foreman sees this, there will be a stern punishment served.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HEAD 0d0+8000 1d95+46
+90000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (8,4,$n) == 4
+  mpoload 29405
+  mpmset $n quest 8 4 5
+else
+  if quest (8,4,$n) == 9
+    mpoload 29443
+    mpmset $n quest 8 4 10
+  endif
+endif
+~
+|
+#29427
+ugly hairy bdezfafara~
+Fafara~
+A ugly hairy beast is here, fangs dripping with desire.~
+This is one ugly and grotesque figure standing directly in your path.  The
+only way around is by going through it.  Hopefully, you will conquer it
+while retaining all of your limbs.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_PROTECT_GOOD|AFF_TONGUES
+0 S
+99 BODY_HEAD|BODY_HORN BODY_HEAD|BODY_MOUTH|BODY_TAIL|BODY_HORN|BODY_CLAW 1d2450+8326 9d9+95
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 55~
+mass 'blindess'
+~
+|
+#29428
+beast zogut zo'gut zogut~
+Zo'gut, master of magic~
+A dark Avatar of the Wyrm is here draining magic from the realms.~
+Master Zo'gut, the black angel of death and destruction, hungrily awaits
+his next feast.  His black wings are spread wide, as is the grin on his
+face.  Nothing stands in his way, and he cannot be stopped.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_GOOD|AFF_TONGUES
+0 S
+99 BODY_MOUTH|BODY_LEG|BODY_WING BODY_EYE|BODY_CLAW|BODY_FOOT 1d2450+8326 14d5+80
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 1~
+mptransfer $r 29493
+~
+|
+#29429
+beast asche~
+Asche~
+A beast stands tall in the burning embers.~
+A large humanoid being, created in Hell and spawned from the ashes of those
+who have burned for all Eternity.  You should run now, before he concentrates his anger and decides to lash out at you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+105 BODY_HEAD|BODY_TORSO|BODY_LEG BODY_MOUTH|BODY_CLAW|BODY_FOOT 1d2756+9463 1d105+56
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if whichgod ($n) != god_chaos
+  mpechoat $n {018}That lava is REALLY hot!
+  mpmadd $n currhp -1000
+endif
+~
+>death_prog 100~
+mptransfer all 29493
+mpat 29493 mpforce phantasma mpkill $n
+~
+>fight_prog 50~
+if rand (66)
+  mass 'dispel magic'
+else
+  mass 'fireball'
+endif
+~
+|
+#29430
+beast phantasma fiery~
+Phantasma~
+A fiery beast awaits you.~
+Brother of Asche, bastard son of the eternal fires of Hell, before you
+stands a demon spewing forth fire and lava from every orifice of its charred
+body.  Fire circles the monstrosity and darts out aggressively toward
+unwanted visitors.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+0 S
+99 BODY_LEG|BODY_TAIL|BODY_FOOT BODY_HEAD|BODY_MOUTH|BODY_EYE|BODY_CLAW 1d2450+8326 1d99+50
+5000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+mass 'energy drain'
+~
+|
+#29431
+beast darkness shadow~
+the Darkness~
+A shadow stands in your way.~
+A creature as dark as the night itself, perhaps even darker, and lacking a
+physical body.  The darkness overwhelms you with its chilling breath.  As
+shadows dance around the cavern, it seems to move with them.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_STEALTH|AFF_CLEAR|AFF_TONGUES
+0 S
+110 BODY_TORSO|BODY_FOOT BODY_EYE 100d30+14000 1d110+61
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mptransfer pcs 29495
+mpat 29495 mpforce tier mpkill $r
+~
+>fight_prog 50~
+if rand (30)
+  mass 'chill touch'
+else
+  if rand (50)
+    mpecho {108}The darkness fills around you.
+    mass 'blindness'
+  else
+    mass 'nightmare'
+  endif
+endif
+~
+|
+#29432
+beast tier huge~
+Tier~
+A huge beast is waiting to devour you.~
+Seeing this large winged beast with fangs the size of a small child and
+tentacles laden with razor sharp spikes growling in your face, you are
+certainly in awe as you feel something warm running down your leg.  You
+look down and see your chest ripped open, blood flowing freely down your
+leg, and you realize that you're already dead.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+0 S
+99 BODY_TAIL|BODY_TENTACLE BODY_EYE|BODY_WING|BODY_TENTACLE|BODY_CLAW 1d2450+8326 8d2+100
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+if rand (33)
+  cast 'nightmare' $r
+else
+  if rand (50)
+    mass 'confusion'
+    mass 'confusion'
+  else
+    cast 'tremor'
+  endif
+endif
+~
+>death_prog 100~
+mptransfer pcs 29496
+mpat 29496 mpforce fett mpkill $r
+~
+|
+#29434
+ethsquid~
+a squid Guard~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+10 1d1+1
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29435
+bishop marshall~
+Bishop Marshall~
+A bishop of Earth awaits your journey.~
+Clad in the Holy Earthen Robes given to him by Lord Order herself, this
+priest was designated to serve the city.  As he opens his cloak, you can
+see the far stretches of the universe inside, as time and space have no
+boundaries in the realm of Earth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+99 BODY_HEAD BODY_HEAD 1d2450+8326 3d50+45
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 0
+  say Our city is in grave danger.  A vile and evil
+  say creature is sapping the mines of the powerful
+  say magic that we live on and give to the great
+  say Lord Order.
+  say Will you help us?
+endif
+~
+>speech_prog yes sure yep ok~
+if quest (0,5,$n) == 0
+  say It is a long journey though the mines.
+  say Talk to the owner of the mines before you leave.
+  say Tell him why you are here.
+  mpmset $n quest 0 5 1
+endif
+~
+>speech_prog magic~
+if quest (0,5,$n) == 16
+  say Yes, there is only one person who can possibly
+  say help you.  There is a wise sage who makes his home
+  say in the city somewhere.  Find him, he owes me a favor.
+  mpmset $n quest 0 5 17
+endif
+~
+>death_prog 100~
+if quest (0,5,$n) == 21
+  say You have betrayed our great God Order.  You must be out of your mind!
+  mpmset $n quest 0 5 22
+endif
+~
+|
+#29436
+foreman mine~
+the mine foreman~
+The foreman is here watching over operations.~
+A humble man, carrying his handbook of mining techniques everywhere he goes.
+He is cleaner than the other miners, probably because he does no work.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+99 BODY_HEAD BODY_HEAD 1d2450+8326 10d10+80
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,5,$n) == 13
+  say You can use the divining rod to search for anything that you want.
+endif
+~
+>speech_prog p divining rod~
+if quest (0,5,$n) == 13
+  say I don't have time for your troubles.
+  say Take this and figure it out on your own.
+  mpoload 29456
+  drop i29456
+  mpmset $n quest 0 5 14
+endif
+~
+|
+#29437
+returnethereal~
+returnethereal~
+returnethereal is here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+20 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog return~
+if quest (0,5,$n) == 10
+  mpmset $n quest 0 5 11
+  mptransfer all 29531
+  mpat $n mpforce all look
+  mpat 29531 mpforce richmanmob say I see you have rid the mines of the beasts.  Go to the blacksmith to collect your reward.  Make sure you tell him that Portman sent you.
+endif
+mpgoto 29497
+~
+|
+#29438
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+95 BODY_HEAD|BODY_LEG|BODY_CLAW BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29439
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29440
+miner~
+a miner~
+A miner is resting on a pickax.~
+Slouched over resting on his pickax, his stature is deceiving.  His skin
+has an ethereal glow that is partially hidden by the dirt and grime on his
+face.  In the darkness of the mine, his face shimmers like that of a ghost.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_TORSO BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_RESTING POS_RESTING SEX_MALE
+#29441
+hermit~
+a hermit~
+A hermit is sleeping here on the ground.~
+Drained of all his valuable life's magic, he is virtually devoid of life as
+he once knew it.  No longer does he shimmer with the magical glow shared by
+all Hirudines.  The loss of the greatest aspect of his life made him run
+hiding, seeking shelter in the mines and branded as an outcast.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_HEAD 0d0+8000 1d95+46
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29442
+miner~
+a miner~
+A miner is sleeping here behind some machinery.~
+Obviously tired from working nonstop, this Hirudine has decided to call it
+quits for the moment, and has taken a break from his digging.  If the foreman
+sees this, there will be a stern punishment served.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+400 S
+95 BODY_HEAD BODY_HEAD 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 50~
+mpoload 29422
+~
+|
+#29443
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-500 S
+95 BODY_HEAD|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_CLAW BODY_HEAD|BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 1d95+46
+20000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29444
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_BODY|ACT_RACE
+0
+-500 S
+95 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_TAIL BODY_HEAD|BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 0d0+100
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29445
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_BODY|ACT_RACE
+0
+-500 S
+95 BODY_HEAD|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_TAIL BODY_HEAD|BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29446
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_BODY|ACT_RACE
+0
+-500 S
+95 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_CLAW BODY_HEAD|BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29447
+she wolf~
+a she-wolf~
+A she-wolf sits ready to pounce.~
+Beware the she-wolf, as she stalks you in the night.  Lust in her eyes, and
+blood dripping from her fangs, it isn't hard to see that she needs you to
+survive the next night.
+~
+ACT_BODY|ACT_RACE
+0
+-500 S
+95 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_TAIL|BODY_CLAW BODY_HEAD|BODY_MOUTH|BODY_CLAW|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#29448
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_HIP|BODY_LEG|BODY_HAND BODY_HEAD|BODY_TORSO|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#29449
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 0 0 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 50~
+mpoload 29422
+~
+|
+#29450
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_TORSO|BODY_ARM BODY_HEAD|BODY_HIP|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29451
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+#29452
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND BODY_HEAD|BODY_HIP|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 25~
+mpoload 29422
+~
+|
+#29453
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29454
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND BODY_HEAD|BODY_LEG|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#29455
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HIP|BODY_LEG|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 20~
+mpoload 29422
+~
+|
+#29456
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND BODY_HIP|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#29457
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND BODY_TORSO|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 15~
+mpoload 29422
+~
+|
+#29458
+hermit~
+hermit~
+A hermit is sleeping here on the ground.~
+Drained of all his valuable life's magic, he is virtually devoid of life as
+he once knew it.  No longer does he shimmer with the magical glow shared by
+all Hirudines.  The loss of the greatest aspect of his life made him run
+hiding, seeking shelter in the mines and branded as an outcast.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_HAND BODY_MOUTH|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29459
+hermit~
+hermit~
+A hermit is sleeping here on the ground.~
+Drained of all his valuable life's magic, he is virtually devoid of life as
+he once knew it.  No longer does he shimmer with the magical glow shared by
+all Hirudines.  The loss of the greatest aspect of his life made him run
+hiding, seeking shelter in the mines and branded as an outcast.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND BODY_HEAD|BODY_MOUTH|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+1 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+#29460
+hermit~
+hermit~
+A hermit is sleeping here on the ground.~
+Drained of all his valuable life's magic, he is virtually devoid of life as
+he once knew it.  No longer does he shimmer with the magical glow shared by
+all Hirudines.  The loss of the greatest aspect of his life made him run
+hiding, seeking shelter in the mines and branded as an outcast.
+~
+ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_HAND BODY_MOUTH|BODY_HIP|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+1 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+#29480
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_EYE|BODY_HIP|BODY_HAND BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29481
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_LEG|BODY_ARM|BODY_HAND BODY_HEAD|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 5~
+mpoload 29422
+~
+|
+#29482
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_HAND BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29483
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_LEG|BODY_ARM|BODY_FOOT BODY_HEAD|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29484
+miner~
+a Hirudine miner~
+A miner is here digging in the ground.~
+A large man, standing well over seven feet tall, carrying only a torch and
+a pick.  His clothes have been blackened from the coal dust in the mine.  A
+bead of sweat drips down his dirty face, but you can still see the glow of
+his skin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+0
+0 S
+95 BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_TORSO|BODY_HAND|BODY_FOOT 0d0+8000 1d95+46
+90000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+#29485
+beggar~
+a beggar~
+A beggar is here, asking for hand outs.~
+Lacking magical power, but too proud to hide like the outcast that he is,
+this once wealthy man has resorted to a life of crime, begging for handouts
+and stealing from unsuspecting travelers.  A feint glow still resides in
+his eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HIDE|AFF_TONGUES
+0 S
+75 BODY_HEAD BODY_HEAD 1d1406+2892 1d75+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29486
+ethdrop~
+ethdrop~
+ethdrop is here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HEAD 0d0+20 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p aruim akia~
+mpecho The rooms spins wildly and slows to a halt.
+mpquiet on
+mpoload 29451
+drop i29451
+mpquiet off
+mpecho A small puddle of mercury forms at your feet.
+~
+|
+#29487
+guard budly~
+a Hirudinian guard~
+A Guard stands here at the gate.~
+A muscle-bound man, clad in full battle regalia eyes you down suspiciously.  You better be careful, or else his ax may meet your head.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_PROTECT_GOOD|AFF_FLYING|AFF_ETHEREAL
+1000 S
+150 BODY_HEAD BODY_HEAD|BODY_HIP|BODY_LEG|BODY_HAND 0d0+20000 1d150+113
+1 RACE_ELF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#0
+
+
+#SHOPS
+29402 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+29407 ITEM_TYPE_DRINK_CON ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+29412 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+29416 ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+29419 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+29425 ITEM_TYPE_ARMOR ITEM_TYPE_FOOD ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#29400
+Great Sword Enchantress~
+the Great Sword~
+A brightly shining sword lies here.~
+This sword once belonged to the great enchantress.  It hums in your hands
+and its power flows into the sky as you hold it.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 1 WEAPON_PIERCE 0 0 0 0
+3 500000 94
+A APPLY_HIT 75 0
+A APPLY_INT 3 0
+A APPLY_AC -15 0
+C
+pierce~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_HIT 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your sword drinks the blood of the unbelievers.~
+#29401
+Book of Trickery illusion~
+a Book of Trickery and Illusion~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design that constantly changes its shape and size.
+There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29402
+Book of Water~
+a book of Water magic~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a wave.  It feels wet in your
+hand.  There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29403
+book of Healing~
+a book of Healing~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a vial.  Your wounds feel
+better as you hold it in your hands.  There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29404
+book of Earthen~
+a book of Earthen magic~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a star.  Your magical prowess
+increases as it is in your hand.  There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29405
+book of the Mind~
+a book of the Mind~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a brain.  You feel more
+intelligent as you hold it.  There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29406
+book of Alchemy~
+a book of Alchemy~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of an alchemist¡s bottle.
+There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29407
+book of electricty~
+a book of Electricity~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a lightning bolt.  You feel a
+slight shock as you hold it.  There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29408
+Ritual Magik potion~
+a bottle of ritual Magik~
+A dark black bottle is lying here.~
+A dank potion, it is thick and red like drying blood.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 190 170 191 0 0 0 0
+1 200000 80
+S 1 'protection evil'
+S 2 'mirror image'
+S 3 'protection good'
+#29409
+Ritual Magik Scroll~
+a scroll of ritual Magik~
+A dark sheet of paper is lying here.~
+A scroll stained with the blood of sacrificial virgins.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 190 170 191 0 0 0 0
+1 200000 80
+S 1 'protection evil'
+S 2 'mirror image'
+S 3 'protection good'
+#29410
+earth scroll~
+a scroll of the earth~
+A sheet of dirty parchment is lying here.~
+This scroll appears very old, as it is covered in dirt and dust.  Unrolling
+the scroll reveals a dank, musty odor.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 229 0 0 0 0 0 0
+5 100000 65
+S 1 'stability'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#29411
+earth potion~
+a potion of the earth~
+A small dirty bottle was left here.~
+This bottle appears very old, as it is covered in dirt and dust.  Popping
+open the bottle reveals a dank, musty odor as the contents splash about.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 229 0 0 0 0 0 0
+5 100000 65
+S 1 'stability'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#29412
+squid lo mein~
+Squid lo mein~
+A bowl of squid and noodles is here.~
+A steaming hot plate of squid, lo mein noodles, and a vast array of stir-fried
+vegetables with a side of soy sauce.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+48 0 0 0 0 0 0 0
+1 500 1
+#29413
+hirudine sleeves~
+a pair of hirudine sleeves~
+A pile of cloth lies here.~
+These sleeves are oversized to fit even the largest of egos.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+15 0 0 0 0 0 0 0
+10 10000000 85
+A APPLY_CON 3 0
+A APPLY_WIS 3 0
+A APPLY_INT 3 0
+#29414
+hirudine leggings~
+hirudine leggings~
+A pile of cloth lies here.~
+These leggings add that extra bulge in the pants that every man wants.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+15 0 0 0 0 0 0 0
+15 10000000 85
+A APPLY_INT 3 0
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+#29415
+leeches~
+a bowl of leeches~
+A bowl of leeches lies here.~
+A small wooden bowl of leeches, roasted in a sweet sauce that counteracts
+the strong taste of the bloody contents of the leeches.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+1 100 1
+#29416
+space scroll time~
+a scroll of space and time~
+A shimmering sheet of parchment lies here.~
+The scroll fades in and out of the space and time continuum as you hold it
+in your hands.  Looking through the scroll in a telescopic fashion, you can
+see the farthest reaches of the universe.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+65 12 95 38 0 0 0 0
+1 175000 80
+S 1 'astral projection'
+S 2 'ethereal travel'
+S 3 'change sex'
+#29417
+space potion time~
+a potion of space and time~
+A shimmering bottle lies here.~
+This small bottle holds a dark liquid that shimmers in and out of the space
+time continuum.  Gazing deep into the center of the liquid contents, you see
+what appears to be a black hole sucking tiny stars and other celestial
+bodies into its seemingly tiny maw.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+65 12 95 38 0 0 0 0
+1 175000 80
+S 1 'astral projection'
+S 2 'ethereal travel'
+S 3 'change sex'
+#29418
+the mind~
+the Mind~
+A consciousness lies here.~
+The mind is a terrible thing to taste.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 1000 5
+#29419
+acid dropper~
+a dropper of strange acid~
+A small dropper has been left here.~
+A small dropper bottle full of a clear, thick liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+55 208 138 240 0 0 0 0
+1 100000 65
+S 1 'rip'
+S 2 'homonculous'
+S 3 'teleport'
+#29420
+blotter~
+a sheet of white blotter~
+A small square of paper has been left here.~
+A small, thick sheet of plain white paper, with one hundred tiny squares
+marked on each side.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+55 208 138 240 0 0 0 0
+1 100000 65
+S 1 'rip'
+S 2 'homonculous'
+S 3 'teleport'
+#29421
+fountain~
+a fountain~
+A magnificent fountain is here.~
+In the center of this fountain stands a statue of the beautiful maiden,
+Nerissa.  Clear, fresh water surrounds the statue, spewing forth in a circular
+pattern around the fair maiden.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10000 1
+E
+maiden nerissa~
+Wow!  What a beautiful woman.
+~
+#29422
+pickax~
+a dirty pickax~
+A dirty pickax has been left here.~
+An iron pick ax, with a long wooden handle.  It looks like it has been put
+through the rigors of daily use for quite a long time.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 6 10 WEAPON_CRUSH 0 0 0 0
+1 10 63
+#29423
+squid tandoori~
+Tandoori squid~
+A plate of squid is here.~
+This is a small clay pot full of roasted squid in a deep red sauce.  The
+aroma is enough to start the drool flowing, as you realize how hungry you
+really are.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+1 100 1
+#29424
+guard ax~
+a guard's ax~
+A shiny ax was left here.~
+A shiny new ax, with a silver handle nearly seven feet long. The ominously
+sharpened blade gleams in the light of the sky.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 6 15 WEAPON_CRUSH 0 0 0 0
+10 175000 90
+#29425
+chicken~
+Fireball chicken~
+A flaming plate of chicken was left here.~
+Fireball chicken.  Named so because the tremendous spices have been known to
+cause the victims of this great dish to spew from their mouths huge fireballs that can engulf an entire village.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+1 100 1
+#29426
+stinger~
+a scorpion's stinger~
+Piece of a tail has been left here.~
+This enormous section of the scorpion's tail glows brightly, brightly
+enough to cast shadows in the midday sun.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 1000 70
+A APPLY_WIS 5 0
+A APPLY_CON 5 0
+A APPLY_INT 2 0
+#29427
+blood~
+a drop of scorpion's blood~
+A drop of blood soaks here.~
+This drop of blood has been rumored to hold magical healing abilities.
+According to legend, the scorpion has been reincarnated from a wise old man
+and a healer from a nearby village.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 134 134 134 0 0 0 0
+5 1000 90
+S 1 'heal'
+S 2 'heal'
+S 3 'heal'
+#29428
+book of sorcery~
+a book of Sorcery~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of an explosion.  It feels as though it wants to explode in your hands.  There is a small insignia on
+the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000 70
+#29429
+bottle broken wine~
+a broken wine bottle~
+A broken bottle lies in a pool of wine.~
+A broken wine bottle, with only a few drops of wine left in it.  The label
+has been ripped in half along the broken edge of the bottle.  It looks like
+the bottle was nearly empty before it was broken as there are lip prints on
+the mouth of the bottle.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 1 LIQ_WINE 0 0 0 0 0
+1 300 1
+#29430
+wine dom perignon~
+a bottle of Dom Perignon~
+A shiny new bottle of wine was left here.~
+From a tiny wine producer in the south of the realms, we bring to you the
+finest in alcoholic beverages. The label reads: Dom Perignon, circa The
+Year of the Creation.  A truly fine vintage.  We hope you are a fan.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 10 LIQ_WINE 0 0 0 0 0
+2 2000 1
+#29431
+hirudine robe~
+a hirudine robe~
+An long, flowing robe lies here.~
+This robe is similar to the robe worn by hirudine citizens.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+15 0 0 0 0 0 0 0
+1 10000000 85
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+A APPLY_INT 3 0
+#29432
+illuminatus~
+the Illuminatus~
+A glowing orb has been left here.~
+The shimmering glow of this light is enough to brighten the night sky
+across the entire continent.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+5 20000 95
+A APPLY_INT 4 0
+A APPLY_MANA 160 0
+A APPLY_HIT 75 0
+#29433
+fountain~
+a magical fountain~
+A glowing fountain is here full of magic.~
+This tiny fountain is but a spring seeping forth from the ground with a
+small basin built around it.  The unknown liquid that flows forth glows
+brightly casting shadows around the room.
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10000 1
+#29437
+staff nse squid~
+a staff of the NSE~
+A long staff in the shape of a squid was left here.~
+This staff feels as squirmy as the day that it was born.  Born?  Yes, this
+is a living squid, magically enchanted to aid its owner endure the pain of
+living out of water.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 5 5 WEAPON_BITE 0 0 0 0
+4 500000 75
+A APPLY_STR 4 0
+A APPLY_SAVING_SPELL -4 0
+A APPLY_MANA 75 0
+C
+Squid~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#29438
+mercury helmet~
+Hardened mercury helmet~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner to
+create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+21 0 0 0 0 0 0 0
+8 350000 95
+A APPLY_HIT 50 0
+A APPLY_INT 2 0
+A APPLY_HITROLL -10 0
+P 1
+TRIG_WEAR 100
+OPROG_GOD_COMMAND
+mpmset self long Lord High Protector of Earth $I is here.~
+P 1
+TRIG_VOID
+OPROG_ECHO
+You feel the power of Earth enter your body.~
+#29439
+mercury sash~
+Hardened mercury sash~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner to
+create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+21 0 0 0 0 0 0 0
+8 350000 95
+A APPLY_HIT 50 0
+A APPLY_DEX 2 0
+A APPLY_HITROLL -10 0
+#29440
+mercury ring~
+Hardened mercury ring~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner to
+create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+21 0 0 0 0 0 0 0
+8 350000 95
+A APPLY_HIT 50 0
+A APPLY_HITROLL -10 0
+#29441
+pizza squid~
+a red squid pizza~
+A steaming hot pizza is here.~
+A freshly baked pizza, with a golden brown crust topped generously with
+squid and fresh cheese.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+1 300 1
+#29442
+book of fire~
+a book of Fire magic~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a flame.  It feels hot in
+your hand. There is a small insignia on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2000000 70
+#29443
+book of wind~
+a book of Wind~
+A tarnished brass-bound book has been left here.~
+This book of magic appears to be of little value.  An heirloom perhaps,
+the front has a raised design in the shape of a tree swaying in the breeze.
+You can feel a slight breeze as you hold it.  There is a small insignia
+on the back.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 70
+#29444
+coal lump~
+a lump of coal~
+A small chunk of coal was dropped here.~
+A small lump of bituminous coal.  Hopefully you don't find it in your
+stocking.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 1
+#29445
+pick~
+a broken pick~
+A miner's pick sits here, shattered into many pieces.~
+A miners pick, broken where the shaft meets the pick.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#29446
+dust ore~
+Ore dust~
+A tiny pile of metallic dust collects here.~
+A dark, gritty dust that is a by-product of the mining process.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#29447
+lantern~
+a shattered lantern~
+A broken lantern was left here.~
+A brass lantern with broken glass fragments.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#29448
+torch~
+a splintered torch~
+A torch lies here, splintered into many pieces.~
+A once useful torch, now broken and splintered into several pieces.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#29449
+mercury collar~
+Hardened mercury collar~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner to
+create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+21 0 0 0 0 0 0 0
+4 350000 95
+A APPLY_HIT 50 0
+A APPLY_HITROLL -10 0
+#29450
+mercury bracer~
+Hardened mercury bracer~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner
+to create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+21 0 0 0 0 0 0 0
+5 350000 95
+A APPLY_DEX 2 0
+A APPLY_HIT 50 0
+A APPLY_HITROLL -10 0
+#29451
+liquid mercury pool~
+liquid mercury~
+A pool of mercury lies here.~
+This is a normal pool of mercury, used to forge a powerful tool in the
+defense of Earth..
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 3000 85
+#29452
+mercury boots~
+Hardened mercury boots~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner
+to create a powerful tool in the defense of Earth..
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+14 0 0 0 0 0 0 0
+5 350000 94
+A APPLY_MANA 175 0
+#29453
+mercury band~
+Hardened mercury band~
+A pool of mercury lies here.~
+A normal pool of mercury, this armor hardens in the hands of its owner
+to create a powerful tool in the defense of Earth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+3 350000 94
+A APPLY_HIT 45 0
+A APPLY_MANA 180 0
+#29454
+rod divining magnetic~
+a magnetic divining rod~
+A large silver staff is lying on the ground.~
+This isn't your ordinary divining rod.  The magnetic qualities of metals
+allow it to locate other metals underground and pull them to the surface.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 100 70
+P 1
+TRIG_UNKNOWN 100 tap
+OPROG_QUEST_SET 0 1 1
+P 2
+TRIG_COMMAND 100 stand
+OPROG_QUEST_SET 1 1 1
+P 3
+TRIG_UNKNOWN 100 activate
+OPROG_OBJECT_QUEST_IF 0 2 = 3 5 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+You are not doing something right.~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 29435 7 6
+P 6
+TRIG_VOID
+OPROG_ECHO
+Nothing happens.  Maybe you should try somewhere else.~
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self The room begins to spin wildly as you recite the magic words.
+mpechoaround self The room spins as $I utters the magic words.
+say aruim akia
+mpechoat self The room slows to a halt.~
+#29455
+sphere magical energy~
+a sphere of magical energy~
+a glowing orb floats here.~
+A brightly glowing ball of light, filled with the most concentrated energy
+that you have ever felt.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 3000 75
+#29456
+handbook mining~
+a handbook on mining~
+A large, dusty book was left here.~
+Handbook on Mining
+
+Chapter One:  Using the Divining Rod
+TAP the rod on the ground two times to begin its power flowing.
+STAND the rod on the ground in an open area.
+ACTIVATE the rod by reciting the magic words.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 3000 75
+#29457
+Great Sword Enchantress battered~
+a battered Sword~
+A once brightly shining sword lies here.~
+This sword once belonged to the great enchantress.  It is battered and
+broken beyond all recognition. Perhaps it can be fixed.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 1 WEAPON_PIERCE 0 0 0 0
+3 500 70
+C
+pierce~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#29458
+talisman serpent trinket chain coiled vermillion~
+a talisman of the serpent~
+A small trinket lies on the ground with a coiled chain.~
+This talisman is heavy and bears the crest of the Vermillion Serpent, a serpent for the ages and all eternity.  As you wear it, the chain coils
+around your neck.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+14 0 0 0 0 0 0 0
+5 50000 90
+A APPLY_DAMROLL 8 0
+A APPLY_MANA -120 0
+A APPLY_HITROLL 4 0
+#29459
+vermillion shield red deepest serpent~
+a vermillion shield~
+A shield of the deepest red lies on the ground.~
+This shield is heavily armored and painted in the deepest, darkest of reds.
+It bears the crest of the Vermillion Serpent, a serpent for the ages and all
+eternity.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+12 0 0 0 0 0 0 0
+5 50000 90
+A APPLY_DAMROLL 9 0
+A APPLY_MANA -100 0
+A APPLY_HITROLL 3 0
+#29460
+coiled ring serpent banded red vermillion~
+a ring of the coiled serpent~
+A thick banded, red ring lies on the ground.~
+This ring is heavy and bears the shape of the Vermillion Serpent, a serpent
+for the ages and all eternity, coiled around your finger.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+2 5000 90
+A APPLY_MANA -120 0
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL 8 0
+#29461
+vermillion battlearmor armor suit serpent~
+a suit of vermillion battlearmor~
+A suit of armor lies in a pool of thick red blood.~
+This armor is heavily plated and painted in the deepest, darkest of reds.
+It bears the crest of the Vermillion Serpent, a serpent for the ages and all
+eternity.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+5 54984 90
+A APPLY_MANA -100 0
+A APPLY_DAMROLL 8 0
+A APPLY_STR 2 0
+#29462
+black diamond dark shining staff glowing sceptre~
+a black diamond sceptre~
+A staff is glowing darkly on the ground.~
+This sceptre is made of the purest, blackest diamond.  Its strength comes
+from its hardness, and its hardness comes from magic.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+11 0 0 0 0 0 0 0
+5 2000 95
+A APPLY_MANA 180 0
+A APPLY_INT 4 0
+A APPLY_HIT 45 0
+#29463
+black diamond blade shard crystal~
+a Black Diamond Blade~
+A shard of black crystal lies here.~
+A blade made from the hardest, blackest diamond known to the realms, faceted
+sharply with many points along the edge.  It cuts deeply and allows to draw
+blood easily.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 2 2 WEAPON_SLICE 0 0 0 0
+5 150 95
+A APPLY_MANA 190 0
+A APPLY_STR 5 0
+A APPLY_INT 5 0
+C
+diamond facet~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#29464
+black diamond giant armor~
+Black Diamond armor~
+A giant black diamond lies covered in dust.~
+This armor is made of the purest, blackest diamond.  Its strength comes from
+its hardness, and its hardness comes from magic.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_EVIL|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+18 0 0 0 0 0 0 0
+5 2000 95
+A APPLY_MANA 180 0
+A APPLY_DEX 2 0
+A APPLY_HITROLL -10 0
+#29465
+tail scorpion~
+a scorpion's tail~
+A large piece of a tail has been left here.~
+This enormous section of the scorpion's tail glows brightly, brightly
+enough to cast shadows in the midday sun.
+~
+ITEM_TYPE_LIGHT
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 1000 65
+#0
+
+
+#ROOMS
+#29400
+A dead end~
+This section of the mine is yet unfinished.  It appears that work will
+continue tomorrow, as there are tools lying scattered on the ground.  There
+is also a large drilling apparatus that seems to operate on magical energy,
+yet requires the strength of many men to move it.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29401
+#29401
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29400
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29402
+#29402
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29401
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29403
+#29403
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  The corridor to
+the east is shining brightly.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29402
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29404
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29409
+#29404
+An opening to the corridor~
+This room is unlike any other in the mine.  The torches have been replaced
+by large, brightly shining lanterns. The smell has changed from sulfur to
+rotting flesh.  There are trails of blood on the ground, as there appears to
+have been a struggle.
+     There is a sign on the wall written in blood.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29405
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29403
+E
+sign~
+The sign:
+
+/------------------------\
+|         BEWARE         |
+|                        |
+|     Thy evil that      |
+|      lurks ahead       |
+|     Ye hathe been      |
+|        warned.         |
+\------------------------/
+~
+#29405
+A long corridor~
+The stench of rotten flesh is becoming more and more unbearable further
+into this corridor.  The torch on the wall has been clipped by something
+very large, leaving only the handle.  Blood as stained the walls and floor,
+and there is part of a finger lying on the ground.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29406
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29404
+#29406
+A long corridor~
+The horrific smell of decay has become more unbearable yet.  The torch on
+the wall is crushed, leaving only part of the splintered handle.  There is
+a fractured femur on the ground, broken into several sections, with only a
+few strands of meat left attached.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 29407
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29405
+#29407
+A long corridor~
+The sounds of crunching bones can be heard from the next room.  Rotten flesh
+and dried blood cover the walls, and create a nice pleasant smell for the
+rats. Blood has begun to pool in the ground under your feet.  Its best to
+leave now and forget that you were ever here, before that creature making
+all those noises decides to make you its next meal.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29406
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29408
+#29408
+Scorpion's Lair~
+The smell of death permeates this room.  Corpses and bones are piled high
+in the corners of the room, and blood is splattered on the walls.  It
+appears that this is lunch time for the master of this hole.  The stench of
+rotten flesh makes your guts turn as you nearly lose your lunch.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29407
+#29409
+A room in the mine~
+This is a room like any other in the mine.  Gases jet from the walls and
+floor.  The walls and ceiling are full of hairline cracks emitting a strange,
+dim unearthly glow.  There are torches dimly burning resting in holders on
+the walls.  The smell of sulfur is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29403
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29410
+#29410
+A room in the mine~
+This room is full of mud and sludge.  The ground underfoot is moist and damp,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29409
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29412
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29411
+#29411
+A room in the mine~
+This room is much like all others.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the side, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29410
+#29412
+A room in the mine ~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  Graphite dust covers
+everything.  The smell of sulfur is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29410
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29413
+#29413
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 29412
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29414
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29415
+#29414
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 29413
+#29415
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29413
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29416
+#29416
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+he ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29415
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29417
+#29417
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29418
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29416
+#29418
+A room in the mine~
+This is another similar room in the mine.  Decay is in the warm, musty air.
+Coal is burning and magic is flashing a certain shade of green.  The sound
+of minors digging through the muck in search of more magic is echoing all
+around.  There is a new corridor that begins to the north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29419
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29424
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29417
+#29419
+An opening to the corridor~
+This room is unlike any other in the mine.  The torches have been replaced
+by large, brightly shining lanterns. The smell has changed from sulfur to
+rotting flesh.  Trails of dust and grime smear the walls and floor.  Magic
+is pulsating through the air.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29420
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29418
+#29420
+A sideshaft~
+This tiny offshoot of the mining pathway is scattered with broken tools.
+The floor and walls are very strong here, stronger than any other point in
+the mine.  No doubt the miners have broken many a pick and ax here trying
+to dig though this amazing hardened surface.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29421
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29419
+#29421
+A sideshaft~
+This tiny offshoot of the mining pathway is scattered with broken tools.
+The floor and walls are very strong here, stronger than any other point in
+the mine.  No doubt the miners have broken many a pick and ax here trying
+to dig though this amazing hardened surface.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29422
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29420
+#29422
+A slimy crack~
+As you crawl through the mud and dirt into the small crack, your armor
+scrapes and screeches on the hard rocks.  The mud covers your armor with a
+dull black glaze.  You hear sounds sound like that of chanting of words of
+wisdom echoing from beyond, but you see no visible exit.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF 0 29423
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29421
+#29423
+A hidden crawlspace~
+What looks to be a tiny hovel before the entrance, turns out to be a
+magnificent home for this great and fabled wise man.   Books of magic and
+lore line the shelves on the walls, and fabulous artifacts are scattered on
+the floor.  A man sits royally, absorbing magical prowess and knowledge.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29422
+#29424
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29425
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29418
+#29425
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29426
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29424
+#29426
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 29427
+DDIR_WEST
+~
+~
+0 -1 29425
+#29427
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of
+sulfur is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 29428
+DDIR_WEST
+~
+~
+0 -1 29426
+#29428
+Before the chamber~
+This area is in much better shape than the rest of the mine.  The walls and
+ceiling are fully supported with wood and steel and it looks like there is
+something important in the next room.  The mine continues to the east and
+west, while a private chamber is located south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29430
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29429
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29427
+#29429
+Primary Coal Chamber~
+This is the Hirudine storage container for the leftover coal from the
+mining process.  The large piles of coal are not used for anything within
+the city, as everything is magical.  The rich men who own the mines use the
+coal to trade with various other cities in the realms.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29428
+#29430
+Before the chamber~
+This area is in much better shape than the rest of the mine.  The walls and
+ceiling are fully supported with wood and steel and it looks like there is
+something important in the next room.  The mine continues to the east and
+west, while a private chamber is located south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29432
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29431
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29428
+#29431
+Primary Ore Chamber~
+This is the Hirudine storage container for the metallic ores left over from
+the mining process.  Each of the precious metals have a section to their
+own, while small piles of semi-precious metals lay scattered about where
+ever there is room.  All the wealth in this chamber is enough to make any
+mortal man shiver with thoughts of greed.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29430
+#29432
+Before the chamber~
+This is not just another section of the mine.  The power coursing from the
+room to the south is immense.  It's unbridled flow is more then enough to
+knock even the greatest warrior off his feet.  The magical light from the
+south is powerful enough to burn holes through the strongest armor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit north.~
+~
+0 -1 29434
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29433
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29430
+#29433
+Primary Magic Chamber~
+There is a strange green glow emitting from the cracks in the walls of this
+room.  Staring into the cracks directly, the light is blinding, but very
+hypnotic.  The feint smell of sulfurs and oxides burning are permeating
+everything in the vacinity, along with several deadly toxins that are oozing
+from the broken ground underfoot.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29432
+#29434
+Before the chamber~
+This area is in much better shape than the rest of the mine.  The walls and
+ceiling are fully supported with wood and steel and it looks like there is
+something important in the next room.  The mine continues to the east and
+west, while a private chamber is located south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29436
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29435
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29432
+#29435
+Empty chamber~
+This area looks like it was once an integral part of the mining process,
+but is now seemingly abandoned.  There are large, rusted iron fastenings
+and plates loosely attached to the wall that appear to have held a rather
+large mining device, whose sheer weight was far too much for these simple
+holdings.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29434
+#29436
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29437
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29434
+#29437
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29438
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29439
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29436
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29540
+#29438
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29437
+#29439
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29440
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29437
+#29440
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29441
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29439
+#29441
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29442
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29440
+#29442
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29443
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29441
+#29443
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29444
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29442
+#29444
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29445
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29443
+#29445
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29446
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29444
+#29446
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29447
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29445
+#29447
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29448
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29446
+#29448
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29449
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29447
+#29449
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29450
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29448
+#29450
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29449
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29451
+#29451
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29450
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29452
+#29452
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29451
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29453
+#29453
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29452
+DDIR_EAST
+~
+~
+0 -1 29448
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29454
+#29454
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29455
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29453
+#29455
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29456
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29454
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29457
+#29456
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of
+sulfur is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29455
+#29457
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29455
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29458
+#29458
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29459
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29457
+#29459
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of
+sulfur is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29458
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29460
+#29460
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29459
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29461
+#29461
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29460
+DDIR_EAST
+~
+~
+0 -1 29458
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29462
+#29462
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29461
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29463
+#29463
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29462
+DDIR_SOUTH
+~
+~
+0 -1 29465
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29464
+#29464
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29463
+#29465
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29463
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29466
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29467
+#29466
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29465
+#29467
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29465
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29468
+#29468
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29467
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29469
+#29469
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29468
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29470
+#29470
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29469
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29471
+#29471
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29472
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29470
+#29472
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 29467
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29473
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29471
+#29473
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29474
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29472
+#29474
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29473
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29475
+#29475
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29474
+DDIR_EAST
+~
+~
+0 -1 29438
+DDIR_SOUTH
+~
+~
+0 -1 29436
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29476
+#29476
+A room in the mine~
+This room is not unlike any other.  The smell is overwhelming and sickening.
+Muddy water is running from the cracks in the walls.  To the left, there is
+a large composite of coal and iron jutting from the wall.  There are small
+crawlways in every direction, leading through the maze of the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29477
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29475
+DDIR_SOUTH
+~
+~
+0 -1 29434
+#29477
+A room in the mine~
+This is a room like any other in the mine.  The walls and ceiling are full
+of hairline cracks emitting a strange, dim unearthly glow.  There are
+torches dimly burning resting in holders on the walls.  The smell of sulfur
+is everywhere.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 29472
+DDIR_SOUTH
+there is an exit south.~
+~
+0 -1 29476
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29478
+#29478
+A room in the mine~
+This room appears very unsafe.  The ground underfoot is moist and muddy,
+the ceiling is crumbling and caving in, and the walls are cracked and far
+from sturdy.  There are several wooden support beams, all of which are
+warped and decaying due to the incredible moisture in the mine.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29477
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29479
+#29479
+Top of the mineshaft~
+Here is the entrance to the depths of the earth.  What lies beyond many
+have seen, but few have lived to tell about it.  only the privileged would
+have lived to make it this far.  Surely you got lucky somehow, because you
+don't deserve the upcoming opportunity.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29478
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29480
+#29480
+Down the shaft~
+This is the first room on the mineshaft.  The heat is horrendous, and you
+are sweating like hell.  Flames are shooting from the room beneath you and
+are scorching your feet.  Sounds of grinding metal and rock echo beneath
+you.  There is a feeble wooden ladder leading down.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29479
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29481
+#29481
+Down the shaft~
+As the mineshaft continues down, the heat is increasing and the air is too
+thick to breath.  The flames are shooting higher and higher and your armor
+is beginning to chafe you in sensitive areas.  There is another broken
+ladder leading down.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29482
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29480
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29483
+#29482
+A worthless hollow~
+This room was added as an afterthought, it seems.  Why did you even come in
+here, you stupid idiot!  Only someone stupid enough to believe in reason
+would have come in this room.  Just get out, get out now, before you anger
+me.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29481
+#29483
+Down the shaft~
+There you go.  You finally found the right way.  Keep following the
+mineshaft down.  Trust me- do not go west.  For your own safety, do not go
+west.  The ceiling is crumbling and fires abound, but there is a ladder
+leading down.  Go that way, now!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29484
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29481
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29486
+#29484
+Before your death~
+As the sweat builds up on the back of your neck, you realize that you are
+in for the fight of your soon to be short life.  The smell of death is in
+the air, and you hear your name echoing from crevices all around you.  If
+you had only known what you were getting yourself into before you started,
+things would have been different.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29485
+#29485
+An abandoned mineshaft~
+Through some strange twist of magic and maybe by the good Lord Order's own
+powers, this room has been devised as a trap for the followers of light and
+fire. Yes, those silly little unbelievers. There is no way out but to
+die.  The good Lord Order thanks you for your suicide.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+#29486
+Down the shaft~
+This room is just like the rest.  Flames are shooting from the walls toward
+your head.  Piles of coal and ore are in the corners.  Charred bodies are
+strewn about and they are really starting to stink pretty bad.  The smell
+kind of reminds you of... oh nevermind.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29483
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29487
+#29487
+Bottom of the shaft~
+This is the deepest bowels of the earth.  The extreme heat is enough to
+boil the blood in your veins.  This room is relatively empty save for a
+decayed and charred body of a massive creature that has been crushed by a
+pile of coal.  Thinking back, you realize that this was one huge shaft,
+only to be continued south by an equally huge cavern.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29488
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29486
+#29488
+A large cavern~
+The walls and ceiling of this cavern are perfectly rounded as if they were
+shaped and formed by some powerful magical being.  The floor is coarsely
+shapen with dips and puddles of water that have formed from drips from the
+ceiling.  Strange lights are flashing and dancing behind the shadows.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29487
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29489
+#29489
+A large cavern~
+The cavern is full of shadowy hideaways.  Strange magical lights are dancing
+around and reflecting off the puddles of water pooling on the ground.  The
+moist ground is dark and muddy but the walls are dry.  The glow from the
+rest of the cavern shines with a certain shade of green.  As you look in one
+of the puddles, you see the reflection of something moving behind you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29490
+#29490
+A large cavern~
+A magical green glow engulfs the entire room.  Its damn near blinding.
+This room is surprisingly cold considering the heat from the shaft.  The
+puddles on the floor are slippery and icy and chills are running down your
+back.  The bright light is shining warmly but the heat is very cold.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29491
+#29491
+A large cavern~
+The walls and ceiling of this cavern are perfectly rounded as if they were
+shaped and formed by some powerful magical being.  The floor is coarsely
+shapen with dips and puddles of water that have formed from drips from the
+ceiling.  Strange lights are flashing and dancing behind the shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29492
+#29492
+A large cavern~
+The cavern is full of shadowy hideaways.  Strange magical lights are dancing
+around and reflecting off the puddles of water pooling on the ground.  The
+moist ground is dark and muddy but the walls are dry.  The glow from the
+rest of the cavern shines with a certain shade of green.  As you look in one
+of the puddles, you see the reflection of something moving behind you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAVA
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29493
+#29493
+A large cavern~
+A magical green glow engulfs the entire room.  Its damn near blinding.
+This room is surprisingly cold considering the heat from the shaft.  The
+puddles on the floor are slippery and icy and chills are running down your
+back.  The bright light is shining warmly but the heat is very cold.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29494
+#29494
+A large cavern~
+The walls and ceiling of this cavern are perfectly rounded as if they were
+shaped and formed by some powerful magical being.  The floor is coarsely
+shapen with dips and puddles of water that have formed from drips from the
+ceiling.  Strange lights are flashing and dancing behind the shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29495
+#29495
+A large cavern~
+The cavern is full of shadowy hideaways.  Strange magical lights are dancing
+around and reflecting off the puddles of water pooling on the ground.  The
+moist ground is dark and muddy but the walls are dry.  The glow from the
+rest of the cavern shines with a certain shade of green.  As you look in one
+of the puddles, you see the reflection of something moving behind you.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29496
+#29496
+End of the cavern~
+This is the end of the road for most mortal beings.  Death is no longer a
+foreshadowing.  It is most certainly eminent.  The unbelievers will be sure
+to die a painful and slow death, while those who understand the wishes of
+earth shall surely prevail.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29497
+#29497
+Chamber of the Enchantress~
+This is the chamber of the mighty Enchantress.  In this very room, the
+souls of thousands, nay millions, of men have been put to their final
+resting place.  Death is in the air and fear is in the hearts of every
+mortal man.  The laws of the elements have no bearing here.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#29498
+The western gate~
+Welcome weary traveler from the west to Hirudinia, the magic city.  To
+enter the fair city, one must first read and understand the laws and
+regulations.  This city has been built by magic for the further
+advancement and understanding of the mind and of magical creatures and
+beings.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29499
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 24503
+#29499
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbelievers.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29500
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29498
+#29500
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbelievers.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29501
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29539
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29499
+#29501
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29502
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29503
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29500
+#29502
+The Mighty Lira~
+This is the greatest shop in Hirudinia.  Armor and weapons of an ethereal
+nature sit in chests behind the counter with a mystical and magical glow
+about them.  Each item has a personal aura to it, almost as if each were
+made and fine tailored to individual needs.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29501
+#29503
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29504
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29505
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29501
+#29504
+The blacksmith~
+The magical fire in the pit burns very coolly as the blacksmith labors
+over the anvil forging and personalizing weapons both new and old for all
+customers.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29503
+#29505
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29506
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29503
+#29506
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29509
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29505
+#29507
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29516
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29522
+#29508
+Wine Cellar~
+Wine racks line the walls and walkways of the cellar.  The bottles are
+covered in dust and the vintages are very old.  A few bottles have been
+broken on the ground, and several are leaking, leaving a pungent yet
+pleasant alcoholic odor.
+~
+0 0 SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 29548
+#29509
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29510
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29506
+#29510
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29511
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29513
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29512
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29509
+#29511
+The Golden Dome~
+Upon entering this beautiful golden palace, one first notices the intricate
+artwork so delicately engraved into the dome with images of the creation of
+magic.  Each etching is a truly magical occurrence, and truly a gift from
+the gods. There are no words, only pictures, with the exception of the
+letters... McD.  There is a beautiful skylight in the center of the dome,
+from which you can see the Pillars of Magic reaching into the skies.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29510
+#29512
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29510
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29528
+#29513
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29514
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29510
+#29514
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29515
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29516
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29513
+#29515
+The Morgue~
+Another condemned building in the bowels of our fair city is being used as
+a temporary morgue.  In the back room, you can see the morticians assistant
+hard at work conjuring the spirits to preserve the corpses.  The corpses
+are magically preserved in ways that defy all known science.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_MORGUE SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29514
+#29516
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29517
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29507
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29514
+#29517
+The Hideaway~
+In this strange pub, everyone is glassy-eyed and stoned.  There is a chump
+nearly passed out trying to reason to himself in the corner, and a big
+brawny woman slumped over the bar, with a tattoo across her forehead.  A
+nice selection of recreational life enhancers lay out across the bar top
+beckoning for the next happy customer.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29516
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29518
+#29518
+The secret place~
+This room is an empty as the human soul.  It is barren of all things.
+There are no walls, as all space is undefined.  It is the perfect hideaway.
+Everyone is here, but their faces do not show.  Time is everlasting and
+continuous and space twists and warps in various directions and dimensions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29519
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29521
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29517
+#29519
+The secret place~
+This room is an empty as the human soul.  It is barren of all things.
+There are no walls, as all space is undefined.  It is the perfect hideaway.
+Everyone is here, but their faces do not show.  Time is everlasting and
+continuous and space twists and warps in various directions and dimensions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29520
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29518
+#29520
+The secret place~
+This room is an empty as the human soul.  It is barren of all things.
+There are no walls, as all space is undefined.  It is the perfect hideaway.
+Everyone is here, but their faces do not show.  Time is everlasting and
+continuous and space twists and warps in various directions and dimensions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29519
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29521
+#29521
+The secret place~
+This room is an empty as the human soul.  It is barren of all things.
+There are no walls, as all space is undefined.  It is the perfect hideaway.
+Everyone is here, but their faces do not show.  Time is everlasting and
+continuous and space twists and warps in various directions and dimensions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29518
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29520
+#29522
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29507
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29523
+#29523
+Beggar's corner~
+This is the home, a mere hovel, for many of the newly poor of the city.
+Beggars rolling around on the ground, huddling together to stay warm,
+desperately beg to taste your magical energy.  With only a touch from one
+of these men, you can feel your magical energy drained.
+~
+0 ROOM_NO_MOB|ROOM_NOTE_BOARD SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29522
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29524
+#29524
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29523
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29525
+#29525
+The dregs~
+This small section of the city has been sucked dry of all of its magical
+energy.  The buildings have lost their lustre and many are vacant.  There
+are beggars, who had made their lives from magic living in crawlspaces
+underneath this former section of the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29524
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29526
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29527
+#29526
+Condemned house~
+This once beautiful mansion has been recently deserted, as the owner
+apparently had lost his magical abilities and can no longer keep the place
+in good shape.  Rumor has it that he was an important person in his day,
+and his family still makes residence in the city.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29525
+#29527
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29528
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29525
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29529
+#29528
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29512
+DDIR_SOUTH
+~
+~
+0 -1 29527
+#29529
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29527
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29530
+#29530
+Pillars of Magic~
+There are seven pillars here, reaching to the sky.  They are arranged in a
+large semicircle surrounding the fountain.  Each pillar represents a
+specific component of magical power.  There are specific relationships
+between each pillar and the one next to it.  These relationships are for
+the true magical beings to learn and to live by.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29529
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29531
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29532
+#29531
+A large house~
+This is the largest, most expensive building, owned by the richest mining
+tycoon in the realms.  Every wall is carved from marble, laced in platinum
+and gold.  The floors are pure silver adorned with incredible life-sized
+crystalline statues that seem to move almost as if they were alive.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29530
+#29532
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29530
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29533
+#29533
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29532
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29541
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29534
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29540
+#29534
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29535
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29533
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29536
+#29535
+Maynard's House of Magik~
+This shop has the most insane mix of magic and ritualistic items anywhere
+in the realms.  Dead beasts hang behind the counter on large meathooks,
+while strange smelly green herbs and incense collect dust in the countertop.
+Scrolls and potions promising true out of body experiences call out to
+every customer by name.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29534
+#29536
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29537
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29534
+#29537
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29539
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29536
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29538
+#29538
+Guild of Magik~
+Magic bellows from every inch of the practice room.  A beautiful magical
+glow engulfs everything here, from the walls to the master sorcerer waiting
+here to help you hone your skills.  Strange magical runes are embedded on
+platinum plates on the walls.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29537
+#29539
+Path of the Righteous~
+The path of the righteous is beset on all sides by the inequities of reason
+and the tyranny of the Unbeliever.  Blessed are those who, in the name of
+the Earth, shepherd the weak out of the darkness.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29500
+DDIR_SOUTH
+~
+~
+0 -1 29537
+#29540
+Entrance to the mine~
+This is the entrance to the Hirudinian mine of magic, where the faithful
+citizens mine the ground in search of magical energies.  In the process,
+they also mine precious metals with which they build their fabulous homes
+and buildings.  The magic that gushes forth from the mine can enhance both
+your mind and your life.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+There is an exit up.~
+~
+0 -1 29533
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29437
+#29541
+Shadow's Way~
+There are dark shadows, no doubt the product of evil magic, shrouding every
+step of the way and making magic empty.  Magic is secondary in this section
+of the city, where physical laws overpower the laws of magic.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29533
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29542
+#29542
+Shadow's Way~
+There are dark shadows, no doubt the product of evil magic, shrouding every
+step of the way and making magic empty.  Magic is secondary in this section
+of the city, where physical laws overpower the laws of magic.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29541
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29543
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29544
+#29543
+Great Hall of the Squid~
+As you walk into the main room of the New Squid Empire you notice
+immediately all of the squid artifacts.  There are many squids here that
+predate the caretakers themselves.  How they got here no one really knows,
+they have just always been here.  Jars and jars of squid preservatives line
+the walls, protecting the squid of the realms from the harsh sunlight.
+There are tables and chairs and tanks to accommodate anyone in the NSE.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_LAKE
+DDIR_WEST
+~
+~
+0 -1 29542
+#29544
+Shadow's Way~
+There are dark shadows, no doubt the product of evil magic, shrouding every
+step of the way and making magic empty.  Magic is secondary in this section
+of the city, where physical laws overpower the laws of magic.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29542
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29546
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29545
+#29545
+Guild of the Sword~
+The fine craftmanship of the guildhouse is second to none.  A magical
+housing, standing to empower the less fortunate to train their skills, is
+truly a unique occurrence.  The great magicians have found that, although
+you are second rate to them, there is still a place in this world for you.  It
+is of course a cruel trick by god to deprive you of magic.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_CITY
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29544
+#29546
+Shadow's Way~
+There are dark shadows, no doubt the product of evil magic, shrouding every
+step of the way and making magic empty.  Magic is secondary in this section
+of the city, where physical laws overpower the laws of magic.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29544
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29547
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 29549
+#29547
+The Pointed Finger~
+The Pointed Finger Inn is a true testament to the power that magic holds
+over the citizens of this fair city.  There is a large pewter sculpture of
+a hand, pointing a finger in shame to every non-magic user who enters the
+city. It is merely a reminder to the citizens here that using the powers of
+the mind to hone your magic skills shall redeem your soul.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+There is an exit east.~
+~
+0 -1 29548
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29546
+#29548
+Jimmy's Buffet~
+Food, glorious food.  As much as any man or woman could eat in a lifetime,
+and even more still, all awaiting the feasts of the great gods of magic.
+One taste of the fine cuisine leaves a mortal feeling refreshed and pleased
+for many. many years.
+~
+0 0 SECT_CITY
+DDIR_WEST
+There is an exit west.~
+~
+0 -1 29547
+DDIR_DOWN
+There is an exit down.~
+~
+0 -1 29508
+#29549
+The southern gate~
+Welcome weary traveler from the south to Hirudinia, the magic city.  To
+enter the fair city, one must first read and understand the laws and
+regulations.  This city has been built by magic for the further
+advancement and understanding of the mind and of magical creatures and
+beings.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+There is an exit north.~
+~
+0 -1 29546
+DDIR_SOUTH
+There is an exit south.~
+~
+0 -1 17364
+#29550
+Mob room~
+This is a mob room for the mines, get out!
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 29403
+DDIR_EAST
+~
+~
+0 -1 29424
+DDIR_SOUTH
+~
+~
+0 -1 29440
+DDIR_WEST
+~
+~
+0 -1 29453
+DDIR_UP
+~
+~
+0 -1 29432
+DDIR_DOWN
+~
+~
+0 -1 29467
+#0
+
+
+#RESETS
+M 29425 100 29543
+G 29437 999 0
+M 29402 100 29535
+G 29408 999 0
+G 29409 999 0
+G 29410 999 0
+G 29416 999 0
+G 29417 999 0
+G 29419 999 0
+G 29420 999 0
+G 29411 999 0
+M 29403 100 29538
+M 29404 100 29545
+M 29405 100 29497
+G 29457 999 0
+M 29406 100 29496
+M 29408 100 29504
+M 29412 100 29517
+G 29418 999 0
+M 29413 100 29408
+M 29414 100 29498
+M 29414 100 29549
+M 29416 100 29508
+G 29430 999 0
+M 29415 100 29515
+M 29407 100 29548
+G 29412 999 0
+G 29423 999 0
+G 29425 999 0
+G 29415 999 0
+G 29441 999 0
+M 29417 100 29423
+M 29422 100 29547
+M 29424 100 29530
+M 29419 100 29502
+G 29413 999 0
+G 29414 999 0
+G 29431 999 0
+M 29423 100 29531
+M 29427 100 29490
+M 29428 100 29491
+M 29429 100 29492
+M 29430 100 29493
+M 29431 100 29494
+M 29432 100 29495
+M 29414 100 29499
+M 29414 100 29546
+M 29435 100 29511
+M 29437 100 29497
+M 29409 100 29414
+M 29410 100 29418
+M 29411 100 29427
+M 29420 100 29401
+M 29426 100 29444
+M 29438 100 29550
+M 29439 100 29403
+M 29440 100 29400
+M 29441 100 29411
+M 29442 100 29410
+M 29443 100 29477
+M 29444 100 29473
+M 29445 100 29470
+M 29446 100 29550
+M 29447 100 29550
+M 29448 100 29413
+M 29449 100 29416
+M 29450 100 29425
+M 29451 100 29430
+M 29452 100 29436
+M 29454 100 29441
+M 29453 100 29443
+M 29455 100 29448
+M 29456 100 29452
+M 29457 100 29457
+M 29458 100 29464
+M 29459 100 29466
+M 29460 100 29429
+M 29401 100 29501
+M 29401 100 29503
+M 29401 100 29505
+M 29401 100 29506
+M 29401 100 29509
+M 29401 100 29512
+M 29401 100 29500
+M 29401 100 29528
+M 29401 100 29529
+M 29401 100 29532
+M 29401 100 29533
+M 29401 100 29534
+M 29401 100 29536
+M 29401 100 29537
+M 29401 100 29539
+M 29401 100 29541
+M 29401 100 29542
+M 29401 100 29544
+M 29401 100 29527
+M 29401 100 29510
+M 29480 100 29460
+M 29481 100 29446
+M 29482 100 29468
+M 29483 100 29432
+M 29484 100 29440
+M 29485 100 29516
+M 29421 100 29523
+M 29436 100 29412
+M 29486 100 29435
+G 29400 999 0
+G 29401 999 0
+G 29402 999 0
+G 29403 999 0
+G 29404 999 0
+G 29405 999 0
+G 29406 999 0
+G 29407 999 0
+G 29427 999 0
+G 29428 999 0
+G 29432 999 0
+G 29438 999 0
+G 29439 999 0
+G 29440 999 0
+G 29442 999 0
+G 29443 999 0
+G 29449 999 0
+G 29450 999 0
+G 29451 999 0
+G 29452 999 0
+G 29453 999 0
+G 29424 999 0
+G 29422 999 0
+G 29458 999 0
+G 29459 999 0
+G 29460 999 0
+G 29461 999 0
+G 29462 999 0
+G 29463 999 0
+G 29464 999 0
+O 29421 100 29530
+O 29429 100 29508
+O 29433 100 29423
+O 29454 999 29435
+O 29445 100 29413
+O 29446 100 29431
+O 29447 100 29471
+O 29448 100 29405
+O 29444 100 29403
+O 29445 100 29410
+O 29445 100 29474
+O 29448 100 29479
+O 29447 100 29419
+O 29446 100 29468
+O 29444 100 29429
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

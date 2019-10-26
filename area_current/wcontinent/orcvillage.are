@@ -1,0 +1,2174 @@
+#AREA Orc Village~
+#AUTHORS Jaxom Robinton~
+#VERSION 4
+#RANGES 20 40 1 95
+#FLAGS AFLAG_NOTELEPORT
+
+
+#HELPS
+0 'ORC VILLAGE'~
+{128}
+                                 Orc Village
+{308}
+Orc village is a small encampment of orcs near elven city.  They were
+originally set up as a check on the growing city of elves but have since
+become a city in their own right.  These are two cities that you will not
+find trading diplomats unless they trade diplomat's pieces.
+~
+
+0 $~
+
+
+#MOBILES
+#2800
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+8000 1d95+46
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) != 0
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2800 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2800 $n 110
+    mpkill $n
+  endif
+endif
+~
+>speech_prog open~
+if race ($n) == race_orc
+  unlock gate
+  open gate
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2801
+chief orc~
+the orc chief~
+The orc chief stands here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i12142~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 3
+    if quest (2,3,$n) < 5
+      mpmadd $n quest 2 3 1
+      say Good work.  Keep at it
+      mpjunk all
+    else
+      if quest (2,3,$n) == 5
+        say You have brought me sufficient ears.
+        mpecho The chief pulls out a leather strap and attaches the ears to it.
+        if level ($n) < 40
+          mpoload 2801
+          give i2801 $n
+        else
+          if level ($n) < 60
+            mpoload 2802
+            give i2802 $n
+          else
+            if level ($n) < 80
+              mpoload 2803
+              give i2803 $n
+            else
+              if level ($n) < 90
+                mpoload 2804
+                give i2804 $n
+              else
+                mpoload 2805
+                give i2805 $n
+              endif
+            endif
+          endif
+        endif
+        mpmset $n quest 2 3 6
+        mpmset $n quest 0 2 1
+      endif
+    endif
+  endif
+else
+  if race ($n) == RACE_ELF
+    say A traitor to your race?  Die like the rest!
+    mpkill $n
+  else
+    say I appreciate the fact that you kill elves, but what do you want from me?
+  endif
+endif
+mpjunk all
+~
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 3
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2800 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2800 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 2
+    say All the realms will know about the backstabbing elves!
+  else
+    if quest (5,3,$n) == 1
+      mpecho The orc gives a curse and a grunt of admiration as it dies.
+    endif
+  endif
+else
+  if race ($n) == RACE_ELF
+    if quest (5,3,$n) == 1
+      say No, I can not lose to a pointy eared freak!
+      mpmset $n quest 5 3 2
+    endif
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2802
+shaman orcish~
+an orcish shaman~
+An orcish shaman is here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+endif
+if race ($n) == RACE_ELF
+  shout Elven scum has entered the village!
+  say Your ears are mine, scum!
+  rescale 2802 $n 130
+  mpkill $n
+  mpmset $n quest 0 2 2
+  break
+endif
+if quest (0,2,$n) == 2
+  shout An enemy of the camp is here!
+  rescale 2802 $n 110
+  mpkill $n
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+>fight_prog 30~
+if rand (50)
+  cast harm $n
+else
+  if rand (50)
+    cast heal $i
+  endif
+endif
+~
+>rand_prog 10~
+if race ($r) == RACE_ORC
+  if quest (2,3,$n) == 6
+    if rand (20)
+      cast bless $r
+    else
+      if rand (20)
+        cast 'giant strength' $r
+      else
+        if rand (10)
+          cast 'enhanced heal' $r
+        else
+          if rand (10)
+            cast sanctuary $r
+          else
+            cast 'cure critical' $r
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#2803
+witch doctor orcish~
+an orcish witch doctor~
+An orcish doctor chants here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+1 BODY_HAND BODY_CLAW 1d1+10 1d1+1
+10 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, Shaman $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+endif
+~
+|
+#2804
+chef orcish~
+an orcish chef~
+An orcish chef serves food here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+1 BODY_HAND BODY_CLAW 1d1+10 1d1+1
+100 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+endif
+~
+|
+#2805
+butcher orcish~
+an orcish butcher~
+An orcish butcher works here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+1 BODY_HAND BODY_CLAW 1d1+10 1d1+1
+10 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2806
+weaponsmith orcish~
+an orcish weaponsmith~
+An orcish weaponsmith works here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+1 BODY_HAND BODY_CLAW 1d1+10 1d1+1
+10 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#2807
+armorer orcish~
+an orcish armorer~
+An orcish armorer works here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+1 BODY_HAND BODY_CLAW 1d1+10 1d1+1
+100 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#2808
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2808 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2808 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2809
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2809 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2809 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2810
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2810 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2810 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2811
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2811 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2811 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2812
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2812 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2812 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2813
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2813 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2813 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2814
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2814 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2814 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2815
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2815 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2815 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2816
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2816 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2816 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2817
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.   His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2817 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2817 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2818
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2818 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2818 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2819
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2819 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2819 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2820
+guard orcish~
+an orcish guard~
+An orcish guard patrols here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d1+10000 1d1+100
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if race ($n) == RACE_ORC
+  if quest (0,2,$n) == 1
+    say A greeting to you, $n.
+  else
+    say Talk to chief Big Nose if you are new here.
+  endif
+else
+  if race ($n) == RACE_ELF
+    shout Elven scum has entered the village!
+    say Your ears are mine, scum!
+    rescale 2820 $n 130
+    mpkill $n
+    mpmset $n quest 0 2 2
+    break
+  endif
+  if quest (0,2,$n) == 2
+    shout An enemy of the camp is here!
+    rescale 2820 $n 110
+    mpkill $n
+  endif
+endif
+~
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2821
+trainer orcish~
+an orcish trainer~
+An orcish trainer works here.~
+He is a brutish looking orc.  His skin is grey-green in color and covered with
+coarse hair.  His forehead juts out and his nose is snoutlike.  His ears are
+short and pointed and resemble those of a wolf and he has sharp canine teeth.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+95 BODY_HAND BODY_CLAW 1d2256+7613 1d95+93
+10000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if race ($n) == RACE_ORC
+  mpecho The orc gives a curse and a grunt of admiration as it dies.
+else
+  if race ($n) == RACE_ELF
+    say No, I can not lose to a pointy eared freak!
+  else
+    shout $n has betrayed the orcs!
+    mpmset $n quest 0 2 2
+  endif
+endif
+~
+|
+#2822
+elven spy~
+an elven spy~
+An elven spy hides here in the shadows.~
+He is dressed in drab colors so that he may better hide among the orcish
+swine.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_TONGUES
+0 S
+40 0 0 1d400+746 1d1+40
+1000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if race ($n) == RACE_ELF
+  if hasobjnum ($n) == 12143
+    if quest (5,3,$n) == 0
+      say Pssst.  Over here.
+      say You must be the one sent by the elven council.
+      say Your orders are to kill the chief but don't get caught.
+      say Return to me when you are done.
+      mpmset $n quest 5 3 1
+    else
+      if quest (0,2,$n) == 2
+        say You were caught in your attempt on the chief's life.
+        say I am afraid that will not do.
+      else
+        if quest (5,3,$n) == 2
+          if sex ($n) == 1
+            say Good Work Brother.
+          else
+            say Good Work Sister.
+          endif
+          say Give this to the council as proof that you have completed
+          say your mission.
+          mpoload 2813
+          give i2813 $n
+          mpmset $n quest 5 3 3
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#2823
+timeethereal~
+timeethereal~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+if time () == 0
+  if quest (0,2,$n) == 2
+    mpmset $n quest 0 2 0
+    mpecho The camp seems to have quieted down a bit.
+  endif
+endif
+~
+|
+#0
+
+
+#SHOPS
+2803 ITEM_TYPE_POTION ITEM_TYPE_STAFF ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_PILL  100  50  0 24
+2804 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+2806 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+2807 ITEM_TYPE_ARMOR ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_BOAT ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#2800
+orcish battle standard~
+an orcish battle standard~
+A battle standard has been planted in the ground here.~
+{018}It is a long pole crossed with a short one, both made of wood.  From the
+crossbeam hang tattered strips of rust red cloth, upon which is a crudely
+drawn symbol of the orcs.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+6 0 0 0 0 0 0 0
+1 200 15
+E
+symbol~
+{008}.{018}   __
+   /  \
+  / \/ \
+ ( -()- )
+  \ /\ /
+   \__/ 
+~
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the banner and destroy it.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2801
+ears thong elf~
+a thong of elf ears~
+A thong of ears lies on the ground here.~
+{018}It is a leather thong along which is hung several pointed ears of the elvish
+persuasion.  At least most of them are long since dried and are no longer
+bleading.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+6 0 0 0 0 0 0 0
+1 20 20
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 3 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the severed ears and destroy them.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2802
+ears thong elf~
+a thong of elf ears~
+A thong of ears lies on the ground here.~
+{018}It is a leather thong along which is hung several pointed ears of the elvish
+persuasion.  At least most of them are long since dried and are no longer
+bleading.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+1 20 40
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 4 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the severed ears and destroy them.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2803
+ears thong elf~
+a thong of elf ears~
+A thong of ears lies on the ground here.~
+{018}It is a leather thong along which is hung several pointed ears of the elvish
+persuasion.  At least most of them are long since dried and are no longer
+bleading.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+1 20 60
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 6 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the severed ears and destroy them.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2804
+ears thong elf~
+a thong of elf ears~
+A thong of ears lies on the ground here.~
+{018}It is a leather thong along which is hung several pointed ears of the elvish
+persuasion.  At least most of them are long since dried and are no longer
+bleading.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+1 20 80
+A APPLY_HITROLL 6 0
+A APPLY_DAMROLL 6 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the severed ears and destroy them.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2805
+ears thong elf~
+a thong of elf ears~
+A thong of ears lies on the ground here.~
+{018}It is a leather thong along which is hung several pointed ears of the elvish
+persuasion.  At least most of them are long since dried and are no longer
+bleading.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+1 20 90
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 8 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ORC 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the severed ears and destroy them.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2806
+potion see elf~
+a potion of see elf~
+A potion lies here.~
+It is an ugly brown color in a almost clear vial.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 65 64 0 0 0 0 0
+1 5000 20
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 '-1 slot'
+#2807
+potion protection elf~
+a protection from elf potion~
+A potion lies here.~
+It is an ugly red color in a almost clear vial.  It looks very like blood.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 235 215 0 0 0 0 0
+1 5000 20
+S 1 'stone skin'
+S 2 'shield'
+S 3 '-1 slot'
+#2808
+venison haunch~
+a haunch of venison~
+a haunch of venison lies here.~
+It is slightly blackened but you can recognise it as coming from a deer.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+2 200 5
+#2809
+halberd orcish~
+an orcish halberd~
+An orcish halberd lies here.~
+It is finely crafted and almost looks dwarven except for the skulls cut
+into the haft of the weapon and a poorer quality material used.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 2 10 WEAPON_SLASH 0 0 0 0
+5 10000 15
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ELF 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the crude weapon and destroy it.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2810
+shortsword orcish~
+an orcish shortsword~
+An orcish shortsword lies here.~
+It is finely crafted and almost looks dwarven except for the skulls cut
+into the hilt of the weapon and a poorer quality material used.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 2 10 WEAPON_SLASH 0 0 0 0
+5 10000 15
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ELF 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the crude weapon and destroy it.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2811
+breast plate orcish~
+an orcish breast plate~
+An orcish breast plate lies here~
+It is a fairly well crafted breast plate, if only a better quality ore had
+been used it would almost be up to dwarven standards.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+5 10000 15
+A APPLY_HITROLL 3 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ELF 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the tattered armor and destroy it.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2812
+helmet orcish~
+an orcish helmet~
+An orcish helmet lies here~
+It is a fairly well crafted helmet, if only a better quality ore had
+been used it would almost be up to dwarven standards.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+5 0 0 0 0 0 0 0
+5 10000 15
+A APPLY_HITROLL 3 0
+P 1
+TRIG_WEAR 100
+OPROG_IF OIF_USER_RACE = RACE_ELF 0 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are disgusted by the tattered armor and destroy it.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#2813
+engraved coin~
+an engraved coin~
+An engraved coin lies on the ground.~
+It is a small gold coin engraved with the seal of the elven council.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100000 1
+E
+seal~
+{008}. {028} _____
+  /{038}.  ..{028}\
+ ({038} . .  .{028})
+ ({038}. . .. {028})
+  \_{038}.{028}_{038}.{028}_/
+    )_({308}
+~
+#2814
+key orcish~
+an orcish key~
+An orcish key is here.~
+It is a dirty brass key that fits the lock to the Orc village gate.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#0
+
+
+#ROOMS
+#2800
+Path in the woods~
+{028}You are walking along a small but well used path through the woods claimed by
+the elves.  It is obvious that it is not only elves use this path as the
+tracks upon the trail are much worse than any elf would leave.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 2801
+DDIR_SOUTH
+~
+~
+0 -1 12105
+#2801
+Path in the woods~
+{028}You are walking along a small but well used path through the woods claimed by
+the elves.  It is obvious that it is not only elves use this path as the
+tracks upon the trail are much worse than any elf would leave.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 2800
+DDIR_WEST
+~
+~
+0 -1 2802
+#2802
+Path in the woods~
+{028}You are walking along a small but well used path through the woods claimed by
+the elves.  It is obvious that it is not only elves use this path as the
+tracks upon the trail are much worse than any elf would leave.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 2803
+DDIR_EAST
+~
+~
+0 -1 2801
+#2803
+Outside a wooden gate~
+{018}You have approached a wooden palisade in a clearing deep in the elven wood.
+The walls are about ten feet high and end in fire hardened points.  They look
+to be made of some slow burning hard wood.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+wooden gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 2814 2804
+DDIR_SOUTH
+~
+~
+0 -1 2802
+#2804
+Inside the gate~
+{018}You are inside the gate to a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2807
+DDIR_EAST
+~
+~
+0 -1 2806
+DDIR_SOUTH
+~
+wooden gate~
+EX_ISDOOR|EX_CLOSED -1 2803
+DDIR_WEST
+~
+~
+0 -1 2805
+#2805
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2808
+DDIR_EAST
+~
+~
+0 -1 2804
+DDIR_WEST
+~
+~
+0 -1 2820
+#2806
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2809
+DDIR_EAST
+~
+~
+0 -1 2821
+DDIR_WEST
+~
+~
+0 -1 2804
+#2807
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2819
+DDIR_EAST
+~
+~
+0 -1 2809
+DDIR_SOUTH
+~
+~
+0 -1 2804
+DDIR_WEST
+~
+~
+0 -1 2808
+#2808
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2811
+DDIR_EAST
+~
+~
+0 -1 2807
+DDIR_SOUTH
+~
+~
+0 -1 2805
+DDIR_WEST
+~
+~
+0 -1 2810
+#2809
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2812
+DDIR_EAST
+~
+~
+0 -1 2813
+DDIR_SOUTH
+~
+~
+0 -1 2806
+DDIR_WEST
+~
+~
+0 -1 2807
+#2810
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2814
+DDIR_EAST
+~
+~
+0 -1 2808
+DDIR_SOUTH
+~
+~
+0 -1 2820
+DDIR_WEST
+~
+~
+0 -1 2828
+#2811
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2816
+DDIR_EAST
+~
+~
+0 -1 2819
+DDIR_SOUTH
+~
+~
+0 -1 2808
+DDIR_WEST
+~
+~
+0 -1 2814
+#2812
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2818
+DDIR_EAST
+~
+~
+0 -1 2815
+DDIR_SOUTH
+~
+~
+0 -1 2809
+DDIR_WEST
+~
+~
+0 -1 2819
+#2813
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2815
+DDIR_EAST
+~
+~
+0 -1 2829
+DDIR_SOUTH
+~
+~
+0 -1 2821
+DDIR_WEST
+~
+~
+0 -1 2809
+#2814
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2835
+DDIR_EAST
+~
+~
+0 -1 2811
+DDIR_SOUTH
+~
+~
+0 -1 2810
+DDIR_WEST
+~
+~
+0 -1 2833
+#2815
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2830
+DDIR_EAST
+~
+~
+0 -1 2834
+DDIR_SOUTH
+~
+~
+0 -1 2813
+DDIR_WEST
+~
+~
+0 -1 2812
+#2816
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2826
+DDIR_EAST
+~
+~
+0 -1 2817
+DDIR_SOUTH
+~
+~
+0 -1 2811
+DDIR_WEST
+~
+~
+0 -1 2835
+#2817
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2824
+DDIR_EAST
+~
+~
+0 -1 2818
+DDIR_SOUTH
+~
+~
+0 -1 2819
+DDIR_WEST
+~
+~
+0 -1 2816
+#2818
+Inside the compound~
+{018}You are in the middle of a large wooden palisade.  It is obviously a
+military camp as much as it is a city.  Not only is it a military
+fortification, but everyone around seems to be armed and armored.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2827
+DDIR_EAST
+~
+~
+0 -1 2830
+DDIR_SOUTH
+~
+~
+0 -1 2812
+DDIR_WEST
+~
+~
+0 -1 2817
+#2819
+Center of the compound~
+{018}You are in the center of a large compound.  Wooden walls surround the village
+with sharpened points at the top at about ten feet.  Although there is much
+activity around you there are also orcs just laying about.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2817
+DDIR_EAST
+~
+~
+0 -1 2812
+DDIR_SOUTH
+~
+~
+0 -1 2807
+DDIR_WEST
+~
+~
+0 -1 2811
+#2820
+Below a watchtower~
+{018}You are standing below one of two watchtowers in the orcish compound.  They
+rise about twenty feet off the ground which is ten higher than the walls.  A
+wooden ladder leads up to the watchtower.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2810
+DDIR_EAST
+~
+~
+0 -1 2805
+DDIR_UP
+~
+~
+0 -1 2822
+#2821
+Below a watchtower~
+{018}You are standing below one of two watchtowers in the orcish compound.  They
+rise about twenty feet off the ground which is ten higher than the walls.  A
+wooden ladder leads up to the watchtower.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 2813
+DDIR_WEST
+~
+~
+0 -1 2806
+DDIR_UP
+~
+~
+0 -1 2823
+#2822
+An orcish watchtower~
+{018}You are in one of two watchtowers of the orc village.  You stand about twenty
+feet off the ground and if it weren't for the trees that close in almost 
+immediatly you could probably see pretty far.  A wooden ladder leads down.
+~
+0 0 SECT_CITY
+DDIR_DOWN
+~
+~
+0 -1 2820
+#2823
+An orcish watchtower~
+{018}You are in one of two watchtowers of the orc village.  You stand about twenty
+feet off the ground and if it weren't for the trees that close in almost 
+immediatly you could probably see pretty far.  A wooden ladder leads down.
+~
+0 0 SECT_CITY
+DDIR_DOWN
+~
+~
+0 -1 2821
+#2824
+Orc chief's tent~
+{018}You are in the a large tent divided into two rooms.  The room that you are in
+seems to be where the orcs plan their attacks on the nearby elves.  A map is
+strewn across the one table in the room and there are a couple of poorly made
+wooden chairs overturned on the floor.  You see flecks of blood on the ground.
+The orcs strategy sessions must get pretty violent.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 2825
+DDIR_SOUTH
+~
+~
+0 -1 2817
+#2825
+Orc chief's tent~
+{018}You have entered the private section of the orc chief's tent.  A small bed
+is pushed up against one side of the tent and there is a large chest at the
+end of it.  Scraps of food have been thrown into the corners and the place is
+a total mess.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 2824
+#2826
+Armorer's shed~
+{018}You have entered the small shed where all the armor for this village's orcs are
+made.  A small forge is glowing at one end of the room and you recognise the
+rudiments of what goes on here.  Half finished helms and breastplates lay all
+over the place.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 2816
+#2827
+Weaponsmith's shed~
+{018}You have entered a shed with a large forge at one end.  You recognise all the
+parts of a working forge here and further evidence is given by the swords and
+other weapons lining the walls and floor.  Although this place is in total
+disarray, the weapons that you can see do not actually look poorly forged.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 2818
+#2828
+Shaman's tent~
+{018}You have entered the orc shaman's tent.  It is adorned with various body parts
+of other races.  A couple small cots lie against one side of the tent and you
+see a small table full of surgeons instruments lying next to one of them.  As 
+may be guessed there is blood all over some of the beds though most if it is 
+long since dried.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 2810
+#2829
+Witch doctor's tent~
+{018}You have entered a tent that you wish you hadn't.  An amazing number of very
+disgusting items hang in the center of this tent above a large cauldron which
+is boiling and letting off a really bad odor.  There are several small tables
+around the tent and all of them are covered in things like frog's eyes and
+snake's tongues.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 2813
+#2830
+Orc Barracks~
+{018}You have entered a long tent with row after row of cots.  At the foot of each
+cot is a small chest where the orcish soldiers obviously keep their personal
+belongings.  The stench in this place is very bad as you suspect that not one
+of the orcs living here ever bathes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 2832
+DDIR_EAST
+~
+~
+0 -1 2831
+DDIR_SOUTH
+~
+~
+0 -1 2815
+DDIR_WEST
+~
+~
+0 -1 2818
+#2831
+Orc barracks~
+{018}You have entered a long tent with row after row of cots.  At the foot of each
+cot is a small chest where the orcish soldiers obviously keep their personal
+belongings.  The stench in this place is very bad as you suspect that not one
+of the orcs living here ever bathes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 2830
+#2832
+Orc barracks~
+{018}You have entered a long tent with row after row of cots.  At the foot of each
+cot is a small chest where the orcish soldiers obviously keep their personal
+belongings.  The stench in this place is very bad as you suspect that not one
+of the orcs living here ever bathes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 2830
+#2833
+Butcher's tent~
+{018}You are in a large tent strewn with all sorts of animals in various stages of
+dismemberment.  Not all of the animals here are unintelligent either.  You do
+however notice that all of the elvish heads you see in here are missing their
+ears.
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 2814
+#2834
+Mess tent~
+{018}You are in a large tent full of wooden tables.  The tables are in turn full of
+the remains of whatever these orcs have most recently eaten.  Contrary to
+popular belief, most of the food seems to be game from the forest.
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 2815
+#2835
+Dark corner of the compound~
+You have entered a shadowed corner of the orc compound.  It is tucked away
+between the armorer's shed and the butcher's tent.  It is also not a bad
+place to hide.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 2816
+DDIR_SOUTH
+~
+~
+0 -1 2814
+#0
+
+
+#RESETS
+M 2800 100 2803
+G 2814  10 0
+M 2808 100 2804
+M 2809 100 2806
+M 2810 100 2807
+M 2811 100 2809
+M 2812 100 2811
+M 2813 100 2813
+M 2814 100 2815
+M 2815 100 2817
+M 2816 100 2819
+M 2817 100 2823
+M 2818 100 2822
+M 2819 100 2831
+M 2820 100 2832
+M 2801 100 2825
+M 2802 100 2828
+M 2803 100 2829
+G 2806 500 0
+G 2807 500 0
+M 2804 100 2834
+G 2808 500 0
+M 2805 100 2833
+M 2806 100 2827
+G 2809 500 0
+G 2810 500 0
+M 2807 100 2826
+G 2811 500 0
+G 2812 500 0
+M 2821 100 2830
+M 2822 100 2835
+M 2823 100 2801
+M 2823 100 2802
+M 2823 100 2803
+M 2823 100 2804
+M 2823 100 2805
+M 2823 100 2806
+M 2823 100 2807
+M 2823 100 2808
+M 2823 100 2809
+M 2823 100 2810
+M 2823 100 2811
+M 2823 100 2812
+M 2823 100 2813
+M 2823 100 2814
+M 2823 100 2815
+M 2823 100 2816
+M 2823 100 2817
+M 2823 100 2818
+M 2823 100 2819
+M 2823 100 2820
+M 2823 100 2821
+M 2823 100 2822
+M 2823 100 2823
+M 2823 100 2824
+M 2823 100 2825
+M 2823 100 2826
+M 2823 100 2827
+M 2823 100 2828
+M 2823 100 2829
+M 2823 100 2830
+M 2823 100 2831
+M 2823 100 2832
+M 2823 100 2833
+M 2823 100 2834
+M 2823 100 2835
+D 2803 DIR_NORTH DOOR_CLOSED_LOCKED
+D 2804 DIR_SOUTH DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

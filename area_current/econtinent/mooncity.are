@@ -1,0 +1,3399 @@
+#AREA Moon City~
+#AUTHORS Emperor~
+#VERSION 4
+#RANGES 55 85 1 95
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+-1 'MOON CITY' MOONCITY~
+{138}                                  Moon City
+{308}
+Moon City is a gambling and resort town. In recent years, the town has
+suffered a decline in tourism due to rumors of a terrible creature
+dwelling somewhere in the city. Nonetheless, a sizable number of people
+still make the annual trek there to take part in some much needed
+relaxation.
+
+There is a rumor that somewhere in the city is the keeper of the oldest,
+most sacred game in the Realms: the Deck of Many Things. If you're smart,
+and willing, perhaps you will have the chance to draw from this infamous
+deck.
+{148}
+This area was created by Emperor, 1997.
+~
+
+0 $~
+
+
+#MOBILES
+#5401
+dealer~
+the dealer~
+A dealer stands here, ready to play.~
+You see before you a man with short sleeves and shifty eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+say Hello $n
+say Would you like to play a friendly game of cards?
+~
+>speech_prog yes~
+say I only play one game: high-low
+say Say 'explain' if you want me to explain the rules
+~
+>speech_prog cards~
+say I only play one game: high-low
+say Say 'explain' if you want me to explain the rules
+~
+>speech_prog explain~
+say Give me 500 coins and I'll draw two cards:
+say one for me and one for you...
+say If your card is higher than mine, you win 1,000 coins!
+say If your card is lower than mine, you lose...
+smirk 
+~
+>speech_prog lose~
+say Give me 500 coins to begin
+~
+>bribe_prog 500~
+mpjunk coins
+nod 
+mpmset $n quest 8 4 0
+mpmset self quest 8 4 0
+mpecho The dealer shuffles the cards.
+mpecho The dealer draws:
+if rand (5)
+  mpecho A Two.
+  mpmset self quest 8 4 2
+else
+  if rand (6)
+    mpecho A Three.
+    mpmset self quest 8 4 3
+  else
+    if rand (7)
+      mpecho A Four.
+      mpmset self quest 8 4 4
+    else
+      if rand (8)
+        mpecho A Five.
+        mpmset self quest 8 4 5
+      else
+        if rand (9)
+          mpecho A Six.
+          mpmset self quest 8 4 6
+        else
+          if rand (10)
+            mpecho A Seven.
+            mpmset self quest 8 4 7
+          else
+            if rand (11)
+              mpecho An Eight.
+              mpmset self quest 8 4 8
+            else
+              if rand (12)
+                mpecho A Nine.
+                mpmset self quest 8 4 9
+              else
+                if rand (15)
+                  mpecho A Ten.
+                  mpmset self quest 8 4 10
+                else
+                  if rand (20)
+                    mpecho A Jack.
+                    mpmset self quest 8 4 11
+                  else
+                    if rand (25)
+                      mpecho A Queen.
+                      mpmset self quest 8 4 12
+                    else
+                      if rand (30)
+                        mpecho A King.
+                        mpmset self quest 8 4 13
+                      else
+                        mpecho An Ace.
+                        mpmset self quest 8 4 14
+                      else
+                      endif
+                    endif
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+mpechoat $n You draw...
+mpechoaround $n $n draws...
+if rand (5)
+  mpecho An Ace.
+  mpmset $n quest 8 4 14
+else
+  if rand (6)
+    mpecho A King.
+    mpmset $n quest 8 4 13
+  else
+    if rand (7)
+      mpecho A Queen.
+      mpmset $n quest 8 4 12
+    else
+      if rand (8)
+        mpecho A Jack.
+        mpmset $n quest 8 4 11
+      else
+        if rand (9)
+          mpecho A Ten.
+          mpmset $n quest 8 4 10
+        else
+          if rand (10)
+            mpecho A Nine.
+            mpmset $n quest 8 4 9
+          else
+            if rand (11)
+              mpecho An Eight.
+              mpmset $n quest 8 4 8
+            else
+              if rand (12)
+                mpecho A Seven.
+                mpmset $n quest 8 4 7
+              else
+                if rand (15)
+                  mpecho A Six.
+                  mpmset $n quest 8 4 6
+                else
+                  if rand (20)
+                    mpecho A Five.
+                    mpmset $n quest 8 4 5
+                  else
+                    if rand (25)
+                      mpecho A Four.
+                      mpmset $n quest 8 4 4
+                    else
+                      if rand (30)
+                        mpecho A Three.
+                        mpmset $n quest 8 4 3
+                      else
+                        mpecho A Two.
+                        mpmset $n quest 8 4 2
+                      endif
+                    endif
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+if quest (8,4,self) == 2
+  if quest (8,4,$n) == 2
+    say Looks like we have a tie.
+    say Dealer wins.
+  else
+    if quest (8,4,$n) > 2
+      say You win!
+      mpmadd $n gold 1000
+      mpechoat $n The dealer gives you 1000 coins.
+      mpechoaround $n The dealer gives $n 1000 coins.
+    else
+    endif
+  endif
+else
+  if quest (8,4,self) == 3
+    if quest (8,4,$n) == 3
+      say Looks like we have a tie.
+      say Dealer wins.
+    else
+      if quest (8,4,$n) < 3
+        say You lose.
+      else
+        if quest (8,4,$n) > 3
+          say You win!
+          mpmadd $n gold 1000
+          mpechoat $n The dealer gives you 1000 coins.
+          mpechoaround $n The dealer gives $n 1000 coins.
+        else
+        endif
+      endif
+    endif
+  else
+    if quest (8,4,self) == 4
+      if quest (8,4,$n) == 4
+        say Looks like we have a tie.
+        say Dealer wins.
+      else
+        if quest (8,4,$n) < 4
+          say You lose.
+        else
+          if quest (8,4,$n) > 4
+            say You win!
+            mpmadd $n gold 1000
+            mpechoat $n The dealer gives you 1000 coins.
+            mpechoaround $n The dealer gives $n 1000 coins.
+          else
+          endif
+        endif
+      endif
+    else
+      if quest (8,4,self) == 5
+        if quest (8,4,$n) == 5
+          say Looks like we have a tie.
+          say Dealer wins.
+        else
+          if quest (8,4,$n) < 5
+            say You lose.
+          else
+            if quest (8,4,$n) > 5
+              say You win!
+              mpmadd $n gold 1000
+              mpechoat $n The dealer gives you 1000 coins.
+              mpechoaround $n The dealer gives $n 1000 coins.
+            else
+            endif
+          endif
+        endif
+      else
+        if quest (8,4,self) == 6
+          if quest (8,4,$n) == 6
+            say Looks like we have a tie.
+            say Dealer wins.
+          else
+            if quest (8,4,$n) < 6
+              say You lose.
+            else
+              if quest (8,4,$n) > 6
+                say You win!
+                mpmadd $n gold 1000
+                mpechoat $n The dealer gives you 1000 coins.
+                mpechoaround $n The dealer gives $n 1000 coins.
+              else
+              endif
+            endif
+          endif
+        else
+          if quest (8,4,self) == 7
+            if quest (8,4,$n) == 7
+              say Looks like we have a tie.
+              say Dealer wins.
+            else
+              if quest (8,4,$n) < 7
+                say You lose.
+              else
+                if quest (8,4,$n) > 7
+                  say You win!
+                  mpmadd $n gold 1000
+                  mpechoat $n The dealer gives you 1000 coins.
+                  mpechoaround $n The dealer gives $n 1000 coins.
+                else
+                endif
+              endif
+            endif
+          else
+            if quest (8,4,self) == 8
+              if quest (8,4,$n) == 8
+                say Looks like we have a tie.
+                say Dealer wins.
+              else
+                if quest (8,4,$n) < 8
+                  say You lose.
+                else
+                  if quest (8,4,$n) > 8
+                    say You win!
+                    mpmadd $n gold 1000
+                    mpechoat $n The dealer gives you 1000 coins.
+                    mpechoaround $n The dealer gives $n 1000 coins.
+                  else
+                  endif
+                endif
+              endif
+            else
+              if quest (8,4,self) == 9
+                if quest (8,4,$n) == 9
+                  say Looks like we have a tie.
+                  say Dealer wins.
+                else
+                  if quest (8,4,$n) < 9
+                    say You lose.
+                  else
+                    if quest (8,4,$n) > 9
+                      say You win!
+                      mpmadd $n gold 1000
+                      mpechoat $n The dealer gives you 1000 coins.
+                      mpechoaround $n The dealer gives $n 1000 coins.
+                    else
+                    endif
+                  endif
+                endif
+              else
+                if quest (8,4,self) == 10
+                  if quest (8,4,$n) == 10
+                    say Looks like we have a tie.
+                    say Dealer wins.
+                  else
+                    if quest (8,4,$n) < 10
+                      say You lose.
+                    else
+                      if quest (8,4,$n) > 10
+                        say You win!
+                        mpmadd $n gold 1000
+                        mpechoat $n The dealer gives you 1000 coins.
+                        mpechoaround $n The dealer gives $n 1000 coins.
+                      else
+                      endif
+                    endif
+                  endif
+                else
+                  if quest (8,4,self) == 11
+                    if quest (8,4,$n) == 11
+                      say Looks like we have a tie.
+                      say Dealer wins.
+                    else
+                      if quest (8,4,$n) < 11
+                        say You lose.
+                      else
+                        if quest (8,4,$n) > 11
+                          say You win!
+                          mpmadd $n gold 1000
+                          mpechoat $n The dealer gives you 1000 coins.
+                          mpechoaround $n The dealer gives $n 1000 coins.
+                        else
+                        endif
+                      endif
+                    endif
+                  else
+                    if quest (8,4,self) == 12
+                      if quest (8,4,$n) == 12
+                        say Looks like we have a tie.
+                        say Dealer wins.
+                      else
+                        if quest (8,4,$n) < 12
+                          say You lose.
+                        else
+                          if quest (8,4,$n) > 12
+                            say You win!
+                            mpmadd $n gold 1000
+                            mpechoat $n The dealer gives you 1000 coins.
+                            mpechoaround $n The dealer gives $n 1000 coins.
+                          else
+                          endif
+                        endif
+                      endif
+                    else
+                      if quest (8,4,self) == 13
+                        if quest (8,4,$n) == 13
+                          say Looks like we have a tie.
+                          say Dealer wins.
+                        else
+                          if quest (8,4,$n) < 13
+                            say You lose.
+                          else
+                            if quest (8,4,$n) > 13
+                              say You win!
+                              mpmadd $n gold 1000
+                              mpechoat $n The dealer gives you 1000 coins.
+                              mpechoaround $n The dealer gives $n 1000 coins.
+                            else
+                            endif
+                          endif
+                        endif
+                      else
+                        if quest (8,4,self) == 14
+                          if quest (8,4,$n) == 14
+                            say Looks like we have a tie.
+                            say Dealer wins.
+                          else
+                            if quest (8,4,$n) < 14
+                              say You lose.
+                            else
+                            endif
+                          endif
+                        endif
+                      endif
+                    endif
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+smile 
+~
+>rand_prog 10~
+mpecho The dealer shuffles some cards.
+~
+|
+#5402
+hooded mage~
+the hooded mage~
+A hooded mage sits here, behind an oaken table.~
+A dark, hooded mage is here before you, decrepit and wizened. Indeed, it
+must be your "lucky" day.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_LEG 1d1+10000 1d1+92
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog lucky~
+mpecho The hooded mage opens an oaken case.
+mpecho The hooded mage gets an ivory deck from an oaken case
+say So you want to play from the Deck of Many Things eh?
+~
+>speech_prog today~
+mpecho The hooded mage opens an oaken case.
+mpecho The hooded mage gets an ivory deck from an oaken case
+say So you want to play from the Deck of Many Things eh?
+~
+>speech_prog yes~
+say To play, you must give me a single coin
+say I will then draw your card from the Deck
+say There are seven possible outcomes
+say They range from Deadly to Glorious
+~
+>speech_prog deck~
+say To play, you must give me a single coin
+say I will then draw your card from the Deck
+say There are seven possible outcomes
+say They range from Deadly to Glorious
+~
+>speech_prog deadly~
+say The card of Doom causes instant death
+say The card of Daemon causes likely death
+say The card of Ruin is unknown
+~
+>speech_prog glorious~
+say The card of Sun gives you a magical weapon
+say The card of Gem makes you rich
+say The card of Light is unknown
+say There is also a Seventh card...
+~
+>speech_prog seventh~
+say The seventh card is the card of Balance
+say When this card is drawn, nothing happens
+~
+>rand_prog 25~
+say Today must be your LUCKY day $r
+~
+>bribe_prog 1~
+mpjunk coins
+if level ($n) < 25
+  sigh 
+  mptransfer $n 9755
+  break
+endif
+if quest (0,2,$n) == 1
+  mpmset $n quest 0 2 2
+  nod 
+  mpecho The hooded mage utters the words, 'kcul doog'.
+  mpecho The ivory plates rise and shuffle in the air.
+  mpecho The hooded mage selects a card...
+  if rand (10)
+    say You have drawn the card of Sun!
+    mpecho The hooded mage utters the word, 'nus'.
+    mpecho A fiery sword appears!
+    if level ($n) > 79
+      mpoload 5402
+      mpquiet on
+      cast 'remove curse' $i
+      cast 'giant strength' $n
+      mpquiet off
+      give I5402 $n
+      drop I5402
+    else
+      mpoload 5403
+      mpquiet on
+      cast 'remove curse' $i
+      cast 'giant strength' $n
+      mpquiet off
+      give I5403 $n
+      drop I5403
+    endif
+    say Congratulations $n!
+    mpechoat $n The hooded mage teleports you to safety.
+    mptransfer $n 9755
+  else
+    if rand (10)
+      say You have drawn the card of Doom!
+      say May the Gods have mercy on your soul!!!
+      mpecho The hooded mage utters the words, 'mood'.
+      slaughter $n
+    else
+      if rand (20)
+        say You have drawn the card of Light!
+        mpecho A fiery helmet appears!
+        if level ($n) > 79
+          mpoload 5404
+          mpquiet on
+          cast 'remove curse' $i
+          cast 'giant strength' $n
+          mpquiet off
+          give I5404 $n
+          drop I5404
+        else
+          mpoload 5405
+          mpquiet on
+          cast 'remove curse' $i
+          cast 'giant strength' $n
+          mpquiet off
+          give I5405 $n
+          drop I5405
+        endif
+        say Congratulations $n!
+        mpechoat $n The hooded mage teleports you to safety.
+        mptransfer $n 9755
+      else
+        if rand (20)
+          say You have drawn the card of Daemon!
+          say May the Gods have mercy on your soul...
+          mpecho The hooded mage utters the word' 'nomead'.
+          mpechoat $n You are teleported to an unknown location.
+          mptransfer $n 5400
+        else
+          if rand (25)
+            say You have drawn the card of Gem!
+            mpecho The hooded mage utters the word, 'meg'.
+            mpecho A pile of gold appears!
+            mpmadd $n gold 20000
+            mpechoat $n The hooded mage gives you 20000 coins.
+            say Congratualations $n!
+            mpechoat $n The hooded mage teleports you to safety.
+            mptransfer $n 9755
+          else
+            if rand (25)
+              say You have drawn the card of Ruin!
+              say May the Gods have mercy on your soul...
+              mpecho The hooded mage utters the word, 'niur'.
+              mpmadd $n gold -40000
+              mpechoat $n A large sum of your gold has disappeared.
+              mpechoat $n The hooded mage sends you away.
+              mptransfer $n 9755
+            else
+              say You have drawn the card of Balance!
+              say So it shall be...
+              mpmset $n quest 0 2 1
+              say You may draw again by giving me another coin.
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+endif
+~
+>death_prog 100~
+say Alas, the sacred Deck now has a new guardian!
+say But this honor has a price!
+grin 
+say You may never draw from the Deck again,
+say at least not during this life...
+cackle 
+mpmset $n quest 0 2 2
+~
+|
+#5403
+black daemon~
+the black daemon~
+A black daemon stirs about here, restless and fierce.~
+The daemon attacks with tremendous fury!
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+96 BODY_HEAD BODY_LEG 1d2304+7788 1d55+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 55~
+mpecho Black ooze leaks from the Daemon's wounds.
+~
+>rand_prog 85~
+mpkill $r
+~
+|
+#5404
+spa mistress~
+the spa mistress~
+The spa mistress stands here.~
+You see before you the spa mistress. She wears a soft bath robe and sweet
+smelling lotions and oils.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+say Welcome to my spa!
+say Come in, relax...
+smile 
+mpforce $n rest
+~
+>rand_prog 30~
+if rand (30)
+  mpecho Soft music makes your bones tingle.
+  mpasound You hear soft, soothing music.
+else
+  if rand (30)
+    mpecho The spa mistress rubs your shoulders.
+  else
+    mpecho The spa mistress pours warm mud on your back.
+  endif
+endif
+~
+>bribe_prog 100~
+mpjunk coins
+if level ($n) > 25
+  if quest (0,2,$n) > 0
+  else
+    smile 
+    say Hey, thanks for the tip...
+    look $n
+    say You look like a gambling person
+    say Would you by chance be interested in playing
+    say from the Deck of Many Things?
+  endif
+else
+  giggle 
+  say Come back when you're a little older
+  smile $n
+endif
+~
+>speech_prog yes~
+if level ($n) > 25
+  if quest (0,2,$n) > 0
+  else
+    say Good. It just so happens I know a way
+    say to get to the keeper of the deck
+    say He is an old mage, a friend of mine
+    say If you would like to give it a shot
+    say simply ask me to TRANSPORT you there
+  endif
+else
+  giggle 
+  say Come back when you're a little older
+  smile $n
+endif
+~
+>speech_prog transport~
+if level ($n) > 25
+  if quest (0,2,$n) > 0
+  else
+    nod 
+    say Good luck!
+    mpecho The spa mistress utters the words, 'tropsnart'.
+    mpmset $n quest 0 2 1
+    mpechoat $n You disappear suddenly!
+    mptransfer $n 5484
+    mpecho $n disappears suddenly!
+  endif
+else
+  giggle 
+  say Come back when you're a little older
+  smile $n
+endif
+~
+|
+#5405
+tourist~
+the tourist~
+A tourist walks here, enjoying the city.~
+The tourist looks to be well-off. His nose sticks up like an arrow in the
+air.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+67 BODY_HEAD BODY_LEG 1d1122+2256 1d67+23
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#5406
+dancing bard~
+the dancing bard~
+A bard is here, dancing and singing loudly.~
+The bard is fat and jolly and smells of ale.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+70 BODY_HEAD BODY_LEG 2d90+3000 1d70+25
+74998 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+mpecho The bard shakes his rump.
+mpecho The bard sings a drunken ballad.
+~
+|
+#5407
+harlot~
+the harlot~
+A lacey harlot stands here, smoking a long cigarette.~
+The harlot wears long red leggings and bright lipstick.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+70 BODY_HEAD BODY_LEG 2d90+3000 1d70+25
+49613 RACE_ORC
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 65~
+if sex ($n) == 1
+  say Hey there $n honey...
+  wink $n
+else
+  if sex ($n) == 2
+    if rand (40)
+      say Bitch!
+      slap $n
+    else
+      say Slut!
+      slap $n
+    endif
+  else
+    say Hmm.. you like it both ways there $n?
+  endif
+endif
+~
+|
+#5408
+beggar~
+the beggar~
+A beggar stands here with a cup, begging for coins.~
+The beggar looks filthy and sick.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+50 BODY_HEAD BODY_LEG 1d40+1700 2d10+30
+1 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,2,$n) == 1
+  say I am still poor my Lord $n
+  say Can I have some more money?
+else
+  if quest (6,2,$n) == 2
+    say Despite all of your kindness
+    say I STILL need money for food and clothing
+    say Can you spare me some money once again $n?
+  else
+    if rand (70)
+      say Can you spare a few measley coins $n?
+    else
+    endif
+  endif
+endif
+~
+>bribe_prog 100~
+mpjunk coins
+if quest (6,2,$n) == 0
+  mpmset $n quest 6 2 1
+  grin 
+  mpechoat $n The beggar flashes you!
+  mpechoaround $n The beggar flashes $n!
+  cackle 
+else
+  if quest (6,2,$n) == 1
+    thank $n
+    kiss $n
+    snicker 
+    mpmset $n quest 6 2 2
+  else
+    if quest (6,2,$n) == 2
+      say Thank you, thank you!!
+      shout $n is the KINDEST person in the Realms!!
+      say In return for your kindness
+      say there is something you should know
+      say Go to the Dead End cave and say 'yeee haww'
+      say The words will bless you with passage to Chakkor
+      grin 
+      mpmset $n quest 6 2 3
+    else
+    endif
+  endif
+endif
+~
+|
+#5409
+shopkeeper~
+the shopkeeper~
+A shopkeeper stands here, tending to the business.~
+The shopkeeper is young and well-disciplined. You notice that the business
+is family-owned.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#5410
+mayor~
+the mayor~
+The mayor of Moon City is here.~
+The mayor is a large man. He talks with a resonant, gutteral voice that
+fills the room.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+70 BODY_HEAD BODY_LEG 2d90+3000 1d70+25
+80165 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 65~
+say Hi there $n...
+say or shall I say:
+say $N
+laugh 
+~
+>rand_prog 30~
+say Have you seen the spider $r?
+~
+>speech_prog yes~
+say You did?!!
+say Wow! You got him?
+say way to go!
+cheer $n
+smile 
+say Way to go $n!
+~
+>speech_prog no~
+say Well he's a tough little critter...
+say He dwells in the city sewers
+say terrifying the honest denizens of our town
+say No one can catch him because he keeps crawling away!!
+say That spider is one nasty monster!
+~
+|
+#5411
+bartender~
+the bartender~
+A bartender stands here, wiping the counter.~
+The bartender has a large tattoo of a stein on his arm.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+if rand (30)
+  say Can I help you buddy?
+  mpechoat $r The bartender motions at you.
+  mpechoaround $r The bartender motions at $r.
+else
+  if rand (60)
+    mpecho Smoke fills the air.
+  else
+    mpecho Someone begins to sing and dance on a chair.
+    mpasound You hear someone singing.
+  endif
+endif
+~
+|
+#5412
+dragon tamer~
+the dragon tamer~
+A dragon tamer stands here, advertising his greatest catch.~
+The dragon tamer wears a black tophat and cane. He shouts loudly to the
+passing crowds, extolling the excitement of seeing the famed King of
+Dragons.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+70 BODY_HEAD BODY_LEG 2d90+3000 1d70+25
+39133 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+say Step right up $r!
+say For only 50000 coins you can see Bahamut!
+say King of the Dragons!
+say He is rumored to be six thousand years old!!
+say That's even older than Venom...
+wink 
+~
+>bribe_prog 500~
+mpjunk coins
+say Great, great!!
+say Step right into the cage here
+connect 1 5487
+mpecho The dragon tamer opens the cage.
+mpforce $n east
+connect 1 -1
+mpecho The dragon tamer closes the cage.
+~
+>all_greet_prog 100~
+if quest (4,2,$n) > 0
+  shout YOU KILLED MY DRAGON!!!
+  shout HOW DARE YOU!!
+  mpoload 5434
+  mpecho The dragon tamer pulls a long whip from his belt.
+  mpquiet on
+  wear whip
+  mpquiet off
+  mpkill $n
+else
+endif
+~
+>death_prog 100~
+mpmset $n quest 4 2 0
+~
+|
+#5413
+small dragon~
+the small dragon~
+A small, skinny dragon sits here, chained to the wall.~
+The small dragon is old and tired. You cannot see its eyes, only its long
+claws and platinum-like scales. He barely moves.. you begin to wonder if
+the dragon is even alive.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+10 BODY_HEAD BODY_LEG 1d25+81 1d10+6
+2872 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+mpechoat $r The small dragon snores loudly.
+~
+>death_prog 100~
+mpecho The skinny dragon lets out a LOUD yelp!
+mpmset $n quest 4 2 1
+~
+|
+#5414
+ethereal mob~
+the ethereal mob~
+The ethereal mob is here.~
+The ethereal mob should be invisible to you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES|AFF_ETHEREAL
+0 S
+90 BODY_HEAD BODY_LEG 1d10+8000 1d10+85
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog yeee haww~
+if quest (6,2,$n) == 3
+  mpechoat $n You disappear suddenly!
+  mptransfer $n 9755
+  mpat 9755 mpechoaround $n The room fills with the glory of $n.
+  mpecho $n disappears suddenly!!
+else
+endif
+~
+|
+#5415
+hooded mage~
+the hooded mage of Order~
+A hooded mage of Order stands here.~
+You cannot see the mage's face (and you're not completely sure it has
+one). It floats mysteriously and mumbles prayers to Order in a barely
+audible voice.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_TONGUES
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d10+120
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpforce $n look
+~
+>rand_prog 20~
+if rand (40)
+  say Order, logic and reason
+  say will help you greatly here
+  grin 
+else
+  say I also have a gift directly from Order himself!
+  say Give me 900 coins if you want it $r
+  say I need to make a living somehow!
+  smirk 
+endif
+~
+>bribe_prog 900~
+mpjunk coins
+mpoload 5427
+mpquiet on
+cast 'giant strength' $n
+mpquiet off
+give I5427 $n
+~
+>speech_prog order~
+cast sanctuary $n
+cast feast
+cast heal $n
+~
+>speech_prog logic~
+cast armor $n
+cast 'giant strength' $n
+cast heal $n
+~
+>speech_prog reason~
+cast shield $n
+cast bless $n
+cast heal $n
+~
+|
+#5416
+street kid~
+the street kid~
+A street kid stands here, staring at you.~
+The street kid looks a bit cleaner than the other kids on the street, but
+a bit more suspicious.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+65 BODY_HEAD BODY_LEG 2d50+3000 1d65+22
+34560 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+say Hey there $n
+say Wanna play a game of three-card monty?
+~
+>speech_prog yes~
+say Great! Just give me 500 coins and we can begin
+~
+>bribe_prog 500~
+mpjunk coins
+mpecho The street kid shuffles the three cards around the table.
+mpecho The street kid looks around.
+mpecho The street kid runs away!!
+mpecho You hear kids laughing.
+if inroom ($i) == 5477
+  mpgoto 5465
+else
+  if inroom ($i) == 5465
+    mpgoto 5477
+  endif
+endif
+~
+|
+#5417
+denizen~
+the denizen~
+A denizen of the city walks here.~
+The citizen regards you as a possible source of income.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+80 BODY_HEAD BODY_LEG 2d90+3910 1d80+33
+34560 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#5418
+trainer~
+the trainer~
+A trainer stands here, staring at you.~
+The trainer is small, yet strong and stocky.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+90 BODY_HEAD BODY_LEG 1d10+8000 1d10+85
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#5419
+practician~
+the practician~
+A practician stands here amongst the other guildsmen.~
+The practician has a deep, foreboding nature to him.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+120 BODY_HEAD BODY_LEG 1d4356+10429 1d132+89
+92510 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#5420
+denizen~
+the denizen~
+A denizen of the city walks here.~
+The citizen regards you as a possible source of income.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+80 BODY_HEAD BODY_LEG 2d90+3910 1d80+33
+34560 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#5421
+giant black spider~
+the giant black spider~
+A giant black spider crawls around here.~
+The spider is enoromous! It has thick, hairy legs and spews venom and web
+from an opening in it's mouth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+98 BODY_HEAD BODY_LEG 1d2401+8144 1d40+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpecho The giant black spider crawls up the wall!
+if inroom ($i) == 5497
+  mpgoto 5496
+else
+  if inroom ($i) == 5496
+    mpgoto 5493
+  else
+    if inroom ($i) == 5495
+      mpgoto 5492
+    else
+      if inroom ($i) == 5494
+        mpgoto 5497
+      else
+        if inroom ($i) == 5493
+          mpgoto 5495
+        else
+          if inroom ($i) == 5492
+            mpgoto 5494
+          else
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>fight_prog 33~
+mpechoaround $n The giant black spider spews venom at $n!!
+mpechoat $n The giant black spider spews venom at you!!
+mpquiet on
+cast 'poison' $n
+cast 'weaken' $n
+cast 'curse' $n
+cast 'faerie fire' $n
+cast 'acid blast' $n
+cast 'chill touch' $n
+cast 'mage blast' $n
+cast 'change sex' $n
+mpquiet off
+~
+>death_prog 100~
+mpecho The spider squeals loudly!!
+mpasound You hear a terrible sound!
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#5422
+cityguard guard~
+the cityguard~
+A cityguard of the city patrols here.~
+The cityguard seems more than willing to forget any transgressions, unless
+of course you're interfering with the harmony of the town.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_TONGUES
+0 S
+80 BODY_HEAD BODY_LEG 2d90+3910 1d80+33
+34560 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#5423
+chef~
+the chef~
+The chef of the Great Duck stands here, ready to serve you.~
+The chef is a portly but jolly fellow. He smiles brightly and is very well
+dressed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#5424
+inn keeper~
+the inn keeper~
+The inn keeper sits here, ready to serve.~
+The inn keeper smiles at you. He seems very welcoming.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+97 BODY_HEAD BODY_LEG 1d2352+7965 1d50+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#0
+
+
+#SHOPS
+5409 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_ARMOR ITEM_TYPE_FOOD ITEM_TYPE_TRASH  100  50  0 23
+5411 ITEM_TYPE_ARMOR ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_FOOD ITEM_TYPE_TRASH  100  50  0 23
+5423 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#5401
+deck many things~
+the deck of many things~
+The deck of many things lies here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 82
+A APPLY_DAMROLL 8 0
+A APPLY_SAVING_SPELL -7 0
+A APPLY_HITROLL 3 0
+#5402
+sun sword~
+the sun sword~
+A sword engulfed in blue-white fire lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 9 9 WEAPON_SLICE 0 0 0 0
+1 2000000 84
+#5403
+ray sword~
+the ray sword~
+A sword engulfed in blue-red fire lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 10 6 WEAPON_SLICE 0 0 0 0
+1 2000000 63
+#5404
+sun helmet~
+the sun helmet~
+A helmet engulfed in blue-white fire lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+17 0 0 0 0 0 0 0
+1 3000000 91
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 4 0
+A APPLY_SAVING_SPELL -3 0
+#5405
+ray helmet~
+the ray helmet~
+A helmet engulfed in blue-red fire lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+1 3000000 66
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 3 0
+A APPLY_SAVING_SPELL -3 0
+#5406
+deck cards~
+a deck of cards~
+A deck of cards lies here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 60
+A APPLY_MANA 45 0
+A APPLY_SAVING_SPELL -6 0
+#5407
+t-shirt glathkar's~
+a t-shirt from Glathkar's~
+A t-shirt from Glathkar's famous bar lies here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+1 1982 38
+#5408
+margarita~
+a margarita~
+A frosty margarita sits here.~
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 30 LIQ_FIREWATER 0 0 0 0 0
+1 500 10
+#5409
+pinacolada~
+a pinacolada~
+A fruity pinacolada sits here.~
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 30 LIQ_FIREWATER 0 0 0 0 0
+1 500 10
+#5410
+glass gin tonic~
+a glass of gin and tonic~
+A glass of gin and tonic sits here.~
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 30 LIQ_FIREWATER 0 0 0 0 0
+1 500 10
+#5411
+shot kamakazee~
+a shot of kamakazee~
+A kamakazee shot sits here.~
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 30 LIQ_FIREWATER 0 0 0 0 0
+1 500 10
+#5412
+fractured skull~
+a fractured skull~
+A fractured skull sits here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1000 CONT_CLOSEABLE -1 0 0 0 0 0
+1 35232 75
+#5413
+black spider helm~
+a black spider helm~
+A black helm lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+A APPLY_SAVING_SPELL -3 0
+#5414
+pair black spider leggings~
+a pair of black spider leggings~
+A pair of black leggings lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#5415
+pair black spider sleeves~
+a pair of black spider sleeves~
+A pair of black sleeves lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_HITROLL 4 0
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+#5416
+black spider bracer~
+a black spider bracer~
+A black bracer lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+#5417
+black spider boots~
+a pair of black spider boots~
+A pair of black spider boots lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#5418
+black spider ring~
+a black spider ring~
+A black ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#5419
+black spider cloak~
+a black spider cloak~
+A black cloak lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#5420
+black spider shield~
+a black spider shield~
+A black shield lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+#5421
+black spider flame~
+a black spider flame~
+A black flame sits here, burning.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 200000 82
+A APPLY_SAVING_SPELL -6 0
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 7 0
+#5422
+black spider girth~
+a black spider girth~
+A black girth lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+14 0 0 0 0 0 0 0
+1 200000 68
+A APPLY_HITROLL 4 0
+A APPLY_SAVING_SPELL -3 0
+A APPLY_DAMROLL 4 0
+#5423
+quench potion~
+the quench potion~
+A quench potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 199 199 199 0 0 0 0
+1 97653 64
+S 1 'refresh'
+S 2 'refresh'
+S 3 'refresh'
+#5424
+strength potion~
+the strength potion~
+A strength potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 119 23 0 0 0 0 0
+1 97653 88
+S 1 'giant strength'
+S 2 'bless'
+S 3 '-1 slot'
+#5425
+war potion~
+the war potion~
+A war potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 210 190 0 0 0 0 0
+1 97653 88
+S 1 'sanctuary'
+S 2 'protection evil'
+S 3 '-1 slot'
+#5426
+holy potion~
+the holy potion~
+A holy potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 113 132 178 0 0 0 0
+1 97653 64
+S 1 'fly'
+S 2 'haste'
+S 3 'pass door'
+#5427
+move potion~
+the move potion~
+The move potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 95 12 0 0 0 0 0
+1 97653 88
+S 1 'ethereal travel'
+S 2 'astral projection'
+S 3 '-1 slot'
+#5428
+salty potion~
+the salty potion~
+The salty potion sits here, stirring oddly.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+70 0 260 186 0 0 0 0
+1 97653 64
+S 1 '-1 slot'
+S 2 'weaken'
+S 3 'poison'
+#5429
+fountain~
+the fountain~
+A fountain is here spraying water into the air.~
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+100 10 1
+#5430
+gold sword~
+a gold sword~
+A gold sword lies here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 7 WEAPON_SLICE 0 0 0 0
+1 96700 60
+#5431
+ceaser salad~
+a ceaser salad~
+A ceaser salad lies on the ground here.~
+The salad is made from the freshest ingredients.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+1 9400 50
+#5432
+black agnus steak~
+a side of black agnus steak~
+A side of black agnus steak lies here.~
+The steak is seasoned with spices and onion. The correct name of this
+item is Angus, but the Chef refuses to rename his creation.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+11 0 0 0 0 0 0 0
+1 19400 50
+#5433
+noteboard~
+the noteboard~
+A noteboard stands here for posting messages.~
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+100 10 1
+#5434
+dragon whip~
+the dragon whip~
+A long, sleek whip of red fiber is here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 10 5 WEAPON_WHIP 0 0 0 0
+1 300000 55
+#0
+
+
+#ROOMS
+#5400
+An Ethereal Chambers~
+You arrive in a surreal donjon where the mortal laws of physics no longer
+apply. You are weak and tired and you find it difficult to breathe.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#5401
+The Sloped Trail~
+The trail descends into a small, plush tropical forest. The trees lack the
+typical bark and leaves. Instead, the long, thin braches are green with
+fuzzy ivy and juicey fruit. Strange spiked flowers grow out from small
+patches of green bushes and white mushrooms.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 5402
+DDIR_WEST
+~
+~
+0 -1 17501
+#5402
+The Edge of the Jungle~
+Herein begins the vast and varied foilage of a tropical rainforest. The
+plant and animal life cry out with the loud and crazed sounds of vigorous,
+exotic life. Innate, overflowing, wild and careless, the green vegetation
+creates in you the desire to discover and explore your own fleeting yet
+daring mortality.
+     A large rock sits here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 5488
+DDIR_EAST
+~
+~
+0 -1 5403
+DDIR_SOUTH
+~
+~
+0 -1 5489
+DDIR_WEST
+~
+~
+0 -1 5401
+E
+large rock~
+The rock:
+               _____________
+              /       1997  \
+             /  an           \
+            / E M P E R O R  /
+            \       area    /
+             \_____________/
+~
+#5403
+The Jungle Path~
+The path is short and congested, yet well-travelled. A vaulted structure
+of palms and bamboo looms overhead, almost as if placed purposefully by
+the native inhabitants.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 5404
+DDIR_WEST
+~
+~
+0 -1 5402
+#5404
+The Gates of Moon City~
+You stand before the enormous bamboo gates of Moon City. The bamboo seems
+forged, unreal. It is bound with steel coils and colorful ribbons which
+line the wall tips. The village, you determine, has a primitive motif that
+works well to engivorate your desite to relax.
+    A bamboo sign is here.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+~
+gate~
+EX_ISDOOR|EX_CLOSED -1 5406
+DDIR_WEST
+~
+~
+0 -1 5403
+E
+bamboo sign~
+The sign:
+      ________________________
+     (________________________)
+     (___W_E_L_C_O_M_E__T_O___)
+     (________________________)
+     (____M_O_O_N__C_I_T_Y____)
+     (________________________)
+                 ||
+                 ||
+                 ||
+                 ||
+~
+#5405
+A Guard Post~
+You stand in a room littered with hay. Assorted chains, wooden stools and
+various items suchs as buckets, brooms and nails lie randomly about the
+room. Light shines in through a barred window in the stone walls.
+Documents detailing patrolling schedules are nailed on the wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 5408
+#5406
+Inside the City~
+You now stand at the foot of the bustling city. You can see clearly that
+the bamboo and jungle appearance witnessed outside the city walls was a
+farce, a contrived environment to embellish the vacation lifestyle to be
+lived here. You are quite impressed.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5407
+DDIR_EAST
+~
+~
+0 -1 5483
+DDIR_SOUTH
+~
+~
+0 -1 5408
+DDIR_WEST
+~
+gate~
+EX_ISDOOR|EX_CLOSED -1 5404
+#5407
+The Barracks~
+Four wooden cots lie here alongside a long bench and a small pot in the
+corner of the room. The guard's belongings and armor are neatly arranged
+on racks against a back wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5406
+#5408
+Inside the City~
+Unlike other cities which you have visited in the past, this town seems
+very well managed: the odor of the streets is unrecognizable, trash is not
+to be seen, small streetside gutters prevent gaping puddles, and the
+street is lined with small flares that don't seem to run out.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5406
+DDIR_SOUTH
+~
+~
+0 -1 5409
+DDIR_WEST
+~
+~
+0 -1 5405
+#5409
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5408
+DDIR_EAST
+~
+~
+0 -1 5410
+#5410
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5411
+DDIR_EAST
+~
+~
+0 -1 5412
+DDIR_WEST
+~
+~
+0 -1 5409
+#5411
+Glathkar's Alehouse~
+You enter the largest alehouse you have ever seen in your life. The bar
+stretches the entire expanse of the enormous hall in which you stand,
+lined by three shelves worth of glassware: steins, wine and shot glasses,
+high and low balls of every make and design. Pictures line the walls of
+this crowded, smoke infested pub.
+     There is a sign here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5410
+E
+sign~
+The sign:
+        _________________________
+        |                       |
+        |      The Rules:       |
+        |                       |
+        |  * NO fighting        |
+        |  * NO spitting        |
+        |  * PLEASE settle all  |
+        |  tabs before leaving  |
+        |_______________________|
+                   ||
+                   ||
+                   ||
+~
+#5412
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5414
+DDIR_SOUTH
+~
+~
+0 -1 5413
+DDIR_WEST
+~
+~
+0 -1 5410
+#5413
+Acserf Inn~
+You enter a quaint wooden building that is very nicely furnished with
+paintings of places you recognize: the fountain in Roterodamum, the
+mountain of Savant Village, the gates of Entropy and the beaches of
+Mist City. The environment is peaceful and relaxing.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5412
+#5414
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5415
+DDIR_EAST
+~
+~
+0 -1 5416
+DDIR_WEST
+~
+~
+0 -1 5412
+#5415
+The Guild Hall~
+The hall in which you stand primarily consists of an auditorium and
+chairs, a library and a small practice room. It appears to be primarily a
+place for serious study.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5414
+#5416
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5418
+DDIR_SOUTH
+~
+~
+0 -1 5417
+DDIR_WEST
+~
+~
+0 -1 5414
+#5417
+The Training Hall~
+This hall, established here by the Mayor for the health and well-being of
+visitors to the city, is surprisingly well-kept and clean. Numerous
+facilities lie about for use in honing your physical attributes: rope,
+weights, a pool, track, altar, library, kitchen, and more. You feel ready
+to work.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5416
+#5418
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5461
+DDIR_SOUTH
+~
+~
+0 -1 5419
+DDIR_WEST
+~
+~
+0 -1 5416
+#5419
+The Alley~
+The flares no longer light your way down this back road in the village.
+Strange sounds come from all directions as you notice small desecrations
+in the walls surrounding the alley. Trash and litter abound.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5418
+DDIR_SOUTH
+~
+~
+0 -1 5420
+#5420
+The Alley~
+The flares no longer light your way down this back road in the village.
+Strange sounds come from all directions as you notice small desecrations
+in the walls surrounding the alley. Trash and litter abound.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5419
+DDIR_SOUTH
+~
+~
+0 -1 5421
+#5421
+The Southern Fountain~
+Alas, you find a small room in which to rest. The activities are so vast
+in the city as to make one easily fatigued within a short span of time.
+Roads run off in all directions.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5420
+DDIR_EAST
+~
+~
+0 -1 5432
+DDIR_WEST
+~
+~
+0 -1 5422
+#5422
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5423
+DDIR_EAST
+~
+~
+0 -1 5421
+DDIR_SOUTH
+~
+~
+0 -1 5424
+DDIR_WEST
+~
+~
+0 -1 5425
+#5423
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5422
+#5424
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5422
+#5425
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5422
+DDIR_WEST
+~
+~
+0 -1 5426
+#5426
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5427
+DDIR_EAST
+~
+~
+0 -1 5425
+DDIR_SOUTH
+~
+~
+0 -1 5428
+DDIR_WEST
+~
+~
+0 -1 5429
+#5427
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5426
+#5428
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5426
+#5429
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5426
+DDIR_WEST
+~
+~
+0 -1 5430
+#5430
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5485
+DDIR_EAST
+~
+~
+0 -1 5429
+DDIR_SOUTH
+~
+~
+0 -1 5431
+#5431
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5430
+#5432
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5433
+DDIR_WEST
+~
+~
+0 -1 5421
+#5433
+Mac Ave~
+You walk along a broad road with crooked cobblestone bricks of dark red
+texture. Villagers walk in all directions, oblivious to your existence.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5434
+DDIR_WEST
+~
+~
+0 -1 5432
+#5434
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5435
+DDIR_SOUTH
+~
+~
+0 -1 5433
+#5435
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5436
+DDIR_WEST
+~
+~
+0 -1 5434
+#5436
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5438
+DDIR_SOUTH
+~
+~
+0 -1 5437
+DDIR_WEST
+~
+~
+0 -1 5435
+#5437
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5436
+#5438
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5440
+DDIR_SOUTH
+~
+~
+0 -1 5439
+DDIR_WEST
+~
+~
+0 -1 5436
+#5439
+The Castle Pharmacy~
+You walk through the doorway and into a whole new rold of magic and
+alchemy: potions, wands, staves, rods, artifacts, scrolls, serums,
+antidotes, pills, and other magical items line the shelves.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5438
+#5440
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5442
+DDIR_SOUTH
+~
+~
+0 -1 5441
+DDIR_WEST
+~
+~
+0 -1 5438
+#5441
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5440
+#5442
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5444
+DDIR_SOUTH
+~
+~
+0 -1 5443
+DDIR_WEST
+~
+~
+0 -1 5440
+#5443
+The Stage~
+The atmospehre here is festive and light as all attention is focused on a
+small wooden stage. People laugh, sing, dance and lock arms in classic
+Moon City fashion as the music of Valdemarian bards entertains the drunken
+crowds gathered here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5442
+#5444
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5449
+DDIR_EAST
+~
+~
+0 -1 5445
+DDIR_WEST
+~
+~
+0 -1 5442
+#5445
+Leshe Street~
+The road is straight and well-paved. The economy seems to be thriving
+here: entrances to shops and residential homes line the street. People
+walk briskly in every direction, succumbing to the temptation of gambling
+and good times.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5446
+DDIR_WEST
+~
+~
+0 -1 5444
+#5446
+The Mayor's House~
+The palatial home of the mayor is much larger than the residential homes,
+and much more lavish. The ceiling, high and vaulted, is supported by
+smoothe marble pillars, the floor is covered by an ornate red carpet and
+the walls are draped with precisely-designed ancient tapestries.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5445
+DDIR_SOUTH
+~
+~
+0 -1 5447
+#5447
+The Mayor's Office~
+In front of you sits a massive oaken desk and leather chair. The seal of
+Moon City looms overhead, suspended by rope from the domed ceiling. The
+mayor's personal papers lie strewn about, along with a gavel, various
+paintings and other personal items of the mayor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5446
+DDIR_WEST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 5448
+#5448
+The Back Room~
+This room appears to be a vault of some sorts. It is relatively bare and
+crudely fashioned.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 5447
+#5449
+The Eastern Fountain~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5462
+DDIR_SOUTH
+~
+~
+0 -1 5444
+DDIR_WEST
+~
+~
+0 -1 5450
+#5450
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5451
+DDIR_EAST
+~
+~
+0 -1 5449
+DDIR_WEST
+~
+~
+0 -1 5453
+#5451
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5450
+#5452
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5453
+#5453
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5452
+DDIR_EAST
+~
+~
+0 -1 5450
+DDIR_WEST
+~
+~
+0 -1 5454
+#5454
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5455
+DDIR_EAST
+~
+~
+0 -1 5453
+DDIR_WEST
+~
+~
+0 -1 5456
+#5455
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5454
+#5456
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5457
+DDIR_EAST
+~
+~
+0 -1 5454
+DDIR_WEST
+~
+~
+0 -1 5458
+#5457
+A Resident's Home~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5456
+#5458
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5456
+DDIR_WEST
+~
+~
+0 -1 5459
+#5459
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5460
+DDIR_EAST
+~
+~
+0 -1 5458
+#5460
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5459
+DDIR_WEST
+~
+~
+0 -1 5461
+#5461
+Central Street~
+The street is bustling with activity. Horse carriages ride briskly past
+you, citizens of the city walk along the sides of the road, beggars,
+street magicians, animals and shady characters stream in every direction.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5460
+DDIR_WEST
+~
+~
+0 -1 5418
+#5462
+Bly Way~
+The sloped road beneath your feet looks newly paved with crushed rock and
+asphalt. Your attention wanders to the nearby vacinity. Paths lead off in
+all directions, mainly in the direction of local residences.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5463
+DDIR_WEST
+~
+~
+0 -1 5449
+#5463
+The Bend~
+The winding street looks well-travelled but narrow. Strangers brush by you
+as they walk past. You smell the scent of horses and livestock.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5462
+DDIR_WEST
+~
+~
+0 -1 5464
+#5464
+The Bend~
+The winding street looks well-travelled but narrow. Strangers brush by you
+as they walk past. You smell the scent of horses and livestock.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5465
+DDIR_EAST
+~
+~
+0 -1 5463
+DDIR_DOWN
+~
+sewer~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 5492
+#5465
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5464
+DDIR_WEST
+~
+~
+0 -1 5466
+#5466
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5467
+DDIR_EAST
+~
+~
+0 -1 5465
+DDIR_WEST
+~
+~
+0 -1 5468
+#5467
+Emperor's House~
+The room is designed as a tribute to the great clan Checkmate. Paintings,
+statues and busts of famous clanners line the room. Emperor's battle
+collectibles (weapons and other objects) line the room in small display
+cases. A sacred pattern lines the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5466
+E
+pattern~
+The pattern:
+   _____________________________
+  |                             |
+  |  C  h  E  c  K  m  A  t  E  |
+  |_____________________________|
+~
+#5468
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5466
+DDIR_WEST
+~
+~
+0 -1 5469
+#5469
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5470
+DDIR_EAST
+~
+~
+0 -1 5468
+DDIR_WEST
+~
+~
+0 -1 5471
+#5470
+The Great Duck~
+The scent of roast duck, aged wine, buttered fish and creamy pasta drives
+you insane with hunger. The environment is light and pleasing and the
+staff is jolly and ready to serve.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5469
+#5471
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5469
+DDIR_WEST
+~
+~
+0 -1 5472
+#5472
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5486
+DDIR_EAST
+~
+~
+0 -1 5471
+DDIR_SOUTH
+~
+~
+0 -1 5473
+DDIR_WEST
+~
+~
+0 -1 5474
+#5473
+The House of Cards~
+The building in which you stand is well-lit by golden lamps and bright
+tapestries. Paintings and statues decorate the numerous card tables and
+gambling games taking place here. Music plays loudly throughout the hall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5472
+#5474
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5472
+DDIR_WEST
+~
+~
+0 -1 5475
+#5475
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5476
+DDIR_EAST
+~
+~
+0 -1 5474
+DDIR_WEST
+~
+~
+0 -1 5477
+#5476
+The Lucky Spa~
+You enter a building filled with incense and strange smells that oddly
+clear your lungs. Grapes, wine, foods and other amenities lie strewn about
+on shelves, in boxes and on the floor. The ground is soft and gentle on
+your feet. Three giant baths sit here: one with hot water, and two with
+warm, steaming mud.
+   There is a sign here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5475
+E
+sign~
+The sign:
+     __________________________________
+    |                                  |
+    |  Tips Are GREATLY Appreciated!   |
+    |__________________________________|
+~
+#5477
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5475
+DDIR_WEST
+~
+~
+0 -1 5478
+#5478
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 5479
+DDIR_EAST
+~
+~
+0 -1 5477
+#5479
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 5478
+DDIR_WEST
+~
+~
+0 -1 5480
+#5480
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5479
+DDIR_WEST
+~
+~
+0 -1 5481
+#5481
+Northern Street~
+You walk along the northern avenue of the city where many of the gambling
+houses and various other establishments are located. The many buildings
+are stone or brick and quite spacious to accomodate the large crowds that
+vacation here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5480
+DDIR_SOUTH
+~
+~
+0 -1 5482
+DDIR_WEST
+~
+~
+0 -1 5483
+#5482
+The Temple~
+A temple is here for worship by the devoted citizens of the city, though
+you sense it is rarely used by the mass public. Statues and incense
+permeate the room. A domed ceiling depicts an interesting picture.
+~
+0 ROOM_ALTAR_N|ROOM_SAFE|ROOM_NOTE_BOARD SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5481
+#5483
+The Northern Fountain~
+Alas, you find a small room in which to rest. The activities are so vast
+in the city as to make one easily fatigued within a short span of time.
+Roads run off in all directions.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 5481
+DDIR_WEST
+~
+~
+0 -1 5406
+#5484
+A Dark Room~
+You stand upon a black formless floor that stretches into a sightless void
+of total darkness. The world is small and suspended, yet expansive and
+never-ending. Your direct area is lighted by two large burning torches.
+They illuminate a small oaken table and a mysterious figure of unknown
+origin.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+#5485
+A Resident's House~
+You stand in the home of one of the city's many citizens, most of whom
+work in a trade affiliated with gambling. Food cooks in a pot on an iron
+structure; wool blankets, wooden furniture and tiny items of little value
+furnish the rest of the home.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5430
+#5486
+The Dragon Show~
+You enter a colorful room of noise and pomp. Posters on the wall tell the
+legends of fierce dragons and extoll the virtues of Bahamut. A small
+wooden stage is here, between two golden banners, raised about a foot off
+the ground.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5472
+#5487
+The Dragon Cage~
+You arrive in a dismal cage that smells of droppings and discards. The
+walls are a dull grey color though small bars in a window allow small
+beams of light to sneak through. There is a small pile of hay in the
+corner of the cage.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 5486
+#5488
+The Jungle Path~
+The path is short and congested, yet well-travelled. A vaulted structure
+of palms and bamboo looms overhead, almost as if placed purposefully by
+the native inhabitants.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 5490
+DDIR_SOUTH
+~
+~
+0 -1 5402
+#5489
+The Jungle Path~
+The path is short and congested, yet well-travelled. A vaulted structure
+of palms and bamboo looms overhead, almost as if placed purposefully by
+the native inhabitants.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 5402
+DDIR_EAST
+~
+~
+0 -1 5491
+#5490
+The Jungle Path~
+The path is short and congested, yet well-travelled. A vaulted structure
+of palms and bamboo looms overhead, almost as if placed purposefully by
+the native inhabitants.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 5488
+#5491
+The Jungle Path~
+The path is short and congested, yet well-travelled. A vaulted structure
+of palms and bamboo looms overhead, almost as if placed purposefully by
+the native inhabitants.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+~
+~
+0 -1 5489
+#5492
+The City Sewer~
+You are surprised to discover such a sophisticated network of underground
+tunnels. They are dark and wet, causing you to ponder the wisdom of
+proceeding any further.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5493
+DDIR_UP
+~
+sewer~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 5464
+#5493
+Beneath the City~
+The wet tunnel leads on into the vast darkness. Strange sounds echo
+throughout the chambers. Each cavern seems to be carved from solid rock,
+though the ground consists of a soft, brown mud that sticks to your boots.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5492
+DDIR_SOUTH
+~
+~
+0 -1 5494
+#5494
+Beneath the City~
+The wet tunnel leads on into the vast darkness. Strange sounds echo
+throughout the chambers. Each cavern seems to be carved from solid rock,
+though the ground consists of a soft, brown mud that sticks to your boots.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5493
+DDIR_EAST
+~
+~
+0 -1 5495
+#5495
+A Wet Tunnel~
+You wander about the leaky, endless tunnels beneath the city. Each room
+looks exactly like the last, dark black rock-like walls with a soft, muddy
+floor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 5496
+DDIR_WEST
+~
+~
+0 -1 5494
+#5496
+A Wet Tunnel~
+You wander about the leaky, endless tunnels beneath the city. Each room
+looks exactly like the last, dark black rock-like walls with a soft, muddy
+floor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5497
+DDIR_SOUTH
+~
+~
+0 -1 5498
+DDIR_WEST
+~
+~
+0 -1 5495
+#5497
+A Dark Cavern~
+You wander about the leaky, endless tunnels beneath the city. Each room
+looks exactly like the last, dark black rock-like walls with a soft, muddy
+floor.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 5496
+#5498
+A Dead End~
+Your path ends abruptly here. The tunnel, now relatively dry, leads back
+into the muddy caves and eventually to the city surface. Nonetheless, you
+feel a strange sense of something peculier lurking in the shadows of this
+room.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 5496
+#5499
+The Hole of Order~
+Where exists reason, dwells Order and his legion.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 5498
+#0
+
+
+#RESETS
+M 5401 100 5473
+M 5402 100 5484
+E 5401 999 WEAR_HOLD
+M 5403 100 5400
+M 5404 100 5476
+M 5405 100 5449
+M 5405 100 5468
+M 5405 100 5465
+M 5405 100 5474
+M 5405 100 5443
+M 5405 100 5434
+M 5405 100 5434
+M 5405 100 5420
+M 5405 100 5418
+M 5405 100 5408
+M 5405 100 5475
+M 5405 100 5486
+M 5405 100 5470
+M 5405 100 5471
+M 5405 100 5466
+M 5405 100 5478
+M 5406 100 5443
+M 5406 100 5443
+M 5406 100 5443
+M 5407 100 5443
+M 5407 100 5433
+M 5407 100 5464
+M 5408 100 5440
+M 5408 100 5460
+M 5409 100 5439
+G 5423 999 0
+G 5424 999 0
+G 5425 999 0
+G 5426 999 0
+G 5428 999 0
+M 5410 100 5447
+M 5411 100 5411
+G 5407 999 0
+G 5408 999 0
+G 5409 999 0
+G 5410 999 0
+G 5411 999 0
+M 5412 100 5486
+M 5413 100 5487
+M 5414 100 5498
+M 5416 100 5429
+M 5416 100 5465
+M 5416 100 5477
+M 5417 100 5423
+M 5417 100 5423
+M 5417 100 5424
+M 5417 100 5427
+M 5417 100 5428
+M 5417 100 5431
+M 5417 100 5434
+M 5417 100 5437
+M 5417 100 5441
+M 5417 100 5485
+M 5417 100 5451
+M 5417 100 5452
+M 5417 100 5455
+M 5417 100 5457
+M 5417 100 5462
+M 5417 100 5480
+M 5417 100 5468
+M 5417 100 5442
+M 5417 100 5440
+M 5417 100 5438
+M 5417 100 5436
+M 5417 100 5435
+M 5417 100 5410
+M 5417 100 5430
+M 5417 100 5429
+M 5417 100 5426
+M 5417 100 5422
+M 5417 100 5433
+M 5417 100 5414
+M 5417 100 5461
+M 5418 100 5417
+M 5419 100 5415
+M 5420 100 5423
+M 5420 100 5425
+M 5420 100 5432
+M 5420 100 5438
+M 5420 100 5474
+M 5420 100 5406
+M 5420 100 5450
+M 5420 100 5450
+M 5417 100 5453
+M 5417 100 5454
+M 5417 100 5456
+M 5417 100 5458
+M 5417 100 5459
+M 5421 100 5497
+E 5413 999 WEAR_HEAD
+E 5414 999 WEAR_LEGS
+E 5415 999 WEAR_ARMS
+E 5416 999 WEAR_WRIST_L
+E 5417 999 WEAR_BODY
+E 5418 999 WEAR_HOLD
+E 5419 999 WEAR_NECK_A
+E 5420 999 WEAR_SHIELD
+E 5421 999 WEAR_LIGHT
+E 5422 999 WEAR_ABOUT
+M 5422 100 5407
+E 5430 999 WEAR_HEAD
+M 5422 100 5407
+E 5430 999 WEAR_HEAD
+M 5422 100 5405
+E 5430 999 WEAR_HEAD
+M 5422 100 5405
+E 5430 999 WEAR_HEAD
+M 5423 100 5470
+G 5431 999 0
+G 5432 999 0
+M 5424 100 5413
+O 5406   1 5448
+O 5412   1 5448
+O 5429   1 5483
+O 5429   1 5421
+O 5429   1 5449
+O 5433   1 5482
+D 5447 DIR_WEST  DOOR_CLOSED
+D 5448 DIR_EAST  DOOR_CLOSED
+D 5404 DIR_EAST  DOOR_CLOSED
+D 5406 DIR_WEST  DOOR_CLOSED
+D 5492 DIR_UP    DOOR_CLOSED
+D 5464 DIR_DOWN  DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

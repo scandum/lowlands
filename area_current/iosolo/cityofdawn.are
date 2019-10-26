@@ -1,0 +1,5433 @@
+#AREA Dawn City~
+#AUTHORS Oren~
+#VERSION 4
+#RANGES 90 95 1 95
+#OLC_RANGES 44100 44299
+#RESETMSG The tree limbs begin to creak.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_AUTOSAVE|AFLAG_WEATHER
+#WEATHER -5 30 20 3 4
+
+
+#HELPS
+0 "DAWN CITY"~
+{120}                       Dawn City
+{300}
+Dawn city is located in the southern region of Iosolo it is one of the largest
+cities in that region.  The city is made up of mostly an elven population that
+pay homage to their god Order. The people there are peaceful and enjoy a strong
+love of nature and its surroundings.  The city has fallen on dark times and is
+in the need of heroes to help in its fight against evil.  The city borders the
+North Woods, a strange and magical place that few have ever visited.  Dawn City
+lies quite remote from the battles to the east with Lessiah City, so the people
+there don't feel many affects of the war, but they have their own troubles and
+perhaps you can help them.
+
+{120}  (A) {050}Quests
+{120}  (B) {050}Rewards
+{120}  (C) {050}Creator's Notes
+{a}DAWNCITY1
+{b}DAWNCITY2
+{c}DAWNCITY3
+~
+
+0 DAWNCITY1~
+There are several quests in dawn city including the major one that aids the
+people of the city against evil.  Most of these quests require 95th level
+characters and the more reincarnations the better.  They take patience,
+cunning, and raw strength at times.  They should be entertaining so good luck.
+It should also be noted that the quests in the North Woods and Dawn City are
+multiple area quests so the quests will take one to both areas quite often.
+~
+
+0 DAWNCITY2~
+There are many rewards that can be obtained in Dawn City and the North Woods
+the rewards are combined just as the quests are.  There are several items
+mostly for large reincarnate to be found in the major quests.  The most
+sought after one perhaps is the shield of the ancients a relic that Order
+himself once used in battle along with many of his avatars.
+~
+
+0 DAWNCITY3~
+Dawn City and the North Woods are for very advanced players I would not
+recommend bringing newer players here unless they are a very advanced
+group of players.  I would also recommend bringing only reincarnated
+characters into the areas for there is much danger there.
+~
+
+0 $~
+
+
+#MOBILES
+#44100
+male citizen M44100~
+a male citizen~
+A male citizen of Dawn is here.~
+This citizen wears green and brown clothing.  He wanders around the city minding
+his own business.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_BLIND
+0 S
+75 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_HAND|BODY_FOOT 1d1406+2892 1d75+30
+125000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+#44101
+female citizen M44101~
+a female citizen~
+A female citizen of Dawn is here.~
+This citizen wears a brown dress.  She wanders about doing her daily business.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_BLIND
+0 S
+75 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_HAND|BODY_FOOT 1d1406+2892 1d75+30
+125000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+#44102
+emmit traveller leader m44102~
+a caravan master~
+A tired, old traveller is here.~
+This tired old man, looks like he is on his last leg.  He is wearing dusty
+travelling clothing and carries a walking stick.  He is nursing several wounds
+to his torso and legs.  He looks as if he needs healing aid.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+10 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_HEAD|BODY_HAND|BODY_FOOT 1d25+51 1d10+2
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if inroom ($n) == 44100
+  mpecho {070}You notice a wounded traveller here, moaning in pain.
+  say Unnngh...  Be weary for the woods south of here are infested with horrible beasts...
+  mpecho {070}The traveller grabs his side and winces in great pain.
+  say These damn beasts!
+endif
+if hasobjnum ($n) == 44156
+  if hasobjnum ($n) == 44146
+    if quest (8,4,$n) == 5
+      mpmset $n quest 8 4 6
+      say Damn, $n where did you get those fragments.  I might happen to know where to find another fragment just like that if you are willing to help us out.  What do you say?
+    endif
+  endif
+endif
+~
+>speech_prog beasts~
+say Yeah, we cannot get to the city because of these damn beasts I hope the local militia can kill them soon.
+~
+>delay_prog 1~
+mpmadd self quest 0 4 1
+if quest (0,4,$i) < 5
+  if existsroom (M44103)
+    mpecho {078}The Demonic Wolf pounces at the caravan!
+    mppurge i44145
+    mpforce M44103 kill M44102
+    break
+  endif
+  if existsroom (M44104)
+    mpecho {078}The Demonic Spider pounces at the caravan!
+    mppurge i44145
+    mpforce M44104 kill M44102
+    break
+  endif
+  mpdelay self 2 1 $X
+  break
+endif
+if !existsroom ($X)
+  shout Eeek!  I'm lost!
+  mppurge i44145
+  mppurge self
+  break
+endif
+if inroom ($i) == 44115
+  if quest (8,4,$t) == 8
+    mpmset $t quest 8 4 9
+    say Thanks $t!  You have lead us to the city safely!
+    say As promised here is the fragment of the orb you were seeking!
+    mpoload 44157
+    give i44157 $t
+    say We can find the way from here!  Thanks again!
+  endif
+  mpecho The caravan enters the city...
+  mppurge i44145
+  mppurge self
+  break
+endif
+if findpath (44115,10)
+  mpmset self quest 0 4 0
+  mppurge i44145
+  mpdo $D
+  mpoload 44145
+  mpdelay self 2 1 $X
+~
+>speech_prog accept~
+if quest (8,4,$n) == 7
+  mpmset $n quest 8 4 8
+  say Great, well clean us a path and return and tell us when you are ready!
+  mpecho {070}The Caravan Master prepares the caravan to move.
+endif
+~
+>speech_prog help~
+if quest (8,4,$n) == 6
+  mpmset $n quest 8 4 7
+  say Thats great $n!  The problem we have is we can't get through the forest because the beasts ravage our caravan!  If you could clear a path for us to get through that would be what we need...  Then lead us safely to the city and I will gladly give you the fragment I have.
+  smile 
+  say Do you accept the task?
+endif
+~
+>speech_prog ready~
+if quest (8,4,$n) == 8
+  say Okay, lets get this caravan moving!  Make sure you accompany us to make sure no beasts attack $n.
+  mpecho {070}The Caravan Master starts the caravan on the move...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+|
+#44103
+demonic wolf m44103~
+a demonic wolf~
+A foul looking wolf with red eyes is here.~
+This foul wolf is three times the size of a normal wolf and it is tainted with
+evil.  It has red glowing eyes and has deformed horns growing from its head.  It
+is in a foul mood and ready for a meal.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_INVISIBLE|AFF_TRUESIGHT|AFF_SNEAK|AFF_HUNT
+-1000 S
+100 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HORN|BODY_CLAW BODY_MOUTH|BODY_HORN|BODY_CLAW 1d2500+5510 1d100+52
+100000 RACE_WEREWOLF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if hasobjnum ($n) == 44105
+  mpechoat $n {070}The demonic wolf cowers from you.
+  mpechoaround $n {070}The demonic wolf cowers away from $n.
+else
+  mpecho {010}The demonic wolf glares hungrily and attacks!
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 3
+  if quest (4,4,$n) < 10
+    mpmadd $n quest 4 4 1
+    mpecho {010}The soul of the wolf is released.
+  endif
+endif
+~
+>entry_prog 100~
+if hasobjnum ($r) == 44105
+  mpechoat $r {070}The demonic wolf cowers from you.
+  mpechoaround $r {070}The demonic wolf cowers away from $r.
+else
+  mpechoat $r {010}The demonic wolf stares at you hungrily and attacks!
+  mpechoaround $r {010}The demonic wolf stares at $r hungrily and attacks!
+  mpkill $r
+endif
+~
+>fight_prog 20~
+mpecho {010} A demonic wolf howls an evil cry!
+mpquiet on
+cast 'confusion' $r
+cast 'curse' $r
+mpquiet off
+~
+|
+#44104
+demonic spider m44104~
+a demonic spider~
+A demonic spider with bright red eyes is here.~
+This giant spider is tainted with evil.  Its eyes are bright red and its has
+a hairy black thorax and long legs.  It has enormous fangs on its mouth that
+could deliver quite the bite and you are in luck it seems hungry!
+~
+ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_TRUESIGHT|AFF_SNEAK
+-1000 S
+100 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_PINCERS|BODY_SPINNARET BODY_MOUTH|BODY_PINCERS 1d2500+5510 1d100+52
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if hasobjnum ($n) == 44105
+  mpechoat $n {070}The demonic spider cowers from you.
+  mpechoaround $n {070}The demonic spider cowers away from $n.
+else
+  mpecho {010}The demonic spider springs to attack!
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 3
+  if quest (4,4,$n) < 10
+    mpmadd $n quest 4 4 1
+    mpecho {010}The soul of the spider is released.
+  endif
+endif
+~
+>entry_prog 100~
+if hasobjnum ($r) == 44105
+  mpechoat $r {070}The demonic spider cowers from you.
+  mpechoaround $r {070}The demonic spider cowers away from $r.
+else
+  mpechoat $r {010}The demonic spider stares at you hungrily and attacks!
+  mpechoaround $r {010}The demonic spider stares at $r hungrily and attacks!
+  mpkill $r
+endif
+~
+>fight_prog 20~
+mpechoat $r {030}A demonic spider fires a silky web at you!
+mpechoaround $r {030}A demonic spider fires a silky web at $r!
+mpquiet on
+cast 'slow' $r
+cast 'earthbind' $r
+cast 'weaken' $r
+mpquiet off
+~
+|
+#44105
+nomad~
+a nomad~
+A travel-worn nomad is here working about the camp.~
+This nomad wears strange clothing from a land far away.  He wears a turban on
+his head and doesn't take much notice of you as you glance him over.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SNEAK
+0 S
+85 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 1d1806+3821 1d85+38
+25000 RACE_HOBBIT
+POS_STANDING POS_STANDING SEX_MALE
+#44106
+nomad~
+a nomad~
+A nomad is here.~
+This nomad is dressed in robes and a turban.  He looks quite tired...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SNEAK
+0 S
+85 BODY_HEAD|BODY_MOUTH|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_FOOT BODY_HAND|BODY_FOOT 1d1806+3821 1d85+38
+25000 RACE_HOBBIT
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#44107
+nomad guard m44107~
+a nomad guard~
+A nomad guard is here standing post.~
+This nomad guard is wearing studded leather armor and wields a spear
+mainly as a walking stick it seems, because he looks like he prefers to fight
+hand to hand.  He keeps a close eye on you as you are here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SNEAK
+0 S
+95 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d2256+4906 1d95+47
+45000 RACE_HOBBIT
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 90~
+if quest (12,4,$n) == 0
+  glare $n
+endif
+~
+|
+#44108
+shaman jafar m44108~
+Jafar the Shaman~
+A white robed man stands here before you.~
+This rather large elf is wearing clean white robes and a bandana around his
+head.  He has dark brown hair and holds a gnarled staff.  He wears a silk belt
+around his waist and wears brown sandals.  He has the look of a very wise man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+120 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d3600+8362 1d120+74
+125000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if quest (12,4,$n) == 0
+  mpmset $n quest 12 4 1
+  say Greetings stranger.  Impressive that you could fight your way through the woods to the north in one piece.  I thought only us nomad's knew the safe way...
+  grin 
+  say If only we knew the way to cure our sickness...
+endif
+~
+>speech_prog sickness~
+if quest (12,4,$n) == 1
+  mpmset $n quest 12 4 2
+  say Yes it seems our camp has fallen ill to a strange sickness.  I've sent a messanger to the city to see the priestess, Lilandra to aid us with our plight, but he has not returned and it has been several days.
+  sigh 
+  say If you would help us find a cure our clan would be indebted to you $n.
+endif
+~
+>speech_prog help~
+if quest (12,4,$n) == 2
+  mpmset $n quest 12 4 3
+  say Oh, thank you $n.  I pray you can help us.
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say The illiness came shortly after the darkness fell in the forest.  We found a way to deal with the evil monsters, but we couldn't stop the spreading illness.
+    case 2
+      sigh 
+      say Several of our clan has already passed on from this terrible disease.  We sent one of our strongest warriors, as I said before, to seek aid in the city but we haven't heard from him....
+    case 3
+      say So if you could travel to Dawn and seek out Lilandra to see if she can help us with our disease...
+    case 4
+      say Please take this message to her so she can fully understand our sickness.  Then give it to Lilandra then I hope she can help us.  Please hurry...
+      mpoload 44147
+      drop i44147
+      mpecho {070}Jafar begins to cough loudly.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>give_prog i44153~
+if quest (12,4,$n) == 10
+  mpmset $n quest 12 4 11
+  mpjunk i44153
+  say Thank you so much $n!!  This balm should be the cure we are looking for!  Let me try it.
+  mpdelay self 6 2 $n
+  mpmset self quest 0 4 1
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}Jafar applies the balm to himself.
+    case 2
+      mpecho {070}The sores begin to slowly disappear and Jafar is getting better.
+    case 3
+      say It seems to be working!
+      say We will apply this to the entire tribe!
+    case 4
+      mpecho {070}Jafar gives the vial to a guard to apply to the others.
+      say Now I am thinking you deserve a reward.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 2 $X
+endif
+~
+>speech_prog reward~
+if quest (12,4,$n) == 11
+  mpmset $n quest 12 4 12
+  say Of course a reward!!  Take this it will help you with those bad monsters in the forest to the north.
+  mpoload 44105
+  give i44105 $n
+  say Also take this for your efforts!  Thanks again for all your help $n!  We won't forget what you did.
+  smile 
+  mpoload 44154
+  give i44154 $n
+endif
+~
+|
+#44109
+pond fiend~
+a pond fiend~
+A massive, fiendish squid-like creature is here.~
+This large squid-like beast has eight tentacles that flail about striking
+anything that it can find.  Its skin is dark black and its eyes are white as
+a pearl.  It looks quite menacing and looks like it wants to eat you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY
+AFF_TRUESIGHT|AFF_PROTECT_EVIL|AFF_PROTECT_GOOD|AFF_STEALTH
+0 S
+150 BODY_HEAD|BODY_TENTACLE|BODY_PINCERS BODY_MOUTH|BODY_TENTACLE 1d5625+14072 1d150+114
+250000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 33~
+mpechoat $r {040}The fiend squirts ink at you!
+mpechoaround $r {040}The fiend squirts ink at $r!
+mpquiet on
+cast 'blindness' $r
+mpquiet off
+mpdamage $r 450 1000 ink blast
+~
+|
+#44110
+elf sentry m44110~
+an elven sentry~
+An elven sentry stands guard here.~
+This elven woman is wearing chain armor.  She wields a long bow and a short
+sword at her side.  She wears a bronze helmet and is ready for battle.  She
+guards this outpost.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+500 S
+110 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d3025+6846 1d110+62
+150000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 20~
+~
+|
+#44111
+pusher1 m44111~
+a pusher~
+An Ethereal Mob (Pusher) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 50~
+mpechoat $r {070}The current of the waterfall pushes you downstream.
+mpechoaround $r {070}The current of the waterfall pushes $r downstream.
+mpquiet on
+mpforce $r stand
+mpforce $r west
+mpquiet off
+~
+|
+#44112
+current m44112~
+a current west~
+An Ethereal Mob (Current West) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 33~
+mpechoat $r {070}The creek's current pulls you downstream.
+mpechoaround $r {070}The creek's current pulls $r downstream.
+mpquiet on
+mpforce $r stand
+mpforce $r west
+mpquiet off
+~
+|
+#44113
+pusher3 m44113~
+a current south~
+An Ethereal Mob (Current South) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 33~
+mpechoat $r {070}The current of the waterfall pushes you downstream.
+mpechoaround $r {070}The current of the waterfall pushes $r downstream.
+mpquiet on
+mpforce $r stand
+mpforce $r south
+mpquiet off
+~
+|
+#44114
+pusher4 m44114~
+a current up~
+An Ethereal Mob (Current Up) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 75~
+mpechoat $r {070}A strong current from below pushes you to the surface.
+mpechoaround $r {070}A strong current from below pushes $r to the surface.
+mpquiet on
+mpforce $r stand
+mpforce $r up
+mpquiet off
+~
+|
+#44115
+rapids1 m44115~
+a rapids~
+An Ethereal Mob (Rapids) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 50~
+mpechoat $r {070}You are drug downstream through the rapids!
+mpechoaround $r {070}$r is drug downstream through the rapids!
+mpechoat $r {010}The rapids cut you up!
+mpmadd $r currhp -400
+mpquiet on
+mpforce $r stand
+mpforce $r west
+mpquiet off
+~
+|
+#44116
+rapids2 m44116~
+a rapids ~
+An Ethereal Mob (Rapids Rough) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 66~
+mpechoat $r {010}You are drug through the rapids down towards the waterfall!
+mpechoaround $r {010}$r is drug through the rapids down towards the waterfall!
+mpmadd $r currhp -750
+mpquiet on
+mpforce $r stand
+mpforce $r west
+mpquiet off
+~
+|
+#44117
+faller m44117~
+a faller~
+An Ethereal Mob (Faller) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 90~
+mpechoat $r {040}You are sucked under the waterfall!
+mpmadd $r currhp -1000
+mpquiet on
+mpforce $r stand
+mpforce $r down
+mpquiet off
+~
+|
+#44118
+fisherman citizen m44118~
+a fisherman~
+An elven fisherman is fishing on the bridge.~
+This elven man wears common clothing and his holding a fishing pole over the
+edge of the bridge.  He wears a brown cap on his head and carries a backpack.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+95 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND 1d2256+4906 1d95+47
+75000 0
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 75~
+if quest (12,4,$n) == 0
+  say Impressive you've gotten through those woods, unharmed, only you and those nomads seem to know the secret of getting through there I suppose...
+  mpecho {070}The fisherman casts his line over the side of the bridge.
+endif
+~
+>speech_prog trout~
+if quest (12,4,$n) == 5
+  mpmset $n quest 12 4 6
+  say Hrmmm, trout, there are plenty of em in this creek but they just aren't biting right now, I think I'm using the wrong bait...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say I used to use angle worms but they just aren't taking it...
+    case 2
+      say I think I need to get some needle worms, but they are hard to find.  The only way to find em is to dig.
+      ponder 
+    case 3
+      say I guess if you don't mind you could dig me some and I'll see about getting you that trout!
+      mpecho {070}The fisherman rummages through his sack.
+    case 4
+      mpoload 44148
+      drop i44148
+      say Here grab that spade and dig up some needle worms.  When you find some give em to me and I'll catch you that trout, good luck.
+      mpecho {070}The fisherman casts his line into the creek.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}The fisherman baits his hook with one of the needleworms.
+    case 2
+      mpecho {070}He casts his line into the creek.
+    case 3
+      mpecho {070}No bites yet...
+    case 4
+      mpecho {070}No bites yet...
+    case 5
+      mpecho {070}No bites yet...
+    case 6
+      mpecho {070}The line twitches a bit...
+    case 7
+      say I got one!!!
+      mpecho {070}The fisherman begins to reel in his line...
+    case 8
+      mpecho {070}You see a large trout on the end of his hook!
+      say Well look at that I caught a big one!
+    case 9
+      mpecho {070}The fisherman removes the hook from the trout's mouth.
+      say Well this one is yours I hope you enjoy it!  Thanks for the worms...
+      say ...you'll need a knife to filet that fish if you want the scales though.
+      mpoload 44150
+      drop i44150
+      mpecho {070}The fisherman returns to his fishing...
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 2 $X
+endif
+~
+>give_prog i44149~
+if quest (12,4,$n) == 7
+  mpmset $n quest 12 4 8
+  mpjunk i44149
+  say Well, I'll be damned, you found the worms.  Well let me get right to work for ya!
+  mpmset self quest 0 4 1
+  mpdelay self 6 2 $n
+endif
+~
+|
+#44119
+elf kane brahama m44119~
+Kane Brahama~
+A tall elven man stands here ordering troops.~
+This elven man has long brown hair and green eyes.  He wears shiny silver
+chainmail under his cloak and wears an elven longbow on his back.  He also
+dons a silver helmet on his head.  He has the look of a honorable and well
+respected man.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY
+1000 S
+125 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d3906+9189 1d125+80
+200000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  say Greetings, stranger its very impressive that you made it through those dangerous woods without being killed...
+  smile 
+  say The woods to the east have been infested with evil beasts for quite sometime and we need help exterminating them for travellers and merchants find it nearly impossible to enter the city without fear of constant attack.  I wish there was something that we could do about those monsters...
+endif
+if quest (4,4,$n) == 10
+  mpmset $n quest 4 4 11
+  say Oustanding $N!  You've killed many of the evil beasts.  Now the caravans were able to travel through the woods unharmed for now, until they come back...  But for now we are indebted to you!  Take this gift as a reward.
+  mpoload 44144
+  give i44144 $n
+  say You should visit our high priestess if you have the time, she can be very enlightening.  I'll see you around $n.
+endif
+if quest (8,4,$n) == 9
+  if hasobjnum ($n) == 44156
+    if hasobjnum ($n) == 44146
+      if hasobjnum ($n) == 44157
+        say Wow you have all three of the fragments, you'll need to find a wizard to meld those for you, I'd look in the North Woods for such a wizard.
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog monsters~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  mpecho {070}Kane looks around cautiously.
+  say Yeah the woods east of the city is infested with demonic beasts...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 1
+    say One day a dark cloud coming from the North Woods hovered over our great city and in the following days these once peaceful woods were infested with evil monsters that killed anything that moved.
+  endif
+  if quest (0,4,$i) == 2
+    say Ever since then we have had to deal with these ghastly beasts.  We have built outposts at the entrances of the city to fend off any attacks from them.
+  endif
+  if quest (0,4,$i) == 3
+    say But merchants have stopped coming to trade their goods so it has put our city in an isolated state.
+    sigh 
+  endif
+  if quest (0,4,$i) == 4
+    say Well if you could kill some of the beasts so caravans can enter the city I would be indebted to you.  Will you help us?
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 2
+  mpmset $n quest 0 4 3
+  say Thats outstanding $n!  When you are finished return to me.  Good Luck.
+  mpecho {070}Kane returns to his duties.
+endif
+~
+>speech_prog p orbs of power~
+if quest (16,8,$n) == 3
+  mpmset $n quest 16 8 4
+  say Orbs of Power you say!  I was the last one to see the orbs before they were taken to be destroyed...
+endif
+~
+>speech_prog destroyed~
+if quest (16,8,$n) == 4
+  mpmset $n quest 16 8 5
+  mpecho {070}Kane looks towards the sky.
+  say Yes, the evil one tried to destroy the orbs but his power couldn't totally destroy the orbs.
+  mpmset self quest 0 4 1
+  mpdelay self 6 2 $n
+endif
+~
+>speech_prog accept~
+if quest (16,8,$n) == 5
+  mpmset $n quest 16 8 6
+  say Thanks, $n.  You are very brave to accept this quest knowing of its dangers.  Here take this fragment of the broken orb.
+  mpoload 44146
+  give i44146 $n
+  say Remember there are two more pieces to that orb which whereabouts are unknown.  When you find them you'll need the powers of a great wizard to combine them into one again.  Ask the townsfolk about the orbs of power maybe they can give you more information on where they may be.  Good luck $n and may Order watch over you in your travels.
+  mpecho {070}Kane returns to his duties.
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  if quest (0,4,$i) == 1
+    say The evil one stole the orbs and began a ritual to destroy their magical properties so the woods and the surrounding area would be shrouded with evil...
+  endif
+  if quest (0,4,$i) == 2
+    grin 
+    say ...but the orbs were too powerful for his magic.  He was able to shatter one of the orbs into three pieces but their powers remained.  In rage he flung the others into North Woods.
+  endif
+  if quest (0,4,$i) == 3
+    say Rumors have spread that over the years some of the orbs have turned up around the city.  It is said a scavenger found one in the woods while hunting for food and sold it to one of the wealthier citizens of the city...
+  endif
+  if quest (0,4,$i) == 4
+    say ...as for the other complete orbs I'm not sure if they were ever found in the woods at all.  As for the orb that was shattered I was able to recover one of the three pieces myself.  The other two pieces I do not know where they may be...
+  endif
+  if quest (0,4,$i) == 5
+    say If you are willing to find the orbs we would be indebted to you my friend.  Will you accept this task?
+    break
+  endif
+  mpdelay self 8 2 $X
+  mpmadd self quest 0 4 1
+endif
+~
+|
+#44120
+armorer jack m44120~
+Jack the Armorer~
+A large half elf is here, working.~
+This large man has bulging muscles, especially for a half elven man.  He wears
+a leather jerkin and holds a massive hammer used in making armor and other
+metal wares.  He has a few scars on his arms and face so he looks like he has
+seen some battles in his days.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 RACE_HOBBIT
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+say Hello $N, how may I serve ye?
+~
+|
+#44121
+weaponsmith settar m44121~
+Settar the Weaponsmith~
+A slender elven man stands here polishing a dagger.~
+This middle aged elven man wears fine clothing.  He wears a green cap and
+wears a brown tunic.  He has short black hair and a charming smile on his face
+as you approach.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+say Hello $n...  Can I interest you in one of my fine weapons?
+~
+|
+#44122
+gretta shopkeeper m44122~
+Gretta~
+A young elven woman is here to assist you.~
+This lovely young lady has long blonde hair and blue eyes. She has fair skin
+and wears a blue dress.  She smiles happily as you enter her shop.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>group_greet_prog 100~
+say Hello $N, can I interest you in some of my goods?
+say If I don't have it I might know where you can find it!!
+~
+>speech_prog p orbs of power~
+if hasobjnum ($n) == 44146
+  if quest (8,4,$n) == 0
+    mpmset $n quest 8 4 1
+    mpechoat $n {070}Gretta notices that you are carrying a fragment of one of the orbs.
+    mpechoaround $n {070}Gretta looks at $n strangely.
+    say Orbs of power you say...  I see you've come across a broken part of one, it just so happens I have a similar fragment to that same type of orb.  I'd be willing to hand it over if you are willing to help me what do you say?
+  endif
+else
+  say Hrmm, all I know is that one of the orbs is broken into a few pieces....
+  mpecho {070}Gretta goes back to her work...
+endif
+~
+>speech_prog help~
+if quest (8,4,$n) == 1
+  mpmset $n quest 8 4 2
+  say Okay $n, if you want the fragment you'll have to do something for me.
+  grin 
+  say Nothing is free in these parts...
+  say I need to collect a few things, the first thing is a silverhead moth and it needs to be alive when you return it here!  They can be found in the woods east of the city, you'll probablly need a net to catch one, good luck and return the moth to me.
+endif
+~
+>speech_prog p needle worms~
+say Needle worms!!  Well I haven't seen one of those in quite some time.
+ponder 
+say If I remember right, they used to be common in the city of Elm in the North Woods, but that city is long been in ruins...
+~
+>speech_prog yes~
+if quest (8,4,$n) == 3
+  mpmset $n quest 8 4 4
+  say Great, well find me the eyeball of a Wyvern and we can talk more.
+  mpecho {070}Gretta continues with her work.
+endif
+~
+>give_prog i44155~
+if quest (8,4,$n) == 2
+  mpmset $n quest 8 4 3
+  mpjunk i44155
+  mpecho {070}Gretta stakes the moth to the table with a sharp needle.
+  say Thank you for getting this moth for me!
+  mpecho {070}Gretta breaks the moth's neck, plucks the wings off the moth and discards the corpse into a barrel.
+  say There we go, now to finish the brew...
+  ponder 
+  say Well if you still want this fragment, you are going to have to help me find one more thing...
+  say ...What do you say??
+endif
+~
+>give_prog i44042~
+if quest (8,4,$n) == 4
+  mpmset $n quest 8 4 5
+  mpjunk i44042
+  say Wow, you found it, I had my doubts but I am glad!
+  mpecho {070}Gretta adds the eyeball to her cooking pot...
+  say Well, I'll fufill my part of the bargain here is the fragment.
+  mpoload 44156
+  give i44156 $n
+  mpecho {070}Gretta returns to her work.
+endif
+~
+|
+#44123
+ralah barkeep m44123~
+Ralah the barkeep~
+A lovely woman is here serving drinks behind the bar.~
+This elven woman is middle aged but very attractive.  She has short brown
+hair and hazel eyes.  She wears a revealing white blouse that shows off her
+busty breasts.  She seems to be the barkeep and owner of this inn and she also
+seems to have a certain charm with the men at the bar as well.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>group_greet_prog 100~
+say Hello $N, care for a nice glass of wine or a nice meal?
+~
+|
+#44124
+barmaid m44124~
+a barmaid~
+A barmaid scurries about serving the patrons.~
+This young elven woman is quite attractive and wears a tight dress with a
+white blouse.  She has blonde hair and blue eyes and gives you a courteous
+smile as you enter.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 0 0 1d1406+2892 1d75+30
+10000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+#44125
+shopkeeper darwin m44125~
+Darwin the shopkeeper~
+An elderly elven man is here selling his wares.~
+This elderly elven man has long white hair and wears a brown cap on his head.
+He is dressed in fine clothing and looks to be a man of some wealth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d2256+4906 1d95+47
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+say Hello $n, can I help you with anything?
+~
+|
+#44126
+lilandra priestess m44126~
+Lilandra the priestess~
+A priestess of Order is here worshipping.~
+This priestess is very beautiful.  She wears white robes and dons long brown
+hair and brown eyes.  Her beauty is almost blinding to most onlookers.  She
+has a gentle feel to her and you can tell she is a person of great wisdom.
+While you are near her you feel safe and at ease.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+250 BODY_HEAD BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d15625+48447 1d250+314
+300000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>group_greet_prog 100~
+if quest (16,8,$n) == 0
+  sigh 
+  say We have fallen upon sad times in Dawn City...
+  say If only we had a great hero to help us...
+endif
+if quest (8,4,$n) == 9
+  if hasobjnum ($n) == 44156
+    if hasobjnum ($n) == 44146
+      if hasobjnum ($n) == 44157
+        say Good work, $n.  You have recovered the fragments seek a wizard to meld them together...
+      endif
+    endif
+  endif
+endif
+if quest (24,8,$n) == 11
+  if delayed ($i)
+    say It's not quite ready $n.
+    mpecho {070}Lilandra continues with her work.
+  else
+    mpmset $n quest 24 8 12
+    say Okay, here it is $n.  Use it wisely!
+    mpoload 44158
+    give i44158 $n
+    mpecho {070}Lilandra returns to her meditating.
+  endif
+endif
+if hasobjnum ($n) == 44319
+  if hasobjnum ($n) == 44320
+    if hasobjnum ($n) == 44321
+      mpechoat $n {070}Lilandra looks at your strangely.
+      mpechoaround $n {070}Lilandra looks strangely at $n.
+      say I see you have gathered all three orbs, you may want to ask me about the temple now.
+    endif
+  endif
+endif
+~
+>speech_prog hero~
+if quest (16,8,$n) == 0
+  mpmset $n quest 16 8 1
+  say $n you just may be the hero we are looking for...
+  say We are in need of someone to take on a dangerous quest...
+  say Are you willing to help us?
+endif
+~
+>speech_prog yes~
+if quest (16,8,$n) == 1
+  mpmset $n quest 16 8 2
+  say Well, its quite the story $n where do I begin...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+if quest (12,4,$n) == 4
+  mpmset $n quest 12 4 5
+  say Thats great $n.  I will need you to gather a few ingredients so I can create the balm to help the people.
+  ponder 
+  say I will need a pearl to crush into dust, a heart of a gore beast, and some trout scales to mix the cure together.  Please return these items to me and we can proceed.  Please hurry $n.
+  mpecho {070}Lilandra begins to prepare the balm.
+endif
+if quest (12,4,$n) == 9
+  mpmset $n quest 12 4 10
+  say Give me a moment to mix the ingredients...
+  mpmset self quest 0 4 1
+  mpdelay self 8 2 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if quest (0,4,$i) == 1
+    mpecho {070}Lilandra brushes the hair away from her eyes.
+    say Dawn used to be a peaceful, woodland community of elven people.  Until one fateful day when a strange presence crept over the North Woods that border the city to west.
+  endif
+  if quest (0,4,$i) == 2
+    say The sky darkened in midday and the woods became a bit darker, even the air tasted different.  We knew then that a great evil presence had disturbed the tranquility of the people here.
+  endif
+  if quest (0,4,$i) == 3
+    sigh 
+    say Several of the finest warriors of the city travelled into the mysterious North Woods to find out what had caused the darkness.  Several days later only a young sentry named Kane had returned with news of the expedition...
+  endif
+  if quest (0,4,$i) == 4
+    say He explained to the city elders that he was the only survivor of the expedition that discovered that the temple of oaks has been defiled and the three orbs of power have been stolen!
+    say Thus causing the darkness and dispair.
+  endif
+  if quest (0,4,$i) == 5
+    say You see the temple of the oaks is where we stored our sacred orb that keeps the balance between the elves and the magic of the woods.  When the orbs were taken from the temple it disrupted that balance.
+  endif
+  if quest (0,4,$i) == 6
+    say Ever since that day the woods have been infested with demonic beasts and have no longer been safe to travel through.  The North Woods in particular have become especially dangerous.  The trees have all died and become almost evil themselves...
+  endif
+  if quest (0,4,$i) == 7
+    say ...it is nearly impossible to navigate your way through the woods since the trees have shifted and overgrown.  So we have not been able to venture to the temple since that day.
+  endif
+  if quest (0,4,$i) == 8
+    say So we need a hero to recover the orbs, return them to the temple, and destroy the evil that has taken over the woods...  Do you accept this important task?
+    break
+  endif
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>speech_prog accept~
+if quest (16,8,$n) == 2
+  mpmset $n quest 16 8 3
+  smile $n
+  say I'm so glad to hear that $n.  I hope you are the hero that I seen in my visions that will save us all!  Please recover all three of the orbs of power and return to me and I can tell you where to go from there.
+  say All I know is that in these times of evil I've heard that some of the wealthier citizens may have made a deal with the evil for one of the orbs for their own personal power.  You may want to ask Kane about the orbs of power he knows a lot about them as well...  Good luck my friend I wish I could have been of more help, we are all counting on you!
+  mpecho {070}Lilandra returns to her duties.
+endif
+~
+>give_prog i44147~
+if quest (12,4,$n) == 3
+  mpmset $n quest 12 4 4
+  mpjunk i44147
+  mpecho {070}Lilandra reads the message carefully.
+  frown 
+  say This is very sad news.  It seems the previous messanger never got here.
+  pout 
+  say We must do something to help the nomads.  I've heard of a similar sickness in a small village to the north.  They were able to create a balm that cured it.  Will you help me gather the ingredients to create this?
+endif
+~
+>give_prog i44106~
+if quest (12,4,$n) == 8
+  mpmset $n quest 32 1 1
+  mpjunk i44106
+  say Thank you $n!
+  if quest (32,4,$n) == 7
+    say Outstanding $n you have recovered all the ingredients to create the balm, shall we begin?
+    mpmset $n quest 12 4 9
+  endif
+endif
+~
+>give_prog i44317~
+if quest (12,4,$n) == 8
+  mpmset $n quest 33 1 1
+  mpjunk i44317
+  say Thank you $n!
+  if quest (32,4,$n) == 7
+    say Outstanding $n you have recovered all the ingredients to create the balm, shall we begin?
+    mpmset $n quest 12 4 9
+  endif
+endif
+~
+>give_prog i44152~
+if quest (12,4,$n) == 8
+  mpmset $n quest 34 1 1
+  mpjunk i44152
+  say Thank you $n!
+  if quest (32,4,$n) == 7
+    say Outstanding $n you have recovered all the ingredients to create the balm, shall we begin?
+    mpmset $n quest 12 4 9
+  endif
+endif
+~
+>delay_prog 2~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}Lilandra puts the ingredients into a bowl full of red liquid.
+    case 2
+      mpecho {070}Lilandra mixes the ingredients with a ladle.
+    case 3
+      say Nugrymio tylasdal orumizut
+    case 4
+      mpecho {040}The liquid in the bowl begins to glow!
+    case 5
+      say There the balm is ready for application!
+    case 6
+      mpecho {070}Lilandra fills a vial with the liquid in the bowl.
+      say Here take this vial this should be enough to cure the nomads.
+      mpoload 44153
+      drop i44153
+      say Take that vial and give it to Jafar he'll know what to do.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 2 $X
+endif
+~
+>speech_prog oracle~
+if quest (24,8,$n) == 5
+  mpmset $n quest 24 8 6
+  say The oracle you say...
+  ponder 
+  say There was a large domed building that was the oracle for the ancient people of ruined city in the North Woods.  I've heard that the building is totally sealed in by rubble.  Why don't you go look for it and tell me if there is a way in or not.
+  mpecho {060}Lilandra begins meditating.
+endif
+~
+>speech_prog p fire bomb~
+if quest (24,8,$n) == 9
+  mpmset $n quest 24 8 10
+  say Hrmmm, $n.
+  say A fire bomb I've heard of such devices.  They are very dangerous but have the power to blast through hard stone!
+  mpmset self quest 0 4 1
+  mpdelay self 8 3 $n
+endif
+~
+>delay_prog 3~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say I can make you one $t.  But I will need you to gather a few things for me...
+    case 2
+      ponder 
+      say First I will need a mixing bowl to fix the bomb's innards in.
+    case 3
+      blink 
+      say Then I will need an abalone shell to make the casing of the bomb...
+    case 4
+      say Next you must find a barrel of powder to fill the casing of the bomb.
+    case 5
+      say Also I will need you to find some molding clay so I can seal the casing securely.
+    case 6
+      say Finally I will need you to find some hemp, perhaps a strand of it so I can make a wick to light the bomb so it can explode properly.
+    case 7
+      smile 
+      say When you acquire these items return them to me and I can construct this fire bomb for you!  Good Luck!
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 3 $X
+endif
+~
+>give_prog i44322~
+if quest (24,8,$n) == 10
+  mpmset $n quest 64 1 1
+  mpjunk i44322
+  say Thank you $n.
+  if quest (64,8,$n) == 31
+    say Great $n!  Now I can make the bomb come back in a few and it will be ready!
+    mpdelay self 0 900
+    mpmset $n quest 24 8 11
+  endif
+endif
+~
+>give_prog i13140~
+if quest (24,8,$n) == 10
+  mpmset $n quest 65 1 1
+  mpjunk i13140
+  say Thank you $n.
+  if quest (64,8,$n) == 31
+    say Great $n!  Now I can make the bomb come back in a few and it will be ready!
+    mpdelay self 0 900
+    mpmset $n quest 24 8 11
+  endif
+endif
+~
+>give_prog i14619~
+if quest (24,8,$n) == 10
+  mpmset $n quest 66 1 1
+  mpjunk i14619
+  say Thank you $n.
+  if quest (64,8,$n) == 31
+    say Great $n!  Now I can make the bomb come back in a few and it will be ready!
+    mpdelay self 0 900
+    mpmset $n quest 24 8 11
+  endif
+endif
+~
+>give_prog i28728~
+if quest (24,8,$n) == 10
+  mpmset $n quest 67 1 1
+  mpjunk i28728
+  say Thank you $n.
+  if quest (64,8,$n) == 31
+    say Great $n!  Now I can make the bomb come back in a few and it will be ready!
+    mpdelay self 0 900
+    mpmset $n quest 24 8 11
+  endif
+endif
+~
+>give_prog i6735~
+if quest (24,8,$n) == 10
+  mpmset $n quest 68 1 1
+  mpjunk i6735
+  say Thank you $n.
+  if quest (64,8,$n) == 31
+    say Great $n!  Now I can make the bomb come back in a few and it will be ready!
+    mpdelay self 0 900
+    mpmset $n quest 24 8 11
+  endif
+endif
+~
+>speech_prog temple~
+if hasobjnum ($n) == 44319
+  if hasobjnum ($n) == 44320
+    if hasobjnum ($n) == 44321
+      say Yes, within the temple you can place the 3 orbs on the appropriate altar.
+      ponder 
+      mpmset self quest 0 4 1
+      mpdelay self 6 4 $n
+    endif
+  endif
+endif
+~
+>delay_prog 4~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say Once the orbs have been placed on the altar they will meld once again with the temple.
+    case 2
+      say Then the hero that places the orbs on the altar will be allowed to bring a large group of adventurers with them through the gateway of truth.
+    case 3
+      say Down the pathway it will lead to where the evil lies, be careful there my friend the beast is very powerful and equally evil.
+    case 4
+      say If you can dispatch the evil revive the temple all the lost souls within will find peace and the darkness will vanish.
+    case 5
+      say Go now, and take my blessings with you $X.  Good Luck...
+      mpecho {070}Lilandra beings to pray.
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 6 4 $X
+endif
+~
+|
+#44127
+wealthy man daniboo m44127~
+Daniboo~
+A well dressed elven man is here.~
+This man is wearing a silk robe and a fine cap.  He wears shiny black boots
+on his feet and several pieces of gold jewelry on his wrists and neck.  He
+may be of nobility or filthy rich.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d2256+4906 1d95+47
+190000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+#44128
+celia maiden elven m44128~
+Celia~
+A lovely elven lady stands here.~
+This lovely elven lady is most likely middled aged and if dressed in fine
+clothing.  She wears shiny jewelry, necklaces, and rings.  She also wears a
+golden, jewelled tiara on her head that glistens in the light.  She is quite
+dazzling and most definately very rich.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD|BODY_LEG|BODY_ARM BODY_ARM|BODY_HAND 1d2256+4906 1d95+47
+190000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p orbs of power~
+if quest (16,8,$n) == 6
+  if quest (24,8,$n) == 0
+    mpmset $n quest 24 8 1
+    blink 
+    say Do you mean the ones that were taken from the Temple of the Oaks??
+  endif
+endif
+~
+>speech_prog yes~
+if quest (24,8,$n) == 1
+  mpmset $n quest 24 8 2
+  peer 
+  tell $n I might know where one of the orbs is...
+  tell $n ...but I fear the person that has it may hurt me if I help you...
+  emote shivers. 
+  tell $n But, if you could protect me...
+endif
+if quest (24,8,$n) == 3
+  mpmset $n quest 24 8 4
+  say Thank you $n.  I know his greed drives him to possess the orb, but it is only dooming our people...
+  mpecho {070}Celia grabs her goblet from the table and takes a sip...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>speech_prog protect~
+if quest (24,8,$n) == 2
+  mpmset $n quest 24 8 3
+  peer 
+  say Yeah if you will protect him I can help you recover it.  Do you agree?
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say Belmar, my uncle, driven by greed made a deal with a minion of the Evil One to obtain one of the sacred orbs of power.  I begged him not to but he was nearly driven mad with the idea he could harness the power of the orb.
+    case 2
+      sigh 
+      say The fiend gave him the orb on some strict conditions that he would tell the people of the city that everything was ok while the Evil One continues with his plans to slowly take over this city and its people to stage attacks on other parts of Iosolo...
+    case 3
+      say He promised Belmar a high ranking position in the new regime...
+      say ...I only know this because I hid outside their window while they were making the deal.
+    case 4
+      say It churns my belly to think he would turn to the side of evil, he once was such a kind man...
+    case 5
+      sniff 
+      say If he knew I was telling you this, he would kill me I know it.
+    case 6
+      say The fiend will return at midnight to visit Belmar he does every night.  If you were to hide in his house undetected you may be able to gather some more information about the wear abouts of the orb.
+    case 7
+      say Good luck, may Order be with you...
+      mpecho {070}Celia sips from her goblet and stares out the southern window.
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>speech_prog speech~
+if quest (24,8,$n) == 5
+  say Hrmm, an oracle, I'd ask Lilandra about that.
+endif
+~
+|
+#44129
+belmar elven merchant m44129~
+Belmar~
+A wealthy elven man is here.~
+This elven man is quite fat and very well dressed.  He wears a white tunic
+and brown breeches.  A green cap lies on his crown and he wears many pieces
+of fine jewelry.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+175 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d7656+20299 1d175+155
+200000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog yes~
+if questr (44100,24,8,$n) == 17
+  mpmset $n questr 44100 24 8 18
+  say Well I'm afraid you are not going to retrieve it that easily my friend.
+  cackle 
+  mpmset self quest 0 4 1
+  mpdelay self 8 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say I can't give you the orb, but you are welcome to try and take it.
+    case 2
+      say But, first why don't I even the odds a bit!
+      mpecho {070}Belmar chants a few words...
+    case 3
+      mpecho {010}Three demons appear in the room.
+      mpmload 44318
+      mpmload 44318
+      mpmload 44318
+    case 4
+      say Well I grow tired of chit chat time for you to die!
+      mpforce all.m44318 mpkill $X
+      mpkill $X
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>death_prog 100~
+say Noooo!  I have failed you my master!!!
+if quest (0,4,$i) == 4
+  mpoload 44320
+endif
+mpoload 44159
+mpat 44353 connect north -1
+~
+>fight_prog 100~
+mpmadd self currhp 1000
+~
+|
+#44130
+rumorer~
+a rumor~
+An ethereal mob (Rumorer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpdelay self 6 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch numberrange (1,11)
+    case 1
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I've heard there used to be a prosperous city in the North Woods but now lies in ruins...
+    case 2
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...those damn monsters in the woods are terrorizing all the trade caravans...
+    case 3
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I've heard a sickness has befallen the nomad camp south of the creek...
+    case 4
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...an evil presence has taken over the Temple of Oaks...
+    case 5
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...a strange wizard lives in the North Woods that has the powers to alter reality...
+    case 6
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I've heard that Belmar has recently acquired something valuable...
+    case 7
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...the orbs have been stolen from the Temple of Oaks...
+    case 8
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I've heard that pond fiends can develop a very large pearl in their mouths over time...
+    case 9
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I saw a few silverhead moths flying down by the nomad camp when i was there last...
+    case 10
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...Kane Brahama has a twin brother that lives in Ellis City with the same name...
+    case 11
+      mpecho {070}You overhear some patrons talking...
+      mpecho {170}...I saw a wyvern flying near velmin village in the evening time...
+  endswitch
+  mpdelay self 20 1 $X
+endif
+~
+|
+#44131
+moth spammer~
+a moth spammer~
+An ethereal (moth spammer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 25~
+mpecho {070}You see a few large moths flying about here.
+~
+|
+#44132
+summoner~
+a summoner~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 0~
+mpdelay self 4 2
+~
+>delay_prog 2~
+if existsroom (plr)
+  if time () == 0
+    if isaffected ($t) == invis_invis
+    or isaffected ($t) == improved_invis
+      if quest (24,8,$t) == 4
+        mpmload 44129
+        mpecho {078}Belmar appears from a swirling mist.
+        mpecho {078}Belmar looks around the room carefully.
+        mpmset self quest 0 4 1
+        mpdelay self 8 1 $t
+      else
+        mpdelay self 4 2
+      endif
+    else
+      mpecho {078}You hear someone approaching but they seem to notice you here and run off...
+~
+>delay_prog 1~
+if existsroom ($X)
+  if isaffected ($t) == invis
+  or isaffected ($t) == improved_invis
+    switch quest (0,4,$i)
+      case 1
+        mpmload 44133
+        mpecho {010}A dark figure appears from a cloud of green smoke...
+      case 2
+        mpforce M44129 say My Lord.
+        mpforce M44129 bow
+      case 3
+        mpforce M44133 say Belmar, how goes our plans within the city?
+        mpecho {070}Belmar looks away for a moment.
+      case 4
+        mpforce M44129 say Things are not going as well as we planned my lord...
+        mpforce M44129 say The people are getting more and more frightened and I've heard Lilandra and Kane have sot out the help of an outsider to recover the orbs...
+      case 5
+        mpforce M44133 growl
+        mpforce M44133 say This is not good Belmar, I gave you the power of orb to use it quell these rumors of the Evil One.  If news of this spread to Order's Landing, Velmin Village...
+      case 6
+        mpforce M44129 say I know, I know then the armies of Ellis City would be sent here and the Evil One is not powerful enough...
+      case 7
+        mpecho {010}The Dark Fiend backhands Belmar across the face.
+        mpecho {070}Belmar falls to the floor cowering from the fiend...
+        mpforce M44133 say Fool!  You do not seem to understand the importance of secrecy in this matter.  Do not test my patience again...
+      case 8
+        mpforce M44129 say I, I, I... Understand my tasks master and I will not fail you again...
+      case 9
+        mpforce M44133 say I hope for your sake you are right Belmar.  So get back to work, quell these rumors, convince the council all is well and handle this so called hero that will try to regain control of the orbs...
+        mpecho {010}The Dark Fiend's eyes glow bright red.
+      case 10
+        mpforce M44133 say I hope you have hidden your orb well for if this hero was to acquire that orb as well, that would compromise our plans even more...
+        mpforce M44133 say Where have you hidden it Belmar?
+      case 11
+        mpecho {070}Belmar dusts himself off and stands up.
+        mpforce M44129 say Its hidden in a safe place in the North Woods, in the ruined Oracle of the old city there is no way anyone could penetrate those walls to retrieve it.
+      case 12
+        mpforce M44133 say You have better hope it stays there Belmar, for if you fail me again...
+        mpforce M44133 say ...you know what will happen...
+      case 13
+        mpforce M44129 shiver
+        mpforce M44129 say I know my lord...
+      case 14
+        mpforce M44133 say Thats good.  I will be going now, take care of these little problems...
+        mpecho {010}The Dark Fiend disappears in a cloud of red smoke.
+        mppurge M44133
+      case 15
+        mpforce M44129 say I will not fail my master again...
+        mpecho {070}Belmar disappears in a swirling mist.
+        mppurge M44129
+        mpmset $t quest 24 8 5
+        break
+    endswitch
+    mpmadd self quest 0 4 1
+    mpdelay self 12 1 $X
+  else
+    mpforce M44133 say Someone is near, I will come again!
+    mpecho {010}The fiend vanishes in a cloud of red smoke.
+    mppurge M44133
+    mpforce M44129 say Okay, my lord!
+    mpecho {070}Belmar vanishes in a swirling mist.
+    mppurge M44129
+    break
+  endif
+endif
+~
+|
+#44133
+dark fiend m44133~
+a dark fiend~
+A demonic being stands here.~
+This dark-skinned demonic being has massive wings and horns upon its skull.
+Its eyes glow bright red and has large fangs lining its mouth.  It could
+easily gobble a hobbit up in one bite.  It stands about 12 feet tall and
+wields a large pitchfork.
+~
+ACT_SENTINEL|ACT_SMART|ACT_UNDEAD
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HASTE|AFF_STABILITY
+-1000 S
+200 0 0 1d10000+28010 1d200+202
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#44134
+elven guardian m44134~
+an elven guard~
+An elven man stands guard here.~
+This elven guard is dressed in chain mail armor and wields a long spear.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_SANCTUARY
+0 S
+150 0 0 1d5625+14072 1d150+114
+125000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 75~
+say You gotta be crazy to travel in the north woods.  If I were you I'd turn back to the city.
+~
+|
+#44135
+monty dog m44135~
+Monty~
+A golden retriever is here to serve you.~
+Monty, Order's loyal pet dog is here.  He is a golden retriever but doesn't
+really retrieve any gold so we don't know why they call him that, good boy!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_MOUNT|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_RACE
+AFF_TRUESIGHT|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_PROTECT_GOOD|AFF_CLEAR|AFF_HUNT|AFF_TONGUES
+1000 S
+300 0 0 1d22500+76510 1d300+452
+250000 RACE_WEREWOLF
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (33)
+  mpechoat $r Monty barks at you!
+  mpechoaround $r Monty barks at $r!
+else
+  if rand (33)
+    mpechoat $r Monty jump up on your lap and settles in.
+    mpechoaround $r Monty jumps up on $r's lap and takes a nap.
+  else
+    mpechoat $r Monty licks your face!
+    mpechoaround $r Monty licks $r's face!
+  endif
+endif
+~
+>speech_prog p bad dog~
+emote lets out a sad whine.
+~
+>give_prog i43810~
+mpjunk i43810
+mpecho Monty gobbles down the dog food!
+emote poops on the ground.
+mpquiet on
+mpoload 44160
+drop i44160
+mpquiet off
+~
+>speech_prog p good dog~
+emote wags his tail rapidly.
+~
+|
+#0
+
+
+#SHOPS
+44120 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  9 23
+44121 ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  9 23
+44122 ITEM_TYPE_FOOD ITEM_TYPE_CONTAINER ITEM_TYPE_BOAT ITEM_TYPE_SCROLL ITEM_TYPE_POTION  100  50  9 23
+44123 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+44125 ITEM_TYPE_TREASURE ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  9 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#44100
+tree stump~
+a tree stump~
+A tree stump covered in moss is here.~
+This tree stump is quite large and very old.  Moss has grown over most parts of
+it.  It is the remains of once a great elm tree in these woods.  You can see
+some faint carvings on the stump.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+carvings~
+{120}      D A W N   I S   N E A R
+~
+#44101
+dead tree~
+a dead tree~
+An old, dead tree stands here.~
+This old tree was once a great elm that stood here in this clearing.  But over
+the years it has dried up and rotted away.  The large trunk still stands here
+however and seems to have a hollow part on it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+500 0 0 10 0 0 0 0
+1 10 95
+#44102
+fire bonfire~
+a bonfire~
+A bonfire burns here.~
+This fire burns high into the sky.  Several large, charred logs stand in a
+pyramid shape within the fire.  There are white hot embers at the bottom of
+the firepit too hot to touch.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44103
+small chest~
+a small chest~
+A small chest lies here.~
+This small wooden chest has a iron lock on it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+200 CONT_CLOSED|CONT_LOCKED 0 10 0 0 0 0
+5 10 20
+E
+lock~
+The lock looks to have no key that can open it...
+~
+#44104
+table~
+a table~
+A long wooden table is standing here.~
+This wooded table is not to uncommon from any other table.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+4 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 10 0 0 0 0
+1 10 1
+#44105
+sphere warding~
+a sphere of warding~
+A glowing sphere lies here.~
+This clear sphere fits in the palm of ones hand.  It has a pink gas swirling
+in the center of the globe almost magically, you feel safe with the sphere.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 0 0 0 0 0 0 0
+2 1000 10
+A APPLY_STR 2 0
+#44106
+giant pearl~
+a giant pearl~
+A giant pearl is here.~
+This massive pearl is the size of a melon.  It is pure white and could catch
+quite the purse of coins at the market.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10000000 95
+#44107
+vine~
+a vine~
+A vine hangs from the edge of the bridge here.~
+This green vine hangs off the edge of the bridge you might be able to climb it.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 climb
+OPROG_IF OIF_RANDOM_PERCENT < 40 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You grab a hold of the vine and climb up to the bridge.
+mpgoto 44173
+~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You attempt to climb the vine but slip into the water below.
+mpmset self wait 20
+mpmadd self currmove -100
+~
+#44108
+diver~
+a dive~
+An Ethereal Object (Diver) is here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_ETHEREAL
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 swim
+OPROG_GOD_COMMAND
+mpechoat self {070}You swim down under the water towards the object...
+mpgoto 44251
+~
+#44109
+golden kris~
+a golden kris~
+A golden knife lies here.~
+This small golden kris looks more of a ceremonial type dagger than one used
+in fighting.  Its hilt is made from gold, it spirals around like it has been
+actually twisted around the dagger.  The blade is made from some strange metal
+that has properties of gold but much more solid.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 4 0 0 0 0 0
+2 10 10
+#44110
+rock ~
+a rock~
+A large rock is here.~
+This large stone is smoothed over years of erosion.  It may make a decent place
+to sit.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+4 0 FURNITURE_SIT_ON 5 0 0 0 0
+1 10 1
+#44111
+crack~
+a crack~
+An Ethereal Object (Crack) is here.~
+~
+ITEM_TYPE_PORTAL
+ITEM_FLAG_ETHEREAL
+0
+0 0 GATE_STEP_THROUGH 44252 0 0 0 0
+1 10 1
+#44112
+sign~
+a sign~
+A moss-covered sign is stuck in the ground here.~
+{030}<>===========================<>
+{030}<>                           <>
+{030}<>         {020}WELCOME TO        {030}<>
+{030}<>                           <>
+{030}<>          {020}THE CITY         {030}<>
+{030}<>                           <>
+{030}<>          {020}OF DAWN          {030}<>
+{030}<>                           <>
+{030}<>===========================<>
+{030}             |  |
+{030}             |  |
+{030}             |  |
+{120}          \\||/|\/
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44113
+weapon rack ~
+a weaponrack~
+A weaponrack leans against the wall here.~
+This weapon rack is where weapons can be stored when they are not needed.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+200 0 0 10 0 0 0 0
+1 10 95
+#44114
+spring~
+a magic spring~
+A magical spring flows from the ground.~
+This magical spring flows right out of the limb of the tree.  It flows with
+crystal clear water.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#44115
+bench~
+a bench~
+A bench is crafted from this tree limb here.~
+This bench is made from side of the great oak tree.  It could easily seat ten
+or so large men.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+12 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#44116
+shrine order~
+a shrine of Order~
+A shrine to the god Order is here.~
+This shrine is one to the city's god Order.  He protects the city and
+the surrounding forests.  The shrine depicts the mighty god overlooking
+a small forest basking it with her wisdom and beauty.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44117
+fountain~
+a fountain~
+A small circular fountain is here.~
+This small fountain is sitting off to the side of the trunk of the oak tree.
+A circle of wild flowers grow around the flowers with a small path leading up
+to it.  The basin is full of clear fluid and the spout depicts a budding
+flower that is spewing the water to the basin below.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#44118
+barrel~
+a barrel~
+A barrel sits in the corner here.~
+This wooden barrel is not uncommon from any other barrel you have seen.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 CONT_CLOSEABLE|CONT_CLOSED 0 10 0 0 0 0
+1 10 95
+#44119
+rainbow staff~
+a rainbow staff~
+A multi-colored staff lies here.~
+This wooden staff has a magical spectrum of colors illuminating from it.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 1 4 0 0 0 0 0
+3 1000000 65
+A APPLY_MANA 75 0
+A APPLY_HIT 35 0
+#44120
+bronze mace~
+a bronze mace~
+A bronze mace lies here.~
+This mace is made from bronze and looks very sturdy.  It has some magical
+presence you feel when you wield it.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 3 5 0 0 0 0 0
+5 500000 80
+A APPLY_AC -10 0
+A APPLY_MANA 50 0
+#44121
+silver dirk~
+a silver dirk~
+A silver dagger lies on the ground here.~
+This dirk has a silver blade and a leather handle.  It has a faint glow to it
+as you wield it.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 2 0 0 0 0 0
+2 3000000 80
+A APPLY_HIT 75 0
+A APPLY_AC -8 0
+#44122
+onyx blade~
+an onyx blade~
+A pitch black blade lies here.~
+This blade is made completely of onyx.  It has a magical feel when you wield
+this onyx blade.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 3 0 0 0 0 0
+1 2500000 80
+A APPLY_AC -13 0
+A APPLY_SAVING_SPELL -8 0
+#44123
+energy orb~
+an energy orb~
+A ball of swirling energy is here.~
+This orb of energy seems to be a magical storage device.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+1300 0 0 150 0 0 0 0
+1 500000 90
+#44124
+berries gobble~
+a bunch of gobble berries~
+A bunch of green berries lie here.~
+This bunch of berries looks plump and ready to eat.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+1 2000 10
+#44125
+vial goo~
+a vial of goo~
+A vial full of black fluid lies here.~
+This vial is full of thick black goo.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 1250 10
+#44126
+insect net~
+an insect net~
+A net is lying here.~
+This net is used to catch insects.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 20000 10
+P 1
+TRIG_WEAR_UNKNOWN 100 catch
+OPROG_IF OIF_USER_ROOM_NUM = 44175 3 2
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You swing the net at nearby insects but don't snare anything.
+mpmset self wait 5
+mpmadd self currmove -25
+~
+P 3
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 33 5 4
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You attempt to catch a moth in the net but it eludes your attempt.
+mpmset self wait 5
+mpmadd self currmove -75
+~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You snare a moth in the net!
+mpechoat self {070}The moth is stunned for the moment but could escape from your net any moment.
+mpoload 44155
+mposet i44155 timer 2
+~
+#44127
+golden skull~
+a golden skull~
+A golden skull hovers here.~
+This golden skull floats over one's head providing a great light source.  You
+can feel great magical power from it.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 1250000 75
+A APPLY_MANA 100 0
+A APPLY_DAMROLL -5 0
+#44128
+potion elven spirits~
+a potion of elven spirits~
+A white potion lies here.~
+This white potion is in a glass vial.  It seems to be fairly thick liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 159 210 190 0 0 0 0
+1 75000 75
+A APPLY_STR -5 0
+A APPLY_WIS -5 0
+S 1 'mage shield'
+S 2 'sanctuary'
+S 3 'protection evil'
+#44129
+scroll elven spirits~
+a scroll of elven spirits~
+A scroll is lying here.~
+This scroll has some strange writing on it that is hard to decipher.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 159 210 190 0 0 0 0
+1 75000 75
+A APPLY_STR -5 0
+A APPLY_WIS -5 0
+S 1 'mage shield'
+S 2 'sanctuary'
+S 3 'protection evil'
+#44130
+scroll recall~
+a scroll of recall~
+A scroll lies here.~
+This scroll will help you {120}recall{300}.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#44131
+feathered cloak~
+a feathered cloak~
+A cloak made from feathers lies here.~
+This cloak is made from some sort of feathers from a strange bird.  The cloak
+is brown in color and looks quite warm and comfortable.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_ABOUT
+13 0 0 0 0 0 0 0
+4 350000 75
+A APPLY_MANA 80 0
+#44132
+silk band~
+a silk band~
+A silk band lies here.~
+This simple band of silk would slip over one's wrist easily.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+3 175000 75
+A APPLY_STR 5 0
+#44133
+frost gauntlets~
+a set of frost gauntlets~
+A pair of gauntlets are here.~
+These gauntlets emit a cold aura about them.  They are actually cold to the
+touch on the outside but perfectly warm when wearing them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+4 275000 75
+A APPLY_MANA 90 0
+A APPLY_HIT -25 0
+#44134
+emerald collar~
+an emerald collar~
+An emerald collar lies here.~
+This collar is studded with small emeralds.  You feel a strange presence when
+you wear the collar.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+4 350000 75
+A APPLY_SEX -1 0
+A APPLY_DEX 5 0
+#44135
+ogre boots~
+a pair of ogre boots~
+A pair of boots are here.~
+These boots are kind of bulky but they seem to have some magical properties.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+5 250000 75
+A APPLY_MANA 85 0
+A APPLY_MOVE -100 0
+#44136
+mug ale~
+a mug of ale~
+A mug of ale lies here.~
+This mug of ale looks tastey.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+0 5 LIQ_ALE 0 0 0 0 0
+1 100 10
+#44137
+bottle elven wine~
+a bottle of elven wine~
+A bottle of wine lies here.~
+This bottle is full of fine elven wine.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+12 12 LIQ_WINE 0 0 0 0 0
+2 1250 10
+#44138
+hearty meal~
+a hearty meal~
+A plate of food lies here.~
+This plate of food consists of some moose meat, potatoes, and some fresh
+carrots, it looks great.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 3500 10
+#44139
+fine diamond~
+a finely cut diamond~
+A brilliant diamond lies here.~
+This diamond is cut to near perfection.  It is the size of one's palm.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 4000000 90
+#44140
+jewelled sceptre~
+a jewelled sceptre~
+A jewelled sceptre lies here.~
+This sceptre is gold plated and covered in precious gems.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 1250000 75
+A APPLY_WIS 3 0
+A APPLY_INT 3 0
+#44141
+pewter bracelet~
+a pewter bracelet~
+A pewter bracelet lies here.~
+This bracelet is made from pewter.  It is sort of dull in appearance but
+emits a slight magical aura.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+1 0 0 0 0 0 0 0
+1 100000 1
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#44142
+pewter chain~
+a pewter chain~
+A pewter chain lies here.~
+This small chain is made from pewter.  A slight magical aura emits from it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+1 0 0 0 0 0 0 0
+1 100000 1
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#44143
+sign~
+a sign~
+A wooden sign is posted here.~
+{030}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+{030}X                                       X
+{030}X              {010}B E W A R E              {030}X
+{030}X                                       X
+{030}X         {020}THE NORTH WOODS IS NEAR       {030}x
+{030}X                                       X
+{030}X         {010}ENTER AT YOUR OWN RISK...     {030}X
+{030}X                                       X
+{030}X {040}....death...pain...madness.....       {030}X
+{030}X                                       X
+{030}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44144
+oaken shield~
+an oaken shield~
+A large wooden shield lies here.~
+This large tower shield is made of hard oak.  There is a magical glow to the
+shield.  The shield looks like it could take quite the blow before it would
+break.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+21 0 0 0 0 0 0 0
+20 1000 75
+A APPLY_INT 1 0
+#44145
+caravan wagon~
+a caravan wagon~
+A caravan wagon is here.~
+This large wagon has four wagon wheels and a covered top.  This wagon is used
+to transport goods between Dawn and the northern cities.  This wagon shows
+the heraldic symbol of King Ellis.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44146
+fragment first orb~
+the first fragment of an orb~
+A fragment of an orb lies here.~
+This is a fragment of a strange orb.  It seems there may be two more pieces
+to complete the orb.  This piece may be the largest of the three.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 40000 10
+#44147
+parchment message~
+a piece of parchment~
+A piece of parchment lies here.~
+Lilandra,
+
+Our clan has fallen ill with some sort of sickness.  The symptoms include:
+- dizziness
+- boils and blisters forming on the skin
+- severe headaches
+
+It came with the evil please help us to find a cure.
+
+Jafar
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44148
+spade~
+a spade~
+A spade lies here.~
+This spade is used to dig worms.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+WEAPONTYPE_MACE 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_UNKNOWN 100 dig
+OPROG_PLAYER_QUEST_IF 12 4 = 6 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You are not ready to dig.
+~
+P 3
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 5 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+You need to hold the spade to dig.
+~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 44354 7 6
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You dig with the spade but uncover nothing...
+mpmset self wait 5
+mpmadd self currmove -75
+~
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 44100 12 4 7
+mpechoat self {070}You dig up some needle worms!
+mpechoat self {070}The spade breaks...
+mpoload 44149
+mpjunk i44148
+~
+#44149
+needle worm worms~
+some needle worms~
+A pile of skinny worms lie here.~
+This narrow worms are dark brown and have pincers at their mouths.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44150
+trout~
+a trout~
+A large trout is here.~
+This large brook trout, would make a nice meal.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44151
+filet knife~
+a filet knife~
+A sharp knife is here.~
+This sharp knife is used to filet fish.  It has a bone hilt and a very sharp
+blade that is curved a bit.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 2 0 0 0 0 0
+2 12000 10
+P 1
+TRIG_WEAR_UNKNOWN 100 filet
+OPROG_IF_HAS_OBJECT 44150 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You need a fish to filet.
+~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You filet the trout and remove its scales!
+mpoload 44152
+mpjunk i44150
+~
+#44152
+trout scales~
+some trout scales~
+Some fish scales are here.~
+These scales are from a creek trout.  The are bluish-gold in color.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#44153
+vial balm~
+a vial of healing balm~
+A vial of red liquid is here.~
+This clear vial is warm to the touch and full of red liquid.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#44154
+woven breeches~
+a pair of woven breeches~
+A pair of breeches lie here.~
+These breeches are made from brown leather strands and are woven into a mesh
+like material.  They slightly glow and are very comfortable when you wear them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+5 10 95
+A APPLY_MANA 190 0
+A APPLY_HIT 75 0
+P 1
+TRIG_WEAR 100
+OPROG_ECHO
+{070}You feel a magical presence as you wear these breeches.
+~
+#44155
+silverhead moth~
+a silverhead moth~
+A large moth is here, stunned.~
+This moth is very large about the size of a small bird.  It seems to be slightly
+stunned.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+P 1
+TRIG_TICK 100
+OPROG_QUEST_ADD 0 4 1
+P 1
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 4 = 15 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+{070}The moth escapes from you and flies off!
+~
+P 2
+TRIG_VOID
+OPROG_JUNK
+#44156
+second fragment orb~
+the second fragment of an orb~
+A fragment of an orb lies here.~
+This is a fragment of a strange orb.  It seems there may be two more pieces
+to complete the orb.  This piece may be the smallest of the three.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 40000 10
+#44157
+third fragment orb~
+the third fragment of an orb~
+A fragment of an orb lies here.~
+This is a fragment of a strange orb.  It seems there may be two more pieces
+to complete the orb.  This piece may be the smallest of the three.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 40000 10
+#44158
+fire bomb~
+a fire bomb~
+A circular device lies here.~
+This make-shift bomb, looks very unstable made from odds and ends but you
+are sure it can do some big damage.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#44159
+mace deceit~
+the mace of deceit~
+A mace is lying here.~
+This mighty mace has a bone handle with a large stone faced head shaped like
+a demon.  The mace is spiked on both ends and looks as if it could do quite
+some damage to somone's skull.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 10 8 WEAPON_CRUSH 0 0 0 0
+5 10 100
+A APPLY_DAMROLL 4 0
+C
+smash~
+0
+#44160
+turd~
+a turd~
+A turd is here steaming with a putrid smell.~
+Yep its a turd!
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#44100
+Overgrown Path~
+You have come upon a overgrown pathway.  Thick brush cover the path but you
+can still make out where the path lies.  Tall trees cover the sky above you
+in this lush forest.  It is strangely quiet on this faint path.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+The road winds onward...~
+~
+0 -1 16290
+DDIR_SOUTH
+The path faintly leads on.~
+~
+0 -1 44101
+#44101
+Overgrown Path~
+You are in a well overgrown path.  Shrubs and tall grass cover most of this
+trail but you can still make out the pathway leading on.  There are many tall
+trees covering your view of the sky making this a fairly dark place.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+A faint path leads on...~
+~
+0 -1 44100
+DDIR_WEST
+A forest path leads west.~
+~
+0 -1 44102
+#44102
+Forest Path~
+You find yourself on a path through a thick, lush forest.  The path is fairly
+well travelled as the dirt is packed down quite hard.  Tall trees cover the sky
+and only bits of it may be seen when you look up.  The forest nearby is very
+quiet only an occasional bird chirping can be heard.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+Some thick brush covers the trail.~
+~
+0 -1 44101
+DDIR_SOUTH
+The path continues.~
+~
+0 -1 44103
+#44103
+Forest Path~
+You find yourself on a path through a thick, lush forest.  The path is fairly
+well travelled as the dirt is packed down quite hard.  Tall trees cover the sky
+and only bits of it may be seen when you look up.  The forest nearby is very
+quiet only an occasional bird chirping can be heard.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path continues.~
+~
+0 -1 44102
+DDIR_SOUTH
+The path continues.~
+~
+0 -1 44104
+#44104
+Forest Path~
+You find yourself on a path through a thick, lush forest.  The path is fairly
+well travelled as the dirt is packed down quite hard.  Tall trees cover the sky
+and only bits of it may be seen when you look up.  The forest nearby is very
+quiet only an occasional bird chirping can be heard.  A clearing can be seen
+to the west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The trail continues.~
+~
+0 -1 44103
+DDIR_WEST
+A clearing can be seen in the distance.~
+~
+0 -1 44105
+#44105
+Clearing~
+You find yourself in a clearing from the forest.  The clearing is mainly a field
+of tall green grass.  There are a few large rocks that jut out of the ground
+here amongst the tall grass.  You can hear the sounds of crickets chirping all
+through the field.  A faint path leads east and west here leading back towards
+more forested areas.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A path leads on.~
+~
+0 -1 44104
+DDIR_WEST
+A clearing is west of here.~
+~
+0 -1 44106
+#44106
+Crossroads~
+You are standing at a crossroad in the path with trails leading in each of the
+cardinal directions.  A small water source can be seen off in the distance to
+the north while forested areas can be seen to the other directions.  You can
+hear the roar of a river to the south as well.  An old, dead tree stands in
+the center of this dusty clearing.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A sandy beach lies to the north.~
+~
+0 -1 44107
+DDIR_EAST
+A clearing is to the east.~
+~
+0 -1 44105
+DDIR_SOUTH
+A wooded trail can be seen leading south.~
+~
+0 -1 44108
+DDIR_WEST
+The path leads onward.~
+~
+0 -1 44109
+#44107
+Sandy Beach~
+This sandy beach is full of fine, brown sand.  Some drift wood that washed up
+on shore sticks of the sand near the pond that lies directly to the north.  A
+few willow trees hand down over the pond as well.  A few large stones are here
+that have been smoothed down over the years.  It is quite peaceful here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A pond can be seen to the north.~
+~
+0 -1 44110
+DDIR_SOUTH
+The crossroads lie to the south.~
+~
+0 -1 44106
+#44108
+Wooded Trail~
+This wooded trail is heavily forested.  Tall elm and pine trees flank each
+side of the path.  The road is fairly well travelled but has many roots
+growing up from the ground on the trail.  The sounds of wildlife can be heard
+as you travel this path.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The crossroads lie to the north.~
+~
+0 -1 44106
+DDIR_SOUTH
+The wooded trail winds on.~
+~
+0 -1 44169
+#44109
+Dusty Path~
+You are travelling on a dusty path.  The dry surface of the road kicks up dust
+as you walk on it.  A thick forest can be seen to the east where this path
+leads.  There are several trees bordering the pathway.  A monstrous tree can
+be seen in the western horizon it towers over the rest in the forest.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A crossroads lies to the east.~
+~
+0 -1 44106
+DDIR_WEST
+A wooded trail begins.~
+~
+0 -1 44114
+#44110
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 44112
+DDIR_SOUTH
+A beach can be seen to the south.~
+~
+0 -1 44107
+DDIR_WEST
+The pond continues.~
+~
+0 -1 44111
+#44111
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 44113
+DDIR_EAST
+The pond continues.~
+~
+0 -1 44110
+DDIR_WEST
+The pond continues.~
+~
+0 -1 44244
+#44112
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 0 SECT_LAKE
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 44110
+DDIR_WEST
+The pond continues.~
+~
+0 -1 44113
+#44113
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 44246
+DDIR_EAST
+The pond continues.~
+~
+0 -1 44112
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 44111
+DDIR_WEST
+The pond continues.~
+~
+0 -1 44245
+#44114
+Wooded Trail~
+You are walking in a dark, wooded trail.  The trail is quite dark because the
+overhanging trees are covering any light coming from above.  The sounds of
+wild animals can be heard rustling in the thicket nearby, it is kind of
+unnerving.  You can see some sort outpost in the distance to the west.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+The path continues on.~
+~
+0 -1 44109
+DDIR_WEST
+The path continues onward.~
+~
+0 -1 44115
+#44115
+Before an Outpost~
+You are standing before a wooden outpost of sorts.  There are several sentries
+standing here guarding the wooden fort.  There are platforms in the trees
+above you where sentries stand watch.  There is a wooden gate that can be
+closed to ward off potential attackers.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The trail winds on.~
+~
+0 -1 44114
+DDIR_WEST
+A wooden gate.~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44116
+#44116
+Forest Outpost~
+You find yourself inside a wooden outpost.  The outpost has many barrels full
+of provisions for the troops that are stationed here.  There are ladders that
+lead up to treetop lookouts that are sealed off from civilians.  Many elven
+sentries wander back and forth through here.  They guard the city from attacks
+from enemies as well as the beasts in the forest.  A large gate is here that
+can be closed so access to the city is blocked.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_FOREST
+DDIR_EAST
+A wooden gate.~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44115
+DDIR_WEST
+The entrance to the city is west.~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44117
+DDIR_UP
+A ladder leads to the lookout.~
+~
+0 -1 44250
+#44117
+Eastern Entrance~
+You are standing at the eastern entrance of the City of Dawn.  There is a
+large wooden gate that opens and closes as people enter the city to the east.
+Many citizens stroll by you as you look about.  Most of the city is forested
+with a massive oak tree dominating the center of the city.  This tree is
+easily the largest tree you've ever seen.  Dirt roads travel north and south
+and a west street runs across the city.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine road continues.~
+~
+0 -1 44118
+DDIR_EAST
+Wooden Gate~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44116
+DDIR_SOUTH
+Pine road continues.~
+~
+0 -1 44119
+DDIR_WEST
+Cedar road continues west.~
+~
+0 -1 44150
+#44118
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.  A dwelling can
+be seen to the west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine Road continues on.~
+~
+0 -1 44120
+DDIR_SOUTH
+The eastern entrance is to the south.~
+~
+0 -1 44117
+DDIR_WEST
+A wooden dwelling lies west.~
+~
+0 -1 44202
+#44119
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The eastern gate is north.~
+~
+0 -1 44117
+DDIR_SOUTH
+Pine roads continues.~
+~
+0 -1 44151
+DDIR_WEST
+A wooden hut is to the west.~
+~
+0 -1 44209
+#44120
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Pine Road continues onward.~
+~
+0 -1 44118
+DDIR_WEST
+Pine Road continues onward.~
+~
+0 -1 44121
+#44121
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine Road winds onward.~
+~
+0 -1 44122
+DDIR_EAST
+Pine Road winds onward.~
+~
+0 -1 44120
+#44122
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Pine Road winds onward.~
+~
+0 -1 44121
+DDIR_WEST
+Pine Road winds onward.~
+~
+0 -1 44123
+#44123
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The corner of Pine and Spruce roads is north of here.~
+~
+0 -1 44124
+DDIR_EAST
+Pine Road continues.~
+~
+0 -1 44122
+#44124
+Corner of Pine and Spruce Roads~
+You are on the corner of Pine and Spruce roads.  There are many trees
+surrounding this bend in the road.  There are not too many houses nearby but
+there are a few small dwellings.  The city wall lies to the north while the
+great oak lies to the south from here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Pine road winds its way on.~
+~
+0 -1 44123
+DDIR_WEST
+Spruce road winds onward.~
+~
+0 -1 44125
+#44125
+Spruce Road~
+You are travelling on Spruce Road it is the northern road in the city.  To the
+west of the road is the massive city wall that protects the city from danger.
+On the eastern side of the road many huts and trees can be seen as you look
+deeper into the city you spot the massive great oak tree to the south.  You
+can see citizens, merchants, and other travellers roaming the streets here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The corner of Pine and Spruce roads lies to the east.~
+~
+0 -1 44124
+DDIR_SOUTH
+A wooden hut lies to the south.~
+~
+0 -1 44203
+DDIR_WEST
+Spruce Road winds its way west.~
+~
+0 -1 44126
+#44126
+Spruce Road~
+You are travelling on Spruce Road it is the northern road in the city.  To the
+west of the road is the massive city wall that protects the city from danger.
+On the eastern side of the road many huts and trees can be seen as you look
+deeper into the city you spot the massive great oak tree to the south.  You
+can see citizens, merchants, and other travellers roaming the streets here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Spruce Road winds onward.~
+~
+0 -1 44125
+DDIR_WEST
+An intersection is to the west.~
+~
+0 -1 44127
+#44127
+Intersection~
+You are standing at a three way intersection.  A cobblestone path leads on
+south towards the center of the city while Spruce Road heads east and west.
+At this intersection you can see a few peddlers selling cheap wares as well as
+a few street performers trying to earn a few coins.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Spruce Road continues.~
+~
+0 -1 44126
+DDIR_SOUTH
+A cobblestone path leads south.~
+~
+0 -1 44129
+DDIR_WEST
+Spruce Road continues.~
+~
+0 -1 44128
+#44128
+Spruce Road~
+You are travelling on Spruce Road it is the northern road in the city.  To the
+west of the road is the massive city wall that protects the city from danger.
+On the eastern side of the road many huts and trees can be seen as you look
+deeper into the city you spot the massive great oak tree to the south.  You
+can see citizens, merchants, and other travellers roaming the streets here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+An intersection is east.~
+~
+0 -1 44127
+DDIR_WEST
+Spruce Road winds onward.~
+~
+0 -1 44134
+#44129
+Cobblestone Path~
+You are walking on a cobblestone path that is flanked on the east and west
+by tall oak and elm trees.  There are few dwellings and buildings on this
+path.  There are several birds eating seeds and other food on the ground
+as you walk on.  There are many wild flowers that sprout up on the sides of
+the road as well.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An intersection is north.~
+~
+0 -1 44127
+DDIR_SOUTH
+A cobblestone path continues south.~
+~
+0 -1 44130
+#44130
+Cobblestone Path~
+You are walking on a cobblestone path that is flanked on the east and west
+by tall oak and elm trees.  There are few dwellings and buildings on this
+path.  There are several birds eating seeds and other food on the ground
+as you walk on.  There are many wild flowers that sprout up on the sides of
+the road as well.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The cobblestone path continues.~
+~
+0 -1 44129
+DDIR_SOUTH
+A path winds on.~
+~
+0 -1 44131
+#44131
+Before the Great Oak~
+You are standing before a massive oak tree that stands in the center of the
+city which is mostly forested.  Many trees of variety of types surround the
+mighty oak tree, but the great oak towers over the rest of the trees around
+the oak tree could possibly be 300 feet tall and its trunk seems to be wide
+as several buildings put together.  It shadows the sky as you look up at it.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A cobblestone path continues on.~
+~
+0 -1 44130
+DDIR_SOUTH
+The base of the great oak lies to the south.~
+~
+0 -1 44132
+#44132
+At the Base of the Great Oak~
+You are standing at the base of the great oak tree in the city.  The trunk of
+the tree is so wide you can barely see around it.  There is a stairway that is
+carved into the side of the tree that leads up to its higher limbs where it
+seems to have a lot of activity.  Smaller trees and shrubbery surrounds the
+area around the base of the tree as it towers over this small wooded area in
+the center of the city.  It is quite the sight and something you would not
+expect to see in the middle of a large city.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A path leads on.~
+~
+0 -1 44131
+DDIR_EAST
+A path leads on.~
+~
+0 -1 44149
+DDIR_SOUTH
+A path leads on.~
+~
+0 -1 44168
+DDIR_WEST
+A path leads on.~
+~
+0 -1 44145
+DDIR_UP
+A stairway leads up the side of the great oak.~
+~
+0 -1 44217
+#44133
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.  Two
+stone huts can be seen on each side of the road here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A stone hut can be seen to the north.~
+~
+0 -1 44212
+DDIR_EAST
+A forested area leads towards the oak east.~
+~
+0 -1 44145
+DDIR_SOUTH
+A stone hut can be seen to the south.~
+~
+0 -1 44213
+DDIR_WEST
+Cedar Road continues.~
+~
+0 -1 44144
+#44134
+Spruce Road~
+You are travelling on Spruce Road it is the northern road in the city.  To the
+west of the road is the massive city wall that protects the city from danger.
+On the eastern side of the road many huts and trees can be seen as you look
+deeper into the city you spot the massive great oak tree to the south.  You
+can see citizens, merchants, and other travellers roaming the streets here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Spruce Road winds onward.~
+~
+0 -1 44128
+DDIR_SOUTH
+A wooden hut lies to the south.~
+~
+0 -1 44204
+DDIR_WEST
+The corner of Maple and Spruce roads is west.~
+~
+0 -1 44135
+#44135
+Corner of Maple and Spruce Roads~
+You are on the corner of Maple and Spruce roads.  There are many trees
+surrounding this bend in the road.  There are not too many houses nearby but
+there are a few small dwellings.  The city wall lies to the north while the
+great oak lies to the south from here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Spruce Road continues.~
+~
+0 -1 44134
+DDIR_SOUTH
+Maple Road winds onward.~
+~
+0 -1 44136
+#44136
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The corner of Maple and Spruce Roads lies north.~
+~
+0 -1 44135
+DDIR_WEST
+Maple Road winds onward.~
+~
+0 -1 44137
+#44137
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Maple road winds on.~
+~
+0 -1 44136
+DDIR_SOUTH
+Maple road winds on.~
+~
+0 -1 44138
+#44138
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple Road continues on.~
+~
+0 -1 44137
+DDIR_WEST
+Maple Road continues on.~
+~
+0 -1 44139
+#44139
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Maple road winds on.~
+~
+0 -1 44138
+DDIR_SOUTH
+Maple road winds on.~
+~
+0 -1 44140
+#44140
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.  A hut with smoke
+rising from its chimney lies directly to the east off the road.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple road winds onward.~
+~
+0 -1 44139
+DDIR_EAST
+A wooden hut is to the east.~
+~
+0 -1 44205
+DDIR_SOUTH
+The western entrance is to the south.~
+~
+0 -1 44141
+#44141
+Western Entrance~
+You are standing before the western entrance of the City of Dawn.  The mighty
+wooden gate lies directly to your west.  To the east the mighty oak tree
+stands at the center of the city it is quite the sight.  Maple road runs
+north and south here as well as cedar road leading towards the center of the
+city.  There are many citizens passing by here going from here to there.  The
+city is quite the busy place as you can see.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple road winds onward.~
+~
+0 -1 44140
+DDIR_EAST
+Cedar road continues to the east.~
+~
+0 -1 44142
+DDIR_SOUTH
+Maple road winds onward.~
+~
+0 -1 44143
+DDIR_WEST
+Wooden Gate~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44198
+#44142
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Cedar road winds onward.~
+~
+0 -1 44144
+DDIR_WEST
+The western entrance to the city lies west.~
+~
+0 -1 44141
+#44143
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.  A wooden hut lies
+directly to the east here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The western entrance to the city is north.~
+~
+0 -1 44141
+DDIR_EAST
+A wooden hut is to the east.~
+~
+0 -1 44206
+DDIR_SOUTH
+Maple Road winds onward.~
+~
+0 -1 44166
+#44144
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Cedar Road continues east.~
+~
+0 -1 44133
+DDIR_WEST
+Cedar road winds onward.~
+~
+0 -1 44142
+#44145
+Before the Great Oak~
+You are standing before a massive oak tree that stands in the center of the
+city which is mostly forested.  Many trees of variety of types surround the
+mighty oak tree, but the great oak towers over the rest of the trees around
+the oak tree could possibly be 300 feet tall and its trunk seems to be wide
+as several buildings put together.  It shadows the sky as you look up at it.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The great oak lies to the east.~
+~
+0 -1 44132
+DDIR_WEST
+Cedar Road continues on.~
+~
+0 -1 44133
+#44146
+Hang Out~
+This is a cosy hang out for the gods to overlook the activities of Dawn City.
+There are a few pictures of nekkid ladies on the wall that are eye-catching,
+as well as a well stocked bar on the east wall.  This place isn't so bad.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N SECT_INSIDE
+#44147
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Cedar Road continues.~
+~
+0 -1 44150
+DDIR_WEST
+Cedar Road continues.~
+~
+0 -1 44148
+#44148
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.  A few
+large huts can be seen on each side of the road.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A stone hut can be seen to the north.~
+~
+0 -1 44210
+DDIR_EAST
+Cedar Road winds onward.~
+~
+0 -1 44147
+DDIR_SOUTH
+A stone hut can be seen to the south.~
+~
+0 -1 44211
+DDIR_WEST
+A wooded area towards the great oak leads west.~
+~
+0 -1 44149
+#44149
+Before the Great Oak~
+You are standing before a massive oak tree that stands in the center of the
+city which is mostly forested.  Many trees of variety of types surround the
+mighty oak tree, but the great oak towers over the rest of the trees around
+the oak tree could possibly be 300 feet tall and its trunk seems to be wide
+as several buildings put together.  It shadows the sky as you look up at it.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Cedar Road continues.~
+~
+0 -1 44148
+DDIR_WEST
+The great oak lies to the west.~
+~
+0 -1 44132
+#44150
+Cedar Road~
+You are walking on a small dirt road, Cedar Road, that leads east and west
+through the center of the city.  This road seems to lead directly to the
+great oak in the center of the city as well as the exits to the city.  There
+are a few stone dwellings on this part of the city which seems to be where
+the wealthier citizens may live.  Several citizens travel to and fro as you
+walk down the road which may be one of the busiest roads in the city.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The eastern entrance of the city is east.~
+~
+0 -1 44117
+DDIR_WEST
+Cedar road continues onward.~
+~
+0 -1 44147
+#44151
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine Road Continues.~
+~
+0 -1 44119
+DDIR_WEST
+Pine Road continues.~
+~
+0 -1 44152
+#44152
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Pine Road continues.~
+~
+0 -1 44151
+DDIR_SOUTH
+Pine Road continues.~
+~
+0 -1 44153
+#44153
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine Road continues.~
+~
+0 -1 44152
+DDIR_WEST
+Pine Road continues.~
+~
+0 -1 44154
+#44154
+Pine Road~
+You are walking on Pine Road.  This road runs north and south on the eastern
+borders of the city.  A tall wooden wall made from maple trees is the eastern
+boundary of this road while dwellings and trees lie on the west side of the
+road.  Travellers and citizens stroll past you as you walk by.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Pine Road continues.~
+~
+0 -1 44153
+DDIR_SOUTH
+Corner of Pine and Ash roads lies south.~
+~
+0 -1 44155
+#44155
+Corner of Pine and Ash Roads~
+You are at the corner of Pine and Ash roads.  This part of the city is fairly
+desolate mostly trees with only a few huts around to be seen.  The city wall
+is directly to the south here protecting the city from invasion.  You can see
+the mighty oak tree in the center of the city standing over everything else.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Pine Road continues on.~
+~
+0 -1 44154
+DDIR_WEST
+Ash Road winds its way onward.~
+~
+0 -1 44156
+#44156
+Ash Road~
+You are walking on Ash road the southern road of the city.  To the south you
+can see the large wooden city wall.  The northern side of the road is mainly
+residential scattered with several pine and ash trees.  You can still see
+the mighty oak tree in the center of the city to the north from here.  Many
+citizens walk past you as you are travelling.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A wooden hut lies to the north.~
+~
+0 -1 44208
+DDIR_EAST
+The corner of Pine and Ash roads is east.~
+~
+0 -1 44155
+DDIR_WEST
+Ash Road winds onward.~
+~
+0 -1 44157
+#44157
+Ash Road~
+You are walking on Ash road the southern road of the city.  To the south you
+can see the large wooden city wall.  The northern side of the road is mainly
+residential scattered with several pine and ash trees.  You can still see
+the mighty oak tree in the center of the city to the north from here.  Many
+citizens walk past you as you are travelling.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Ash Road continues on.~
+~
+0 -1 44156
+DDIR_WEST
+An intersection is seen west.~
+~
+0 -1 44158
+#44158
+Intersection~
+You are at a busy intersection on Ash road.  There is a cobblestone path that
+leads to the north here towards the great oak.  Several street performers
+try to earn a few coins by entertaining passing citizens here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A cobblestone path leads north.~
+~
+0 -1 44160
+DDIR_EAST
+Ash Road continues on.~
+~
+0 -1 44157
+DDIR_WEST
+Ash Road continues on~
+~
+0 -1 44159
+#44159
+Ash Road~
+You are walking on Ash road the southern road of the city.  To the south you
+can see the large wooden city wall.  The northern side of the road is mainly
+residential scattered with several pine and ash trees.  You can still see
+the mighty oak tree in the center of the city to the north from here.  Many
+citizens walk past you as you are travelling.
+~
+0 0 SECT_CITY
+DDIR_EAST
+An intersection lies to the east.~
+~
+0 -1 44158
+DDIR_WEST
+Ash Road winds on.~
+~
+0 -1 44161
+#44160
+Cobblestone Path~
+You are walking on a cobblestone path that is flanked on the east and west
+by tall oak and elm trees.  There are few dwellings and buildings on this
+path.  There are several birds eating seeds and other food on the ground
+as you walk on.  There are many wild flowers that sprout up on the sides of
+the road as well.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A cobblestone path winds on.~
+~
+0 -1 44167
+DDIR_SOUTH
+An intersection lies to the south.~
+~
+0 -1 44158
+#44161
+Ash Road~
+You are walking on Ash road the southern road of the city.  To the south you
+can see the large wooden city wall.  The northern side of the road is mainly
+residential scattered with several pine and ash trees.  You can still see
+the mighty oak tree in the center of the city to the north from here.  Many
+citizens walk past you as you are travelling.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+A hut lies to the north.~
+~
+0 -1 44207
+DDIR_EAST
+Ash Road winds onward.~
+~
+0 -1 44159
+DDIR_WEST
+The corner of Maple and Ash roads is west.~
+~
+0 -1 44162
+#44162
+Corner of Maple and Ash Roads~
+You are at the corner of Maple and Ash roads.  This part of the city is fairly
+desolate mostly trees with only a few huts around to be seen.  The city wall
+is directly to the south here protecting the city from invasion.  You can see
+the mighty oak tree in the center of the city standing over everything else.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple road continues.~
+~
+0 -1 44163
+DDIR_EAST
+Ash road continues.~
+~
+0 -1 44161
+#44163
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+The corner of Maple and Ash roads is to the south.~
+~
+0 -1 44162
+DDIR_WEST
+Maple road winds onward.~
+~
+0 -1 44164
+#44164
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple road winds on.~
+~
+0 -1 44165
+DDIR_EAST
+Maple road winds on.~
+~
+0 -1 44163
+#44165
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Maple Road winds onward.~
+~
+0 -1 44164
+DDIR_WEST
+Maple Road winds onward.~
+~
+0 -1 44166
+#44166
+Maple Road~
+You are walking on Maple Road which is the western road in the city.  The city
+wall borders the west side of the road while trees and dwellings can be found
+on the eastern side of the road.  The great oak tree loams in the center of
+the city causing a massive shadow some parts of the day.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Maple road winds onward.~
+~
+0 -1 44143
+DDIR_EAST
+Maple road winds onward.~
+~
+0 -1 44165
+#44167
+Cobblestone Path~
+You are walking on a cobblestone path that is flanked on the east and west
+by tall oak and elm trees.  There are few dwellings and buildings on this
+path.  There are several birds eating seeds and other food on the ground
+as you walk on.  There are many wild flowers that sprout up on the sides of
+the road as well.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The path winds on.~
+~
+0 -1 44168
+DDIR_SOUTH
+The cobblestone path continues.~
+~
+0 -1 44160
+#44168
+Before the Great Oak~
+You are standing before a massive oak tree that stands in the center of the
+city which is mostly forested.  Many trees of variety of types surround the
+mighty oak tree, but the great oak towers over the rest of the trees around
+the oak tree could possibly be 300 feet tall and its trunk seems to be wide
+as several buildings put together.  It shadows the sky as you look up at it.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The base of the great oak lies to the north.~
+~
+0 -1 44132
+DDIR_SOUTH
+A cobblestone path winds onward.~
+~
+0 -1 44167
+#44169
+Wooded Trail~
+This wooded trail is heavily forested.  Tall elm and pine trees flank each
+side of the path.  The road is fairly well travelled but has many roots
+growing up from the ground on the trail.  The sounds of wildlife can be heard
+as you travel this path.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The trail winds on.~
+~
+0 -1 44108
+DDIR_SOUTH
+The trail winds on.~
+~
+0 -1 44170
+#44170
+Overgrown Path~
+You are standing on an overgrown trail covered in roots and thicket.  The sky
+is blocked from the overhanging trees above you.  You can hear a flowing river
+to the south.  These woods are full of wildlife and their sounds can be heard
+for miles.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+A trail leads northbound.~
+~
+0 -1 44169
+DDIR_WEST
+The trail faintly leads on.~
+~
+0 -1 44171
+#44171
+Overgrown Path~
+You are standing on an overgrown trail covered in roots and thicket.  The sky
+is blocked from the overhanging trees above you.  You can hear a flowing river
+to the south.  These woods are full of wildlife and their sounds can be heard
+for miles.  The woods become less dense as you travel to the south.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+The trail leads on.~
+~
+0 -1 44170
+DDIR_SOUTH
+A dirty path can be seen south.~
+~
+0 -1 44172
+#44172
+Pathway Before the Bridge~
+You are walking on a dusty path just outside the woods to the north.  The
+path leads to a large stone bridge to the south that arches over a flowing
+river that can be heard very loudly roaring in the distance.  Tall trees
+tower over the horizon on the other side of the river.  A few large stones
+pretrude out of the ground here from years of erosion.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A faint path leads north.~
+~
+0 -1 44171
+DDIR_SOUTH
+A arched stone bridge can be seen south.~
+~
+0 -1 44173
+#44173
+Stone Bridge~
+You find yourself on a arched stone bridge.  The bridge is probably 15 feet
+above the creek below.  The ground itself is cobblestone while protective
+stone walls guard from people falling into the creek.  A path leads north and
+south here while the creek runs east and west under the bridge.
+~
+0 ROOM_NO_MOB SECT_ROAD
+DDIR_NORTH
+A path leads on.~
+~
+0 -1 44172
+DDIR_EAST
+The creek runs under the bridge.~
+~
+0 -1 44181
+DDIR_SOUTH
+A path leads on.~
+~
+0 -1 44174
+DDIR_WEST
+The creek runs under the bridge.~
+~
+0 -1 44187
+#44174
+Path Before the Bridge~
+You are standing on a dirt path that leads north to a stone bridge and south
+the path narrows a bit and leads towards a large clearing to the southeast.
+There are several trees growing here but not as dense as the forest north of
+the creek.  You can still hear the sounds of the creek flowing to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A stone brige lies to the north.~
+~
+0 -1 44173
+DDIR_SOUTH
+A path leads onward.~
+~
+0 -1 44175
+#44175
+Narrow Path~
+You are walking on a narrow path that leads north towards the creek and east
+to a clearing that seems to be occupied by several tents.  A few large pine
+trees tower on each side of the path.  A small wooded area is seen to the
+south in this scarsely wooded region.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The path continues on.~
+~
+0 -1 44174
+DDIR_EAST
+The path leads onward.~
+~
+0 -1 44180
+#44176
+Nomad Camp~
+bonfire in the center of the camp site that warms and lights the camp.  Three
+tents flank each side of the fire.  There are several sacks and barrels
+containing provisions for the camp occupants.  There are a few wagons on the
+outskirts of the camp that are used when these nomads move from place to place.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A tent is north.~
+~
+0 -1 44177
+DDIR_EAST
+A large tent is to the east.~
+~
+0 -1 44178
+DDIR_SOUTH
+A tent is south.~
+~
+0 -1 44179
+DDIR_WEST
+A path leads on.~
+~
+0 -1 44180
+#44177
+Nomad Tent~
+You are inside a nomad's tent.  There are several sleeping areas here that
+consist of bedrolls and a small pillow.  There are backpacks and other
+supplies stacked in the far corver of the tent which are probablly the
+belongings of the occupants.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The center of the camp lies outside the tent.~
+~
+0 -1 44176
+#44178
+In a Large Tent~
+You are inside a large pavilion tent.  This tent seems to be the main tent of
+the camp.  The nomads may use this tent for meetings, dining, and other
+purposes.  Many large crates, barrels, and trunks are full of supplies lining
+the north tent wall.  A long table is in the middle of the tent with a large
+wooden chair at the end of it, where someone of importance may sit.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+The campsite lies outside the tent.~
+~
+0 -1 44176
+#44179
+Nomad Tent~
+You are inside a nomad's tent.  There are several sleeping areas here that
+consist of bedrolls and a small pillow.  There are backpacks and other
+supplies stacked in the far corver of the tent which are probablly the
+belongings of the occupants.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The campsite is outside the tent.~
+~
+0 -1 44176
+#44180
+Narrow Path~
+You are walking on this narrow, dirt path.  There are tall grasses bordering
+each side of the path as you walk on.  You can see what seems to be a small
+campsite directly to the east.  Several pavalion tents are visible in the
+campsite as well as a large fire.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+A campsite can be seen east.~
+~
+0 -1 44176
+DDIR_WEST
+A path leads onward.~
+~
+0 -1 44175
+#44181
+Under the Bridge~
+You find yourself on the creek directly underneath the bridge.  You can see a
+large green ivy vine hanging from the east side of the bridge above.  The
+water is very cold here you notice as the current pulls you downstream.
+~
+0 ROOM_DARK SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44182
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44187
+#44182
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44183
+DDIR_WEST
+The creek runs under the bridge west.~
+~
+0 -1 44181
+#44183
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_NORTH
+The creek continues upstream.~
+~
+0 -1 44184
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44182
+#44184
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44185
+DDIR_SOUTH
+The creek continues downstream.~
+~
+0 -1 44183
+#44185
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  The
+current is more rabid here as you can hear a waterfall gushing into the creek
+east of here.  There are several large rocks here pertruding out of the water.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+A waterfall can be seen east.~
+~
+0 -1 44186
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44184
+#44186
+Waterfall~
+You are directly under a large, powerful waterfall!  The water gushes down
+from the cliff above.  It is very hard to maintain your position in this
+strong current of steady, falling water.
+~
+0 0 SECT_RIVER
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44185
+#44187
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek runs under a stone bridge.~
+~
+0 -1 44181
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44188
+#44188
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44187
+DDIR_SOUTH
+The creek continues downstream.~
+~
+0 -1 44189
+#44189
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_NORTH
+The creek continues upstream.~
+~
+0 -1 44188
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44190
+#44190
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.  A shiny
+object can be seen on the bottom of the creek.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44189
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44191
+E
+object~
+The object is very shiny and could be metallic it may be possible to swim down
+and grab the object.
+~
+#44191
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44190
+DDIR_SOUTH
+The creek continues downstream.~
+~
+0 -1 44192
+#44192
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.
+~
+0 0 SECT_RIVER
+DDIR_NORTH
+The creek continues upstream.~
+~
+0 -1 44191
+DDIR_WEST
+The creek continues downstream.~
+~
+0 -1 44193
+#44193
+Della Creek~
+You are on a small creek.  The water is crystal clear and you can see the
+bottom of the shallow water.  Several fish struggle against the current under
+the surface of the water.  The creek flows downstream to the west.  Several
+rocks are exposed above the water line causing slight rabids here.  The water
+current is much stronger here than further points upstream.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44192
+DDIR_WEST
+The creek continues downstream to some rabids.~
+~
+0 -1 44194
+#44194
+Rough Water~
+This part of the creek is much rockier than upstream.  There are several sharp
+rocks coming up of the water making this part of the creek very hard to
+traverse.  The current is very strong here and it is only getting stronger.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream.~
+~
+0 -1 44193
+DDIR_WEST
+The creek leads to some rapids.~
+~
+0 -1 44195
+#44195
+Rapids~
+The creek has become very dangerous with all the sharp rocks and broken tree
+limbs that pertrude from the bottom of the creek.  The water is much deeper
+here and the current is extremely strong, it is pulling you westward towards
+what seems to be a waterfall!
+~
+0 0 SECT_RIVER
+DDIR_EAST
+The creek continues upstream to some rapids.~
+~
+0 -1 44194
+DDIR_WEST
+A waterfall can be seen to the west.~
+~
+0 -1 44196
+#44196
+Waterfall~
+You are a the top of a large waterfall.  You are immediately pushed down over
+the side with no chance of preventing your fall!  The sound of the falling
+water is deafening.
+~
+0 0 SECT_RIVER
+DDIR_EAST
+Some rapids lie upstream.~
+~
+0 -1 44195
+DDIR_DOWN
+Down leads to below the waterfall.~
+~
+0 -1 44197
+#44197
+Under the Waterfall~
+You are deep under the water below the waterfall.  After that ordeal you are
+lucky to have survived.  The water pounding down on you makes it impossible
+to surface.  An underwater tunnel leads eastward hopefully there is an air
+pocket there!
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_SAVE|ROOM_NO_RIP SECT_UNDER_WATER
+DDIR_EAST
+A tunnel leads eastward.~
+~
+0 -1 44247
+#44198
+Trail Before the Gate~
+You are standing before a large wooden gate that lies to the east.  The gate
+leads inside the city of Dawn.  This is the western gate of the city the only
+thing that lies to the west of here is the mighty North Woods, which few
+dare to venture into.  A trail leads onward to the west deeper into the woods.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+Wooden Gate~
+Wooden Gate~
+EX_ISDOOR|EX_CLOSED -1 44141
+DDIR_WEST
+The trail winds on.~
+~
+0 -1 44200
+#44199
+Outpost~
+You are standing in an outpost elevated off the ground about 10 feet.  The
+outpost itself is made from maple logs from the trees nearby.  This seems to
+be the last place to hold up before a endless span of forest that can be seen
+to the southwest.  The city walls can be seen in the distance east.  In the
+outpost there are a few barrels full of supplies as well as a weaponrack that
+holds weapons for the sentries.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A trail leads east.~
+~
+0 -1 44201
+#44200
+Forest Trail~
+You are walking on a well-travelled forest trail.  The trail winds southwest
+deeper into the dense forest.  To the east the gates of the city can be
+seen in the distance.  There is lush wildlife in these woods as you can hear
+birds chirping and other animals rattling about in the brush.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+A trail winds onward.~
+~
+0 -1 44198
+DDIR_SOUTH
+A grove can be seen south.~
+~
+0 -1 44201
+#44201
+Forest Grove~
+You find yourself in a small grove in the middle of a thick forest.  There are
+many types of flowers growing in the center of this tranquil grove.  You can
+see a small outpost off to the west a bit as well as the trail continuing
+north and south.  The woods outside the grove are very thick and seem to
+go on endlessly.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A trail leads on.~
+~
+0 -1 44200
+DDIR_SOUTH
+A trail leads onward.~
+~
+0 -1 44214
+DDIR_WEST
+An outpost is to the west.~
+~
+0 -1 44199
+#44202
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Pine Road lies to the east.~
+~
+0 -1 44118
+#44203
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Spruce Road lies to the north.~
+~
+0 -1 44125
+#44204
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Spruce Road lies to the north.~
+~
+0 -1 44134
+#44205
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Maple Road lies to the west.~
+~
+0 -1 44140
+#44206
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 44143
+#44207
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Ash Road lies to the south.~
+~
+0 -1 44161
+#44208
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Ash Road lies to the south.~
+~
+0 -1 44156
+#44209
+Wooden Hut~
+You are standing in a simple wooden hut.  The hut contains only the basic
+needs for a citizen.  There is a straw mat in the corner where one may sleep
+and a wash basin on a small table in the corner of this small hut.  A few
+barrels rest in the corner as well that may be full of supplies.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Pine Road lies to the east.~
+~
+0 -1 44119
+#44210
+Stone Hut~
+You are in a large stone hut.  This seems to be a residential home for a
+wealthy citizen of Dawn.  There is a large table surrounded by chairs in the
+center of the room.  A stone fireplace is built into the east wall.  A nice
+chair lies in the southwestern corner of the main chamber where one can relax.
+There are also a few paintings on the wall decorating this chamber.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Cedar road can be seen south.~
+~
+0 -1 44148
+#44211
+Stone Hut~
+You are in a large stone hut.  This seems to be a residential home for a
+wealthy citizen of Dawn.  There is a large table surrounded by chairs in the
+center of the room.  A stone fireplace is built into the east wall.  A nice
+chair lies in the southwestern corner of the main chamber where one can relax.
+There are also a few paintings on the wall decorating this chamber.  A sign
+hangs on the far wall.
+~
+0 ROOM_NO_MOB|ROOM_GLOBE|ROOM_NO_GOHOME|ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_NORTH
+Cedar road lies north.~
+~
+0 -1 44148
+E
+sign~
+Home of Belmar
+~
+#44212
+Stone Hut~
+You are in a large stone hut.  This seems to be a residential home for a
+wealthy citizen of Dawn.  There is a large table surrounded by chairs in the
+center of the room.  A stone fireplace is built into the east wall.  A nice
+chair lies in the southwestern corner of the main chamber where one can relax.
+There are also a few paintings on the wall decorating this chamber.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_SOUTH
+Cedar road lies to the south.~
+~
+0 -1 44133
+#44213
+Stone Hut~
+You are in a large stone hut.  This seems to be a residential home for a
+wealthy citizen of Dawn.  There is a large table surrounded by chairs in the
+center of the room.  A stone fireplace is built into the east wall.  A nice
+chair lies in the southwestern corner of the main chamber where one can relax.
+There are also a few paintings on the wall decorating this chamber.  There is
+a bearskin rug on the ground that seems almost life-like.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+Cedar Road lies to the north.~
+~
+0 -1 44133
+E
+rug~
+The rug looks like a massive grizzly bear's fur that was killed recently.
+~
+#44214
+Forest Path~
+You are travelling on a forest path.  The forest is very dense here and can be
+quite dark at times.  The sounds of wildlife are diminished here compared to
+other parts of the nearby forest.  The path itself is hard packed soil and
+seems to be frequently traversed.  The tall wooden walls of dawn can be seen
+to the northeast.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The path winds onward.~
+~
+0 -1 44201
+DDIR_SOUTH
+The path winds onward.~
+~
+0 -1 44215
+#44215
+Forest Path~
+You are travelling on a forest path.  The forest is very dense here and can be
+quite dark at times.  The sounds of wildlife are diminished here compared to
+other parts of the nearby forest.  The path itself is hard packed soil and
+seems to be frequently traversed.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The path leads onward.~
+~
+0 -1 44214
+DDIR_WEST
+The path leads onward.~
+~
+0 -1 44216
+#44216
+Forest Path~
+You are travelling on a forest path.  The forest is very dense here and can be
+quite dark at times.  The sounds of wildlife are diminished here compared to
+other parts of the nearby forest.  The path itself is hard packed soil and
+seems to be frequently traversed.  You get a strange feeling of magic from the
+west down the path.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+The path leads onward.~
+~
+0 -1 44215
+DDIR_WEST
+A strange grove lies to the west.~
+~
+0 -1 44300
+#44217
+Climbing the Great Oak~
+You are walking up a spiraling stairway carved into the side of this mighty
+oak tree.  There is no railing on the side of the stairway so it is best to
+keep to the side of the tree while you travel up or down.
+~
+0 0 SECT_FOREST
+DDIR_UP
+The stairway winds up the tree.~
+~
+0 -1 44218
+DDIR_DOWN
+The wooden stairway leads down on the side of the tree.~
+~
+0 -1 44132
+#44218
+Climbing the Great Oak~
+You are walking up a spiraling stairway carved into the side of this mighty
+oak tree.  There is no railing on the side of the stairway so it is best to
+keep to the side of the tree while you travel up or down.  You can see for miles
+from up here.
+~
+0 0 SECT_FOREST
+DDIR_UP
+The stairway leads up to some large limbs.~
+~
+0 -1 44219
+DDIR_DOWN
+The wooden stairway leads down the tree.~
+~
+0 -1 44217
+#44219
+Center of the Great Oak Limbs~
+You are standing at the center of four massive limbs that wind off in each
+cardinal direction.  A stairway is carved into the side of this mighty tree
+that continues to spiral up and down the tree.  There are several citizens
+wandering about the limbs here going about their business.  There is a lot of
+traffic up here and this seems to be the center of commerce in the city.
+~
+0 ROOM_ALTAR_N|ROOM_SAFE SECT_FOREST
+DDIR_NORTH
+The limb continues on.~
+~
+0 -1 44221
+DDIR_EAST
+The limb continues on.~
+~
+0 -1 44220
+DDIR_SOUTH
+The limb continues on.~
+~
+0 -1 44222
+DDIR_WEST
+The limb continues on.~
+~
+0 -1 44223
+DDIR_UP
+The stairway on the tree leads up.~
+~
+0 -1 44236
+DDIR_DOWN
+The stairway leads down.~
+~
+0 -1 44218
+#44220
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The limb winds on.~
+~
+0 -1 44229
+DDIR_WEST
+The limbs adjoin west.~
+~
+0 -1 44219
+#44221
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb winds on.~
+~
+0 -1 44224
+DDIR_SOUTH
+The limbs join south.~
+~
+0 -1 44219
+#44222
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limbs adjoin to the north.~
+~
+0 -1 44219
+DDIR_SOUTH
+The tree limb continues.~
+~
+0 -1 44226
+#44223
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The tree limbs adjoin to the east.~
+~
+0 -1 44219
+DDIR_WEST
+The limb winds its way onward.~
+~
+0 -1 44232
+#44224
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb winds on.~
+~
+0 -1 44235
+DDIR_SOUTH
+The tree limb winds on.~
+~
+0 -1 44221
+DDIR_WEST
+The tree's inn is west.~
+~
+0 -1 44225
+#44225
+Treetop Inn~
+This wooden dwelling is the city's Inn.  Known as the Treetop Inn it is quite
+the large building that has many windows on the walls of the inn allowing
+patrons to view the forest and lower city below.  Barmaids and other servants
+serve drinks to all the customers here.  There are many tables lined with
+chairs scattered about the main room as well as a long wooden bar on the
+northern wall of the inn.  This would be a nice place to get a hot meal and
+a frosty cold beer.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The tree limb lies to the east.~
+~
+0 -1 44224
+#44226
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb continues on.~
+~
+0 -1 44222
+DDIR_SOUTH
+The limb winds onward.~
+~
+0 -1 44227
+#44227
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb winds onward.~
+~
+0 -1 44226
+DDIR_EAST
+A dwelling lies to the east.~
+~
+0 -1 44228
+DDIR_SOUTH
+The limb continues on.~
+~
+0 -1 44240
+#44228
+Armory~
+You find yourself in a wooden hut on the tree limb.  There are several racks
+full of hanging armor and various tools used in the making of metalworking and
+armoring.  There are a few barrels and a small table on the north wall of this
+dwelling.  A large crest hangs on the east wall of this armory.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+The treel limb lies to the west.~
+~
+0 -1 44227
+#44229
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The limb winds on.~
+~
+0 -1 44231
+DDIR_SOUTH
+A small shop is erected south.~
+~
+0 -1 44230
+DDIR_WEST
+The limb winds on.~
+~
+0 -1 44220
+#44230
+Weapon Shop~
+This small dwelling has been built into the side of the tree limb.  There is
+quite a few weapons hanging from racks on the south wall of this shop.  A
+wooden counter stands before you as you enter and a display case shows off
+smaller weapons for customers to buy.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The tree limb lies to the north.~
+~
+0 -1 44229
+#44231
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The limb winds on.~
+~
+0 -1 44238
+DDIR_WEST
+The limb winds onward.~
+~
+0 -1 44229
+#44232
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The limb winds on.~
+~
+0 -1 44223
+DDIR_WEST
+The tree limb winds on.~
+~
+0 -1 44233
+#44233
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A shop carved into a massive knot is north.~
+~
+0 -1 44234
+DDIR_EAST
+The limb winds onward.~
+~
+0 -1 44232
+DDIR_WEST
+The limb winds on.~
+~
+0 -1 44237
+#44234
+General Store~
+This dwelling is actually carved from a large knot on the massive limb.  This
+little shop has goods of all kinds resting on wooden shelves.  There is food,
+containers, and other items used by travellers.  It smells of strange herbs
+as you enter this shop.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The tree limb lies south.~
+~
+0 -1 44233
+#44235
+On the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb winds on.~
+~
+0 -1 44239
+DDIR_SOUTH
+The tree limb winds on.~
+~
+0 -1 44224
+#44236
+Climbing the Great Oak~
+You are walking up a spiraling stairway carved into the side of this mighty
+oak tree.  There is no railing on the side of the stairway so it is best to
+keep to the side of the tree while you travel up or down.  You can see for miles
+from up here.  You can see you are nearing the top of the tree soon.
+~
+0 0 SECT_FOREST
+DDIR_UP
+The stairway winds up the side of the tree.~
+~
+0 -1 44241
+DDIR_DOWN
+Tree limbs are down from here.~
+~
+0 -1 44219
+#44237
+End of the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+The tree limb ends here.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The tree limb winds onward.~
+~
+0 -1 44233
+#44238
+End of the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+The tree limb has come to a dead end here.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+The limb winds onward.~
+~
+0 -1 44231
+#44239
+End of the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+The limb comes to an end here.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+A small dwelling lies east.~
+~
+0 -1 44243
+DDIR_SOUTH
+The tree limb winds on.~
+~
+0 -1 44235
+#44240
+End of the Tree Limb~
+You are walking on a massive tree limb on this mighty oak.  The limb winds on
+and is very safe to walk on because of its shear size.  Dwellings are carved
+into the tree as well as some that have been erected on the limb itself.  You
+can see the entire forest from this vantage point and it is quite the sight.
+The limb has reached its end here.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The tree limb winds onward.~
+~
+0 -1 44227
+#44241
+Near the Top of the Great Oak~
+You are walking up a spiraling stairway carved into the side of this mighty
+oak tree.  There is no railing on the side of the stairway so it is best to
+keep to the side of the tree while you travel up or down.  You can see for miles
+from up here.  Above you there is a large platform built into the tree limbs.
+~
+0 0 SECT_FOREST
+DDIR_UP
+A large platform is up.~
+~
+0 -1 44242
+DDIR_DOWN
+The stairway leads down the tree down.~
+~
+0 -1 44236
+#44242
+Top of the Great Oak~
+You are standing on a large wooden platform that seems to be almost like a
+large crow's nest that a ship may have.  From this vantage point you can see
+nearly all of the countryside of Iosolo.  You can see Ellis City far to the
+north, Order's Landing far to the east, and the vast oceans further in the
+distance.  There is a small shrine up here that people may use to pray and
+get closer to their god Order.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_DOWN
+A spiral stairway leads down on the side of the tree.~
+~
+0 -1 44241
+#44243
+Treasure Shop~
+This small wooden dwelling is some sort of shop.  There are display cases
+that show off the owner's wares.  There are valuables of many types on
+display here, trinkets, gems, and jewelry cover most of the merchandise.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+The tree limb lies to the west.~
+~
+0 -1 44239
+#44244
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 0 SECT_LAKE
+DDIR_NORTH
+The pond continues.~
+~
+0 -1 44245
+DDIR_EAST
+The pond continues.~
+~
+0 -1 44111
+#44245
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water is fairly shallow in
+this part of the pond.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+The pond continues.~
+~
+0 -1 44113
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 44244
+#44246
+On a Pond~
+You on a dark blue pond.  The water is clear when you look into it, but has
+a dark blue color when you look at it from a distance.  The pond seems to have
+a massive bounty of fish swimming in it.  You can see them jumping out of the
+water on occasion causing a small splash.  The water here looks much deeper
+than the rest of the pond you have seen so far.
+~
+0 0 SECT_LAKE
+DDIR_SOUTH
+The pond continues.~
+~
+0 -1 44113
+#44247
+Underwater Tunnel~
+You are swimming in an underwater cavern.  It is very dark and cold down here
+as you swim on.  The tunnel leads onward.
+~
+0 ROOM_DARK|ROOM_NO_SAVE|ROOM_NO_RIP SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 44248
+DDIR_WEST
+The tunnel leads west.~
+~
+0 -1 44197
+#44248
+Underwater Tunnel~
+You are swimming in an underwater tunnel.  It is very dark and cold down here
+You can see a faint light coming from what seems to be the water surface up
+from here.
+~
+0 ROOM_DARK|ROOM_NO_SAVE|ROOM_NO_RIP SECT_UNDER_WATER
+DDIR_WEST
+The tunnel leads on.~
+~
+0 -1 44247
+DDIR_UP
+A small cave is above the water.~
+~
+0 -1 44249
+#44249
+Damp Cave~
+You find yourself in a damp cave.  The cave is covered in strange fungus and
+has strange rock formations covering most of the cave.  It seems to be a dead
+end here and the only way out is to swim back down into the tunnel.  This cave
+is serving as an air pocket and you can breath freely as you rest here.  You
+notice a crack on the northern cave wall.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_DOWN
+Dark water is down.~
+~
+0 -1 44248
+E
+crack~
+The crack may be big enough to enter.
+~
+#44250
+Treetop Lookout~
+You are standing on a platform on a large elm tree.  This platform serves as
+a lookout post for the elven sentries that guard the city.  There are a few
+overhanging branches that serve as make-shift benches here where one could
+take a rest.  You can see the entire trail to the east from here and you can
+see over the wooden city walls to the west.
+~
+0 0 SECT_FOREST
+DDIR_DOWN
+A ladder leads down to the outpost.~
+~
+0 -1 44116
+#44251
+Underwater~
+You are underwater at the bottom of the creek.  The current is not as bad down
+here but it could still pull you upward if you are not careful.
+~
+0 ROOM_DARK SECT_UNDER_WATER
+DDIR_UP
+The surface of the water is up.~
+~
+0 -1 44190
+#44252
+Dark Cave~
+You are in a small, dark cave.  The cave is quite small more like a small jail
+cell.  There are a few rocks jutting from the ground but other than that
+there are few details.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_SAVE SECT_DEEP_EARTH
+#0
+
+
+#RESETS
+O 44100 100 44100
+M 44100 100 44118
+M 44101 100 44118
+M 44100 100 44120
+M 44101 100 44120
+M 44100 100 44121
+M 44101 100 44121
+M 44100 100 44122
+M 44101 100 44122
+M 44100 100 44123
+M 44101 100 44123
+M 44100 100 44124
+M 44101 100 44124
+M 44100 100 44125
+M 44101 100 44125
+M 44100 100 44126
+M 44101 100 44126
+M 44100 100 44127
+M 44101 100 44127
+M 44100 100 44128
+M 44101 100 44128
+M 44100 100 44134
+M 44101 100 44134
+M 44100 100 44135
+M 44101 100 44135
+M 44100 100 44136
+M 44101 100 44136
+M 44100 100 44137
+M 44101 100 44137
+M 44100 100 44138
+M 44101 100 44138
+M 44100 100 44139
+M 44101 100 44139
+M 44100 100 44140
+M 44101 100 44140
+M 44100 100 44143
+M 44101 100 44143
+M 44100 100 44166
+M 44101 100 44166
+M 44100 100 44165
+M 44101 100 44165
+M 44100 100 44164
+M 44101 100 44164
+M 44100 100 44163
+M 44101 100 44163
+M 44100 100 44162
+M 44101 100 44162
+M 44100 100 44161
+M 44101 100 44161
+M 44100 100 44159
+M 44101 100 44159
+M 44100 100 44158
+M 44101 100 44158
+M 44100 100 44157
+M 44101 100 44157
+M 44100 100 44156
+M 44101 100 44156
+M 44100 100 44155
+M 44101 100 44155
+M 44100 100 44154
+M 44101 100 44154
+M 44100 100 44153
+M 44101 100 44153
+M 44100 100 44152
+M 44101 100 44152
+M 44100 100 44151
+M 44101 100 44151
+M 44100 100 44119
+M 44101 100 44119
+O 44101 100 44106
+M 44102 100 44100
+M 44103 100 44101
+M 44103 100 44102
+M 44104 100 44101
+M 44104 100 44102
+M 44103 100 44103
+M 44104 100 44103
+M 44103 100 44104
+M 44104 100 44104
+M 44103 100 44105
+M 44104 100 44105
+M 44103 100 44108
+M 44104 100 44108
+M 44103 100 44169
+M 44104 100 44169
+O 44102 100 44176
+O 44103 100 44179
+O 44104 100 44178
+M 44105 100 44176
+M 44105 100 44176
+M 44106 100 44179
+M 44106 100 44179
+M 44106 100 44177
+M 44106 100 44177
+M 44108 100 44178
+M 44107 100 44178
+M 44107 100 44178
+M 44107 100 44180
+M 44107 100 44180
+M 44109 100 44246
+G 44106  33 0
+M 44110 100 44116
+M 44110 100 44116
+M 44110 100 44250
+M 44110 100 44250
+M 44111 100 44186
+M 44112 100 44185
+M 44113 100 44184
+M 44112 100 44183
+M 44112 100 44182
+M 44112 100 44187
+M 44113 100 44188
+M 44112 100 44189
+M 44112 100 44190
+M 44113 100 44191
+M 44112 100 44192
+M 44112 100 44193
+M 44112 100 44181
+O 44107 100 44181
+O 44108 100 44190
+O 44109 100 44251
+M 44114 100 44251
+M 44115 100 44194
+M 44116 100 44195
+M 44117 100 44196
+O 44110 100 44249
+O 44111 100 44249
+M 44118 100 44173
+D 44115 DIR_WEST  DOOR_CLOSED
+O 44112 100 44115
+M 44119 100 44116
+O 44113 100 44199
+D 44198 DIR_EAST  DOOR_CLOSED
+D 44141 DIR_WEST  DOOR_CLOSED
+M 44110 100 44199
+M 44110 100 44199
+O 44114 100 44219
+O 44115 100 44219
+M 44101 100 44229
+M 44100 100 44229
+M 44101 100 44238
+M 44100 100 44238
+M 44101 100 44233
+M 44100 100 44233
+M 44101 100 44227
+M 44100 100 44227
+M 44101 100 44224
+M 44100 100 44224
+M 44101 100 44239
+M 44100 100 44239
+M 44120 100 44228
+G 44135 100 0
+G 44134 100 0
+G 44133 100 0
+G 44132 100 0
+G 44131 100 0
+M 44121 100 44230
+G 44122 100 0
+G 44121 100 0
+G 44120 100 0
+G 44119 100 0
+M 44122 100 44234
+G 44151 100 0
+G 44126 100 0
+G 44130 100 0
+G 44129 100 0
+G 44128 100 0
+G 44127 100 0
+G 44125 100 0
+G 44124 100 0
+G 44123 100 0
+M 44123 100 44225
+G 44138 100 0
+G 44137 100 0
+G 44136 100 0
+M 44124 100 44225
+M 44125 100 44243
+G 44142 100 0
+G 44141 100 0
+G 44140 100 0
+G 44139 100 0
+O 44116 100 44242
+M 44126 100 44242
+D 44116 DIR_WEST  DOOR_CLOSED
+D 44116 DIR_EAST  DOOR_CLOSED
+D 44117 DIR_EAST  DOOR_CLOSED
+O 44117 100 44132
+O 44104 100 44212
+M 44127 100 44212
+O 44104 100 44213
+M 44128 100 44213
+O 44104 100 44210
+M 44132 100 44211
+O 44104 100 44211
+O 44118 100 44202
+O 44118 100 44209
+O 44118 100 44208
+O 44118 100 44207
+O 44118 100 44206
+O 44118 100 44205
+O 44118 100 44204
+O 44118 100 44203
+O 44143 100 44201
+O 44145 100 44100
+M 44130 100 44225
+M 44131 100 44175
+M 44134 100 44199
+O 44104 100 44146
+O 44102 100 44146
+O 43720 100 44146
+M 44135 100 44146
+O 44118 100 44146
+P 43810 100 44118
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,2169 @@
+#AREA Tanglewood forest~
+#AUTHORS Damiana Scandum Tanis~
+#VERSION 4
+#RANGES 1 10 1 95
+
+
+#HELPS
+0 'TANGLEWOOD FOREST'~
+{128}
+                              Tanglewood forest
+{308}
+Tanglewood forest is a area easily found when traveling eastwards after passing
+the east gate of Roterodamum.  Though the forest might seem peaceful at first
+sight the forest creatures are in grave danger, and might need your help to
+overcome the evil tidings.
+{148}
+Modified by Damiana and Scandum
+~
+
+0 $~
+
+
+#MOBILES
+#11500
+ranger forest~
+the Forest Ranger~
+A Forest Ranger stands here.~
+His hair is longer than you'd expect, and dark.  His keen grey eyes are guarded,
+although a faint smile plays over his lips.  He wears dark leather armor, and a
+longsword is resting lightly in his hand.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_HASTE
+0 S
+8 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 3d3+75 1d5+3
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if rand (25)
+  if quest (0,3,$n) == 0
+    say Please will you Help us?  We can abide no longer
+    say neither the foul stench of the Orc, nor its savage,
+    say bloody ways.  If you can Help, I am certain we can
+    say find a way to Reward you.
+  endif
+endif
+if quest (0,3,$n) == 2
+  if hasobjnum ($n) == 11507
+    say I heard the death cry of that foul creature and see
+    say you have returned with the bone bracelet, my friend!
+    say Hand it to me now, it holds powers we need to protect
+    say our fair forest from future assaults.
+  endif
+endif
+if quest (0,3,$n) == 3
+  say Well done, friend.  We are greateful for your heroic
+  say effort.
+  if class ($n) == class_ranger
+    mpoload 11521
+  endif
+  if class ($n) == class_gladiator
+    mpoload 11522
+  endif
+  if class ($n) == class_marauder
+    mpoload 11523
+  endif
+  if class ($n) == class_elementalist
+    mpoload 11524
+  endif
+  if class ($n) == class_illusionist
+    mpoload 11525
+  endif
+  if class ($n) == class_monk
+    mpoload 11526
+  endif
+  if class ($n) == class_ninja
+    mpoload 11527
+  endif
+  if class ($n) == class_necromancer
+    mpoload 11529
+  endif
+  give i1152 $n
+  say Please accept this as a token of our gratitude.
+  mpmset $n quest 0 3 4
+endif
+~
+>speech_prog help~
+if quest (0,3,$n) == 0
+  say Please, kill the Boss Orc for us.  It's strengh
+  say is too much to overcome for us forest people.
+  say Bring back the magical bracelet the foul creature
+  say wears to me.
+  mpmset $n quest 0 3 1
+endif
+~
+>speech_prog reward~
+if quest (0,3,$n) == 0
+or quest (0,3,$n) == 1
+  say I promise, it will be a handsome reward, but cannot
+  say reveal what it is until you complete this quest.
+endif
+~
+>give_prog i11507~
+if quest (0,3,$n) == 2
+  emote smiles sliding the bone bracelet around $l wrist.
+  say Thank you.. now let me find you a fitting reward
+  say which lies hidden a cave high in the mountains.
+  say Find me upon my return and it will be yours.
+  mpmset $n quest 0 3 3
+  mppurge self
+else
+  wear i11507
+  say thank you stranger..
+  smile $n
+endif
+~
+|
+#11501
+bunny rabbit small~
+the bunny rabbit~
+A small bunny rabbit is hopping around here.~
+The bunny rabbit is a small happy forest creature.
+~
+ACT_SENTINEL|ACT_BODY
+0
+5 S
+4 BODY_HEAD|BODY_HIP|BODY_FOOT BODY_MOUTH 3d3+15 1d3+2
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if rand (33)
+  emote hops around happily.
+else
+  if rand (50)
+    emote leaves a dropping on your shoe.
+  else
+    smile $r
+  endif
+endif
+~
+|
+#11502
+rabbit small~
+the rabbit~
+A small rabbit is hopping around happily.~
+This chubby little rabbit is brown, with a fluffy white tummy and a fat
+cottontail.  His long ears are up, and his nose twitches with curiosity.
+~
+ACT_SENTINEL|ACT_BODY
+0
+5 S
+5 BODY_HEAD|BODY_HIP|BODY_FOOT BODY_MOUTH 1d10+25 1d4+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 4~
+if rand (50)
+  emote hops around happily.
+else
+  emote leaves a dropping on your shoe.
+endif
+~
+|
+#11503
+rabbit fat~
+the fat rabbit~
+A fat rabbit is sitting here.~
+This rabbit is not so much fat, as he is large and muscular.  He has a huge ruff
+of fur around his shoulders, and his eyes are not so much soft, as sharply
+intelligent.  Almost ... a sneaky rabbit.
+~
+ACT_SENTINEL|ACT_BODY
+0
+5 S
+6 BODY_HEAD|BODY_HIP|BODY_FOOT BODY_MOUTH 1d10+30 1d6+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+look $r
+yawn 
+~
+|
+#11504
+rabbit big king~
+the big rabbit~
+A big rabbit is here, ruling his kingdom.~
+The rabbit has a crown on his head.
+~
+ACT_SENTINEL|ACT_BODY
+0
+10 S
+8 BODY_HEAD|BODY_HIP|BODY_FOOT BODY_MOUTH 1d20+50 1d6+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+look $r
+~
+|
+#11505
+girl little~
+the little girl~
+A little girl is here.~
+Beneath the red hood of the velvet cape she is wearing, the little girl shows
+her silken golden curls, tied up with scarlet ribbons, and large, china-blue
+eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+100 S
+6 BODY_ARM BODY_MOUTH|BODY_ARM 1d10+50 1d6+2
+500 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+if rand (25)
+  cry 
+else
+  if rand (35)
+    say The monster under the bed stole my teddybear!
+  else
+    say I miss my teddybear
+    sniff 
+  endif
+endif
+~
+>give_prog I11505~
+say oh thank you!
+smile 
+hug $n
+mpoload 11509
+give i11509 $n
+mpjunk all
+~
+|
+#11506
+butterfly red~
+the red butterfly~
+A red butterfly is flying around the clearing.~
+The butterfly is coloured in variegated tones of red, from palest pink to blood
+red.  Its wings gracefully move as it flits around this clearing.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND|AFF_FLYING
+0 S
+5 BODY_WING BODY_WING 1d10+25 1d5+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11507
+butterfly yellow~
+the yellow butterfly~
+A yellow butterfly is here, resting on a flower.~
+The butterfly is the colour of lemon, with the faintest touches of white on the
+tips of its delicate wings.  Its wings barely move as it rests on a poppy.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND|AFF_FLYING
+0 S
+5 BODY_WING BODY_WING 1d10+25 1d5+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11508
+butterfly black~
+the black butterfly~
+The black butterfly is here.~
+This butterfly wouldn't believe it, but the black velvet of its delicate wings
+is remarkably beautiful.  It sits here on a small rock, not moving, its head
+hanging down, sniffing sadly.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_FLYING
+5 S
+10 BODY_WING BODY_WING 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if rand (33)
+  say Oh I wish I were as colorful as the other
+  say butterflies.
+else
+  if rand (50)
+    say Why must I be so black?
+  else
+    sniff 
+  endif
+endif
+~
+>give_prog I11506~
+mpoload 11516
+say Finally I can have some color on myself!
+smile 
+give i11516 $n
+emote flies off to join the other butterflys.
+mppurge self
+~
+>give_prog I11510~
+mpoload 11514
+say Finally I can have some color on myself!
+smile 
+give i11514 $n
+emote flies off to join the other butterflys.
+mppurge self
+~
+>give_prog I11511~
+mpoload 11515
+say Finally I can have some color on myself!
+smile 
+give i11515 $n
+emote flies off to join the other butterflys.
+mppurge self
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#11509
+butterfly blue~
+the blue butterfly~
+There's a blue butterfly sunbathing here.~
+The butterfly has wings of deepest azure, with small bands of turquoise around
+the edge of each.  It seems to almost be asleep as it rests in the sun, with
+only the faintest twitch of its wings.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_BLIND|AFF_FLYING
+0 S
+5 BODY_MOUTH|BODY_WING BODY_WING 1d10+25 1d5+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11510
+frog~
+the frog~
+A frog is sitting on a water lily here.~
+The frog has a small crown on its head.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+5 BODY_LEG BODY_MOUTH 1d10+25 1d5+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>social_prog kiss~
+mpecho The frog didn't quite turn into a prince.
+~
+|
+#11511
+orc boss~
+the boss orc~
+There's a big bad fat boss orc here.~
+This massive orc dwarfs the cave.  Even bent over, he's more than 6 feet tall,
+with a barrel-like chest and wide shoulders.  Whatever hair he has is dark and
+greasy, falling lankly over sharply pointed ears.  An evil grin shows his darkly
+yellow teeth stretched over mean greyish lips.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+-10 S
+11 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d30+96 1d11+3
+20000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 20~
+shout Waa Ork! Waa Ork! Waa Ork!
+~
+>time_prog 21~
+shout 'Ere we go! 'Ere we go!
+~
+>time_prog 22~
+shout Wez raidin' the 'hood!
+emote waves his sword in the air and screams his battlecry.
+~
+>time_prog 23~
+mpareaecho outdoors You see orcs run down the mountain in a sea of drool.
+~
+>time_prog 03~
+if rand (50)
+  shout Time for uz to run awayyyy ....
+  shout Ork be back anovver day!
+else
+  shout Okr wot fights and runs awayyyy ....
+  shout Lives to fight anovver dayy!
+endif
+~
+>rand_prog 33~
+if time () <= 21
+  if time () >= 03
+    if inroom ($i) == 11527
+      break
+    endif
+  endif
+endif
+if time () > 21
+or time () < 03
+  if hitprcnt ($i) < 50
+    say Ork is hurtz is, Ork wate and lick woundz.
+    break
+  endif
+  if inroom ($i) == 11527
+    say Iz time zoe fart en kil buttezflys...
+    say An me all out ofs fart!
+    west 
+    break
+  endif
+  if inroom ($i) == 11526
+    emote slavers and foams from exitement looking out over the forest.
+    down 
+    break
+  endif
+  if inroom ($i) == 11525
+    if existsroom (M11512)
+      emote swings $l sword in excitement, almost decapitating an orc boy!
+    else
+      emote swings $l sword in excitement.
+    endif
+    south 
+    break
+  endif
+  if inroom ($i) == 11520
+    mpasound Flowers wither and die as the Orcs crash through.
+    east 
+    break
+  endif
+  if inroom ($i) == 11521
+    mpasound Birds fall out of their nests at the massive Orc-stench.
+    south 
+    break
+  endif
+  if existsroom (ranger)
+    say DiEz Ranjer!
+    mpkill ranger
+    break
+  endif
+  if existsroom (king)
+    say Mes boz Me no like Kings of bunz!
+    mpkill king
+    break
+  endif
+  if existsroom (bunny)
+    if rand (50)
+      say Me like killing yummie bunnie!
+    else
+      say Mmmmmmm .... I smells BUNNY .. lez gets us some TAIL!!
+    endif
+    mpkill bunny
+    break
+  endif
+  if existsroom (rabbit)
+    if rand (50)
+      say Me great rabbit slayer!
+    else
+      say MmMMmM .... I smalls BUNNIES .. lez gets us some EARZ!!
+    endif
+    mpkill rabbit
+    break
+  endif
+  if existsroom (butterfly)
+    if rand (50)
+      say We is Ork and dumb we aint ,, must squash bugs for drops of paint!
+    else
+      say We Ork no like pretty buttezflys!
+    endif
+    kill butterfly
+    break
+  endif
+  if inroom ($i) == 11515
+    if existsarea (king)
+      say Mmmm me smell bunniez!
+      south 
+      break
+    endif
+    break
+  endif
+  if inroom ($i) == 11509
+    if existsarea (king)
+      say HRMRMMR! Me smelz lots of bunnie!
+      west 
+      break
+    endif
+    if existsarea (girl)
+      say Mez smelting cookeez!
+    endif
+    east 
+  endif
+  if inroom ($i) == 11508
+    shout Have yous effer smelt Fear?  Smel Orc!
+    south 
+    break
+  endif
+  if inroom ($i) == 11504
+    mpasound With catlike thread, the Orcs silently approach .. like a herd of elephants.
+    east 
+    break
+  endif
+  if inroom ($i) == 11505
+    north 
+    break
+  endif
+  if inroom ($i) == 11510
+    if existsarea (girl)
+      if validexit (north)
+        say Mez Smells lovelies smells of cookee!
+        north 
+      else
+        doorbash north
+      endif
+      break
+    endif
+  endif
+  if inroom ($i) == 11522
+    if existsroom (girl)
+      say Wez luv chokkie chip cookeez ... wez eats they all ...
+      say and kills ones wut made em!!
+      mpkill girl
+    endif
+    break
+  endif
+else
+  if inroom ($i) == 11527
+    break
+  endif
+  if inroom ($i) == 11526
+  or inroom ($i) == 11508
+    east 
+    break
+  endif
+  if inroom ($i) == 11525
+    up 
+    break
+  endif
+  if inroom ($i) == 11525
+  or inroom ($i) == 11520
+  or inroom ($i) == 11515
+  or inroom ($i) == 11509
+  or inroom ($i) == 11506
+  or inroom ($i) == 11505
+  or inroom ($i) == 11504
+  or inroom ($i) == 11501
+  or inroom ($i) == 11500
+    north 
+    break
+  endif
+  if inroom ($i) == 11521
+  or inroom ($i) == 11502
+  or inroom ($i) == 11510
+  or inroom ($i) == 11511
+  or inroom ($i) == 11517
+  or inroom ($i) == 11516
+    west 
+    break
+  endif
+  if inroom ($i) == 11522
+  or inroom ($i) == 11528
+    if validexit (south)
+      south 
+    else
+      doorbash south
+    endif
+    break
+  endif
+endif
+~
+>rand_prog 5~
+if inroom ($i) == 11527
+  say Oo... wot do us 'ave 'ere?
+  slap $r
+  mpkill $r
+endif
+~
+>greet_prog 50~
+if inroom ($i) == 11527
+  say kill it boyz! rip itz lungz out! Make me 'appy!
+  mpkill $n
+endif
+~
+>fight_prog 100~
+if time () > 21
+or time () < 03
+or inroom ($i) == 11527
+  break
+endif
+say Ork wot fights and flees to cave ....
+say Ther Ork fight wit mite real brafe!
+flee 
+flee 
+~
+>death_prog 100~
+if quest (0,3,$n) == 1
+  mpmset $n quest 0 3 2
+else
+  mpjunk i11507
+endif
+~
+|
+#11512
+orc boy M11512~
+the orc boy~
+A small orc is here.~
+It's an ordinary orc, about 5 feet high and ugly as hell.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+-5 S
+7 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d10+50 1d5+2
+2000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 25~
+if time () <= 21
+  if time () >= 03
+    if inroom ($i) == 11527
+      break
+    endif
+  endif
+endif
+if time () > 21
+or time () < 03
+  if existsroom (dragon)
+    if rand (50)
+      say Ork luv babee dragonz ...
+      say crispee outside ...
+      say squishee insidez!!!
+      mpkill dragon
+    else
+      mpforce dragon mpecho The baby dragon trembles in its small nest wishing its mother would return.
+      mpkill dragon
+    endif
+    break
+  endif
+  if inroom ($i) == 11527
+    say Orkz raid! Mightful Orkz ar raidin!
+    west 
+    break
+  endif
+  if inroom ($i) == 11526
+    say Ork luv babee dragonz!
+    down 
+    break
+  endif
+  if inroom ($i) == 11525
+    emote sniffs the air.
+    south 
+    break
+  endif
+  if inroom ($i) == 11520
+    say Ork smelting babee dragon!
+    west 
+    break
+  endif
+  if inroom ($i) == 11524
+  or inroom ($i) == 11519
+    say Babee dragonz make Ork boyz HAPZY!
+    south 
+    break
+  endif
+else
+  if inroom ($i) == 11527
+    break
+  endif
+  if inroom ($i) == 11518
+  or inroom ($i) == 11520
+    north 
+    break
+  endif
+  if inroom ($i) == 11519
+  or inroom ($i) == 11526
+    east 
+    break
+  endif
+  if inroom ($i) == 11525
+    up 
+    break
+  endif
+endif
+~
+>rand_prog 2~
+if inroom ($i) == 11527
+  if rand (33)
+    emote grunts. 
+    mpkill $r
+  else
+    if rand (50)
+      growl 
+    else
+      say Whatever u say boss!
+    endif
+  endif
+endif
+~
+|
+#11513
+orc boy big~
+the big orc boy~
+A big orc is here.~
+It's a rather big orc. Ugly as hell.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+-5 S
+9 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d20+60 2d4+1
+5000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 33~
+if rand (5)
+  if rand (50)
+    growl 
+  else
+    pat boy
+  endif
+endif
+if time () <= 21
+  if time () >= 03
+    if inroom ($i) == 11527
+      break
+    endif
+  endif
+endif
+if time () > 21
+or time () < 03
+  if hitprcnt ($i) < 50
+    say Ork is hurtz, Ork wate and lick woundz.
+    break
+  endif
+  if inroom ($i) == 11527
+    west 
+    break
+  endif
+  if inroom ($i) == 11526
+    emote slavers and foams from exitement looking out over the forest.
+    down 
+    break
+  endif
+  if inroom ($i) == 11525
+    if existsroom (M11512)
+      emote swings $l spear in excitement, almost impaling an orc boy!
+    else
+      emote swings $l spear in excitement.
+    endif
+    south 
+    break
+  endif
+  if inroom ($i) == 11520
+    emote slavers at the mouth while muttering something about bufferflys.
+    east 
+    break
+  endif
+  if inroom ($i) == 11521
+    mpasound Birds fall out of their nests at the massive Orc-stench.
+    south 
+    break
+  endif
+  if existsroom (butterfly)
+    if rand (20)
+      if rand (50)
+        say BUTTERZFLYS!! LOTZ O BUTTERFLYZ!!
+      else
+        say We Ork no like pretty buttezflys!
+      endif
+      kill butterfly
+      break
+    endif
+  endif
+  if inroom ($i) == 11515
+    south 
+    break
+  endif
+  if inroom ($i) == 11509
+    east 
+  endif
+  if inroom ($i) == 11510
+    mpasound With catlike thread, the Orcs silently approach .. like a herd of elephants.
+    south 
+    break
+  endif
+  if inroom ($i) == 11506
+    say Ork thinkz butteflyez is petty ..
+    say pretty nough to EATS! YUM!
+    if existsarea (black)
+      east 
+    else
+      south 
+    endif
+    break
+  endif
+  if inroom ($i) == 11507
+    if existsarea (black)
+      south 
+    else
+      west 
+    endif
+    break
+  endif
+  if inroom ($i) == 11503
+    if existsroom (black)
+      if rand (50)
+        say Pretty buttesflyes already roastid black ..
+        say Appy Ork! Orkie Eat!
+      else
+        say MMMMMMMMMMM ......
+        say Ork luvs his butterflyez black n crispee!!!
+      endif
+      mpkill black
+      break
+    else
+      north 
+    endif
+    break
+  endif
+  if inroom ($i) == 11506
+    south 
+    emote drools all over $l clothing rambeling on about butterflyez.
+    break
+  endif
+  if inroom ($i) == 11502
+    if existsroom (blue)
+      if rand (50)
+        say OOOOOOOOOOOOH .. blue butterflyez TICKLE when us eatz its!!!!
+        giggle self
+      else
+        say OWW blue buttuhfly sweet like berriez!
+        stare hungrily blue
+      endif
+      kill blue
+      break
+    endif
+    if existsroom (red)
+      say MMMMMMMMMMMM ........
+      emote drools.
+      say Yummie red buttetflyez is HOT n SPICEEEEEE!!!
+      kill red
+      break
+    endif
+    if existsroom (yellow)
+      say Eeks bad yellowed buttezfly hurting me eyes!
+      growl yellow
+      shout DddDDiiIiiIIIeEE !!!!!!
+      kill yellow
+      break
+    endif
+  endif
+else
+  if inroom ($i) == 11527
+    break
+  endif
+  if inroom ($i) == 11526
+  or inroom ($i) == 11508
+    east 
+    break
+  endif
+  if inroom ($i) == 11525
+    up 
+    break
+  endif
+  if inroom ($i) == 11525
+  or inroom ($i) == 11520
+  or inroom ($i) == 11515
+  or inroom ($i) == 11509
+  or inroom ($i) == 11506
+  or inroom ($i) == 11505
+  or inroom ($i) == 11504
+  or inroom ($i) == 11503
+  or inroom ($i) == 11501
+  or inroom ($i) == 11500
+    north 
+    break
+  endif
+  if inroom ($i) == 11521
+  or inroom ($i) == 11502
+  or inroom ($i) == 11510
+  or inroom ($i) == 11511
+  or inroom ($i) == 11517
+  or inroom ($i) == 11516
+  or inroom ($i) == 11507
+    west 
+    break
+  endif
+  if inroom ($i) == 11522
+  or inroom ($i) == 11528
+    if validexit (south)
+      south 
+    else
+      doorbash south
+    endif
+    break
+  endif
+endif
+~
+|
+#11514
+dragon red baby M11514~
+a baby dragon~
+A baby dragon is curled up in its nest here.~
+Translucent crimson scales cover it like the finest baby down.  Only the barest
+wisp of lavender smoke escapes its small nostrils as it nuzzles down into its
+cozy nest.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_HASTE
+0 S
+15 BODY_HEAD|BODY_WING|BODY_TAIL BODY_MOUTH|BODY_WING|BODY_TAIL|BODY_CLAW 2d10+150 3d5+3
+10000 RACE_DRAGON
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if time () < 22
+  if time () > 03
+    mpmadd self quest 0 2 1
+    if quest (0,2,$i) == 1
+      emote opens an eye and eyes $R suspiciously
+    else
+      if quest (0,2,$i) == 3
+        mpechoat $r $I wakes up and attacks you!
+        mpechoaround $r $I wakes up and attacks $R!
+        mpkill $r
+      endif
+    endif
+  endif
+endif
+~
+>fight_prog 100~
+cast 'fire breath'
+~
+>time_prog 24~
+mpasound You see a small cloud of lavender smoke come from the cave.
+~
+|
+#11515
+monster eyes teeth~
+the Monster~
+You see glowing red eyes and a row of white sharp teeth in the darkness.~
+Glowing red eyes and snarling ivory teeth are the only things visible in the
+darkness.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+12 BODY_HEAD|BODY_TORSO BODY_MOUTH 6d10+125 1d12+7
+5000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if rand (25)
+  grin $r
+else
+  mpkill $r
+endif
+~
+>time_prog 24~
+mpasound You notice glowing red eyes and a row of sharp white teeth under the bed.
+~
+|
+#11516
+orc boss~
+the boss orc~
+There's a big bad fat boss orc here.~
+He looks big. Unlike the normal orcs he's almost 6 feet tall - would be
+taller is he was standing straight. He looks very mean.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+0
+-500 S
+11 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d30+96 1d11+7
+2000 0
+POS_STANDING POS_STANDING SEX_MALE
+#11517
+orc boy~
+the orc boy~
+An orc is here.~
+It's an ordinary orc, about 5 feet high and ugly as hell.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+-10 S
+7 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d12+44 2d4+2
+2000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+say 'Ere we go! 'Ere we go!
+~
+|
+#11518
+orc boy big~
+the big orc boy~
+A big orc is here.~
+It's a rather big orc. Ugly as hell.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TONGUES
+-15 S
+9 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 1d20+67 2d5+1
+5000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+#11519
+monk drunken~
+the Monk~
+There's a drunken monk here.~
+You can tell he's drunk just by taking a deep breath ... he absolutely REEKS of
+sacramental wine.  Still, he's a jolly sort, and you have to laugh as you watch
+him running around in smaller and smaller circles, until he eventually falls
+down in a heap of brown cloth and a sandals.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+0
+20 S
+9 BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 2d10+60 1d9+5
+500 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 15~
+if rand (30)
+  emote hugs you and keeps calling you Dieter.
+else
+  if rand (40)
+    emote takes a sip from his bottle.
+  else
+    emote runs around in circles, gets dizzy and falls down.
+  endif
+endif
+~
+|
+#11520
+fish~
+the fish~
+A fish is swimming around happily here.~
+It's an ordinary looking fish.
+~
+ACT_SENTINEL
+AFF_BLIND
+0 S
+3 0 0 1d2+16 1d5+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 8~
+mpasound A fish jumps up from the water only to disappear into the depths a moment later.
+~
+|
+#11521
+fish big~
+the big fish~
+A big fish is lying in the bottom of the lake.~
+It might be salmon... you're not sure tho.
+~
+ACT_SENTINEL
+0
+0 S
+6 0 0 1d9+35 2d5+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#11522
+etherealTanglewood~
+etherealTanglewood~
+~
+~
+0
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+15 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+if rand (25)
+  mpareaecho outdoors You notice a huge dragonlike shape flying far above you.
+else
+  if rand (33)
+    mpareaecho outdoors You hear the wind picking up.
+  else
+    if rand (50)
+      mpareaecho outdoors You hear the steady beat of orcish war drums in the distance.
+    else
+      if isday ()
+        mpareaecho outdoors Something large and ominous blocks the sunlight for a split second.
+      else
+        mpareaecho outdoors Something large and ominous blocks the moonlight for a split second.
+      endif
+    endif
+  endif
+endif
+mppurge self
+~
+|
+#11523
+etherealTanglewood~
+etherealTanglewood~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+15 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+if rand (50)
+  mpechoat $r Your lungs are about to burst.
+else
+  mpechoat $r You almost swallow some water but manage to hold your breath.
+endif
+~
+|
+#11524
+rabbit small~
+the rabbit~
+A small rabbit is hopping around happily.~
+This chubby little rabbit is brown, with a fluffy white tummy and a fat
+cottontail.  His long ears are up, and his nose twitches with curiosity.
+~
+ACT_SENTINEL|ACT_BODY
+0
+5 S
+5 BODY_HEAD|BODY_HIP|BODY_FOOT BODY_MOUTH 1d10+25 1d4+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+if inroom ($i) == 11506
+  if hasobjnum ($n) == 11518
+    if quest (0,1,$i) == 0
+      emote rubs its tummy.
+    endif
+  endif
+endif
+~
+>give_prog i11518~
+emote sits up with his whiskers twitching while eating the carrot.
+if quest (0,1,$i) == 0
+  mpmset self quest 0 1 1
+  beckon $n
+endif
+mpjunk i11518
+~
+>rand_prog 100~
+if quest (0,1,$i) == 1
+  mpmadd self quest 1 2 1
+  if quest (1,2,$i) > 0
+    break
+  endif
+  sneak 
+  if inroom ($i) == 11506
+    emote hops north.
+    north 
+  else
+    if inroom ($i) == 11510
+      emote hops west.
+      west 
+    else
+      if inroom ($i) == 11509
+        emote hops south.
+        south 
+      else
+        if inroom ($i) == 11505
+          emote hops south.
+          south 
+        else
+          if inroom ($i) == 11501
+            connect west 11529
+            emote hops west through a secret forest trail.
+            west 
+          endif
+        endif
+      endif
+    endif
+  endif
+  stop sneak
+endif
+~
+|
+#11525
+etherealTanglewood~
+etherealTanglewood~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+15 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p begs and grovels to the powers that be.~
+mpecho The statue shimmers and changes into a small object.
+mppurge i11519
+mpoload 11520 room
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11500
+longsword~
+a longsword~
+Someone left a longsword here.~
+It looks very shiny and sharp.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 4 WEAPON_SLASH 0 0 0 0
+5 4500 6
+#11501
+battlearmor leather~
+a leather battlearmor~
+There's a suit of leather armor on the floor here.~
+It's a well made suit of leather armor.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+10 5000 8
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+A APPLY_DEX 1 0
+#11502
+sword orcish~
+an orcish sword~
+There's a sword with a jagged blade leaning against a wall here.~
+It's a black blade of orcish origin.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 4 3 WEAPON_SLASH 0 0 0 0
+5 4500 10
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#11503
+spear orcish~
+an orcish spear~
+There's a spear lying on the floor.~
+It's a simple but effective weapon.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 3 4 WEAPON_PIERCE 0 0 0 0
+5 4500 7
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#11504
+chainmail orcish pile metal~
+an orcish chainmail~
+There's a pile of metal on the floor.~
+It's a well made suit of chain mail. Definately not of orcish origin.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+6 0 0 0 0 0 0 0
+20 5000 10
+A APPLY_CON 2 0
+#11505
+teddybear bear teddy~
+a cute teddybear~
+There's a teddybear on the floor.~
+It has the cutest pair of black eyes you've ever seen.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 100 3
+#11506
+paint red drop~
+a drop of red paint~
+There's a small drop of red paint on the ground.~
+It's a drop of red paint.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 30 3
+#11507
+bracelet bone~
+a bone bracelet~
+Someone left a bracelet made from bone on the ground.~
+It's a bracelet made from the ribcage of a hummingbird.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+2 12000 8
+A APPLY_STR 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+#11508
+cloak red~
+a red cloak~
+There's a pile of red cloth on the ground.~
+It's a scarlet red cloak.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+4 1500 7
+A APPLY_DEX 1 0
+#11509
+ring shiny~
+a shiny ring~
+You detect a small ring in the bush.~
+It's a small ring that shines brightly in sunlight.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+1 3000 8
+A APPLY_DEX 1 0
+A APPLY_WIS 1 0
+A APPLY_HITROLL 1 0
+#11510
+paint yellow drop~
+a drop of yellow paint~
+There's a small drop of yellow paint on the ground.~
+It's a drop of yellow paint.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 30 3
+#11511
+paint blue drop~
+a drop of blue paint~
+There's a small drop of blue paint on the ground.~
+It's a drop of blue paint.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 30 3
+#11512
+brown robe~
+a brown robe~
+A brown robe lies here.~
+This monk's robe is rough, homespun cloth and feels a bit itchy against your
+skin.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+1 1000 8
+A APPLY_STR 1 0
+A APPLY_WIS 1 0
+A APPLY_DAMROLL 1 0
+#11513
+leather sandals~
+leather sandals~
+A pair of leather sandals are lying here.~
+They look like heavy, leather sandals, keeping sharp stones from cutting into
+your feet.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+1 1000 8
+A APPLY_CON 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+#11514
+daffodil torch~
+a daffodil torch~
+A glowing bunch of golden flowers grow here.~
+Golden light spills out of this single daffodil, shining a steady path to
+follow
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+1 10000 3
+A APPLY_WIS 1 0
+A APPLY_INT 1 0
+A APPLY_DEX 1 0
+#11515
+chain bluebells~
+a chain of bluebells~
+A soft blue chain lies here.~
+The flowers are blue and chained together by magic design, fitting perfectly
+around your waist.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+3 0 0 0 0 0 0 0
+1 10000 3
+A APPLY_CON 1 0
+A APPLY_STR 1 0
+A APPLY_DAMROLL 1 0
+#11516
+band roses~
+a band of roses~
+A small corsage of roses lies here.~
+The satiny wrist band of red rose petals gives off a heavenly scent.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+3 0 0 0 0 0 0 0
+1 10000 3
+A APPLY_DEX 1 0
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+#11517
+bed huge featherbed~
+a huge featherbed~
+A huge featherbed stands in one of the corners here.~
+The bed is made of birdseye maple, intricately carved with woodland scenes.
+The mattress is an enormous featherbed, with 4 down-filled pillows resting on
+top.  It's covered in a red, green and yellow, heavily embroidered, patchwork
+quilt.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+2 0 FURNITURE_SLEEP_IN|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 300 0 0 0 0
+1000 10000 15
+#11518
+carrot~
+a carrot~
+The leaves of a carrot stick out of the ground here.~
+It's orange, it's conical, it has a bushy green top, it's delicious ... it's a
+carrot!
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+1 0 0 0 0 0 0 0
+1 10 1
+#11519
+statue lapin~
+the statue of lapin~
+Standing here is the statue of Lapin, the bunny god.~
+You see the carved image of a very serious rabbit, much taller than one would
+expect, with a certain debonnaire quality.  He wears a leafy crown and carries
+a small, hare-headed dagger in a scabbard at his waist.  This is Lapin, the god
+of the rabbits.  You feel that you should show due respect.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+0
+1 0 0 0 0 0 0 0
+1 10 1
+#11520
+14-carrot gold crown~
+a 14-carrot gold crown~
+A 14-carrot gold crown lies here.~
+It glistens in the light, and is obviously made of pure gold.  As you look more
+carefully at it, you realize that this crown is made of golden CARROTS.
+Fourteen of them.  14 carrots and gold.  What more could you want?
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+3 0 0 0 0 0 0 0
+1 10000 3
+A APPLY_DAMROLL 1 0
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+#11521
+sword green~
+a sword of green~
+Someone left a emerald-coloured blade here.~
+It sparkles in the light, with a long, emerald-coloured double-edged blade,
+light to carry, but powerful in battle.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 1 17 WEAPON_SLASH 0 0 0 0
+2 4500 10
+A APPLY_DAMROLL 1 0
+A APPLY_STR 1 0
+A APPLY_HITROLL 1 0
+#11522
+spear oaken~
+an oaken spear~
+Someone left a long oaken spear here.~
+It is long, hewn from the finest oak, and carved in sacred runes.  It's tip is
+covered in molten gold, glowing in the sunlight.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 1 18 WEAPON_PIERCE 0 0 0 0
+4 4500 10
+A APPLY_DAMROLL 1 0
+A APPLY_DEX 1 0
+A APPLY_HITROLL 1 0
+#11523
+dread orc~
+dread of the orcs~
+Someone left a dark finely etched weapon here.~
+Beaten from dark steel, forged in fire and strength, its helm finely etched,
+this is as fine a weapon as could be wished.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 1 18 WEAPON_STAB 0 0 0 0
+2 4500 10
+A APPLY_DAMROLL 1 0
+A APPLY_DEX 1 0
+A APPLY_HITROLL 1 0
+#11524
+mace agate~
+agate mace~
+Someone left a heavy spiked mace here.~
+Carved in one solid piece from the finest marble agate, its long spikes
+surround a massive head.  Strength and power oozes from this death bringer.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 6 2 WEAPON_CRUSH 0 0 0 0
+6 4500 10
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+A APPLY_WIS 1 0
+#11525
+hat grey wizards~
+a grey wizards hat~
+Someone left a grey piece of soft fur here.~
+This wizard's hat is fashioned of grey leather, lined in silk and trimmed in
+soft, grey squirrel fur.  Its crown is round, not pointed, and its fur trim
+brushes lightly on the wearer's forehead.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+6 0 0 0 0 0 0 0
+1 10000 10
+A APPLY_DEX 2 0
+A APPLY_INT 2 0
+#11526
+gauntlets cobweb~
+cobweb gauntlets~
+Someone left a filmy spider's web here.~
+The gauntlets are spun of the finest cobweb, light as air, strong as steel.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+2 0 0 0 0 0 0 0
+1 10000 10
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+A APPLY_STR 2 0
+#11527
+leggings cobweb~
+cobweb leggings~
+Someone left an airy piece of spiderweb here.~
+The leggings have been formed of the slikiest cobweb, delicate as a butterfly's
+wing, but almost inpenetrable.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+4 0 0 0 0 0 0 0
+1 10000 10
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 1 0
+A APPLY_DEX 2 0
+#11528
+sign~
+a wooden sign~
+A wooden sign stands here.~
+{128}
+                   Welcome to the Forest of Tanglewood
+{078}
+This small forest is a playground of secrets and softness, violence and
+treachery.  Have a care, watch where you walk, and think before you speak.
+Things aren't always as they seem..
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SIT_ON 100 0 0 0 0
+10 10 10
+#11529
+whip serpent~
+serpent whip~
+Someone left a black braides whip here.~
+It has a braided leather handle of deep black and a 6 foot quirt of braided and
+knotted black serpent skin.  It could easily flay the skin from any creature.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 6 2 WEAPON_WHIP 0 0 0 0
+6 4500 10
+A APPLY_INT 1 0
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#0
+
+
+#ROOMS
+#11500
+Entrance to Tanglewood~
+You pause at the entrance to the Forest of Tanglewood.  The wind catches at the
+branches of the trees, bending them.  You can see a clearing in the forest, to
+the north, and farther ahead, the peaks of a mountain range.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+You see a clearing.~
+~
+0 -1 11502
+DDIR_WEST
+~
+~
+0 -1 17231
+#11501
+The Woods~
+You're walking through the forests of Tanglewood.  Dead leaves crunch under your
+feet, and the wind whistles ominously through the trees.  The air is crisp and
+sharp with the scent of moss and plants.  You can see, looking ahead, that the
+forest ends in a clearing to the east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You can see a lot of trees.~
+~
+0 -1 11505
+DDIR_EAST
+You see a clearing.~
+~
+0 -1 11502
+#11502
+A Clearing~
+You find yourself standing in the middle of a sun-dappled forest clearing.
+There is an abundance of flowers and plants dotting the landscape.  Turning in a
+lazy circle you see trees surrounding you in each direction.  Far beyond and
+above the trees, a mountain range is just visible to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a lot of trees.~
+~
+0 -1 11506
+DDIR_SOUTH
+You see the entrance.~
+~
+0 -1 11500
+DDIR_WEST
+You see a lot of trees.~
+~
+0 -1 11501
+#11503
+The darkest part of the woods~
+It's very gray here, and the air is quite still.  The trees seem almost to be
+circling you, getting ready to attack ... but surely, that's your imagination.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+You can see a lot of trees.~
+~
+0 -1 11507
+#11504
+A clearing in the woods~
+You're standing on a forest clearing. There're a lot of flowers and
+other plants growing here. You can see forest in every direction. A
+mountainrange looms far to the north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You can see a lot of trees.~
+~
+0 -1 11508
+DDIR_EAST
+You see a lot of trees.~
+~
+0 -1 11505
+#11505
+The Woods~
+You're walking through the forests of Tanglewood.  Dead leaves crunch under your
+feet, and the wind whistles ominously through the trees.  The air is crisp and
+sharp with the scent of moss and plants.  You can see, looking ahead, that the
+forest ends in a clearing to the west.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see more trees.~
+~
+0 -1 11509
+DDIR_SOUTH
+You see trees.~
+~
+0 -1 11501
+DDIR_WEST
+You can see a clearing.~
+~
+0 -1 11504
+#11506
+The Woods~
+You're walking through the forests of Tanglewood.  Dead leaves crunch under your
+feet, and the wind whistles ominously through the trees.  The air is crisp and
+sharp with the scent of moss and plants.  You can see, looking ahead, that the
+forest ends in a clearing to the south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+There's a red wooden cottage there.~
+~
+0 -1 11510
+DDIR_EAST
+You see more trees.~
+~
+0 -1 11507
+DDIR_SOUTH
+You see a clearing.~
+~
+0 -1 11502
+#11507
+The Woods~
+You're in the Tanglewood forest. It's pretty dark in here. You notice
+a path that disappears into the darkness to the south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+It's awfully dark in there.~
+~
+0 -1 11503
+DDIR_WEST
+You see trees.~
+~
+0 -1 11506
+#11508
+Bunnies' paradise~
+You're on a small clearing in the woods. For some reason there're a lot of
+bunny poop here.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see a lot more trees.~
+~
+0 -1 11509
+DDIR_SOUTH
+You see a clearing.~
+~
+0 -1 11504
+#11509
+The Woods~
+You're in the woods. It's pretty dark here, but you get an all around
+good feeling about this place. The mountains to the north are very
+close now - the foothills are only a few hundred feet away.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You can see foothills and some mountains behind them.~
+~
+0 -1 11515
+DDIR_EAST
+You detect a red wooden cottage.~
+~
+0 -1 11510
+DDIR_SOUTH
+You see more trees.~
+~
+0 -1 11505
+DDIR_WEST
+You see more trees.~
+~
+0 -1 11508
+#11510
+A cottage in the woods~
+You're standing at the door to a small, charming cottage.  Crisply starched
+white curtains flutter at the windows, and the front door is painted a bright
+red.  Smoke curls from the stone chimney, and the flowerboxes in the windows are
+planted with a colourful array of flowers.  You think someone may be home.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+It's a cottage.~
+red door~
+EX_ISDOOR|EX_CLOSED -1 11522
+DDIR_EAST
+You see a dimly lit path that leads to a lake.~
+~
+0 -1 11511
+DDIR_SOUTH
+You see trees.~
+~
+0 -1 11506
+DDIR_WEST
+You see more trees.~
+~
+0 -1 11509
+#11511
+A dimly lit path~
+You're walking on a well-worn path, leading from the cottage to the lake.  The
+path is blanketed with soft pine needles, and is lit by the soft glow of what
+seems to be moonlight.  Your eyes quickly tell you that the forest continues to
+the north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see trees.~
+~
+0 -1 11517
+DDIR_EAST
+You see a lake.~
+~
+0 -1 11512
+DDIR_WEST
+You see a red wooden cottage in there.~
+~
+0 -1 11510
+#11512
+By the lake~
+You're standing by a rather small forest lake. The water looks refreshing
+and you feel like you could go for a swim.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the Lake.~
+~
+0 -1 11513
+DDIR_WEST
+You see a dimly lit path.~
+~
+0 -1 11511
+#11513
+The Lake~
+You are swimming in the lake. The water is cool and refreshing. You can
+see some fish in the waters below you - some of them big, some of them
+small. You decide to keep this place in mind in case you'd want to go
+fishing sometime
+~
+0 0 SECT_LAKE
+DDIR_WEST
+You see the shore.~
+~
+0 -1 11512
+DDIR_DOWN
+The water is clear.~
+~
+0 -1 11514
+#11514
+Bottom of the lake~
+You dive to the bottom of the lake to admire the fish a little closer.
+~
+0 0 SECT_LAKE
+DDIR_UP
+It's the surface.~
+~
+0 -1 11513
+#11515
+Path in the foothills~
+You're standing in the foothills of a huge mountain range. You can see
+vast mountains to the north and west. The path continues to the north
+and south.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+Path in the mountains.~
+~
+0 -1 11521
+DDIR_EAST
+You see a lot of trees.~
+~
+0 -1 11516
+DDIR_SOUTH
+You see a lot of trees.~
+~
+0 -1 11509
+#11516
+The Woods~
+You're walking in the Tanglewood forest. This place is very dark due to
+the fact that no light can penetrate the thick layer of branches above
+you. You notice a path that leads west to the foothills and disappears
+into the thick underbrush to the east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see trees.~
+~
+0 -1 11517
+DDIR_WEST
+You see foothills and some mountains behind them.~
+~
+0 -1 11515
+#11517
+The Woods~
+You're in the Tanglewood forest. A chill goes down your spine as you notice
+something run into the bush right in front of you.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see a dimly lit path.~
+~
+0 -1 11511
+DDIR_WEST
+You see trees.~
+~
+0 -1 11516
+#11518
+The Lair~
+The light dims as you enter the cave, fading from greys to black as you try to
+look deeper.  Your footsteps echo eerily as you attempt to explore.  Squinting
+your eyes, you can see that it's an immense area, surely meant to house someone
+... or some thing ... rather large.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see mountains.~
+~
+0 -1 11519
+#11519
+Mountains~
+You're standing at the foot of an enormous mountain.  Looking up, you see no
+snow on its peaks, which strikes you as rather odd, since this mountain is at
+least 8000 feet tall.  A puff of smoke draws your attention to what appears to
+be an entrance to the south.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see more mountains.~
+~
+0 -1 11524
+DDIR_EAST
+You see a mountain pass.~
+~
+0 -1 11520
+DDIR_SOUTH
+You see a dark cave.~
+~
+0 -1 11518
+#11520
+A mountain pass~
+You're standing at the foot of a vast mountain range.  In the west and north you
+see looming the purple shadows of immense mountains.  The cool greens of the
+foothills and the forest are to the southeast.  Something inside is trying to
+tell you not to go any further ... are you listening?
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see mountains.~
+~
+0 -1 11525
+DDIR_EAST
+You see a mountain pass.~
+~
+0 -1 11521
+DDIR_WEST
+You see mountains.~
+~
+0 -1 11519
+#11521
+A mountain pass~
+You're standing at the foot of a mountain range. You can see vast mountains
+in the west and north. The foothills and Tanglewood forest are to the south.
+You have a feeling that you should go back to the forest.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_SOUTH
+You see some foothills.~
+~
+0 -1 11515
+DDIR_WEST
+You see a mountain pass.~
+~
+0 -1 11520
+#11522
+Inside the small wooden cottage~
+This looks just like the sort of cottage a sweet little old lady might live in.
+A cozy wooden table with 4 chairs is in a corner near the kitchen, and the
+faint smell of freshly baked chocolate chip cookies still hangs in the air.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a small garden.~
+~
+0 -1 11528
+DDIR_SOUTH
+That's the way out from the cottage.~
+red door~
+EX_ISDOOR|EX_CLOSED -1 11510
+DDIR_DOWN
+It's dark under the bed.~
+~
+0 -1 11523
+#11523
+Under the bed~
+There is only enough dark light here to see the dim outline of something very
+large.  The hair on your neck rises.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+It's not under the bed.... maybe you should go there.~
+~
+0 -1 11522
+#11524
+Mountains~
+As you hike up the mountain, the cold wind blows hard, causing you to almost
+lose your balance.  You wisely decide to not go any further.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see mountains.~
+~
+0 -1 11519
+#11525
+Mountains~
+You're standing in the shadow of an enormous mountain.  To the south you can see
+the muted greens of the Tanglewood forest.  To the north, a barricade of steep
+mountains and treacherous passes rise above you.  Looking up, you think you see
+the entrance to a cave.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see a mountain pass.~
+~
+0 -1 11520
+DDIR_UP
+You see a cave up there.~
+~
+0 -1 11526
+#11526
+Entrance to the Orc cave~
+You pause at the entrance to a fairly small cave.  You start to pick your way
+gingerly through a litter of animal skeletons.  Something tells you that someone
+lived ... or lives ... in this cave.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+It's too dark to tell.~
+~
+0 -1 11527
+DDIR_DOWN
+You see the mountain.~
+~
+0 -1 11525
+#11527
+Orc Cave~
+You stifle a gag at the thick stench in the air as you enter this filthy cave.
+You might be able to step around the orc feces littering the floor if it wasn't
+for the decaying carcasses of half-eaten animals in your way.  You place a hand
+over your mouth and try to breathe normally.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+That's the way outta here.~
+~
+0 -1 11526
+#11528
+The vegetable garden~
+You have entered a very neat, very tidy vegetable garden.  There are rows of
+lettuce, broccoli, cauliflower and carrots, just waiting to be picked.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see a small cottage.~
+~
+0 -1 11522
+#11529
+The Bunny Sanctuary~
+You have entered a secret area known only to rabbits and those they consider
+their friends.  It is cool and green, with tender, juicy grass growing up to
+your ankles.  A small, clear brook babbles merrily in the background and the sky
+above is cerulean in color.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_FOREST
+DDIR_EAST
+You can see a lot of trees.~
+~
+0 -1 11501
+#0
+
+
+#RESETS
+M 11500 100 11517
+E 11500  10 WEAR_WIELD
+E 11501   2 WEAR_BODY
+M 11501 100 11508
+M 11501 100 11501
+M 11501 100 11517
+M 11501 100 11507
+M 11502 100 11508
+M 11502 100 11508
+M 11502 100 11501
+M 11502 100 11517
+M 11524 100 11506
+M 11503 100 11508
+M 11503 100 11510
+M 11504 100 11508
+M 11505 100 11522
+E 11508  10 WEAR_NECK_A
+M 11506 100 11502
+G 11506  10 0
+M 11506 100 11504
+G 11506  10 0
+M 11506 100 11502
+G 11506  10 0
+M 11506 100 11504
+G 11506  10 0
+M 11507 100 11502
+G 11510  10 0
+M 11507 100 11504
+G 11510   1 0
+M 11507 100 11504
+G 11510   1 0
+M 11508 100 11503
+M 11509 100 11502
+G 11511  10 0
+M 11509 100 11504
+G 11511   1 0
+M 11509 100 11504
+G 11511   1 0
+M 11510 100 11512
+M 11511 100 11527
+E 11502  10 WEAR_WIELD
+E 11504  10 WEAR_BODY
+E 11507  10 WEAR_WRIST_L
+M 11512 100 11527
+E 11503 100 WEAR_WIELD
+M 11512 100 11527
+E 11503 100 WEAR_WIELD
+M 11512 100 11527
+E 11503 100 WEAR_WIELD
+M 11512 100 11527
+E 11503 100 WEAR_WIELD
+M 11512 100 11527
+E 11503 100 WEAR_WIELD
+M 11513 100 11527
+E 11503 100 WEAR_WIELD
+M 11514 100 11518
+M 11515 100 11523
+G 11505   1 0
+M 11519 100 11511
+E 11512 100 WEAR_ABOUT
+E 11513 100 WEAR_FEET
+M 11520 100 11514
+M 11520 100 11514
+M 11520 100 11514
+M 11521 100 11514
+M 11522 100 11509
+M 11523 100 11514
+M 11525 100 11529
+O 11517   1 11522
+O 11518  10 11528
+O 11519   1 11529
+O 11528   1 11500
+D 11510 DIR_NORTH DOOR_CLOSED
+D 11522 DIR_SOUTH DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

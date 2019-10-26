@@ -1,0 +1,65 @@
+#!/bin/bash
+
+if [ -e lola.pid ]
+then
+	EMUD=`cat lola.pid`;
+else
+	if [ "$1" != "-tail" ]
+	then
+		echo "Cannot find the pid of current_lola.";
+		exit;
+	fi
+fi
+
+if [ -e script.pid ]
+then
+	SCRIPT=`cat script.pid`;
+else
+	echo "Cannot determine the pid of the lola-script.";
+fi
+
+case $1 in
+	-lola)
+		echo "Sending Lola-process ${EMUD} and ${SCRIPT} the TERM signal..."
+		kill -TERM $EMUD;
+		killall -TERM tail 1>/dev/null 2>/dev/null;
+		kill -TERM $SCRIPT
+		sleep 3;
+		echo "Send all Lola-process the KILL signal..."
+		kill -KILL $EMUD 1>/dev/null 2>/dev/null;
+		killall -KILL tail 1>/dev/null 2>/dev/null;
+		killl -KILL $SCRIPT 1>/dev/null 2>/dev/null;
+		echo "OK"
+		;;
+	-current_lola)
+		killall -TERM $EMUD;
+		sleep 2;
+		killall -KILL $EMUD 1>/dev/null 2>/dev/null;
+		;;
+	*)
+		echo "Sending Lola-processes $EMUD and $SCRIPT the TERM signal..."
+		kill -TERM $EMUD;
+		killall -TERM tail 1>/dev/null 2>/dev/null;
+		kill -TERM $SCRIPT;
+		sleep 3
+		echo "Sending all Lola-processes the KILL signal..."
+		kill -KILL $EMUD 1>/dev/null 2>/dev/null;
+		killall -KILL tail 1>/dev/null 2>/dev/null;
+		kill -KILL $SCRIPT 1>/dev/null 2>/dev/null;
+		if [ -e ./RUNNING ]
+		then
+			echo "Removing the RUNNING file...";
+			rm RUNNING;
+		fi
+		if [ -e ./lola.pid ]
+		then
+			echo "Removing lola.pid...";
+			rm lola.pid;
+		fi
+		if [ -e ./script.pid ]
+		then
+			echo "Removing script.pid...";
+			rm script.pid;
+		fi
+		;;
+esac

@@ -1,0 +1,201 @@
+#!/bin/tcsh
+
+# This backup script is written by Manwe,
+
+#setting defaults
+set script_list = "backup compile down lola.csh mkpackage startup un-install"
+set tar_flags = "-zcf"
+# set tar_flags = "-Icf"
+# Since tar-versions differ in bz2 format, you must choose one of the above
+# versions. (or maybe another ?) Simply comment the unwanted and uncomment
+# the wanted version.
+
+set player   = "no"
+set area     = "no"
+set clan     = "no"
+set data     = "no"
+set doc      = "no"
+set src      = "no"
+set scripts  = "no"
+set castles  = "no"
+set all      = "no"
+
+#polling arguments
+
+if ( "$1" == "-h" ) then
+	echo "syntax   : backup [-h] [-player|-area|-clan|-doc|-src|-scripts-all]"
+	echo ""
+
+	echo "-all     : makes a backup of everything (quietly)"
+	echo "-area    : makes a backup of the areafiles"
+	echo "-clan    : makes a backup of the clans"
+	echo "-data    : makes a backup of the data directory"
+	echo "-doc     : makes a backup of the documentation"
+	echo "-h       : this help screen"
+	echo "-player  : makes a backup of the playerfiles"
+	echo "-scripts : makes a backup of your scripts"
+	echo "-src     : makes a backup of the source"
+	echo "-castles : makes a backup of the castles file"
+	echo ""
+	echo "If you give no arguments, I will create all backups"
+	echo ""
+	exit
+endif
+
+if ( "$1" == "-all" ) then
+	set all = "yes"
+endif
+if ( "$1" == "-area" ) then
+	set area = "yes"
+endif
+if ( "$1" == "-clan" ) then
+	set clan = "yes"
+endif
+if ( "$1" == "-data" ) then
+	set data = "yes"
+endif
+if ( "$1" == "-doc" ) then
+	set doc = "yes"
+endif
+if ( "$1" == "-player" ) then
+	set player = "yes"
+endif
+if ( "$1" == "-scripts" ) then
+	set scripts = "yes"
+endif
+if ( "$1" == "-src" ) then
+	set src	= "yes"
+endif
+if ( "$1" == "-castles" ) then
+	set castles = "yes"
+endif
+if ( "$1" == "" ) then
+	set all = "yes"
+endif
+
+if ( "$all" == "yes" ) then
+	echo -n "Backing up all files."
+endif
+
+if ( "$area" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up area files."
+	endif
+	echo -n "..."
+#	tar $tar_flags area_current.tar.gz area_current/*continent/ area_current/*central area_current/hardcore area_current/magiczone area_current/valdemar area_current/data/area.lst
+	tar $tar_flags area_current.tar.gz area_current/*continent/ area_current/*central area_current/hardcore area_current/iosolo area_current/magiczone area_current/newareas area_current/toril area_current/valdemar area_current/data/area.lst
+	echo -n "..."
+	mv area_current.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ". [done]"
+	endif
+endif
+
+if ( "$clan" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up clan files."
+	endif
+	tar $tar_flags clans.tar.gz clans/
+	echo -n "..."
+	mv clans.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ".... [done]"
+	endif
+endif
+
+if ( "$data" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up data files....."
+	endif
+	tar $tar_flags data.tar.gz area_current/data/
+	echo -n "."	
+	mv data.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ".. [done]"
+	endif
+endif
+
+if ( "$doc" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up doc files."
+	endif
+	tar $tar_flags doc.tar.gz doc/
+	echo -n "...."
+	mv doc.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ".... [done]"
+	endif
+endif
+
+if ( "$player" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up player files."
+	endif
+	tar $tar_flags player.tar.gz player/
+	echo -n "."
+	mv player.tar.gz backups/ >/dev/null
+	echo -n "."
+	set CURDATE = `date "+%Y-%m-%W"`
+	echo -n "."
+	if (! -d backups/players) then
+		mkdir backups/players
+	endif
+	cp backups/player.tar.gz backups/players/player_${CURDATE}.tar.gz
+	echo -n "."
+	if ( "$all" != "yes" ) then
+		echo ". [done]"
+	endif
+endif
+
+if ("$scripts" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up script files."
+	endif
+	tar $tar_flags scripts.tar.gz $script_list
+	echo -n "."
+	mv scripts.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ".... [done]"
+	endif
+endif
+
+if ( "$src" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up source files."
+	endif
+	mkdir tmpsrc
+	mv -f src/*.o tmpsrc/ >/dev/null
+	echo -n "."
+	tar $tar_flags src.tar.gz src/
+	echo -n "."
+	mv src.tar.gz backups/ >/dev/null
+	echo -n "."
+	if (! -d backups/old-sources) then
+		mkdir backups/old-sources
+	endif
+	set VER=`head -n 1 src/VERSION`
+	cp backups/src.tar.gz backups/old-sources/src-${VER}.tar.gz
+	echo -n "."
+	mv -f tmpsrc/*.o src/ >/dev/null
+	rm -rf tmpsrc >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ". [done]"
+	endif
+endif
+
+if ( "$castles" == "yes" || "$all" == "yes" ) then
+	if ( "$all" != "yes" ) then
+		echo -n "Backing up castles...."
+	endif
+	echo -n "..."
+	tar $tar_flags castles.tar.gz area_current/castle/castles.are
+	echo -n "..."
+	mv castles.tar.gz backups/ >/dev/null
+	if ( "$all" != "yes" ) then
+		echo ". [done]"
+	endif
+endif
+
+if ( "$all" == "yes" ) then
+	echo ". [done]"
+endif

@@ -1,0 +1,5223 @@
+#AREA Transylvania~
+#AUTHORS Superdave~
+#VERSION 4
+#RANGES 90 95 75 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#HELPS
+99 TVANIAQUESTBITS~
+0-1   entry
+2-6   main
+7-9   disease
+10-14 maze
+15    father toggle
+16    maze
+17    mana toggle
+18-19 dhirmal
+20-22 alucard
+28-30 stairs
+~
+
+0 HOLYCROSS~
+{178}                _   _       _        ____
+{178}     _     _   | | | | ___ | |_   _ / ___| _ __  ___  ___ ___    _     _
+{168}   _| |_ _| |_ | |_| |/ _ \| | | | |||    | '__|/ _ \/ __| __| _| |_ _| |_
+{158}  |_   _|_   _||  _  | (_) | | |_| |||___ | |  | (_) |__ \__ \|_   _|_   _|
+{138}    |_|   |_|  |_| |_|\___/|_|\__, |\____||_|   \___/|___/___/  |_|   |_|
+{138}                              |___/
+~
+
+0 TRANSYLVANIA~
+{171}
+==============================-  TRANSYLVANIA -================================{088}
+
+Do vampires exist?  Or are they just a fable created by adults to frighten
+children?  Who knows, but I like vampires so I made one with ninjas and
+vampire hunters.  You will need a ninja and lots of firepower to finish the
+quest here.  But the stuff you get is worth it. Oh, a bit of advice.  You
+should always enter from the entrance...
+
+{138}Enjoy!
+
+{171}================================================================================{088}~
+
+0 $~
+
+
+#MOBILES
+#18300
+priest father collinsmob~
+Father Collins~
+A fat old priest is here.~
+This fat old man has long hair which nearly reaches the floor.  You wonder if
+he has ever gotten his hair caught on fire.  He is dressed in the standard
+monk robes, and has a tired look on his face.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 0 0 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog crown~
+if hasobjnum ($n) == 4472
+  if quest (18,2,$n) == 0
+    say Ah, you seek the Crown of the Ancients.  I'm not sure
+    say I can trust you just yet.  You might be a demon sent to
+    say trick me into revealing its location.  Go learn the
+    say Dhirmal punch technique from the holy monk Fakir, and I
+    say will tell you where you can find the crown.
+    mpjunkperson $n i4472
+    mpechoat $n The snowflake melts in your hand.
+    mpmset $n quest 18 2 1
+  else
+    say I have told you what you must do, begone.
+  endif
+endif
+~
+>give_prog i18490~
+if quest (18,2,$n) == 2
+  if quest (15,1,$n) == 1
+    mpjunk i18490
+    say Okay I believe you.  Take this then and show it to
+    say Aved, and he will trust you.
+    mpoload 18399
+    give i18399 $n
+    mpmset $n quest 18 2 3
+  endif
+endif
+~
+>speech_prog proof~
+if quest (18,2,$n) == 2
+  say So the old bastard wants proof eh?  Wait a minute,
+  say how do I even know he sent you here?  You go ask
+  say him to bring me something as proof first.
+  mpmset $n quest 15 1 1
+endif
+~
+>all_greet_prog 100~
+if hasobjnum ($n) == 4472
+  mpechoaround $n $n shows the snowflake to Father Collins.
+  mpechoat $n You show the snowflake to Father Collins.
+  ponder 
+  say That snowflake!  Frosty must have sent you.
+  say Tell me, what do you wish of me, $n?
+  break
+endif
+if hasobjnum ($n) == 4835
+  if quest (18,2,$n) == 1
+    mpmset $n quest 18 2 2
+    tell $n Welcome holy priest, to this fine sanctuary!
+    tell $n I sense that you have mastered the Dhir'mal punch
+    tell $n technique.
+    tell $n The Crown which you seek has been lost for many
+    tell $n years.  Seek the wise Aved in Anasazi.
+    tell $n He will know where it is.
+  endif
+endif
+if quest (2,5,$n) > 22
+  if quest (17,1,$n) == 0
+    mpmset $n quest 17 1 1
+    say For defeating count dracula, I offer you these holy
+    say items for sale.  Please buy what you like.
+    mpoload 18309
+    mpoload 18310
+    mpoload 18311
+    mpoload 18312
+    mpoload 18313
+    mpoload 18315
+    mpoload 18322
+  endif
+  break
+endif
+if quest (2,5,$n) == 16
+  say Ah, it's not everyday that I get to meet a Vampire
+  say hunter. I guess you have come here for information.
+  break
+endif
+if quest (2,5,$n) > 7
+  tell $n I have heard you are a vampire hunter.  Perhaps
+  tell $n I can interest you in a MALLET or a STAKE?
+  break
+endif
+say Welcome to this holy sanctuary my child.
+~
+>speech_prog information~
+if quest (2,5,$n) == 16
+  if quest (0,1,$i) == 0
+    mpmset $n quest 2 5 17
+    say I am glad you have come to seek my help.  I will now tell
+    say you all that I know.  I hope that is helpful.
+    mpecho $I sits down and begins to speak:
+    mpmset self quest 0 5 1
+  endif
+endif
+~
+>rand_prog 100~
+if quest (0,5,$i) > 0
+  mpmadd self quest 0 5 1
+  if quest (0,5,$i) == 2
+    say First of all, a vampire can only be slain by decapitation
+    say or by a stake through the heart.  Also, not just anyone
+    say can slay a master.  Only a true slayer can strike the
+    say final blow....
+  endif
+  if quest (0,5,$i) == 5
+    mpecho {008}
+    say A master vampire however, requires you to perform a
+    say ritual before you can actually slay it....
+  endif
+  if quest (0,5,$i) == 8
+    say You first must find the coffin of the vampire, and line
+    say it with the soil of his homeland...
+  endif
+  if quest (0,5,$i) == 11
+    say Then you must place communion wafers within, and pour
+    say a vial of holy water to bless the coffin.
+  endif
+  if quest (0,5,$i) == 14
+    say Next, you must recite a 'holy prayer', which will purify
+    say the coffin, and not allow the vampire to return to it.
+  endif
+  if quest (0,5,$i) == 17
+    say Only then can the vampire be fully destroyed.
+    say I know not the 'origin of the evil'.  Perhaps the gypsies
+    say can enlighten you in this matter.  If you have any other
+    say questions, ask them now.
+  endif
+  mpmset self quest 0 5 0
+  break
+endif
+if rand (5)
+  if rand (50)
+    say Can I interest you in a mallet or wooden stake?
+  else
+    say Can I interest you in some holy water, or perhaps a crucifix?
+  endif
+endif
+~
+>speech_prog p holy prayer~
+if quest (2,5,$n) == 17
+  mpmset $n quest 2 5 18
+  say Ah, the proper prayer can be found within this book.
+  say I will sell it to you for an acceptable price.
+  mpoload 18314
+endif
+~
+>speech_prog mallet stake~
+say I have a large supply of mallets, but I am afraid that
+say I am out of wooden stakes.  You will need to get an axe
+say and whittling knife, and chop your own from the wood in
+say the forest.  Can't kill a vampire without a stake and
+say mallet you know.
+~
+>speech_prog soil homeland~
+say Soil from a vampires homeland eh?  You will have to go
+say dig some when you find where the vampire lives.
+~
+>speech_prog origin~
+say Perhaps the gypsies can help you find the origin.
+~
+|
+#18301
+powerful man master wu masterwumob~
+Master Wu~
+A powerful looking man in black is here.~
+This powerful looking man exudes an aura of great wisdom.  Though he is old,
+you bet that he can still beat you in combat.  You wonder what skills he
+can teach you.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_HIDE|AFF_STEALTH
+0 S
+150 BODY_HEAD BODY_HAND 1d1+30000 1d1+302
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (20,3,$n) == 1
+  say I see you have defeated my daughter Taki in combat.  You must
+  say be a mighty slayer to have defeated her.  Perhaps you can do
+  say a task for me.
+  mpmset $n quest 20 3 2
+endif
+if quest (20,3,$n) == 5
+  say Alucard has informed me what you have done.
+  say I can only offer you some items as a reward.
+  say Unfortunately, they are sealed in the Belmont
+  say Tomb.  The mayor has the seal which can open it.
+  mpmset $n quest 20 3 6
+endif
+if quest (20,3,$n) == 6
+  say Welcome back $n.  Good to see you again.
+endif
+~
+>speech_prog task~
+if quest (20,3,$n) == 2
+  say Many years ago, I rescued a young woman from a master vampire.
+  say She had a son whom I raised as my own, and taught the ways of
+  say the ninja vampire hunter....
+  mpecho $I pauses for a second...
+  mpmset self quest 0 5 1
+endif
+~
+>rand_prog 100~
+if quest (0,5,$i) > 0
+  if pcsinroom (18391) == 0
+    mpmset self quest 0 5 0
+    break
+  endif
+  if quest (0,5,$i) == 2
+    say He was amazingly strong and agile, and was by far my best
+    say student.  He quickly mastered all I had to teach, and proved
+    say to be a mighty vampire hunter....
+    mpecho $I thinks for a second...
+  endif
+  if quest (0,5,$i) == 5
+    say Using his powers of stealth, he could easily infiltrate the
+    say dens of the prey he sought.  Armed with the hunters bow,
+    say katana, and wooden stakes, he would easily put the unholy
+    say ones to rest....
+    mpecho $I takes a deep breath.
+  endif
+  if quest (0,5,$i) == 8
+    say All went well until that one fateful night, when my son
+    say discovered his true roots, and realized his destiny.
+    say I wish now that I had not told him the 'truth'.
+    mpecho $I sighs loudly
+  endif
+  if quest (0,5,$i) == 9
+    break
+  endif
+  if quest (0,5,$i) == 12
+    say I was sent on a mission to destroy Count Dracula.  I
+    say infiltrated his dark fortress in the ethereal realm, and
+    say fought my way to the inner chamber using my bow and sword...
+    mpecho $I thinks for a second...
+  endif
+  if quest (0,5,$i) == 15
+    say It was there that I saw the most beautiful woman I had ever
+    say seen. The only thing on my mind then was to rescue this
+    say woman from that evil place.  But before I left...
+    mpecho $I thinks for a second...
+  endif
+  if quest (0,5,$i) == 18
+    say I used all my power to seal the ethereal doorway, so that he
+    say could never return to this realm.  Shortly after she bore a
+    say child.  This child was Alucard, the son of Dracula....
+    mpecho $I pauses for a second...
+  endif
+  if quest (0,5,$i) == 21
+    say She blessed me with two more daughters after Alucard was born,
+    say but passed away shortly after the birth of Yohko.  It was on
+    say that day that I told Alucard the truth about his bloodline.
+    mpecho $I thinks for a second...
+  endif
+  if quest (0,5,$i) == 24
+    say He changed that day, I could see it in his eyes.  He left this
+    say village that day, swearing he would defeat Dracula or die in
+    say the attemp...
+    mpecho $I takes a deep breath...
+  endif
+  if quest (0,5,$i) == 27
+    say A few days ago, the magical seal was broken.  Alucard is the
+    say only one with enough power to penetrate the seal.  I fear he
+    say has been captured, or worse yet killed.
+    mpecho $I thinks for a second...
+  endif
+  if quest (0,5,$i) == 30
+    say Mighty slayer, your task now is to find the ancient fortress
+    say and finish the task I failed so long ago.  Do you accept
+    say this mission slayer?
+  endif
+  if quest (0,5,$i) == 31
+    break
+  endif
+  mpmadd self quest 0 5 1
+endif
+~
+>speech_prog truth~
+if quest (0,5,$i) == 9
+  say Yes, the truth...The truth is that he is son of Vlad Tepes,
+  say also known as the Prince of Darkness, or Count Dracula.
+  say You see, twenty five years ago....
+  mpmset self quest 0 5 10
+endif
+~
+>speech_prog accept~
+if quest (0,5,$i) == 31
+  if quest (20,3,$n) == 2
+    mpmset $n quest 20 3 3
+    mpmset self quest 0 5 0
+    mpoload 18305
+    say The only thing I can offer you is this sword.  Use it with
+    say honor, great slayer.
+    give i18305 $n
+    drop i18305
+    say Go now and speak to the gypsies about the 'Origin'.
+    say One last thing, The entrance to Dracula's inner chamber is
+    say very well defended.  Only one who possesses the power to
+    say disappear into the shadows can hope to pass the final test.
+    say Remember these final words, your life will depend on it.
+  else
+    say You are not a slayer.
+  endif
+endif
+~
+|
+#18302
+girl winonamob~
+Winona~
+A cute girl is here.~
+This is a cute girl with short dark hair.  She is dressed in a white dress,
+with a blue bonnet on her head.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+9000 1d95+46
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 30~
+say Welcome to Walachia!  I hope you like our town.
+~
+>hitprcnt_prog 20~
+mpforce $r gtell We must find a way to STOP the wolf!
+~
+>hitprcnt_prog 50~
+mpforce $r say We must do something to help her!
+~
+>hitprcnt_prog 80~
+shout Help me!  Someone help me!
+~
+|
+#18303
+kikimob witch~
+Kiki~
+A young witch is here.~
+Kiki is a 13 year old witch in training.  She wears a red bow upon her head,
+and is dressed in a dark black dress.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+tell $n Welcome!  Would you like a ride on my broom?
+~
+>speech_prog yes~
+if hasobjnum ($n) == 18399
+  say I see you have a special message for Aved
+  say I will fly you there then.
+  mpechoaround $n Kiki zooms off with $n on her broomstick.
+  mpechoat $n Kiki zooms off with you on her broomstick.
+  mpat 18467 mptransfer $n
+else
+  if quest (0,4,$i) == 0
+    mpoload 18352
+    mposet i18352 short $N
+    mposet i18352 name  $n i18352
+    mpechoaround $n $N jumps on a broom and flies off with Kiki!
+    mpechoat $n You jump on a broom and fly off with Kiki!
+    mptransfer $n 18397
+    mpmset self quest 0 4 1
+    mpgoto 18397
+  endif
+endif
+~
+>rand_prog 50~
+if quest (0,4,$i) == 1
+  giggle 
+  say Keep flying, you're doing quite well.
+  say I'll be right back.
+  mpecho Kiki zooms down out of the sky.
+  mpmset self quest 0 4 2
+  mpgoto 9755
+  mpecho A small witch girl zooms out of from the sky.
+  break
+endif
+if quest (0,4,$i) == 2
+  say Hello :)
+  mpmset self quest 0 4 3
+  break
+endif
+if quest (0,4,$i) == 3
+  if hasobjnum ($i) == 18352
+    say Oops, I forgot about $C!
+    mpmset self quest 0 4 4
+    break
+  endif
+endif
+if quest (0,4,$i) == 4
+  if hasobjnum ($i) == 18352
+    say Okay, here comes $C now!
+    mpat 18397 say $C! Time is up, land already!!
+    mpat 18397 mptransfer $c 9755
+    mpjunk all
+    say Gotta go, bye bye!
+    mpecho Kiki zooms away on her broom.
+    mpgoto 18354
+    mpmset self quest 0 4 0
+    mpecho Kiki lands into the room.
+  endif
+endif
+~
+|
+#18304
+daniel mcean man~
+Daniel~
+A rather large man stands here.~
+Daniel has a thick beard, and looks rather devilish.  He runs the bakery in
+the town, and is quite a hardy fellow.  He is dressed in a large white
+apron, with a big poofy had atop his head.  His Warezhouse is very well
+stocked with goodies.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if rand (25)
+  say What can I do for ya stranger?
+else
+  if rand (33)
+    say Feel free to look around.  Take your time.
+  else
+    if rand (50)
+      say If you break it, you bought it.
+    else
+      nudge $r
+      say Hey, no loitering.  Either buy something or get out.
+    endif
+  endif
+endif
+~
+|
+#18305
+eveliamob shepherdess~
+Evelia~
+A lovely shepherdess stands here.~
+Evelia's job is to tend her sheep, day in and day out.  Her 'shepherd crook'
+technique is quite powerful, as she has fought off many wolves and other
+nightmarish creatures.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+say Pedo!
+~
+|
+#18306
+marcuscooper butcher~
+Marcus~
+The town butcher is here.~
+Marcus Cooper is the butcher of the village.  He raises the cows and pigs
+from which the meat comes from.  Occasionally he heads into the misty
+forest to hunt other forms of meat.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (50)
+  mpecho $I chops up some pork.
+else
+  mpecho $I wipes the sweat from his beard.
+endif
+~
+|
+#18307
+katrinacooper wife~
+Katrina~
+The butchers wife is here.~
+Katrina is the butchers wife.  She raises their two strapping sons and new
+born daughter while her husband slaughters pigs day in and day out.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+say Welcome!  I hope you enjoy your stay!
+~
+>speech_prog rumors gossip~
+say Hmm, I've heard that...
+if rand (20)
+  say ...there are a lot of vampire hunters in town.
+else
+  if rand (25)
+    say ...the mayor has posted notices asking for 'help'.
+  else
+    if rand (33)
+      say ...a strange hermit lives in a cave beyond the forest.
+    else
+      if rand (50)
+        say ...you know, you can't kill a vampire without a stake.
+      else
+        say ...werewolves can only be killed by a silver arrow.
+      endif
+    endif
+  endif
+endif
+~
+|
+#18308
+Erikacollins bard~
+Erik~
+The town bard is here.~
+Erik A. Collins is the town bard.  He writes lovely songs and performs them
+in the tavern or town square.  He has flame red hair, and a carries his lute
+with him to wherever he goes.  His voice is quite soft and high, unlike the
+normal male bards.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+sing 
+~
+|
+#18309
+shaniamob girl~
+Shania~
+A young teen-aged girl is here.~
+Shania is the mayors daughter.  She enjoys playing in the fields during the
+sunny days of spring.  The mayor would go crazy if anything horrible would
+happen to his daughter.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+80 BODY_HEAD BODY_HAND 1d1600+5257 1d80+33
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>hitprcnt_prog 10~
+mpecho $I collapses onto the floor.
+mpmset self name shania girl
+mpquiet on
+quit 
+mpquiet off
+~
+>hitprcnt_prog 40~
+say Please!  STOP him from killing me!
+~
+>hitprcnt_prog 80~
+shout Help me!  Someone help me!
+~
+|
+#18310
+mayor fossenmob~
+the mayor~
+Mayor Van Fossen is here.~
+Mayor Van Fossen is a tall bald man.  However, he still has a grizzly beard
+on his chin.  Even in dire times like these, the mayor keeps a smile on his
+face, and keeps his belly full of home cooking.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (2,5,$n) == 23
+  mpmset $n quest 2 5 24
+  say Welcome back slayer!
+  say For your noble deed, I will reward you with the armor
+  say of Simon Belmont.  Take this seal, it will open the
+  say Tomb of Belmont.  Once again thank you.
+  mpoload 18340
+  give i18340 $n
+  break
+endif
+if quest (2,5,$n) == 15
+  say So you are the best out of the bunch.  Your task now is
+  say to find out the vampire's origin.  Go there and kill the
+  say master vampire.  Only then will I be ensured that my girl
+  say does not turn into one.  Go and seek out any information
+  say from the townsfolk that you can.
+  say Remember, only a true hunter can kill him.
+  mpmset $n quest 2 5 16
+endif
+if quest (2,5,$n) == 11
+  say I have had it.  That attack on my daughter is the last
+  say straw.  We can't just sit around and let them attack us
+  say at will.  For all I know, my daughter may turn into one
+  say of them.  I wanna see which one of you slayers is the
+  say best.  Go work it out amongst yourselves and come back.
+  mpmset $n quest 2 5 12
+endif
+if quest (2,5,$n) == 0
+  tell $n Welcome to the town of Walachia.
+  mpmset $n quest 2 5 1
+endif
+~
+>speech_prog help~
+if quest (0,2,$n) > 0
+  if quest (2,5,$n) == 1
+    mpmset $n quest 2 5 2
+    look $n
+    tell $n Hmm, you look like quite tough, so you are hired.
+    tell $n We have had a few unexplainable deaths lately, so
+    tell $n I want you to go investigate them.
+  endif
+endif
+~
+>speech_prog investigate~
+if quest (2,5,$n) == 2
+  say There must a logical explaination for the recent events.
+  say The townsfolk believe it is the work of a master vampire
+  say but you and I both know that there are no such things.
+  say I suggest you go visit the morgue, and tell the mortician
+  say that you want to investigate.
+endif
+~
+|
+#18311
+mitsurugimob samurai~
+mitsurugi~
+A samurai stands here.~
+This master samurai is dressed in plated armor from head to toe.  He wields
+a powerful katana sword, which shimmers brightly in the sunlight.  He is
+an aged warrior, who has proven himself in countless battles.  Rumors of
+roving vampires have brought him here to this quiet village.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+70 BODY_HEAD BODY_HAND 1d1225+3954 1d1+80
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (2,5,$n) == 13
+  nudge $n
+  say The mayor wants to see which one of us is the strongest.
+  say I challenge you to a fight, but I must warn you, I am strong.
+  say Do you accept my challenge?
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 13
+  say Very well, the winner moves on.  Lets go!
+  mptransfer $n 18398
+  mpgoto 18398
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (2,5,$n) == 13
+  mpmset $n quest 2 5 14
+  mpecho The gruelling battle ends, with the victory of $n.
+  say You win.
+endif
+mptransfer $n 18344
+~
+|
+#18312
+sung minamob oriental beautiful~
+Sung Mina~
+A beautiful oriental girl is here.~
+She is dressed in a non tradition outfit, which reveals her lovely legs,
+and smooth white skin.  She carries a long bladed staff as her primary
+weapon.  The daughter of an army general she has come to this village after
+hearing rumors of vampires running rampant.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+50 BODY_HEAD BODY_HAND 1d625+1947 1d1+60
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (2,5,$n) == 12
+  nudge $n
+  say The mayor wants to find out which one of us is the best
+  say slayer.  I challenge you to a fight.  Do you accept?
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 12
+  say Okay, winner moves on.  lets go.
+  mptransfer $n 18398
+  mpgoto 18398
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (2,5,$n) == 12
+  mpmset $n quest 2 5 13
+  mpecho The gruelling battle ends, with the victory of $n.
+  say You win.
+endif
+mptransfer $n 18344
+~
+|
+#18313
+takimob ninja~
+Taki~
+A beautiful ninja stands here.~
+Taki is not the type of ninja who is tied to any lord or baron.  She hides
+away from the normal world, and lives life more spiritually.  She has been
+granted special powers, and is able to exorcise spirits and demons.  With
+her heightened spiritual awareness and ability, she roams the realms,
+seeking to banish evil in haunted areas.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+80 BODY_HEAD BODY_HAND 1d1600+5257 1d1+75
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (2,5,$n) == 14
+  nudge $n
+  say The mayor wants to find out which one of us is the best slayer.
+  say I challenge you to a fight.  Do you accept?
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 14
+  say Okay, winner moves on.  lets go.
+  mptransfer $n 18398
+  mpgoto 18398
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (2,5,$n) == 14
+  mpmset $n quest 2 5 15
+  mpmset $n quest 20 3 1
+  mpecho The gruelling battle ends, with the victory of $n.
+  say You win!
+endif
+mptransfer $n 18344
+~
+|
+#18314
+alucardmob hunter~
+Alucard~
+A vampire hunter is here.~
+Alucard is rumored to be the son of the unholy union of a vampire and a
+mortal woman.  Being a hybrid, he does not require blood as sustenance,
+nor does he fear the sunlight.  His heritage has granted him longevity
+and great strength.  Fighting on the side of mortals, Alucard seeks to
+destroy all vampires he faces.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+0 S
+90 BODY_HEAD BODY_HAND 1d1+10000 1d90+41
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n You see a man chained up to the wall.
+tell $n Have you come to kill me, or to release me?
+~
+>speech_prog kill~
+say So be it!
+~
+>speech_prog release~
+mpechoat $n You break the chains which bind the prisoner.
+mpechoaround $n $n breaks the chains which bind the prisoner.
+if quest (20,3,$n) == 3
+  say Thank you $n.  I sense that you have met Master Wu.
+  say You surely  must know who I am.  He must have sent you
+  say after me.  Correct?
+  mpmset $n quest 20 3 4
+endif
+~
+>speech_prog yes~
+if quest (20,3,$n) == 4
+  say It is my destiny to destroy my father.  This I must do alone.
+  mpforce $n say You are a fool if you think you can defeat him alone!
+  mpmset self quest 0 4 1
+endif
+~
+>rand_prog 50~
+if quest (0,4,$i) > 0
+  mpmadd self quest 0 4 1
+  if quest (0,4,$i) == 2
+    say A fool?  I am Alucard, the Son of Dracula!
+    say Don't you understand?  I am the only one who can defeat him!
+  endif
+  if quest (0,4,$i) == 3
+    mpforce $r say Even a mighty slayer like me cannont defeat him alone!
+    mpforce $r say What makes you think you can?
+  endif
+  if quest (0,4,$i) == 4
+    say Fool!  You believe yourself to be a mighty hunter, yet how many
+    say vampires have you actually slain?  I know many techniques which
+    say you do not.
+  endif
+  if quest (0,4,$i) == 5
+    mpforce $r say Some gratitude for freeing you.  You aren't so tough.
+    say Oh?  Is that a challenge of my ability?  Prepare yourself!
+  endif
+  if quest (0,4,$i) == 6
+    say I have waited long enough!  Die!
+    mpkill $r
+  endif
+endif
+~
+>death_prog 100~
+if quest (0,4,$i) > 5
+  say You have proven yourself a mighty slayer, mightier than I.
+  say I now know the folly of my ways.  I shall leave this castle
+  say and return to my home town.  Farewell.
+  say See my master after you have defeated Dracula!
+  if quest (20,3,$n) == 4
+    mpmset $n quest 20 3 5
+    mpoload 18300
+  endif
+endif
+~
+|
+#18315
+richter belmontmob hunter~
+Richter~
+A vampire hunter is here.~
+Richter Belmont is a descendant of a long line of vampire hunters.  He uses
+a blessed holy morningstar as his primary weapon, and is dressed in special
+vampire hunting garb.  He has come to this village to claim the artifacts
+of his ancestors.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+1000 S
+150 BODY_HAND BODY_HAND 1d1+29000 1d1+200
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if hasobjnum ($n) == 18340
+  say $n!  I see you have the magic seal which opens my
+  say ancestors tomb.
+  say May I have it?  Those artifacts are rightfully mine.
+  say They belong to my family!
+else
+  tell $n Good day.
+endif
+~
+>give_prog i18340~
+say Thank you $n!  I am glad I didn't have to kill you for it!
+mpecho $I opens the crypt with the magic seal.
+connect west 18316
+~
+>fight_prog 33~
+kick 
+cast 'acid blast'
+cast 'energy drain'
+~
+|
+#18316
+draculamob count figure~
+Count Dracula~
+An imposing figure stands here.~
+Before you stands the Prince of Darkness, Vlad Tepes.  He is a charming man,
+and is dressed in fine tailored clothing.  His black and red cape gives him
+an ominous look.  He notices you looking at him, and gazes into your eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+125 BODY_HEAD BODY_HAND 1d3906+13877 1d1+166
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>hitprcnt_prog 10~
+mpecho {118}$I bites you and drains your blood!
+mpquiet on
+mass lightning bolt
+if hasobjnum ($n) == 18300
+  break
+endif
+cast 'energy drain'
+cast 'energy drain'
+mpquiet off
+~
+>hitprcnt_prog 50~
+cast 'acid blast'
+~
+>hitprcnt_prog 80~
+cast 'cure critical'
+say Not bad, not bad at all
+~
+>speech_prog p i am~
+if quest (2,5,$n) == 20
+  glare $n
+  say You do look like a worthy opponent, perhaps I had better
+  say spell myself up for this one.
+  cast 'mirror image'
+  cast 'mage shield'
+  cast 'sanctuary'
+  cast 'bless'
+  mpmset self quest 0 4 4
+endif
+~
+>rand_prog 33~
+if quest (0,4,$i) == 4
+  mpmset self quest 0 4 5
+  say Let us begin!
+  mpkill $r
+endif
+if quest (0,4,$i) == 2
+  mpmset self quest 0 4 3
+  say Now, which one of you is the great vampire hunter?
+endif
+if quest (0,4,$i) == 1
+  mpmset self quest 0 4 2
+  say I must say that I welcome your company.  It will save me
+  say the trouble of hunting tonight...
+endif
+if quest (0,4,$i) == 0
+  mpmset self quest 0 4 1
+  say Well well well, it seems I have visitors to my castle.
+  say And look what you have done to my coffin!  I must admit
+  say you are the first to make it this far in a long long time.
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 18330
+  if quest (0,4,$i) == 5
+    if quest (2,5,$n) == 20
+      mpmset $n quest 2 5 23
+      mpoload 18341
+      mpecho $n plunges a wooden stake into the heart of Dracula
+      say You have fought with honor slayer...
+      say I shall rise again in 100 years, be ready!
+      mpforce $n say My decendants will be ready for you, Count Dracula!
+      mpecho $n Slices off the vampires head with a mightly blow.
+      mpmset $n long $n the Vampire Slayer is here.
+      mptransfer pcs 18395
+      mpgoto 18395
+    else
+      say Hahahahaha!
+      say Only a true slayer can kill me!
+      say Until next time fools!
+      mptransfer pcs 18395
+      mpgoto 18399
+    endif
+  else
+    say You have fought with dishonor slayer!
+    say One such as you does not deserve the title of slayer.
+    say Perhaps when we meet again, you will fight more honorably.
+    mptransfer pcs 18395
+    mpgoto 18399
+  endif
+else
+  say Fool!  You call yourself a slayer?
+  say How can you possibly kill me without a wooden stake!
+  say Till we meet again...
+  mptransfer pcs 18395
+  mpgoto 18399
+endif
+~
+|
+#18317
+madamemob veronica~
+Madame Veronica~
+Madame Veronica is here.~
+Madame Veronica is dark skinned, and quite short.  She looks quite young, but
+you assume she must be old.  She has aged well.  She wears traditional gypsy
+garb, and is sitting in a yoga position.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog disease~
+if quest (2,5,$n) == 9
+  if quest (7,3,$n) == 2
+    mpmset $n quest 7 3 4
+    mpmadd $n currhp -300
+    mpmadd $n currmove -300
+    mpechoat $n The wound rakes you with pain!
+    say My child, you have been cursed by a lycanthrope!
+    say Lucky, I know a cure for your affliction.
+  endif
+endif
+~
+>speech_prog cure~
+if quest (7,3,$n) == 4
+  mpmset $n quest 7 3 5
+  say Yes, but I will need ingredients to make a potion.
+endif
+~
+>speech_prog ingredients~
+say The ingredients are: Gills of a swamp creature,
+say A chunk of swamp flesh, a vial of holy water,
+say a pumpkin, and the blood of a werewolf.
+say Find those things, and bring them to me.
+~
+>speech_prog blood~
+if quest (7,3,$n) == 5
+  say The blood of the werewolf is the hardest to obtain.
+  say Only a shot from a silver arrow can kill a werewolf.
+  say Perhaps Fiona can help you with that.
+  mpmset $n quest 7 3 6
+endif
+~
+>all_greet_prog 100~
+if quest (0,10,$i) == 30
+  mpmset $n quest 7 3 0
+  if quest (2,5,$n) == 9
+    mpmset $n quest 2 5 10
+    mpmset self quest 20 1 1
+  endif
+  tell $n The medicine is done, enjoy it.
+  mpechoat $n You drink some of the medicine and fall asleep.
+  mpforce $n sleep
+  mptransfer $n 18352
+endif
+if quest (7,3,$n) == 7
+  say If you have all the ingredients, give them to me
+  say and then say 'make the potion please'
+  break
+endif
+if quest (7,3,$n) > 4
+  say Have you forgotten the ingredients already?
+endif
+~
+>speech_prog p make the potion please~
+if quest (7,3,$n) == 7
+  if hasobjnum ($i) == 18320
+    if hasobjnum ($i) == 18336
+      if hasobjnum ($i) == 18337
+        if hasobjnum ($i) == 18351
+          if hasobjnum ($i) == 18347
+            mpjunk i18320
+            mpjunk i18336
+            mpjunk i18337
+            mpjunk i18351
+            mpjunk i18347
+            say Excellent!  It will take me a few to make it
+            say Come back in an hour or two.
+            mpecho $I puts the ingredients into a cauldron.
+            mpmset self quest 0 10 1
+            break
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  say make what potion?
+  break
+endif
+say I still need more ingredients!
+~
+>rand_prog 50~
+if quest (20,1,$i) == 1
+  mpmset self quest 0 30 0
+endif
+if quest (0,10,$i) > 0
+  if quest (0,10,$i) < 30
+    mpmadd self quest 0 10 1
+    mpecho A cauldron boils and bubbles.
+  else
+    shout The potion is ready!
+  endif
+endif
+~
+>speech_prog origin~
+say I don't know anything about that.
+say perhaps one of my sisters would know.
+endif
+~
+|
+#18318
+werewolfmob wolf~
+a werewolf~
+A humongous wolf is here~
+This is by far the largest wolf you have ever seen.  Its eyes glow red, and
+steam spews from its nostrals.  It has dark black spikey fur, and rows of
+blood covered canine teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+75 BODY_HEAD BODY_HAND 1d1406+4580 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale 18318 $n 133
+~
+>give_prog I18335~
+mpjunk i18335
+~
+>range_prog 100~
+if quest (1,1,$i) == 0
+  mpasound You hear a man cry out in pain!
+  mpat 18399 mppurge werewolf
+  mppurge self
+else
+  if hasobjnum ($i) == 18335
+    mpasound You hear a wolf howl in pain!
+    mpmset self quest 10 1 1
+  else
+    mpmload 18318
+    mpgoto 18399
+    mppurge werewolf
+  endif
+endif
+endif
+~
+>rand_prog 10~
+if isnight ()
+  mpmset self quest 1 1 1
+  mpmset self long A growling wolf lives here!
+  mpmset self short A werewolf
+  if rand (50)
+    mpasound You hear a fearsome growl echoing around you.
+  else
+    mpasound There is a full moon out tonight.
+  endif
+  break
+else
+  mpmset self quest 1 1 0
+  mpmset self long A naked man lives here.
+  mpmset self short A naked man
+endif
+~
+>fight_prog 100~
+if quest (1,1,$i) == 1
+  if quest (10,1,$i) == 0
+    mpquiet on
+    rescale 18318 $r 150
+    mpquiet off
+    mpecho $I leaps and around the room in a raging fury!
+    kick 
+    kick 
+    kick 
+    kick 
+  endif
+else
+  mpecho The man falls over and collapses.
+  mpat 18399 mppurge all
+  mppurge self
+endif
+~
+>death_prog 100~
+if quest (10,1,$i) == 1
+  if hasobjnum ($i) == 18335
+    mpoload 18351
+    drop i18351
+    mpat 18399 mppurge all
+  else
+    mpecho The werewolf runs past you and escapes!
+    mpat 18399 mppurge all
+    mppurge self
+  endif
+endif
+~
+|
+#18319
+vampiremob fanged~
+a fanged man~
+A fanged human is here.~
+The man wears a cape, and has two long fangs, which drip with blood.  He has
+a very pale complexion, as if he gets no sun.  He is dressed entirely in
+black, and a white tuxedo shirt.  His hair is slicked back in a stylish
+fashion.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+130
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+laugh 
+mpecho The man turns into mist and disappears.
+mppurge self
+~
+>speech_prog stop~
+if quest (2,5,$n) == 10
+  if position ($i) == pos_fighting
+    mpquiet on
+    peace 
+    mpquiet off
+    mppurge shaniamob
+    mpmset $n quest 2 5 11
+    rescale 18319 $n 150
+    mpecho Shania runs out the door as the man turns around and attacks!
+    mpkill $n
+  else
+    laugh 
+    say The prince of darkness has won!
+    mpmset $n quest 2 5 31
+    mpecho The man turns to mist and disappears!
+    mppurge self
+  endif
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 18330
+  mpquiet on
+  mpforce $n give i18330 self
+  mpquiet off
+  mpecho $n hammers a wooden stake into the chest of man!
+  mpecho The corpse of the man turns to dust!
+  mpoload 18342
+  mpforce $r say We should go report this to the Mayor.
+else
+  cackle 
+  say Well fought humans...to bad you did not have a wooden stake!
+  say We shall meet again!
+  mpecho $I turns to mist and disappears!
+endif
+~
+|
+#18320
+creaturemob~
+a gilled creature~
+A creature lives in this black lagoon.~
+This strange mob looks has webbed hands complete with sharp talons.  Its
+fishlike mouth is filled with razor sharp teeth.  You notice that is has
+gills at the side of its neck, as if it were a fish.  It is humanoid in shape and size
+however, and is covered with scaly skin.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_HIDE|AFF_STEALTH
+-1000 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+rescale 18320 $n 200
+mpecho A gilled creature rises out of the water!
+mpkill $n
+~
+>hitprcnt_prog 25~
+if quest (0,1,$i) == 0
+  mpoload 18337
+  mpmset self quest 0 1 1
+endif
+~
+|
+#18321
+frank-einstein monster~
+Frank-einstein's monster~
+A tall monster stands here.~
+This monster is the creation of the insane Dr. Frank Einstein.  It is a
+creation built with the parts of various creatures, then re-animated with a
+bolt of lightining.  You had better kill it, or perhaps Dr. Einstein will
+use you for spare parts.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-1000 S
+125 BODY_HEAD BODY_HAND 1d1+20000 1d1+166
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale 18321 $n 110
+mpecho $I lumbers towards you and attacks!
+mpkill $n
+~
+>hitprcnt_prog 25~
+mpecho $I discharges some energy!
+mass 'lightning bolt'
+~
+>hitprcnt_prog 75~
+mpecho $I releases some energy from his hands!
+mass 'shocking grasp'
+~
+>death_prog 100~
+mpat 18383 connect north 18384
+~
+>rand_prog 5~
+if quest (0,1,$i) == 0
+  connect north -1
+  mpmset self quest 0 1 1
+endif
+~
+|
+#18322
+invisible~
+an invisible man~
+~
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+100 BODY_HEAD BODY_HAND 1d2500+8509 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+rescale 18322 $n 125
+mpkill $n
+~
+|
+#18323
+mummymob mummyfied~
+a mummy~
+A mummyfied corpse is here~
+This ancient mummy is the corpse of a long dead Pharoah.  The perfectly
+preserved body is wrapped in specially treated cloth.  It now guards the
+entrance to the inner chamber of this dark castle.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+125 BODY_HEAD BODY_HAND 1d1+20000 1d125+79
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale 18321 $n 100
+mpecho $I lumbers towards you and attacks!
+mpkill $n
+~
+>hitprcnt_prog 15~
+mpecho $I's gushing wounds spew foul chemicals all over you!
+mass 'acid blast'
+~
+>death_prog 100~
+mpat 18384 connect north 18385
+mpmset self quest 0 1 0
+~
+>rand_prog 5~
+if quest (0,1,$i) == 0
+  connect north -1
+  mpmset self quest 0 1 1
+endif
+~
+|
+#18324
+vampirebat bat~
+a vampire bat~
+A bat flies out of the shadows and attacks!~
+This small bat is quite pesky.  Its high pitched squeal annoyes the hell out
+of you, and you want to kill it fast.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+55 BODY_HEAD BODY_HAND 1d1+2000 1d80+10
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#18325
+vampirebat bat~
+a vampire bat~
+A bat flies out of the shadows and attacks!~
+This large bat has a wingspan of at least 5 feet.  Two blood covered fags
+protrude from its snout, and it smells of guano.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+75 BODY_HEAD BODY_HAND 1d1+4000 1d1+69
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#18326
+swampmob swampy thing~
+a swamp creature~
+A swampy looking thing swims towards you.~
+This large green bipedal monster is about nine feet tall.  It is completely
+covered with green plant growth, or perhaps is made out of it.  Its huge arms
+seem quite powerful, and you hope you don't have to feel their wrath.  This
+swamp creature or swamp thing is something to be feared.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_STEALTH
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+132
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+rescale 18326 $n 200
+mpecho A huge green swamp thing rises slowly out of the water.
+mpkill $n
+~
+>hitprcnt_prog 25~
+if quest (0,1,$i) == 0
+  mpoload 18336
+  mpmset self quest 0 1 1
+endif
+~
+>fight_prog 10~
+mpecho The swamp creature unleashes a cloud of putrid gas!
+mass 'acid blast'
+~
+|
+#18327
+ethsimon~
+Ghost of Belmont~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if hasobjnum ($n) == 18340
+  if quest (2,5,$n) == 24
+    mpmset $n quest 2 5 0
+    mpmset $n quest 17 1 0
+    if quest (20,3,$n) == 6
+      mpmset $n quest 20 3 0
+      mpoload 18301
+      mpoload 18302
+      mpoload 18303
+      mpoload 18304
+    else
+      mpmset $n quest 20 3 0
+      mpoload 18306
+      mpoload 18307
+      mpoload 18308
+    endif
+    say Greetings $n!
+    say If you have come this far, you must be a worthy slayer.
+    say Take these artifacts and use them well.
+    say Now it is time for me to leave this realm.
+    say Farewell, and remember to fight evil at all costs!
+    mpecho $I opens a secret comparment, revealing magic artifacts!
+    mpquiet on
+    drop all
+    mpquiet off
+    mpjunkperson $n i18340
+    mpecho $I fades out of existance.
+    mpat 18313 connect west -1
+    mpat 18313 mpecho The crypt seals itself!
+    mppurge self
+  endif
+else
+  tell $n You are not worthy!  You do not have the Seal of Belmont!
+endif
+~
+|
+#18328
+horseman headless~
+a headless horseman~
+A headless man is here riding on a horse!~
+This horseman is dressed in noble clothing, and a long red flowing cape.
+He is missing his head however, but still seems to notice you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+160
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+rescale 18328 $n 120
+mpecho $I rushes forward and attacks!
+mpkill $n
+~
+|
+#18329
+grim reaper hooded figure~
+the Grim Reaper~
+A hooded figure stands guard here.~
+This evil creature is carries a large razor sharp sickle.  Two red eyes
+glow from within the hood of this shrouded being.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-1000 S
+125 BODY_HEAD BODY_HAND 1d1+20000 1d1+150
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>hitprcnt_prog 50~
+cast 'energy drain'
+~
+>fight_prog 10~
+mass 'color spray'
+~
+>death_prog 100~
+mpecho There is a bright flash of light, and you find yourself elsewhere.
+mptransfer all 18386
+~
+|
+#18330
+pumpkinmob~
+a pumpkin head~
+A large pumpkin grows here.~
+The pumpkin is perfectly round, and a bright orange in color.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+125 BODY_HEAD BODY_HAND 1d1+20000 1d125+79
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale 18330 $n 100
+~
+>death_prog 100~
+mpoload 18347
+~
+|
+#18331
+sheep~
+a sheep~
+A sheep grazes here.~
+This is just a normal looking sheep with a poofy coat.  All it does is eat
+and eat and eat all day.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_BODY
+0
+0 S
+10 BODY_HEAD BODY_HAND 1d25+81 1d10+6
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho Baaaaaaaa
+~
+|
+#18332
+scullymob mortician~
+Scully~
+The mortician is here.~
+Dana Scully is the town mortician.  She has short red hair, and is quite
+petite.  She is examining corpses as you walk in.  She seems to be checking
+them for the 'CAUSE OF DEATH'.  She is also an attractive woman, and you see
+no wedding band upon her finger.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (7,3,$n) == 1
+  say $n, that looks like a very nasty wound.  An animal bite?
+  break
+endif
+if rand (30)
+  mpecho Scully looks up for a second as you arrive, then goes back to work.
+endif
+~
+>speech_prog investigate~
+if quest (2,5,$n) == 2
+  mpmset $n quest 2 5 3
+  say I see you have been talking with the mayor.
+  say What do want to know about the corpses?
+endif
+~
+>speech_prog p cause of death~
+if quest (2,5,$n) == 3
+  say I have performed a routine examination on all ten corpses.  They
+  say all seem to have died from exsanguination, or in laymans terms,
+  say from loss of blood.  Though there is some 'trauma to the neck and
+  say cranial cavity.'
+  mpmset $n quest 2 5 4
+endif
+~
+>speech_prog p trauma to the neck and cranial cavity~
+if quest (2,5,$n) == 4
+  mpmset $n quest 2 5 5
+  say The throat area has two small puncture wounds, which penetrate
+  say the jugular vein.  The victims have also been subjected to a
+  say severe blow to the head.  Would you like to know my theory?
+endif
+~
+>speech_prog yes~
+if quest (2,5,$n) == 5
+  mpmset $n quest 2 5 6
+  say I theorize that the murderer first incapacitated his victim with
+  say a direct blow to the cranium.  Then a sharp piercing instrument,
+  say perhaps a needle, was used to exsanguinate the victim.
+  mpmset sherrifmob quest 0 5 1
+endif
+~
+>rand_prog 100~
+if quest (27,3,$i) == 3
+  mpmset self quest 27 3 0
+  if quest (0,5,$i) == 1
+    chuckle 
+    say Sherrif Duchovny.  We all know that there are no such things as
+    say vampires!  They are only myths which are fabricated to frighten
+    say small children.  Clearly this is the work of a serial murder who
+    say is using the myth to divert attention from the rational facts.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 3
+  endif
+  if quest (0,5,$i) == 3
+    laugh sherrif
+    say Sherrif, think rationally for a moment.  Do you actually believe
+    say vampires exist and that they actually feed on human blood?  You
+    say know what I think?  I think that you want to believe so much,
+    say that it clouds your judgement.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 5
+  endif
+  if quest (0,5,$i) == 5
+    say I can't believe you still tell that story.  You should be out
+    say looking for a murderer, not some nonexistant creature from a
+    say children's bedtime story.
+    say You don't want what happened 15 years ago to start up again.
+    mpmset self quest 0 5 6
+    break
+  endif
+  if quest (0,5,$i) == 6
+    say The mayor is only jeopardizing the safety of the population.
+    say Citizens buy garlic and crucifixes and believe they are safe.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 7
+  endif
+  if quest (0,5,$i) == 8
+    say Those frauds are just here to cash in on the reward.  They
+    say are probably thieves who wish to steal the ancient artifacts
+    say from the Belmont tomb.  But then again, Belmont was purported
+    say to be a vampire hunter.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 9
+  endif
+  if quest (0,5,$i) == 10
+    ponder 
+    say That is so disgusting.  You men are all alike.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 11
+  endif
+  if quest (0,5,$i) == 12
+    say I am so confident that they do not exist, that I am willing
+    say to up the bet.  If I win, then you will have to promote me to
+    say sherrif.  Also, you have to find proof within one week.  If
+    say you can't produce any definate proof, then I win.  Agreed?
+    mpmset self quest 0 5 13
+    mpmset sherrifmob quest 0 5 13
+  endif
+  if quest (0,5,$i) == 15
+    say A werewolf?  If you were attacked by a werewolf, wouldn't you
+    say be diseased then?  Well I know of no cure if that's the case.
+    laugh 
+    say I don't see any vampire, so the bet is still on.
+    say You had better go back to the inn and get some sleep.
+    say If you are really sickened after that, then maybe the gypsies
+    say can help you.
+    chuckle 
+    mpmset self quest 0 5 0
+  endif
+  if quest (0,5,$i) == 20
+    say Let me see that head.  I wish to examine it first.
+    say For all I know, it can be just a regular head of a corpse.
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 20
+  endif
+  if quest (0,5,$i) == 21
+    mpecho $I chops open the head and examines the brain.
+    mpmset self quest 0 5 22
+    break
+  endif
+  if quest (0,5,$i) == 22
+    mpecho $I pulls out the teeth of the severed head and examines them.
+    mpmset self quest 0 5 23
+    break
+  endif
+  if quest (0,5,$i) == 23
+    say I can't explain this...
+    say Though I am still skeptical...I must admit this does look
+    say like the head of a vampire.  So, your place or mine?
+    mpmset self quest 0 5 0
+    mpmset sherrifmob quest 0 5 22
+    break
+  endif
+  if quest (0,5,$i) == 25
+    mpecho $I waves goodbye and exits the room.
+    mpmset self quest 0 5 0
+    mppurge self
+    break
+  endif
+else
+  mpmadd self quest 27 3 1
+endif
+~
+|
+#18333
+sherrifmob duchovny~
+Sherrif Duchovny~
+The sherrif is here investigating.~
+Sherrif Duchovny is the peacekeeper of Walachia.  He is a tall man, and is
+dressed in a dark suit.  In his spare time he like to hunt fox, and is a
+molder of clay.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if rand (30)
+  mpecho Duchovny glances up for a second as you arrive.
+endif
+if quest (2,5,$n) == 8
+  say What the hell just happened?  I heard a scream.
+endif
+~
+>give_prog i18341~
+mpjunk i18341
+say You did it $n!  The head of Count Dracula!
+say If this isn't proof enough that vampires exists,
+say I don't know what is.  I win!  I win!
+mpmset scullymob quest 0 5 20
+~
+>rand_prog 100~
+if quest (27,3,$i) == 3
+  mpmset self quest 27 3 0
+  if quest (0,5,$i) == 22
+    say Mine will do just fine.  Let's go, I can't wait!
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 25
+    mpecho $I leaves the room.
+    mpecho $I arrives suddenly.
+    say I almost forgot.
+    say Here, take this as a token of my thanks.
+    mpoload 18331
+    drop i18331
+    mpecho $I exits again.
+    mppurge self
+    break
+  endif
+  if quest (0,5,$i) == 20
+    mpmset self quest 0 5 0
+    say Sure thing, if you insist.
+    mpecho $I gives the head to the mortician.
+    mpmset scullymob quest 0 5 21
+  endif
+  if quest (0,5,$i) == 1
+    say Scully, you are obviously denying the truth.  We all
+    say know that these innocent villagers are the
+    say victim of a vampire.
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 1
+  endif
+  if quest (0,5,$i) == 3
+    say You cleary have been working too long.  Why can't you
+    say for once believe that vampires can exist.
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 3
+  endif
+  if quest (0,5,$i) == 5
+    say Scully, you seem to forget that I have actually seen
+    say a vampire.  My sister was abducted by one when I was
+    say a boy.
+    sniff 
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 5
+  endif
+  if quest (0,5,$i) == 7
+    say Garlic and crucifixes are commonly known to ward away
+    say vampires and other unholy creatures.  If vampires are
+    say not real, then why are all those vampire hunters in
+    say town?
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 8
+  endif
+  if quest (0,5,$i) == 9
+    say Scully, if you are so dead set that there are no
+    say vampires, how about we make a little wager.  If I get
+    say proof that vampires exist, then I win.  If I win, then
+    say you will have to be my love slave for a week.
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 10
+  endif
+  if quest (0,5,$i) == 11
+    say What's the matter?  Are you afraid that I will find
+    say proof, thereby invalidating your scientific claims?
+    mpmset self quest 0 5 0
+    mpmset scullymob quest 0 5 12
+  endif
+  if quest (0,5,$i) == 13
+    say Okay, I agree.  If I win, you will have to do anything
+    say I say for a whole month.
+    mpecho $I looks at all of you.
+    say Which one of you is a vampire hunter?
+    mpmset self quest 0 5 14
+  endif
+else
+  mpmadd self quest 27 3 1
+endif
+~
+>speech_prog p I am~
+if quest (0,5,$i) == 14
+  if quest (2,5,$n) == 6
+    mpmset $n quest 2 5 7
+    mpmset self quest 0 5 0
+    mpforce scullymob laugh $n
+    mpforce scullymob say Vampire hunter...hahahaha!
+    if time () < 6
+      say $n, Why don't you go get some sleep at the inn.
+      say We have alot of work to do tomorrow.
+    else
+      if time () < 20
+        say $n, I suggest you go around and explore the town.
+        say The gates close at 8pm so make sure you get back.
+        say You should all sleep at the inn after that.
+      else
+        say It's late, you should all go get some sleep.
+        say The inn is two blocks south of here.
+      endif
+    endif
+  else
+    say You are not a vampire hunter.
+  endif
+else
+  say You are what?
+endif
+~
+>speech_prog werewolf~
+if quest (2,5,$n) == 8
+  mpmset $n quest 2 5 9
+  say A werewolf eh?  Well if werewolves exist then
+  say so must vampires.  I win the bet!
+  mpmset scullymob quest 0 5 15
+endif
+~
+|
+#18334
+Sabrinamob gypsy~
+Sabrina~
+A gypsy woman stands here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+150
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog origin~
+if quest (2,5,$n) == 18
+  mpmset $n quest 2 5 19
+  say I only tell you this because you are a hunter of the nosferatu.
+  say That which you seek lies beyond the dark forest, atop the skull
+  say mountain.  There you will find a pool of swirling ether.  After
+  say that, I do not know.  None who have ventured passed there have
+  say ever returned.  Good luck slayer, may the gods be with you.
+else
+  say I know nothing.  Go away.
+endif
+~
+|
+#18335
+fionamob gypsy~
+Fiona~
+A beautiful gypsy woman is here.~
+Fiona is petite young gypsy, with surprisingly light skin, and reddish hair.
+She is sitting here making arrows as you walk in.  She hums in with a lovely
+voice as she diligently works on her arrow.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+150
+100 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p silver arrow~
+if quest (7,3,$n) >= 6
+  say I am sorry, but I am out of silver arrows.  But, I can make
+  say one if you bring me a silver nugget.  Perhaps you can find some
+  say in the mountains to the north.
+endif
+~
+>all_greet_prog 100~
+if quest (10,1,$i) == 1
+  if quest (7,3,$n) > 5
+    if quest (0,4,$i) == 15
+      say Okay, the arrow is done.  You may buy it from me now.
+      mpoload 18335
+      if quest (7,3,$n) == 6
+        mpmset $n quest 7 3 7
+      endif
+      mpmset self quest 0 30 0
+      break
+    else
+      say It's not ready yet, come back in a bit.
+      break
+    endif
+  endif
+endif
+say What can I help you with strangers?
+~
+>give_prog i18325~
+if quest (7,3,$n) >= 6
+  if quest (0,4,$i) == 0
+    say Yes, this will do very nicely!  It will take a moment.
+    mpjunk i18325
+    say comeback in a little bit, and it should be ready.
+    mpmset self quest 0 4 1
+    mpmset self quest 10 1 1
+  else
+    say Thanks, but I'm working on an arrow already.
+    say But finders keepers.
+  endif
+endif
+~
+>rand_prog 50~
+if quest (0,4,$i) != 0
+  if quest (0,4,$i) < 15
+    mpmadd self quest 0 4 1
+    mpecho $I carefully works on an arrow.
+  else
+    mpecho $I looks at her newly fashioned arrow.
+  endif
+endif
+~
+>speech_prog origin~
+say I no nothing about that.
+~
+|
+#18336
+wolfmob~
+a wolf~
+A wolf is here, attacking a young girl!~
+This is a very large wolf, one of the biggest you have ever seen.  White
+saliva foams at its mouth, and its damp fir is dark black in color.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog stop~
+if position ($i) == pos_fighting
+  if quest (2,5,$n) == 7
+    mpmset $n quest 2 5 8
+    peace 
+    mpecho The wolf is startled by your voice and turns around.
+    mpecho It leaps at $n and attacks!
+    rescale 18336 $n 150
+    mpkill $n
+    mpmset $n quest 7 3 1
+    mpechoat $n You feel strangely sickened and unclean!
+    mpecho Winona runs out the door!
+    mppurge winonamob
+  endif
+endif
+~
+>fight_prog 60~
+if position ($r) == pos_fighting
+  mpecho The wolf snarls at $r!
+  mpecho The wolf bites and claws at $r!
+  mpquiet on
+  cast 'acid blast' $r
+  mpquiet off
+  if quest (7,3,$r) == 0
+    mpechoat $r You suddenly feel sickened and unclean.
+    mpmset $r quest 7 3 1
+  endif
+endif
+~
+>hitprcnt_prog 15~
+mpecho The wolf sqeals in pain and runs out the door.
+mpforce $r say We should go report this to the Sherrif.
+mpgoto 18399
+mppurge self
+~
+|
+#18338
+sphere~
+a glowing sphere~
+You see a glowing sphere of light.~
+You gaze into the light, and a sense of peace fills you.  The aura from the
+light seems to affect your magic,
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+150 0 0 1d1+20000 1d1+250
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+mpgoto 18386
+connect up -1
+~
+>range_prog 100~
+connect up 18390
+mpecho The sphere shatters, and a door opens up.
+quit 
+~
+>hitprcnt_prog 90~
+mpecho The sphere shatters.
+mppurge self
+~
+>death_prog 100~
+connect up 18390
+mpecho The sphere shatters, and a door opens up.
+~
+|
+#18339
+stairs~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+22 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>greet_prog 100~
+if quest (28,3,$n) > 5
+  mpmset $n quest 28 3 6
+  mpecho You hear the sound of flapping wings.
+  break
+else
+  mpmadd $n quest 28 3 1
+endif
+if rand (66)
+  mpecho A bat flies out of the shadows.
+  if rand (66)
+    mpmload 18324
+    mpforce bat mpkill $n
+  else
+    mpmload 18325
+    mpforce bat mpkill $n
+  endif
+  break
+else
+  mpecho The stairs squeek as you climb them.
+endif
+~
+|
+#18340
+gatein~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+23 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 6~
+connect north 18362
+mpat 18362 connect south 18345
+~
+>time_prog 20~
+connect north -1
+mpat 18362 connect south -1
+~
+|
+#18342
+coffinmob~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p Salve Davae! Gnomorum magnus Deus~
+if quest (2,5,$n) >= 20
+  mpmset self quest 0 5 1
+  mpecho A small draft blows the soil in the coffin.
+endif
+~
+>speech_prog p Omnia libertas er iustitia~
+if quest (0,5,$i) == 1
+  mpmset self quest 0 5 2
+  mpecho A faint glow starts to emminate from the coffin.
+endif
+~
+>speech_prog p Davae vobiscum~
+if quest (0,5,$i) == 2
+  if quest (2,5,$n) >= 20
+    mpquiet on
+    open coffin
+    get all i18316
+    if hasobjnum ($i) == 18320
+      if hasobjnum ($i) == 18321
+        if hasobjnum ($i) == 18348
+          mpjunk all
+          mpquiet off
+          mpecho The coffin glows with an intense light.
+          mpecho A swirling green mist starts to take form in front of you.
+          mpmload 18316
+          mpmset self quest 0 5 0
+          mppurge self
+        else
+          mpecho Nothing happens.
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#18343
+bitclear~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (28,3,$n) == 6
+  mpmset $n quest 28 3 0
+endif
+if quest (2,5,$n) == 19
+  mpmset $n quest 2 5 20
+  mpechoat $n You feel a shiver run down your spine as you enter.
+endif
+if quest (7,3,$n) > 0
+  mpechoat $n Your disease has gotten very bad an you fall unconscious.
+  mpechoat $n You awaken at a familiar fountain.
+  mptransfer $n 9755
+endif
+if quest (0,2,$n) == 2
+  if quest (16,1,$n) == 1
+    mpmset $n quest 16 1 0
+    mpechoat $n As you enter, you get the sense that you cannot go back, only forward.
+    break
+  endif
+endif
+mpechoat $n {178}A blinding flash of light engulfs you.
+mpechoat $n When you can see again, you find yourself in a different place.
+mptransfer $n 9755
+~
+|
+#18344
+yohkomob girl~
+Yohko~
+A young girl is here.~
+This pretty girl wears a long chinese dress.  She has pig tails tied up in a
+loop, and carries a magical sword in her hands.  She smiles as you come in,
+and you feel welcome.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (20,3,$n) > 1
+  say Hello $n.
+else
+  say What do you want?
+endif
+~
+|
+#18345
+vampire squid creature~
+a vampire squid~
+A dark black creature swims here.~
+This dangerous creature is vampire squid.  It resembles other normal squid,
+except that the vampire squid feeds by draining the blood from its prey.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HIDE
+0 S
+95 BODY_HEAD BODY_HAND 1d1+9000 1d1+100
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpecho $n slices open the squid's belly with a mighty blow!
+mpoload 18356
+~
+|
+#18351
+ethone~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,2,$n) == 0
+  mpmset $n quest 0 2 1
+  mpechoat $n The mist swirls around you.
+endif
+~
+|
+#18352
+ethtwo~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+27 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,2,$n) == 1
+  mpmset $n quest 0 2 2
+  mpechoat $n A thin mist forms around you.
+endif
+~
+|
+#18353
+ethinn~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+25 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (7,3,$n) == 1
+  mpmset $n quest 7 3 2
+  mpechoat $n Beads of sweat run down your face and you feel sick.
+  mpmadd $n currhp -200
+  mpmadd $n currmove -200
+  mpechoat $n You had better seek a help for your disease!
+endif
+~
+>rand_prog 90~
+if time () == 0
+  if quest (2,5,$r) == 7
+    if position ($r) == pos_sleeping
+      mpforce all wake
+      mpat 18361 mpmload 18336
+      mpat 18361 mpforce winonamob shout Help! Someone help me!
+      mpat 18361 mpforce wolfmob mpkill winonamob
+      mpat 18361 mpmset winonamob level 25
+      mpecho You are awakened by a scream in the night!
+      mpforce $r say She must be getting attacked.  We must STOP it at once!
+      break
+    endif
+  endif
+  if quest (2,5,$r) == 10
+    if existsarea (shaniamob)
+      if position ($r) == pos_sleeping
+        mpforce all wake
+        mpgoto 18356
+        mptransfer pcs 18344
+        if existsroom (shaniamob)
+        else
+          mptransfer shaniamob
+        endif
+        mpforce shaniamob shout Help! Vampire! A vampire!
+        mpmload 18319
+        mpmset shaniamob level 20
+        mpforce vampiremob mpkill shaniamob
+        mpgoto 18352
+        mpecho You are awakened by a loud scream.
+        mpforce $r say Lets go STOP that vampire!
+        break
+      endif
+    endif
+  endif
+endif
+~
+|
+#18360
+etheth~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 0
+  mpmset $n quest 10 5 1
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 4
+  mpmset $n quest 10 5 5
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 8
+  mpmset $n quest 10 5 9
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 9
+  mpmset $n quest 10 5 10
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 18
+  mpmset $n quest 10 5 19
+  mptransfer $n 18329
+  break
+endif
+~
+|
+#18361
+etheth~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 1
+  mpmset $n quest 10 5 2
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 6
+  mpmset $n quest 10 5 7
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 10
+  mpmset $n quest 10 5 11
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 11
+  mpmset $n quest 10 5 12
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 13
+  mpmset $n quest 10 5 14
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 16
+  mpmset $n quest 10 5 17
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 19
+  mpmset $n quest 10 5 20
+  mptransfer $n 18329
+  break
+endif
+~
+|
+#18362
+etheth~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+27 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 20
+  mpmset $n quest 10 5 21
+  mptransfer $n 18329
+  break
+endif
+~
+|
+#18363
+etheth~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+25 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 2
+  mpmset $n quest 10 5 3
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 15
+  mpmset $n quest 10 5 16
+  mptransfer $n 18329
+  break
+endif
+~
+|
+#18364
+etheth~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+28 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 3
+  mpmset $n quest 10 5 4
+  mptransfer $n 18329
+  break
+endif
+~
+|
+#18365
+etheth~
+~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_HAND 1d0+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (10,5,$n) == 5
+  mpmset $n quest 10 5 6
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 7
+  mpmset $n quest 10 5 8
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 12
+  mpmset $n quest 10 5 13
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 14
+  mpmset $n quest 10 5 15
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 17
+  mpmset $n quest 10 5 18
+  mptransfer $n 18329
+  break
+endif
+if quest (10,5,$n) == 21
+  mpmset $n quest 10 5 22
+  mpmset $n quest 16 1 1
+  mptransfer $n 18373
+  break
+endif
+~
+|
+#18366
+etheth~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+26 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n The mist swirls around you.
+if quest (7,3,$n) > 0
+  mpechoat $n Your disease gets worse.  You had better find a cure.
+  mpmadd $n currhp -500
+  mpmadd $n currmove -500
+  break
+endif
+if quest (10,5,$n) == 22
+  mpmset $n quest 16 1 1
+  mptransfer $n 18373
+else
+  mpmset $n quest 10 5 0
+endif
+~
+|
+#0
+
+
+#SHOPS
+18300 ITEM_TYPE_PILL ITEM_TYPE_SCROLL ITEM_TYPE_FOOD ITEM_TYPE_WAND ITEM_TYPE_STAFF  100  50  6 20
+18304 ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_ARMOR ITEM_TYPE_TRASH ITEM_TYPE_FOOD  100  50  6 20
+18317 ITEM_TYPE_AMMO ITEM_TYPE_TREASURE ITEM_TYPE_PILL ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR  100  25  0 23
+18335 ITEM_TYPE_AMMO ITEM_TYPE_TREASURE ITEM_TYPE_PILL ITEM_TYPE_WEAPON ITEM_TYPE_ARMOR  100  25  0 23
+18360 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18361 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18362 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18363 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18364 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18365 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+18366 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  1  0
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#18300
+holy cross~
+holy cross~
+A dagger like cross has been dropped here.~
+This cross is made of a special alloy of precious metals.  It can be wielded
+like a dagger, for the ends come to razor sharp points.  It is legendary
+artifact passed down from generation to generation of vampire hunters.  Its
+great size and weight make it a bit unwieldy however.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 25 WEAPON_PIERCE 0 0 0 0
+10 1000000 94
+A APPLY_INT 3 0
+A APPLY_DAMROLL 4 0
+A APPLY_MANA -140 0
+C
+holy cross~
+FLAG_CLASS_MONK
+P 1
+TRIG_DAMAGE 33
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho $ glows with a powerful energy! 
+ mpforce all HELP HOLYCROSS~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE 50
+P 3
+TRIG_UNKNOWN 100 holybolt~
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 4 0
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOLOAD 18328~
+#18301
+ninja scroll~
+the ninja scroll~
+A glowing scroll is here~
+This scroll contains mystical powers, and secret ninjitsu techniques of the
+ninja vampire hunters.  The owner of the scroll is granted great knowledge
+and power.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+14 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_WIS -6 0
+A APPLY_INT 3 0
+A APPLY_DAMROLL 9 0
+#18302
+ninja garb~
+ninja garb~
+A pile of black cloth is here~
+This black suit of many layers of dense silk fabric is very stiff and hinders
+movement, but its powerful enchantments offer great protection if worn.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+16 0 0 0 0 0 0 0
+10 1000000 94
+A APPLY_HITROLL -12 0
+A APPLY_DAMROLL 8 0
+A APPLY_STR 3 0
+#18303
+ninja chainarmor~
+ninja chainarmor~
+A black suit of ninja chainarmor.~
+This black chainarmor is very lightweight, and allows a master ninja to
+move very quickly.  The intricate honeycomb weave pattern of the material
+offers great protection and tensile strength.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+16 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_HITROLL -12 0
+A APPLY_DAMROLL 8 0
+A APPLY_DEX 3 0
+#18304
+ninja boots~
+ninja boots~
+A black pair of boots is here.~
+These specially designed boots have a split between the large toe, and the
+other four toes.  Its unique design allows a master ninja to perform many
+dexterous moves, thus making him or her harder to hit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+16 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL -12 0
+A APPLY_DEX 3 0
+#18305
+katana~
+katana~
+A sharp ninja weapon sits on the ground.~
+This very sharp weapon has been forged out of folded steel.  The polished
+blade is engraved with intricate designs and holy symbols.  This is the
+standard weapon of proven ninja vampire hunters.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 3 30 WEAPON_STAB 0 0 0 0
+1 100000 80
+A APPLY_HITROLL -20 0
+#18306
+flexible hunter boots~
+the hunter's boots~
+A pair of highly flexible boots are here.~
+The black leather boots of the vampire hunter are crafted out of the skin of
+young black dragons, then cured and blessed with holy water.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+12 0 0 0 0 0 0 0
+5 1000000 95
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 7 0
+A APPLY_DEX 2 0
+#18307
+pile slayer armor~
+the slayer armor~
+A pile of glowing armor rests on the floor here.~
+This armor was crafted over 1000 years ago using long lost techniques.  Its
+intricate engravings and etchings are truly the work of a master blacksmith.
+This particular armor has been passed down from generation to generation of
+vampire hunters, and now it is your turn to use it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+16 0 0 0 0 0 0 0
+10 1000000 95
+A APPLY_MANA -130 0
+A APPLY_DAMROLL 7 0
+A APPLY_HITROLL 7 0
+#18308
+vampire hunting belt~
+a Vampire hunting belt~
+A magical belt has been left here.~
+Vampires have superhuman strength, so long ago, this girdle was crafted to
+grant the vampire hunter great strength in order to even the odds during
+combat.  It is made out of a magical alloy of precious metals mixed with
+vampire ashes.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 7 0
+A APPLY_STR 3 0
+#18309
+angelic halo~
+angelic halo~
+You see a brightly glowing halo of light.~
+This ring of light is no other than the halo of an angel.  As you examine it
+closely, it seems to be made of nothing but pure light.  The warm energy
+bathes you with an aura of true holyness.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 100 80
+A APPLY_HIT 40 0
+A APPLY_MANA 120 0
+#18310
+anointed chainmail~
+anointed chainmail~
+A shirt of silvery chainmail sits here.~
+This shirt is decorated with a large intricate red cross in the front.  The
+blessed metal is very well constructed, and should provide adequate protection
+from unholy attacks.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+10 150000 80
+A APPLY_CON 1 0
+A APPLY_MANA 80 0
+#18311
+anointed chainmail~
+anointed chainmail~
+A shirt of silvery chainmail sits here.~
+This shirt is decorated with a large intricate red cross in the front.  The
+blessed metal is very well constructed, and should provide adequate protection
+from unholy attacks.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+15 0 0 0 0 0 0 0
+1 150000 80
+A APPLY_CON 1 0
+A APPLY_MANA 80 0
+#18312
+braided belt~
+a braided belt~
+A braided belt is coiled here.~
+This belt is made out of blessed rope, and is lined with holy prayer beads.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+15 0 0 0 0 0 0 0
+10 150000 80
+A APPLY_WIS 1 0
+A APPLY_MANA 80 0
+#18313
+holy sandals~
+holy sandals~
+A pair of sandals have been left here.~
+These sandals are quite comfortable, since they have been worn from
+generation to generation of monks.  The style and design has been tailored
+to ensure comfort during prolonged sessions of walking.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+15 0 0 0 0 0 0 0
+1 150000 80
+A APPLY_DEX 1 0
+A APPLY_MANA 80 0
+#18314
+prayer book~
+book of prayers~
+A large leather-bound book has been dropped here.~
+This book contains many rituals and prayers within its pages.  The gilded
+edges and hard leather cover, as well as red silk bookmark show that this
+is a book of exceptional quality and workmanship.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 0 0 0 0 0 0 0
+1 150000 80
+E
+ritual~
+You thumb through the book and find a ritual for sanctifying:
+
+Fill the coffin with soil from the evil ones home land,
+and line with holy water and communion wafers.
+Then recite the holy words
+
+    Salve Davae! Gnomorum magnus Deus
+     Omnia libertas er iustitia
+      Davae vobiscum
+
+and the coffin shall be sealed from evil
+~
+A APPLY_INT 1 0
+A APPLY_MANA 80 0
+#18315
+anointed leggings~
+anointed leggings~
+A pair of silvery chain leggings sits here.~
+These leggings are painstakingly crafted out of a special alloy of silver and
+steel.  They are then blessed by a priest of the highest order, which ensures
+long lasting protection while combating the undead.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+15 0 0 0 0 0 0 0
+10 150000 80
+A APPLY_CON 1 0
+A APPLY_MANA 80 0
+#18316
+coffin~
+a coffin~
+An ancient coffin sits in the center of the chamber.~
+This ancient coffin is created out of a dark laquered wood.  The interior is
+lined with red silk, and gold engraved seal decorates the lid.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 CONT_CLOSEABLE|CONT_CLOSED -1 0 0 0 0 0
+1 10 100
+#18317
+altar~
+an altar~
+A magnificent altar sits here.~
+This holy altar is the centerpiece of the church.  It is adorned with holy
+artifacts.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 100
+#18318
+fountain~
+a small fountain~
+A small fountain sprays water into the air.~
+This fountain has a statue of a beautiful girl as its centerpiece.  It seems
+to be carved from marble.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+5 0 LIQ_WATER 0 0 0 0 0
+1 10 100
+#18319
+garlic~
+a clove of garlic~
+A piece of garlic is here.~
+This garlic is grown in the farms of Transylvania.  It has some medicinal
+properties, and vampire warding properties as well.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+80 134 199 200 0 0 0 0
+1 10000 80
+S 1 'heal'
+S 2 'refresh'
+S 3 'remove curse'
+#18320
+vial holy water~
+a vial of holy water~
+A small vial of liquid has been left here.~
+This small vial contains water blessed by the church of Transylvannia.  Its
+primary value is to burn vampires, or to be used in holy rituals.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+80 134 199 200 0 0 0 0
+1 10000 80
+S 1 'heal'
+S 2 'refresh'
+S 3 'remove curse'
+#18321
+communion wafer~
+a communion wafer~
+A small white water has been dropped here.~
+This wafer is used in ceremonys of the church.  It is a rather small circular
+disk, made of a white substance.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+5 65 235 64 0 0 0 0
+1 1000 2
+S 1 'detect invis'
+S 2 'stone skin'
+S 3 'detect hidden'
+#18322
+nun habit~
+a nun's habit~
+A nun's habit has been dropped here.~
+This holy headwear will bless the user with magic.  It is made of crude black
+cloth with white trimmings.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+16 0 0 0 0 0 0 0
+1 100000 80
+A APPLY_INT 1 0
+A APPLY_MANA 80 0
+#18323
+crucifix~
+a crucifix~
+A crucifix has been left here.~
+This small cross is rumoured to be able to ward vampires and other evil
+spirits.  It comes with a solid gold chain, and is engraved with tiny runes.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+3 0 0 0 0 0 0 0
+1 10000 2
+A APPLY_INT 1 0
+A APPLY_CON 1 0
+#18324
+shovel~
+a shovel~
+A poorly fashioned shovel lays on the floor.~
+This shovel has a iron head, and a thin wooden handle.  It doens't look like
+it can withstand much use.  Perhaps you can 'dig' a few times with it before
+it breaks, or maybe not.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD|ITEM_WEAR_HOLD
+WEAPONTYPE_WEAPON 1 10 WEAPON_POUND 0 0 0 0
+15 100 80
+P 1
+TRIG_UNKNOWN 100 dig
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18373 3 15
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 18348~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The shovel breaks as you dig up some dirt.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the shovel in order to dig.~
+P 15
+TRIG_VOID
+OPROG_ECHO
+The ground here is too hard to dig in.~
+#18325
+silver nugget~
+a nugget of silver~
+Something shines in the light.~
+This small nugget seems to be silver.  It certainly is silver in color.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#18326
+arrow~
+an arrow~
+An arrow is on the ground.~
+This is a well made arrow with a steel arrowhead.  It should fly sure and
+true.
+~
+ITEM_TYPE_AMMO
+0
+ITEM_WEAR_TAKE
+10 300 20 5 0 0 0 0
+1 100 70
+#18327
+bow~
+a bow~
+A well crafted bow is here.~
+This fine bow can be used to hunt many creatures.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SHORTBOW 3 20 WEAPON_PIERCE 0 0 0 0
+1 100 70
+#18328
+holy bolt~
+a holy bolt~
+A bolt of pure energy is here.~
+This magical bolt can shatter any magic.  It pulsates with a powerful holy
+energy.
+~
+ITEM_TYPE_AMMO
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+12 40 10 5 0 0 0 0
+1 10 94
+#18329
+mallet~
+a wooden mallet~
+A small mallet has been left here.~
+This heavy mallet can be used to hammer wooden stakes.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 4 5 WEAPON_CRUSH 0 0 0 0
+1 100 50
+C
+mallet~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#18330
+wooden stake~
+a wooden stake~
+A sharp wooden stake sits here.~
+This stake is blunt on one end, but sharpened to a point on the other.  It
+can be used for many things, such as holding down tents, or even staking
+vampires.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 5 WEAPON_STAB 0 0 0 0
+1 10 80
+#18331
+blood ring~
+the blood ring~
+A deep red ring has been left here.~
+This is a ring used in vampire slaying rituals.  The blood red gemstone is
+actually a magical diamond which absorbs the blood of vampires.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_INT 5 0
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 8 0
+#18332
+piece wood~
+a piece of wood~
+A small piece of wood has been chopped off a tree.~
+This is just a normal peice of wood.  It is blunt on both ends.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+5 1 1 7 0 0 0 0
+1 10 70
+A APPLY_DAMROLL -10 0
+#18333
+axe~
+an axe~
+A small axe has been left here.~
+This poorly made axe is crafted out of shoddy materials.  A few whacks from
+a strong person can break off the heavy blade you assume.  However, you
+should still be able to 'chop' at least one piece of wood with it.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 5 5 WEAPON_SLICE 0 0 0 0
+10 100 75
+C
+axe~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 chop
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 18319 3 15
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 18332~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The head of the axe goes flying off as you chop a piece of wood!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You have to hold the axe in order to chop, silly!~
+P 15
+TRIG_VOID
+OPROG_ECHO
+You can't find any suitable trees to chop here.~
+#18334
+whittling knife~
+a whittling knife~
+A small knife shines in the light.~
+This small knife can be used to 'whittle' wood.  It has a dark wooden handle,
+and a semi sharp blade.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 5 WEAPON_STAB 0 0 0 0
+1 100 75
+C
+stab~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+P 1
+TRIG_UNKNOWN 100 whittle
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 10 2
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 18332 3 15
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPOLOAD 18330 
+ MPJUNK I18332~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You sit down and whittle the wood into a sharp stake!~
+P 10
+TRIG_VOID
+OPROG_ECHO
+You have to hold the knife in order to whittle, silly!~
+P 15
+TRIG_VOID
+OPROG_ECHO
+You don't have any whittleable wood.~
+#18335
+silver arrow~
+a silver arrow~
+A fine silver arrow is here.~
+This specially made silver arrow is used to slay werewolves.  A weak wolf
+can be killed in one shot by it, but a strong one might need to be beaten
+down before it dies.
+~
+ITEM_TYPE_AMMO
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+10 100 10 3 0 0 0 0
+1 1000000 70
+#18336
+chunk swamp tissue~
+a chunk of swamp creature tissue.~
+A green piece of flesh is on the ground.~
+This hunk of green plant flesh gives off a putrid odor.  It seems to be
+rotting away once cut from the host.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+#18337
+gills~
+some gills~
+A bloody pile of gills is on the floor~
+This bloody mass of aquatic gills gives off a dead fish smell.  You had
+better do something with it before it rots away.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+#18338
+shepherd crook~
+a shepherd's crook~
+A wooden crook is on the ground.~
+This is just a simple wooden staff with a hooked end.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 5 5 WEAPON_POUND 0 0 0 0
+1 1000 40
+#18339
+throwing knife~
+a throwing knife~
+A simple knife is on the floor.~
+This is just a simple throwing knife.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 5 WEAPON_PIERCE 0 0 0 0
+1 1000 40
+#18340
+magical seal~
+a magical seal~
+A glowing magic seal had been dropped here!~
+This emblem is the family crest of the Belmont vampire hunters.  I seems to
+be the key which can unlock the tomb of the Belmont's, but its use is still
+a mystery.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+0 0 0 0 0 0 0 0
+1 10000000 75
+#18341
+vampire head~
+a vampire's head~
+A decapited head rolls on the floor.~
+This is the severed head of Count Dracula!  It is still in quite good
+condition, even though it has started to decay.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+1 10 75
+A APPLY_STR 4 0
+#18342
+bloody scroll~
+a bloody scroll~
+A blood stained scroll is on the floor.~
+This blood stained scroll is made out of thick paper.  There is some writing
+on it if you care to look.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+E
+writing~
+Alot of the letters are smudged with blood, but you can make out a few words:
+   {118}(@)_____________________){308}
+    {118}/                      /{308}
+    {118}|  New unde{111} {118}d         |{308}
+    {118}| {111}   {118}n needed         |{308}
+     {118}\    wednesd{111}      {118}    \{308}
+      {118}\                     \{308}
+      {118}|  {111} {118} Co  t  rac la     |{308}
+      {118}/______________________/{308}
+   {118}(@)_______________________){308}
+~
+#18343
+pitchfork~
+a pitchfork~
+A shody pitchfork is stuck into the ground.~
+This is just a simple farming tool.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 6 5 WEAPON_PIERCE 0 0 0 0
+1 1000 60
+#18347
+pumpkin~
+a pumpkin~
+A white pumpkin is on the ground.~
+This strange pumpkin is white in color.  Oddly enough, it looks like it has
+eyes and a mouth!
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+#18348
+pile soil~
+a pile of soil~
+Some soil is piled on the floor.~
+This is just some regular brown soil.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+#18351
+blood~
+some werewolf blood~
+A pool of blood is on the ground.~
+This is the blood of a freshy slain werewolf.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 75
+#18352
+broom~
+a witch's broom~
+A broom has been left here.~
+You shouldn't have this item.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 1 10 0 0 0 0 0
+1 10 50
+#18353
+corpse~
+a corpse~
+A bloodless corpse is here.~
+This corpse seems to be in good shape.  The only wounds you can see are on
+the neck area.  If only you could figure out the 'cause of death'.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 75
+#18354
+sign~
+a sign~
+A badly weathered sign~
+The sign reads:
+  _________________________
+ (                       __)
+ (  WELCOME TO WALACHIA    )
+ (_   Population 1000     _)
+ (_________________________)
+             | |
+           .\| |/
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 100
+#18355
+tree~
+a gnarled tree~
+A gnarled tree grows here.~
+This tree has a frightening appearance.  Its leafless limbs resemble bony
+fingers, and cast eerie shadows all around you.  You could swear it is
+moving around and following you.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 100
+#18356
+baby squid~
+a dead baby squid~
+A small dead squid lays here.~
+This baby vampire squid is dark black in color.  It looks exactly like
+the mother squid which you sliced open, except smaller in size.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 10 1
+#18399
+important letter~
+an important letter~
+A tightly sealed envelope sits on the ground.~
+This envelope is a letter from Father Collins to his friend Aved.
+It is sealed with a wax seal, so you had better not open it and
+read it.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#18300
+A thick mist~
+You enter into a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.  The ground here is
+well worn, as if many travelers have come here before.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_MAZE SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18301
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18301
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18302
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18302
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18303
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18303
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18304
+#18304
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18305
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18305
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18306
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18306
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18307
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18307
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18300
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18308
+#18308
+A thick mist~
+You stand within a heavily fogged area.  Visibility is very low here, and you
+can get lost very easily.  Sounds of wild creatures echo all around you, and
+you hope to escape from the mist as soon as you can.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+More mist~
+~
+0 -1 18309
+DDIR_EAST
+More mist~
+~
+0 -1 18300
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+DDIR_WEST
+More mist~
+~
+0 -1 18300
+#18309
+A thick mist~
+You stand within a lightly fogged area.  Visibility is very low here, but you
+can make out what looks like a gate towards the north.  They way south leads
+back into the swirling mists.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18341
+DDIR_SOUTH
+More mist~
+~
+0 -1 18300
+#18310
+The town cemetery~
+You stand at the entrance to the town cemetery.  The path on which you stand
+leads all the way west where it ends at what seems to be a large crypt.  The
+paths north and south lead to graves.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18312
+DDIR_EAST
+~
+~
+0 -1 18365
+DDIR_SOUTH
+~
+~
+0 -1 18311
+DDIR_WEST
+~
+~
+0 -1 18313
+#18311
+Inside a cemetary~
+You stand within the town cemetery.  A few graves seem freshly dug, but the
+majority of them look quite old.  The path north leads back to the walkway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18310
+#18312
+Inside a cemetary~
+You stand within the town cemetery.  A few graves seem freshly dug, but the
+majority of them look quite old.  The path south leads back to the walkway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 18310
+#18313
+End of the cemetary~
+You stand at the end of the town cemetery.  To the west is a large crypt,
+with no visible way in.  The crypt is sealed very tightly, as if to keep some
+unholy creature inside.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18314
+DDIR_EAST
+~
+~
+0 -1 18310
+DDIR_SOUTH
+~
+~
+0 -1 18315
+#18314
+Walking amongst the graves~
+You are in an older part of the cemetery, where the weeds have overgrown a
+bit.  You can see from the headstones that some of these graves are over 500
+years old.  This town must have a long history you think to yourself.  The
+path south leads back to the main walkway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 18313
+#18315
+Walking amongst the graves~
+You are in an older part of the cemetery, where the weeds have overgrown a
+bit.  You can see from the headstones that some of these graves are over 500
+years old.  This town must have a long history you think to yourself.  The
+path north leads back to the main walkway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18313
+#18316
+Inside the crypt~
+The inside of the crypt is covered with cobwebs and dust, and the smell of
+death fills the air.  The walls here are covered with murals of the old
+vampire hunters, as a reminder of their past deeds.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18313
+#18317
+A trail into the dark forest~
+You stand at the entrance to a dark forest.  A thin mist envelops the air
+around you, but visibility is still high.  The growls of wild creatures and
+the howls of wolves can be heard coming from within the forest.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18318
+DDIR_SOUTH
+~
+~
+0 -1 18366
+#18318
+The mist filled forest~
+The dry leaves crackle and crumble as you walk within this mist covered
+forest.  Visibility is very low, as there is hardly any light around.  You
+keep up your guard in case of a sudden attack.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 18319
+DDIR_SOUTH
+~
+~
+0 -1 18317
+#18319
+Deep inside the forest~
+The large trees seem to shift and move in the mist covered darkness.  Glowing
+red eyes watch your every step, and chills run down your spine.  The howling
+echo of wolves and the hooting of owls add to this eerie atmosphere.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 18320
+DDIR_WEST
+~
+~
+0 -1 18318
+#18320
+End of the forest~
+The mist thins out a bit at the end of the forest, and you are glad to have
+escaped it casualty free.  There is a clearing to the north which leads to
+some mountainous terrain, while south leads back into the dark forest.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 18321
+DDIR_SOUTH
+~
+~
+0 -1 18319
+#18321
+Base of Skull Mountain~
+You stand at the base of a very large mountain.  The mountain gets it name
+from its striking resemblance to a skull.  Glancing up, you can see the eyes
+of the skull watching you.  A strange glowing light shines at the top of the
+mountain, illuminating the swirling clouds.  A path also runs west around
+the giant peak.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 18320
+DDIR_WEST
+~
+~
+0 -1 18326
+DDIR_UP
+~
+~
+0 -1 18322
+#18322
+The mouth of Skull Mountain~
+You are at what would be the mouth of the skull, if skull mountain were
+really a skull that is.  What looked to be teeth from down below, are in
+actuallity large weathered boulders.  Hardly any vegetation grows here, you
+assume its due to the constant layer of mist which blocks out the sun.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_UP
+~
+~
+0 -1 18323
+DDIR_DOWN
+~
+~
+0 -1 18321
+#18323
+The nose of Skull Mountain~
+You are now nearly halfway up the mountain.  What looked to be the nose from
+down below is actually a large sealed off cave.  The only life you see around
+here is the moss and fungus which grow in the recesses of the cave.  Looking
+up, you can see brief flashes of lighting amidst the swirling clouds.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_UP
+~
+~
+0 -1 18324
+DDIR_DOWN
+~
+~
+0 -1 18322
+#18324
+The eyes of Skull Mountain~
+You are nearly at the top of the mountain, at the point which would be the
+eyes of the skull.  The footing is very slippery at this point, and you
+struggle to keep from falling down.  You can now see that the two eyes
+are actually large boulders which are covered with a glowing red moss.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_UP
+~
+~
+0 -1 18325
+DDIR_DOWN
+~
+~
+0 -1 18323
+#18325
+The top of Skull Mountain~
+You have successfully scaled skull mountain.  To your south, you can see a
+swirling pool of ether.  It glows with an eerie red light, and beckons you
+nearer.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18324
+#18326
+Path around the mountain~
+You walk along the base of the mountain to its west side.  A thin layer of
+mist covers the ground, masking your footsteps.  The path continues on
+towards the north.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 18327
+DDIR_EAST
+~
+~
+0 -1 18321
+#18327
+Entrance to the cave~
+You stand at the western end of the mountain.  There are many dead trees all
+around you, and the only way back is south.  Thick mist covers the ground,
+hiding any other trails.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 18326
+DDIR_DOWN
+Bushes~
+bushes~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 18328
+#18328
+A hidden cave~
+Piles of bones litter this hidden cave in the ground.  What ever lives here
+sure does seem to enjoy eating human flesh.  Piles of droppings sit in one
+corner, and another pile is formed of ripped and shredded clothing.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 18327
+#18329
+The ethereal vortex~
+{118}Your body fades in and out of existence as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18330
+DDIR_EAST
+~
+~
+0 -1 18331
+DDIR_SOUTH
+~
+~
+0 -1 18332
+DDIR_WEST
+~
+~
+0 -1 18333
+DDIR_UP
+~
+~
+0 -1 18334
+DDIR_DOWN
+~
+~
+0 -1 18335
+#18330
+The ethereal vortex~
+{118}Your body fades in and out of existence as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18331
+The ethereal vortex~
+{118}Your body fades in and out of existance as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18332
+The ethereal vortex~
+{118}Your body fades in and out of existance as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18333
+The ethereal vortex~
+{118}Your body fades in and out of existance as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18334
+The ethereal vortex~
+{118}Your body fades in and out of existance as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18335
+The ethereal vortex~
+{118}Your body fades in and out of existance as you travel this ethereal realm.
+You seem to be wandering for ages as if all time is stopped.  Will you ever
+be able to escape the mist?{308}
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_ETHEREAL
+DDIR_NORTH
+~
+~
+0 -1 18329
+DDIR_EAST
+~
+~
+0 -1 18329
+DDIR_SOUTH
+~
+~
+0 -1 18329
+DDIR_WEST
+~
+~
+0 -1 18329
+DDIR_UP
+~
+~
+0 -1 18329
+DDIR_DOWN
+~
+~
+0 -1 18329
+#18336
+A gypsy tent~
+You are inside of a gypsy tent.  The inside is decorated with many many
+colors.  You can also see cloves of garlic and other various vials filled
+with strange liquids and herbs.  A few pillows are strewn about the ground,
+but overall it seems well kept.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18339
+#18337
+A gypsy tent~
+This tent is used mainly for the storage of food and equipment.  The gypsy
+in charge here seems quite busy, and unwilling to help you.  Piles of dried
+vegetables and other boxed up glass items are neatly stacked in the corner
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18339
+#18338
+A gypsy tent~
+This large tent serves as the living quarters for the majority of the gypsy
+folk.  A few families share this tent, both for warmth and protection.  You
+notice that the gypsy have stocked up on garlic as well.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 18339
+#18339
+A gypsy camp~
+You enter what appears to be a gypsy camp which is situated outside of the
+town.  Gypsies are long time enemies of the nosferatu, and perhaps they hold
+some knowledge of their origin.  Three large tents are arranged in a
+defensive position.  You wonder just how safe they are from attack.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18338
+DDIR_EAST
+~
+~
+0 -1 18336
+DDIR_SOUTH
+~
+~
+0 -1 18337
+DDIR_WEST
+~
+~
+0 -1 18340
+#18340
+A dusty road~
+This is a short side path off the main road.  It seems well travelled, yet it
+is very clean.  You can hear the sounds of civilization coming from the east,
+while the road to the west heads back to the main path.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 18339
+DDIR_WEST
+~
+~
+0 -1 18365
+#18341
+Standing at a gateway~
+You are at what seems to be a gate.  You can barely make out a walled town
+beyond the gate.  You knock upon the gate, but get no response.  It seems
+quite strong, but is undefended.  Perhaps its purpose is to simply keep
+out the fog from entering the village.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+A gateway~
+gate~
+EX_ISDOOR|EX_CLOSED -1 18342
+DDIR_SOUTH
+~
+~
+0 -1 18309
+#18342
+Entrance of a village~
+You stand at the entrance to a little town, a quiet village.  A village where
+every day is like the one before.  A little town, full of little people, who
+wake up to say 'Good day'!
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18343
+DDIR_SOUTH
+~
+~
+0 -1 18341
+#18343
+Cobblestoned intersection~
+The street here splits in four directions.  The cobblestones are quite clean,
+and the smell of fresh bread fills the air.  You can see a beautiful fountain
+to the north, and many small brick homes in all directions.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18344
+DDIR_EAST
+~
+~
+0 -1 18351
+DDIR_SOUTH
+~
+~
+0 -1 18342
+DDIR_WEST
+~
+~
+0 -1 18350
+#18344
+The town square~
+You stand within the center of the small village.  A rather large round
+fountain sits in the very center of the town.  All around you, you can see
+villagers doing their daily activities.  The village looks to have been built
+in a circular pattern, with the entrances to the north and south only.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18345
+DDIR_EAST
+~
+~
+0 -1 18347
+DDIR_SOUTH
+~
+~
+0 -1 18343
+DDIR_WEST
+~
+~
+0 -1 18346
+#18345
+A large intersection~
+You are now north of the town square.  The cobblestone streets are well built
+and quite clean.  To the north is the exit of the village.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 18349
+DDIR_SOUTH
+~
+~
+0 -1 18344
+DDIR_WEST
+~
+~
+0 -1 18348
+#18346
+A street in the village~
+You are standing to the west of the town square.  You see what look to be
+homes or shops to the north, south, and west of here.  The path here is just
+as ordinary as the rest of this normal town.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18348
+DDIR_EAST
+~
+~
+0 -1 18344
+DDIR_SOUTH
+~
+~
+0 -1 18350
+DDIR_WEST
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18360
+#18347
+A street in the village~
+You are standing to the east of the town square.  Brick buildings which look
+like homes or shops lay in all directions.  No villagers are about at this
+time, which makes the town strangely quiet.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18349
+DDIR_EAST
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18361
+DDIR_SOUTH
+~
+~
+0 -1 18351
+DDIR_WEST
+~
+~
+0 -1 18344
+#18348
+Corner of town~
+You stand at the north west corner of town.  Small brick homes are in all
+directions, some of which look quite inviting.  The smooth cobblestones in
+the street are quite worn here, yet are still in good condition.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18356
+DDIR_EAST
+~
+~
+0 -1 18345
+DDIR_SOUTH
+~
+~
+0 -1 18346
+DDIR_WEST
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18354
+#18349
+A corner of the village~
+You stand at the north east corner of this quaint little village.  The smell
+of death comes from the building to the east, perhaps you should avoid it.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+A large building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18357
+DDIR_EAST
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18353
+DDIR_SOUTH
+~
+~
+0 -1 18347
+DDIR_WEST
+~
+~
+0 -1 18345
+#18350
+A corner of the village~
+You are in the south western corner of this small town.  Small brick homes
+and shops are in all directions.  You can notice nothing out of the ordinary
+at this spot, for it seems the same as any other location in the town.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18346
+DDIR_EAST
+~
+~
+0 -1 18343
+DDIR_SOUTH
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18358
+DDIR_WEST
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18355
+#18351
+A corner in the village~
+You are in the south east corner of the village.  What looks to be an inn is
+to the east of this point.  A small amount of litter lines the floor here,
+probably due to the number of visitors who patronize the inn.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18347
+DDIR_EAST
+A large building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18352
+DDIR_SOUTH
+A small building~
+door~
+EX_ISDOOR|EX_CLOSED -1 18359
+DDIR_WEST
+~
+~
+0 -1 18343
+#18352
+The Boar's Nest Tavern~
+You are in the only inn in town.  This fine establishment is run by farmer
+Cooper, and his wife Katherina.  Perhaps you can gather some information, or
+just listen to rumors here, for Katherina is known to gossip with the best
+of them.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18351
+#18353
+The town morgue~
+This darkened building is where bodies are cremated, or prepared for burial
+in the town cemetery.  You notice there are quite a number of bodies here,
+an unusually high number.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18349
+#18354
+A simple home~
+This is just the simple home of a villager.  The standard furnishings
+complete with fireplace, adorn the humble abode.  Religious artifacts made
+of silver, and strings of garlic cover the doors.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18348
+#18355
+A humble home~
+You can see nothing out of the ordinary here.  This is simply the home of a
+townsperson.  Wooden furniture, and a brick fireplace fill the emptiness of
+this dwelling.  What look like cloves of garlic hang along the top of the
+doors and windows.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18350
+DDIR_DOWN
+~
+door~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 18391
+#18356
+A quiet house~
+This small house is exactly how you would picture a small house in a small
+village.  The only difference is the large amount of garlic and crucifixes
+used as decorations.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 18348
+#18357
+The town hall~
+This large building is the town hall.  Mayor Van Fossen works here,
+overseeing the daily activities and happenings of the town.  The entire town
+can be seen from the panoramic view from the large windows.
+ A few notices are posted on a wall.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 18349
+E
+notices note notice~
+One notice catches your eye.
+   {178}(@)_____________________){308}
+    {178}/                      /{308}
+    {178}|     HELP WANTED:    |{308}
+    {178}|   A brave hero to    |{308}
+     {178}\   investigate the    \{308}
+      {178}\  strange happenings  \{308}
+      {178}|  of late.            |{308}
+      {178}/______________________/{308}
+   {178}(@)_______________________){308}
+~
+#18358
+A general store~
+This is the town shop where various items are sold.  It even has a bakery
+where fresh bread can be bought.  The stock isn't as good as in other shops
+around the realm, as suppliers do not frequent this village.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18350
+#18359
+A small brick house~
+This dainty home is furnished with sturdy wooden chairs and a lovely table.
+A brick fireplace complete with a warm fire is built against a wall, while
+a large window allows light to filter in through the opposite side.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+EX_CLOSED -1 18351
+#18360
+A small church~
+This holy place is designed and decorated like your standard church.  A few
+rows of seats fill most of the room, with a large altar at the end.  You can
+find various holy items here which you may need later on.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18346
+#18361
+A nice home~
+This nicely decorated home is painted all in white.  You assume that a woman
+must live here, and a beautiful one at that.  Strangely enough, there are
+strings of garlic cloves hanging along her window sills and over her doorway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 18347
+#18362
+The northern entrance~
+You stand at the northern entrance to the village.  The sturdy gate to the
+south must have been designed to keep out something.  The path here goes
+north, then turns towards the east towards a bridge.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18363
+#18363
+A path outside the town~
+The road here is surprisingly worn.  You would think travel in this direction
+would be limited, yet you see many wagon tracks and footprints.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 18364
+DDIR_SOUTH
+~
+~
+0 -1 18362
+#18364
+A well trodden path~
+You walk along an amazingly clean road.  Only wagon tracks and footprints
+litter the ground here.  You can see a four way intersection to the north,
+while the path back to the city is west.  What looks to be a farmhouse is
+to the east.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18365
+DDIR_EAST
+~
+~
+0 -1 18392
+DDIR_WEST
+~
+~
+0 -1 18363
+#18365
+An intersection~
+You stand at an intersection along the road.  To the east you can see what
+look to be tents.  To the west is the town cemetery.  The path north leads
+to an old stone bridge.  You can always go back south towards the
+town as well.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18366
+DDIR_EAST
+~
+~
+0 -1 18340
+DDIR_SOUTH
+~
+~
+0 -1 18364
+DDIR_WEST
+~
+~
+0 -1 18310
+#18366
+A stone bridge~
+You stand at a well built bridge of stone.  A slowly moving river flows below
+you.  The current seems to travel east.  To the north you can see a dark
+foreboding mist covered forest.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18317
+DDIR_EAST
+~
+~
+0 -1 18367
+DDIR_SOUTH
+~
+~
+0 -1 18365
+DDIR_WEST
+~
+~
+0 -1 18371
+#18367
+Along a dark river~
+You wade waist deep into a dark muddy river.  A thin mist begins to form
+around you, cutting short your visibility.  You can still see the bridge to
+the west, perhaps now would be a good time to go back.  The river continues
+on to the east before turning south.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 18368
+DDIR_WEST
+~
+~
+0 -1 18366
+#18368
+Along a dark river~
+The mist over the dark water is thicker this far down the river.  Tall trees
+form a wall which channels the river to the south.  You think you feel
+something brush against your leg, or maybe it's just your imagination.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_SOUTH
+~
+~
+0 -1 18369
+DDIR_WEST
+~
+~
+0 -1 18367
+#18369
+Waist deep in the swamp~
+The river ends here at a murky swamp.  The water is entirely black, and
+filled with green vegetation.  You hear the sounds of water splashing, as
+if something has entered the water with you.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 18368
+DDIR_EAST
+~
+~
+0 -1 18370
+#18370
+A black lagoon~
+You have come to the end of the river, and are now in a large lagoon.  The
+water here is deep black, and quite murky.  A wall of trees forms a barrier,
+which bars any exits except back to the west.  Oddly enough, the lagoon is
+very silent.  Too silent in fact.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_WEST
+~
+~
+0 -1 18369
+#18371
+Wading in a river~
+As soon as you jump into the river, a very thick mist swirls and forms around
+you, cutting off any visibility.  Luckily you can still feel the bridge to
+the west.  The river continues to the west, but with zero visibility, going
+there is not recommended.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 18366
+DDIR_WEST
+~
+~
+0 -1 18372
+#18372
+Wading in a river~
+Now you have done it.  The fog here is so thick you can't even see the nose
+on your face, nor which way you are traveling.  You should have went back
+to the bridge when you had the chance.
+~
+0 ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 18372
+DDIR_EAST
+~
+~
+0 -1 18372
+DDIR_SOUTH
+~
+~
+0 -1 18372
+DDIR_WEST
+~
+~
+0 -1 18372
+#18373
+Entrance to an old castle~
+You suddenly find yourself at the entrance of an ancient castle.  You must
+have found your way through the ethereal void.  You seem to have materialized
+upon a catwalk which leads to an iron gate.  Looking down below, all you see
+are the burning flames of hell.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+Gate~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED -1 18374
+DDIR_EAST
+~
+~
+0 -1 18396
+DDIR_SOUTH
+~
+~
+0 -1 18396
+DDIR_WEST
+~
+~
+0 -1 18396
+DDIR_UP
+~
+~
+0 -1 18397
+#18374
+Inside the castle~
+You stand within a finely decorated hallway.  The marble floor is lined with
+a thin red carpet which extends to the north.  Fine silk curtains cover up
+the windows, allowing no sunlight in.
+~
+0 ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18375
+#18375
+Base of a spiral stairway~
+You stand at the base of a huge spiral staircase.  The steps are quite
+narrow, and only one of you can walk on them at one time.
+~
+0 ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 18376
+#18376
+Climbing a spiral stairway~
+You are standing at the first segment of the staircase.  Looking up, the
+stairs spiral continuously into the darkness.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18377
+DDIR_DOWN
+~
+~
+0 -1 18375
+#18377
+Climbing a spiral stairway~
+You are standing at the second segment of the staircase.  Looking up, the
+stairs spiral continuously into the darkness.  A few candles are the only
+source of illumination.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18376
+DDIR_UP
+~
+~
+0 -1 18378
+#18378
+Climbing a spiral stairway~
+You are standing at the third segment of the staircase.  Looking up, the
+stairs spiral continuously into the darkness.  You notice some shadows
+flickering in and out in the darkness around you.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18379
+DDIR_DOWN
+~
+~
+0 -1 18377
+#18379
+Climbing a spiral stairway~
+You are standing at the fourth segment of the staircase.  Looking up, the
+stairs spiral continuously into the darkness.  You are quite high up the
+stairs now, and are almost at the top.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18378
+DDIR_UP
+~
+~
+0 -1 18380
+#18380
+Climbing a spiral stairway~
+You are standing at the fifth segment of the staircase.  Looking up, you can
+see the top of the stairs.  When you take a quick glance down, all you can
+see is the faint glow of candles shining in the darkness.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 18381
+DDIR_DOWN
+~
+~
+0 -1 18379
+#18381
+Top of the spiral stairway~
+You are standing at the top of the winding staircase.  A narrow hallway leads
+north from here.  The faint moans of unholy creatures can be heard coming
+from that direction.
+~
+0 ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18382
+DDIR_EAST
+~
+~
+0 -1 18380
+#18382
+A guarded hallway~
+This carpeted hallway is dimly lit with everlasting candles.  You can see
+shadows moving towards the north.  Perhaps now would be a good time to spell
+up.
+~
+0 ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18383
+DDIR_SOUTH
+~
+~
+0 -1 18381
+#18383
+A guarded hallway~
+This carpeted hallway is stained with blood.  A few candles flicker on the
+blood stained walls.  Some tapestries with blood splattered on them adorn
+the walls as well.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#18384
+A guarded hallway~
+This carpeted hallway is stained with blood.  A few candles flicker on the
+blood stained walls, projecting eerie shadows. A few horrific paintings with
+blood splattered on them are mounted on the walls.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#18385
+A guarded hallway~
+The doors slam shut upon your arrival.
+The blood stained carpet is illuminated by the few candles which flicker on
+the blood stained walls.  A few ceramic urns sit on pedestals along the side
+of the hallway.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#18386
+A room of anti magic~
+You stand within a room of anti magic.  You feel a powerful magical force
+coming from the doors to the east.  Perhaps the foe which you seek lies
+beyond those doors.  All you have to do now is find a way to get them open.
+You feel a very powerful force around you.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Secret~
+secret~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 18387
+#18387
+~
+It is totally dark in this room.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18388
+DDIR_SOUTH
+~
+~
+0 -1 18386
+#18388
+~
+This is a room of total darkness.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 18389
+DDIR_SOUTH
+~
+~
+0 -1 18387
+#18389
+~
+This is a room of total darkness.  However, you sense that you are not alone.
+This room seems to be a dead end.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 18388
+#18390
+The great hall~
+You stand within a magnificent chamber, lavishly decorated with expensive
+furnishings.  The room is entirely decorated in red and black.  Tall pillars
+are draped with fine red silk cloth, and the floors are carpeted with a thick
+fuzzy material.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#18391
+~
+You are inside a candle lit chamber.  A large ying ying symbol has been
+painted onto the floor.  Scrolls with Japanese characters hang from the
+walls, and many deadly looking weapons are mounted as well.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 18355
+E
+weapons~
+You drool as you look at them, but it is doubtful you could defeat the master.
+~
+#18392
+A small farm~
+This is the farm of farmer Cooper.  The squeal of pigs can be heard, as
+well as the 'bwok bwok' of chickens.  The farmhouse itself seems fairly well
+kept, and the sound of children laughing can be heard from within.  You can
+see a large meadow to the east, and a garden to the south.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 18393
+DDIR_SOUTH
+~
+~
+0 -1 18394
+DDIR_WEST
+~
+~
+0 -1 18364
+#18393
+A green meadow~
+This pasture is used by the shepherdess to raise her sheep.  The freshly
+nibbled grass gives off a pleasant aroma, unlike the sheep droppings.  The
+fence around the pasture seems to be damaged, as if a large creature smashed
+through it.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_FIELD
+DDIR_WEST
+~
+~
+0 -1 18392
+#18394
+A lush garden~
+This garden is filled chock full of ripe plump vegetables.  You can see corn, squash,
+lettuce, and even a pumpkin patch.  The sheep dropping fertilizer sure does
+work nicely.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 18392
+#18395
+A thick wall of mist~
+The mist here is so thick, that you cannot see even an inch in front of you.
+A spooky wind howls, blowing the mist around you.  You hope you can find
+your way out of here soon.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 18300
+DDIR_SOUTH
+~
+~
+0 -1 16238
+#18396
+A flaming pit of lava~
+You fall from the ledge into a flaming pit of lava!  There is no escape from
+here.  You have really fallen and you can't get up!
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+#18397
+The sky~
+You are high above the world in the sky!
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_AIR
+#18398
+An arena~
+You are atop a stage where you are fighting for your honor.  The winner of
+this battle will be the stronger of the two vampire slayers.  Will it be
+you or your opponent?
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#18399
+reset room~
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+#0
+
+
+#RESETS
+D 18348 DIR_NORTH DOOR_CLOSED
+D 18348 DIR_WEST  DOOR_CLOSED
+D 18349 DIR_NORTH DOOR_CLOSED
+D 18349 DIR_EAST  DOOR_CLOSED
+D 18347 DIR_EAST  DOOR_CLOSED
+D 18346 DIR_WEST  DOOR_CLOSED
+D 18350 DIR_SOUTH DOOR_CLOSED
+D 18350 DIR_WEST  DOOR_CLOSED
+D 18351 DIR_EAST  DOOR_CLOSED
+D 18351 DIR_SOUTH DOOR_CLOSED
+D 18341 DIR_NORTH DOOR_CLOSED
+D 18327 DIR_DOWN  DOOR_OPEN
+D 18355 DIR_DOWN  DOOR_OPEN
+D 18386 DIR_NORTH DOOR_OPEN
+D 18373 DIR_NORTH DOOR_CLOSED_LOCKED
+M 18300 100 18360
+G 18320 999 0
+G 18321 999 0
+G 18323  10 0
+G 18329  50 0
+M 18301 100 18391
+M 18302 100 18361
+M 18303 100 18354
+M 18304 100 18358
+G 18319 999 0
+G 18324  99 0
+G 18326  99 0
+G 18327  50 0
+G 18329  50 0
+G 18334  50 0
+G 18333  10 0
+G 18339  50 0
+G 18343  50 0
+M 18305 100 18393
+G 18338  99 0
+M 18331 100 18393
+M 18331 100 18393
+M 18331 100 18393
+M 18331 100 18393
+M 18306 100 18392
+M 18307 100 18352
+M 18308 100 18352
+M 18309 100 18356
+M 18310 100 18357
+M 18311 100 18352
+M 18312 100 18352
+M 18313 100 18352
+M 18314 100 18389
+M 18315 100 18313
+M 18317 100 18336
+M 18318 100 18328
+M 18320 100 18370
+M 18321 100 18383
+M 18322 100 18387
+M 18322 100 18387
+M 18322 100 18387
+M 18322 100 18387
+M 18322 100 18388
+M 18322 100 18388
+M 18322 100 18388
+M 18322 100 18388
+M 18323 100 18384
+M 18326 100 18369
+M 18327 100 18316
+M 18328 100 18319
+M 18329 100 18385
+M 18330 100 18394
+M 18332 100 18353
+M 18333 100 18353
+M 18334 100 18338
+M 18335 100 18337
+G 18326  99 0
+G 18327  10 0
+G 18333  10 0
+G 18324  10 0
+G 18334  10 0
+G 18319  99 0
+G 18343  50 0
+M 18360 100 18330
+M 18361 100 18331
+M 18362 100 18332
+M 18363 100 18333
+M 18364 100 18334
+M 18365 100 18335
+M 18366 100 18329
+M 18353 100 18352
+M 18351 100 18309
+M 18352 100 18317
+M 18338 100 18386
+M 18339 100 18376
+M 18339 100 18377
+M 18339 100 18378
+M 18339 100 18379
+M 18339 100 18380
+M 18339 100 18381
+M 18340 100 18345
+M 18342 100 18390
+M 18343 100 18374
+M 18344 100 18355
+M 18345 100 18371
+M 18345 100 18367
+O 18318   1 18344
+O 18316   1 18390
+O 18317   1 18360
+O 18325   5 18326
+O 18353   1 18353
+O 18353   1 18353
+O 18353   1 18353
+O 18354   1 18341
+O 18355   1 18318
+O 18355   1 18319
+O 18355   1 18320
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

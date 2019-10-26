@@ -1,0 +1,4335 @@
+#AREA Island of Paragon~
+#AUTHORS Hammer~
+#VERSION 4
+#RANGES 75 95 1 95
+#OLC_RANGES 19500 19699
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NORIP
+
+
+#HELPS
+0 ISLANDOFPARAGON 'ISLAND OF PARAGON' PARAGON~
+{128}
+                              Island of Paragon
+{308}
+Island of Paragon, is a classical battle between good and evil, magic and
+anti-magic.  You must travel through the Hallways of the Magicless Void in
+order to reach the magical island created and ruled by Queen Paragon.
+
+  {128}(A) {058}Quests
+  {128}(B) {058}The Story
+
+{a}PARAGON1
+{b}PARAGON3
+~
+
+0 PARAGON1~
+{128}
+                                   Quests
+{308}
+The Bard knows of all the woes in the Island of Paragon, listen to his prattle
+for the truths.  Listening is often a key to learn just what people want, but
+you cannot always be silent.  Also something to know, King Seflian deeply
+respects his Champion and Queen Paragon hates homies with all her heart.
+{-}ISLANDOFPARAGON 'ISLAND OF PARAGON' PARAGON
+~
+
+0 PARAGON3~
+{128}
+                                  The Story
+{308}
+Throughout the ages, Seflian and his men from the bowels of the earth have
+waged war on the Island of Paragon.  In Seflian's last assault he was very
+powerful and managed to cripple Queen Paragon by cutting out her eyes.
+Seflian also managed to grab Saddie's crystal ball and smash it.  Both
+Saddie and Queen Paragon have been weakened severly by this and will be very
+happy to have their items returned.
+{-}ISLANDOFPARAGON 'ISLAND OF PARAGON' PARAGON
+~
+
+0 $~
+
+
+#MOBILES
+#19503
+felulius anti-wizard~
+Felulius~
+(Dark Aura) Felulius the Anti-Wizard.~
+This man's body is completely covered in ash type dark matter.  His hatred of
+magic combined with his awesome physical strength makes it possible for him
+create the magic destroying dark matter.  His mere being sucks magic away
+from the entire realm.  The ash of dark matter thickens in the few seconds
+have been watching him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-666 S
+150 0 0 1d5625+14072 1d150+114
+145356 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 2~
+mpquiet on
+cast 'bless'
+cast 'mage shield'
+mpquiet off
+~
+>fight_prog 20~
+kick 
+~
+>rand_prog 10~
+if quest (1,2,$r) == 0
+  say Perhaps if you can display your hatred for magic by killing
+  say Queen Paragon, or simply say:  'I hate magic!'  I will allow
+  say you entry to our hidden valley of physical battle.
+endif
+~
+>speech_prog p I hate magic!~
+if quest (1,2,$n) == 1
+  say You have already proven your hatred for magic, pass to the
+  say valley and prove your skills in physical combat.
+else
+  if quest (1,2,$n) == 2
+    growl 
+    say Foul fiend, you have aided the slut Queen Paragon!  Find another
+    say passage if you dare.
+  else
+    if quest (1,2,$n) == 3
+      growl 
+      say Foul fiend, you have killed our king!  Find another passage if you dare.
+    else
+      if quest (1,2,$n) == 0
+        if class ($n) < 4
+          mpmset $n quest 1 2 1
+          say Good, good.  You have been given permission.  Do not disappoint me.
+        else
+          say YOU DARE INSULT ME MAGE!!!!
+          mpkill $n
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#19507
+karik hunter~
+Karik the hunter~
+(Dark Aura) Karik, Hunter of Mages is playing with his necklace.~
+A haggard crazed face stares back at you.  Only hate is burned into those red
+mean eyes.  A crude necklace made of eye balls are stitched into his chest.
+Apparently he wants to take his prizes with him everywhere.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-666 S
+150 0 0 1d5625+14072 1d150+114
+100000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+say more blood, yeah, More blood, MORE BLooD, MORE BLOOOOOD!!!!
+cackle 
+~
+>rand_prog 2~
+mpquiet on
+cast 'bless'
+cast 'mage shield'
+mpquiet off
+~
+>greet_prog 99~
+shout Lord Seflian we have invaders from the land of magic!
+mpat seflian mpforce seflian shout Invaders from the magical land?  Kill them!
+emote grins with blood lust in his eyes.
+~
+>fight_prog 99~
+if rand (15)
+  cackle 
+else
+  if rand (15)
+    say Blood, MORE BLOOD!!!
+  endif
+endif
+if rand (5)
+  mpecho Karik meditates briefly.
+  mpecho A black figure takes form in front of you!
+  mpmload 19540
+endif
+~
+|
+#19510
+seflian lord emperor~
+Lord Seflian~
+(Dark Aura) Lord Seflian, Emperor of Death, is sitting on his throne.~
+This king is of monolithic stature.  He is at least 40 feet tall and glares
+down at your puny self, grinning at all the ways he plans to quarter and slice
+you for tonights gruel.  Immortal to aging he has grown much wisdom but has
+come to the conclusion that magic is something to be destroyed rather then to
+be embraced.  He feels you are from a magical world, so prepare for his wrath!
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-666 S
+200 0 0 1d10000+28010 1d200+202
+168601 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (21,2,$n) == 1
+  if hasobjnum ($n) == 19556
+    break
+  else
+    say My you must be one hell of a warrior if my Champion let you live.
+    say Here is your gift great warrior!
+    mpoload 19556
+    give i19556 $n
+    mpjunk i19556
+  endif
+else
+  say Puny carcasses from the world of magic!  How dare you invade my throne!
+  shout Karik, you fool!  How did you let these carcasses by you!
+  say I shall have to kill you myself.
+  mpecho Lord Seflian rises from his throne and attacks!
+  mpkill $n
+endif
+~
+>fight_prog 50~
+if rand (10)
+  mpecho Watch out for the flying boot!
+  kick $n
+else
+  if rand (15)
+    mpecho Lord Seflian pulls out a concealed knife!
+    knife $n
+  endif
+endif
+if rand (50)
+  say I have never been defeated!
+else
+  scream 
+endif
+if rand (15)
+  mpecho {108}The dark matter in the room flickers an even darker color for an instant.
+  mpechoat $n {168}You feel the dark matter suck away your magic.
+  mpquiet on
+  mpmset self level 150
+  cast 'energy drain' $n
+  mpmset self level 100
+  mpquiet off
+endif
+~
+>death_prog 100~
+mpmset $n quest 1 2 3
+say You have slain your only chance of survival.  For now rise the troops of death.
+mpecho A secret door to the north opens.
+mpecho The ground begins to shake as if a thousand elephants were marching.
+mpmload 19540
+mpmload 19540
+mpmload 19540
+~
+|
+#19521
+warrior retired~
+a Retired Warrior~
+(Dark Aura) A Retired Warrior is here looking completely bored.~
+This man's eyes still glow with the battle crazed furry that gave him this
+honored job as the man who signs up magical destroyers to fight one another.
+His face dawns white whiskers and scars from a thousands battles, reflects
+his obvious boredom though his face lights up at the sight of you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+150 0 0 1d5625+14072 1d150+114
+100000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 0~
+mpquiet on
+cast 'bless'
+cast 'mage shield'
+mpquiet off
+mpgoto 19521
+~
+>all_greet_prog 100~
+tell $n Greetings there contestant to be!  To register in
+tell $n the battle to prove your mage killing skills simply
+tell $n say: 'I want to register.'  If not, get lost.
+~
+>speech_prog p I want to register~
+if quest (1,2,$n) == 1
+  say You want to register?
+  laugh 
+  say So be it, let your death be painless.
+  mpechoat $n To your amazement the Retired Warrior picks you up in his arms!
+  mpechoat $n You feel yourself flying through the hole in the ceiling.
+  mptransfer $n 19522
+else
+  say You are not worthy.  Though a donation of 5,000 gold would help you
+  say or perhaps get Felulius's permission.
+endif
+~
+>bribe_prog 5000~
+say Hell, if you want to die that bad, I really don't care what you have done or
+say even if you use magic.  Have fun with the rest of your pitifully short life.
+mpechoat $n To your amazement the Retired Warrior picks you up in his arms!
+mpechoat $n You feel yourself flying through the hole in the ceiling.
+mptransfer $n 19522
+mpjunk all
+~
+|
+#19522
+mage slayer slayers~
+a Mage Slayer~
+(Dark Aura) A Mage Slayer seeking glory.~
+This young man appears to be quite new to the complexities of warfare.  His
+armor is too tight and appears to be too bulky inhibiting his movement.  It is
+already obvious what he lacks in experience his fierce desire to kill will
+more than compensate.  As you look deep into his eyes all you can see
+reflected back is hatred.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+130 0 0 1d4225+10065 1d130+86
+50000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (21,2,$n) == 1
+  if rand (50)
+    bow $n
+    say Greetings great warrior!
+  endif
+else
+  mpkill $n
+endif
+~
+|
+#19528
+veteran warrior m19528~
+a Veteran Warrior~
+(Dark Aura) A Veteran Warrior dicing his opponent.~
+This man's eyes glow with a battle crazed furry.  His face dawns white
+whiskers and scars from a thousands battles.  He look at you without concern
+and readies his weapon for battle.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HUNT|AFF_TONGUES
+0 S
+140 0 0 1d4900+11966 1d140+100
+75000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (21,2,$n) == 1
+  if rand (5)
+    bow 
+    say Greetings great warrior!
+  endif
+else
+  mpkill $n
+endif
+~
+|
+#19529
+veteran warrior m19529~
+a Veteran Warrior~
+(Dark Aura) A Veteran Warrior strides along here.~
+This man's eyes glow with a battle crazed furry.  His face dawns white
+whiskers and scars from a thousands battles.  He look at you without concern
+and readies his weapon for battle.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+140 0 0 1d4900+11966 1d140+100
+75000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (21,2,$n) == 1
+  if rand (5)
+    bow 
+    say Greetings great warrior!
+  endif
+else
+  mpkill $n
+endif
+~
+|
+#19540
+trooper death~
+a Death Trooper~
+(Dark Aura) A Death Trooper looking around for something to kill.~
+A vacant hollow face returns your look.  Sunken dark eyes rimmed with black
+circles gives this man the appearance of a corpse.  A stark white face, blue
+lips, bony arms and legs dressed in heavy armor.  There is a gaping hole in
+his chest and you can see his heart.  Though it is not red or beating, instead
+it is a ball of dark matter.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HUNT|AFF_TONGUES
+-666 S
+96 0 0 30d5+8000 1d96+47
+181341 RACE_DROW
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 2~
+mpquiet on
+cast 'bless'
+cast 'mage shield'
+mpquiet off
+~
+>fight_prog 50~
+if rand (30)
+  mpechoat $n The Death Trooper makes sure you cannot escape!
+  mpquiet on
+  cast 'curse' $n
+  mpquiet off
+else
+  if rand (15)
+    cackle 
+  endif
+endif
+~
+>death_prog 99~
+mpecho The Death Trooper awaits his death in pure ecstasy.
+mpechoat $n The Death Trooper thanks you for killing him.
+~
+|
+#19544
+anti-wizard wizard anti~
+an Anti-Wizard~
+(Dark Aura) An Anti-Wizard cutting the flesh off of a screaming mage.~
+Dark matter is oozing off of this man's scantily clad body.  He is completely
+consumed with his task of removing the bones from this still alive mage.
+Sweat glistens on his strong muscle built body from his endless toil.  While
+his skin is black from all the dark matter his eyes are a burning red.  A
+slight smile spreads across his face when the mage finally dies.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+160 0 0 1d6400+16394 1d160+130
+100000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (21,2,$n) == 1
+  if rand (5)
+    bow 
+    say Greetings great warrior!
+  endif
+else
+  mpkill $n
+endif
+~
+>fight_prog 20~
+if class ($n) < 4
+  growl 
+else
+  say It will be a cold day in hell when a mage defeats me!
+  kick 
+endif
+~
+|
+#19547
+champion~
+the Champion~
+(Dark Aura) The Champion of Seflian stands here in all her glory.~
+Muscles.  All you see before you is tight, bulging, gigantic muscles.  A
+feminine face can barely be made out behind the bulge of her neck and jaw
+muscles.  Her head is shaved and in its place is a tattoo of a sword.  She
+is wearing no armor but the way she is easily flipping a broadsword in one
+hand, you doubt she needs any.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+200 0 0 1d10000+28010 1d200+202
+200000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (15,3,$n) == 0
+  if quest (21,2,$n) == 1
+    bow 
+    say Greetings great warrior!
+  endif
+  say Greetings.  Care to test your strength?
+else
+  if quest (15,3,$n) == 1
+    laugh 
+    say REJECT!  You could not defeat that puny monster?
+  else
+    if quest (15,3,$n) == 2
+      say Good, you passed the first test.  You must be a fine
+      say warrior.
+      say Now, would you like to determine if you are a GREAT WARRIOR?
+    else
+      if quest (15,3,$n) == 3
+        laugh 
+        say REJECT!  You could not defeat that puny monster?
+      else
+        if quest (15,3,$n) == 4
+          say Congratulations great warrior!
+          shout $n now has the honor of being a great warrior!
+          mpmset $n quest 21 2 1
+          mpmset $n quest 15 3 5
+          say Lord Seflian may want to reward you, if you ask me to take you to him, I
+          say gladly will.
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if quest (15,3,$n) == 0
+  mpmset $n quest 15 3 1
+  say Defeat the beast to the east and you may impress me.
+  say A little.
+  mpgoto 19542
+  mpmload 19548
+  mpgoto 19541
+else
+  if quest (15,3,$n) == 2
+    mpmset $n quest 15 3 3
+    say I like your determination.  If you can slay the beast to the
+    say east I will pronounce you a great warrior.
+    mpgoto 19542
+    mpmload 19549
+    mpgoto 19541
+  else
+    say Yes?  Yes what?
+  endif
+endif
+~
+>speech_prog no~
+if quest (15,3,$n) == 1
+or quest (15,3,$n) == 3
+  if quest (18,3,$n) == 3
+    scream 
+    say NO ONE FAILS THIS MANY TIMES AND GETS OUTTA HERE ALIVE!!
+    slay $n
+  endif
+  if quest (18,3,$n) == 2
+    say FOOL!  This is your last chance to get it right, don't mess it up.
+    say You may start the quest over at the beginning.
+    mpmset $n quest 15 3 0
+    mpmset $n quest 18 3 3
+  endif
+  if quest (18,3,$n) == 1
+    say FOOL!  I'm going to give you 2 more chances to get it right, don't
+    say mess up more than that.  You may start the quest over at the beginning.
+    mpmset $n quest 15 3 0
+    mpmset $n quest 18 3 2
+  endif
+  if quest (18,3,$n) == 0
+    say FOOL!  I'm going to give you 3 chances to get it right, don't mess
+    say up more than that.  You may start the quest over at the beginning.
+    mpmset $n quest 15 3 0
+    mpmset $n quest 18 3 1
+  endif
+endif
+~
+>speech_prog p Take me to Lord Seflian.~
+if quest (21,2,$n) == 1
+  mpgoto 19509
+  mptransfer $n
+  say To the north, Lord Seflian may be found.
+  mpgoto 19541
+else
+  say Fool, it will be a cold day in hell before I do anything for you!
+  mpkill $n
+endif
+~
+|
+#19548
+test large beast~
+a large beast~
+A large beast stands here.~
+A large four legged beast with sharp fangs and acidic drool.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+100 0 0 1d2500+5510 1d100+52
+1000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (15,3,$n) == 1
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (15,3,$n) == 1
+  mpmset $n quest 15 3 2
+endif
+~
+|
+#19549
+test huge beast~
+a huge beast~
+A huge beast stands here.~
+A large four legged beast with sharp fangs and acidic drool.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+130 0 0 1d4225+10065 1d130+86
+1000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (15,3,$n) == 3
+  mpkill $n
+endif
+~
+>death_prog 100~
+if quest (15,3,$n) == 3
+  mpmset $n quest 15 3 4
+endif
+~
+|
+#19600
+guard~
+the Guard of the Gate~
+The Guard of the Gate to Paragon stands here searching for intruders.~
+A large guard stands before the gate to Paragon blocking any trespassers from
+entering the Island of Paragon or any would be raiders.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+150 BODY_HEAD BODY_HEAD 1d5625+14072 1d150+114
+199121 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+say Sorry citizens, but there will be visitors in Paragon today!
+say We have closed our gates to the outside world due to increased attacks
+say by Seflian's gang of magicless fools.
+~
+>bribe_prog 10000~
+grin 
+say Well, maybe you aren't such bad guys after all.  Welcome to the Island of Paragon!
+unlock gate
+open gate
+~
+>rand_prog 5~
+say I can't be bribed, no way no how.
+~
+>fight_prog 10~
+cackle 
+say Ahhh, nothing like a refreshing fight!
+~
+>death_prog 100~
+mpecho The Guard of the Gate looks up into the sky to beg for his Queen's
+mpecho forgiveness for failing her.
+~
+>speech_prog bribe~
+say I cannot be bribed you scoundrel!
+frown 
+say Though my wages are pretty low.
+~
+|
+#19601
+death trooper blue~
+the Blue Death Trooper~
+A Blue Death Trooper helping to guard Paragon.~
+A magically altered Death Trooper stands here painted in blue.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-666 S
+125 BODY_ARM BODY_MOUTH 1d3906+9189 1d125+80
+15000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if class ($n) < 4
+  shout Die Warrior!
+  mpkill $n
+~
+|
+#19602
+death trooper red~
+the Red Death Trooper~
+A Red Death Trooper helping to guard Paragon.~
+A magically altered Death Trooper stands here painted in red.
+~
+ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-666 S
+105 BODY_LEG BODY_MOUTH 6d20+9900 1d105+56
+20000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if class ($n) < 4
+  shout Die Warrior!
+  mpkill $n
+~
+>entry_prog 100~
+if class ($r) < 4
+  shout Die Warrior!
+  mpkill $r
+~
+|
+#19603
+imp deformed~
+a Deformed Imp~
+An Imp with three legs, half an arm, and part of a head.~
+This imp is groestesquely deformed into some kind of undefiable blob.  The
+mage who created it must have been smoking crack.
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-150 S
+50 BODY_LEG BODY_LEG 1d625+1197 1d6+40
+1000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#19620
+godot magician~
+Godot the cRaZeD left-eyed Magician~
+Godot is jumping up and down crazily, casting random spells.~
+This magician seems to only have a left-eye, leaving a vancant spot in the
+right side of his face.  He is frothing at the mouth and drool is haning on
+his lip.  Though clearly insane you can feel powerful magic radiating from
+him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+150 BODY_ARM BODY_EYE 0d0+25000 1d150+113
+100000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 50~
+if rand (75)
+  say Woo hoo we got some visitors up
+  say here! Haven't seen no one since
+  say this ole body made itself from
+  say good ole Paragon's eye!
+  emote throws back its head and cackles!
+else
+  say I shall create an enourmous
+  say creature to destroy you!
+  mpecho The room pulses with the building of magical power.
+  mpmload 19603
+endif
+~
+>speech_prog eye~
+say Dis my eye!  Not your eye!
+say You can't have it!  Nooooo!!!!!
+~
+>fight_prog 99~
+if rand (20)
+  mpecho Godot's knees spread apart and something shoots out!
+  cast 'acid' $n
+else
+  if rand (5)
+    mpecho The room begins to shake with a collecting power.
+    cast 'tremor'
+  else
+    if rand (20)
+      mpechoat $r Godot bursts into laughter after spraying water all over you.
+      cast 'blindness' $r
+    endif
+  endif
+endif
+~
+>death_prog 100~
+groan 
+mpecho Godot takes one last look at his precious left-eye and fades away.
+mpquiet on
+cast 'cure blindness'
+drop all
+mpquiet off
+mppurge self
+~
+|
+#19621
+dogot magician~
+Dogot the right-eyed Magician~
+Dogot is meditating here building on his already powerful magic.~
+This magician seems to be very rational.  His hair is neatly combed, face
+neatly shaved.  The only thing that would prevent this guy from being handsome
+is his lack of a left-eye.  His right-eye seems to look out with a
+distinguished and calm sense of reason.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+150 BODY_ARM BODY_EYE 0d0+25000 1d150+113
+100000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 50~
+say According to my calculations I was created
+say five years ago when Seflian raided this
+say island and Queen Paragon was injured.  Her
+say eyes falling out onto the floor creating
+say two new beings, Godot and I.
+~
+>speech_prog paragon~
+say Ah, Queen Paragon is such a warm wonderful
+say person.  I am sorry my existence was 
+say founded on something so horrible to her,
+say but alas I wish to continue my life.
+~
+>speech_prog seflian~
+say Seflian is the king of the magicless void.
+~
+>speech_prog raid~
+say Oh it was a wonderful blood bath!  Seflian
+say was nearly destroyed!  But our dear Queen
+say lost her eyes in that fight.
+sigh 
+sniff 
+~
+>rand_prog 5~
+mpecho {108}The room fills with a dark vapor!
+say Damnit!  Wrong spell again!
+~
+>fight_prog 99~
+if rand (20)
+  mpecho Dogot begins to meditate.
+  cast 'fireball' $n
+  cast 'fireball' $n
+else
+  if rand (10)
+    mpecho {118}The room fills with a black vapor!
+    mass blindness
+  else
+    if rand (20)
+      mpechoat $n Vampiric bats appear in the air trying to suck your blood.
+      cast weaken $r
+    endif
+  endif
+endif
+~
+>death_prog 100~
+sigh 
+say I am sorry my Queen, I do hope this eye
+say is reuinited with you.
+mpquiet on
+cast 'cure blindness'
+drop all
+mpquiet off
+mppurge self
+~
+|
+#19623
+paragon queen~
+Queen Paragon~
+Queen Paragon, creator and ruler of this island.~
+A small somewhat simple looking figure is sitting upon the throne.  A torn
+cloak and simple dress makes Paragon look more like a beggar then any sort
+of ruler.  You can't even imagine how she has any power.  Two dark vacant
+holes now replace the spot where eyes should be.  Perhaps you could give
+Paragon a hand getting her eyes back.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+100 BODY_ARM BODY_HEAD 1d2500+8509 6d10+150
+100000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_FEMALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 15
+  say Oh my!  You have killed so many of those nasty ruffians,
+  say it is worthy of a handsome reward.
+  say Would you like boots, leggings, or gloves?
+else
+  say I can feel your presence, unfortunately I have no eyes
+  say to see you with.
+  sniff 
+  say What do you want?
+endif
+~
+>speech_prog boots~
+if quest (3,4,$n) == 15
+  say Here you go.
+  mpoload 19690
+  give i19690 $n
+  mpjunk 19690
+  mpmset $n quest 3 4 0
+else
+  say Like I care what you want...
+endif
+~
+>speech_prog leggings~
+if quest (3,4,$n) == 15
+  say Here you go.
+  mpoload 19691
+  give i19691 $n
+  mpjunk 19691
+  mpmset $n quest 3 4 0
+else
+  say Go crawl back under your rock
+  sigh $n
+endif
+~
+>speech_prog gloves~
+if quest (3,4,$n) == 15
+  say Here you go.
+  mpoload 19692
+  give i19692 $n
+  mpjunk 19692
+  mpmset $n quest 3 4 0
+else
+  say Go smoke a fag, ya damn limy bastard!
+endif
+~
+>rand_prog 1~
+shout My eyes!  Where are my eyes!
+~
+>speech_prog help~
+say To help?
+laugh 
+say What do you think you can do?
+say The only thing that will help me is the return of my eyes.
+~
+>fight_prog 45~
+cast 'acid' $n
+cast 'acid' $n
+cast 'acid' $r
+~
+>death_prog 100~
+mpmset $n quest 1 2 1
+say Maybe in death I will find my eyes.
+~
+>give_prog i19617~
+mpmset $n quest 1 2 2
+mpecho Queen Paragon begins to shimmer in all kinds of bright colors.
+say Oh thank you, thank you!  I can see now!
+emote explodes into a mass of energy melting the throne beneath her.
+say Here is your reward.
+mpjunk i19617
+mpgoto 19630
+mptransfer $n
+mpgoto 19623
+~
+|
+#19624
+drunk bard~
+the Drunk Bard~
+A Drunk Bard screaming out tales.~
+This bard had way too many ale's at the last pub he visited.  Vomit and beer
+have stained his cloak completely.  He is trying to keep his grip on a flask
+of beer and at the same time drink it, getting most of it all over himself.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_ARM BODY_MOUTH 4d5+4000 4d6+60
+100000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>entry_prog 99~
+say Tales *hiccup* I gotssss lots of tttales to tell.  Want *braaap* to hear one?
+~
+>speech_prog yes~
+say Paragon, Paragon, oh were hasss herr eyes a gone!
+say *hiccup* Eyes a stoolen in a raid, new life forms they a laid.
+say Uhh there was *hiccup* more but I uh.. forget
+giggle 
+say Something about Paragon wantin' her eyes back.
+say I have a tale about 'Saddie' too.
+~
+>speech_prog saddie~
+say Saddie, Saddie is one mean, but fine lookin' lady!
+say Her crystal ball had a great fall.
+say And shattered into little *braap* itttsy bitttsy bits.
+say Now she wants it back or something.
+chuckle 
+~
+>rand_prog 5~
+say Uhhh what street iss thhhhis lass?
+~
+|
+#19630
+helper slave animated~
+an Animated Helper of Saddie's~
+An Animated Helper of Saddie's, looking for something here.~
+A ragtag compilation of body parts which are barely humanoid.  Muscles, tissue,
+and bones are poking out from the living corpse.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_CLEAR|AFF_HUNT|AFF_TONGUES
+-1000 S
+75 BODY_ARM BODY_ARM 5d15+3600 1d75+29
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 99~
+mpjunk all
+say You will not get the shard!
+~
+>entry_prog 50~
+say The shards of glass making the crystal ball,
+say I must have them.  Saddie will reward me!
+~
+>rand_prog 5~
+if rand (50)
+  say It is said that when all the shards are
+  say brought together they will join to
+  say recreate the crystal ball.
+else
+  say I over heard Saddie say once there was
+  say a secret place that if you activated
+  say the crystal ball in you could get to
+  say her palace.
+endif
+~
+>speech_prog help~
+if hasobjnum ($i) == 19612
+  say You want to help? Oh goodie,
+  say be sure and give me the credit!
+  give i19612 $n
+  if hasobjnum ($i) == 19603
+    say oh!  And here is a key to use after you
+    say have the crystal ball working.
+    give key $n
+  endif
+  break
+endif
+say Once I have found a shard of the
+say Crystal Ball you can help me!
+say Come back later $n
+~
+|
+#19631
+helper slave animated~
+an Animated Helper of Saddie's~
+An Animated Helper of Saddie's, looking for something here.~
+A ragtag compilation of body parts which are barely humanoid.  Muscles, tissue,
+and bones are poking out from the living corpse.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_CLEAR|AFF_HUNT|AFF_TONGUES
+-1000 S
+75 BODY_ARM BODY_ARM 5d15+3500 1d75+29
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 99~
+mpjunk all
+say You will not get the shard!
+~
+>entry_prog 50~
+say The shards of glass making the crystal ball,
+say I must have them.  Saddie will reward me!
+~
+>rand_prog 10~
+if rand (50)
+  say It is said that when all the shards are
+  say brought together they will join to
+  say recreate the crystal ball.
+else
+  say I over heard Saddie say once there was
+  say a secret place that if you activated
+  say the crystal ball in you could get to
+  say her palace.
+endif
+~
+>speech_prog help~
+if hasobjnum ($i) == 19613
+  say You want to help?  Oh goodie,
+  say be sure and give me the credit!
+  give i19613 $n
+  if hasobjnum ($i) == 19646
+    say oh!  And here is a key you will need.
+    give key $n
+  endif
+  break
+endif
+say Once I have found a shard of the
+say Crystal Ball you can help me!
+say Come back later $n
+~
+|
+#19640
+saddie~
+Saddie~
+Saddie the Necromancer, experimenting with some dead flesh.~
+A splendid young lady with fantastic proportions.  Long legs, slender hips,
+large breasts...  Something appears a little bit plastic about it though,
+perhaps you see something in the way she moves, but this body seems something
+of a shell for something hideous underneath.  Her eyes are the biggest clue
+a glowing red with only slits for pupils like that of a serpent's.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+-1000 S
+100 BODY_ARM BODY_ARM 1d2500+8509 8d9+80
+168981 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 99~
+say Welcome to my little palace, make yourself comfortable.
+say Oh, I'll go ahead and write some scrolls up for you if
+say you give me a scroll and 1,000,000 gold.
+~
+>fight_prog 45~
+mpecho Saddie's eyes turn dark red.
+cast 'energy drain' $n
+~
+>death_prog 99~
+say NOOOOOOOOOO!!! I CAN'T DIE!
+say I sold my soul for this eternal life!!!
+scream 
+~
+>give_prog i19628~
+say Well, I don't really need the scroll.  Just give me the 10 thousand in gold.
+~
+>bribe_prog 10000~
+mpecho Saddie creates a scroll before your eyes!
+mpjunk all
+if rand (10)
+  mpoload 19618
+else
+  if rand (11)
+    mpoload 19619
+  else
+    if rand (12)
+      mpoload 19620
+    else
+      if rand (14)
+        mpoload 19621
+      else
+        if rand (16)
+          mpoload 19622
+        else
+          if rand (20)
+            mpoload 19623
+          else
+            if rand (25)
+              mpoload 19624
+            else
+              if rand (33)
+                mpoload 19625
+              else
+                if rand (50)
+                  mpoload 19626
+                else
+                  if rand (75)
+                    mpoload 19627
+                  else
+                    say Thanks for the money, I'll be keeping the scroll.
+                    cackle 
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+give scroll $n
+~
+|
+#19641
+john christofson~
+John Christofson~
+John Christofson hangs from a cross with nails in his hands and feet.~
+John Christofson hangs here from a cross in an eternal crucification for he is
+undead probably as some sadistic whim of her's.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 BODY_HEAD BODY_HEAD 1d0+10 1d1+1
+25 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if rand (75)
+  mpecho John whispers 'Kill me!  Please kill me!'
+else
+  mpecho A drop of blood streams down from John and onto the ground.
+  mpquiet on
+  mpoload 19600
+  drop i19600
+  mpquiet off
+endif
+~
+>death_prog 100~
+mpecho John's body glows brightly as a soul rises from it.
+say Thank you, you have finally freed me!
+~
+|
+#19642
+slave knight chaotic~
+the Chaotic Knight~
+The Chaotic Knight is cowering here waiting for his next session with Saddie.~
+A powerful knight of chaos's captured by Saddie and now forced to fulfill her
+every pleasure.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+-380 S
+150 BODY_ARM BODY_ARM 1d5625+14072 1d150+113
+194940 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#19643
+chaos196 warrior~
+Warrior of Entropy~
+A Warrior of Entropy looking for an order follower to kill.~
+A warrior of entropy sent to this plain of existence to destroy all order.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HIDE|AFF_STEALTH|AFF_HUNT
+380 S
+75 BODY_ARM BODY_ARM 1d1406+2892 4d20+50
+145443 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+#19644
+shopkeeper inflation master~
+the Inflation Master~
+The Inflation Master is here jacking up prices.~
+A nasty little man is rubbing his hands greedily before you.  His ear twitches
+as he hears the sound of money clanking around in your pocket.  A very broad
+smile spreads over his face and welcomes you warmly, though you have to rip
+his hands from your money pouch.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_ARM BODY_ARM 1d1406+4580 1d100+50
+100000 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#19645
+sorceress shopkeeper~
+a sorceress~
+A sorceress is working as a shopkeeper here.~
+The shopkeeper is a small woman dressed in a long white gown which covers her
+body from her head to her feet.  Power emanates from her making you afraid.
+One of her cheeks can be barely made out from behind her cloak and tattood in
+scrawled letters is the name 'Saddie'.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+75 BODY_ARM BODY_ARM 1d1406+4580 1d100+50
+100000 RACE_DWARF
+POS_STANDING POS_STANDING SEX_FEMALE
+#19650
+small fairy~
+a Small Fairy~
+A Small Fairy burning brightly here.~
+A happy little Fairy is darting back and forth tending her magical garden.
+She looks like she is in complete bliss with a huge smile spread accross her
+glowing face.	Shhhhh, don't disturb her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+110 0 0 1d3025+6846 1d110+62
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if class ($n) < 4
+  mpechoat $n {038}A Small Faerie chirps 'BAAAD! BAAAD! Warrior!'
+  mpkill $n
+else
+  mpechoat $n {038}A Small Fairy chirps 'Hello magic user!'
+endif
+~
+|
+#19658
+large fairy~
+a Large Fairy~
+A Large Fairy is sprucing up the forest here.~
+This enourmous and awkward looking Fairy is hastily waving his wand back and
+forth creating magical havoc all around.  The already animated flowers and
+trees are now splitting into two halves both parts completely alive thanks to
+this nutty fairy.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+125 0 0 1d3906+9189 1d125+80
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) < 4
+  mpechoat $n {038}A Large Fairy chirps 'BAAAD! BAAAD! Warrior!'
+  mpkill $n
+else
+  mpechoat $n {038}A Large Fairy chirps 'Hello magic user!'
+endif
+~
+|
+#19666
+young dandy~
+a Young Dandy~
+A Young Dandy is standing here clearly scared half to death.~
+This shivering wimp who messed himself is standing here trying to look tough.
+For some reason or other he sought to prove himself in the poor quarter.  But
+when he got out here and saw the true horror and death the realization of his
+mistake dawned on him, unfortunately for him it is too late.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+90 0 0 1d2025+4343 1d90+42
+100000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 15
+  scream 
+  say OH MY GOD IT IS A SCOOUNDRAL!!!!!!
+  mpecho A Young dandy explodes in terror!
+  mppurge self
+else
+  say Cccaann, You get my MOMMY!!!
+endif
+~
+|
+#19670
+ruffian~
+a Ruffian~
+A Ruffian is standing here looking for a mark.~
+This guy is the product of living in the hood for the last twenty years.
+Scars rivet his body next to his tattoo's.  He sneers at you as if killing you
+is not only the next thing on his mind, it seems as if he is actually looking
+forward to it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+160 0 0 1d6400+16394 1d160+130
+180000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (3,4,$n) == 15
+  bow 
+  say Greetings Scoundral!
+else
+  say Time to die fool!
+  mpkill $n
+endif
+~
+>rand_prog 5~
+say Only one way to be a scoundral, that is to waste a bunch of ruffian.
+~
+>death_prog 50~
+if quest (3,4,$n) < 15
+  if quest (3,4,$n) == 14
+    mpecho {018}A Ruffian coughs up some blood trying to speak.
+    say Your're a scoundral aren't you?
+  endif
+  mpmadd $n quest 3 4 1
+endif
+~
+|
+#19674
+ethereal hammermob~
+the ethereal hammer~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 5d50+8000 1d95+46
+100000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpechoat $n You make the mistake of looking down. Far, far below you you can see a spiral of air swirling around at a tremendous speed. As you fall it seems almost to reach up to catch you. Caught within it's grasp you spin around and around until you are distantly aware of a voice screaming in terror. After some moments you realise it is yourself that is screaming, but then you crash to the ground in a heap. Your head hurts.
+mpmadd $n hp -100
+mptransfer $n 13375
+~
+|
+#0
+
+
+#SHOPS
+19644 ITEM_TYPE_ARMOR ITEM_TYPE_TREASURE ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_WEAPON  120  50  0 23
+19645 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_SCROLL  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#19503
+eyeball dark~
+an eyeball made of dark matter~
+Dark Matter dented into the shape of an Eyeball.~
+A dark black substance beaten into a crude eyeball type shape.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+13 0 0 0 0 0 0 0
+10 1000000 89
+A APPLY_SAVING_SPELL -5 0
+#19507
+shield dark~
+a shield made of dark matter~
+Dark Matter dented into the shape of a Shield.~
+A dark black substance beaten into a crude shield type shape.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+5 0 0 0 0 0 0 0
+10 1000000 80
+A APPLY_HIT 50 0
+A APPLY_DAMROLL 6 0
+A APPLY_SAVING_SPELL -5 0
+#19508
+necklace hands~
+a necklace made of hands~
+A necklace of hands strung with Dark Matter.~
+A necklace made of several cut off hands, tied together with dark matter.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+10 1000000 80
+A APPLY_HIT 50 0
+A APPLY_SAVING_SPELL -5 0
+A APPLY_DAMROLL 6 0
+#19509
+cloak dark~
+a cloak made of dark matter~
+Dark Matter dented into the shape of a Cloak.~
+A dark black substance beaten into a crude cloak type shape.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+10 1000000 80
+A APPLY_HIT 50 0
+A APPLY_DAMROLL 6 0
+A APPLY_SAVING_SPELL -5 0
+#19510
+light dark~
+a light made of dark matter~
+A ball of fire trapped in a cage of Dark Matter.~
+A fireball encaged by the powers of the dark matter.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+15 1000000 80
+A APPLY_SAVING_SPELL -5 0
+A APPLY_HIT 50 0
+A APPLY_DAMROLL 6 0
+#19511
+sword seflian~
+lord Seflian's Sword of Dark Matter~
+Lord Seflian's Sword of Dark Matter.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 20 WEAPON_SLASH 0 0 0 0
+45 2500000 80
+A APPLY_HIT -50 0
+C
+destruction~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA
+#19540
+sword dark death~
+a death sword made of dark matter~
+Dark Matter dented into the shape of a Death Sword.~
+A dark black substance beaten into a crude cloak type shape.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 10 6 WEAPON_SLICE 0 0 0 0
+20 1500000 60
+A APPLY_SAVING_SPELL -5 0
+A APPLY_HIT -30 0
+C
+rip~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA
+#19541
+death shield~
+a Death Trooper's Shield~
+A Death Trooper's Shield.~
+This shield is black as night with a skull and crossbones accross the front.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+8 0 0 0 0 0 0 0
+15 500000 60
+A APPLY_DAMROLL 5 0
+A APPLY_SAVING_SPELL -5 0
+#19555
+bracer dark~
+a bracer made of dark matter~
+Dark Matter dented into the shape of a Bracer.~
+A dark black substance beaten into a crude bracer type shape.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+10 1000000 80
+A APPLY_HIT 50 0
+A APPLY_DAMROLL 6 0
+A APPLY_SAVING_SPELL -5 0
+#19556
+champion item~
+a champion's armor~
+A Champion's Armor highly polished.~
+This is armor only a true champion of Seflian's would use.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+5 10000 60
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 4 0
+#19600
+blood drop~
+a drop of blood~
+A drop of blood splattered on the floor.~
+A drop of blood splattered on the floor.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 186 0 0 0 0 0 0
+1 10 1
+S 1 'poison'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19601
+shiny key~
+a shiny key~
+A shiny new key.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+19601 0 0 0 0 0 0 0
+10 5000 75
+#19602
+odd key~
+an odd key~
+An odd looking key.~
+An odd looking key labeled 'Paragon's Throne Room.'
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+19602 0 0 0 0 0 0 0
+10 5000 75
+#19603
+key~
+a key~
+A shiny new key.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+19603 0 0 0 0 0 0 0
+10 5000 75
+#19610
+pedastal~
+a Pedastal~
+A giant pedastal in the middle of the pond.~
+There are some inscriptions on the side of the pedastal.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+5 0 -1 0 0 0 0 0
+50 50 75
+E
+inscriptions~
+Do not disturb the shard within the pedastal or else the world may fall to evil.
+~
+#19611
+shard glass large~
+a large shard of glass~
+A large shard of glass reflecting the surrounding lights.~
+A shard of glass, it looks as if it was once part of something spherical.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10 75
+P 1
+TRIG_TICK 50
+OPROG_IF_HAS_OBJECT 19612 2 0
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 19613 3 0
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho The three shards of glass start shaking and come together in a blinding light.
+mpecho A crystal ball takes shape.
+mpoload 19614
+mpjunk i19611
+mpjunk i19612
+mpjunk i19613~
+#19612
+shard glass small~
+a small shard of glass~
+A small shard of glass reflecting the surrounding lights.~
+A shard of glass, it looks as if it was once part of something spherical.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10 75
+#19613
+shard glass tiny~
+a tiny shard of glass~
+A tiny shard of glass reflecting the surrounding lights.~
+A shard of glass, it looks as if it was once part of something spherical.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 10 75
+#19614
+crystal ball~
+a crystal ball~
+A ball full of swirling images.~
+A crystal ball.  There seems to be images floating in it and sparks of magical
+energy spraying around in the middle of it.  It looks as if you could
+'activate' some function for it to do.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_EVIL|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 0 0 0 0 0 0 0
+15 10 75
+P 0
+TRIG_UNKNOWN 100 activate
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 1 6
+P 1
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 19639 2 4
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 19640~
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 19640 5 6
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 19639~
+P 6
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -1
+P 6
+TRIG_VOID
+OPROG_ECHO
+The Crystal Ball burns your hands in response!~
+#19615
+left eye~
+a left eye~
+A large shard of glass reflecting the surrounding lights.~
+A left eye, it looks as if it is out of control with tons of magical power.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 10 75
+P 1
+TRIG_TICK 50
+OPROG_IF_HAS_OBJECT 19616 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho The two eyes come together.
+mpoload 19617
+mpjunk i19615
+mpjunk i19616~
+#19616
+right eye~
+a right eye~
+A right eye hear looking calm and reasonable.~
+A right eye motionless but giving off a calm and reasonable feeling.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 10 75
+#19617
+pair eyes~
+a pair of eyes~
+A pair of eyes looking up at you, radiating power.~
+A pair of eyes which seem to be loaded with magical power.  Perhaps in the
+right hand these eyes could be used for some intense magical powers.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 0 0 0 0 0 0 0
+15 10 75
+#19618
+saddie scroll enchant weapon~
+a scroll crafted by Saddie of enchant weapon~
+A scroll crafted by Saddie of enchant weapon.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 84 0 0 0 0 0 0
+1 100000 75
+S 1 'enchant weapon'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19619
+saddie scroll demon~
+a scroll crafted by Saddie of demon~
+A scroll crafted by Saddie of demon.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 60 0 0 0 0 0 0
+1 100000 75
+S 1 'demon'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19620
+saddie scroll sleep~
+a scroll crafted by Saddie of sleep~
+A scroll crafted by Saddie of sleep.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 219 0 0 0 0 0 0
+1 1000000 75
+S 1 'sleep'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19621
+saddie scroll energy drain~
+a scroll crafted by Saddie of energy drain~
+A scroll crafted by Saddie of energy drain.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 87 0 0 0 0 0 0
+1 1000000 75
+S 1 'energy drain'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19622
+saddie scroll mage~
+a scroll crafted by Saddie of mage shield~
+A scroll crafted by Saddie of mage shield.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 159 0 0 0 0 0 0
+1 1000000 75
+S 1 'mage shield'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19623
+saddie scroll charm person~
+a scroll crafted by Saddie of charm person~
+A scroll crafted by Saddie of charm person.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+75 39 0 0 0 0 0 0
+1 1000000 75
+S 1 'charm person'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19624
+saddie scroll enhance object~
+a scroll crafted by Saddie of enhance object~
+A scroll crafted by Saddie of enhance object.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 89 0 0 0 0 0 0
+1 1000000 75
+S 1 'enhance object'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19625
+saddie scroll animate dead~
+a scroll crafted by Saddie of animate dead~
+A scroll crafted by Saddie of animate dead.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+75 60 0 0 0 0 0 0
+1 1000000 75
+S 1 'demon'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19626
+saddie scroll mage blast~
+a scroll crafted by Saddie of mage blast~
+A scroll crafted by Saddie of mage blast.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+100 158 0 0 0 0 0 0
+1 1000000 75
+S 1 'mage blast'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19627
+saddie scroll curse~
+a scroll crafted by Saddie of curse~
+A scroll crafted by Saddie of curse.~
+This scroll was crafted by the highest necromancer in the land.  Fear it's
+power or it shall consume you.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+75 58 0 0 0 0 0 0
+1 1000000 75
+S 1 'curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19628
+blank scroll~
+a blank scroll~
+A blank scroll.~
+A blank scroll, waiting to be written on.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_DARK
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 0 0 0 0 0 0 0
+1 100 15
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19629
+scroll protection~
+a scroll of protection~
+A scroll of protection.~
+A beautiful scroll, on it are carved the words:
+                EVIL BE GONE!
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 190 0 0 0 0 0 0
+1 1000 50
+S 1 'protection evil'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#19646
+dark key~
+a dark key~
+A dark key.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_DARK
+ITEM_WEAR_TAKE
+19646 0 0 0 0 0 0 0
+10 5000 75
+#19678
+ring chaos~
+a ring of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a ring.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 7 0
+A APPLY_INT 2 0
+#19679
+cloak chaos~
+a cloak of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a helm.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 7 0
+A APPLY_WIS 2 0
+#19680
+chest plate chaos~
+a chest plate of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a chest plate.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19681
+helm chaos~
+a helm of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a helm.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19682
+glob chaos~
+a glob of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a glob.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19683
+boots chaos~
+some boots of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a pair of boots.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 7 0
+A APPLY_DEX 2 0
+#19684
+gloves chaos~
+some gloves of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a pair of gloves.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 7 0
+A APPLY_STR 2 0
+#19685
+sleeves chaos~
+some sleeves of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a pair of sleeves.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 7 0
+A APPLY_CON 2 0
+#19686
+shield chaos~
+a shield of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a shield.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19687
+robe chaos~
+a robe of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a robe.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19688
+belt chaos~
+a belt of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a belt.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19689
+bracer chaos~
+a bracer of unformed physical chaos~
+A glob of chaos is laying on the floor in the shape of a bracer.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+16 0 0 0 0 0 0 0
+50 1000000 85
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+#19690
+blistering boots~
+a blistering pair of boots~
+A blistering pair of boots shaking violently with magical energy.~
+Imbued in these boots is an enourmous amount of raw magical energy.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+20 0 0 0 0 0 0 0
+20 500000 75
+A APPLY_MANA 25 0
+A APPLY_INT 1 0
+#19691
+blistering leggings~
+a blistering pair of leggings~
+A blistering pair of leggings shaking violently with magical energy.~
+Imbued in these leggings is an enourmous amount of raw magical energy.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+20 0 0 0 0 0 0 0
+20 500000 75
+A APPLY_MANA 25 0
+A APPLY_INT 1 0
+#19692
+blistering gloves~
+a blistering pair of gloves~
+A blistering pair of gloves shaking violently with magical energy.~
+Imbued in these gloves is an enourmous amount of raw magical energy.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+20 0 0 0 0 0 0 0
+20 500000 75
+A APPLY_MANA 25 0
+A APPLY_INT 1 0
+#0
+
+
+#ROOMS
+#19500
+Entrance to the Magicless Void~
+Long black walls stretch forth all around you creating a long narrow hallway.
+Something feels different in these rooms, as if a part of you is being sucked
+away and into the dark matter the walls are comprised of.  The halls lead to
+the north with further blackness and salvation can be found to the south.
+There is a sign here.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+The Hallways of the Magicless Void.~
+~
+0 -1 19501
+DDIR_SOUTH
+The Edge of a Cliff.~
+~
+0 -1 19552
+E
+sign~
+The sign says:
+
+------------------------------------------------------------------------------
+|                                                                            |
+|                    The Hallways of the Magicless Void                      |
+|                             Created by Hammer                              |
+|                                                                            |
+|          Be Careful for out in the ignorance of magical deprivation        |
+|     lay many monsters seeking to destroy those they cannot understand.     |
+|                                                                            |
+------------------------------------------------------------------------------
+~
+#19501
+Along the Hallways~
+Dark walls which seem to suck out light, create a long narrow hallway. The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  The hallway stretches on to the north.  To the south
+there appears to be some remenants of light left.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Along the Hallways.~
+~
+0 -1 19502
+DDIR_SOUTH
+Entrance to the Hallways.~
+~
+0 -1 19500
+#19502
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the west and south.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Anti-Wizard's Chambers.~
+~
+0 -1 19503
+DDIR_EAST
+Along the Hallways.~
+~
+0 -1 19520
+DDIR_SOUTH
+Along the Hallways.~
+~
+0 -1 19501
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19504
+#19503
+Anti-Wizard's Chambers~
+This is the bed chamber of the Anti-Wizard Felulius himself!  There are
+the normal furnishings of a bedroom, a bed, chest-of-drawers, and closet.
+There is also a pit here filled with the bones of dead mages, a key
+ingredient to the making of dark matter.  The walls of this apartment are
+no different than any of the other ones.  Dark, dull, magic sucking dark
+matter.  There is a dark hallway to the south.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Along the Hallways.~
+~
+0 -1 19502
+#19504
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the west and east.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Along the Hallways.~
+~
+0 -1 19502
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19505
+#19505
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the west and east.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Along the Hallways.~
+~
+0 -1 19504
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19506
+#19506
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the east and north.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Karik's Trophy Room.~
+~
+0 -1 19507
+DDIR_EAST
+Along the Hallways.~
+~
+0 -1 19505
+#19507
+Karik's Trophy Room~
+Decorating the dark black walls of this room are hundred's of magician's
+heads.  The heads are of many different races, some of which disappeared
+mysteriously thousands of years ago.  Some of the heads are freshly cut blood
+still oozing from their necks.  There is a shiny white path underneath your
+feet reflecting your light.  At a closer inspection you notice they are
+skulls, no doubt from mage's of long ago.  To the west and south the dark
+hallways continue.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Along the Hallways.~
+~
+0 -1 19506
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19508
+#19508
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the east and north.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Along the Hallways.~
+~
+0 -1 19509
+DDIR_EAST
+Kurik's Trophy Room.~
+~
+0 -1 19507
+#19509
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  To the north is some sort of bed chambers.  The
+hallway stretches on to the west and south.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Seflian's Throne Room.~
+~
+0 -1 19510
+DDIR_SOUTH
+Along the Hallways.~
+~
+0 -1 19508
+#19510
+Seflian's Throne Room~
+In the northern corner of the room sits Seflian's monolithic throne.  An arch
+of dark matter is strung along the top as a sort of decoration the rest is a
+dark stone material that looks very hard, and very uncomfortable.  The room
+other then the throne is completely vacant and made of dark black dark matter.
+There is a hallway stretching southward and series of stone steps climbing up.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Along the Hallways.~
+~
+0 -1 19509
+DDIR_UP
+A long staircase.~
+~
+0 -1 19511
+#19511
+A long staircase~
+The stone stairs twist and climb upwards seemingly going on forever.  The
+darkness seems a little less dense and a little more welcoming then the
+the chambers below.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+The Entrance to Paragon.~
+~
+0 -1 19600
+DDIR_DOWN
+Seflian's Throne Room.~
+~
+0 -1 19510
+#19520
+Along the Hallways~
+Dark walls which seem to suck out light create a long narrow hallway.  The
+part of your mind that once had the ability to create magic seems drained.
+The walls around you grow even darker as you progress, as if they were
+absorbing your power.  The hallway stretches on to the west and east.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Central Registration Room.~
+~
+0 -1 19521
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19502
+#19521
+Central Registration Room~
+Dark walls which seem to suck out light have come together to form a large
+room.  In the ceiling here their is a rather large hole breaking at least some
+of the terrifying feeling of claustrophobia though you cannot figure out what
+use this hole might have.  There are a few chairs strewn around made of the
+same dark matter that the walls are composed of.  Discarded bagage is heaped on
+the ground in enourmous piles leaving the impression that once people take
+whatever journey that is offered in this room, they seldom come back. The
+hallway stretches on to the west.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Along the Hallways.~
+~
+0 -1 19520
+#19522
+Entrance to the Valley of Magical Destruction~
+The smell of burning flesh fills your nose with such pungency it burns.
+Crucified on either side of you are rows of small frail looking people with
+the words, 'Stinking Mage' scratched into their foreheads.  Some of these
+people are woman and even young children.  The rest of the terrain has been
+completely devastated by the constant warfare and appears to be suffering from
+extreme destrification.  Looking down at the narrow path on which you now stand
+you can see exactly of what it is created, human fingers!  Thousands of fingers
+rowed tightly together all facing north.  To the south there is a dark hole
+made of dark matter slanting downwards forming into a sort of slide.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Valley of Magical Destruction.~
+~
+0 -1 19523
+DDIR_SOUTH
+Central Registration Room.~
+~
+0 -1 19521
+E
+people~
+These people have been crucified for simply being mages or using magical
+powers.
+~
+#19523
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Valley of Magical Destruction.~
+~
+0 -1 19526
+DDIR_SOUTH
+Entrance to the Valley of Magical Destruction.~
+~
+0 -1 19522
+DDIR_WEST
+Valley of Magical Destruction.~
+~
+0 -1 19524
+#19524
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the east and screams can be heard from the north.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+An Anti-Wizard's Torchure Chamber.~
+~
+0 -1 19525
+DDIR_EAST
+Valley of Magical Destruction.~
+~
+0 -1 19523
+#19525
+An Anti-Wizard's Torchure Chamber~
+You are in front of a pit filled with the bones of dead mages, a key ingredient
+in the making of dark matter.  The walls of this room are composed of magic
+sucking dark matter.  Along the walls of the chamber are a series of cages
+containing live mages who will soon donate their bones to those already in the
+pit.  There is a way out of this room to the south.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Valley of Magical Destruction.~
+~
+0 -1 19524
+#19526
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Valley of Magical Destruction.~
+~
+0 -1 19527
+DDIR_WEST
+Valley of Magical Destruction.~
+~
+0 -1 19523
+#19527
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the west and south.  Agony enriched screams can be heard
+from the north.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+An Anti-Wizard's Torchure Chamber.~
+~
+0 -1 19528
+DDIR_SOUTH
+Valley of Magical Destruction.~
+~
+0 -1 19529
+DDIR_WEST
+Valley of Magical Destruction.~
+~
+0 -1 19526
+#19528
+An Anti-Wizard's Torchure Chamber~
+You are in front of a pit filled with the bones of dead mages, a key ingredient
+in the making of dark matter.  The walls of this room are composed of magic
+sucking dark matter.  Along the walls of the chamber are a series of cages
+containing live mages who will soon donate their bones to those already in the
+pit.  There is a way out of this room to the south.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Valley of Magical Destruction.~
+~
+0 -1 19527
+#19529
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the north and south.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Valley of Magical Destruction.~
+~
+0 -1 19527
+DDIR_SOUTH
+Valley of Magical Destruction.~
+~
+0 -1 19530
+#19530
+Valley of Magical Destruction~
+Death, destruction, chaos.  These words fill your mind and only begin to
+describe the state of warfare going on in these rooms.  Mages, hundreds of them
+are being slaughtered by death hungry mage slayers.  The path of rotting human
+fingers continues to the north, south, and west.  Screams of agonizing pain
+are floating in from the east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Valley of Magical Destruction.~
+~
+0 -1 19529
+DDIR_EAST
+An Anti-Wizard's Torchure Chamber.~
+~
+0 -1 19532
+DDIR_SOUTH
+Northern Field of Blood.~
+~
+0 -1 19540
+DDIR_WEST
+Exit to the Valley of Magical Destruction.~
+~
+0 -1 19531
+#19531
+Exit to the Valley of Magical Destruction~
+The war and devastation have seemed to pass over this spot.  A beautiful grass
+meadow grows over ranging hills here only the smell of burning flesh reminds
+you that you are not in a peace loving place.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_HILLS
+DDIR_EAST
+Valley of Magical Destruction.~
+~
+0 -1 19530
+DDIR_SOUTH
+Northern Field of Blood.~
+~
+0 -1 19539
+DDIR_WEST
+~
+~
+0 -1 19521
+#19532
+An Anti-Wizard's Torchure Chamber~
+You are in front of a pit filled with the bones of dead mages, a key ingredient
+in the making of dark matter.  The walls of this room are composed of magic
+sucking dark matter.  Along the walls of the chamber are a series of cages
+containing live mages who will soon donate their bones to those already in the
+pit.  There is a way out of this room to the west.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Valley of Magical Destruction.~
+~
+0 -1 19530
+#19533
+Northern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west and south.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_SOUTH
+Crucifix Lane.~
+~
+0 -1 19534
+DDIR_WEST
+Northern Field of Blood.~
+~
+0 -1 19540
+#19534
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  There is an enourmous battle field to the north and
+Crucifix Lane runs east to west.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Northern Field of Blood.~
+~
+0 -1 19533
+DDIR_EAST
+Crucifix Lane.~
+~
+0 -1 19550
+DDIR_WEST
+Crucifix Lane.~
+~
+0 -1 19535
+#19535
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  Crucifix Lane runs east to west.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Crucifix Lane.~
+~
+0 -1 19534
+DDIR_WEST
+Crucifix Lane.~
+~
+0 -1 19536
+#19536
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  Crucifix Lane runs east to west.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Crucifix Lane.~
+~
+0 -1 19535
+DDIR_WEST
+Crucifix Lane.~
+~
+0 -1 19537
+#19537
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  There is an enourmous battle field to the north and
+Crucifix Lane runs on to the east.  Raised up on a hill to the south you think
+you might have seen rows of impaled people but the memory being so horrid you
+quickly forget it.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Northern Field of Blood.~
+~
+0 -1 19538
+DDIR_EAST
+Crucifix Lane.~
+~
+0 -1 19536
+DDIR_SOUTH
+Impale Road.~
+~
+0 -1 19551
+#19538
+Northern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the east and south.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Northern Field of Blood.~
+~
+0 -1 19539
+DDIR_SOUTH
+Crucifix Lane.~
+~
+0 -1 19537
+#19539
+Northern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west, east and north.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Exit to the Valley of Magical Destruction.~
+~
+0 -1 19531
+DDIR_EAST
+Northern Field of Blood.~
+~
+0 -1 19540
+DDIR_WEST
+Northern Field of Blood.~
+~
+0 -1 19538
+#19540
+Northern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west, east and north.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Valley of Magical Destruction.~
+~
+0 -1 19530
+DDIR_EAST
+Northern Field of Blood.~
+~
+0 -1 19533
+DDIR_WEST
+Northern Field of Blood.~
+~
+0 -1 19539
+#19541
+The Champion's Quarters~
+You are dumbfounded by the sheer extravagance of this room.  The walls are not
+covered with dark matter as all the other rooms but are instead plated with
+gold.  Set in beautiful ornate plaques are weapons of all kinds, swords,
+daggers, maces, bows, anything you can think of you see.  The floor is made of
+golden tiles polished so brightly your reflection shines in them.  The bed
+here is large and soft looking.  This must trully be the quarters of someone
+great.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Southern Field of Blood.~
+~
+0 -1 19542
+#19542
+Southern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west, east and north.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Impale Road.~
+~
+0 -1 19551
+DDIR_EAST
+Southern Field of Blood.~
+~
+0 -1 19543
+DDIR_WEST
+The Champion's Quarters.~
+~
+0 -1 19541
+#19543
+Southern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Southern Field of Blood.~
+~
+0 -1 19544
+DDIR_WEST
+Southern Field of Blood.~
+~
+0 -1 19542
+#19544
+Southern Field of Blood~
+You are in the middle of an enourmous battle.  Warriors of all disciplines are
+combating one another here for the sheer joy of fighting.  The normally black
+soil has been dyed red with the blood of a thousand men.  The path of human
+fingers stretches to the west and north.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Impale Road.~
+~
+0 -1 19545
+DDIR_WEST
+Southern Field of Blood.~
+~
+0 -1 19543
+#19545
+Impale Road~
+Before you lays the most abhorrent scene you could have ever imagined.  Rows
+and rows of impaled warriors, staggered throughout a large valley for as far
+as the eye can see.  Some of the newest additions to this collection are still
+slowly sliding down their poles of agony while others have been here so long
+there is nothing left of them but bones.  The rows of the impaled continue on
+to the east while a bloody battle roars on to the south.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Impale Road.~
+~
+0 -1 19546
+DDIR_SOUTH
+Southern Field of Blood.~
+~
+0 -1 19544
+#19546
+Impale Road~
+Before you lays the most abhorrent scene you could have ever imagined.  Rows
+and rows of impaled warriors, staggered throughout a large valley for as far
+as the eye can see.  Some of the newest additions to this collection are still
+slowly sliding down their poles of agony while others have been here so long
+there is nothing left of them but bones.  The rows of the impaled continue on
+to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Impale Road.~
+~
+0 -1 19547
+DDIR_WEST
+Impale Road.~
+~
+0 -1 19545
+#19547
+Impale Road~
+Before you lays the most abhorrent scene you could have ever imagined.  Rows
+and rows of impaled warriors, staggered throughout a large valley for as far
+as the eye can see.  Some of the newest additions to this collection are still
+slowly sliding down their poles of agony while others have been here so long
+there is nothing left of them but bones.  The rows of the impaled continue on
+to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Impale Road.~
+~
+0 -1 19548
+DDIR_WEST
+Impale Road.~
+~
+0 -1 19546
+#19548
+Impale Road~
+Before you lays the most abhorrent scene you could have ever imagined.  Rows
+and rows of impaled warriors, staggered throughout a large valley for as far
+as the eye can see.  Some of the newest additions to this collection are still
+slowly sliding down their poles of agony while others have been here so long
+there is nothing left of them but bones.  The rows of the impaled continue on
+to the west.  You can see people nailed to crosses to the north.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Crucifix Lane.~
+~
+0 -1 19549
+DDIR_WEST
+Impale Road.~
+~
+0 -1 19547
+#19549
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  Crucifix Lane runs on to the west.  Raised up on a
+hill to the south you think you might have seen rows of impaled people but the
+memory being so horrid you quickly forget it.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_SOUTH
+Impale Road.~
+~
+0 -1 19548
+DDIR_WEST
+Crucifix Lane.~
+~
+0 -1 19550
+#19550
+Crucifix Lane~
+You are standing in front of rows and rows of crucified warriors.  Many of the
+crucified have been here so long only their bones remain.  Carved into each
+cross is the letter 'L'.  Crucifix Lane runs on to the west and east.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Crucifix Lane.~
+~
+0 -1 19549
+DDIR_WEST
+Crucifix Lane.~
+~
+0 -1 19534
+#19551
+Impale Road~
+Before you lays the most abhorrent scene you could have ever imagined.  Rows
+and rows of impaled warriors, staggered throughout a large valley for as far
+as the eye can see.  Some of the newest additions to this collection are still
+slowly sliding down their poles of agony while others have been here so long
+there is nothing left of them but bones.  You can see people nailed to crosses
+to the north and a fierce battle goes on to the south.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_NORTH
+Crucifix Lane.~
+~
+0 -1 19537
+DDIR_SOUTH
+Southern Field of Blood.~
+~
+0 -1 19542
+#19552
+The Edge of a Cliff~
+You are standing on the very edge of a enourmous cliff.  The winds here are
+very violent and seem to be forming a tunnel type shape.  The wind is so
+violent that in fact you are standing a few feet off the edge of the cliff.
+The figures below look as if they are nothing but tiny little bugs.  All the
+bright light emanating from the sun seems to be sucked into a rather large
+tunnel to the north.
+~
+0 ROOM_NO_RECALL SECT_AIR
+DDIR_NORTH
+Entrance to the Magicless Void.~
+~
+0 -1 19500
+DDIR_SOUTH
+In the Air.~
+~
+0 -1 19553
+#19553
+In the Air~
+The winds are whipping all around, you have lost touch with the ground and
+the sensation of falling is overwhelming.  The air is so thin here you black
+out, falling... falling... falling...
+~
+0 ROOM_NO_RECALL SECT_AIR
+DDIR_NORTH
+The Edge of a Cliff.~
+~
+0 -1 19552
+DDIR_DOWN
+Twister.~
+~
+0 -1 13398
+#19600
+The Portal to Paragon~
+You have climbed out of the darkness and into the light.  The sweet smell
+of fresh air washes over your face rejuvinating you.  There is a strange
+feeling to this place, a feeling of power that makes your skin tingle.  A
+huge glowing magical ball illuminates the room dispeling all shadows.  A
+shimmering flourecent gate is here blocking your passage to the north.
+There are stairs leading down into an undescribable darkness here.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+A Magical Haven.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PASSPROOF|EX_MAGICAL_LOCK|EX_BIG_LOCK 19601 19601
+DDIR_DOWN
+A long staircase.~
+~
+0 -1 19511
+#19601
+A Magical Haven~
+This room has no real definition, if there are walls they are masked by the
+wide array of colors streaming throughout the room stimulated by an unknown
+source.  You can faintly hear a voice echoing the name 'Paragon.'
+~
+0 ROOM_SAFE SECT_MOUNTAIN
+DDIR_NORTH
+The Dark Magical Path.~
+~
+EX_HIDDEN -1 19602
+DDIR_SOUTH
+The Portal to Paragon.~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 19601 19600
+#19602
+The Dark Magical Path~
+You are standing on a dark path that is hovering magically, feet above the
+ground.  There are rows and rows of dead and burnt trees all around.  An odd
+evil feeling emanates from this place.  It is as if the embodiment of evil
+itself is being whispered and conducted through the wind.  The path continues
+on to the east and west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Dark Magical Path.~
+~
+0 -1 19604
+DDIR_SOUTH
+The Magical Haven.~
+door~
+EX_ISDOOR -1 19601
+DDIR_WEST
+The Dark Magical Path.~
+~
+0 -1 19603
+#19603
+The Dark Magical Path~
+You are standing on a dark path that is hovering magically, feet above the
+ground.  There are rows and rows of dead and burnt trees all around.  An odd
+evil feeling emanates from this place.  It is as if the embodiment of evil
+itself is being whispered and conducted through the wind.  The path continues
+to the east and a different sort of path lays to the north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+The Grey Magical Path.~
+~
+0 -1 19605
+DDIR_EAST
+The Dark Magical Path.~
+~
+0 -1 19602
+#19604
+The Dark Magical Path~
+You are standing on a dark path that is hovering magically, feet above the
+ground.  There are rows and rows of dead and burnt trees all around.  An odd
+evil feeling emanates from this place.  It is as if the embodiment of evil
+itself is being whispered and conducted through the wind.  The path continues
+to the east and a different sort of path lays to the north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+The Grey Magical Path.~
+~
+0 -1 19607
+DDIR_WEST
+The Dark Magical Path.~
+~
+0 -1 19602
+#19605
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  The path continues to the east and a different sort
+of path lays to the south.  A bright light is shining on you from the west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Grey Magical Path.~
+~
+0 -1 19606
+DDIR_SOUTH
+The Dark Magical Path.~
+~
+0 -1 19603
+DDIR_WEST
+A Glowing Shop of Scrolls.~
+~
+0 -1 19649
+#19606
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  You notice one boulder is so huge it touches the
+sky, perhaps you could even climb it.  The path continues to the east, west,
+and north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+The Grey Magical Path.~
+~
+0 -1 19609
+DDIR_EAST
+The Grey Magical Path.~
+~
+0 -1 19607
+DDIR_WEST
+The Grey Magical Path.~
+~
+0 -1 19605
+DDIR_UP
+Godot's Laboratory.~
+trap door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 19620
+#19607
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  The path continues to the west and a different sort
+of path lays to the south.  You even think you hear some sort of trading going
+on to the east.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+A Bustling Center of Commerce.~
+~
+0 -1 19648
+DDIR_SOUTH
+The Dark Magical Path.~
+~
+0 -1 19604
+DDIR_WEST
+The Grey Magical Path.~
+~
+0 -1 19606
+#19608
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  The path continues to the east and a differnet sort
+of path lays to the north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+The Glowing Magical Path.~
+~
+0 -1 19611
+DDIR_EAST
+The Grey Magical Path.~
+~
+0 -1 19609
+#19609
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  One of these boulders is so huge it seems to reach
+up into the clouds.  The path continues to the east, west, and south.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Grey Magical Path.~
+~
+0 -1 19610
+DDIR_SOUTH
+The Grey Magical Path.~
+~
+0 -1 19606
+DDIR_WEST
+The Grey Magical Path.~
+~
+0 -1 19608
+DDIR_UP
+Dogot's Laboratory.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 19621
+#19610
+The Grey Magical Path~
+You are standing on a grey path that is hovering magically, feet above the
+ground.  The terrain here is pretty barren except for a few enormous grey
+boulders laying about.  The grey path continues to the west and a different
+sort of path lays to the north.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+The Glowing Magical Path.~
+~
+0 -1 19613
+DDIR_WEST
+The Grey Magical Path.~
+~
+0 -1 19609
+#19611
+The Glowing Magical Path~
+You are standing on a mystical glowing path that is hovering magically,
+feet above the ground.  Green trees and shrubs cover the surrounding area
+flourishing under the warm sun.  The sounds of birds fill your ears with a
+pleasant harmonious tone as you bathe in the the sweet scent of flowers.
+The glowing path continues to the east and the path to the south looks dull
+and grey.  A rolling and wild wilderness seems to be growing to the west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Glowing Magical Path.~
+~
+0 -1 19612
+DDIR_SOUTH
+The Grey Magical Path.~
+~
+0 -1 19608
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19650
+#19612
+The Glowing Magical Path~
+You are standing on a mystical glowing path that is hovering magically, feet
+above the ground.  Green trees and shrubs cover the surrounding area
+flourishing under the warm sun.  The sounds of birds fill your ears with a
+pleasant harmonious tone as you bathe in the the sweet scent of flowers.
+The glowing path continues to the east and west.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Glowing Magical Path.~
+~
+0 -1 19613
+DDIR_WEST
+The Glowing Magical Path.~
+~
+0 -1 19611
+#19613
+The Glowing Magical Path~
+You are standing on a mystical glowing path that is hovering magically, feet
+above the ground.  Green trees and shrubs cover the surrounding area
+flourishing under the warm sun.  The sounds of birds fill your ears with a
+pleasant harmonious tone as you bathe in the the sweet scent of flowers.
+The glowing path continues to the west and the path to the south looks dull
+and grey.  A plush wilderness can be seen in the east.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19614
+DDIR_SOUTH
+The Grey Magical Path.~
+~
+0 -1 19610
+DDIR_WEST
+The Glowing Magical Path.~
+~
+0 -1 19612
+#19614
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east while to the north there are several run down
+buildings.  Back to the west the glowing magical path remains hovering as
+always.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Poor Quarter.~
+~
+0 -1 19660
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19615
+DDIR_WEST
+The Glowing Magical Path.~
+~
+0 -1 19613
+#19615
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east, west, and north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19670
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19616
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19614
+#19616
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19617
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19615
+#19617
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east, north, and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19616
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19674
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19618
+#19618
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19617
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19619
+#19619
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east.  From the west you believe you hear the chatter of
+many people locked in trading deals.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19618
+DDIR_WEST
+A Bustling Center of Commerce.~
+~
+0 -1 19648
+#19620
+Godot's Laboratory~
+This room is cluttered with vials, herbs, and scrolls.  There is writing
+scribbled all over the walls crudly made as if written in a hurry.  What you
+can make out of it reads, "Left is best."  A stream of sparks is shooting out
+of the middle of the floor giving the enormous amount of pent up magical
+energy a way to vent itself.  Looking outside of a window you notice you are
+in some sort of a tower looking down on the Land of Paragon.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+A Hallway Above the Clouds.~
+door~
+EX_ISDOOR|EX_HIDDEN -1 19622
+DDIR_DOWN
+The Grey Magical Path.~
+door~
+EX_ISDOOR|EX_CLOSED -1 19606
+#19621
+Dogot's Laboratory~
+This entire room seems to be resting comfortably on top of a cloud.  You can
+see all of Paragon from here.  The view is breath taking.  Laying neatly on
+the floor are piles of wands and staves.  There is an oak desk here with a
+magical ball hovering above it to provide added light.  A tidy clean bed is
+across from the desk, so neatly made it seems like no one has ever slept
+in it before.
+~
+0 0 SECT_AIR
+DDIR_SOUTH
+A Hallway Above the Clouds.~
+door~
+EX_ISDOOR|EX_HIDDEN -1 19622
+DDIR_DOWN
+The Grey Magical Path.~
+door~
+EX_ISDOOR|EX_CLOSED -1 19609
+#19622
+A Hallway Above the Clouds~
+This hallway is slanted upwards from both the north and south giving it a
+pyramidal effect and point.  It is as if it is leading to something great.
+The clear floor of the hallway allows you to see the clouds underneath you
+and you are still astounded by the magical powers that it must have taken
+to create such an elevated place.
+~
+0 0 SECT_AIR
+DDIR_NORTH
+Dogot's Laboratory.~
+~
+0 -1 19621
+DDIR_SOUTH
+Godot's Laboratory.~
+~
+0 -1 19620
+DDIR_UP
+The Throne Room of Paragon.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 19602 19623
+#19623
+The Throne Room of Paragon~
+Rows of columns lead on both the left and right of you towards the northern
+end of the room where an enourmous throne sits.  The throne is so enthralled
+with magic it glimmers brightly an assortment of colors lighting the entire
+room with blue, red, yellow, green, and violet.  The high vaulted ceiling
+makes you feel even more insignificant inside this impressive room.  The
+floor, constructed of what looks like ivory, moves underneath you
+bringing you towards the throne.
+~
+0 0 SECT_AIR
+DDIR_DOWN
+The Hallway Above the Clouds.~
+~
+0 -1 19622
+#19630
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+In the Forest of Paragon.~
+~
+0 -1 19631
+#19631
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+In the Forest of Paragon.~
+~
+0 -1 19630
+DDIR_SOUTH
+In the Forest of Paragon.~
+~
+0 -1 19632
+#19632
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the north.  You can hear the
+sound of water running to the west.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+In the Forest of Paragon.~
+~
+0 -1 19631
+DDIR_WEST
+A Pond in the Forest of Paragon.~
+~
+0 -1 19633
+#19633
+A Pond in the Forest of Paragon~
+There is a small pond here encircled by trees.  The water is crystal clear
+and reflects the images of the strange trees on a completely still, undisturbed
+surface.  In the center of the pond rises an enourmous pedastal carved into a
+rectangular shape.  A river to the south is supplying the pond with water.
+An overgrown, badly kept, path is winding its way to the west.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+In the Forest of Paragon.~
+~
+0 -1 19632
+DDIR_SOUTH
+A River in the Forest of Paragon.~
+~
+0 -1 19634
+DDIR_WEST
+In the Meadow of Paragon.~
+~
+0 -1 19635
+#19634
+A River in the Forest of Paragon~
+A river here is flowing steadily to the north.  At the base of the river is a
+strange, enourmous fountain spraying water all over.  The fountain is in the
+form of a statue, but some of it isn't rock, some of it is flesh!  The statue's
+facial expression is locked into an eternal grimace and you notice most of
+the water is comming out of the statues eyes, like tears.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A Pond in the Forest of Paragon.~
+~
+0 -1 19633
+#19635
+In the Meadow of Paragon~
+The forest here was destroyed long ago and is now rebuilding itself, currently
+in the stage of a meadow.  Beautiful flowers are blooming and their sweet
+scent permeates the air.  The peaceful sound of birds chirping bounces
+tenderly off of the surrounding forests and echoes into the meadow creating
+a stunningly powerful chorus of sounds.  The forest continues to the north,
+south, and east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+In the Forest of Paragon.~
+~
+0 -1 19637
+DDIR_EAST
+A Pond in the Forest of Paragon.~
+~
+0 -1 19633
+DDIR_WEST
+In the Forest of Paragon.~
+~
+0 -1 19636
+DDIR_DOWN
+The Transportation Room.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 19603 19639
+#19636
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the north and east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+In the Forest of Paragon.~
+~
+0 -1 19638
+DDIR_EAST
+In the Meadow of Paragon.~
+~
+0 -1 19635
+#19637
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the south and west.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+In the Meadow of Paragon.~
+~
+0 -1 19635
+DDIR_WEST
+In the Forest of Paragon.~
+~
+0 -1 19638
+#19638
+In the Forest of Paragon~
+You are in the heart of the wilderness on the Island of Paragon.  Huge
+luminous trees shoot up into the sky blocking out most of the sun.  Oddly
+a few of the trees seem to have faces etched into their hard wood surface,
+and their branches sway every so slightly, though there is no wind.  The
+overgrown, badly kept, path winds its way to the east and south.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+In the Forest of Paragon.~
+~
+0 -1 19637
+DDIR_SOUTH
+In the Forest of Paragon.~
+~
+0 -1 19636
+#19639
+The Transportation Room~
+This underground room is fairly dark but from what little light there is
+you can see a huge rock covered in writing and a small curved part at the
+top of it that looks like something is to be placed on it.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+In the Meadow of Paragon.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN|EX_PICKPROOF -1 19635
+#19640
+On a Wooden Beam~
+You are standing on an enourmous block of wood.  The ground is miles
+below, don't slip off.  Howls of extreme pleasure and pain are comming from
+the north and you feel compelled to search out the source.  The stench of
+searing flesh fills the air coupled by the musky odor of sex.  Oddly the
+rock that you placed the ball on transported with you, it look as if it could
+be used again.  The wooden beam continues to the north.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+The Bisecting Wooden Beam.~
+~
+0 -1 19641
+#19641
+The Bisecting Wooden Beam~
+You are standing on an enourmous block of wood that streches out in all four
+directions, north, south, east, and west.  The ground is miles below, don't
+slip off.  Howls of extreme pleasure and pain are comming from the north and
+you feel compelled to search out the source.  The stench of searing flesh
+fills the air coupled by the musky odor of sex.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+On a Wooden Beam.~
+~
+0 -1 19644
+DDIR_EAST
+On a Wooden Beam.~
+~
+0 -1 19643
+DDIR_SOUTH
+On a Wooden Beam.~
+~
+0 -1 19640
+DDIR_WEST
+On a Wooden Beam.~
+~
+0 -1 19642
+#19642
+On a Wooden Beam~
+You are standing on an enourmous block of wood.  The ground is miles
+below, don't slip off.  Howls of extreme pleasure and pain are comming from
+the north and you feel compelled to search out the source.  The stench of
+searing flesh fills the air coupled by the musky odor of sex.  The wooden
+beam continues to the east.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_EAST
+The Bisecting Wooden Beam.~
+~
+0 -1 19641
+#19643
+On a Wooden Beam~
+You are standing on an enourmous block of wood.  The ground is miles
+below, don't slip off.  Howls of extreme pleasure and pain are comming from
+the north and you feel compelled to search out the source.  The stench of
+searing flesh fills the air coupled by the musky odor of sex.  The wooden
+beam continues to the west.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_WEST
+The Bisecting Wooden Beam.~
+~
+0 -1 19641
+#19644
+On a Wooden Beam~
+You are standing on an enourmous block of wood.  The ground is miles
+below, don't slip off.  Howls of extreme pleasure and pain are comming from
+the north and you feel compelled to search out the source.  The stench of
+searing flesh fills the air coupled by the musky odor of sex.  The wooden
+beam continues to the north.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+The End of the Wooden Beam.~
+~
+0 -1 19645
+DDIR_SOUTH
+The Bisecting Wooden Beam.~
+~
+0 -1 19641
+#19645
+The End of the Wooden Beam~
+You have reached the end of the Wooden Beam and before you to the north lays
+the huge gates of Saddie's private quarters.  As you look back to the south
+you can see exactly what the wooden beam is, an inverted cross.  A chill
+runs down your back as another scream of pain, mixed with pleasure errupts
+from right in front of you.
+~
+0 ROOM_NO_RECALL SECT_MOUNTAIN
+DDIR_NORTH
+Saddie's Private Chambers.~
+huge gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 19646 19646
+DDIR_SOUTH
+~
+~
+0 -1 19644
+#19646
+Saddie's Private Chambers~
+The walls in this room are painted a dark rusty red, at closer inspection
+you can tell exactly what paint was used, blood.  A few body parts are
+scattered randomly on the floor, some animated and crawling around.  There
+are two beds in this room.  One looks like a normal feather stuffed bed
+with pillows and blankets on it.  The other is a wooden slab, stained with
+blood, with straps across it for god only knows what perversities.  The
+sounds of sexual ecstasy and extreme pain echo through the gate to the south
+and into the room.  For a second, you wish you were the one making those
+sounds.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+The End of the Wooden Beam.~
+huge gate~
+EX_ISDOOR|EX_CLOSED -1 19645
+DDIR_DOWN
+A Private Chamber.~
+~
+0 -1 19647
+#19647
+A Private Chamber~
+Cages with humans inside them litter the entire room.  Some are strung from
+the ceiling and others just sitting on the ground.  It is pretty obvious that
+a few of them have been used for some of Saddie's more sadistic experiments
+for they are wrestling with decaying arms connected to their bodies, that
+are trying to kill them.  While others you can only assume are used to
+satisfy Saddie's personal pleasures for they are completely naked and
+bleeding from their groins.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Saddie's Private Chambers.~
+~
+0 -1 19646
+#19648
+A Bustling Center of Commerce~
+People are bustling all about trying to trade, sell, and buy goods.  You can
+see fights breaking out among the people over their deals and your ears are
+stinging from the constant loud shouting.  Fabrics, metals, armor, and all
+sorts of good are thrown randomly around the room creating an atmosphere of
+chaos.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19619
+DDIR_WEST
+A Grey Magical Path.~
+~
+0 -1 19607
+#19649
+A Glowing Shop of Scrolls~
+Light pervades this entire room.  It is so bright in here you have to cover
+your eyes with your hand to see.  There are no shadows in here since the light
+is so bright, however you can make out a few individuals trading with a
+sorceress who is standing serenly behind a counter.  It would appear as if the
+glow is emanating from her.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A Grey Magical Path.~
+~
+0 -1 19605
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19655
+#19650
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west.  The hovering magical path remains to the east and
+some run down looking buildings block your view to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Poor Quarter~
+~
+0 -1 19656
+DDIR_EAST
+The Glowing Magical Path.~
+~
+0 -1 19611
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19651
+#19651
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west, east, and north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19669
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19650
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19652
+#19652
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east and south.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19651
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19653
+#19653
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west, north, and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19652
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19654
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19665
+#19654
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north and east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19653
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19655
+#19655
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+A Glowing Shop of Scrolls.~
+~
+0 -1 19649
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19654
+#19656
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+east while a beautiful, clean wilderness grows to the south.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19657
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19650
+#19657
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+west, east, and north.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+The Poor Quarter~
+~
+0 -1 19663
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19658
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19656
+#19658
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+drug dealers are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the police are too afraid to visit here.  The filthy road leads to the
+west and east.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19659
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19657
+#19659
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+west, east, and north.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_NORTH
+The Poor Quarter~
+~
+0 -1 19661
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19660
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19658
+#19660
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+west while the beautiful sound of nature echoes in from the south.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19614
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19659
+#19661
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+west and south.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_SOUTH
+The Poor Quarter~
+~
+0 -1 19659
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19662
+#19662
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+west and east.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19661
+DDIR_WEST
+The Poor Quarter~
+~
+0 -1 19663
+#19663
+The Poor Quarter~
+You are standing between rows of buildings.  Dirt, papers, and other trash
+blow through the blood stained streets.  Woman are working the corners and
+press gangs are standing at the corners.  All the dejects have come here to
+live out the rest of their miserable lives, magicians and warriors living in
+complete disharmony.  Killing each other with complete abandonment because
+even the guards are too afraid to visit here.  The filthy road leads to the
+east and south.
+~
+0 ROOM_DARK SECT_CITY
+DDIR_EAST
+The Poor Quarter~
+~
+0 -1 19662
+DDIR_SOUTH
+The Poor Quarter~
+~
+0 -1 19657
+#19664
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19665
+#19665
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north, south, and east.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19666
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19653
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19664
+#19666
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19667
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19665
+#19667
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the south and east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19668
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19666
+#19668
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19669
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19667
+#19669
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19651
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19668
+#19670
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19671
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19615
+#19671
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The Enchanted Wilderness.~
+~
+0 -1 19672
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19670
+#19672
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the west and south.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19673
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19671
+#19673
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north and south.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19672
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19674
+#19674
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north, south, and west.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19673
+DDIR_SOUTH
+The Enchanted Wilderness.~
+~
+0 -1 19675
+DDIR_WEST
+The Enchanted Wilderness.~
+~
+0 -1 19617
+#19675
+The Enchanted Wilderness~
+You stand amids a living wilderness.  Vines are moving like snakes, trees are
+walking around freely as if they were people, even the path you now stand on
+seems to be traveling its own course.  In tiny little patches there is rain,
+in others hail, while in others snow, sun, high humidity, desert like
+conditions all within five feet of each other.  The wilderness has been given
+a voice, and this is what it speaks.  It would appear as if this twisting path
+continues on to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The Enchanted Wilderness.~
+~
+0 -1 19674
+#0
+
+
+#RESETS
+D 19600 DIR_NORTH DOOR_CLOSED_LOCKED
+D 19601 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 19606 DIR_UP    DOOR_CLOSED
+D 19609 DIR_UP    DOOR_CLOSED
+D 19620 DIR_DOWN  DOOR_CLOSED
+D 19621 DIR_DOWN  DOOR_CLOSED
+D 19622 DIR_UP    DOOR_CLOSED_LOCKED
+D 19635 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 19639 DIR_UP    DOOR_CLOSED
+D 19645 DIR_NORTH DOOR_CLOSED_LOCKED
+D 19646 DIR_SOUTH DOOR_CLOSED
+M 19674 100 19553
+M 19600 100 19600
+G 19601   1 0
+M 19601 100 19602
+M 19601 100 19612
+M 19602 100 19608
+M 19602 100 19610
+M 19602 100 19605
+M 19602 100 19607
+M 19624 100 19612
+M 19620 100 19620
+G 19615   1 0
+G 19602   1 0
+M 19621 100 19621
+G 19616   1 0
+G 19602   1 0
+M 19623 100 19623
+M 19630 100 19630
+G 19603   1 0
+G 19612   1 0
+M 19631 100 19635
+G 19646   1 0
+G 19613   1 0
+O 19610   1 19634
+P 19611   1 19610
+M 19641 100 19641
+M 19640 100 19646
+G 19618 999 0
+G 19619 999 0
+G 19621 999 0
+G 19622 999 0
+G 19623 999 0
+G 19624 999 0
+G 19625 999 0
+G 19626 999 0
+G 19627 999 0
+M 19642 100 19647
+E 19678   1 WEAR_FINGER_L
+E 19678   1 WEAR_FINGER_R
+E 19679   1 WEAR_NECK_B
+E 19679   1 WEAR_NECK_A
+E 19680   1 WEAR_BODY
+E 19681   1 WEAR_HEAD
+E 19682   1 WEAR_HOLD
+E 19683   1 WEAR_FEET
+E 19684   1 WEAR_HANDS
+E 19685   1 WEAR_ARMS
+E 19686   1 WEAR_SHIELD
+E 19687   1 WEAR_ABOUT
+E 19688   1 WEAR_WAIST
+E 19689   1 WEAR_WRIST_L
+E 19689   1 WEAR_WRIST_R
+M 19503 100 19503
+E 19503   1 WEAR_HOLD
+M 19507 100 19507
+E 19508   1 WEAR_NECK_A
+E 19508   1 WEAR_NECK_B
+E 19507   1 WEAR_SHIELD
+E 19540   1 WEAR_WIELD
+M 19510 100 19510
+E 19510   1 WEAR_LIGHT
+E 19511   1 WEAR_WIELD
+E 19555   1 WEAR_WRIST_L
+E 19555   1 WEAR_WRIST_R
+M 19540 100 19501
+E 19540   1 WEAR_WIELD
+E 19541   1 WEAR_SHIELD
+M 19521 100 19521
+M 19522 100 19523
+M 19522 100 19524
+M 19522 100 19526
+M 19522 100 19527
+M 19522 100 19529
+M 19522 100 19530
+M 19544 100 19525
+M 19544 100 19528
+M 19544 100 19532
+M 19528 100 19538
+M 19528 100 19533
+M 19528 100 19537
+M 19528 100 19535
+M 19528 100 19534
+M 19528 100 19550
+M 19528 100 19549
+M 19528 100 19548
+M 19528 100 19547
+M 19528 100 19546
+M 19528 100 19545
+M 19528 100 19544
+M 19528 100 19543
+M 19528 100 19551
+M 19547 100 19541
+M 19650 100 19652
+M 19650 100 19654
+M 19650 100 19616
+M 19650 100 19618
+M 19650 100 19673
+M 19650 100 19666
+M 19650 100 19669
+M 19650 100 19670
+M 19658 100 19668
+M 19658 100 19667
+M 19658 100 19665
+M 19658 100 19664
+M 19658 100 19671
+M 19658 100 19672
+M 19658 100 19674
+M 19658 100 19675
+M 19666 100 19656
+M 19666 100 19657
+M 19666 100 19659
+M 19666 100 19660
+M 19670 100 19658
+M 19670 100 19661
+M 19670 100 19662
+M 19670 100 19663
+M 19644 100 19648
+M 19645 100 19649
+G 19628 999 0
+G 19629 999 0
+M 19528 100 19534
+M 19528 100 19536
+M 19528 100 19537
+M 19528 100 19539
+M 19522 100 19522
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+cd src
+echo -n "Compiling.."
+make 1>/dev/null 2>src_err.txt
+echo -n ".."
+sync
+echo -n ".."
+SIZE=`du -h ../bin/lola`
+echo -n "."
+#strip ../bin/lola*
+#echo -n ".."
+NWSIZE=`du -h ../bin/lola`
+echo -n "."
+echo " [done]"
+echo ""
+mv -f ../bin/current_lola ../bin/old_lola
+mv -f ../bin/lola ../bin/current_lola
+echo "Size of bin/lola before and after stripping:"
+echo ${SIZE}
+echo ${NWSIZE}
+echo ""
+WARNING=`grep "warning" src_err.txt | wc -l`
+ERRORS=`grep "error" src_err.txt | wc -l`
+echo "This compile gave :"
+echo "- ${WARNING} warnings."
+echo "- ${ERRORS} errors."
+if ! test -s src_err.txt
+then
+	rm src_err.txt
+fi
+cd ..

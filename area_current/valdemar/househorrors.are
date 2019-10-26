@@ -1,0 +1,3719 @@
+#AREA House of Horrors~
+#AUTHORS Dazed~
+#VERSION 4
+#RANGES 60 95 1 95
+
+
+#HELPS
+-1 'HOUSE OF HORRORS'~
+{120}                              House of Horrors
+{300}
+Stories tell of an old haunted house somewhere along the ancient roads.
+Many great magical armors can be found there, for those worthy enough to
+retrieve it.  Whether these rumors are true or not, is not known.  Those who
+have ventured forth to seek this haunted house have never returned to tell
+their story.  Perhaps you can succeed where others have failed.
+{140}
+Version 1.5 Juli 2001~
+
+0 $~
+
+
+#MOBILES
+#29800
+birdquestmob little~
+the little bird~
+There is a little bird here.~
+The little bird is rather beautiful. It is chirping peacefully.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+150 BODY_HEAD BODY_WING|BODY_CLAW 1d1+25999 10d10+300
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+if quest (0,1,self) == 1
+  mpecho {160}A small peephole opens in the door and you see an eye peering at you.
+  mpecho {160}You hear the sound of bolts being drawn back. A key turns in the lock.
+  mpecho {160}The door opens with a creak, and a small, bent old man hurries you inside.
+  mptransfer pcs 29863
+  mpat 29863 mpecho The butler closes the door, drives the bolts home and locks the door.
+  mpat 29863 mpecho The key seems to vanish, just like that.
+  mpmset self quest 0 1 0
+  mppurge i29821
+  mpoload 29821
+  mpquiet on
+  drop i29821
+  mpquiet off
+endif
+~
+>all_greet_prog 10~
+mpecho The bell chuckles to itself.
+~
+>all_greet_prog 100~
+mpechoat $n Don't attack me, whatever you do ... you'll ALL die.
+~
+>fight_prog 100~
+mpecho You shouldn't have tried to kill me ...
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+~
+|
+#29801
+butler~
+the butler~
+A frail old butler is standing here.~
+The butler looks very tired and strangely out of place in this foreboding
+house. You wonder for how many years he has been answering the front door.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND
+1000 S
+95 BODY_HEAD|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d2256+7613 14d14+10
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 0
+  sigh 
+  tell $n I have been trapped in here for as long as I can
+  tell $n remember, forced to do the work of the evil Lelik.
+  tell $n Many times have I wished for my freedom, so that I
+  tell $n may die in peace, but there seems no hope of escape.
+endif
+if quest (0,5,$n) == 3
+  mpmset $n quest 0 5 4
+  say Well done! I did not think that you would be able to convince the vampire to part with the gem. Now, give me the gem so that I may escape.
+endif
+if quest (0,5,$n) == 25
+  say Well done! I can't believe that you managed to kill that foul fiend. Here, let me try to retrieve my armour ...
+  mpecho The butler closes his eyes, frowns and then smiles.
+  mpecho A set of armour appears as if by magic!
+  mpquiet on
+  cast 'cure blindness'
+  mpmset $n quest 0 5 26
+  mpquiet off
+  mpoload 29823
+  mpoload 29824
+  mpoload 29825
+  mpoload 29827
+  mpoload 29828
+  mpoload 29830
+  drop all
+  mpquiet on
+  cast 'giant strength' $n
+  cast 'bless' $n
+  cast 'sanctuary' $n
+  cast 'enhanced heal' $n
+  cast 'enhanced revive' $n
+  cast 'enhanced rest' $n
+  cast 'fly' $n
+  cast 'stability' $n
+  cast 'ethereal travel' $n
+  cast 'astral projection' $n
+  cast 'shield' $n
+  cast 'armor' $n
+  cast 'mirror image' $n
+  cast 'tongues' $n
+  cast 'understand' $n
+  cast 'breath water' $n
+  cast 'infravision' $n
+  cast 'invis' $n
+  cast 'change sex' $n
+  cast 'refresh' $n
+  cast 'refresh' $n
+  cast 'refresh' $n
+  cast 'feast'
+  mpquiet off
+  mpechoat $n {160}You feel better!
+  smile 
+endif
+~
+>speech_prog escape~
+if quest (0,5,$n) != 23
+  if quest (6,2,$n) < 3
+    mpmadd $n quest 6 2 1
+    mpmset $n quest 0 5 1
+    say The only way I could ever escape is if I were to possess a certain glowing gem, which has great power.
+  else
+    mpecho Sorry, the quest is over for you - try again next life!
+  endif
+else
+  say I have already received your aid!
+endif
+~
+>speech_prog gem~
+if quest (0,5,$n) == 1
+  mpmset $n quest 0 5 2
+  say I believe that there is a vampire in the house that has it, but I very much doubt he will part with it. He has the power even to take it with him to beyond the grave.
+endif
+~
+>speech_prog grave~
+if quest (0,5,$n) == 1
+  say Hrmm, it's rumoured that there is a way to persuade the vampire to spare the gem to whoever defeats him, I really don't know.  Perhaps one skilled in the art of persuasion can help you with that.
+endif
+~
+>give_prog I29808~
+if quest (0,5,$n) == 4
+  mpjunk i29808
+  mpmset $n quest 0 5 5
+  say Thank you for this valuable gift!
+  mpecho The butler examines the gem intently. Then he frowns.
+  shout NO! What has he done!
+  say The vampire has defiled the holiness of the stone. It will have to be purified now. I have heard of an anti-evil lotion, but I do not how to make one, or where to find any.  I would value it greatly if you could find some for me.
+else
+  give i29808 $n
+  say I don't want this now.
+endif
+~
+>give_prog I29815~
+if quest (0,5,$n) == 16
+  mpjunk i29815
+  mpmset $n quest 0 5 17
+  say AMAZING! You found it! Now I can purify the gem.
+  mpecho The butler rubs the lotion all over the gem, and it changes into a brilliant pearl colour.
+  say I have bad news for you, though. Someone has stolen the bracket that I need to mount the gem in, but I don't know who. Someone in this house must have it on them.  Perhaps you can locate it.  Without it I cannot escape.
+  mpquiet on
+  mpjunk all
+  mpoload 29816
+  if rand (25)
+    mpmload 29827
+    give bracket nightmare
+    mpat 29810 mppurge all
+    mptransfer nightmare 29810
+  else
+    if rand (33)
+      mpmload 29832
+      give bracket rotting
+      mpat 29874 mppurge all
+      mptransfer rotting 29874
+    else
+      if rand (50)
+        mpmload 29825
+        give bracket astronomer
+        mpat 29808 mppurge all
+        mptransfer astronomer 29808
+      else
+        mpmload 29834
+        give bracket mummy
+        mpat 29877 mppurge all
+        mptransfer mummy 29877
+      endif
+    endif
+  endif
+  mpquiet off
+else
+  give i29815 $n
+  say What is this you are giving me?
+endif
+~
+>give_prog I29816~
+if quest (0,5,$n) == 17
+  mpjunk i29816
+  mpmset $n quest 0 5 18
+  mpecho The butler takes the gem and mounts it into the bracket.
+  mpjunk all
+  say Hmmm, now all that is needed is to align it correctly to the stars. I'm afraid I don't quite know how to do that.  Perhaps the astronomer can help you with that.
+else
+  give i29816 $n
+  say I don't need this yet.
+endif
+~
+>speech_prog p align the bracket to the Orion constellation at midnight on the first day of the month of the Old Forces.~
+if quest (0,5,$n) == 22
+  mpmset $n quest 0 5 23
+  say Finally!!! I can be free! Thank you for this great service you have done for me. I shall reward you grandly. Here, take this. It has been in my family for more years than I can think of.
+  mpoload 29817
+  give i29817 $n
+  say I would give you the armour that was once mine, but Lelik holds it in a magical void.
+endif
+~
+>speech_prog void lelik armour~
+if quest (0,5,$n) == 23
+  mpmset $n quest 0 5 24
+  say I have often tried to pull the armour out, but his power is too great for me to do that.  Perhaps you are strong enough to defeat him.
+  mpoload 29850
+  give i29850 $n
+  drop i29850
+  say Take this rune and give it to Lelik.  It will allow you to destroy him.
+endif
+~
+>fight_prog 50~
+if rand (5)
+  cast 'blindness' $r
+else
+  if rand (20)
+    if position ($r) == pos_fighting
+      cast 'acid blast' $r
+    endif
+  else
+    cast 'cure critical'
+    cast 'cure critical'
+  endif
+endif
+if isevil ($n)
+  say May all evil be purged from the realms!
+  cast 'dispel evil' $r
+  cast 'dispel evil' $r
+  cast 'dispel evil' $r
+  cast 'dispel evil' $r
+  cast 'dispel evil' $r
+endif
+if rand (10)
+  disarm 
+endif
+if rand (10)
+  kick 
+endif
+~
+>speech_prog p let me out~
+say Very well. I'm glad you've decided to leave this awful place.
+mpecho The butler walks over to the door and starts to draw back the bolts.
+say Curse these bolts. I never get around to having them oiled.
+mpecho The butler produces a key from nowhere and unlocks the door.
+mpecho {160}Before you know it's gone, the key vanishes, just like that!
+mpecho {160}The butler shows you all out the door.
+say Farewell! And have a safe journey!
+mptransfer pcs 29865
+mpat 29865 mpecho {160}The butler closes the door behind you.
+mpat 29865 mpecho {160}You hear the bolts being driven home and the key turning in the lock.
+~
+>rand_prog 5~
+if rand (50)
+  sigh 
+  say I'm getting too old to do this for too much longer.
+else
+  say There is still so much evil in the world.
+endif
+~
+|
+#29802
+servant librarian~
+the servant~
+The servant is tidying the room and sorting books out.~
+The servant looks miserable and tired. He seems to be the librarian, if one
+can call him that. He doesn't seem to be to be very satisfied with his job.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_PROTECT_EVIL
+-1000 S
+70 BODY_EYE|BODY_ARM|BODY_HAND BODY_HEAD|BODY_MOUTH|BODY_HAND|BODY_FOOT 10d50+3250 1d20+50
+60000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 20~
+mpecho {030}$I mutters under his breath, 'I hate these BOOKS.'
+~
+>speech_prog books~
+say They seem to get unsorted all by themselves.
+grumble $n
+say What are you doing here anyway?
+mpkill $n
+~
+>fight_prog 50~
+cast 'blindness' $n
+~
+|
+#29803
+etherealdrip~
+the drip~
+The drip is here, dripping.~
+If you could see this drip, you would see it is a drip.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+10468 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+mpecho Drip!
+~
+>rand_prog 5~
+mpecho Splosh!
+~
+|
+#29804
+etherealmoan~
+the moan~
+The moan is here, moaning.~
+If you could see this moan, you would see it is a moan.
+~
+0
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+9999 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpecho {160}You hear moaning somewhere in the house.
+~
+>rand_prog 5~
+mpecho Somebody screams.
+~
+>rand_prog 5~
+mpecho {160}You can almost feel something move past; the hairs on your neck stand up.
+~
+|
+#29805
+etherealcough~
+the ethereal cough~
+The cough is here, coughing.~
+If you could see this cough, you would see it is a cough.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d2256+7613 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 33~
+mpecho {160}You cough uncontrollably.
+~
+>rand_prog 2~
+mpecho {160}The dust swirls up around you.
+~
+|
+#29806
+etherealchat~
+the ethereal chat~
+The chat is here, chatting.~
+If you could see this chat, you would see it is a chat.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+9999 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+mpecho {160}You hear the lively chatting of several people.
+~
+|
+#29807
+beast~
+the beast~
+The beast is here, looking for something to maim.~
+This beast is a fair example of a beast: it is big, strong, vicious and above
+all, in a bad mood. It has a lot of hair, and as a result you can't really see
+the animal underneath. It smells really unpleasant.
+~
+ACT_AGGRESSIVE|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_HUNT
+-1000 S
+90 BODY_HEAD|BODY_TAIL|BODY_CLAW BODY_MOUTH|BODY_TAIL|BODY_HORN|BODY_CLAW 5d100+7600 14d8+30
+150000 RACE_OGRE
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+>death_prog 100~
+mpoload 29813
+mpecho {160}As the beast dies, it is violently sick and you spy a magic spoon amongst all the puke.
+~
+|
+#29808
+skeleton~
+the skeleton~
+The skeleton is standing here, being dead.~
+This skeleton is trying to stay in one piece. It is a human skeleton that is
+disturbingly alive.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+86 BODY_HIP|BODY_FOOT BODY_HEAD|BODY_HIP|BODY_FOOT 3d100+6000 1d86+37
+25000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29809
+torturer~
+the torturer~
+The torturer is here, grinding bone.~
+You don't want to mess with this guy: he is 7 feet tall and probably as wide.
+Besides, you don't quite like the look in his eyes.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_WIMPY|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_HUNT
+-1000 S
+100 BODY_HEAD|BODY_LEG|BODY_HAND BODY_MOUTH|BODY_HAND 7700d2+100 1d100+51
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if level ($n) < 60
+  say Hehe! Young blood. I just LOVE weaklings ...
+  mpecho The torturer licks his lips and pulls out his knife. There is an evil glint
+  mpecho {300}in his eyes.
+  mpkill $n
+endif
+~
+>fight_prog 15~
+knife 
+~
+|
+#29810
+torturer apprentice~
+the torturer's apprentice~
+The torturer's apprentice is here, trying to torture people.~
+You see a young man here. He is trying very hard to look mean and tough, but he
+is not really succeeding. It may be his innocent young face, or his fluffy
+beard. You wonder if his mother knows he is here.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+85 BODY_HEAD|BODY_EYE BODY_HEAD|BODY_HAND|BODY_FOOT 1d400+6000 1d20+70
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+say May I please torture you? I'm kind of new to all this and I need some practise.
+~
+>hitprcnt_prog 25~
+mpecho The torturer's apprentice looks pretty scared. He might run away any moment now.
+if rand (33)
+  flee 
+endif
+~
+|
+#29811
+fire demon~
+the fire demon~
+The fire demon is here, generating intense heat.~
+The demon is made out of fire - just hot, flickering flames in the shape of a
+human. It has an evil glint in its eyes and the grin its mouth is twisted into
+makes you want to shiver.  Anything it touches burns up with intense heat.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND
+0 S
+95 BODY_HORN BODY_MOUTH|BODY_HORN|BODY_CLAW 1d1+8690 1d95+46
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 14
+  restore self
+  mpmset $n quest 0 5 15
+  mpkill $n
+endif
+~
+>fight_prog 40~
+cast fireball
+~
+>give_prog I29814~
+if quest (0,5,$n) == 15
+  mpmset self quest 0 2 1
+  mpmset $n quest 0 5 16
+else
+  mpmset self quest 0 2 0
+endif
+~
+>fight_prog 50~
+if quest (0,2,self) == 1
+  mpjunk all
+  mpecho The fire demon glows blindingly hot for a moment!
+  mpquiet on
+  mass fireball
+  mass fireball
+  mpquiet off
+  mpecho {160}You are burnt in the intense heat!!!
+  mpoload 29815
+  mpmset self quest 0 2 2
+else
+  mpecho The fire demon generates intense heat, enough to cook anything!
+endif
+~
+>fight_prog 80~
+close heavy
+~
+>death_prog 100~
+if quest (0,2,self) == 1
+  mpjunk all
+  mpecho As the demon dies, it burns up completely!
+  mppurge self
+endif
+~
+|
+#29812
+vampire#~
+the vampire~
+There is a vampire here, looking at you with contempt.~
+The vampire seems to be overly arrogant and proud. His bearing fills the room
+and makes you feel somehow very small. He has dark black hair, smoothly combed
+and his clothes are thick and luxurious - all in a deep red and black. There is
+a long cape hanging from his shoulders.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_UNDERSTAND
+-1000 S
+95 0 0 1d100+9000 1d30+90
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpquiet on
+mass curse
+mpquiet off
+mpecho {160}You feel unholy.
+~
+>fight_prog 5~
+mass 'acid blast'
+~
+>fight_prog 3~
+mpmload 29821
+mpecho The vampire calls a blood-sucking bat to his aid!
+~
+>death_prog 100~
+if hasobjnum ($n) == 29809
+  if quest (0,5,$n) == 2
+    if quest (0,1,self) == 1
+      mpoload 29808
+      mpecho The vampire looks at the persuader and goes white as a sheet!
+      tell $n You have managed to convince me that you should have my precious gem!
+      give gem $n
+      mpmset $n quest 0 5 3
+    else
+      mpecho {160}The vampire dies, unconvinced of giving you his precious gem.
+    endif
+  endif
+endif
+~
+|
+#29813
+frail lady old~
+a frail old lady~
+A frail old lady is here, drinking tea.~
+The lady is old. Very old. In fact, she looks so old she could very well be
+dead. Her hair is neatly tied back and her clothes are all prim and proper. You
+could probably drive a truck down some of her wrinkles.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+85 BODY_EYE BODY_ARM 1d200+6000 1d85+37
+150000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 50~
+say Hello dear children. Would you care for some tea?
+mpecho The frail old lady pours you a cup of watery tea.
+~
+|
+#29814
+monster delicious~
+the delicious monster~
+The delicious monster is here, trying to suck nutrients out of the pathetic
+soil.~
+This is a huge plant that seems to be far more alive than it should be. What
+could very well be a mouth appears to be grinning at you. You wonder how hungry
+it is.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+90 BODY_MOUTH|BODY_TENTACLE BODY_MOUTH|BODY_TENTACLE 1d200+7700 1d15+78
+100000 RACE_ELF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29815
+memory childhood~
+a childhood memory~
+A childhood memory is here, trying to be remembered.~
+The childhood memory is a vague wisp of cloud. You start to remember all the
+things of your childhood - some good and some bad.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING
+0 S
+80 BODY_EYE BODY_CLAW 1d100+4950 1d80+33
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+mpecho {160}You remember a bad day in your childhood!
+mpquiet on
+mass 'energy drain'
+mpquiet off
+mpecho That really did HURT!!
+~
+>death_prog 100~
+if quest (0,5,$n) == 26
+  remove toy
+  drop toy
+endif
+~
+|
+#29816
+cook~
+the cook~
+The cook is here, cooking.~
+The cook has a chef's hat, an apron and a blank expression. He seems to know
+what he is doing, however, and the smells emerging from his food are definitely
+appealing.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND
+-1000 S
+80 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_HAND 1d100+4950 1d80+33
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (33)
+  say I love experimenting with various ingredients.
+else
+  if rand (50)
+    say I once made a lotion that seemed a little holy.
+  else
+    say I often mix strange things together to see what I get.
+  endif
+endif
+~
+>death_prog 100~
+mpjunk i29813
+~
+>speech_prog lotion~
+if quest (0,5,$n) == 5
+  mpmset $n quest 0 5 6
+  say "Yes, I know of an anti-evil lotion. I once made some, but I don't have any more and my ingredients ran out.
+endif
+~
+>speech_prog anti-evil~
+if quest (0,5,$n) == 5
+  mpmset $n quest 0 5 6
+  say "Yes, I know of an anti-evil lotion. I once made some, but I don't have any more and my ingredients ran out.
+endif
+~
+>speech_prog ingredients~
+if quest (0,5,$n) == 6
+  mpmset $n quest 0 5 7
+  say Hmmm, let me think ... there was ... HEY! Why should I tell you anything? You've never done anything for me!  You didn't even ask me nicely at all!
+endif
+if quest (0,5,$n) == 10
+  mpmset $n quest 0 5 11
+  say Oh, I forgot. First I will need some bat-blood $n.
+endif
+~
+>speech_prog please~
+if quest (0,5,$n) == 7
+  mpmset $n quest 0 5 8
+  say No.
+  look $n
+  grumble $n
+  say Well, I might consider it if you can help me with something.
+endif
+~
+>speech_prog help~
+if quest (0,5,$n) == 8
+  mpmset $n quest 0 5 9
+  say I was walking through the house and by mistake I walked into the lair of the beasts. In my haste to escape I dropped my magic spoon. If you can get it back for me, I would consider helping you out.
+endif
+~
+>give_prog I29813~
+if quest (0,5,$n) == 9
+  mpmset $n quest 0 5 10
+  mpjunk i29813
+  say Thank you! At last my cooking can once again be as good as it should.
+  ponder 
+  say Now, what did you want again $n?
+else
+  give i29813 $n
+  say I don't need this yet.
+endif
+~
+>give_prog I29812~
+if quest (0,5,$n) == 11
+  mpjunk i29812
+  mpmset $n quest 0 5 13
+  say Good. Now I will need some fine dust. It has to be very finely ground, though.  I'm sure you can find some laying around somewhere.
+else
+  say Thanks, I can always use more blood.
+  mpjunk i29812
+endif
+~
+>give_prog I29811~
+if quest (0,5,$n) == 13
+  mpmset $n quest 0 5 14
+  mpjunk i29811
+  say Well done! Hmmm, let me think now ... Yes. I'll also need a multi-coloured powder.  I know I saw some on the floor somewhere.
+else
+  say Thanks, I can always use more dust!
+  mpjunk i29811
+endif
+~
+>give_prog I29810~
+if quest (0,5,$n) == 14
+  mpmset $n quest 0 5 15
+  say There we go! Now I can go about making the lotion ...
+  mpecho The cook pulls a pot out of one of the cupboards and starts to mix the ingredients together.
+  mpecho {160}There is a blinding flash of light and you are momentarily blinded.
+  mpecho {160}Then you see a multi-hued mixture in the pot.
+  say Damn. I can't get the mixture hot enough.  This is the best I can do for you. It's not finished, but if you can perhaps give it to something really really hot to heat it up enough, it will be finished.  There, I owe you nothing anymore. Go away now and let me cook.
+  mpoload 29814
+  give I29814 $n
+  drop i29814
+  mpjunk all
+else
+  mpjunk i29810
+  say Thanks!  I can always use more powder!
+endif
+~
+|
+#29817
+cook~
+a cook~
+A cook is here, cooking.~
+The cook has a chef's hat, an apron and a blank expression. He seems to know
+what he is doing, however, and the smells emerging from his food are definitely
+appealing.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND
+-1000 S
+80 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_HAND 1d100+4950 1d80+33
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29818
+guest dinner~
+a dinner guest~
+A dinner guest is here, eating dinner.~
+The dinner guest looks as if he has been here, eating dinner, for a looooong
+time. In fact, he has probably been eating here for the past few centuries ...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+70 BODY_MOUTH|BODY_FOOT BODY_HIP|BODY_CLAW 1d100+3450 1d10+55
+52150 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#29819
+painting~
+a painting~
+A painting is here, hanging on the wall.~
+The painting seems vaguely familiar to you. You may have seen it once in an art
+history textbook or something.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+75 BODY_TORSO|BODY_HAND BODY_EYE|BODY_TORSO 1d100+4150 1d75+29
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29820
+ooze grey~
+the grey ooze~
+The grey ooze is here, oozing around.~
+The ooze is a large lump of grey stuff that looks a little like jelly. It
+squelches a lot and seems to have a bad attitude.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-1000 S
+80 BODY_MOUTH BODY_MOUTH|BODY_TORSO 1d100+4950 1d80+33
+88329 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+mpecho The ooze sprays acid on all in the room!!!
+mpquiet on
+mass 'acid blast'
+mpquiet off
+~
+|
+#29821
+bat blood-sucking~
+the blood-sucking bat~
+There is a blood-sucking bat here, hanging upside down from the roof.~
+The bat seems to have teeth that are too sharp and long to belong to any
+peaceful animal. It looks thirsty.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING
+-1000 S
+85 BODY_LEG|BODY_WING BODY_WING|BODY_CLAW 1d200+4900 1d85+37
+100000 RACE_ORC
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 66~
+mpoload 29812
+mpecho Some of the bat's blood oozes out of it's body!
+~
+|
+#29822
+ghost~
+a ghost~
+There is a white ghost floating around here.~
+The ghost is white and has two large black eyes. It looks as if it is made out
+of a cotton sheet.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+80 BODY_TORSO BODY_EYE|BODY_TORSO 1d300+4850 1d80+33
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho The ghost moans hauntingly.
+mpecho {160}You feel scared.
+~
+|
+#29823
+servant~
+the servant~
+There is a servant here, lazing about.~
+The servant is ugly, mean-looking and he is in a bad mood.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+70 BODY_LEG|BODY_FOOT BODY_HAND|BODY_FOOT 1d100+3450 1d15+52
+60000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29824
+prisoner~
+the prisoner~
+There is a prisoner here.~
+The prisoner looks as if she has not been fed in a long time and she is wearing
+only rags for clothes. Despite that, you can are struck by her amazing beauty.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL
+1000 S
+95 BODY_LEG|BODY_HAND BODY_ARM|BODY_FOOT 1d500+9750 1d95+46
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+cast 'cure critical'
+~
+>fight_prog 50~
+cast 'fireball' $n
+~
+>give_prog I29833~
+if inroom ($n) == 29802
+  say Thank you! I can escape now! Here, have this as a small token of my appreciation.
+  mpjunk all
+  mpoload 29842
+  give i29842 $n
+  thank $n
+  mpecho The prisoner quaffs the fly potion, jumps out the window and flies away!
+  mppurge self
+else
+  mpjunk all
+endif
+~
+|
+#29825
+astronomer mad~
+the mad astronomer~
+There is a mad astronomer here, doing mad things.~
+The mad astronomer has hair that has probably not been polished in years, a lab
+coat that has probably not been washed in years and a glazed look in his eyes.
+He looks at you in surprise.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_UNDERSTAND
+-1000 S
+95 BODY_ARM BODY_FOOT 1d200+9900 1d95+46
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 80~
+mpecho The mad astronomer looks up from his work.
+say Please don't disturb me and DON'T TOUCH ANYTHING!
+~
+>fight_prog 15~
+cast 'cause critical' $n
+~
+>speech_prog align~
+if quest (0,5,$n) == 18
+  mpmset $n quest 0 5 19
+  say Yes, I have heard of the bracket and the requirements needed to align it correctly. Why do you want to know?
+endif
+~
+>speech_prog bracket~
+if quest (0,5,$n) == 18
+  mpmset $n quest 0 5 19
+  say Yes, I have heard of the bracket and the requirements needed to align it correctly. Why do you want to know?
+endif
+~
+>speech_prog butler~
+if quest (0,5,$n) == 19
+  mpmset $n quest 0 5 20
+  say Oh, yes! the butler. What about the butler?
+endif
+~
+>speech_prog help~
+if quest (0,5,$n) == 20
+  mpmset $n quest 0 5 21
+  say You wish to help the butler?
+endif
+~
+>speech_prog yes~
+if quest (0,5,$n) == 21
+  mpmset $n quest 0 5 22
+  say Very well. Once, a long time ago, he helped me out. I suppose I could repay his favour. Tell him to align the bracket to the Orion constellation at midnight on the first day of the month of the Old Forces.
+endif
+~
+|
+#29826
+guest~
+a guest~
+There is a guest here.~
+The guest is elegantly dressed, and decidedly not alive. You wonder why he
+doesn't seem to be, well, NOT MOVING, NOT BREATHING, NOT DOING-A-WHOLE-LOT-OF
+THINGS-THAT-ONLY-ALIVE-PEOPLE DO.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+75 BODY_HEAD|BODY_HIP BODY_ARM|BODY_HAND 1d100+4050 1d20+56
+138537 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 12~
+cast 'cure critical'
+~
+|
+#29827
+nightmare~
+the nightmare~
+The nightmare is here, scaring people.~
+The nightmare is a faint wisp of dark cloud. It does not look too pleasant.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING|AFF_STEALTH|AFF_HUNT
+-1000 S
+90 BODY_EYE BODY_EYE|BODY_TORSO 1d200+7700 1d90+41
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpecho {160}You could sleep safely here.
+~
+>rand_prog 100~
+if position ($r) == POS_SLEEPING
+  mpechoat $r {160}You have a bad dream!
+  mpquiet on
+  force $r wake
+  mpkill $r
+  mpquiet off
+endif
+~
+>fight_prog 30~
+if isaffected ($n) == curse
+  mass 'cause critical'
+else
+  mpquiet on
+  cast 'curse' $n
+  mpquiet off
+  mpechoat $n {160}You feel all alone.
+endif
+~
+|
+#29828
+mud addict~
+a mud addict~
+A mud addict is here, playing Storms of Time.~
+The mud addict is in a sad state. His eyes are bloodshot and his hair is not
+brushed. There is a dirty plate next to the computer and an empty glass as well.
+He looks possessed, his eyes transfixed to the screen, not caring about anything
+else in the world.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_CURSE
+0 S
+85 BODY_HEAD BODY_HEAD|BODY_MOUTH|BODY_HAND 1d400+7600 1d10+80
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpecho {160}You hear the clicking of a computer keyboard.
+~
+>fight_prog 10~
+mpecho The mud addict looks insanely mad.
+say How dare you interrupt my game?
+kick 
+~
+|
+#29829
+shadow~
+the shadow~
+There is an indistinct shadow here.~
+The shadow is indistinct and creepy. It makes the hairs on the back of your
+neck stand on end.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+-1000 S
+80 BODY_HEAD|BODY_EYE BODY_MOUTH|BODY_CLAW 1d200+4900 1d80+33
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {160}You feel a chill run down your spine.
+~
+|
+#29830
+doppleganger~
+the doppleganger~
+There is a strangely humanoid creature here.~
+The doppleganger is a shapechanging creature. A little difficult to describe,
+no?
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+85 BODY_HEAD BODY_HEAD|BODY_MOUTH 1d200+6100 1d85+37
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 30~
+if rand (25)
+  mpmset self name chaos
+  mpmset self short Lord Chaos, God of the Realms
+  mpmset self long Lord Chaos, God of the Realms is here.
+else
+  if rand (33)
+    mpmset self name dazed
+    mpmset self short Sir Dazed the supreme monk of the Realms
+    mpmset self long Sir Dazed, the supreme monk of the Realms, is here.
+  else
+    if rand (50)
+      mpmset self name vampire
+      mpmset self short The vampire
+      mpmset self long There is a vampire here.
+    else
+      mpmset self name doppleganger
+      mpmset self short The doppleganger
+      mpmset self long There is a strangely humanoid creature here.
+    endif
+  endif
+endif
+~
+>fight_prog 10~
+kick 
+~
+|
+#29831
+cube gelatinous~
+the gelatinous cube~
+There is a gelatinous cube here.~
+The gelatinous cube is a cube of side approximately one meter. It is splurching
+around, dissolving things. You can vaguely see through it.
+~
+ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+60 BODY_TORSO BODY_MOUTH 1d900+1774 1d10+45
+33293 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+cast 'acid blast' $n
+~
+|
+#29832
+corpse rotting~
+the rotting corpse~
+The rotting corpse is here.~
+Yuck.
+Gross.
+Sick.
+*puke*
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+90 BODY_HEAD|BODY_LEG BODY_LEG|BODY_ARM 1d300+7650 1d10+87
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho Something stinks.
+~
+|
+#29833
+zombie~
+the zombie~
+There is a zombie here.~
+The zombie looks like a fairly normal human, except for its eyes ...
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+85 BODY_HIP BODY_HAND|BODY_FOOT 1d400+6000 1d85+37
+150000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#29834
+mummy~
+the mummy~
+There is a mummy here, trying to remain preserved.~
+The mummy is wrapped up in a seemingly infinitely-long bandage. Whoever wrapped
+him up didn't do too good a job - it is very tatty. There are red eyes glaring
+out at you through the bandages.
+~
+ACT_AGGRESSIVE|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+95 BODY_ARM BODY_EYE|BODY_HAND 1d500+9750 1d95+46
+75000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+cast 'cure light'
+cast 'cause light'
+~
+|
+#29835
+spectre~
+the spectre~
+There is a ghastly apparition here.~
+The spectre looks horrendous. It would be better not to describe it. Hint: use
+your imagination.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+85 BODY_LEG BODY_HEAD|BODY_MOUTH|BODY_EYE 1d300+6050 1d85+37
+50000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {160}You gasp involuntarily.
+~
+>fight_prog 10~
+cast 'energy drain' $n
+~
+|
+#29836
+wraith~
+the wraith~
+There is a wraith here.~
+I don't know what it looks like either, but I know that it's mean.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+85 BODY_ARM BODY_HAND|BODY_FOOT 1d100+6150 1d85+37
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+say Your soul is mine!
+mpecho {160}You feel a tugging at your heart.
+~
+|
+#29837
+lelik necromancer evil~
+Lelik~
+Lelik the evil necromancer is here.~
+Lelik seems to be very evil. He seems to be very old. He seems to be very into
+killing you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-1000 S
+150 BODY_HEAD BODY_FOOT 1d2000+18000 1d150+114
+200000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say What are you doing here?
+mpecho Lelik's eyes blaze furiously.
+if quest (0,5,$n) > 22
+  say You helped the butler to escape from me! You'll pay for this!
+  mpkill $n
+  cast 'energy drain' $n
+endif
+~
+>give_prog I29850~
+if quest (0,5,$n) == 24
+  mpmset self remember $n
+  mpjunk all
+  say NO!!! Where did you get this!!
+  mpmset self quest 4 1 1
+else
+  say Hahaha!  This rune holds no power versus me!
+endif
+~
+>time_prog 23~
+mpquiet on
+cast 'mirror image'
+cast 'stone skin'
+cast shield
+cast armor
+cast 'mage shield'
+mpquiet off
+mpasound You sense a powerful evil force near here.
+~
+>fight_prog 50~
+switch numberrange (1,4)
+  case 1
+    cast 'energy drain'
+    mass 'dispel good'
+    cast 'blindness'
+  case 2
+    mass 'confusion'
+  case 3
+    mass 'mage blast'
+  case 4
+    mass 'vampiric touch'
+endswitch
+~
+>death_prog 100~
+if quest (4,1,$i) == 1
+  if existsroom ($X)
+    mpmset $t quest 0 5 25
+    shout Damn you $T!!!!
+  else
+    shout You do not posses the power to defeat me!
+  endif
+else
+  shout You do not posses the power to defeat me!
+endif
+if rand (10)
+  mpecho As Lelik dies, he pulls in all his life force for a final devastating strike!
+  mpdamage all 1000 2000 anti-matter blast
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#29800
+book~
+the book~
+A book is lying here.~
+The book is small and light. It is in very good condition.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 134 134 134 0 0 0 0
+5 1000 46
+S 1 'heal'
+S 2 'heal'
+S 3 'heal'
+#29801
+key small~
+a small key~
+A small key is lying here.~
+This is a small metal key.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVIS
+ITEM_WEAR_TAKE
+47 0 0 0 0 0 0 0
+1 10 1
+#29802
+plain silver band~
+a plain silver band~
+A plain silver band is floating here.~
+The band is made of hammered silver and there is nothing noticeable about it,
+besides the fact that it floats when noone is holding it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+10 1500000 60
+A APPLY_MANA 100 0
+A APPLY_DEX 3 0
+#29806
+key ugly~
+an ugly key~
+An ugly key is lying here.~
+This key is really ugly.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+39 0 0 0 0 0 0 0
+1 10 1
+#29807
+knife rusty~
+a rusty knife~
+A rusty knife is lying here.~
+This knife is sharp and very rusty.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_DARK|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 6 10 WEAPON_STAB 0 0 0 0
+20 50000 65
+E
+knife rusty~
+There seems to be something special about this knife.
+~
+#29808
+gem glowing~
+a glowing gem~
+A glowing gem is lying here.~
+The gem is glowing brightly, pulsating non-stop. It seems to have a life of
+its own.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 100 1
+#29809
+persuader~
+the persuader~
+The persuader is lying here.~
+This item is beyond all description. It fills your mind with images of horror
+and pain. If someone were to use it on you, you would be persuaded to do
+ANYTHING!  Perhaps you can use it to 'persuade' someone as well.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_DARK|ITEM_FLAG_EVIL
+ITEM_WEAR_TAKE
+1 1 -1 0 0 0 0 0
+1 10 1
+P 1
+TRIG_UNKNOWN 100 persuade
+OPROG_IF OIF_USER_ROOM_NUM = 29809 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset vampire# quest 0 1 1 
+mpechoaround $ The vampire looks at $ strangely. 
+mpechoat $ {160}The vampire looks at you strangely.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Hmmm, what should you persuade?~
+#29810
+powder coloured~
+some coloured powder~
+Some coloured powder is lying here in a pile.~
+The powder has been finely ground and has a beautiful colour to it. You wonder
+what it could be used for.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29811
+dust fine~
+some fine dust~
+Some fine dust is lying here.~
+The dust has probably been lying here for many years. It looks remarkably pure
+and not at all gritty. It would probably make a good paste.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29812
+blood bat~
+some bat-blood~
+There is some bat-blood lying here.~
+The blood is fairly thick and feels slightly slimy. It seems to glow slightly.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29813
+spoon magic~
+a magic spoon~
+A magic spoon is lying here.~
+The spoon seems to be magic. If you were to cook with it, you would most likely
+achieve the most remarkable results.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29814
+mixture multi-hued~
+a multi-hued mixture~
+There is a multi-hued mixture lying here.~
+The mixture seems to want to come alive. Its colours change continuously and
+it sheds a faint light.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29815
+lotion anti-evil~
+the anti-evil lotion~
+The anti-evil lotion is lying here.~
+The lotion radiates an awesome power. Used correctly, it could most possibly
+be used to accomplish just about anything.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29816
+bracket~
+a bracket~
+A bracket is lying here.~
+The bracket seems to be made to hold a small roundish object of some sort.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#29817
+family heirloom~
+the butler's family heirloom~
+The butler's family heirloom is lying here.~
+This heirloom looks priceless. It is a perfectly made pendant on a chain that
+takes your breath away. Wow.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+10 0 0 0 0 0 0 0
+10 1000000 94
+A APPLY_HIT 50 0
+A APPLY_MANA 180 0
+#29818
+cloak vampire~
+the vampire's cloak~
+The vampire's cloak is lying here.~
+This cloak is thick, heavy, warm and beautiful. You feel an urge to put it on.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+9 0 0 0 0 0 0 0
+20 100000 30
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+#29819
+teacup cup~
+a teacup~
+A teacup is lying here.~
+The teacup looks old, fragile and tremendously kitsch.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 3 3 WEAPON_POUND 0 0 0 0
+5 10000 30
+A APPLY_STR 1 0
+#29820
+meat tenderizer~
+a meat tenderizer~
+A meat tenderizer is lying here.~
+The meat tenderizer is heavy and mean. There are bits of bone and meat stuck to
+it from all the hammering it has been subjected to.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 2 18 WEAPON_CRUSH 0 0 0 0
+20 1000 40
+#29821
+bellhammer hammer~
+the bellhammer~
+The bellhammer is here.~
+The bellhammer is very ornate and very beautiful.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 10 1
+P 1
+TRIG_UNKNOWN 100 ring
+OPROG_IF OIF_USER_ROOM_NUM = 29865 2 4
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset birdquestmob quest 0 1 1 
+mpecho The bell rings and vanishes into thin air! 
+mpjunk i29821~
+P 4
+TRIG_VOID
+OPROG_ECHO
+Nothing happens.~
+#29823
+helmet impenetrable~
+the impenetrable helmet~
+There is an impenetrable helmet here.~
+The helmet is highly polished and very slippery. It looks rather thick and
+solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+20 0 0 0 0 0 0 0
+50 1000000 94
+#29824
+sleeves impenetrable~
+the impenetrable sleeves~
+There is a pair of impenetrable sleeves here.~
+The sleeves are highly polished and very slippery. They look rather thick
+and solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+20 0 0 0 0 0 0 0
+50 1000000 94
+#29825
+leggings impenetrable~
+the impenetrable leggings~
+There is a pair of impenetrable leggings here.~
+The leggings are highly polished and very slippery. They look rather thick
+and solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+20 0 0 0 0 0 0 0
+50 1000000 94
+#29827
+belt impenetrable~
+the impenetrable belt~
+There is an impenetrable belt here.~
+The belt is highly polished and very slippery. It looks rather thick and
+solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+22 0 0 0 0 0 0 0
+50 1000000 94
+A APPLY_DEX 2 0
+A APPLY_HIT 50 0
+A APPLY_HITROLL -15 0
+#29828
+cape impenetrable~
+the impenetrable cape~
+There is an impenetrable cape here.~
+The cape shines brightly and is very slippery. It looks rather thick and
+solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+22 0 0 0 0 0 0 0
+50 1000000 94
+A APPLY_DEX 2 0
+A APPLY_HIT 50 0
+A APPLY_HITROLL -15 0
+#29830
+bracer impenetrable~
+the impenetrable bracer~
+There is an impenetrable bracer here.~
+The bracer is highly polished and very slippery. It looks rather thick and
+solid.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+22 0 0 0 0 0 0 0
+50 1000000 94
+A APPLY_DEX 2 0
+A APPLY_HIT 50 0
+A APPLY_HITROLL -15 0
+#29832
+ring spiral~
+the spiral ring~
+There is a spiral-shaped ring here.~
+The ring is a spiral, or is it? The more you look at it, the more confused you
+become...
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+3 100 50
+A APPLY_STR 3 0
+#29833
+potion purple~
+a fast flying potion~
+There is a purple potion here.~
+The potion is bubbling and swirling and doing other things a potion ought to.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+30 113 132 0 0 0 0 0
+2 100000 55
+S 1 'fly'
+S 2 'haste'
+S 3 '-1 slot'
+#29834
+club wooden~
+a wooden club~
+There is a wooden club lying here.~
+The club is blunt, wooden and unfriendly.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 3 8 WEAPON_CRUSH 0 0 0 0
+9 1000 29
+A APPLY_INT 1 0
+#29835
+vine twisted sleeves~
+some sleeves of twisted vine~
+There are some sleeved made of twisted vine lying here.~
+The sleeves are a knotted bunch of vines, tangled and twisted into a pair of
+sleeves that can be worn. They are a sort of brown-green.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+11 15000 35
+A APPLY_HITROLL 6 0
+#29836
+toy favourite childhood~
+your favourite childhood toy~
+Your favourite childhood toy is lying here.~
+This toy brings back tears to your eyes. You recall the many hours you shared
+together when you were young. You remember the first time you played together.
+You recall how many times you found comfort in each other. *sigh*
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+600 CONT_CLOSEABLE|CONT_CLOSED -1 0 0 0 0 0
+10 10 45
+P 1
+TRIG_TICK 5
+OPROG_ECHO
+You hold your favourite toy close. You're NEVER going to lose it again.~
+P 2
+TRIG_HIT 10
+OPROG_APPLY OAPPLY_HIT 20
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your toy gives you comfort in your pain and you feel better!~
+#29837
+nostalgia~
+some nostalgia~
+There is some nostalgia lying here.~
+The nostalgia is a vapourish ball of many colours.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+30 134 134 134 0 0 0 0
+5 20000 37
+S 1 'heal'
+S 2 'heal'
+S 3 'heal'
+#29838
+hat chef~
+the chef's hat~
+There is a chef's hat lying here.~
+The hat is white, clean and fit only to be worn by cooks and dorks.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+5 12345 44
+A APPLY_SAVING_SPELL -5 0
+#29839
+flake paint~
+a flake of paint~
+There is a flake of paint lying here on the ground.~
+The flake of paint is hard and solid. It has part of a painting on it, but you
+can't quite make out what the painting is of.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+13 0 0 0 0 0 0 0
+10 50000 50
+A APPLY_CON 2 0
+A APPLY_STR 2 0
+#29840
+bat claw~
+a bat's claw~
+A bat's claw is lying here.~
+The claw is tightly clenched into a small circlet. It is scaly and a little
+disgusting. Yuck.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+9 0 0 0 0 0 0 0
+7 60000 30
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 3 0
+A APPLY_HIT -25 0
+#29841
+sheet~
+a sheet~
+There is a sheet lying here.~
+The sheet is white and clean and has two holes cut in it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+13 0 0 0 0 0 0 0
+5 10000 30
+A APPLY_HIT -40 0
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#29842
+spirit bracer~
+a spirit bracer~
+There is a spirit bracer floating here.~
+The bracer is sort of insubstantial. Now where have you seen one of these
+before?
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+14 0 0 0 0 0 0 0
+10 10000 45
+A APPLY_HIT -25 0
+A APPLY_DEX 2 0
+#29843
+pen~
+the astronomer's pen~
+The astronomer's pen is lying here.~
+The pen is chewed, much used and nearly empty of ink.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+13 0 0 0 0 0 0 0
+1 10 30
+A APPLY_INT 2 0
+A APPLY_DAMROLL -5 0
+#29844
+scarlet robe~
+a scarlet robe~
+There is a scarlet robe lying here.~
+The robe is thick and luxurious and heavy and warm.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+13 0 0 0 0 0 0 0
+50 100000 30
+A APPLY_DAMROLL -4 0
+#29845
+disk stiffy~
+a stiffy disk~
+There is a stiffy disk lying here.~
+The disk is square, about nine centimeters to a side and it is black. It has a
+silver sliding cover at one end and it seems utterly useless.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+13 0 0 0 0 0 0 0
+1 10 45
+#29847
+bandage~
+a bandage~
+There is a bandage lying here.~
+The bandage is surprisingly clean and wholesome-looking.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+14 0 0 0 0 0 0 0
+4 100 51
+P 1
+TRIG_UNKNOWN 100 wrap
+OPROG_OBJECT_QUEST_IF 0 1 = 0 2 0
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 0
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_POSITION ! POS_FIGHTING 4 0
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_HITPT < 80 5 0
+P 5
+TRIG_VOID
+OPROG_ECHO
+You wrap the bandage around your wounds and they heal a little.~
+P 5
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 5
+TRIG_VOID
+OPROG_QUEST_SET 0 3 1
+P 6
+TRIG_TICK 5
+OPROG_QUEST_SET 0 1 0
+#29848
+necklace jewelled~
+a jewelled necklace~
+There is a jewelled necklace lying here.~
+The necklace is made of gold and is studded with gems all over.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+0 0 0 0 0 0 0 0
+20 1000000 5
+#29849
+bell~
+the bell~
+The bell is here.~
+The bell is big, bad and ugly.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM
+0
+0 0 0 0 0 0 0 0
+4000 10 1
+#29850
+rune~
+the rune~
+A rune has been dropped on the floor.~
+This rune has the power to destroy evil.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 95
+#0
+
+
+#ROOMS
+#29800
+The bell tower.~
+This room has a magnificent view of the surrounding countryside. There is a
+large bell hanging from the roof and the walls are open to the outside. A
+walkway runs around the bell on the inside of a small wall, presumably there to
+prevent one from falling down out of the tower.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+The steps lead down.~
+~
+0 -1 29804
+E
+bell~
+The bell is made out of brass, as bells are prone to be made out of. You
+suspect that it was once in use on a daily basis, but now it seems to be more
+or less left on its own.
+~
+#29801
+The attic.~
+Dusty would be a rather severe understatement if used to describe this room.
+There is dust lying everywhere - on the wooden floor, on the various chests in
+the room and also on you. There are a few photographs lying around. You cough.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The attic continues south.~
+~
+0 -1 29804
+DDIR_DOWN
+You see the landing down there.~
+~
+0 -1 29811
+E
+chest chests~
+The chests are all tightly locked up with large padlocks. They are sturdy and
+strong and probably contain a whole host of sickening family memories.
+~
+#29802
+The top of the cell.~
+This part of the cell has a plain wooden bed with dirty linen. There is a
+small basin in the one corner and a window in the wall. Though it is not quite
+alcatraz, it would not be overly pleasant to spend any amount of time in this
+place.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The stairs lead down.~
+~
+0 -1 29813
+E
+window~
+The view out of the window is the one saving grace of the cell. It truly is one
+worth viewing. However, one can only spend so much time staring out a window
+without going balmy.
+~
+E
+bed~
+The bed looks old, cold and uncomfortable. You suspect that there is a
+profusion of lice in the bed.
+~
+#29803
+The attic.~
+The attic here is dusty. It has probably been a while since anyone has been
+here. There are various family-type things lying around: there is a teddybear
+and a doll's pram. You wonder why people bother keeping all their old stuff.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The attic continues north.~
+~
+0 -1 29804
+E
+pram~
+The pram is a toy for a little girl. You wonder where she could be.
+~
+E
+bear teddy~
+This teddybear probably once made a little child very happy. You doubt,
+however, whether this person is now younger than about eighty. It should be
+donated to a charity organisation.
+~
+#29804
+The attic.~
+The attic is covered with dust. There are various items of nostalgic value
+lying around. Somebody has a lot of fond memories lying around here. You wish
+that someone would come up here once in a while to clean out all the dust.
+There are stairs leading up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The attic continues north.~
+~
+0 -1 29801
+DDIR_EAST
+The attic continues east.~
+~
+0 -1 29805
+DDIR_SOUTH
+The attic continues south.~
+~
+0 -1 29807
+DDIR_WEST
+The attic continues west.~
+~
+0 -1 29803
+DDIR_UP
+The stairs lead up.~
+~
+0 -1 29800
+E
+dust~
+It's dust.
+~
+#29805
+The attic.~
+The attic here is no less dusty than the rest of the attic. There aren't even
+mouse tracks in the film that covers the floor. An old bicycle stands to one
+side, totally forgotten and a diary of some sort is lying in a corner.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The attic continues west.~
+~
+0 -1 29804
+E
+diary~
+This diary probably contains the deepest secrets of some little girl long dead.
+There is a rather pathetic lock keeping it shut - you could most likely pick it
+wearing boxing gloves.
+~
+E
+bicycle cycle bike~
+The bicycle is a small one, meant to be used by a young child. It was, from the
+way it looks, passed down from kid to kid rather more than a few times. You
+doubt whether it is still operational.
+~
+#29806
+Servant quarters.~
+You are in a room that is most definitely never going to win any prizes for
+being luxurious. Functional - yes, but luxurious - never. There is a bed to one
+side, a wardrobe and a bedside table. The stone floor looks uncomfortably cold.
+There is a spiral stairway that leads down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The stairway leads down.~
+~
+0 -1 29820
+E
+table bedside~
+The bedside table has an assortment of odds-and-ends lying on it: a lamp, a box
+of tissues, a book and a computer disk.
+~
+E
+bed~
+The bed is a bed. It is used for sleeping on.
+~
+#29807
+The attic.~
+The attic here is dusty, deserted and depressing. A few lifetimes' worth of
+useless items are contained in this room. Old books, old photographs, old
+postcards - just about anything old, actually. What a waste of space.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The attic continues north.~
+~
+0 -1 29804
+#29808
+The observatory.~
+This room has a transparent roof and is filled with intricate-looking pieces
+of apparatus. The walls are covered with charts of the heavens. In the middle
+of the room is a HUGE telescope.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The stairs go back down.~
+~
+0 -1 29830
+E
+telescope~
+The telescope is big. You refrain from touching it, as there would be LOTS of
+trouble if it got broken. You can probably not afford to replace it.
+~
+#29809
+A bedroom.~
+This bedroom looks used. There is a bed with a bedside table next to it. The
+bed is neatly made - with a black bedspread. The carpet is thick and soft.
+There is a cupboard in the corner. The walls are all panelled in a rich wood.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+The spiral staircase leads down to the study.~
+~
+0 -1 29833
+E
+bedside table~
+The bedside table looks as if its sole purpose in life is to be hopelessly
+cluttered. You have an overwhelming urge to sweep it clean.
+~
+#29810
+A bedroom.~
+This looks more or less like a typical guest bedroom. It is neat, tidy and
+clean. The bed has fresh linen and the bedside table is clear. You have an
+overwhelming urge to move in and stay for a few weeks.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a landing to the east.~
+~
+0 -1 29811
+E
+bed~
+The bed is neat. It looks comfortable and functional but not too lavish. Guest
+beds rarely are.
+~
+#29811
+A landing.~
+You are standing on a landing - an open area at the top of the staircase. It is
+probably a rather nice place to stand around and chat in, but there are more
+important things you have to do than sit around all day and chat. There is a
+spiral staircase that runs up and down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a bedroom to the east.~
+~
+0 -1 29812
+DDIR_WEST
+There is a bedroom to the west.~
+~
+0 -1 29810
+DDIR_UP
+The staircase leads up.~
+~
+0 -1 29801
+DDIR_DOWN
+The staircase leads down.~
+~
+0 -1 29836
+#29812
+A bedroom.~
+This is another guest bedroom in the house. You wonder who on earth would want
+to be a guest in a house like this. There is a bed, as is to be expected, and
+next to it a bedside table. There is a wardrobe against one wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+There is a landing to the west.~
+~
+0 -1 29811
+E
+table bedside~
+There is a card on the bedside table. It has "dial 1-800-cum-suck for a good
+time" printed on it. You shudder.
+~
+E
+bed~
+This is a waterbed. It has water inside it and it goes squish, squish and
+squish. You fail to see the point of the bed. It must be very uncomfortable.
+~
+#29813
+A cell.~
+You are in a prison cell that is totally bare. There is not much else to
+describe here, so it won't be described. The walls are bare, the floor is bare
+and even the roof is bare. There is a stairway leading up and the prison door
+to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The prison door is east.~
+prison door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 29806 29814
+DDIR_UP
+The stairway leads up.~
+~
+0 -1 29802
+E
+prison door~
+The prison door is sturdy, strong and of the variety that doesn't open without
+the correct key. It was made to be closed and locked.
+~
+#29814
+The bedroom.~
+At last! A room that is not creepy, not smelly, not damp and not dirty. In
+fact, it is a very nice bedroom. There is a comfortable bed and various other
+items of furniture. A thick carpet covers the floor and there is a roaring fire
+in the fireplace. There is a door to the east and a very heavy-looking door to
+the west. A stairway leads down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a passageway to the east.~
+~
+0 -1 29815
+DDIR_WEST
+There is a heavy door to the west.~
+heavy door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 29806 29813
+DDIR_DOWN
+The stairs lead down.~
+~
+0 -1 29838
+#29815
+A passageway.~
+The passageway here is a fairly plain passageway that connects two rooms. Other
+than that, it serves very little purpose. It is not a nice passageway - there
+is a nasty draft wafting through the room and it is has a rather unfriendly
+colour - dull, uninviting grey. The passageway comes to an end here at a door
+on the west end. You can smell something extremely unpleasant.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a room to the east.~
+~
+0 -1 29816
+DDIR_WEST
+There is a room to the west.~
+~
+0 -1 29814
+#29816
+The lair of the beasts.~
+OOPS! You get a definite feeling that you should NOT have come into this room.
+It is in a severe state of disrepair and it does not smell to great either. All
+the furniture has been ripped to shreds and there are large quantities of
+animal hair on the floor.
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_SOUTH
+The lair carries on to the south.~
+~
+0 -1 29821
+DDIR_WEST
+There is a passageway to the west.~
+~
+0 -1 29815
+E
+hair~
+It stinks, it's dirty and it's ugly.
+~
+#29817
+A passageway.~
+You are in a passageway connecting two rooms together. It is more or less
+totally devoid of decoration, having only bleak walls made out of drab grey
+rock. The floor is equally dreary, as is the ceiling. It is rather cold.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a bedroom to the east.~
+~
+0 -1 29818
+DDIR_SOUTH
+The passageway continues south.~
+~
+0 -1 29823
+#29818
+A bedroom.~
+The bedroom you are in is a neat and tidy one that is typical of those used to
+house guests. There is fresh linen on the bed and a clean towel folded at the
+base of the bed. The wardrobe is empty and smells faintly of lavender.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+There is a passageway to the west.~
+~
+0 -1 29817
+E
+wardrobe~
+The wardrobe is rather a nice one, actually. It has ample shelves and hanging
+space, and a decent mirror hangs on the inside of the one door.
+~
+#29819
+The pantry.~
+This room contains a whole lot of food that is presumably prepared in the
+kitchen below. There are cupboards and shelves all around, groaning under the
+weight of the food. A stairway leads down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The pantry continues to the west.~
+~
+0 -1 29820
+DDIR_DOWN
+The stairs lead down.~
+~
+0 -1 29844
+E
+chocolate~
+Yummy!
+~
+E
+shelf shelves~
+The shelves are fairly standard as shelves go. They are attached to the wall
+and contain a wide variety of foodstuffs, from rice to canned beans to bread to
+chocolate.
+~
+#29820
+The pantry.~
+This part of the pantry is much like any other pantry, except for the contents
+of the shelves. Dismembered body parts are contained in glass jars and you feel
+a little uneasy about all the body-less eyes that seem to be staring out at
+you. There is a large pile of mouldy cheese to the one side and a small forest
+of little mushrooms growing in a dark corner. Your appetite vanishes. There is
+yet another spiral staircase here, leading up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The pantry continues west.~
+~
+0 -1 29819
+DDIR_UP
+The stairway leads up.~
+~
+0 -1 29806
+E
+jar jars glass~
+The jars are made of glass and have their lids screwed on. Various body parts
+fill the jars - eyes, fingers, a lung - preserved in formaldehyde. You shiver
+uncontrollably.
+~
+#29821
+The lair of the beasts.~
+OOPS! I'd say it was a big mistake coming into this room. The hair all over the
+floor, the wrecked furniture and the awful stink all combine to give me that
+opinion. What have you just gotten yourself into?
+~
+0 ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+The lair carries on to the north.~
+~
+0 -1 29816
+DDIR_SOUTH
+There is a landing to the south.~
+~
+0 -1 29826
+#29822
+A bedroom.~
+This bedroom is very tastefully decorated indeed. There are valuable-looking
+portraits on the walls and a thick carpet covers the floor. The bed is a huge
+four-poster bed, with thick blankets and fat pillows. A large dressing table is
+to the one side and the wardrobe would best be described as massive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a passageway to the east.~
+~
+0 -1 29823
+E
+bed~
+Most people only ever dream of sleeping in a bed like this one. It is firm, but
+not hard; it has ample blankets, but not too many. The pillows don't cause
+cramp in one's neck and there is enough space on the mattress not to have to
+curl into a ball - even for the biggest of adventurers.
+~
+#29823
+A passageway.~
+Why don't you just use your imagination for this one: it's a passageway - what
+more would you like me to say about it?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The passageway continues north.~
+~
+0 -1 29817
+DDIR_SOUTH
+There is a landing to the south.~
+~
+0 -1 29827
+DDIR_WEST
+There is a bedroom to the west.~
+~
+0 -1 29822
+#29824
+The library.~
+The library is lined with shelves which contain ... BOOKS! Somehow that
+doesn't surprise you too much. It is quiet in here - very quiet. The
+librarian would be pleased.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The library continues east.~
+~
+0 -1 29825
+DDIR_SOUTH
+The library continues south.~
+~
+0 -1 29830
+DDIR_DOWN
+The stairway goes down.~
+~
+0 -1 29848
+E
+book books~
+The books are all large, impressive and strangely compelling. However, you
+don't feel like looking like a nerd, so you repress the urge to start paging
+through them.
+~
+E
+bookshelf shelf shelves~
+The bookshelf is doing its job, keeping the books neatly placed. It looks as
+if it is doing its job very well. You can't help but feel impressed by the
+shelf's dedication.
+~
+#29825
+The library.~
+This part of the library contains a large desk and a comfortable-looking
+chair, presumably for the reading of books. It is, after all, a library.
+More books line the shelves - where did they all come from?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The library continues south.~
+~
+0 -1 29831
+DDIR_WEST
+The library continues west.~
+~
+0 -1 29824
+E
+chair~
+The chair looks comfortable and you feel an overwhelming desire to sit in it.
+But alas! You have mobs to kill, maidens to rescue and Agnus to swear at.
+Maybe some other time ...
+~
+E
+desk~
+The desk is large and looks awfully heavy. You wonder how on earth the
+furnishers managed to carry it up the stairs.
+~
+#29826
+A landing.~
+This a VERY impressive landing. Well, it used to be a very impressive landing.
+Now however, it is in a sad state of neglect. The wooden railings seem to have
+been almost totally rotten. The thick carpet on the floor is invisible under
+all the dirt and grime that covers it. The once-majestic stairway leads down.
+A tear rolls down your eye.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a rooom to the north.~
+~
+0 -1 29821
+DDIR_DOWN
+The once-majestic stairwell leads down.~
+~
+0 -1 29850
+E
+railing wooden wood~
+The wood on the railing is so dead and rotten it actually seems alive.
+~
+#29827
+A landing.~
+This landing is of the large variety. What a waste of open space. Imagine it
+were a tennis court, or an indoor swimming pool, or a home theatre ... HEY!
+this is a mud, not an interior decorator's chat-site!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a passageway to the north.~
+~
+0 -1 29823
+DDIR_DOWN
+The stairway leads down.~
+~
+0 -1 29852
+#29828
+The study.~
+This part of the study contains a huge mahogany desk with important-looking
+papers and notes on it. There are more charts on the walls and also a poster
+of Cindy Crawford. She looks slightly out of place.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The study continues east.~
+~
+0 -1 29829
+DDIR_SOUTH
+The study continues south.~
+~
+0 -1 29832
+E
+cindy crawford~
+The poster of Cindy Crawford adds a certain ambience to the room. Could be a
+slight distraction while trying to figure out tricky formulae, however.
+~
+#29829
+The study.~
+This is a room of serious intellect. There are various charts on the walls -
+they seem unintelligible. The wooden floor is polished and smooth. There is
+a chessboard on table.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The study continues south.~
+~
+0 -1 29833
+DDIR_WEST
+The study continues west.~
+~
+0 -1 29828
+DDIR_DOWN
+The spiral staircase spirals down.~
+~
+0 -1 29854
+E
+chess board chessboard~
+The chessboard is made out of marble and the pieces have all been carved to
+perfection - if hideously maimed figurines can be a symbol of perfection.
+~
+#29830
+The library.~
+Books, books and more books. You wonder who has the time to read them all and
+can't help but feel that being a hardy adventurer is far preferable to
+slogging through all these books.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The library continues to the north.~
+~
+0 -1 29824
+DDIR_EAST
+The library continues to the east.~
+~
+0 -1 29831
+DDIR_UP
+There are stairs leading up.~
+~
+0 -1 29808
+E
+stairs stairway~
+The stairs are, steep, steppy and stupid.
+~
+#29831
+The library.~
+The library has books in it (now isn't that a silly sort of thing to point
+out?). Also, it has shelves along the walls and has a thick carpet.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The library continues north.~
+~
+0 -1 29825
+DDIR_WEST
+The library continues west.~
+~
+0 -1 29830
+E
+carpet~
+The carpet is lush, green and is not a maze. It seems soft enough to sleep on
+with a relative degree of comfort.
+~
+#29832
+The study.~
+This corner of the study has a desk with a computer on it. A comfy swivel
+chair has been neatly pushed under the desk. There are charts on the walls
+(but no poster of Cindy).
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The study continues north.~
+~
+0 -1 29828
+DDIR_EAST
+The study continues east.~
+~
+0 -1 29833
+#29833
+The study.~
+The study here has a large easy chair. It looks fairly well-worn, presumably
+from long periods of recuperation required after intense calculus
+calculations. There is another spiral staircase going up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The study continues north.~
+~
+0 -1 29829
+DDIR_WEST
+The study continues west.~
+~
+0 -1 29832
+DDIR_UP
+The spiral staircase spirals up.~
+~
+0 -1 29809
+#29834
+The cupboard.~
+The cupboard is messy. You battle to wade through a pile of smelly socks, dirty
+jock-straps and soiled clothing. Really, one would think that the owner's
+mother would have instilled a sense of tidiness into him. You have an intense
+desire to leave as rapidly as possible.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+The cupboard door is south.~
+cupboard door~
+EX_ISDOOR|EX_CLOSED|EX_PICKPROOF -1 29836
+DDIR_DOWN
+There is a basement below you.~
+~
+0 -1 29866
+E
+trap trapdoor~
+The trapdoor is partially covered with clothing - dirty clothing. You're going
+to have to touch some of the clothing to open it.
+~
+#29835
+The side of the diningroom.~
+This end of the diningroom is dominated by a large sideboard. You presume that
+there is a large variety of crockery contained inside it and your fingers start
+to itch at the thought of the silver cutlery you just know is in the drawers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The diningroom continues east.~
+~
+0 -1 29836
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29840
+E
+side sideboard~
+The sideboard presumably contains the various necessary items that eating
+requires - crockery, cutlery and napkins. It is a rather tasteless item of
+furniture; in fact, "hideous" would be a fair description thereof.
+~
+#29836
+The north side of the diningroom.~
+The diningroom is empty here, apart from a rather frayed carpet and a rusty
+metal spiral staircase. The same dank odour that permeates the whole house is
+here, and you wish you could get away from it.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a cupboard to the north.~
+cupboard door~
+EX_ISDOOR|EX_CLOSED|EX_PICKPROOF -1 29834
+DDIR_EAST
+The diningroom continues east.~
+~
+0 -1 29837
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29841
+DDIR_WEST
+The diningroom continues west.~
+~
+0 -1 29835
+DDIR_UP
+There is a landing above you.~
+~
+0 -1 29811
+E
+cupboard door~
+The cupboard is sturdy and is surprisingly pleasant to look at. You wonder why
+some antique dealer has not noticed it here before.
+~
+E
+stair staircase spiral~
+You doubt the structural integrity of this staircase. It looks as if only some
+supreme act of will is preventing it from falling.
+~
+E
+carpet~
+The carpet looks rather sorry for itself. You seriously doubt whether it has
+ever heard the words "vacuum" and "cleaner" in the same sentence.
+~
+#29837
+A damaged section of the diningroom.~
+This part of the diningroom is filled with rubble and dirt. It seems that part
+of the wall collapsed in at some stage. Perhaps it was an explosion of some
+sort, as there appear to be a few rather severe scorch marks on the remains of
+the wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29842
+DDIR_WEST
+The diningroom continues west.~
+~
+0 -1 29836
+E
+rubble dirt~
+You see nothing special about a pile of rubble (I mean, what did you seriously
+expect to see ... The pile of rubble seems to be a pile of gold! ... Give me a
+break).
+~
+#29838
+The end of the passageway.~
+The passageway comes to an end here, with a stairway leading up. The walls are
+slightly cleaner than the rest of the house and the room itself is a little
+less foreboding.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The passageway leads east.~
+~
+0 -1 29839
+DDIR_UP
+The stairway leads up.~
+~
+0 -1 29814
+E
+stair stairs stairway~
+The stairway is of the rusted metal spiral variety. It has steps, they go up
+and they spiral.
+~
+#29839
+A passageway.~
+You are in a damp passageway that leads east-west. There is a dim light in the
+ceiling that totally fails to brighten the room. A rat scurries away and
+cockroaches are scuttling about on the floor. The walls are a rather depressing
+grey and they are formed out of large stones. I'm sure you get the picture.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The diningroom is east.~
+~
+0 -1 29840
+DDIR_WEST
+The passageway continues west.~
+~
+0 -1 29838
+#29840
+The side of the diningroom.~
+There are paintings hanging on the wall here. Other than that, there is
+nothing of too much interest in the room. That is most probably due to a lack
+of ideas on the programmer's part. The room stinks. So does the description,
+actually.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The diningroom continues to the north.~
+~
+0 -1 29835
+DDIR_EAST
+The diningroom continues east.~
+~
+0 -1 29841
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29845
+DDIR_WEST
+There is a corridor to the west.~
+~
+0 -1 29839
+E
+painting paintings~
+The paintings are of the valuable-looking variety. There is a little plaque
+under each of them. Looking at one, you see it says "The Moaning Loser".
+~
+#29841
+The diningroom.~
+Massive chandeliers hang from the ceiling here. It is hard to believe that
+they ever shed light at all. The table has non-edible food on it; something,
+however, has been eating some of it.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a room to the north.~
+~
+0 -1 29836
+DDIR_EAST
+The diningroom continues east.~
+~
+0 -1 29842
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29846
+DDIR_WEST
+There is a room to the west.~
+~
+0 -1 29840
+#29842
+The diningroom.~
+The diningroom looks sad, as if it remembers better days gone by. At the same
+time, it looks just a little unsettling. You repress a shudder.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a room to the north.~
+~
+0 -1 29837
+DDIR_EAST
+The kitchen is east.~
+~
+0 -1 29843
+DDIR_SOUTH
+The diningroom continues south.~
+~
+0 -1 29847
+DDIR_WEST
+The diningroom continues west.~
+~
+0 -1 29841
+#29843
+The kitchen.~
+This is a kitchen. Not a very clean one; not one that looks as if it serves a
+purpose, but a kitchen nonetheless. It is dirty, dark and cockroach-infested.
+The cupboards all have loose doors that seem to swing constantly.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The kitchen continues east.~
+~
+0 -1 29844
+DDIR_WEST
+The diningroom is west.~
+~
+0 -1 29842
+E
+cupboard door~
+The cupboards look dark and uninviting. It would not be a good idea to store
+food inside them.
+~
+#29844
+The kitchen.~
+This section of the kitchen looks fairly well-used, if not clean. There is a
+large pile of unwashed dishes next to the wash-basin and the floor could do
+with a mop. A staircase leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The kitchen continues west.~
+~
+0 -1 29843
+DDIR_UP
+The staircase leads up.~
+~
+0 -1 29819
+E
+stair staircase stairs~
+The staircase is just an ordinary staircase.
+~
+E
+dishes~
+The dishes seem to have been accumulating for years. You very much doubt that
+the encrusted grime can be washed off.
+~
+#29845
+The side of the diningroom.~
+This part of the diningroom is empty, except for the paintings which decorate
+the walls. They seem to be very old and valuable. The room is damp (now isn't
+that a surprise)?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a room to the north.~
+~
+0 -1 29840
+DDIR_EAST
+The diningroom is to the east.~
+~
+0 -1 29846
+E
+painting paintings~
+The paintings look vaguely familiar. Dimly you recall school outings to art
+galleries and quickly look away. You don't feel like being cultural right
+now.
+~
+#29846
+The diningroom.~
+This is a large dining room with a huge table. The table looks ready to fall
+apart. There is the same dampness that pervades the hall here. There are
+small insects scurrying around on the floor. Not the most appetising of
+venues for a meal.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The diningroom continues north.~
+~
+0 -1 29841
+DDIR_EAST
+The diningroom continues east.~
+~
+0 -1 29847
+DDIR_SOUTH
+The hall is to the south.~
+~
+0 -1 29851
+DDIR_WEST
+There is a room to the west.~
+~
+0 -1 29845
+#29847
+The diningroom.~
+The diningroom here has a very dirty floor - muddy and rotten. The table has
+a variety of food on it, although whether or not it can still be called food
+is highly debatable. Most of it looks just a little bit past the sell-by date.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The diningroom continues north.~
+~
+0 -1 29842
+DDIR_WEST
+The diningroom continues west.~
+~
+0 -1 29846
+#29848
+The base of the tower.~
+There is a stairway leading up here. Even though the stink from the torture
+chamber can still be smelt, you are glad to have left the torture rooms. The
+room is empty.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The torture chamber is to the east.~
+~
+0 -1 29849
+DDIR_SOUTH
+~
+~
+0 -1 29855
+DDIR_UP
+~
+~
+0 -1 29824
+E
+stairs stair stairway~
+The stairway goes up, just like it should.
+~
+#29849
+The torture chamber.~
+Someone has to be really depraved to make use of this room. You shudder to
+think of all the pain that has been inflicted in this room. There are dark
+stains on the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The torture chamber continues to the south.~
+~
+0 -1 29856
+DDIR_WEST
+The torture chamber continues to the west.~
+~
+0 -1 29848
+E
+stain stains~
+The stains look darkish brown - probably from blood. You don't really feel
+like thinking about it too much.
+~
+#29850
+The north-west corner of the hall.~
+This corner of the hall is no different in atmosphere to the others. You feel
+a little nauseous. Doesn't the butler know how to keep a place clean? It
+would not appear so. A magestic (well, once-magestic) stairway leads up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The hall continues east.~
+~
+0 -1 29851
+DDIR_SOUTH
+The hall continues south.~
+~
+0 -1 29857
+DDIR_UP
+The magestic (well, once magestic) stairway leads up.~
+~
+0 -1 29826
+E
+magestic stairway stairs~
+The stairway must once have looked rather impressive. It has, however, lost a
+lot of its radiance and brilliance. It is now just a large stairway that is
+in bad repair.
+~
+#29851
+The hall.~
+The hall is dark, dank and damp. It seems to be the breeding ground for a
+whole host of unhealthy fungi. It would probably be better to stay out of
+the darker areas.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The diningroom is north.~
+~
+0 -1 29846
+DDIR_EAST
+The hall continues to the east.~
+~
+0 -1 29852
+DDIR_SOUTH
+The entrance to the hall is south.~
+~
+0 -1 29858
+DDIR_WEST
+The hall continues west.~
+~
+0 -1 29850
+E
+double door doors~
+The doors are well-made and do not look too forbidding.
+~
+#29852
+The north-east corner of the hall.~
+This corner of the hall reeks of stale urine ... and something else too.
+Wherever you stand there is a squelch of rotten wood and your feet stick to
+the floor slightly. A broad stairway goes up into darkness.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The hall continues south.~
+~
+0 -1 29859
+DDIR_WEST
+The hall continues west.~
+~
+0 -1 29851
+DDIR_UP
+The stairway goes up.~
+~
+0 -1 29827
+E
+wood floor rotten~
+The floor looks very nearly rotten through. It doesn't look too clean and
+reminds you of a sewage pit.
+~
+#29853
+The lounge.~
+The lounge is warm and dry. There is a television in the corner, with a
+stereo hi-fi as well. They seem slightly out of place in the house. You find
+yourself wondering what it is about them that make them not fit in.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The lounge continues east.~
+~
+0 -1 29854
+DDIR_SOUTH
+The lounge continues south.~
+~
+0 -1 29860
+E
+radio hi-fi stereo~
+The hi-fi system contains a five-cd rack, a tape and a tuner. You spy a pair
+of sub-woofers and six speakers. The amplifier is rated 400w rms. Better not
+turn up the volume - it might bring down the house.
+~
+E
+tv television~
+The television set is state-of-the-art - for 1997 that is. You wonder what on
+earth it is doing in a medieval haunted house.
+~
+#29854
+The lounge.~
+This part of the lounge has a spiral staircase leading up. An aquarium has
+been placed against the one wall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The lounge continues south.~
+~
+0 -1 29861
+DDIR_WEST
+The lounge continues west.~
+~
+0 -1 29853
+DDIR_UP
+The staircase spirals up.~
+~
+0 -1 29829
+E
+malignant mutations~
+One of the malignant mutations catches you spying on it and lunges at you.
+It cracks its skull open on the glass. Must be armourplate glass.
+~
+E
+fish~
+These are definitely not fish! Malignant mutations more like it.
+~
+E
+aquarium~
+The aquarium contains vicious mutations that seem hell-bent on eating each
+other. They all have malignant grins on there faces.
+~
+E
+spiral stair staircase~
+The spiral staircase looks a little bit dizzy. You hope that it won't fall
+over.
+~
+#29855
+The torture chamber.~
+This part of the torture chamber contains several devices that you don't
+recognise. None of them look too pleasant and they all seem to have been
+well used. Bits of skin and bone are sticking to many of them. The room
+does not have an agreeable smell to it.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a staircase to the north.~
+~
+0 -1 29848
+DDIR_EAST
+The torture chamber continues east.~
+~
+0 -1 29856
+DDIR_SOUTH
+There is a furnace to the south.~
+~
+EX_CLOSED -1 29862
+#29856
+The corner of the torture chamber.~
+The room is horrific; there is a rack to the one side. Chains are attached to
+the walls and a skeleton is hanging by its arms from one pair. You shudder,
+thinking of some of the monstrosities that must have taken place here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The chamber continues north.~
+~
+0 -1 29849
+DDIR_EAST
+The hall is east.~
+~
+0 -1 29857
+DDIR_WEST
+The chamber continues west.~
+~
+0 -1 29855
+E
+rack~
+The rack is made of wood and looks well-used. There is an arm-bone still
+stuck in one of the brackets.
+~
+#29857
+The south-west corner of the hall.~
+The corner looks gloomy and unpleasant. You are sure you can make out small
+creatures scurrying about in the shadows. A dilapidated sofa looks sad and
+ignored. There is a door to the west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The hall continues north.~
+~
+0 -1 29850
+DDIR_EAST
+The entrance to the hall is east.~
+~
+0 -1 29858
+DDIR_WEST
+There is a torture chamber to the west.~
+~
+0 -1 29856
+E
+sofa~
+What must once have been a very comfortable seat has now decayed into a dusty
+home for various fungi. It would probably not be a good idea to sit on it.
+~
+#29858
+The entrance to the hall.~
+You see a large hall that must once have been really beautiful. Now it is
+just damp, dark and miserable. The floorboards are all rotten and there is an
+unpleasant odour in the air.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The hall continues north.~
+~
+0 -1 29851
+DDIR_EAST
+The hall continues east.~
+~
+0 -1 29859
+DDIR_SOUTH
+You see the entrance hall to the south.~
+~
+0 -1 29863
+DDIR_WEST
+The hall continues west.~
+~
+0 -1 29857
+#29859
+The south-east corner of the hall.~
+The hall has a leak here. You move out of the way of the drip, but it doesn't
+seem to help. The floor is beyond damp - it's wet.
+~
+0 ROOM_INDOORS SECT_LAKE
+DDIR_NORTH
+The hall continues north.~
+~
+0 -1 29852
+DDIR_EAST
+The lounge is east.~
+~
+0 -1 29860
+DDIR_WEST
+The entrance to the hall is west.~
+~
+0 -1 29858
+#29860
+The lounge.~
+The lounge looks incredibly comfortable. There is a thick, soft carpet and
+several settees and sofas in the lounge.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The lounge continues north.~
+~
+0 -1 29853
+DDIR_EAST
+The lounge continues east.~
+~
+0 -1 29861
+DDIR_WEST
+There is a hall to the west.~
+~
+0 -1 29859
+E
+sofa settee~
+If more people could make more couches like these more people would be more
+rich.
+~
+#29861
+The lounge.~
+The room gives you an immediate sensation of comfort. Someone must really
+enjoy the comfortable life to spend so much money on the lounge. There is a
+coffee table to the one side.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The lounge continues north.~
+~
+0 -1 29854
+DDIR_SOUTH
+There is a conservatory to the south.~
+~
+0 -1 29864
+DDIR_WEST
+The lounge continues to the west.~
+~
+0 -1 29860
+E
+table coffee~
+The coffee table seems to be a handy place for tea, cake and the tv guide. It
+is probably terribly cluttered underneath, so you don't bother to look.
+~
+#29862
+The incinerator.~
+This room is used to burn the bodies of those who die in the torture chamber.
+There is a thick layer of ash on the ground and the walls are all blackened.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a heavy metal door to the north.~
+heavy metal door~
+EX_ISDOOR|EX_CLOSED -1 29855
+#29863
+The entrance hall.~
+You can't help but feel creepy when you see the entrance hall: it is cold,
+creepy and miserable. The candles mounted on the walls do little to light
+the room and they flutter in the draught that is blowing through the room.
+The front door is south, looking just as imposing from the inside as from
+outside.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You can see a large hall to the north.~
+~
+0 -1 29858
+E
+door~
+The door has many bolts, all driven firmly home. The wood is almost black
+and looks extremely solid. You wonder how you are going to get out.
+~
+#29864
+The conservatory.~
+This is a room of plants. Perhaps once upon a time the plants were well
+tended to. It might have been once that there were fewer weeds than plants,
+but that is sadly not the case in the present time. A glass dome lets in a
+little bit of light - not much, as fungus has nearly fully covered the dome.
+You spot one pathetic but beautiful flower.
+~
+0 ROOM_INDOORS SECT_FOREST
+DDIR_NORTH
+The lounge is to the north.~
+~
+0 -1 29861
+E
+flower~
+The flower is probably the last remnant of the beautiful place this must once
+have been. It looks very slightly lonely. Shame. Poor flower. *snicker*
+~
+#29865
+The porch.~
+You are standing on a rickety-looking porch. It is raining and it looks as if
+it has been raining here for a very long time. The roof is incredibly rotten
+and is leaking profusely. You attempt to find a place out of the drips, but
+are not successful. There is an imposing door.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 17584
+E
+bell~
+The bell looks very delicate and is intricately engraved. It looks as if it
+would like to be rung.
+~
+E
+door imposing~
+The door is solid, big and imposing. It looks somehow smug. You get the
+impression that it isn't going to let you open it.
+~
+#29866
+The basement.~
+You are standing in a dark, damp and smelly basement. This not the cleanest
+room of the house. You strongly suspect that part of the stink is from sewage.
+Gross. There is a trapdoor above you and a winerack to the one side.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 29868
+DDIR_UP
+There is a trapdoor above you.~
+trapdoor~
+EX_ISDOOR -1 29834
+E
+wine rack~
+There is a large variety of wines on the rack. They are labelled, "Cabernet
+Sauvignon Blanc", "Graca" and other such meaningless names. It would probably
+be better to avoid the wine at all costs.
+~
+E
+trap trapdoor~
+The trapdoor is square, wooden and fairly sturdy. Other than that, there is not
+too much to say about it.
+~
+#29867
+The basement.~
+This is the basement. It is under the house. It is dark. It is unpleasant. It
+does not smell too nice. To the one side you can see a pile of gardening
+equipment.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The basement continues east.~
+~
+0 -1 29868
+DDIR_SOUTH
+The basement continues south.~
+~
+0 -1 29870
+E
+gardening equipment~
+The pile of gardening equipment comprises of rusty spade, an old gardening fork,
+a wheelbarrow and a few other small implements. They do not look overly used:
+being a gardener on this estate is probably a rather cushy job.
+~
+#29868
+The basement.~
+You are in the basement. Great. Sunny skies, a cool breeze, babes walking past
+on the beach in front of you ... Man! This is the life!
+
+Hang on - I think you need a serious reality check here. A dripping ceiling, a
+smelly draft and unidentified blobs squelching in the corners.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The basement continues north.~
+~
+0 -1 29866
+DDIR_EAST
+The basement continues east.~
+~
+0 -1 29869
+DDIR_WEST
+The basement continues west.~
+~
+0 -1 29867
+E
+blob babe~
+This is definitely not a babe. It is an ugly blob.
+~
+#29869
+The basement.~
+There is a large boiler here in the basement. It does little to improve the
+overall dreariness of the room. It is still wet, dark and miserable.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The basement continues to the south.~
+~
+0 -1 29872
+DDIR_WEST
+The basement continues to the west.~
+~
+0 -1 29868
+E
+boiler~
+The boiler seems a little out of place. It is slightly warm - I wouldn't want
+to take shower in water this cold.
+~
+#29870
+The basement.~
+You are in the basement. This particular section of the basement has a HUGE
+stack of firewood in the one corner. There is not actually too much room left
+with all the wood piled up.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The basement continues north.~
+~
+0 -1 29867
+DDIR_EAST
+The basement continues east.~
+~
+0 -1 29871
+E
+pile wood~
+This pile is pretty pointless, really. It is so damp in the basement that the
+chances of the wood ever being able to be used for firewood is slim.
+~
+#29871
+The basement.~
+The basement is not a pleasant place. There is a whole lot of old junk here:
+broken furniture, old books and even half a shoe. They lie here, disconsolate
+and depressed, waiting for the spring cleaning that will never come.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The basement continues east.~
+~
+0 -1 29872
+DDIR_SOUTH
+There is a room to the south.~
+~
+0 -1 29874
+DDIR_WEST
+The basement continues west.~
+~
+0 -1 29870
+#29872
+The basement.~
+This part of the basement resembles a nuclear bunker. There are neatly-stacked
+piles of tinned food - baked beans, corn and condensed milk. There are gas
+masks and anti-radiation suits, even a game of Monopoly.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The basement continues to the north.~
+~
+0 -1 29869
+DDIR_WEST
+The basement continues to the west.~
+~
+0 -1 29871
+#29873
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+There is a grave to the east.~
+~
+0 -1 29874
+DDIR_SOUTH
+There is a grave to the south.~
+~
+0 -1 29876
+#29874
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The basement is north.~
+~
+0 -1 29871
+DDIR_EAST
+There is a grave to the east.~
+~
+0 -1 29875
+DDIR_SOUTH
+There is a grave to the south.~
+~
+0 -1 29877
+DDIR_WEST
+There is a grave to the north.~
+~
+0 -1 29873
+E
+door~
+The door is sturdy and well-made.
+~
+#29875
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+There is a grave to the south.~
+~
+0 -1 29878
+DDIR_WEST
+There is a grave to the west.~
+~
+0 -1 29874
+#29876
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a grave to the north.~
+~
+0 -1 29873
+DDIR_EAST
+There is a grave to the east.~
+~
+0 -1 29877
+#29877
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a grave to the north.~
+~
+0 -1 29874
+DDIR_EAST
+There is a grave to the east.~
+~
+0 -1 29878
+DDIR_SOUTH
+You see nothing special there.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 29801 29879
+DDIR_WEST
+There is a grave to the west.~
+~
+0 -1 29876
+#29878
+A grave.~
+You see before you a grave. There is no tombstone, just a pile of earth that
+marks the spot. The soil is loamy and there is a rotten stench hanging in the
+room. There is nothing else in the room. The low ceiling makes the room very
+oppressive.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a grave to the north.~
+~
+0 -1 29875
+DDIR_WEST
+There is a grave to the west.~
+~
+0 -1 29877
+#29879
+The laboratory.~
+You are standing in a room that completely takes your breath away. There are
+glass vials standing everywhere. Strange-coloured liquids race through glass
+pipes and small puffs of smoke appear out of nowhere. Small laboratory animals
+scurry around in cages. The walls look as if they could do with some paint.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see nothing special there.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF 29801 29877
+#0
+
+
+#RESETS
+M 29800 100 29865
+M 29801 100 29863
+E 29802   1 WEAR_FINGER_R
+M 29802 100 29824
+G 29800 999 0
+M 29802 100 29825
+G 29800 999 0
+M 29802 100 29830
+G 29800 999 0
+M 29802 100 29831
+G 29800 999 0
+M 29803 100 29859
+M 29804 100 29825
+M 29804 100 29829
+M 29804 100 29838
+M 29804 100 29844
+M 29804 100 29868
+M 29805 100 29801
+M 29805 100 29803
+M 29805 100 29804
+M 29805 100 29805
+M 29805 100 29807
+M 29806 100 29811
+M 29807 100 29816
+M 29807 100 29821
+M 29808 100 29850
+G 29806 100 0
+M 29808 100 29851
+M 29808 100 29852
+M 29808 100 29857
+M 29808 100 29858
+M 29808 100 29859
+M 29809 100 29855
+E 29807  10 WEAR_WIELD
+G 29809   1 0
+M 29810 100 29849
+E 29832 100 WEAR_FINGER_R
+M 29810 100 29856
+E 29832 100 WEAR_FINGER_R
+M 29811 100 29862
+M 29812 100 29809
+E 29818 100 WEAR_NECK_A
+M 29813 100 29853
+E 29819 100 WEAR_WIELD
+M 29813 100 29854
+E 29819 100 WEAR_WIELD
+M 29813 100 29860
+E 29819 100 WEAR_WIELD
+M 29813 100 29861
+E 29819 100 WEAR_WIELD
+M 29814 100 29864
+G 29835 100 0
+M 29815 100 29801
+M 29815 100 29803
+M 29815 100 29804
+M 29815 100 29805
+M 29815 100 29807
+G 29836 999 0
+P 29837 999 29836
+P 29837 999 29836
+M 29816 100 29843
+E 29820 100 WEAR_WIELD
+M 29817 100 29844
+E 29820 100 WEAR_WIELD
+G 29838 999 0
+M 29818 100 29841
+G 29833 999 0
+M 29818 100 29842
+G 29833 999 0
+M 29818 100 29846
+G 29833 999 0
+M 29818 100 29847
+G 29833 999 0
+M 29819 100 29835
+G 29839  20 0
+M 29819 100 29836
+G 29839  20 0
+M 29819 100 29840
+G 29839  20 0
+M 29819 100 29845
+G 29839  20 0
+M 29820 100 29837
+M 29821 100 29834
+G 29840  50 0
+M 29822 100 29815
+G 29841  20 0
+M 29822 100 29817
+G 29841  20 0
+M 29822 100 29823
+G 29841  20 0
+M 29822 100 29838
+G 29841  20 0
+M 29822 100 29839
+G 29841  20 0
+M 29823 100 29806
+E 29834 100 WEAR_WIELD
+M 29824 100 29802
+M 29825 100 29808
+G 29843 100 0
+M 29826 100 29814
+G 29844  20 0
+M 29826 100 29822
+G 29844  20 0
+M 29827 100 29810
+M 29828 100 29832
+G 29801 100 0
+G 29845 100 0
+M 29829 100 29828
+M 29829 100 29829
+M 29829 100 29833
+M 29830 100 29811
+M 29830 100 29826
+M 29830 100 29827
+M 29831 100 29819
+M 29831 100 29820
+M 29832 100 29873
+G 29848   1 0
+M 29832 100 29874
+M 29832 100 29875
+G 29806 100 0
+M 29832 100 29876
+M 29832 100 29878
+M 29833 100 29866
+M 29833 100 29867
+M 29833 100 29868
+M 29833 100 29869
+M 29833 100 29870
+M 29833 100 29871
+M 29833 100 29872
+M 29834 100 29877
+G 29847  20 0
+M 29835 100 29812
+M 29836 100 29818
+M 29837 100 29879
+O 29810   1 29820
+O 29811   1 29807
+O 29821   1 29865
+O 29849   1 29800
+O 29850   1 29878
+D 29813 DIR_EAST  DOOR_CLOSED_LOCKED
+D 29814 DIR_WEST  DOOR_CLOSED_LOCKED
+D 29834 DIR_SOUTH DOOR_CLOSED
+D 29836 DIR_NORTH DOOR_CLOSED
+D 29877 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 29879 DIR_NORTH DOOR_CLOSED_LOCKED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

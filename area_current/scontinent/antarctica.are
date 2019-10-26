@@ -1,0 +1,1366 @@
+#AREA Antarctica~
+#AUTHORS Emud Mahatma~
+#VERSION 4
+#RANGES 15 25 1 95
+#OLC_RANGES 2700 2799
+
+
+#HELPS
+0 ANTARCTICA~
+{128}                                 Antarctica
+{308}
+This area is the farthest south one can go in these Realms.  In the
+winter it is a frozen wasteland, and in the summer it is still pretty
+much a frozen waste.  It is inhabited though and there are opportunities
+for much adventure.  The best way to journey to Antarctica is to fly on
+Griffon Airlines from the City of Entropy or the City of Sarglam.  The
+snow queen rules here with an iron fist but it is rumored that she needs
+help with something.
+
+This area was originally written by Mahatma and has since been revised
+by Jaxom and Damiana.
+~
+
+0 $~
+
+
+#MOBILES
+#2701
+gnome busy~
+the busy gnome~
+The busy gnome shuffles past you.~
+The weather does not phase her in the least.  She is ready to defend
+herself to the death.  There is a glazed look about her eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SNEAK
+100 S
+13 0 0 1d49+92 1d10+7
+3000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+#2702
+gnome guard~
+the gnome guard~
+The gnome guard stands at attention.~
+This guard is small, but tough, and ready to defend herself.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SNEAK
+100 S
+19 0 0 1d100+182 1d16+8
+5000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+#2703
+bear giant polar~
+the giant polar bear~
+The giant polar bear doesn't like you disturbing her sleep.~
+She is enormous and covered in thick, white fur, making her almost invisible in the snow.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_HIDE
+0 S
+13 0 0 5d28+50 1d10+7
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#2704
+dragon whitedragonmob~
+the white dragon~
+The white dragon glares at you.~
+He is an enormous, mature dragon, ready to freeze you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-1000 S
+25 0 0 1d182+331 10d2+5
+22911 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i2708~
+if quest (0,4,$n) == 5
+or quest (0,4,$n) == 6
+or quest (0,4,$n) == 7
+  mpjunk all
+  mpecho The dragon quickly devours the dead gnome.
+  mpechoat $n The dragon looks at you with hungry eyes.
+  mpechoaround $n The dragon looks at $n with hungry eyes.
+  mpmset $n quest 0 4 8
+  mpkill $n
+endif
+~
+>fight_prog 5~
+if quest (0,4,$n) == 8
+  mpechoat $n The dragon breathes a blast of frost toward you!
+  mpechoaround $n The dragon breathes a blast of frost toward $n.
+  cast 50 'frost breath'
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 8
+  mpmset $n quest 0 4 9
+  mpecho Maybe the dead gnome in its belly slowed it down.
+endif
+~
+|
+#2705
+dragon blue~
+the blue dragon~
+The blue dragon dislikes being here.~
+She is an enormous, mature dragon, with an attitude to match her
+electric blue scales.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-1000 S
+26 0 0 1d196+356 10d2+10
+24972 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#2706
+snowqueenmob snow queen~
+the Snow Queen~
+The Snow Queen does not desire your presence here.~
+She is tall and pale, with crystal blue eyes, cherry red lips and coal black
+hair.  She is garbed entirely in {178}white{300}.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 BODY_HEAD|BODY_HAND BODY_HAND 1d182+331 1d25+5
+27794 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,4,$n) == 0
+  if level ($n) < 30
+    mpechoat $n The Snow Queens beckons you over.
+    say You will be my servant until I no longer
+    say have need of you.  To start with, A remoraz
+    say has mistakenly taken my furnace as a mate.
+    say Get rid of it for me!
+    mpmset $n quest 0 4 1
+  endif
+else
+  if quest (0,4,$n) == 2
+    say I guess you did your job, but why are you wet?
+    say Don't you know you can die like that in this cold?
+    say Anyway, the master herbal has something for me.
+    say Go get it, quickly!
+    mpmset $n quest 0 4 3
+  else
+    if quest (0,4,$n) == 9
+      say You killed my pet!
+      say You will pay for that!
+      mpkill $n
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if quest (0,4,$n) == 9
+  mpareaecho The Snow Queen's scream shakes the continent!
+  mpmset $n quest 0 4 10
+  mpoload 2709
+  mpoload 2710
+  mpoload 2711
+  mpoload 2712
+  mpoload 2713
+endif
+~
+>rand_prog 100~
+if quest (0,4,$r) == 5
+or quest (0,4,$r) == 6
+  if hasobjnum ($r) == 2708
+    say Excellent!
+    mpecho The Snow Queen grins wickedly.
+    say Now take that and feed my pet white!
+    mpmset $r quest 0 4 7
+  endif
+endif
+~
+>give_prog i2707~
+mpjunk all
+mpecho The queen pops the mint into her mouth.
+if quest (0,4,$n) == 4
+  say Good, now my pets need feeding
+  mpecho The Snow Queen gestures towards the gnome warren to the east.
+  mpmset $n quest 0 4 5
+  mpquiet on
+  rest 
+  mpquiet off
+endif
+~
+|
+#2707
+giant frost guard~
+the cold frost giant~
+The frost giant guard is ready for intruders.~
+He's blue, and he doesn't really like gnomes but they keep him fed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+19 0 0 1d100+182 1d16+8
+3000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+#2708
+mistress white~
+a white mistress~
+A white mistress is here~
+She is a fanatical servant to the Snow Queen.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+19 0 0 1d100+182 1d16+8
+14000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 30~
+if quest (0,4,$n) > 0
+  say Only I serve the snow queen!
+  mpechoat $n The white mistress attacks you!
+  mpechoaround $n The white mistress attacks $n.
+  mpkill $n
+endif
+~
+|
+#2709
+masterherbalmob herbal~
+Damiana~
+Damiana, the master herbalist, is working here.~
+She is wearing a long, dark green apron, and her blonde hair falls over her
+shoulders as she concentrates on a formula.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+30 0 0 1d272+499 1d1+25
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (0,4,$n) == 3
+  say Yes I have what the Snow Queen wants, wait here.
+  mpecho The master herbal leaves and returns carrying something.
+  mpoload 2707
+  give i2707 $n
+  say Here you go, I would hurry back if I were you.
+  mpmset $n quest 0 4 4
+endif
+~
+|
+#2710
+remoraz arctic worm~
+a Remoraz~
+An Arctic worm has made its home here.~
+It is enormous, with six legs on either side.  As it radiates heat, it's back
+glows a fiery red.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+25 0 0 1d182+331 1d25+5
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+mpechoat $n The Remoraz roars at you!
+mpechoaround $n The Remoraz roars at $n.
+if quest (0,4,$n) == 1
+  mpkill $n
+~
+>death_prog 100~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  mpecho The ice beneath the Remoraz melts as its superheated back touches it.
+  mpecho You plunge under the icy water!
+  mptransfer all 2702
+endif
+~
+|
+#2711
+gnome scaredgnomemob~
+a scared gnome~
+A scared gnome shakes here.~
+The weather does not phase her in the least.  There is a glazed look about her
+eyes.
+~
+ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_SNEAK|AFF_TONGUES
+100 S
+20 0 0 1d1+279 1d1+17
+3000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+if quest (0,4,$n) == 5
+  mpoload 2708
+  mpquiet on
+  drop i2708
+  mpforce snowqueenmob stand
+  mpquiet off
+  mpmset $n quest 0 4 6
+  mppurge self
+endif
+~
+|
+#2712
+gnome small~
+a small gnome~
+A small gnome shuffles past you.~
+The weather does not phase her in the least.  She is ready to defend
+himself to the death.  There is a glazed look about her eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+13 0 0 5d28+50 1d10+7
+3000 RACE_GNOME
+POS_SLEEPING POS_SLEEPING SEX_MALE
+>death_prog 25~
+mpoload 2708 room
+~
+|
+#2713
+giant frost drunken~
+the drunken frost giant~
+The drunken frost giant is ready for intruders, in 24 hours.~
+He's blue, and he doesn't really like gnomes but they keep him fed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+19 0 0 1d100+182 1d16+8
+3000 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#2700
+key~
+a wooden key~
+A wooden key has been left here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#2701
+staff ice~
+an ice staff~
+A frozen branch lies on the ground.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+21 3 3 116 0 0 0 0
+7 1900 13
+S 3 'frost breath'
+#2702
+wand fire~
+a wand of fire~
+A glowing ember of wood melts the snow beneath it.~
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 3 3 103 0 0 0 0
+7 1900 10
+S 3 'fireball'
+#2703
+flaming axe~
+a flaming axe~
+An axe of blue flame boils the water beneath it.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 2 10 WEAPON_SLASH 0 0 0 0
+14 5000 15
+A APPLY_HITROLL 1 0
+A APPLY_STR 1 0
+#2704
+shield southwind~
+the Shield of the South Wind~
+A beautiful shield lies at your feet.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+6 0 0 0 0 0 0 0
+4 100000 18
+A APPLY_WIS 2 0
+A APPLY_CON 2 0
+#2705
+mint sprig~
+a sprig of mints~
+A sprig of mint sprouts at your feet.~
+It is a bunch of mint.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+10 210 23 215 0 0 0 0
+1 200 12
+S 1 'sanctuary'
+S 2 'bless'
+S 3 'shield'
+#2706
+plaque~
+a plaque~
+A plaque has been left on the wall here.~
+The plaque reads, "Created by Mahatma 5/24/93 with thanks to Yaz, Hatchet
+and Little.  Thanks to Savaki & Drustan for starting me on this junk.  The
+sprig of mints are for Andersen."
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+50 10 1
+#2707
+mint~
+a mint~
+A mint lies here abandoned.~
+It is a small white mint.
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 20 1
+#2708
+dead gnome~
+a dead gnome~
+A dead gnome lies here.~
+It is a freshly dead gnome.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+50 20 5
+#2709
+snow white ring~
+a snow white ring~
+A snow white ring is here.~
+It is snow white.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+4 0 0 0 0 0 0 0
+2 10000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_INT 2 0
+#2710
+snow white cloak~
+a snow white cloak~
+A snow white cloak is here.~
+It is snow white.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+4 0 0 0 0 0 0 0
+2 10000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_DEX 2 0
+#2711
+snow white belt~
+a snow white belt~
+A snow white belt is here.~
+It is snow white.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+4 0 0 0 0 0 0 0
+2 10000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_STR 2 0
+#2712
+snow white bracer~
+a snow white bracer~
+A snow white bracer is here.~
+It is snow white.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+4 0 0 0 0 0 0 0
+2 10000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_CON 2 0
+#2713
+snow white light~
+a snow white light~
+A snow white light is here.~
+It is snow white.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+2 10000 15
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_WIS 2 0
+#2714
+vat~
+a copper vat~
+You see a gleaming copper vat here.~
+It is highly buffed, meaning the Frost Giants and gnomes prize their ale above
+all else.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+0 0 0 0 0 0 0 0
+50 10 1
+#2715
+fountain~
+a fountain~
+A small fountain is here.~
+It is a small oval fountain made of dark, varnished wood.  It is carved with
+small birds and garlands of ivy.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#2700
+Remoraz Lair~
+This lair has been hewn from the thick, silvery ice as a large round chamber
+that lies just below the surface.  Lying in wait is its owner, a monster of
+heat, until some poor innocent trods the thin layer of ice separating them.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+You feel the heat searing your skin.~
+~
+0 -1 2717
+#2701
+The Hardpack~
+There are no footprints in the snow here.  The frigid wind bites through your
+clothing like icy teeth on naked skin.  In the distance are a tall mountain and
+what seems to be the turret of a castle.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a long road.~
+~
+0 -1 17680
+DDIR_SOUTH
+You see a vast expanse of white.~
+~
+0 -1 2731
+#2702
+Ice Melt~
+You have plunged into the freezing water and it is so cold and unexpected
+that you are unable to stay above the surface.
+~
+0 ROOM_INDOORS SECT_UNDER_WATER
+DDIR_EAST
+~
+~
+0 -1 2717
+#2703
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2705
+DDIR_EAST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2704
+DDIR_SOUTH
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2734
+DDIR_WEST
+~
+~
+0 -1 2729
+DDIR_UP
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2739
+DDIR_DOWN
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2740
+#2704
+Gnome Warren~
+This cavern is the residence of the gnomes in this region.  This is where
+they sleep and eat and do other unmentionable things.  It is lit with
+numerous torches and other light sources.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 2703
+#2705
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2737
+DDIR_SOUTH
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2703
+DDIR_WEST
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2738
+#2706
+The Snow-filled Land~
+The snow is all around, a vast, white blanket covering everything in sight. The
+glare of the sun on the snow makes it difficult to see, and the only sound is
+the crunch of it beneath your feet.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+You see a vast expanse of white.~
+~
+0 -1 2731
+#2707
+The Gnome Outpost~
+Although created of snow and ice, this outpost seems cozy and warm.  There is a
+small fire burning here, and while the walls are undecorated, the place is clean
+and well kept.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a vast, white expanse.~
+~
+0 -1 2733
+DDIR_SOUTH
+You see a building in the distance.~
+~
+0 -1 16018
+DDIR_DOWN
+You see a tight, cramped space.~
+camouflaged door~
+EX_ISDOOR|EX_CLOSED 2705 2708
+#2708
+The Tight Passage~
+The walls seem to narrow even further and something small and furry runs across
+your fingers as you edge your way up.  The air is close in here, making it
+difficult to breathe, and the light is quite dim.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_UP
+You think you see some rather small guards.~
+camouflaged door~
+EX_ISDOOR|EX_CLOSED 2705 2707
+DDIR_DOWN
+You see a tight, cramped space.~
+~
+0 -1 2709
+#2709
+The Even Tighter Passage~
+It's a bit of a squeeze here and you think that perhaps the last pot pie you ate
+is getting its revenge.  The walls are smooth, with finger holes for you to hang
+on to.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_UP
+You see a tight, cramped space.~
+~
+0 -1 2708
+DDIR_DOWN
+You see a warm chamber.~
+~
+0 -1 2710
+#2710
+The Center Chamber~
+Before you is the gnome city called Little Haven. It's bustling, with cheery
+little folk who seem dwarven in ancestry and yet look upon you with little
+suspicion.  The tunnels are vast, and from this vantage point you can see the
+huge fortress in the distance.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+You see a long passageway.~
+~
+0 -1 2711
+DDIR_WEST
+You feel warmth from the west.~
+~
+0 -1 2713
+DDIR_UP
+You see a cramped, tight space.~
+~
+0 -1 2709
+#2711
+A Passageway~
+Gnomes left, gnomes right, all busy and unminding of you.  Their faces seem
+too happy, their manners predictable.  The passage is human-sized, not gnome,
+with unidentifiable inscriptions on the walls.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+~
+~
+0 -1 2712
+DDIR_WEST
+~
+~
+0 -1 2710
+E
+inscriptions~
+The inscriptions are unidentifiable.
+~
+#2712
+The Cold Passageway~
+{078}You are reminded of the biting winds outside, as the tunnel suddenly
+drops in temperature.  The rock walls around you are coated in a white frost
+as it never seems to get above freezing here.  You feel chilling breezes from
+the north.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 2721
+DDIR_WEST
+~
+~
+0 -1 2711
+#2713
+The Warm Passageway~
+This narrow passageway is very warm, almost uncomfortably so.  The walls seem to
+almost pulse from the heat being radiated from some distant point.  The scent of
+burning coal is in the air, and is a bit unpleasant.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_EAST
+You see the passageway continue.~
+~
+0 -1 2710
+DDIR_WEST
+You hear the sound of chanting.~
+~
+0 -1 2716
+#2714
+The Little Temple~
+Seemingly unaware of the screaming outside, gnomes kneel here in prayer.  The
+temple is immaculate, with bowls of fruid and food laying upon an altar as an
+offering.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+You can feel heat reaching out.~
+~
+0 -1 2717
+DDIR_SOUTH
+~
+~
+0 -1 2715
+#2715
+The Vestibule~
+There is a plethora of herbs and spices here, an amazing number, considering the
+climate ouside.  The scent of mint is in the air, mixed with marjoram and
+juniper.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+You hear the sound of praying.~
+~
+0 -1 2714
+DDIR_SOUTH
+You hear the sound of chanting.~
+~
+0 -1 2718
+E
+herbs spices~
+You think that these spices might be used by some gods
+to make their magical mints!
+~
+#2716
+The Chanting Room~
+This room is dimly lit with small votive candles, and chimes ring peacefully as
+you enter.  There are soft green cushions on the floor and herbs burn in small
+censers on the walls.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+You see a cozy area of greenery.~
+~
+0 -1 2718
+DDIR_EAST
+You see a passageway leading east.~
+~
+0 -1 2713
+#2717
+Furnace Room~
+The air here is dusty, and the stench of burnt animal carcasses is almost
+overwhelming.  There are small bits of wood scattered in messy piles on the
+floor, and the heat is unbearable.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+~
+~
+0 -1 2727
+DDIR_SOUTH
+You can see a small holy area.~
+~
+0 -1 2714
+DDIR_WEST
+You see a rounded chamber of ice.~
+~
+0 -1 2700
+#2718
+The Arboretum~
+The arboretum is filled with greenery of all kinds, and is obviously where the
+gnomes do their gardening.  There is a warmth here, as well, and a small
+fountain adds to the serenity of the room.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+You hear the sound of praying.~
+~
+0 -1 2715
+DDIR_EAST
+You see a room filled with herbs.~
+~
+0 -1 2720
+DDIR_SOUTH
+You hear the sound of chanting.~
+~
+0 -1 2716
+#2719
+The Snow Queen's Chamber~
+There is a solemn, saddening calm that surrounds you, overtaking your senses.
+Some tremendous loss must have taken place here.  You can see no physical
+escape.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see reflections of yourself.~
+~
+0 -1 2730
+#2720
+The Master Herbal's Room~
+The air here is heavy with the scent of herbs used in potions, incense, balms
+and the like.  There are large, ancient books stacked on a long table, and
+leaded glass windows light the room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a vastness of greenery.~
+~
+0 -1 2718
+#2721
+The Guard's Dining Hall~
+Statues of Odin and Thor decorate this lavish hall, complete with benches
+and dining tables for a thousand warriors. You hear sounds of song and cheer
+and, in listening, begin to understand how the alliance of Frost Giants and
+gnomes came about.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a long tunnel.~
+~
+0 -1 2723
+DDIR_EAST
+You smell hops.~
+~
+0 -1 2722
+DDIR_SOUTH
+You see a long passage.~
+~
+0 -1 2712
+DDIR_WEST
+You hear drunken revelry.~
+~
+0 -1 2741
+#2722
+The Vat Room~
+There are enormous copper pots here, bubbling with the definite fragrance of
+yeast and hops.  This is surely where the Frost Giants and gnomes make their
+ales.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You hear drunken revelry.~
+~
+0 -1 2721
+#2723
+The Frost Giant Guard Quarters~
+The beds are unmade, unkempt, with typical male noises of drunkeness coming
+from behind the door to the east.  You smell brewed hops and remnants of mead
+soaking through your belongings.  Bits of chewed bones lie about.  The only
+visible exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a long tunnel.~
+sliding door~
+EX_ISDOOR|EX_CLOSED 2705 2726
+DDIR_EAST
+You see a messy area.~
+~
+0 -1 2744
+DDIR_SOUTH
+You hear drunken feasting.~
+~
+0 -1 2721
+E
+bone~
+The bone has bits of robes and clothing on it.
+One has a label that reads 'Alander' on it.
+~
+#2724
+The White Dragon's Lair~
+Dark and cold, and very dreary, with stalactites hanging from the ceiling
+like teeth.  The Snow Queen has furnished her pet with corpses of lost
+adventurers.  Perhaps yours is next! You see a door to the west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a puff of blue smoke.~
+secret door~
+EX_ISDOOR|EX_CLOSED -1 2725
+DDIR_WEST
+You see a long tunnel.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 2700 2726
+#2725
+The Blue Dragon's Lair~
+The air in here is cold and dry, much like a desert evening.  A few eggs lay
+cracked open on the stone floor, as if something had just hatched.  You can
+almost see your breath in here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see mysterious white smoke.~
+secret door~
+EX_ISDOOR|EX_CLOSED -1 2724
+#2726
+The Connecting Tunnel~
+This tunnel is very wide, large enough for any huge beast to easily trample
+through it.  Great howling rings loudly from the east, while a rowdy cheering
+comes from the south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a puff of white smoke.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 2700 2724
+DDIR_SOUTH
+The wall surface looks uneven here.~
+sliding door~
+EX_ISDOOR|EX_CLOSED 2705 2723
+DDIR_WEST
+~
+~
+0 -1 2743
+#2727
+The Great Door~
+You see before you a huge oaken door with platinum trim reading {158}"Little Haven"{300}.
+The rest of the room appears to be made of highly polished ice, providing a
+mirror-like quality.  The gnomish runes carved here are illegible save for one
+you can read.
+~
+0 ROOM_INDOORS SECT_UNDER_GROUND
+DDIR_NORTH
+It must be locked to keep you out.~
+door~
+EX_ISDOOR|EX_CLOSED -1 2728
+DDIR_SOUTH
+You can feel the heat of the furnace.~
+~
+0 -1 2717
+E
+runes~
+{078}Beware my wrath, creature.
+~
+#2728
+South Door~
+You are in a Hall of Mirrors, making your head spin.  You struggle to separate
+reality from fiction.  The ceiling and floor seem far away, and the multiple
+reflections make you dizzy.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2729
+DDIR_SOUTH
+You feel heat coming from the south.~
+Door South~
+EX_ISDOOR|EX_CLOSED 2705 2727
+DDIR_WEST
+You feel an icy blast from this direction.~
+~
+0 -1 2730
+E
+mirror~
+You see reflections of yourself and a white mistress!.
+~
+#2729
+The Hidden Room~
+It appears some adventurers dug a hole into the tunnel here, and carved their
+initials into the walls.  It seems as though you are the first to find this
+little hole in years.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You hear smallish footsteps to the east.~
+~
+0 -1 2703
+DDIR_WEST
+You feel an icy blast from the west.~
+~
+0 -1 2728
+#2730
+Another Mirrored Room~
+You are in still another Hall of Mirrors, making your head spin.  You struggle
+to separate reality from fiction.  With so many mirrored rooms, it's difficult
+to tell from which direction you came.
+~
+0 ROOM_INDOORS|ROOM_MAZE SECT_INSIDE
+DDIR_NORTH
+You see reflections of yourself.~
+~
+0 -1 2730
+DDIR_EAST
+You can hear the sound of sleeping gnomes.~
+~
+0 -1 2728
+DDIR_SOUTH
+You see reflections of yourself.~
+~
+0 -1 2730
+DDIR_WEST
+You feel a frigid blast of air.~
+~
+0 -1 2719
+#2731
+The Snow-filled Land~
+The snow is all around, a vast, white blanket covering everything in sight. The
+glare of the sun on the snow makes it difficult to see, and the only sound is
+the crunch of it beneath your feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a long road in the distance.~
+~
+0 -1 2701
+DDIR_EAST
+You see a vast expanse of white.~
+~
+0 -1 2706
+DDIR_SOUTH
+You see a vast expanse of white.~
+~
+0 -1 2732
+#2732
+The Snow-filled Land~
+The snow is all around, a vast, white blanket covering everything in sight. The
+glare of the sun on the snow makes it difficult to see, and the only sound is
+the crunch of it beneath your feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a long road in the distance.~
+~
+0 -1 2731
+DDIR_SOUTH
+You see a vast expanse of white.~
+~
+0 -1 2733
+#2733
+The Snow-filled Land~
+The snow is all around, a vast, white blanket covering everything in sight. The
+glare of the sun on the snow makes it difficult to see, and the only sound is
+the crunch of it beneath your feet.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a vast expanse of white.~
+~
+0 -1 2732
+DDIR_SOUTH
+You see a small military outpost.~
+~
+0 -1 2707
+#2734
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2703
+DDIR_EAST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2735
+DDIR_WEST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2736
+#2735
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2734
+#2736
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2734
+#2737
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2705
+#2738
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You hear the sounds of sleeping gnomes.~
+~
+0 -1 2705
+#2739
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2703
+#2740
+Gnome Warren~
+This cavern is where the gnomes of this region live.  It is cool in here, and
+peaceful.  Torches cast a warm light on the walls, creating shadows that dance
+over the sleeping gnomes.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+You hear the sound of sleeping gnomes.~
+~
+0 -1 2703
+#2741
+The Guard's Dining Hall~
+Statues of Odin and Thor decorate this lavish hall, complete with benches
+and dining tables for a thousand warriors. You hear sounds of song and cheer
+and, in listening, begin to understand how the alliance of Frost Giants and
+gnomes came about.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You hear drunken revelry.~
+~
+0 -1 2742
+DDIR_EAST
+You hear drunken revelry.~
+~
+0 -1 2721
+#2742
+The Guard's Dining Hall~
+Statues of Odin and Thor decorate this lavish hall, complete with benches
+and dining tables for a thousand warriors. You hear sounds of song and cheer
+and, in listening, begin to understand how the alliance of Frost Giants and
+gnomes came about.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a messy area.~
+~
+0 -1 2743
+DDIR_SOUTH
+You hear the sound of drunken revelry.~
+~
+0 -1 2741
+#2743
+The Frost Giant Guard Quarters~
+The beds are unmade and the room is dirty.  The smell of ale and mead hangs
+rancidly in the air and pieces of moldy bread and bits of half eaten bones are
+strewn about on the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a long tunnel.~
+~
+0 0 2726
+DDIR_SOUTH
+You hear drunken feasting.~
+~
+0 -1 2742
+#2744
+The Frost Giant Guard Quarters~
+The beds are unmade, unkempt, with typical male noises of drunkeness coming
+from behind the door to the east.  You smell brewed hops and remnants of mead
+soaking through your belongings.  Bits of chewed bones lie about.  The only
+visible exit is to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a messy area.~
+~
+0 -1 2723
+#0
+
+
+#RESETS
+M 2701 100 2710
+M 2701 100 2711
+M 2701 100 2712
+M 2701 100 2713
+M 2701 100 2714
+M 2702 100 2707
+M 2702 100 2707
+M 2703 100 2731
+M 2703 100 2732
+M 2703 100 2733
+M 2704 100 2724
+G 2702 200 0
+M 2705 100 2725
+M 2706 100 2719
+G 2704 100 0
+M 2707 100 2718
+M 2707 100 2714
+M 2707 100 2727
+M 2707 100 2727
+M 2708 100 2730
+G 2701 200 0
+M 2708 100 2728
+M 2708 100 2728
+G 2703 200 0
+M 2709 100 2720
+G 2705 100 0
+M 2710 100 2700
+M 2712 100 2703
+M 2712 100 2703
+M 2712 100 2704
+M 2712 100 2704
+M 2712 100 2705
+M 2712 100 2705
+M 2712 100 2734
+M 2712 100 2734
+M 2712 100 2735
+M 2712 100 2735
+M 2712 100 2736
+M 2712 100 2736
+M 2712 100 2737
+M 2712 100 2737
+M 2712 100 2738
+M 2712 100 2738
+M 2712 100 2739
+M 2712 100 2739
+M 2712 100 2740
+M 2712 100 2740
+M 2713 100 2721
+M 2713 100 2721
+M 2713 100 2721
+M 2713 100 2726
+M 2713 100 2726
+M 2713 100 2726
+M 2713 100 2741
+M 2713 100 2741
+M 2713 100 2741
+M 2713 100 2742
+M 2713 100 2742
+M 2713 100 2742
+M 2713 100 2743
+M 2713 100 2743
+M 2713 100 2743
+M 2713 100 2744
+M 2713 100 2744
+M 2713 100 2744
+O 2714  10 2722
+P 2700 100 2714
+D 2707 DIR_DOWN  DOOR_CLOSED
+D 2708 DIR_UP    DOOR_CLOSED
+D 2724 DIR_WEST  DOOR_CLOSED_LOCKED
+D 2724 DIR_EAST  DOOR_CLOSED
+D 2726 DIR_EAST  DOOR_CLOSED_LOCKED
+D 2726 DIR_SOUTH DOOR_CLOSED
+D 2727 DIR_NORTH DOOR_CLOSED
+D 2728 DIR_SOUTH DOOR_CLOSED
+D 2725 DIR_WEST  DOOR_CLOSED
+O 2715 100 2718
+D 2723 DIR_NORTH DOOR_CLOSED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

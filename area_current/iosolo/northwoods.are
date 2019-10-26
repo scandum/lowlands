@@ -1,0 +1,5249 @@
+#AREA North Woods~
+#AUTHORS Oren~
+#VERSION 4
+#RANGES 90 95 75 95
+#OLC_RANGES 44300 44399
+#RESETMSG You feel like something is watching you.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOGOHOME|AFLAG_NORECALL|AFLAG_NOCASTLE|AFLAG_AUTOSAVE
+
+
+#HELPS
+0 "NORTH WOODS"~
+{120}                       North Woods
+
+{300}The North woods is a magical wooded area that has been told in
+legends and lore around Iosolo for years.  Little is known about
+the woods except that it once existed in the northern parts of
+Iosolo near Ellis City but some how it was magically moved near
+Dawn City to the south.  Many have adventured to the woods but
+few ever returned with their tales.  Much danger and adventure
+surely lie within these mysterious woods, does one have the
+courage to venture there.
+
+{010}Note -  This area is not intended for solo use or 0x use...
+~
+
+0 $~
+
+
+#MOBILES
+#44300
+fountain m44300~
+a soft whisper~
+An Ethereal Mob (Randomizer) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+150 0 0 1d5625+14072 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+say Would you fools like to enter the woods??
+mpecho {070}You hear an ominous cackle in the distance...
+say ...if not why not try a drink from the fountain!
+mpecho {070}The voice trails off in a cackling echo...
+~
+>act_prog p drinks water from a fountain.~
+mpechoat $n You feel a strange feeling when you drink from the fountain...
+mpechoaround $n $n looks strange after drinking from the fountain...
+mpquiet on
+switch numberrange (1,12)
+  case 1
+    cast 'sanctuary' $n
+  case 2
+    cast 'change sex' $n
+  case 3
+    cast 'tongues' $n
+  case 4
+    cast 'bless' $n
+  case 5
+    mpquiet off
+    mpechoat $n {070}You feel your power being drained.
+    mpquiet on
+    mpmadd $n currmana -500
+    mpquiet off
+  case 6
+    cast 'mirror image' $n
+  case 7
+    mpquiet off
+    mpechoat $n {070}You feel your life diminishing...
+    mpquiet on
+    mpmadd $n currhp -750
+  case 8
+    mpquiet off
+    mpechoat $n {070}You feel your life diminishing...
+    mpquiet on
+    mpmadd $n currhp -500
+  case 9
+    mpquiet off
+    mpechoat $n {070}You feel very tired...
+    mpquiet on
+    mpmadd $n currmove -1000
+  case 10
+    cast 'remove fear' $n
+  case 11
+    if rand (10)
+      mpquiet off
+      mpechoaround $n {020}The water poisons $n!
+      mpechoat $n {170}The vile fluid poisons your soul!
+      mpquiet on
+      slay $n
+    else
+      cast 'fireshield' $n
+    endif
+  case 12
+    if rand (10)
+      mpquiet off
+      mpechoat $n {070}After drinking the water a vision of an angel appears before you and you find yourself somewhere else.
+      mpechoaround $n {070}$n vanishes...
+      mpquiet on
+      mptransfer $n 44399
+    else
+      cast 'firewalk' $n
+    endif
+endswitch
+mpquiet off
+mpat 3 peace $n
+mpmset $n wait 4
+~
+>speech_prog yes~
+say So be it...good luck travellers...
+mpecho {070}A swirling mist appears...
+mptransfer pcs 44301
+~
+|
+#44301
+liliad druidess m44301~
+Liliad the Druidess~
+A lovely elven woman is standing here.~
+This lovely woman has brown hair and brown eyes.  She has fair skin and wears
+bows of holly in her hair.  She wears a long brown robe and sandals.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_TONGUES
+1000 S
+200 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d10000+28010 1d200+202
+300000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog return~
+mpecho {070}You are transported!
+mptransfer $n 44300
+~
+>act_prog p drinks water from a spring.~
+if quest (0,4,$n) == 0
+  say The water is good no?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  say My husband always liked to drink from the water as well...
+  sigh sadly 
+endif
+~
+>speech_prog husband~
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+  say Yes, he used to love the cool water here, until the day he left me...
+  say If only I had something to remember him by....
+endif
+~
+>give_prog i44360~
+if quest (0,4,$n) <= 2
+  mpmset $n quest 0 4 3
+  mpjunk i44360
+  say How did you ever find this $n!!  Thank you I will treasure this in Oren's memory.
+  smile 
+  say Take this it belonged to Oren's enemy I hope you can find a way to aid you against your enemies.
+  mpoload 44361
+  give i44361 $n
+  mpecho {070}Liliad holds the sash tightly and weeps...
+endif
+~
+|
+#44302
+gore beast m44302~
+a gore beast~
+A horned, beast stands here looking hungry.~
+This ghastly beast stands about 10 feet tall on all four legs.  It is covered
+in sharp, slime-covered horns.  Its gaping mouth could easily swallow a large
+cow whole.  Its jaws are lined with thousands of sharp teeth.  It looks very
+hungry and you may make a good meal for it.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_HUNT
+0 S
+150 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_CLAW BODY_MOUTH|BODY_HORN|BODY_CLAW 1d5625+14072 1d150+114
+300000 RACE_TROLL
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 7~
+mpecho {010}The heart of the gore beast is torn from its chest!
+mpoload 44317
+~
+>fight_prog 15~
+mpecho {010}A gore beast roars with rage!
+cast 'gas breath'
+~
+>greet_prog 100~
+if hasobjnum ($n) == 44323
+  mpechoat $n {070}The gore beast is paralyzed with fear from you.
+  mpechoaround $n {070}The gore beast is paralyzed with fear from $n.
+else
+  mpecho {010}The gore beast roars with glee and attacks!
+  mpkill $n
+endif
+~
+>entry_prog 100~
+if hasobjnum ($r) == 44323
+  mpechoat $r {070}The gore beast is paralyzed with fear from you.
+  mpechoaround $r {070}The gore beast is paralyzed with fear from $r.
+else
+  mpecho {070}The gore beast roars with glee and attacks!
+  mpkill $r
+endif
+~
+|
+#44303
+statue m44303~
+a statue~
+An ethereal mob (statue) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p the river of the dead flows for you tonight~
+if race ($n) != race_dwarf
+or class ($n) != class_elementalist
+  mpechoat $n {070}A whisper says 'You are not one with the earth my friend...'
+else
+  mpecho {070}The statue's eyes open!
+  mpechoat $n {070}You have been transported!
+  mpechoaround $n {070}$n has been transported away!
+  mptransfer pcs 44326
+endif
+~
+|
+#44304
+unholy knight m44304~
+an unholy knight~
+A large armored being stands guard here.~
+This armored spectre stands about twelve feet tall and wears a black suit of
+full plate armor.  The knight has a black aura about him and seems to be
+guarding the door to the east.  He wields a massive two-handed sword.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_PROTECT_GOOD|AFF_HASTE
+-1000 S
+190 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d9025+24738 1d190+182
+250000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpecho {070}The iron door swings open as the unholy knight perishes!
+mpoload 44304
+mpquiet on
+open east
+mpjunk i44304
+mpquiet off
+mpecho {070}You better enter the chamber before the door closes!
+mpdelay m44307 8 1 $n
+~
+>group_greet_prog 100~
+say To continue into the temple you must defeat me...
+mpecho {070}The unholy knight takes a defensive position.
+~
+>fight_prog 33~
+if rand (75)
+  mpechoat $r {010}The unholy knight howls an evil wail at you!
+  mpechoaround $r {010}The unholy knight howls an evil wail at $r!
+  cast 'black aura' $r
+else
+  mpecho {070}The unholy knight utters some words...
+  mass 'curse'
+  mass 'torrid balm'
+endif
+~
+|
+#44305
+statue m44305~
+a statue~
+A statue is here, that seems alive.~
+This statue is of a male sentinel that is guarding this alcove.  The statue
+is made of stone but seems like it is alive!
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+150 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d5625+14072 1d150+114
+200000 RACE_TROLL
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 10~
+mpoload 44305
+~
+|
+#44306
+crusher m44306~
+the ceiling~
+An Ethereal Mob (Crusher) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 20~
+if pcsinroom (44343) > 0
+  if !delayed ($i)
+    mpmset self quest 0 4 1
+    mpdelay self 6 1 $r
+  else
+    break
+  endif
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}The building begins to shake around you.
+    case 2
+      mpecho {070}A few pieces of rock begin to fall from the ceiling of this building.
+    case 3
+      mpecho {070}This building seems very unstable, you may want to leave.
+    case 4
+      mpechoat self wait
+    case 5
+      mpecho {070}The building's ceiling begins to shake violently.
+    case 6
+      mpechoat self wait
+    case 7
+      mpecho {010}A large chunk of the ceiling fall down!
+      mpdamage all 1500 3500 crush
+      mppurge self
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 6 1 $X
+endif
+~
+|
+#44307
+closer m44307~
+a closer~
+An ethereal mob (Closer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>delay_prog 1~
+mpoload 44304
+mpquiet on
+close east
+lock east
+mpquiet off
+mpecho The door swings shut...
+~
+|
+#44308
+beast mangler@ m44308~
+the Mangler~
+A hulking beast wound in barbed chains is here.~
+This massive beast has black skin that seems to be charred from fire.  The
+beast is tied up with barbed chains that cut into its skin.  It's gaping
+mouth is lined with hundreds of razor sharp teeth.  It also has long
+claws that could cut into someone very easily.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HASTE
+-1000 S
+200 BODY_HEAD|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_CLAW 1d10000+28010 1d200+202
+210000 RACE_WEREWOLF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+switch numberrange (1,5)
+  case 1
+    mpechoaround $r {010}The mangler spits vile goo on $r!
+    mpechoat $r {010}The mangler spits vile good on you!
+    mpquiet on
+    cast 'slow' $r
+    cast 'earthbind' $r
+    mpquiet off
+  case 2
+    mpechoaround $r {010}The mangler whips its chains at $r!
+    mpechoat $r {010}The mangler whips its chains at you!
+    mpdamage $r 500 750 whip
+  case 3
+    mpecho {020}The mangler shoots green fluid from its eyes.
+    mpquiet on
+    mass 'blindness'
+    mass 'poison'
+    mpquiet off
+  case 4
+    mpechoaround $r {070}The mangler utters some words at $r!
+    mpechoat $r {070}The mangler utters some words at you!
+    mpquiet on
+    cast 'confusion' $r
+    cast 'nightmare' $r
+    mpquiet off
+  case 5
+    mpecho {110}The mangler whips its body around causing the chains to whip everyone!
+    mpdamage all 500 1250 whip
+endswitch
+~
+>death_prog 100~
+mpecho {070}The steel door swings open as the mangler is killed!
+mpoload 44304
+mpquiet on
+open east
+mpjunk i44304
+mpquiet off
+mpecho {040}You better enter the chamber before the door closes!
+mpdelay m44307 8 1 $n
+~
+>group_greet_prog 100~
+mpecho {010}The Mangler lets out a horrifing roar!
+mpkill $r
+~
+|
+#44309
+lord deceit m44309~
+the Lord of Deceit~
+A tall, black robed man stands before you.~
+This figure stands about ten feet tall and wears only a black robe.  You can
+see two glowing red eyes from within the hood of the robe.  The figure is
+quite intimidating...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HASTE
+-1000 S
+200 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d10000+28010 1d200+202
+250000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+switch numberrange (1,3)
+  case 1
+    mpecho {030}The Lord of Deceit utters the words {070}'evoba morf htaed'
+    mpdamage all 1000 1250 death glare
+  case 2
+    mpechoat $r {070}The Lord of Deceit glares at $r.
+    mpechoaround $r {070}the Lord of Deceit glares at you.
+    mpquiet on
+    cast 'dispel magic' $r
+    cast 'black aura' $r
+    cast 'weaken' $r
+    mpquiet off
+  case 3
+    mpecho {010}The Lord of Deceit utters some words...
+    mpquiet on
+    mass 'blindness'
+    mass 'faerie fire'
+    mass 'curse'
+endswitch
+~
+>death_prog 100~
+mpecho {070}The bronze door swings open as the Lord of Deceit is killed!
+mpoload 44304
+mpquiet on
+open east
+mpjunk i44304
+mpquiet off
+mpecho {010}You better enter the chamber before the door closes!
+mpdelay m44307 8 1 $n
+~
+>group_greet_prog 100~
+say To continue you must dispose of me...
+mpecho {070}The Lord of Deceit prepares for the attack...
+mpkill $r
+~
+|
+#44310
+spirit ice m44310~
+an ice spirit~
+A white spirit floats before you.~
+An icy looking spirit floats here eyeing you as you enter this chamber.  The
+spirit looks calm and moves very slowly, it does not seem aggressive.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+200 BODY_HEAD BODY_EYE 1d10000+28010 1d200+202
+200000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+say Time to Freeze, my friends!!
+mpkill $r
+~
+>fight_prog 100~
+if rand (20)
+  mpecho {040}The ice spirit breaths frost on everyone!
+  mass 'frost breath'
+else
+  if rand (20)
+    mpechoat $r {040}The ice spirit casts some spells on you.
+    mpechoaround $r {040}The ice spirit casts some spells at $r.
+    cast 'chill touch' $r
+    cast 'curse' $r
+    cast 'blindness' $r
+  else
+    if rand (20)
+      mpecho {040}The ice spirit chants some words!
+      mass 'blindness'
+    else
+      if rand (20)
+        mpecho {040}The ice spirit utters some words...
+        mpquiet on
+        cast 'heal'
+        cast 'heal'
+        cast 'heal'
+        mpquiet off
+      else
+        mpechoat $r {040}The ice spirit gazes at you.
+        mpechoaround $r {040}the ice spirit gazes at $r.
+        mpquiet on
+        cast 'confusion' $r
+        cast 'chill touch' $r
+        cast 'black aura' $r
+        mpquiet off
+      endif
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpecho {040}As the ice spirit dies it shatters into millions of ice shards!
+mpdamage all 1000 2000 shard
+mptransfer all 44335
+~
+|
+#44311
+yoca gnome m44311~
+Yoca the Wonderous~
+A small gnome dressed in colorful clothing is here.~
+This short gnome wears bright red robes with a blue hat.  He seems to have the
+look of a wizard of sorts.  He wears green boots and a yellow belt.  His
+attire is quite colorful and hurts the eyes.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+300 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d22500+75000 1d100+750
+150000 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>group_greet_prog 100~
+if questr (44100,8,4,$n) == 9
+  if hasobjnum ($n) == 44156
+    if hasobjnum ($n) == 44146
+      if hasobjnum ($n) == 44157
+        mpmset $n questr 44100 8 4 10
+        mpecho {070}The gnome looks at you strangely.
+        say Well, well, well.  It seems you've gathered some fragments to the orb...
+        say I may be able to meld those together for you...
+      endif
+    endif
+  endif
+endif
+if questr (44100,8,4,$n) == 13
+  if delayed ($i)
+    say I'm not quite ready $n.
+    mpecho {070}Yoca continues with the melding...
+  else
+    mpmset $n questr 44100 8 4 14
+    say Well it is ready $n.  Here you go.
+    say The entire orb is complete!
+    mpoload 44319
+    give i44319 $n
+    say Well, if you need any more help don't hesitate to ask.
+    say Oh wait take these for your troubles as well.
+    mpoload 44325
+    give i44325 $n
+    mpecho {070}Yoca begins meditating.
+  endif
+endif
+if quest (8,8,$n) == 41
+  mpmset $n quest 8 8 42
+  smile $n
+  say Congrats my friend.  You have passed the test as I have seen.  You are on your way to becoming quite the hero.  Here take this orb, it was lost from the temple, I'm sure you know what to do with it.  Thanks again!
+  mpoload 44321
+  give i44321 $n
+  mpecho {070}Yoca goes back to his meditation.
+endif
+~
+>speech_prog meld~
+if questr (44100,8,4,$n) == 10
+  mpmset $n questr 44100 8 4 11
+  say Sure I can meld those fragments into one orb.  For a small fee of course!
+  cackle 
+  say It seems I've been in these woods too long I was wondering if you could scrap me together a nice hearty meal?  If you can I'd be glad to help you out!
+  say Now be gone!
+endif
+~
+>give_prog i44138~
+if questr (44100,8,4,$n) == 11
+  mpmset $n questr 44100 8 4 12
+  mpjunk i44138
+  gasp 
+  mpecho {070}Yoca gobbles down the meal, like it was his last!
+  say Yummmy, thank you $n.  I haven't had a good meal like that in years.  Now let me help you with those fragments.  Give me them and I will begin the melding process...
+else
+  say I don't need this.
+  give i44138 $n
+endif
+~
+>give_prog i44146~
+if questr (44100,8,4,$n) == 12
+  mpmset $n quest 32 1 1
+  mpjunk i44146
+  say Thanks.
+else
+  say I don't need this!
+  give i44146 $n
+endif
+if quest (32,4,$n) == 7
+  say Very nice, theres all three give me a few minutes to finish the melding, come back in a few...
+  mpdelay self 0 900
+  mpmset $n questr 44100 8 4 13
+endif
+~
+>give_prog i44156~
+if questr (44100,8,4,$n) == 12
+  mpmset $n quest 33 1 1
+  mpjunk i44156
+  say Thanks.
+else
+  say I don't need this!
+  give i44156 $n
+endif
+if quest (32,4,$n) == 7
+  say Very nice, theres all three give me a few minutes to finish the melding, come back in a few...
+  mpdelay self 0 900
+  mpmset $n questr 44100 8 4 13
+endif
+~
+>give_prog i44157~
+if questr (44100,8,4,$n) == 12
+  mpmset $n quest 34 1 1
+  mpjunk i44157
+  say Thanks.
+else
+  say I don't need this!
+  give i44157 $n
+endif
+if quest (32,4,$n) == 7
+  say Very nice, theres all three give me a few minutes to finish the melding, come back in a few...
+  mpdelay self 0 900
+  mpmset $n questr 44100 8 4 13
+endif
+~
+>speech_prog illusion~
+if quest (8,8,$n) == 3
+  mpmset $n quest 8 8 4
+  say Hrmm, illusion I'm not sure what you mean...
+  peer 
+  mpforce $r say The North Woods an Illusion??
+  say Hrmm...
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say ...in a way these woods are an illusion to the mortal eye.
+    case 2
+      grin 
+      say You see its kind of a long story...
+    case 3
+      say These woods were just your normal old woods that lied in the northern part of Iosolo, and technically still is.
+    case 4
+      say You see the geographic location of these woods is actually in the north, thus the North Woods, while the only way in is outside Dawn City.
+      giggle 
+    case 5
+      say There was a magical implosion back in the old city which caused a rift in time and caused many distortions.  So we are in a magical forest that is sort of floating in limbo.
+      cackle 
+    case 6
+      say The unfortunate side effect of the implosion is that most of the citizens of the city, ceased to exist, while others became ethereal beings that eternally live in these woods.
+    case 7
+      say Other things happened as well like, some of the old citizens of the city became these horrible beasts that rampage through the woods killing anything they see.
+    case 8
+      say Another strange side effect from the implosion was that the temple of oaks that used to reside west of the city was sucked into the woods and now resides in here, making it hard for the priests and priestesses to access the temple.
+    case 9
+      say Many adventurers and scholars have come here trying to solve the puzzle of the North Woods but most fail and mainly with their lives, since there is no way out of the woods, without godly powers of transportation.
+    case 10
+      say So the woods are not really an illusion more of an alter reality...
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 10 1 $X
+endif
+~
+>speech_prog implosion~
+if quest (8,8,$n) > 3
+  say Yeah the implosion was quite the terrible thing, they say some wizard was responsible for the disaster...
+endif
+~
+>speech_prog wizard~
+if quest (8,8,$n) > 3
+  say A wizard was experimenting with very volatile crystals found deep in the Horned Mountain was known to be the cause of implosion of the city.
+endif
+~
+>speech_prog crystals~
+if quest (8,8,$n) > 3
+  say Yeah, crystals.  The crystals were supposed to have superior magical properties, my guess is he went to far with his research and shattered one of them causing the implosion of the surrounding areas.
+endif
+~
+>speech_prog p old city~
+if quest (8,8,$n) > 3
+  say The old city was called Elm, it lied north of Ellis City until the accident...
+  say It was a haven for elven folk primarily, but other races were known to frequent elm and the North Woods quite often.
+endif
+~
+>speech_prog puzzle~
+if quest (8,8,$n) == 4
+  mpmset $n quest 8 8 5
+  say The puzzle of the north woods well its quite simple all you have to do is pass a simple test, when you pass the test you will know the answer to the puzzle...
+  grin 
+endif
+~
+>speech_prog test~
+if quest (8,8,$n) == 5
+  mpmset $n quest 8 8 6
+  say Yeah, a simple test.  Find Hippalute, he's around here somewhere.  He can explain the test to you...
+  say I'm far to busy to help you with that...
+  cackle 
+  mpecho {070}Yoca picks up an old tome and begins skimming through it.
+endif
+~
+|
+#44312
+girl m44312~
+a frightened little girl~
+A frightened little girl cowers here.~
+This small girl is wearing tattered rags and is quite dirty.  She seems very
+scared of something nearby.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT
+0 S
+20 BODY_HEAD BODY_HAND 1d100+182 1d20+4
+100 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog oracle~
+if questr (44100,24,8,$n) == 6
+  mpmset $n questr 44100 24 8 7
+  mpecho {070}The small girl looks up from the ground.
+  say The oracle is right here...
+  say The roof broked and felled in so no one can get in there now!!  Its all rubble...
+  mpecho {070}The girl points to the rubble.
+endif
+~
+>speech_prog rubble~
+if questr (44100,24,8,$n) == 7
+  mpmset $n questr 44100 24 8 8
+  say Yeah, rubble!  You would need something that goes BOOM to break through that rubble, Duh!!
+  twiddle 
+endif
+~
+>give_prog i44158~
+if questr (44100,24,8,$n) == 12
+  mpmset $n questr 44100 24 8 13
+  mpjunk i44158
+  say OOOH, a boom boom!  I can blow up the rubble now so you can go in the oracle!!  Do you want me to do it $n?
+endif
+~
+>speech_prog boom~
+if questr (44100,24,8,$n) == 8
+  mpmset $n questr 44100 24 8 9
+  blink $n
+  say Yeah like a fire bomb, DUH!  If you can make one I can help you blow up the rubble!!
+  smile 
+  say Make one and give it to me and I'll make it go BOOOOOOOOOOOM.
+  mpecho {070}The girl skips around the ruins in glee.
+endif
+~
+>speech_prog yes~
+if questr (44100,24,8,$n) == 13
+  mpmset $n questr 44100 24 8 14
+  say Hmmmmmm, I would do it if you will do me a favor $n.
+  ponder 
+  say It gets kind of lonely here in the woods, if you would give me a little old kiss I would definately help you out.
+  if sex ($n) == sex_male
+    stare $n
+  endif
+endif
+~
+>social_prog kiss~
+if questr (44100,24,8,$n) == 14
+  if sex ($n) == sex_male
+    mpmset $n questr 44100 24 8 15
+    say Yummy, that was a nice kiss $n.
+    moan 
+    say Now for my part of the bargain, let me set this up...
+    mpmset self quest 0 4 1
+    mpdelay self 8 1 $n
+  else
+    say Ewwwwww!! I don't like girls!!! Eeep!!
+    mpecho {070}The little girl's eyes turn red!!!
+    mpecho {070}A strangle glow appears around you!
+    mpecho {010}You are transferred!
+    mptransfer pcs 44300
+  endif
+endif
+~
+>delay_prog 1~
+switch quest (0,4,$i)
+  case 1
+    mpecho {070}The little girl places the bomb near the pile of rubble.
+  case 2
+    mpecho {070}The little girl lights a torch and holds it near the hemp wick of the bomb.
+  case 3
+    mpecho {070}The bomb's wick begins to hiss as it burns down lower and lower.
+  case 4
+    say Okay get out of here before it blows!!!!!!
+  case 5
+    mpecho {070}The wick burns lower...
+  case 6
+    mpecho {070}The wick is nearly burnt out!
+  case 8
+    mpecho {010}THE BOMB EXPLODES!!  Rubble flies everywhere!
+    mpareaecho {010}You hear a loud explosion!
+    mpmset self short a fire bomb
+    mpdamage pcs 10000 15000 explosion
+    connect north 44358 both
+    mppurge self
+endswitch
+mpmadd self quest 0 4 1
+mpdelay self 10 1 $X
+~
+>greet_prog 100~
+if delayed ($i)
+  break
+endif
+if questr (44100,24,8,$n) == 15
+  mpmset $n questr 44100 24 8 16
+  say Boom boom, its ready to go now!!
+  smile 
+  say Well gotta go for now, see ya later!
+  mppurge self
+endif
+~
+|
+#44313
+opener m44313~
+a whisper~
+An ethereal mob (opener) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog yes~
+mpecho {070}The gateway hums.
+say Good Luck my friends, please free us from the evil...
+mptransfer pcs 44355
+~
+>group_greet_prog 100~
+if quest (48,4,$n) > 2
+  mpecho {070}The gateway shimmers with bright light.
+  say Are you ready to continue?
+endif
+~
+|
+#44314
+loader1 m44314~
+a loader ~
+An ethereal mob (loader) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {010}A pitch black, figureless figure stands before you.
+mpmload 44315
+mpquiet on
+cast 'benediction' m44315
+cast 'bless' m44315
+cast 'giant strength' m44315
+cast 'stone fist' m44315
+cast 'fireshield' m44315
+mpquiet off
+mpforce m44315 say You've made it this far now, its time to die!!
+mpforce m44315 mpkill $r
+~
+|
+#44315
+carblyn death@ m44315~
+Carblyn the Annihilator~
+A black featureless figure stands here.~
+This figure is the size of an average man the body itself is completely black
+without any features except for 2 glowing red spot where its eyes may be on
+the head.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_PROTECT_EVIL|AFF_PROTECT_GOOD|AFF_PASS_DOOR|AFF_TONGUES|AFF_HASTE
+0 S
+200 0 0 1d1+64000 10d20+300
+0 RACE_DRAGON
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+if rand (10)
+  mpecho {010}Carblyn the Annihilator blasts a black ray at everyone!
+  mpdamage all 1500 2500 drain
+else
+  if rand (10)
+    mpecho {070}Carblyn the Annihilator chants some words of ritual.
+    mpmload 44344
+    mpforce m44344 mpkill $r
+  else
+    if rand (30)
+      mpecho {040}Carblyn the Annihilator cast some spells!
+      mass 'fire breath'
+      mass 'curse'
+      mass 'black aura'
+    else
+      mpechoat $r {070}Carblyn the Annihilator casts some spells at you.
+      mpechoaround $r {070}Carblyn the Annihilator casts some spells at $r.
+      cast 'blindness' $r
+      cast 'weaken' $r
+      cast 'faerie fire' $r
+      cast 'mage blast' $r
+    endif
+  endif
+endif
+mpmadd self currhp 500
+~
+>death_prog 100~
+mpecho {010}Carblyn explodes in an explosion of black goo!
+mpdamage all 1000 2000 glob
+mpecho {070}The explosion opens an opening below you.
+connect down 44389 both
+mpecho {170}You notice souls being freed, flying out of cracks in the cavern ceiling.
+~
+|
+#44316
+bomber~
+a bomber~
+An ethereal mob (Bomber) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if existsroom (m44312)
+  break
+endif
+if questr (44100,24,8,$n) == 15
+  mpmset $n questr 44100 24 8 16
+  mpmload 44312
+  mpforce M44312 say Boom boom, its ready to go now!!
+  mpforce M44312 dance
+  mpforce M44312 say Well gotta go for now, see ya later!
+  mppurge m44312
+endif
+~
+|
+#44317
+summoner m44317~
+a summoner~
+An ethereal mob (Summoner) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if existsroom (M44129)
+  break
+endif
+if questr (44100,24,8,$n) == 16
+  mpmset $n questr 44100 24 8 17
+  mpmload 44129
+  mpecho {070}Belmar notices you enter.
+  mpforce M44129 say Ah!  So you are the hero that seeks the orb is that true?
+endif
+~
+|
+#44318
+lesser demon m44318~
+a lesser demon~
+A winged beast is here with dark red skin.~
+This devilish fiend has large wings on its back and long horns upon its head.
+It has dark red skin and pitch black eyes.  It has massive sharp claws on
+each of its hands and hooved feet.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HUNT|AFF_HASTE
+-1000 S
+175 BODY_HEAD|BODY_MOUTH|BODY_TAIL|BODY_HORN|BODY_CLAW BODY_MOUTH|BODY_HORN|BODY_CLAW 1d7656+20299 1d175+155
+250000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#44319
+summoner~
+a ghost~
+An ethereal mob (Summoner) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+if quest (8,8,$n) == 0
+  mpmset $n quest 8 8 1
+  say Do you want to know the true secrets of this place?
+endif
+~
+>speech_prog yes~
+if quest (8,8,$n) == 1
+  mpmset $n quest 8 8 2
+  say Yes, the secrets of the North woods...  Its all an illusion!
+endif
+~
+>speech_prog illusion~
+if quest (8,8,$n) == 2
+  mpmset $n quest 8 8 3
+  say Ask Yoca about the illusion and see what he says!
+  cackle 
+  mpecho {070}The voice echoes off...
+endif
+~
+|
+#44320
+hippalute merman m44320~
+Hippalute~
+A merman is swimming around here.~
+This merman has dark blue skin and a long scaled tail with a fin on the end of
+it.  He wears a gold medallion around his neck and he has a long white beard on
+his face.  He is a very odd looking fellow.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HUNT|AFF_HASTE
+0 S
+200 0 0 1d10000+28010 1d200+202
+125000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog test~
+if quest (8,8,$n) == 6
+  mpmset $n quest 8 8 7
+  glare 
+  say A test??  What do you mean??  Who sent you here??
+endif
+~
+>speech_prog yoca~
+if quest (8,8,$n) == 7
+  mpmset $n quest 8 8 8
+  laugh 
+  say Yoca the Wonderous!  That fool is crazier than a barnyard rat!  You also must be equally as crazy if you want to figure out the puzzle of the North Woods!
+  cackle 
+  say But if you want to give it a try just accept my test...
+endif
+~
+>speech_prog accept~
+if quest (8,8,$n) == 8
+  mpmset $n quest 8 8 9
+  say So you accept this test!!
+  peer 
+  say Well its your soul $n!!  BAHAHAHAHA!!  You may take the test.  Take this decanter with you $n.  Enter the Pathway of Judgement if you return to me with some liquid left in the decanter you have passed the test.  Good Luck!
+  mpmset $n quest 24 8 5
+  mpoload 44324
+  give i44324 $n
+  say ...and remember once you've entered and you leave without completing the test you will fail!
+  mpquiet on
+  cast 'astral projection' $n
+  mpquiet off
+  mpechoat $n {070}Hippalute claps his hands together and you are in a strange place.
+  mpechoaround $n {070}Hippalute claps his hands together and $n is gone!
+  mptransfer $n 44360
+endif
+~
+>give_prog i44324~
+if quest (8,8,$n) == 40
+  if quest (24,8,$n) > 2
+    mpmset $n quest 8 8 41
+    mpjunk i44324
+    say Congratulations!  You have succeeded in passing the test of the North Woods!
+    mpmset self quest 0 4 1
+    if quest (24,8,$n) > 4
+      say Wow!  I noticed you didn't spill a drop, first take this.
+      mpoload 44364
+      give i44364 $n
+    endif
+    mpdelay self 6 1 $n
+  else
+    say I'm sorry $n.  The decanter is empty. You have failed!!
+    mpjunk i44324
+  endif
+else
+  say Hrmm you haven't completed the quest yet $n.  Take this back.
+  give i44324 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say As you can see the puzzle of the North Woods can never really be solved...
+    case 2
+      say But perhaps in the process you have solved an inner puzzle and endured through great hardships to return this liquid to me.
+    case 3
+      smile 
+      say This proves you are a hero of great valor $X.  Take this reward and go see Yoca he might have something for you as well.  Good luck in your journey's my friend.
+      mpoload 44323
+      give i44323 $X
+      mpoload 44352
+      give i44352 $X
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 6 1 $X
+endif
+~
+|
+#44321
+opener m44321~
+an imp~
+An Ethereal Mob (Opener) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (8,8,$n) == 9
+  mpmset $n quest 8 8 10
+  mpmset self quest 0 4 1
+  mpdelay self 8 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say Welcome $X.  I see you are foolish enough to walk down the Pathway of Judgement.
+    case 2
+      say Unfortunately for you, many try this test but few suceed, and pay with their lives...
+      cackle 
+    case 3
+      say You seem like a brave soul $X.  We'll see if its valor or stupidity!
+    case 4
+      say I'll ask you a few questions depending on how you answer will decide your fate.
+    case 5
+      say Are you ready to continue?
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>speech_prog yes~
+if quest (8,8,$n) == 10
+  say Here is your question $n.  Answer it...
+  switch numberrange (1,5)
+    case 1
+      mpmset $n quest 8 8 11
+      say I am always hungry,
+      say I must always be fed,
+      say The finger I lick
+      say Will soon turn red.
+    case 2
+      mpmset $n quest 8 8 12
+      say Each morning I appear
+      say To lie at your feet,
+      say All day I will follow
+      say No matter how fast you run,
+      say Yet I nearly perish
+      say In the midday sun.
+    case 3
+      mpmset $n quest 8 8 13
+      say You heard me before,
+      say Yet you hear me again,
+      say Then I die,
+      say Till you call me again.
+    case 4
+      mpmset $n quest 8 8 14
+      say Glittering points
+      say That downward thrust,
+      say Sparkling spears
+      say That never rust.
+    case 5
+      mpmset $n quest 8 8 15
+      say You can see nothing else
+      say When you look in my face,
+      say I will look you in the eye
+      say And I will never lie.
+  endswitch
+  smile $n
+  say Give me an answer $n.
+endif
+~
+>speech_prog fire~
+if quest (8,8,$n) == 11
+  mpmset $n quest 8 8 16
+  say Correct you may proceed!
+  mpecho {040}The mighty gate swings open!
+  connect north 44363 both
+endif
+~
+>speech_prog shadow~
+if quest (8,8,$n) == 12
+  mpmset $n quest 8 8 16
+  say Correct you may proceed!
+  mpecho {040}The mighty gate swings open!
+  connect north 44363 both
+endif
+~
+>speech_prog echo~
+if quest (8,8,$n) == 13
+  mpmset $n quest 8 8 16
+  say Correct you may proceed!
+  mpecho {040}The mighty gate swings open!
+  connect north 44363 both
+endif
+~
+>speech_prog icicle~
+if quest (8,8,$n) == 14
+  mpmset $n quest 8 8 16
+  say Correct you may proceed!
+  mpecho {040}The mighty gate swings open!
+  connect north 44363 both
+endif
+~
+>speech_prog reflection~
+if quest (8,8,$n) == 15
+  mpmset $n quest 8 8 16
+  say Correct you may proceed!
+  mpecho {040}The mighty gate swings open!
+  connect north 44363 both
+endif
+~
+|
+#44322
+closer m44322~
+a closer~
+An Ethereal Mob (Closer) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpecho {070}The gate closes behind you.
+connect south -1
+mpat 44362 connect north -1
+if isaffected ($n) == fly
+  break
+else
+  if rand (20)
+    if hasobjnum ($n) == 44324
+      if quest (24,8,$n) != 0
+        mpechoat $n {070}A gust of air from the closing gate makes you stumble spilling some fluid from the decanter!
+        mpmadd $n quest 24 8 -1
+      endif
+    endif
+  endif
+~
+|
+#44323
+troll grimrick m44323~
+Grimrick the Troll~
+A gangly troll is here.~
+This troll has green skin and wear nothing but a fur loin cloth.  It has long
+jagged finger nails and smells quite dastly.  It has an eyepatch on one of
+its eyes.  He seems to be a bit sad...
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY
+-1000 S
+125 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_HEAD|BODY_MOUTH|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d3906+9189 1d125+80
+10000 RACE_TROLL
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog eye~
+if quest (8,8,$n) == 16
+  emote grunts. 
+  say Owie my eye is itchy!  If only I had some liquid to put in it.
+endif
+~
+>rand_prog 12~
+moan 
+mpecho {070}The troll rubs its eye.
+~
+>speech_prog liquid~
+if quest (8,8,$n) == 16
+  mpmset $n quest 8 8 17
+  say Yeah liquid like that red stuff in your decanter!!
+  cry 
+  say If you give me the decanter I'll use some of the liquid for my eye and give it right back!
+  sniff 
+  say Plus I'll open the secret door if you want to leave here!
+  mpechoat $n {070}You hear a strange whisper...
+  voice someone Nah, just kill him...
+endif
+~
+>fight_prog 20~
+cast 'curse'
+cast 'weaken'
+cast 'faerie fire'
+~
+>hitprcnt_prog 50~
+if rand (20)
+  if hasobjnum ($r) == 44324
+    if quest (24,8,$r) != 0
+      mpecho {070}During the fight you accidently spill some of the liquid in the decanter!
+      mpmadd $r quest 24 8 -1
+    endif
+  endif
+endif
+~
+>hitprcnt_prog 10~
+if rand (20)
+  if hasobjnum ($r) == 44324
+    if quest (24,8,$r) != 0
+      mpecho {070}During the fight you accidently spill some of the liquid in the decanter!
+      mpmadd $r quest 24 8 -1
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if quest (8,8,$n) == 17
+  if hasobjnum ($n) == 44324
+    mpmset $n quest 8 8 18
+    say Uggggh, you have killed me!
+    mpecho {070}A strange voice whispers...
+    voice someone Good work heres your way on, I owe ya one...
+    connect west 44365
+  endif
+endif
+~
+>give_prog i44324~
+if quest (8,8,$n) == 17
+  mpmset $n quest 8 8 18
+  say Wow thanks a lot $n!
+  mpecho {070}Grimrick the Troll pours some of your liquid onto his sore eye...
+  say Great that did the trick!  Thanks again $n!  Here is your decanter back.
+  give i44324 $n
+  if quest (24,8,$n) != 0
+    mpmadd $n quest 24 8 -1
+  endif
+  say Here is the way to go!
+  mpecho {070}A doorway appears on the west wall!
+  connect west 44365
+else
+  say I don't need this.
+  give i44324 $n
+endif
+~
+|
+#44324
+skullton m44324~
+Skullton~
+A skeleton man is here.~
+This skeleton is standing here in shrouds of burnt garb.  Its bones are a
+bit on the charred side, it seems to have been set on fire recently.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+95 0 0 1d2256+4906 1d95+47
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (8,8,$n) == 18
+  mpat 44364 connect west -1
+  mpmset $n quest 8 8 19
+  mpecho {010}Skullton's bones sizzle from searing heat.
+  say Take a trip on the lava river if you dare and see for yourself!
+  cackle 
+endif
+~
+|
+#44325
+dropper m44325~
+a dropper~
+An Ethereal Mob (Dropper) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if isaffected ($n) == firewalk
+  break
+else
+  if hasobjnum ($n) == 44324
+    if rand (20)
+      if quest (24,8,$n) != 0
+        mpecho {010}The hot lava boils some of the liquid in the decanter!
+        mpmadd $n quest 24 8 -1
+      endif
+    endif
+    mpdelay self 10 1 $n
+  endif
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if rand (20)
+    if quest (24,8,$r) != 0
+      mpecho {010}The hot lava boils some of the liquid in the decanter!
+      mpmadd $X quest 24 8 -1
+    endif
+  endif
+  mpdelay self 12 1 $X
+endif
+~
+|
+#44326
+scorched beast m44326~
+a scorched beast~
+A creature with black, charred flesh is here, angry.~
+This beast looks to be fried and crispy from living near this lava.  It looks
+very angry at your presence here.  The beast has massive claws and sharp fangs
+lining its mouth.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_FLYING|AFF_HASTE
+-500 S
+110 BODY_HEAD|BODY_MOUTH|BODY_CLAW BODY_MOUTH|BODY_TAIL|BODY_CLAW 1d3025+6846 1d110+62
+125000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 25~
+mpechoat $r {010}The scorched beast bursts a flame at you!
+cast 'flamewave' $r
+cast 'torrid balm' $r
+~
+>death_prog 100~
+if hasobjnum ($n) == 44324
+  mpecho {010}The scorched beast lets out a roaring death cry.
+  mpecho {010}Lava pours from the open wounds of the beast revealing a tunnel north.
+  mpoload 44334
+  connect north 44374
+endif
+~
+|
+#44327
+maiden sarah m44327~
+Sarah~
+A weeping maiden is here.~
+This lovely elven maiden is wearing a long white dress.  She has brown hair
+and brown eyes.  She wears boughs of holly in her hair.  She looks quite sad
+as if something is very upsetting to her.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT
+0 S
+95 BODY_HEAD BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d2256+4906 1d95+47
+25000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if quest (8,8,$n) == 19
+  cry 
+endif
+if quest (8,8,$n) == 21
+  sniff 
+  say ...oh the terror, the terror...
+endif
+if quest (8,8,$n) == 22
+  mpmset $n quest 8 8 23
+  say The terror is gone!  Thanks to you $n!
+  cheer 
+  say For your help I'll aid you on your quest!  Behold!  Your path is clear now!
+  say Also have some more fluid for your decanter.
+  mpecho {070}Sarah magically puts some fluid in the decanter!
+  if quest (24,8,$n) == 0
+    mpmset $n quest 24 8 2
+  else
+    mpmadd $n quest 24 8 1
+  endif
+  mpat 44376 connect west 44378
+endif
+~
+>social_prog comfort~
+if quest (8,8,$n) == 19
+  mpmset $n quest 8 8 20
+  say Thank you $n.  I'm just very scared of the terror...
+endif
+~
+>speech_prog terror~
+if quest (8,8,$n) == 20
+  mpmset $n quest 8 8 21
+  say Yes the terror that comes to me every night...
+  sigh 
+  say If only someone could dispose of the terror...
+  mpecho {070}The woman continues weeping...
+endif
+~
+>time_prog 23~
+if existsroom ($r)
+  if quest (8,8,$r) == 21
+    mpat 44376 mpmload 44329
+    mpecho {040}You hear a faint growling sound from the south.
+  endif
+endif
+~
+|
+#44328
+summoner m44328~
+a summoner~
+An Ethereal Mob (Summoner) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 3~
+if existsroom (M44329)
+  mpecho {070}A beast scurries off into the shadows.
+  mppurge M44329
+~
+>act_prog start_trigger~
+if rand (10)
+  mpoload 44338
+  mpquiet on
+  give i44338 $n
+  mpquiet off
+  mpechoat $n {070}You melt away the molten lava to reveal an oaken key!
+  mpechoaround $n $n melts away the molten lava to reveal an oaken key!
+  mpforce $n mpjunk i44334
+else
+  mpechoat $n {070}You burn away some of the molten rock but much remains.
+  mpechoaround $n {070} $n burns away some of the molten rock but much remains.
+  mpmset $n wait 4
+endif
+~
+|
+#44329
+terror fang m44329~
+Terror Fang~
+A hideous creature with sharp claws is here.~
+This creature is covered in thick fur and has razor sharp fangs in its mouth
+to accompany its long claws on its hands and feet.  It has black colorless
+eyes and wolf-like features.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_HASTE
+-1000 S
+125 BODY_HEAD|BODY_TORSO|BODY_CLAW|BODY_FOOT BODY_MOUTH|BODY_CLAW 1d3906+9189 1d125+80
+250000 RACE_WEREWOLF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpechoat $n {010}A horrid beast sees you enter and attacks!
+mpkill $n
+~
+>fight_prog 10~
+if rand (10)
+  if hasobjnum ($r) == 44324
+    if quest (24,8,$r) != 0
+      mpecho {070}You spill some of the liquid in your decanter during the battle!
+      mpmadd $r quest 24 8 -1
+    endif
+  endif
+else
+  break
+endif
+mpecho {010}The Terror Beast howls!
+mpquiet on
+cast 'confusion' $r
+cast 'blindness' $r
+mpquiet off
+~
+>death_prog 25~
+if quest (8,8,$n) == 21
+  if hasobjnum ($n) == 44324
+    mpecho {070}Terror Fang is Incinerated!  He will not bother Sarah again!
+    mpmset $n quest 8 8 22
+  endif
+endif
+~
+|
+#44330
+closer m44330~
+a closer~
+An Ethereal Mob (Closer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpat 44373 connect north -1
+~
+|
+#44331
+closer m44331~
+a closer~
+An Ethereal Mob (Closer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpat 44376 connect west -1
+~
+|
+#44332
+wizard adlian m44332~
+Adlian the Archmage~
+An Old Mage stands before you.~
+This old man is most likely a mage he wields a gnarled staff about 6 feet high
+and wears dark blue robes.  He wears a wide brimmed hat with a long green
+feather in it.  His grey eyes have the look of great wisdom.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_SANCTUARY|AFF_HASTE
+1000 S
+200 0 0 1d10000+28010 1d200+202
+150000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog yes~
+if quest (8,8,$n) == 26
+  mpmset $n quest 8 8 27
+  say A fellow mage to aid me.  This is ever so fortuitous.
+  say I would assume you are also trying to get out of this utter maze as well.
+  say First you must prove to me that you are wise in the ways of magic before I can be sure of your potential.
+  ponder 
+  say Are you ready to begin $n?
+  break
+endif
+if quest (8,8,$n) == 27
+  mpmset $n quest 8 8 28
+  say First you must answer a few questions before I can truely believe your worth.  Say accept if you wish to continue with this challenge.
+endif
+~
+>speech_prog accept~
+if quest (8,8,$n) == 28
+  mpmset $n quest 8 8 29
+  if rand (25)
+    mpmset $n quest 24 4 1
+    say Which spell is translated in common from 'zabrahpbuie'?
+  else
+    if rand (25)
+      mpmset $n quest 24 4 2
+      say Which spell is translated in common from 'hahzw'?
+    else
+      if rand (25)
+        mpmset $n quest 24 4 3
+        say Which spell is translated in common from 'uqz ralzf'?
+      else
+        mpmset $n quest 24 4 4
+        say Which spell is translated in common from 'zrzwunsohar'?
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog earthbind~
+if quest (8,8,$n) == 29
+  if quest (24,4,$n) == 1
+    mpmset $n quest 8 8 30
+    say Correct!  You are very wise in the knowledge of spell language, but how are you in ancient languages?
+  endif
+endif
+~
+>speech_prog totem~
+if quest (8,8,$n) == 29
+  if quest (24,4,$n) == 2
+    mpmset $n quest 8 8 30
+    say Correct!  You are very wise in the knowledge of spell language, but how are you in ancient languages?
+  endif
+endif
+~
+>speech_prog p ice layer~
+if quest (8,8,$n) == 29
+  if quest (24,4,$n) == 3
+    mpmset $n quest 8 8 30
+    say Correct!  You are very wise in the knowledge of spell language, but how are you in ancient languages?
+  endif
+endif
+~
+>speech_prog elemental~
+if quest (8,8,$n) == 29
+  if quest (24,4,$n) == 4
+    mpmset $n quest 8 8 30
+    say Correct!  You are very wise in the knowledge of spell language, but how are you in ancient languages?
+  endif
+endif
+~
+>speech_prog language~
+if quest (8,8,$n) == 30
+  mpmset $n quest 8 8 31
+  say You must translate the following in ancient elven to common, to continue my friend:
+  if rand (33)
+    mpmset $n quest 28 4 1
+    say Inu slmdilp vli mo rol axl cli,
+    say Xmel udza axl cdmzolo xzqx
+    say Nh axl dmdl cnzazi hdnv Znonsn qdlli,
+    say Pzoazsslp hdnv uxlma mip dfl.
+  else
+    if rand (33)
+      mpmset $n quest 28 4 2
+      say Sla qdmoolo qdnu mip umaldo hsnu
+      say Zi m hdll mip lmof umf,
+      say Kra qzel vl linrqx nh axl dmdl nsp oarhh
+      say Axma'o vmpl ilmd Pmssumf Kmf.
+    else
+      mpmset $n quest 28 4 3
+      say Hnd za hzsso axl mzd uzax m cldhrvl dmdl,
+      say Mip klauzta knax vl mip fnr,
+      say Mo xnvl ul dnss, ul ymi pdzig m knus,
+      say Nd m kryglahrs nh vnriamzi plu.
+    endif
+  endif
+endif
+~
+>speech_prog p Now learned men as use the pen, Have writ the praises high Of the rare poitin from Iosolo green, Distilled from wheat and rye.~
+if quest (8,8,$n) == 31
+  if quest (28,4,$n) == 1
+    mpmset $n quest 8 8 32
+    say Very impressive $n.  I can see you are learned in the ways of spellcraft and ancient languages.
+    say There will be one final test to see if you are the one I have been seeking...
+  endif
+endif
+~
+>speech_prog p Let grasses grow and waters flow In a free and easy way, But give me enough of the rare old stuff That's made near Dallway Bay.~
+if quest (8,8,$n) == 31
+  if quest (28,4,$n) == 2
+    mpmset $n quest 8 8 32
+    say Very impressive $n.  I can see you are learned in the ways of spellcraft and ancient languages.
+    say There will be one final test to see if you are the one I have been seeking...
+  endif
+endif
+~
+>speech_prog p For it fills the air with a perfume rare, And betwixt both me and you, As home we roll, we can drink a bowl, Or a bucketful of mountain dew.~
+if quest (8,8,$n) == 31
+  if quest (28,4,$n) == 3
+    mpmset $n quest 8 8 32
+    say Very impressive $n.  I can see you are learned in the ways of spellcraft and ancient languages.
+    say There will be one final test to see if you are the one I have been seeking...
+  endif
+endif
+~
+>speech_prog test~
+if quest (8,8,$n) == 32
+  mpmset $n quest 8 8 33
+  say Yes it will test your will and mind.  When you are prepared say ready.
+endif
+~
+>speech_prog ready~
+if quest (8,8,$n) == 33
+  mpmset $n quest 8 8 34
+  say Okay $n, good luck and I will see you on the other side if you succeed.
+  mpecho {070}Adlian waves his hand before you and you are gone!
+  mptransfer $n 44385
+  mpoload 44336
+  mposet i44336 sactimer 0
+  mppurge self
+endif
+~
+>rand_prog 20~
+if pcsinroom (44382) == 0
+  mpoload 44336
+  mposet i44336 sactimer 0
+  mppurge self
+endif
+~
+|
+#44333
+dark beast m44333~
+a dark beast~
+A dark, hulking figure stands here.~
+This black beastly creature has few features but red glowing eyes.  It has an
+unearthly feeling around it.  You can't help but shiver as you are near it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_HASTE
+0 S
+150 BODY_HEAD|BODY_EYE BODY_CLAW 1d5625+14072 1d150+114
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 25~
+mpecho {010}The dark beast howls!
+mpquiet on
+cast 'torrid balm' $r
+cast 'curse' $r
+cast 'black aura' $r
+mpquiet off
+~
+>hitprcnt_prog 10~
+if rand (20)
+  if hasobjnum ($r) == 44324
+    if quest (24,8,$r) != 0
+      mpecho {070}During the fight you accidently spill some of the liquid in the decanter!
+      mpmadd $r quest 24 8 -1
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 44324
+  mpecho {170}A bright flash of light illuminates the room as you strike the killing blow!
+  mpecho {070}You find yourself elsewhere.
+  mptransfer $n 44383
+  connect east 44380
+endif
+~
+>hitprcnt_prog 30~
+if rand (20)
+  if hasobjnum ($r) == 44324
+    if quest (24,8,$r) != 0
+      mpecho During the fight you accidently spill some of the liquid in the decanter!
+      mpmadd $r quest 24 8 -1
+    endif
+  endif
+endif
+~
+|
+#44334
+greeter~
+a greeter~
+An Ethereal Mob (Greeter) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (8,8,$n) == 23
+  mpmset $n quest 8 8 24
+  mpecho {070}A large crevace appears in the ground behind you blocking your way further.
+  connect east -1
+  mpmset self quest 0 4 1
+  mpdelay self 10 1 $X
+  mpdelay self 10 1 $n
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}A dark figure appears before you.
+      mpmload 44333
+    case 2
+      mpecho {010}The dark figure turns its attention to you.
+      mpforce M44333 cackle
+      mpforce M44333 say To continue you must best me my friend...
+    case 3
+      mpecho {070}The dark figure howls with a piercing sound then rears to attack you.
+      mpforce M44333 mpkill $r
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+|
+#44335
+task master taskmaster m44335~
+the Taskmaster~
+A robed man wielding a bull whip stands before you.~
+This ragged man, has a few long scars upon his face.  He wears dirty brown
+robes and wields a menacing barbed bull whip.  He looks like he know what to
+do with that whip as well.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+200 BODY_HEAD BODY_HAND|BODY_FOOT 1d10000+28010 1d200+202
+200000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (8,8,$n) == 24
+  if quest (36,4,$n) == 0
+    mpmset $n quest 36 4 1
+    say Bow before me heathen scum!
+  endif
+endif
+~
+>social_prog bow~
+if quest (36,4,$n) == 1
+  mpmset $n quest 36 4 2
+  say Thats better wretch!  If you wish to continue on you had better be ready to do some tasks!
+endif
+~
+>speech_prog tasks~
+if quest (36,4,$n) == 2
+  mpmset $n quest 36 4 3
+  say Yes tasks this grove is far too beautiful for the likes of me, first I need you to plant some weeds around this area to kill the other plant life.
+  grin 
+  say Take these weed saporlings and plant them around the grove.
+  mpoload 44341
+  give i44341 $n
+endif
+~
+>time_prog 23~
+if existsroom (i44342)
+  if existsroom ($r)
+    mpecho {070}The weeds overgrow the flowers and plants in the area.
+    mppurge i44342
+    mpquiet on
+    mpoload 44343
+    drop i44343
+    mpquiet off
+    say Very nice, for some reason those weeds grow better at night.
+    say Are you ready for you next task!
+    mpmset $r quest 36 4 4
+  endif
+endif
+~
+>speech_prog yes~
+if quest (36,4,$n) == 4
+  mpmset $n quest 36 4 5
+  say Well now that the weeds are growing its time to defile some of these trees.
+  cackle 
+  say Take this axe and chop down trees until you shattered the axe, that should be enough to appease me, hahahaaaaa.
+  mpoload 44344
+  give i44344 $n
+  say Also give me the whats left of the axe so I can see your labors haha.
+  mpecho {070}The taskmaster begins to whittle some wood with his pocket knife.
+endif
+~
+>give_prog i44345~
+if quest (36,4,$n) == 5
+  mpmset $n quest 36 4 6
+  say Well I'd say you chopped some serious trees down, bahahaha.
+  grin 
+  say Well one more task to complete before the defiling has completed.
+  say I'll need some cave cricket legs to poison the water in the fountain, you should find some in the cave return them to me and we're through!
+endif
+~
+>give_prog i44346~
+if quest (36,4,$n) == 6
+  mpmset 36 4 7
+  mpmset 8 8 40
+  say Thanks $n.
+  grin 
+  mpecho {070}The taskmaster defiles the fountain with the poison from the cricket legs...
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}The fountain water begins to sour.
+      grin 
+    case 2
+      say Well there we go, a grove I can be proud of.
+    case 3
+      say You have suceeded in passing the test, you should be proud here is a gift!
+      if rand (50)
+        mpoload 44347
+        give i44347 $X
+      else
+        mpoload 44363
+        give i44363 $X
+      endif
+      mpmset $X quest 8 8 40
+    case 4
+      say Now be gone!
+      mpecho {070}The taskmaster raises his arms.
+      mptransfer $X 44386
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+|
+#44336
+wizardchecker m44336~
+a statue~
+An Ethereal Mob (Wizard Checker) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}You here a strange sound from near the statue.
+    case 2
+      mpecho {070}Another noise comes from nearby.
+    case 3
+      mpecho {070}You think you can hear some mumbling from nearby.
+    case 4
+      mpechoat self wait
+    case 5
+      mpechoat self wait
+    case 6
+      mpecho {070}You can hear some mumbling from the statue...
+    case 7
+      mpechoat self wait
+    case 8
+      mpechoat self wait
+    case 9
+      mpecho {070}Upon closer listening you hear some soft words coming from the statue.
+    case 10
+      mpechoat self wait
+    case 11
+      mpechoat self wait
+    case 12
+      mpecho {070}You crouch down by the statue to make out some words...
+      say Say my Name...
+      mpmset $X quest 8 8 25
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 20 1 $X
+endif
+~
+>greet_prog 100~
+if quest (8,8,$n) == 23
+  mpecho {070}You feel a strange presence from within the statue.
+  mpdelay self 6 1 $n
+  mpmset self quest 0 4 1
+endif
+~
+>speech_prog adlian~
+if quest (8,8,$n) == 25
+  mpmset $n quest 8 8 26
+  mpecho {070}The statue seems to shiver for a few moments.
+  mpecho {070}It seems the statue has come to life!
+  mpmload 44332
+  mppurge i44336
+  mpforce M44332 say Have you come to help me?
+endif
+~
+>repop_prog 100~
+mpoload 44336
+mposet i44336 sactimer 0
+~
+|
+#44337
+a tree~
+a tree~
+An Ethereal Mob (Tree Creator) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 21~
+if existsroom ($r)
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $r
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      mpecho {070}The oak tree begins to creak a bit.
+    case 2
+      mpecho {070}You see two eyes appear on the front of the mighty oak tree!
+    case 3
+      say Who wakes me from my slumber!  Well, what is your name?
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 8 1 $X
+endif
+~
+>speech_prog p my name is~
+if quest (8,8,$n) == 34
+  mpmset $n quest 8 8 35
+  say Well $n, you've come a long ways if you have got this far.  There is only one thing left to do, if you wish to pass the test.
+  mpecho {070}The great oak tree groans loudly.
+  say I have a simple request I have a pesky bird near the top of my head that has been stealing my acorns.  Do you think you can help me with my boggle?
+endif
+~
+>speech_prog yes~
+if quest (8,8,$n) == 35
+  mpmset $n quest 8 8 36
+  say Thank you so much $n.  If you wouldn't mind please climb up my limbs and take care of that pesky bird.  If you succeed, please climb back down and I'll reward you.
+  mpecho {070}The tree continues its slumber.
+endif
+~
+|
+#44338
+cave cricket m44338~
+a cave cricket~
+A small cricket is here chirping.~
+This small black cricket makes an annoying noise.  It hops around in the back
+of the cave looking for food.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SNEAK|AFF_FLYING|AFF_STEALTH|AFF_HASTE
+0 S
+70 BODY_HEAD BODY_PINCERS|BODY_SPINNARET 1d1225+2484 1d1+60
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 18~
+mpecho {070}A cricket's leg flies off!
+mpoload 44346
+~
+>fight_prog 18~
+mpecho {010}A cricket bites you with its poison fangs!
+mpdamage $r 1000 3000 poison sting
+~
+|
+#44339
+bird summoner m44339~
+a tree~
+An Ethereal Mob (Bird Summoner) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if pcsinroom (44387) > 0
+  if !existsroom (m44340)
+    mpmload 44340
+    mpecho {070}A bird hovers overhead trying to grab some acorns from the tree.
+    mpmset self quest 0 4 1
+    mpdelay self 6 1 $r
+  endif
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  if existsroom (m44340)
+    switch quest (0,4,$i)
+      case 1
+        mpecho {070}The bird swoops for some acorns.
+      case 2
+        mpecho {070}The bird swoops for some acorns.
+      case 3
+        mpecho {070}The bird swoops in and grabs some acorns and flies off.
+        mppurge m44340
+        break
+    endswitch
+    mpmadd self quest 0 4 1
+    mpdelay self 8 1 $X
+  endif
+endif
+~
+>act_prog start_trigger~
+if existsroom (m44340)
+  if rand (5)
+    if hasobjnum ($n) == 44324
+      if quest (24,8,$n) != 0
+        mpechoat $n {070}When you try to swoop the net at the bird, you spill some fluid from the decanter.
+        mpmadd $n quest 24 8 -1
+      endif
+    endif
+  else
+    if rand (20)
+      mpechoat $n {070}You swoop your net at the bird and catch it!
+      mpmset $n quest 8 8 40
+      mppurge m44340
+      say Thank you so much for your help $n.  One bird down, a few more to go.
+      say As promised here is your reward!
+      if rand (50)
+        mpoload 44350
+        give i44350 $n
+      else
+        mpoload 44362
+        give i44362 $n
+      endif
+      say ..and you may continue!
+      mpecho {070}The tree hums a moment...
+      mptransfer $n 44386
+    else
+      mpechoat $n {070}You swoop your net at the bird but it evades you!
+      mpmset $n wait 4
+    endif
+  endif
+else
+  mpechoat $n {070}There is nothing to catch here.
+endif
+~
+|
+#44340
+bird m44340~
+a bird~
+A bird is here hovering.~
+This is a common acorn thief bird!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_FLYING|AFF_HASTE
+0 S
+50 BODY_WING|BODY_BEAK BODY_WING|BODY_BEAK 1d625+1197 1d50+14
+1000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#44341
+ruby altar m44341~
+ruby altar~
+An Ethereal Mob (Ruby Altar) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog pdmqni~
+if wearsobjnum ($n) == 44320
+  mpquiet on
+  mpforce $n remove i44320
+  mpforce $n drop i44320
+  mpforce $n sacrifice i44320
+  mpquiet off
+  mpecho {010}The ruby orb hovers to the altar and locks in place.
+  mpmadd $n quest 48 4 1
+endif
+~
+|
+#44342
+emerald altar m44342~
+emerald altar~
+An Ethereal Mob (Emerald Altar) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog adll~
+if wearsobjnum ($n) == 44319
+  mpquiet on
+  mpforce $n remove i44319
+  mpforce $n drop i44319
+  mpforce $n sacrifice i44319
+  mpquiet off
+  mpecho {020}The emerald orb hovers to the altar and locks in place.
+  mpmadd $n quest 48 4 1
+endif
+~
+|
+#44343
+sapphire altar m44343~
+sapphire altar~
+An Ethereal Mob (Sapphire Altar) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog hzox~
+if wearsobjnum ($n) == 44321
+  mpquiet on
+  mpforce $n remove i44321
+  mpforce $n drop i44321
+  mpforce $n sacrifice i44321
+  mpquiet off
+  mpecho {040}The sapphire orb hovers to the altar and locks in place.
+  mpmadd $n quest 48 4 1
+endif
+~
+|
+#44344
+beast death m44344~
+a death beast~
+A pitch black beast covered in spikes is here.~
+This beast has pitch black skin.  The skin glistens from the light in the
+chamber.  Its flesh almost looks insect like.  The beast is also covered in
+many horns and spikes.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_HASTE
+-1000 S
+130 BODY_HEAD BODY_HORN|BODY_CLAW 1d4225+10065 1d130+86
+100000 RACE_DEMON
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 20~
+mpechoat $r {010}A death beast breaths fire at you.
+mpechoaround $r {010}A death beast breaths fire at $r.
+cast 'fire breath' $r
+~
+|
+#44345
+ghost summoner m44345~
+a ghost~
+An Ethereal Mob (Ghost Summoner) is here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+connect up -1
+mpat 44357 connect down -1
+mpmload 44346
+mpforce m44346 say Are you the ones that defeated the evil one and released all the trapped souls?
+~
+>speech_prog return~
+if !existsroom (m44346)
+  mpechoat $n {070}You are transported!
+  mpechoaround $n {070}$n is transported!
+  mptransfer $n 44219
+endif
+~
+|
+#44346
+ghost adlian m44346~
+the ghost of Adlian the Archmage~
+A ghostly mage is here.~
+This is the ghost of the Archmage Adlian.  It is wearing tattered robes and
+hovers before you wielding a gnarled staff.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+0
+0 S
+95 0 0 1d2256+4906 1d95+47
+1200 RACE_WRAITH
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog yes~
+if quest (52,4,$n) == 0
+  mpmset $n quest 52 4 1
+  say We are all indebted to you for killing the evil and freeing us all.
+  mpecho {070}The trapped souls begin to take their final path to the afterlife.
+  mpmset self quest 0 4 1
+  mpdelay self 6 1 $n
+endif
+~
+>delay_prog 1~
+if existsroom ($X)
+  switch quest (0,4,$i)
+    case 1
+      say As a token of our gratitude take these artifacts to aid you in future endeavors.
+    case 2
+      if rand (33)
+        mpoload 44353
+        drop i44353
+      else
+        if rand (33)
+          mpoload 44354
+          drop i44354
+        else
+          mpoload 44355
+          drop i44355
+        endif
+      endif
+      if rand (33)
+        mpoload 44356
+        drop i44356
+      else
+        if rand (33)
+          mpoload 44357
+          drop i44357
+        else
+          mpoload 44358
+          drop i44358
+        endif
+      endif
+    case 3
+      say If you wish to leave simply say return and my magic will take you to safety, friends...
+      mpecho {070}The ghost of Adlian the Archmage chants a few words...
+    case 4
+      mpecho {070}The ghost of Adlian the Archmage fades off to the afterlife...
+      mppurge self
+      break
+  endswitch
+  mpmadd self quest 0 4 1
+  mpdelay self 5 1 $X
+endif
+~
+|
+#44347
+closer m44347~
+a closer~
+An Ethereal Mob (Closer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (8,8,$n) == 18
+  connect east -1
+  mpat 44346 connect west -1
+endif
+~
+|
+#44348
+closer3 m44348~
+a chest closer~
+An Ethereal Mob (Chest Closer) is here.~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#44300
+fountain~
+a fountain~
+A moss covered fountain is here overgrown with vines.~
+This fountain seems to be made of marble but is stained over the years and
+covered in moss and ivy.  Clear liquid still flows from the spout of the
+fountain into the basin below it.  The fountain depicts a slyph spewing
+water out of her mouth into the circular basin below the statue.  There is
+some carvings in the side of the fountain.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+E
+carvings~
+{170}Drink Me!
+~
+#44301
+mushroom~
+a mushroom~
+A large mushroom grows out of the ground here.~
+This mushroom is white and has red spots all over it.  It is very large and
+looks like you could sit on it.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+4 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#44302
+spring~
+a spring~
+A bubbling spring is here.~
+This bubbling spring comes out of the ground.  The liquid seems to be warm
+water and one might want to take a rejuvenating bath in the bubbling stream
+of water.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#44303
+statue~
+a statue~
+A marble statue of a man is standing here on a pedestal.~
+This marble statues stands elevated on a marble pedistal that is overgrown
+with ivy and brush.  The statue depicts a naked man wearing a crown of holly
+leaves.  He is holding a dagger in his right hand and raises his left arm
+above his head seeming to look victorious.  There is some etching on the
+pedestal but its hard to read.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+etching~
+{070}The etching is hard to make out -  Th# ##ver #f t#e ##ad f#ow# fo# #o# #o#i#ht
+~
+#44304
+key~
+a key~
+A key lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44305
+stone boots~
+a pair of stone boots~
+A pair of stone boots lie here.~
+These boots are made of stone and quite heavy but they have magical powers
+as they fit to your foot size perfectly.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+17 0 0 0 0 0 0 0
+20 100 95
+A APPLY_MANA 120 0
+#44306
+broken fountain~
+a broken fountain~
+A broken fountain sits here.~
+This fountain was once a great spectical in the city but now stands here in
+ruins.  Moss and other fungus grow on the side of this marble fountain.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44307
+building~
+a building~
+A ruined building is here.~
+This ruined building is quite collapsed but there may be a way to enter it
+through one of the holes in the structure.
+~
+ITEM_TYPE_PORTAL
+0
+0
+0 0 GATE_STEP_INTO 44343 0 0 0 0
+1 10 1
+#44308
+altar pain~
+the altar of pain~
+A blood-stained altar is here.~
+This black altar is coated in blood from an apparent sacrifice.  The altar
+has an indentation on it where something could be placed.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44309
+altar stasis~
+the altar of stasis~
+An ice covered altar is here.~
+This altar is covered in a sheet of ice.  An indentation is in the center
+of the altar where something could be placed.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44310
+altar deceit~
+the altar of deceit~
+An ivy covered altar is here.~
+This altar is covered in green ivy and plain of any decorations or markings
+except for an indentation in the center of it where something could be placed.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44311
+gateway~
+a sealed gateway~
+A sealed gateway is here.~
+This gateway seems to be sealed with some sort of magical barrier.  It seems
+nothing can get in or out from this portal.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44312
+stone~
+a stone~
+A flat, polished stone lies here.~
+This stone is polished down to a flat surface as if it was like a table or
+type of altar.  The stone rests in the center of the grove here and teeters
+on a smaller stone beneath it.  Some have called stones like this a standing
+stone.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+10 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 100 0 0 0 0
+1 10 1
+#44313
+swimmer~
+a swimmer~
+An ethereal object is here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_ETHEREAL
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 swim
+OPROG_GOD_COMMAND
+mpechoat self {040}You swim below the waterfall...
+mpgoto 44347
+~
+#44314
+statue~
+a statue~
+A large statue on a pedistal is here.~
+This statue depicts a muscular man wearing a crown on his head holding a
+wooden sceptre.  The figure seems to be proudly overlooking the chamber, its
+face has the look of a very important person.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44315
+rubble~
+a pile of rubble~
+A pile of rubble is here.~
+This pile of rubble seems to have a hole in it where things could be placed.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 0 0 10 0 0 0 0
+1 10 95
+#44316
+throne~
+a throne~
+A mighty throne is here.~
+This throne is made from bones of dead bodies.  A large minotaur skull adorns
+the backrest of the throne while large rib bones make the arms of the throne.
+Large torso bones make the base of the throne, it is quite the sight.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SIT_ON 200 0 0 0 0
+1 10 1
+#44317
+gore beast heart~
+a gore beast heart~
+A heart is still beating on the ground here.~
+This heart was torn from the chest of a gore beast and is still pumping
+slightly.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#44318
+tester~
+a tester~
+A tester~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_ETHEREAL
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44319
+emerald orb~
+an emerald orb~
+An emerald orb is lying here.~
+This glowing orb emits a bright green light.  The orb itself seems to be
+made completely from emerald.  It is the size of two fists and would catch
+quite the price in market.  There is a strange symbol carved into the side
+of the orb.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 10000000 95
+E
+symbol~
+{120}              _--_-_
+{120}             -    ` -
+{120}            (  -     )
+{120}           ( `   -    )
+{120}            (   -   `)
+{120}             `-     -
+{120}               `{030}| |{120}'
+{030}                | |
+{030}                | |
+{030}                | |
+~
+A APPLY_MANA 150 0
+A APPLY_HIT 100 0
+#44320
+ruby orb ~
+a ruby orb~
+A ruby orb is lying here.~
+This glowing orb emits a red aura.  The orb itself is the size of a large fist
+and is intricately cut into a perfect orb.  There is a strange symbol carved
+into the side of the orb.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 10000000 95
+E
+symbol~
+{020}                        \`-\`-._
+{020}                         \` )`. `-.__      ,
+{010}      '' , . _ {020}      _,-._;'_,-`__,-'    ,/
+{010}     : `. ` , _' :- '{020}--'._ ' `------._,-;'
+{010}      `- ,`- '            {020}`--..__,,---'
+~
+A APPLY_MANA 150 0
+A APPLY_HIT 100 0
+#44321
+sapphire orb~
+a sapphire orb~
+A sapphire orb is lying here.~
+This glowing orb has a faint blue aura surrounding it.  It is cold to the
+touch and is cut to a round shape which seems to be perfect  It is the size
+of two large fists and is definately quite the treasure.  There is a strange
+symbol carved into the side of the orb.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 10000000 95
+E
+symbol~
+{040}   _.-=-._     .-,
+{040} .'       "-.,' /
+{040}(          _.  <
+{040} `=.____.="  `._\
+~
+A APPLY_MANA 150 0
+A APPLY_HIT 100 0
+#44322
+hemp strand~
+a strand of hemp~
+A strand of hemp is here.~
+This is a strand of woven hemp that is quite old and ragged.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44323
+crystal scarab~
+a crystal scarab~
+A clear scarab lies here.~
+This scarab is completely translucent and sparkles in the light.  It is the
+size of a child's fist and could catch quite the prize at market.  There
+is a carving on the bottom of the scarab.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+2 5000000 95
+E
+carving~
+cdnalya vl
+~
+A APPLY_WIS 5 0
+A APPLY_STR 5 0
+A APPLY_INT 5 0
+#44324
+decanter~
+a decanter~
+A decanter rests here.~
+This decanter is not like a normal drinking tube.  It is made from clear
+glass and red fluid can be seen inside it.  There is one side open on the
+decanter where fluid could spill out, so be careful not to trip!  You
+could {070}observe{300} the fluid levels at any time.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 10 1
+P 1
+TRIG_UNKNOWN 100 observe
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+{070}You have to be holding the decanter to observe its fluid level.
+~
+P 3
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 24 8 > 4 4 5
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}The decanter is completely full of fluid.
+~
+P 5
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 24 8 = 4 6 7
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}The decanter is three quarters full of liquid.
+~
+P 7
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 24 8 = 3 8 9
+P 8
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}The decanter is half full of liquid.
+~
+P 9
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 24 8 = 2 10 11
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}The decanter is one quarter full of liquid.
+~
+P 11
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 24 8 < 2 12 0
+P 12
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}The decanter is completely empty.
+~
+#44325
+oaken vambrace~
+a set of oaken vambraces~
+A set of wooden vambraces lie here.~
+This set of wooden vambraces are made from magical oak.  The are incredibly
+durable and could protect one from attacks.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+23 0 0 0 0 0 0 0
+4 25000 100
+A APPLY_INT 3 0
+#44326
+statue~
+a statue~
+A small statue of an Imp is here.~
+This statue depicts a small imp holding a tiny military fork.  The imp's face
+seems to be watching your every step with a sinister grin.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44327
+gate~
+a gate~
+A massive bronze gate stands here.~
+This massive gate stands about 20 feet tall and 15 feet wide.  It doesn't
+seem to have any opening device and looks immobile.  It is a bit tarnished
+and looks very old.
+~
+ITEM_TYPE_PORTAL
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44328
+lava gate~
+a lava gate~
+A firey gate is here flaming.~
+This gate is completely aflame.  Molten lava pours around the entrance to
+the gate, it would not be in one's best interest to enter without protection.
+~
+ITEM_TYPE_PORTAL
+0
+0
+100 0 GATE_STEP_THROUGH 44367 0 0 0 0
+1 10 95
+#44329
+firepit fire pit~
+a firepit~
+A firepit is here, containing a roaring fire.~
+This firepit might be used to cook food, or warm its host.  It is roaring with
+red and orange flames.  The heat is quite welcome in this cold air.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44330
+bed~
+a bed~
+A small bed is here.~
+This small bed has a small matress on it.  It looks like a nice place to sleep.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#44331
+bookcase~
+a bookcase~
+A wooden bookcase sits against the far wall.~
+This oaken bookcase is rather empty.  There are a few books on it for reading
+but mostly it just collects dust.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10 0 0 100 0 0 0 0
+1 10 1
+#44332
+tome knowledge~
+a tome of knowledge~
+A large tome is here.~
+{170}Tome of Knowledge
+{010}------------------
+
+{030}II  {070}North Woods
+
+{030}III {070}Temple of Oaks
+
+{030}V   {070}City of Elm
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+i~
+The City of Elm was once one of the most prosperous cities in Iosolo which
+lied in the North Woods near Ellis City.  The city of mostly elves lived
+very peacefully in harmony until the presence of the evil mage and his
+fiends.
+
+The Great Temple of Oaks was taken over and the Orbs scattered about the
+region.  Legends say they are close by to Dawn City.  After a great magical
+mishap the city was all be destroyed.  There were few survivors most of whom
+were transformed into beasts that haunt the woods to this day.  Some Legends
+say the High Elder of Elm, the Archmage Adlian still exists in the woods.
+~
+E
+ii~
+The North Woods were geographically exist in the southern part of Iosolo
+since the implosion in the City of Elm.  Since then the woods have been a
+place of magic and mystery.  Within the woods holds a place of great power,
+The Temple of Oaks, where the 3 orbs hold together the balance of reality and
+dreams.  It is said that only those that our close to the Earth and Nature
+can truely find passage to the temple.
+
+The orbs have been scattered about the region and if they remain away from
+the temple then the fabric of all that is known to be real is in jeopardy in
+Dawn City and its surrounding areas.
+
+Many beasts roam the area which are assumed to be the haunted souls of the
+former residents of Elm.  They are very dangerous and have known to kill many
+visitors of the woods.  There are said to be scarabs that will ward off the
+beasts with the markings of cdnalya vl.  Which is ancient elvish for protect me.
+The woods themselves seem to shift and almost shift about as you walk
+through the maze of paths, making it nearly impossible to leave.  Strange
+things have been known to happen in the woods, but most who enter never
+leave alive...
+~
+E
+iii~
+The Temple of Oaks was once a sacred place where the citizens of Elm and
+Dawn City once worshipped Order in peace and harmony.  When the temple was
+defiled a great darkness and presence of evil befell the land.  The temple
+once was the home of three great orbs.  These relics have great powers and
+kept a peaceful balance in the woods and cities nearby.  During the dark
+times an evil presence has taken over the temple and dispersed the orbs
+far from the temple.  Legend says the only way to rid this evil is to return
+the orbs to temple on their altars' and dispatch any evil within...
+
+There is said to have several doorways that must be passed before one can
+reach the inner sanctum, little detail is known however of these doorways,
+but it is very dangerous and those only of great valor have been known to
+journey there.
+
+The center of the temple has 3 altars where the orbs are usually placed.  The
+ruby orb is placed on the altar of pain, the emerald orb is placed on the
+altar of deceit, and the sapphire orb is placed on the altar of stasis.  Then
+and only then can one enter through the gateway of truth.
+
+One must look at the symbol on each orb then say the name of the symbol in
+ancient elvish to relink each orb to the appropriate altar, so is told in
+books of lore...
+~
+E
+v~
+The City of Elm was once one of the most prosperous cities in Iosolo which
+lied in the North Woods near Ellis City.  The city of mostly elves lived
+very peacefully in harmony until the presence of the evil mage and his
+fiends.
+
+The Great Temple of Oaks was taken over and the Orbs scattered about the
+region.  Legends say they are close by to Dawn City.  After a great magical
+mishap the city was all be destroyed.  There were few survivors most of whom
+were transformed into beasts that haunt the woods to this day.  Some Legends
+say the High Elder of Elm, the Archmage Adlian still exists in the woods.
+~
+#44333
+journal~
+a journal~
+A book is here.~
+{040}My Journal
+
+{070}15th Day of the Month of the Frost Giant
+
+{300}I have been in this god forsaken place for what seems an eternity, this
+crazy old witch is driving me mad!  Some positive news has come about, I have
+seemed to locate a pattern to this strange beast that comes, I will try some
+new strategies this evening...
+
+{070}16th Day of the Month of the Frost Giant
+
+{300}The beast is crafty, I will soon best him.  Now if I can only find the
+key, I must have dropped it near the lava, who knows what condition it could
+be in now, CURSES...
+
+{070}18th Day of the Month of the Frost Giant
+
+{300}Things have taken a turn for the worst, the beast has injured me quite
+severely.  I hope that my wounds do not worsen.  I do not know if I have the
+will to battle on any longer...  Only if Adlian could hear me...
+
+{070}20th Day of the Month of the Frost Giant
+
+{300}Things are not the same!  NoThiNg is real anymore...  THE KEY!!  where is
+the key!!!  I find myself fading into myself...
+
+{070}25th Day of the Month of the Frost Giant ...Last Entry
+
+{300}Sarah must die, she not good... THE BEAST COMES FOR US ALL...
+help me Adlian...
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#44334
+charred dagger~
+a charred dagger~
+A charred dagger lies here.~
+This dagger is so worn that molten rock has deformed it greatly.  It is
+basically unuseable for any cutting purposes, the lava has made some strange
+formations on the blade.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 90
+E
+formations~
+These formations possibly were some engraving or artwork on this dagger.  It
+might be possible to melt the encrusted rock if you could find a hot enough
+flame.
+~
+P 1
+TRIG_UNKNOWN 100 melt
+OPROG_IF OIF_USER_ROOM_NUM = 44376 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat M44328 start_trigger
+~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Huh?  'melt' is not a command.
+~
+#44335
+sign~
+a sign~
+A sign is posted here.~
+{170}Mages -- North
+{110}Warriors -- South
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44336
+statue~
+a statue~
+A statue of an old wizard rests here.~
+This statue is made of a light colored stone and is quite overgrown with
+vines and moss.  The statue stands on a stone pedistel and depicts an elderly
+wizard wearing flowing robes and a wide brimmed hat.  The wizard's face has
+a long beard flowing down it.  The eyes seem as if they have great wisdom
+within them...
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44337
+spring~
+a spring~
+A clear water spring is bubbling here.~
+This spring bubbles with what seems to be cool, refreshing water.  It is quite
+tempting to take a drink.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44338
+oaken key~
+an oaken key~
+A wood key lies here.~
+This wooden key seems to be made from strong oak.  Its amazing how it could
+last under the lava, it seems to have magical properties to it.  There are
+some pictographs on the key thats resemble trees and a circular object.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000 90
+#44339
+ancient oak~
+an ancient oak~
+An ancient oak tree stands here towering over you.~
+This old oak may be hundreds even thousands of years old.  Its trunk is as
+wide as a small cottage and it may stand over 100 feet in the air.  You feel
+a strange presence near the tree as if the tree is actually alive!
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 climb
+OPROG_GOD_COMMAND
+mpechoat self {070}You climb up the tree!
+mpgoto 44387
+~
+#44340
+pile rubble~
+a pile of rubble~
+A pile of rubble lies here.~
+This pile of rocks and debris must have been left here from some sort of
+land slide.  It is quite large and has been here for quite some time.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 95
+#44341
+bag weed saporlings~
+a bag of weed saporlings~
+A bag of weed saporlings is here.~
+This woven hemp bag is quite ordinary.  It is filled with weed saporlings,
+you could probably seed an area with these and weeds would grow.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 10 0 0 0 0
+1 10 90
+P 1
+TRIG_UNKNOWN 100 seed
+OPROG_IF OIF_USER_ROOM_NUM = 44384 2 3
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+{070}You cannot seed anything here.
+~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You seed the ground with the weed saprolings.
+mpechoat self {070}It may take some time to see them grow...
+mpoload 44342
+mposet i44342 sactimer 0
+mpjunk i44341
+~
+P 5
+TRIG_VOID
+OPROG_ECHO
+{070}You have to be holding the bag to seed the area.
+~
+#44342
+weeds~
+some weeds~
+A bunch of weeds are growing here.~
+These weeds are growing within the lush grass and plants of the grove, it is
+quite the eye sore.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44343
+growing weeds~
+some growing weeds~
+Some large growing weeds are spreading through the area.~
+These weeds are quite large and spreading through the foilage and flowers
+destroying all it touches.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#44344
+wood axe~
+a wood axe~
+A large, sharp axe lies here.~
+This large axe is used to cut down trees.  It is quite large and has a very
+sharp head on it.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 10 90
+P 1
+TRIG_UNKNOWN 100 cut
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 2 3
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 44384 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+{070}You have to hold the axe to cut any wood!
+~
+P 4
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 4 = 0 6 7
+P 5
+TRIG_VOID
+OPROG_ECHO
+{070}There is nothing to cut here.
+~
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 0 4 1
+P 7
+TRIG_VOID
+OPROG_OBJECT_QUEST_IF 0 4 = 10 11 8
+P 8
+TRIG_VOID
+OPROG_IF OIF_RANDOM_PERCENT < 20 9 10
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You chop some wood with the axe!
+mpoadd i44344 quest 0 4 1
+mpmset self wait 4
+~
+P 10
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You try to chop some trees down with the axe but fail!
+mpmset self wait 12
+~
+P 11
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {070}You chop so much wood you break the axe!
+mpoload 44345
+mpjunk i44344
+~
+#44345
+handle axe~
+an axe handle~
+A broken handle of an axe is here.~
+This is the handle of an axe that once had a blade on the head.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 10 90
+#44346
+cricket leg~
+a cricket's leg~
+A leg of a cricket is lying here.~
+It's a cricket leg.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 90
+#44347
+oaken coil~
+a oaken coil~
+A oaken belt lies here.~
+This belt is studded with magical oaken plate.  It looks like wood but it
+feels like cloth and defends like steel.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+9 0 0 0 0 0 0 0
+3 10000 100
+A APPLY_DAMROLL 10 0
+#44348
+tree limb~
+a tree limb~
+A large tree limb is here.~
+This tree limb, has a strange indentation on the side of it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+2000 CONT_CLOSEABLE|CONT_PICKPROOF|CONT_CLOSED|CONT_LOCKED 44338 150 0 0 0 0
+1 10 150
+E
+indentation~
+It seems this indentation, resembles a keyhole.
+~
+P 1
+TRIG_ROOM_UNKNOWN 100 climb
+OPROG_GOD_COMMAND
+mpechoat self {070}You climb down the tree.
+mpgoto 44385
+~
+#44349
+bird net catcher~
+a bird net~
+A large net is here.~
+This large net could be used to catch many different flying objects.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+500 0 0 75 0 0 0 0
+1 10 70
+A APPLY_DEX 5 0
+P 1
+TRIG_UNKNOWN 100 catch
+OPROG_IF OIF_USER_ROOM_NUM = 44387 2 3
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 4 5
+P 3
+TRIG_VOID
+OPROG_ECHO
+{070}There is nothing to catch here.
+~
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat m44339 start_trigger
+~
+P 5
+TRIG_VOID
+OPROG_ECHO
+{070}You need to hold the net to catch anything.
+~
+#44350
+crown woods~
+the crown of the woods~
+An ornate crown lies here.~
+This crown is made of some strange metal.  It glows brightly until its
+worn.  It has ornate engravings of leaves and other natural objects.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+25 0 0 0 0 0 0 0
+5 10000 100
+A APPLY_STR -4 0
+A APPLY_HIT 50 0
+#44351
+ivory archway~
+an ivory archway~
+An ivory archway stands here emiting a faint glow.~
+The archway is filled with what seems to be blue wave-like liquid.  The
+archway itself is made from ivory and has several symbols on it of an unknown
+dialect.
+~
+ITEM_TYPE_PORTAL
+0
+0
+100 0 GATE_STEP_THROUGH 44345 0 0 0 0
+1 10 1
+#44352
+greaves balance~
+the greaves of balance~
+A pair of greaves lie here.~
+These greaves are made of a very sturdy metal and half are embossed in white
+while the other half of each is in black.  They have a magical glow to them
+and it is hard to find greaves of better quality.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+2 0 0 0 0 0 0 0
+4 10 110
+A APPLY_DAMROLL 11 0
+A APPLY_HITROLL 4 0
+P 1
+TRIG_WEAR 100
+OPROG_ECHO
+{070}You feel great power when you equip the greaves.
+~
+#44353
+band justice~
+a band of justice~
+A silver band lies here.~
+This silver band glows a bright shine as you look upon it with your light
+source.  It is simple in nature no markings or any distinct engravings.  You
+can feel a strong power emitting itself from the band when you are near it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+3 124500 120
+A APPLY_DAMROLL 10 0
+A APPLY_HITROLL 9 0
+A APPLY_SAVING_SPELL -7 0
+#44354
+shield ancients~
+the shield of the ancients~
+A kite shield is lying here.~
+This mighty shield bears the crest of Lord Order.  It's power has been spoken
+of for eons in the lands of Iosolo.  It was rumored to be once owned by the
+Lord himself and many of his avatars.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+15 0 0 0 0 0 0 0
+5 100000 120
+A APPLY_DAMROLL 10 0
+A APPLY_SAVING_SPELL -7 0
+P 1
+TRIG_HIT 10
+OPROG_GOD_COMMAND
+mpecho {070}The shield of the ancients gives you strength.
+mpmadd self currhp 50
+~
+#44355
+robe wonder~
+the robe of wonder~
+A blue silk robe lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+2 100000 120
+A APPLY_MANA 200 0
+A APPLY_HIT 100 0
+A APPLY_SAVING_SPELL -7 0
+#44356
+frost gauntlets~
+a pair of frost gauntlets~
+A set of white gauntlets lie here.~
+These white gauntlets are covered in a thin layer of frost it seems.  They glow
+when you get near them and emit a great magical presence.  They are made from
+some strange metal and woven into a chain mesh.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+26 0 0 0 0 0 0 0
+7 564000 115
+A APPLY_HIT 25 0
+A APPLY_SAVING_SPELL -4 0
+#44357
+quick sting~
+Quicksting~
+A sharp, curved dagger lies here.~
+This dagger is extremely sharp.  Its blade is curved and serrated at the end
+for extra damage.  The blade itself is jet black making it so there is no
+glare in the light.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 11 10 WEAPON_STAB 0 0 0 0
+4 543200 115
+A APPLY_DAMROLL 3 0
+#44358
+yocas sash~
+Yoca's sash~
+A colorful sash lies here.~
+This sash once belonged to the mage Yoca.  It is known to have wonderous powers.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+3 245600 115
+A APPLY_MANA 200 0
+A APPLY_HIT 75 0
+A APPLY_SAVING_SPELL -5 0
+#44359
+magic box~
+a magic box~
+A magic box lies here.~
+This magic box is made of wood and seems to be locked up tightly.  The box
+is painted green and is bare of any ornamentation.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_INVIS
+0
+1500 CONT_CLOSEABLE|CONT_PICKPROOF|CONT_CLOSED|CONT_LOCKED 44338 50 0 0 0 0
+1 10 95
+#44360
+sash pines~
+a sash of the pines~
+A sash is lying here.~
+This sash is made of fine pine green cloth.  There are strange designs up
+and down the sash, but its mighty glow seems to be the most interesting.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+3 10 95
+E
+designs~
+The designs depict two lovers holding hands in front of an old bubbling spring.
+There is also a faint marking in the design.
+~
+E
+marking~
+Farewell my Love Liliad...Oren
+~
+A APPLY_CON 5 0
+A APPLY_WIS 5 0
+A APPLY_INT 5 0
+#44361
+venom fang~
+Venomfang~
+A black dagger lies here.~
+This dagger's blade is made of some strange metal.  It is jet black in color
+and the edges are serrated.  The hilt of the weapon is gemmed with onyx
+stones and sculpted at the end into the form of a grey skull.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 11 10 WEAPON_PIERCE 0 0 0 0
+3 200045 105
+A APPLY_AC -5 0
+A APPLY_SAVING_SPELL -5 0
+P 1
+TRIG_WEAR 100
+OPROG_GOD_COMMAND
+mpechoat self {010}You feel like giving some pain as you wield Venomfang.
+~
+P 2
+TRIG_DAMAGE 100
+OPROG_IF OIF_WEAR_LOC = WEAR_WIELD 3 0
+P 3
+TRIG_DAMAGE 100
+OPROG_IF OIF_RANDOM_PERCENT < 5 4 0
+P 4
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {020}Venomfang injects poison in your foe.
+mpquiet on
+cast 'poison'
+cast 'torrid balm'
+mpquiet off
+~
+#44362
+wood woodland torch~
+a torch of the woodlands~
+A glowing torch is lying here.~
+This torch has a hard wooden handle at the top a metallic cup holds this white
+flame.  The flame is quite bright and seems to emit an aura of protection
+to whomever holds it aloft.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+5 145000 100
+A APPLY_AC -17 0
+A APPLY_SAVING_SPELL -8 0
+A APPLY_HIT 50 0
+#44363
+axe splendor~
+an axe of splendor~
+A large axe lies here.~
+This mighty axe has a bright white glow emitting from it.  The axe has a
+very sharp, curved blade and a long wooded shaft handle.  There are several
+engravings on the axe that seem to be of a tribal variety, none of which you
+can really make any meaning to.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 8 12 WEAPON_BLAST 0 0 0 0
+10 143000 100
+#44364
+boots faith~
+the boots of faith~
+A pair of boots lies here.~
+These boots are made from fine brown leather.   The have a golden strap around
+the top of them and are in superior condition.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+12 0 0 0 0 0 0 0
+5 10 110
+A APPLY_DAMROLL 10 0
+A APPLY_HITROLL 4 0
+A APPLY_SAVING_SPELL -5 0
+#0
+
+
+#ROOMS
+#44300
+Dark Grove~
+You are standing in a dark, gloomy grove.  You have wandered deep into a
+dark forest.  You feel a strange magical presence all around you.  The trees
+here look to by nearly dead on the outside but they almost seem to move as
+you notice them from the corner of your eye.  Brush blocks the way west into
+the dark, menacing woods.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_EAST
+A pathway leads on.~
+~
+0 -1 44216
+#44301
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44312
+DDIR_EAST
+The path in the woods leads to a grove.~
+~
+0 -1 44318
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44312
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44302
+#44302
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44311
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44315
+#44303
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44302
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44318
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44304
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44301
+#44304
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44305
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44302
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44310
+#44305
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44309
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44318
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44306
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44304
+#44306
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44305
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44323
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44316
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44307
+#44307
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44306
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44316
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44308
+#44308
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44324
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44307
+DDIR_SOUTH
+A clearing lies to the south.~
+~
+0 -1 44325
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44301
+#44309
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44310
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44317
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44301
+#44310
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44319
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44309
+#44311
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44310
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44318
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44316
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44324
+#44312
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44313
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44302
+#44313
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44320
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44314
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44312
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44304
+#44314
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44315
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44317
+#44315
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44321
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44316
+#44316
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44317
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44315
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44315
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44318
+#44317
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+A plush grove lies to the north.~
+~
+0 -1 44344
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44321
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44309
+#44318
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44320
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44316
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44319
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44314
+#44319
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44318
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44323
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44322
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44312
+#44320
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44303
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44311
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44324
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44321
+#44321
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44323
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44320
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44302
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44320
+#44322
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44315
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44302
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44324
+#44323
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+The path in the woods continues on.~
+~
+0 -1 44324
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44309
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44321
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44313
+#44324
+Dark Woods~
+You are walking on a pathway through the dark woods.  The eerie trees seem
+to look down upon you as you walk onward.  The ground here is very cold and
+ashy.  All the trees nearby are ancient and block any sky that could be
+seen outside these woods.  The pathway winds on in many directions.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+A pathway can be seen to the north.~
+~
+0 -1 44340
+DDIR_EAST
+The path in the woods continues on.~
+~
+0 -1 44310
+DDIR_SOUTH
+The path in the woods continues on.~
+~
+0 -1 44301
+DDIR_WEST
+The path in the woods continues on.~
+~
+0 -1 44316
+#44325
+Clearing~
+You are standing in a clearing in the middle of the dark woods.  The clearing
+has lush vegetation unlike the rest of the woods you seen before.  Green grass
+grows all about and many wild flowers sprout all over making it quite the
+colorful clearing away from the dreary woods surrounding it.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+A path leads on in the dark woods.~
+~
+0 -1 44308
+#44326
+Entrance to the Temple~
+You are standing at the entrance to a stone temple.  The entrance lies to the
+east while overgrown brush and thicket block any way out of the temple.  The
+temple is made of granite stones and seems to emit a faint magical presence.
+You can hear strange noises from inside the temple to the east.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A hallway continues on.~
+~
+0 -1 44327
+#44327
+Hallway~
+You are walking on a hallway in the temple.  Two large alcoves flank the
+hallway going north and south.  The hallway continues west outside the temple
+and east leads deeper into the temple towards a more illuminated part of the
+temple.  Strange noises can be heard from the east.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+A alcove can be seen.~
+~
+0 -1 44328
+DDIR_EAST
+The hallway leads onward.~
+~
+0 -1 44330
+DDIR_SOUTH
+A alcove can be seen.~
+~
+0 -1 44329
+DDIR_WEST
+The entrance of the temple lies to the west.~
+~
+0 -1 44326
+#44328
+Alcove~
+You are standing in a large alcove.  The alcove is relatively bare an unlit
+torch is placed in a holder on the northern wall.  This is where guards would
+stand post most likely.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+The hallway is to the south.~
+~
+0 -1 44327
+#44329
+Alcove~
+You are standing in a large alcove.  The alcove is relatively bare an unlit
+torch is placed in a holder on the southern wall.  This is where guards would
+stand post most likely.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+The hallway lies to the north.~
+~
+0 -1 44327
+#44330
+Bright Hallway~
+You are standing in a hallway that is brightly illuminated by 4 torches that
+hang on the north and south wall.  A massive large door can be seen to the
+east in the distance.  Loud clanking metal noises can be heard to the east as
+if someone in a suit of armor is pacing back and forth.  The temperature
+is considerably warmer as you continue to the east.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A large door can be seen to the east.~
+~
+0 -1 44331
+DDIR_WEST
+The hallway leads onward.~
+~
+0 -1 44327
+#44331
+Before the Great Doors~
+You are standing before a great iron door.  The door itself stands about
+twenty feet tall and may be ten feet wide, it seems to be locked securely and
+emits a faint magical aura.  Two braziers are lit here flanking the door and
+they light this chamber.  The hallway continues back to the west towards the
+entrance of the temple.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Iron Door~
+Iron Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44332
+DDIR_WEST
+A hallway winds onward.~
+~
+0 -1 44330
+#44332
+Hall of Pain~
+You are standing in massive hall.  The walls here are lined with sharp iron
+spikes pertruding from holes in the wall.  The floor is covered in burnt out
+ash and it is hard to walk about.  A massive steel door lies to the east
+while an iron door blocks our way west.  Chains hang from the ceiling just
+out of your reach but rattle and clank together as a strange wind from above
+blows them back and forth.  There is a strong magical presence near.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Steel Door~
+Steel Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44333
+DDIR_WEST
+Iron Door~
+Iron Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44331
+#44333
+Hall of Deceit~
+This large chamber is very cold and damp.  There are empty chain shackles
+hanging on the north and south walls.  Two massive doors block your way east
+and west.  You notice that there are large spikes lining the ceiling of this
+chamber far above your head.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Bronze Door~
+Bronze Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44334
+DDIR_WEST
+Steel Door~
+Steel Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44332
+#44334
+Hall of Stasis~
+You are standing in a chamber that is covered in a thick sheet of ice on all
+the walls as well as the ceiling and floor.  It is very difficult to walk in
+this chamber.  The temperature is cold enough to freeze most living things
+if they stayed in here long enough.  A hallway leads down some stairs east.
+~
+0 ROOM_ICE SECT_INSIDE
+DDIR_WEST
+Bronze Door~
+Bronze Door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 44304 44333
+#44335
+Pinnacle of Destruction~
+You are standing on a stone platform in a large cavern.  Four stone walkways
+travel in the cardinal directions.  If you were to take a false step here
+you will fall into an endless chasm that lies below.  The walkways are
+supported by massive stone pillars that also must keep this platform steady.
+~
+0 ROOM_DARK SECT_DEEP_EARTH
+DDIR_NORTH
+A stone walkway continues north.~
+~
+0 -1 44339
+DDIR_EAST
+A stone walkway continues east.~
+~
+0 -1 44336
+DDIR_SOUTH
+A stone walkway continues south.~
+~
+0 -1 44337
+DDIR_WEST
+A stone walkway continues west.~
+~
+0 -1 44338
+#44336
+Altar of Pain~
+You are on a small platform that has a few stairs leading up to an altar.  You
+look to your left and right and see nothing but a bottomless chasm that
+would mean your certain demise if you were to take one slip.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_WEST
+The pinnacle lies to the west.~
+~
+0 -1 44335
+#44337
+Altar of Deceit~
+You are on a small platform that has a few stairs leading up to an altar.  You
+look to your left and right and see nothing but a bottomless chasm that
+would mean your certain demise if you were to take one slip.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_NORTH
+The pinnacle lies to the north.~
+~
+0 -1 44335
+#44338
+Altar of Stasis~
+You are on a small platform that has a few stairs leading up to an altar.  You
+look to your left and right and see nothing but a bottomless chasm that
+would mean your certain demise if you were to take one slip.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_EAST
+The pinnacle lies to the east.~
+~
+0 -1 44335
+#44339
+Gateway of Truth~
+You are standing on a large stone platform north of the pinnacle.  There is a
+small stairway that leads up to a platform.  Atop the platform is an archway
+that seems to serve as some sort of portal to another place.  The portal
+seems to be sealed by some sort of magic.  There are two lit braziers lighting
+this part of the cavern.
+~
+0 0 SECT_DEEP_EARTH
+DDIR_SOUTH
+The pinnacle lies to the south.~
+~
+0 -1 44335
+#44340
+Gravel Path~
+You are walking on a gravel path in a less dense part of the dark woods.  The
+path leads up to what seems to be some ancient ruins of a past civilization.
+The woods are still lifeless here and quite eerie.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+Some ancient ruins lie to the north.~
+~
+0 -1 44341
+DDIR_SOUTH
+~
+~
+0 -1 44324
+#44341
+Ruins~
+You are standing in the middle of stone ruins of what used to be many stone
+buildings.  The buildings were once dwellings and other buildings of an
+ancient village or city that occupied these woods many years ago.  Now the
+buildings lie in ruins.  The rubble is piled very high in some locations
+where the buildings collapsed.  A crude road leads to the west further into
+the ruins.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+A path leads south.~
+~
+0 -1 44340
+DDIR_WEST
+A crude road leads onward.~
+~
+0 -1 44342
+#44342
+Ruined City~
+You are standing in the center of what once was a great city square.  The
+remains of this mighty square consists of a broken statue that once adorned
+the city center, several buildings crumbled to the ground, and a massive
+marble fountain that is no longer functioning.  Rubble blocks the way
+further to the west and north.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A large building lies to the north.~
+~
+0 -1 44353
+DDIR_EAST
+More ruins lie to the east.~
+~
+0 -1 44341
+DDIR_SOUTH
+More ruins can be seen south.~
+~
+0 -1 44354
+DDIR_WEST
+The ruins continue on.~
+~
+0 -1 44359
+#44343
+Inside the Building~
+You are inside this collapsed building.  The structure itself seems very
+unstable and could fall down at any time.  There is little but piles of
+rubble lying here about the inside of the old building.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+The ruins lie to the south.~
+~
+0 -1 44341
+#44344
+Wooded Grove~
+This wooded grove is full of lush, lively plants unlike the rest of the woods
+that are ancient and dying.  The green grass here is a welcome sight from
+the dreary woods that lies to the south.  You can hear the gushing of a
+lot of water to the north.  There is a large, smooth stone standing in the
+center of the grove.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_FOREST
+DDIR_NORTH
+A path leads through the forest.~
+~
+0 -1 44345
+DDIR_SOUTH
+The dark woods lie south.~
+~
+0 -1 44317
+#44345
+Before the Waterfall~
+You are standing before a small pool of water that a waterfall gushes into
+from some cliffs to the north.  The waterfall is quite loud constantly flowing.
+This small area is a bit damp and full of tall grasses and strange plants
+surrounded by tall trees outside the clearing.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A waterfall flows into a pool to the north.~
+~
+0 -1 44346
+DDIR_SOUTH
+A grove lies to the south.~
+~
+0 -1 44344
+#44346
+Waterfall~
+You are standing almost directly under a gushing waterfall.  The water is
+falling down from a steep cliff that goes on to the east and west as far as
+the eyes can see.  The water is falling into a small pool below but doesn't
+seem to flow outside of that.  It is a very strange sight and you wonder
+where the water could go.
+~
+0 0 SECT_OCEAN
+DDIR_SOUTH
+Some woods before the waterfall is south.~
+~
+0 -1 44345
+E
+waterfall~
+The waterfall flows into a pool the water is quite deep in the pool.
+~
+#44347
+Underwater~
+You are underwater below the waterfall the pool goes on endlessly.  Its hard
+to get your barings in this murky water.  A tunnel in the cliff is
+open to the north.
+~
+0 ROOM_DARK SECT_UNDER_WATER
+DDIR_NORTH
+The tunnel leads to the north.~
+~
+0 -1 44348
+DDIR_EAST
+The water leads on.~
+~
+0 -1 44350
+DDIR_SOUTH
+The water leads on.~
+~
+0 -1 44352
+DDIR_WEST
+The water leads on.~
+~
+0 -1 44351
+DDIR_UP
+The water surface is up.~
+~
+0 -1 44346
+#44348
+Underwater Tunnel~
+You are in a narrow underwater tunnel in the cliff.  A cave opening can be
+seen above you here while the rest of the pool of water lies to the south.
+The stone walls of the tunnel are covered in some sort of crusteations.
+~
+0 0 SECT_UNDER_WATER
+DDIR_SOUTH
+The water leads on outside the tunnel.~
+~
+0 -1 44347
+DDIR_UP
+A cave opening lies up.~
+~
+0 -1 44349
+#44349
+Underwater Cave~
+You are in an underwater cave that is illuminated by some sort of strange
+fungus that clings to the cave walls.  There are small schools of white fish
+that swim around here.  You can feel a strange magical presence within this
+cave.  The only exit is back out the tunnel down.
+~
+0 0 SECT_UNDER_WATER
+DDIR_DOWN
+A tunnel leads down.~
+~
+0 -1 44348
+#44350
+Underwater~
+You are underwater below the waterfall the pool goes on endlessly.  Its hard
+to get your barings in this murky water.
+~
+0 ROOM_MAZE SECT_UNDER_WATER
+DDIR_NORTH
+The water leads on.~
+~
+0 -1 44350
+DDIR_EAST
+The water leads on.~
+~
+0 -1 44350
+DDIR_SOUTH
+The water leads on.~
+~
+0 -1 44350
+DDIR_WEST
+The water leads on.~
+~
+0 -1 44350
+#44351
+Underwater~
+You are underwater below the waterfall the pool goes on endlessly.  Its hard
+to get your barings in this murky water.
+You are underwater below the waterfall the pool goes on endlessly.  Its hard
+to get your barings in this murky water.
+~
+0 ROOM_MAZE SECT_UNDER_WATER
+DDIR_NORTH
+The water leads on.~
+~
+0 -1 44351
+DDIR_EAST
+The water leads on.~
+~
+0 -1 44351
+DDIR_SOUTH
+The water leads on.~
+~
+0 -1 44351
+DDIR_WEST
+The water leads on.~
+~
+0 -1 44351
+#44352
+Underwater~
+You are underwater below the waterfall the pool goes on endlessly.  Its hard
+to get your barings in this murky water.
+~
+0 ROOM_MAZE SECT_UNDER_WATER
+DDIR_NORTH
+The water leads on.~
+~
+0 -1 44352
+DDIR_EAST
+The water leads on.~
+~
+0 -1 44352
+DDIR_SOUTH
+The water leads on.~
+~
+0 -1 44352
+DDIR_WEST
+The water leads on.~
+~
+0 -1 44352
+#44353
+Domed Building~
+You are in a crumbling building with a domed ceiling.  This building may have
+been the city center many years ago but now it lies in ruins.  The building
+is still standing the only one that is livable.  The walls are overgrown
+with kudzu vines and all the furnishes are pretty much ruined.  Piles of
+rubble lie in the northern corners of this building.  A large statue adorns
+the center of this buildling.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Ruins are to the south.~
+~
+0 -1 44342
+#44354
+Ruins~
+This seems to be the end of the ruined city.  A huge landslide has blocked
+any further travelling in this city.  It almost seemed like this entire
+area was destroyed by an earthquake.  Several piles of rubble lie here and
+there that were once buildings and other structures.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The ruins continue to the north.~
+~
+0 -1 44342
+#44355
+Inner Sanctuary~
+You are standing in some sort of strange realm.  The air seems thicker here
+and you seem to move a bit slower.  The ground seems to be some large
+circular disk that has a hallway that is hard to see whats down because of
+some strange fog that is hovering over this area.  The disk seems to be
+hovering over some sort of endless void, it may be wise to stay on the path.
+You feel the presence of something very evil and powerful to the north.
+~
+0 ROOM_DARK|ROOM_NO_SAVE SECT_ETHEREAL
+DDIR_NORTH
+A hazy hallway leads north.~
+~
+0 -1 44356
+#44356
+Halls of the Dead~
+This strange hallway is surrounded by a strange hazy fog.  It is impossible
+to see to the east or west and you can faintly see north and south.  The
+surface of the ground seems to be some strange rough stone.  You can see what
+seems to be souls travelling by you in the fog nearby.  To the north you can
+feel the presence of great evil...
+~
+0 ROOM_DARK|ROOM_NO_SAVE SECT_ETHEREAL
+DDIR_NORTH
+A large room is seen to the north.~
+~
+0 -1 44357
+DDIR_SOUTH
+The inner sanctuary lies to the south.~
+~
+0 -1 44355
+#44357
+Inner Sanctum~
+This large chamber seems to be some sort of throne room.  The chamber is
+circular while the throne sits in the center on a large pedistal.  The void
+surrounds the chamber where you can see lost souls wandering about.  You hope
+you don't join them...
+~
+0 ROOM_DARK|ROOM_NO_SAVE SECT_ETHEREAL
+#44358
+Inside the Oracle~
+You are inside an ancient, ruined oracle.  This chamber must have been used
+for prayer and reflection by the citizens of the ancient city.  A stone altar
+adorns the northern wall of this room while several ruined statues line the
+eastern and western walls.  It is very musty in here but there has seemed to
+be some recent activity in here.
+~
+0 ROOM_DARK|ROOM_SMOKE|ROOM_NO_GOHOME|ROOM_NO_SAVE SECT_INSIDE
+#44359
+Ruined Building~
+This building has seen better days.  The walls have several holes in them
+from years of erosion.  Moss and fungus has overgrown most of the stone
+rubble that lies about here.  The ceiling of the building is still in decent
+condition and keeps out most of the elements.  The building itself seemed
+to be a city hall at one point.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The ruins continue.~
+~
+0 -1 44342
+#44360
+Pathway of Judgement~
+This narrow pathway seems to be in another plane of existence.  Time and space
+seem to be a bit distorted here as you move about.  There are swirling misty
+figures on each side of the path it might be a good idea to stay on the beaten
+pathway here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_UNDER_GROUND
+DDIR_NORTH
+The pathway leads on.~
+~
+0 -1 44361
+#44361
+Pathway of Judgement~
+This narrow pathway seems to be in another plane of existence.  Time and space
+seem to be a bit distorted here as you move about.  There are swirling misty
+figures on each side of the path it might be a good idea to stay on the beaten
+pathway here.  A gateway can be seen to the north.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_UNDER_GROUND
+DDIR_NORTH
+A massive gate lies to the north.~
+~
+0 -1 44362
+#44362
+The Gate Room~
+This small chamber seems to be cut from solid rock.  A massive bronze gate
+blocks your progress further.  The air is very musty here as if no one has
+been in this chamber for many years.
+~
+0 ROOM_SMOKE|ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_SWAMP
+#44363
+Stone Stairway~
+These stone stairs lead to the north on a slight incline.  There are a few
+torches lining the flanking walls illuminating the area.  You can hear a
+faint whispering from ahead.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_ROAD
+DDIR_NORTH
+The stairs lead onward.~
+~
+0 -1 44364
+#44364
+Dark Chamber~
+This room is very dark with some strange magic.  There doesn't seem to be
+much detail or ornamentation.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_INSIDE
+#44365
+Tunnel~
+You are walking down a dank tunnel.  Roots and rocks jut out from the sides
+of the tunnel wall.  This tunnelway almost seemed to be burrowed by a large
+worm or something of the like.  A light can be seen to the west.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_SWAMP
+DDIR_WEST
+The tunnel winds on.~
+~
+0 -1 44366
+#44366
+End of the Tunnel~
+This tunnel has come to an end with some sort of cave in.  You can hear some
+loud rushing sounds coming from below the earth.  It is very warm around
+here almost unbearable to most.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_SWAMP
+DDIR_EAST
+The tunnel continues.~
+~
+0 -1 44365
+#44367
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_NORTH
+The lava river continues.~
+~
+0 -1 44368
+#44368
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_EAST
+The lava river continues on.~
+~
+0 -1 44369
+DDIR_SOUTH
+The lava river continues on.~
+~
+0 -1 44367
+#44369
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_NORTH
+The lava river winds onward.~
+~
+0 -1 44370
+DDIR_WEST
+The lava river continues on.~
+~
+0 -1 44368
+#44370
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_NORTH
+The lava river continues on.~
+~
+0 -1 44371
+DDIR_SOUTH
+The lava river continues on.~
+~
+0 -1 44369
+#44371
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_NORTH
+The lava river continues on.~
+~
+0 -1 44372
+DDIR_SOUTH
+The lava river continues on.~
+~
+0 -1 44370
+#44372
+Lava River~
+You are in a river of lava!  The molten lava flows here at rapid pace.  The
+heat is almost unbearable as you stand here.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_LAVA
+DDIR_NORTH
+Solid ground lies to the north.~
+~
+0 -1 44373
+DDIR_SOUTH
+The lava river continues on.~
+~
+0 -1 44371
+#44373
+Scorched Entryway~
+This chamber's walls are completely charred to a pitch black.  It must be
+an effect of the molten lava nearby.  The ground is solid and safe from the
+lava flows to the south.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_DEEP_EARTH
+DDIR_SOUTH
+A river a lava can be seen to the south.~
+~
+0 -1 44372
+#44374
+Damp Cave~
+This damp cave has strange rock formations on the cave walls that appear to
+almost look humanoid-like.  There are several small pools of water amongst
+the rocks here.  Some large fungal blooms adorn the chamber as well.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_ROAD
+DDIR_WEST
+A tunnel leads on.~
+~
+0 -1 44375
+#44375
+Glowing Pathway~
+This pathway is brightly glowing with white light.  There is an exit to the
+north where most of the light seems to be coming from.  The light is warm
+and inviting to the north.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_ROAD
+DDIR_NORTH
+A bright lit archway lies to the north.~
+~
+0 -1 44376
+DDIR_EAST
+A cave can be seen to the east.~
+~
+0 -1 44374
+#44376
+Sacred Garden~
+You find yourself in a magnificent floral garden.  Strange plants that you
+have never seen before are growing here in great quantity.  A small stone
+hut can be seen to the north here overgrown with ivy.  A small ivory fountain
+rests in the center of the garden while hedge pathways are nicely trimmed
+surrounding it.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_FOREST
+DDIR_NORTH
+A stone hut is to the north.~
+~
+0 -1 44377
+#44377
+Stone Hut~
+This small stone hut seems to be occupied by a very neat and tidy person.
+There is a small wooden table in the center of the room with two chairs.  A
+lit fireplace is on the east wall while a small bed lies on the west wall
+of this hut.  A fur rug covers the center of the hut's floor.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+A garden lies to the south.~
+~
+0 -1 44376
+#44378
+Crossroads~
+You are standing at a fork in the road, in some deep woods.  The sky is very
+black but not necesarily dark it is very strange.  Two dirt pathways lead
+north and south here.
+~
+0 ROOM_NO_SAVE SECT_FOREST
+DDIR_NORTH
+A dirt path leads on.~
+~
+0 -1 44379
+DDIR_SOUTH
+A dirt path leads on.~
+~
+0 -1 44380
+#44379
+Dirt Path~
+You are travelling on a dirt path.  The pathway leads through some golden
+fields of grain.  The sky is a strange array of colors that is quite bizarre
+and a sight seldom seen.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE|ROOM_ALLOW_DRU|ROOM_ALLOW_SOR|ROOM_ALLOW_SHA|ROOM_ALLOW_WLC SECT_FIELD
+DDIR_WEST
+~
+~
+0 -1 44382
+#44380
+Dirt Path~
+You are travelling on a dirt path.  The pathway leads through some golden
+fields of grain.  The sky is a strange array of colors that is quite bizarre
+and a sight seldom seen.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE|ROOM_ALLOW_WAR|ROOM_ALLOW_GLA|ROOM_ALLOW_MAR|ROOM_ALLOW_NIN SECT_FIELD
+DDIR_WEST
+A doorway is to the west.~
+~
+0 -1 44381
+#44381
+Doorway~
+You are standing before a large stone door.  The door seems securely closed
+and possibly locked.  The door sits in the middle of a small alcove on what
+seems to be a massive wall that runs north to south endlessly.  There are
+thick shrubs blocking travel those ways.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_CITY
+DDIR_EAST
+A path leads to the east.~
+~
+0 -1 44380
+#44382
+Wooded Grove~
+You find yourself in a wooded grove.  There is lush vegetation surrounding the
+grove making further travel onward impossible.  In the center of the grove
+is a circle of small white mushrooms.  You feel a faint breeze on your neck
+as you scan the grove.  You can hear a slight humming noise nearby.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY|ROOM_NO_SAVE SECT_FOREST
+DDIR_EAST
+A path leads east.~
+~
+0 -1 44379
+#44383
+Dark Tunnel~
+You are standing in a musty, dark tunnel.  A faint light can be seen to the
+west.  It is quite cold in this tunnel and the walls are made of a strange
+rock type that you don't recognize.  A slight breeze is also coming from the
+west.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_WEST
+The tunnel leads on.~
+~
+0 -1 44384
+#44384
+Hallowed Springs~
+This small clearing is surrounded by lush wooded area.  There is a clear
+water spring bubbling in the center of the clearing while colorful flowers
+carpet the ground nearby.  Several butterflies hover about plantlife, it
+is quite peaceful in this place.
+~
+0 ROOM_SAFE SECT_FOREST
+DDIR_EAST
+A cave opening is east of here.~
+~
+0 -1 44383
+#44385
+Oak Grove~
+You find yourself in a small wooded grove of oak trees.  The trees look very
+old and have a strange feel to them as you scan over them.  The ground here
+seems very hard as if it has just seen a recent winter frost.  A soft wind
+swirls around in the grove picking up leaves and other debris.
+~
+0 0 SECT_FOREST
+#44386
+Pinnacle of the Wood~
+You are standing in a small clearing within a dense forested area.  There are
+many flowers covering the grassy clearing that have a variety of colors.  It
+is disturbingly quiet in this clearing.
+~
+0 ROOM_NO_SAVE SECT_FOREST
+DDIR_SOUTH
+A small path leads on.~
+~
+0 -1 44388
+#44387
+Top of the Oak Tree~
+You are at the top of the mighty oak tree.  The view up here is dazzling, it
+allows you to see over wide stretches of the north woods.  You can see
+several birds hovering above this acorn infested area.
+~
+0 ROOM_PRIVATE|ROOM_SOLITARY SECT_FOREST
+#44388
+Ivory Archway~
+You are standing before a large gateway that seems to be made completely
+from white ivory.  The archway itself is full of what seems to be a dark blue
+liquid that is contained within it.  Hedges line each side of the archway
+making it the only way forward on the path.  A faint glow emits from the
+archway and the liquid within.
+~
+0 ROOM_NO_SAVE SECT_FOREST
+DDIR_NORTH
+A path leads onward.~
+~
+0 -1 44386
+#44389
+Tomb of Lost Souls~
+This tomb untouched for eons contains many coffins and other treasures of
+lost buried kings.  There is no obvious exits but you feel a strong magical
+presence of tranquility while standing here.
+~
+0 ROOM_NO_SAVE SECT_UNDER_GROUND
+#44399
+Secret Cave~
+You are standing in a illuminated cave.  This cave must lie either deep in
+the earth or in some sort of magical place.  The air is ever so clean here
+and ground is extra soft when you walk about.  Several large mushrooms
+grow out of the ground which are big enough to sit on.  The cave itself is
+quite large and its hard to see the walls and ceiling to this mighty cavern.
+A small pool of water flows from a bubbling spring on the ground nearby.
+~
+0 ROOM_DARK|ROOM_SAFE SECT_DEEP_EARTH
+#0
+
+
+#RESETS
+O 44300 100 44300
+O 44301 100 44399
+O 44302 100 44399
+M 44301 100 44399
+M 44302 100 44301
+M 44302 100 44302
+M 44302 100 44303
+M 44302 100 44304
+M 44302 100 44308
+M 44302 100 44310
+M 44302 100 44312
+M 44302 100 44314
+M 44302 100 44316
+M 44302 100 44318
+M 44302 100 44320
+M 44302 100 44322
+M 44302 100 44324
+M 44302 100 44309
+M 44302 100 44307
+O 44303 100 44325
+M 44303 100 44325
+D 44331 DIR_EAST  DOOR_CLOSED_LOCKED
+D 44332 DIR_WEST  DOOR_CLOSED_LOCKED
+M 44304 100 44331
+M 44305 100 44328
+M 44305 100 44328
+M 44305 100 44329
+M 44305 100 44329
+O 44306 100 44342
+O 44307 100 44341
+M 44306 100 44343
+M 44307 100 44331
+D 44332 DIR_EAST  DOOR_CLOSED_LOCKED
+M 44307 100 44332
+M 44308 100 44332
+D 44334 DIR_WEST  DOOR_CLOSED_LOCKED
+D 44333 DIR_WEST  DOOR_CLOSED_LOCKED
+D 44333 DIR_EAST  DOOR_CLOSED_LOCKED
+M 44307 100 44333
+M 44309 100 44333
+M 44310 100 44334
+O 44308 100 44336
+O 44309 100 44338
+O 44310 100 44337
+O 44311 100 44339
+O 44312 100 44344
+M 44311 100 44344
+O 44313 100 44346
+O 44314 100 44353
+O 44315 100 44354
+P 44322  50 44315
+M 44312 100 44353
+M 44313 100 44339
+M 44314 100 44357
+O 44316 100 44357
+M 44316 100 44353
+M 44317 100 44358
+M 44319 100 44359
+M 44320 100 44349
+M 44321 100 44362
+O 44327 100 44362
+O 44326 100 44362
+M 44322 100 44363
+M 44323 100 44364
+M 44324 100 44366
+O 44328 100 44366
+M 44325 100 44367
+M 44325 100 44368
+M 44325 100 44369
+M 44325 100 44370
+M 44325 100 44371
+M 44325 100 44372
+M 44326 100 44373
+O 44301 100 44374
+M 44328 100 44376
+O 44329 100 44376
+M 44327 100 44377
+O 44331 100 44377
+P 44333 100 44331
+P 44332 100 44331
+O 44330 100 44377
+M 44330 100 44374
+O 44335 100 44378
+M 44331 100 44378
+M 44336 100 44382
+M 44334 100 44381
+O 44337 100 44384
+M 44300 100 44300
+M 44335 100 44384
+M 44337 100 44385
+O 44339 100 44385
+O 44340 100 44383
+M 44338 100 44383
+M 44338 100 44383
+O 44348 100 44387
+P 44349 100 44348
+M 44339 100 44387
+O 44351 100 44388
+M 44341 100 44336
+M 44342 100 44337
+M 44343 100 44338
+M 44345 100 44389
+M 44347 100 44365
+O 44359 100 44383
+P 44360  25 44359
+M 44348 100 44383
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,728 @@
+#AREA Wedding Chapel~
+#AUTHORS Fizzo~
+#VERSION 4
+#RANGES 1 95 1 95
+
+
+#MOBILES
+#30101
+priest~
+the priest~
+A rather old and decrepit man dressed like a priest stands here.~
+He is dressed in a fancy way, he very much looks like a little pope.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d1+10000 1d95+46
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 99~
+if quest (0,3,$n) == 1
+  smile 
+  tell $n Are you here to celebrate wedding?
+  tell $n Are all the invited people here?
+  tell $n Shall we start right now?
+  tell $n When you are ready ask me to start the ceremony. :)
+else
+  bow $n
+endif
+~
+>speech_prog p start the ceremony~
+if quest (0,3,$n) == 1
+  say OK! We are gathered here to these two people in holy matrimony.
+  say If anyone thinks there is any good reason not to
+  say Unite these two fine guys,speak now or shut up forever.
+  say Now... repeat after me...
+  say With this ring, I thee wed, ...
+  mpmset self quest 0 3 2
+endif
+~
+>speech_prog p with this ring, I thee wed~
+if quest (0,3,$n) == 1
+  say ... to have and to hold from this day forth ...
+endif
+~
+>speech_prog p to have and to hold from this day forth~
+if quest (0,3,$n) == 1
+  say ... through sickness and health ...
+endif
+~
+>speech_prog p through sickness and health~
+if quest (0,3,$n) == 1
+  say ... for richer or for poorer ...
+endif
+~
+>speech_prog p for richer or for poorer~
+if quest (0,3,$n) == 1
+  say ... till death do us part.
+endif
+~
+>speech_prog p till death do us part~
+if quest (0,3,$n) == 1
+  if sex ($n) == 1
+    smile $n
+    mpmset $n quest 0 3 2
+    say Now, fine Lady, repeat after me...
+    say With this ring, I thee wed ...
+  else
+    smile $n
+    say Lets go ahead...
+    mpmset self quest 0 3 3
+    mpmset $n quest 0 3 2
+  endif
+endif
+~
+>speech_prog p go ahead~
+if quest (0,3,$n) == 2
+  if quest (0,3,$i) == 3
+    say Lets get to the main part!
+    say Do you, ... , what was your name Madame?
+  endif
+endif
+~
+>speech_prog p My name is~
+if quest (0,3,$i) == 3
+  if quest (0,3,$n) == 2
+    if sex ($n) == 2
+      say Oh... yeah! I am getting old.
+      say Do you $n wish to get married to this mighty man?
+      mpmset $n quest 0 3 3
+      mpmset self quest 0 3 4
+      break
+    endif
+  endif
+endif
+if quest (0,3,$i) == 5
+  if quest (0,3,$n) == 2
+    if sex ($n) == 1
+      say Right! Do you, $n, wish to get married to this fine and young lady?
+      mpmset self quest 0 3 6
+      mpmset $n quest 0 3 3
+    endif
+  endif
+endif
+~
+>speech_prog p Yes I do~
+if quest (0,3,$i) == 6
+  if quest (0,3,$n) == 3
+    say Thanx to the power given me by the Forces of Nature, I declare
+    say you two husband and wife. You may french the bride! =]
+    mpmset $n quest 0 3 4
+    break
+  endif
+else
+  if quest (0,3,$i) == 4
+    if quest (0,3,$n) == 3
+      say And now, do you, ... , oooops I forgot your name as well Mister.
+      say What's your name?
+      mpmset self quest 0 3 5
+      mpmset $n quest 0 3 4
+    endif
+  endif
+endif
+~
+|
+#30102
+secretary sinner~
+Sinner~
+The secretary is here setting behind a wooden desk.~
+The glorious portrait of that Angel's face'
+Made to amaze weak men's confused skill,
+And this world's worthless glory to embase,
+What pen, what pencil, can express her fill?
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 0 0 1d1+10000 1d95+46
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p I am here to be married~
+if quest (0,3,$n) == 5
+  say You are already married. We do NOT allow poligamy. PERVERT!
+  break
+endif
+mpoload 30105
+drop ring
+say There you go! Have an happy wedding! =P
+mpmset $n quest 0 3 1
+~
+>speech_prog divorce~
+if quest (0,3,$n) != 0
+  say Oh! I am very sad about this... What was wrong?
+  say I see... You dont want to talk about it...
+  say You are now free to marry another person now.
+  mpmset $n quest 0 3 0
+else
+  say You are not even married!
+endif
+~
+>speech_prog p I need the bride's dress~
+if quest (0,3,$n) == 1
+  if sex ($n) == 2
+    mpoload 30106
+    mpoload 30107
+    mpoload 30108
+    mpoload 30109
+    mpoload 30110
+    drop all
+  endif
+endif
+~
+>speech_prog p I need the groom's tuxedo~
+if quest (0,3,$n) == 1
+  if sex ($n) == 1
+    mpoload 30112
+    drop tuxedo
+  endif
+endif
+~
+|
+#30103
+mob~
+mob~
+Mob~
+Mob
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 99~
+if quest (0,3,$n) == 4
+  mpecho A beautiful griffon lands in front of the chapel...
+  mpecho $n mounts on it the griffon takes off towards the honeymoon destination.
+  mpmset $n quest 0 3 5
+  mptransfer $n 30104
+endif
+~
+|
+#30104
+cook~
+the cook~
+The cook stands here.~
+It's just the cook.
+~
+0
+0
+0 S
+95 0 0 1d2256+4906 1d95+46
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 99~
+if hasobjnum ($n) == 18724
+  if quest (10,2,$n) == 0
+    cringe 
+    say EEEEEEEEEKKKKK!!!!!!
+    say I am sorry.... please... spare my life...
+    emote kneels down before you and kisses your feet.
+    say I would have returned the cuisine BOOK in a couple
+    say of days. I have just been so busy, there have been
+    say so many weddings recently.
+    mpechoat $n $I falls down and grovels in the dirt before you.
+    mpechoaround $n $I falls down and grovels in the dirt before $N.
+    mpmset $n quest 10 2 1
+  endif
+endif
+~
+>speech_prog book~
+if quest (10,2,$n) == 1
+  say Yes... Yes... I'll go get the book and I'll give it
+  say to you, I am so sorry... I'll give you some money
+  say to you to spare my life.
+  emote disappears thru a backdoor and comes back.
+  say Here is the book...
+  mpoload 30118
+  give book $n
+  drop book
+  say ...and here is some money.
+  mpoload 30111
+  give bag $n
+  mpmset $n quest 10 2 2
+endif
+~
+|
+#0
+
+
+#SHOPS
+30104 ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  6 22
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#30101
+bowl~
+the rice bowl~
+A huge bowl full or rice is here.~
+It's just a bowl full of rice.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 0 0 0 0 0 0 0
+100 10 5
+#30102
+handful rice~
+a handful of rice~
+A silly handful of rice lsies scattered on the floor.~
+It's a silly handful of rice. To throw it type RICE.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+1 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_UNKNOWN 99 rice
+OPROG_GOD_COMMAND
+mpechoaround self $I happily throws a handful of rice to the bride and groom. 
+mpechoat self You throw the rice.~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#30105
+wedding ring~
+a wedding ring~
+A simple wedding ring.~
+Well... the jeweller did not put much fantasy in crafting this ring.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_WEAR 100
+OPROG_GOD_COMMAND
+mpmset self long (Married) $ is here.~
+P 2
+TRIG_REMOVE 100
+OPROG_GOD_COMMAND
+mpmset self long null~
+#30106
+bouquet~
+bride's bouquet~
+A wonderful bouquet of flowers lies here.~
+This is a very nice bouquet made of tiny little flowers. It should perfect
+for a bride.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 10 1
+P 1
+TRIG_UNKNOWN 99 bouquet
+OPROG_GOD_COMMAND
+MPECHOAROUND $ The bride throws her bouquet behind the back. 
+drop bouquet~
+#30107
+gown~
+a beautiful wedding gown~
+A beatiful wedding gown lies on the floor here.~
+It's a beautiful wedding gown completely hand-made by Sinner, the lady who
+actually runs the wedding chapel. =b
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+1 0 0 0 0 0 0 0
+1 10000 1
+#30108
+veil~
+a lace veil~
+A lace veil lies on the floor here.~
+It's a beatiful lace veil completely hand-made by Sinner, the lady who actually
+runs the wedding chapel. =b
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+1 0 0 0 0 0 0 0
+1 500000 1
+#30109
+slippers~
+a pair of satin slippers~
+A pair of satin slippers lies on the floor here.~
+It's a beautiful pair of satin slippers completely hand-made by Sinner, the
+lady who actually runs the wedding chapel. =b
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+1 0 0 0 0 0 0 0
+1 500000 1
+#30110
+garter~
+a lace garter belt~
+A lace garter belt lies on the floor here.~
+It's a beautiful lace garter belt completely hand-made by Sinner, the lady who
+actually runs the wedding chapel. =b
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+1 0 0 0 0 0 0 0
+1 500000 1
+#30111
+bag~
+a bag with one thousand coins~
+An incredibly huge amount of gold coins lies abandoned on the floor here.~
+It's the biggest amount of money you have ever seen all at once. How about
+picking it up and putting it in your bank account? ;)
+~
+ITEM_TYPE_MONEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+1000 0 0 0 0 0 0 0
+100 1000 10
+#30112
+tuxedo~
+a black tuxedo with tails~
+A beatiful tuxedo lies on the floor.~
+The tuxedo is a black taylored tuxedo of the finest silk. Its tails hang to
+the back of the knees... You can tell from looking at it that the person
+wearing it spared no expense for this garment. It gives you a feeling of awe
+at first glance. It is a wonderful piece of clothing bearing the trademark
+of Cato.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+0 0 0 0 0 0 0 0
+10 1000 5
+#30113
+maccheroni ragu~
+maccheroni al ragu~
+A dish of maccheroni al ragu is on the floor.~
+On the dish there is a huge portion of maccheroni with an avalanche of
+ragu sausage on top of it. They look at least delicious.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 100 10
+#30114
+gnocchi gorgonzola~
+gnocchi al gorgonzola~
+A dish of gnocchi al gorgonzola is on the floor.~
+The dish contains a big portion of gnocchi with a strange sausage on it:
+the sausage is with with greenish spots in it. As you taste it you realize
+that it is made of melted gorgonzola a particular cheese made in another
+dimension in a country called Italy. This thing is really tasty.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+5 150 10
+#30115
+spaghetti pomodoro~
+spagheti al pomodoro~
+A dish of spaghetti al pomodoro is on the floor.~
+This is the most typical Italian food... the portion is quite big and
+you dont need particular descriptions to realize what it is; spaghetti with
+tomato sauce on top of it.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+2 60 10
+#30116
+lasagne~
+lasagne~
+A dish with a portion of lasagne is on the floor.~
+The dish contains a big portion of the most inviting lasagne you have ever
+seen; there are tons of parmisan cheese and ragu anon top of it and it is
+still snoking since it has been just taken out of the oven.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+5 200 10
+#30117
+risotto funghi~
+risotto ai funghi~
+A dish of risotto ai funghi is on the floor.~
+The rice is yellow since the cook put into it a bit of saffron... you notice
+that there are small pieces of mushrooms into the rice; anyhow the food
+smells really good you should eat it all.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+3 150 10
+#30118
+cuisine book~
+a book about Italian cuisine~
+A book lies on the floor here.
+~
+It's a very detailed book about italian cuisine. It has a lot of drawings to
+help the reader how to cook perfect dishes in Italian style. As you take a
+close look at it you realize that it is made for idiots who cant cook a damn
+thing by themselves.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 10
+#0
+
+
+#ROOMS
+#30100
+Before The Wedding Chapel~
+You are standing in a small square in front of a high mountain. To the
+east there is a small building with a little sign over a door. To the west
+there is a nice little Inn where probably hust married people go to enjoy the
+pleasures of being married. On the northern side of the square stands wall of
+natural white marble. The whole mountain side has been carved forming a
+beatiful temple front facade. It looks like some kind of very ancient temple.
+There two braziers to show the entrance to the temple but the light doesnt
+allow you to see what's inside. Something has been printed on the floor.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+You see the wedding chapel.~
+~
+0 0 30102
+DDIR_EAST
+You see a small office.~
+Glass door~
+EX_ISDOOR 0 30101
+DDIR_SOUTH
+Nothing special there.~
+~
+0 0 17227
+DDIR_WEST
+You see a little inn.~
+~
+0 0 30103
+DDIR_DOWN
+You see the taverna.~
+~
+0 0 30105
+E
+floor~
+I, Fizzo, made this area to add some more fun to this great mud. If you want to
+get married with someone look for me around the mud and I'll tell you what to
+exactly you need to do. This area would have never been realized if I had not
+received the help of many people. I want to thank them all here.
+Thanx to Sinner, Panic, Redrum, Deadbolt, Ginger and my sister Barbara.
+Ultra-special thanx to Cato! :)
+~
+E
+sign~
+****************************   Come here for a real and happy wedding!
+.   *        THE               *   We will give you everything you need;
+.   *         WEDDING          *   from the rings to the suit, from ceremony
+.   *          CHAPEL          *   to honeymoon you'll have what you want:
+.   ****************************   An happy life with your partner! :)
+.
+.   Reservation accepted any time of the day. Ask at the office.
+~
+#30101
+The Office of the Chapel~
+This little office is perfectly tied up and clean; the walls are painted of a
+pale pink and nailed all over them are the pictures of many couples who got
+married in this tiny but efficient chapel. A couple of plants make this office
+even nicer that it would be without. The largest part of the office is taken
+by a big desk and a couple of armchairs where you should sit to talk about
+your wedding.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see the little square before the chapel.~
+Glass Door~
+EX_ISDOOR 0 30100
+#30102
+The Wedding Temple~
+Right after you entered this environment you see that it is a very particular
+room. A magically lit fire ring defines a round area where the biggest bear
+skin carpet lies in. The head of the animal is still attached and it is so
+well mummified that it looks like it's sleeping. Over the bear skin there
+are two carved wood armchairs covered with a thin layer of leather that must
+have been made by a very skilled artisan. This two elegant chairs stand in
+front of a stone table, actually the whole thing looks very much like an altar
+room of some sort. You hear something roaring... You take a couple of steps
+forward and you realize that in the back of the fire ring, in a part of the
+temple you didnt notice before, there is an holy mountain tiger chained to
+the rock wall. You hear a perpetual sound of cerimonial drums. A nice diamond
+plaque is attached to the stone table. To the south lies the exit to the
+temple.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+You see the little square before the wedding chapel.~
+~
+0 0 30100
+E
+plaque~
+The copyright for the description of this room goes to my sister Barbara who
+helped me. Along with the rights goes my gratitude to her. Thanx again! :)
+Fizzo!
+~
+#30103
+Moonlight Cove Inn~
+This is the inn where most of the people who get married in the chapel spent
+their first night. It has no particular feature, it is made of wood and the
+furnoture is a bit antique, but you like it anyhow. Probably you could think
+of many other nice places where you could spend your first night of wedding.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+You see the little square before the wedding chapel.~
+~
+0 0 30100
+DDIR_UP
+You see the honeymoon suite of the inn.~
+~
+0 0 30104
+#30104
+The Honeymoon Suite~
+WOW! Now you understand why a lot of people chose to exploit this place for
+their honeymoon. This room is so comfortable that you wish nobody ever forces
+you to leave this place. The bed is the classic heart-shaped model you usually
+find in the postcards of hotels, it is covered with a warm, fluffy red blanket
+and you feel a strong attraction to go under it with your partner. The roof is
+totally made of glass so that you can watch the sunny sky in the day or a
+beatiful and romantic moon at night. The west wall is actually a big window
+opening on a large balcony. As you look out of it you are a little bit
+surprised; you are staring at wonderful sunset on the ocean but for what you
+know the ocean should be anywhere but west of here. You decide to stop
+twisting your mind about these little magical tricks and fix your attention
+on the warm and bubbling water filling the hot tub placed in the room. Yes!
+You decide that you'll start your honeymoon taking a restoring bath into it.
+~
+0 ROOM_INDOORS|ROOM_PRIVATE|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+You the entrance to the inn.~
+~
+0 0 30103
+#30105
+The Taverna~
+This is the restaurant where a lot of people come to enjoy their wedding feast.
+On the walls of this room are the portraits of those who ran the restaurant in
+the past centuries. Here you can have home cooked-typical italian specialties
+and you are sure that here the food will be better than anywhere else, but as
+you look at the menu... hmmm... probably you already saw these things somewhere
+else. You dont care about it and decide that you will eat whatever is given to
+by the waiter.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_UP
+You see the small square before the wedding chapel.~
+~
+0 0 30100
+#0
+
+
+#RESETS
+O 30101   1 30102
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+P 30102 999 30101
+M 30101 100 30102
+M 30102 100 30101
+G 30111   1 0
+M 30103 100 30100
+M 30104 100 30105
+G 30113 999 0
+G 30114 999 0
+G 30115 999 0
+G 30116 999 0
+G 30117 999 0
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

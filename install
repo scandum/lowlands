@@ -1,0 +1,72 @@
+#!/bin/bash
+
+#################################################
+## Install script for Emud.                    ##
+## Will attempt to find the right library,     ##
+## and consequently install the right Makefile ##
+##                                             ##
+## By Michiel Lange                            ##
+#################################################
+
+# Now it is time to make some variables...
+MUD=lola
+COMPILE=compile
+SRC_DIR=src
+BACKUPS=backups
+
+# if there is no source dir, assume this is a new install
+if [ ! -d ./${SRC_DIR} ]
+then
+	if [ ! -d ./${BACKUPS} ]
+	then
+		echo "There is neither a source nor a backups dir."
+		echo "Make sure you have the tarballs in ${BACKUPS}"
+		exit
+	else
+		echo -n "Unpacking."
+
+		tar -zxvf backups/area_current.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/clans.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/data.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/doc.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/src.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/castles.tar.gz >/dev/null
+		echo -n "."
+		tar -zxvf backups/scripts.tar.gz >/dev/null
+		echo -n "."
+		mkdir bin
+		mkdir log
+		mkdir scripts
+		echo -n "."
+		echo " [done]"
+	fi
+fi
+
+if [ -e ./${COMPILE} ]
+then
+	echo ""
+	cd ${SRC_DIR}/
+	make clean >/dev/null 2>/dev/null
+	cd ..
+	./${COMPILE}
+else
+	echo "Could not find ${COMPILE} script,"
+	echo "type the following commands to install the Mud:"
+	echo "cd ${SRC_DIR}/"
+	echo "make clean"
+	echo "make"
+	echo "cd .."
+	echo "cp ${MUD} next_${MUD}"
+	if [ -e ./${MUD} ]
+	then
+		echo "To start the MUD, type ./${MUD}"
+	else
+		echo "The script ${MUD} is missing!"
+		echo "You better obtain it from the place you got this MUD"
+	fi
+fi

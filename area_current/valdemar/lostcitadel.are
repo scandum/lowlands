@@ -1,0 +1,2909 @@
+#AREA Lost Citadel~
+#AUTHORS Elspeth~
+#VERSION 4
+#RANGES 90 95 69 95
+#RESETMSG You hear someone's death cry.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NORECALL
+
+
+#HELPS
+0 LOSTCITADEL 'LOST CITADEL'~
+{120}                             Lost Citadel
+{300}
+Ma'ar was the evillest of mages, from the time of the Mage Wars.  He was
+defeated by Urtho, the other Lord-Adept, but it required a final strike,
+and Urtho did not survive.  Ma'ar, However, did.  He managed, using an
+ethereal pocket, to survive and take over one of the bodies of his
+descendents.  No one knows where he is now.
+
+The Lost Citadel was the place where the evil Lord-Adept, Ma'ar worked
+his magic.
+{140}
+Last update, April 2002
+~
+
+0 $~
+
+
+#MOBILES
+#14001
+ethereal-one~
+ethereal Mobile Number One~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if hasobjnum ($n) == 14001
+  mpforce $n drop i14001
+  mptransfer $n 14003
+  mpecho $N leaves north.
+else
+  mpechoat $n {160}You must have the key to move further.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 3 1
+if quest (0,3,$i) == 0
+  mppurge self
+endif
+~
+|
+#14002
+ethereal-two~
+Ethereal Mobile Number Two~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if class ($n) == class_elementalist
+  mpecho A door opens at $n's command.
+  connect north 14005
+else
+  mpechoat $n {160}You have no power here.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 2 1
+if quest (0,2,$i) == 0
+  connect north -1
+  mppurge self
+endif
+~
+|
+#14003
+ethereal-three~
+Ethereal Mobile Number Three~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if class ($n) == class_illusionist
+  mpecho A door opens at $n's command.
+  connect north 14006
+else
+  mpechoat $n {160}You have no power here.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 2 1
+if quest (0,2,$i) == 0
+  connect north -1
+  mppurge self
+endif
+~
+|
+#14004
+ethereal-four~
+Ethereal Mobile Number Four~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if class ($n) == class_necromancer
+  mpecho a door opens at $n's command.
+  connect north 14007
+else
+  mpechoat $n {160}You have no power here.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 2 1
+if quest (0,2,$i) == 0
+  connect north -1
+  mppurge self
+endif
+~
+|
+#14005
+ethereal-five~
+Ethereal Mobile Number Five~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if hasobjnum ($n) == 14001
+  mpforce $n drop i14001
+  mptransfer $n 14008
+  mpecho $n leaves north.
+else
+  mpechoat $n {160}You need the key to move around in here.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#14006
+ethereal-six~
+Ethereal Mobile Number Six~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog open~
+if hasobjnum ($n) == 14001
+  mpforce $n drop i14001
+  mptransfer $n 14009
+  mpecho $n leaves north.
+else
+  mpechoat $n {160}You need the key to move around in here.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#14007
+ethereal-seven~
+Ethereal Mobile Number Seven~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog enter~
+switch class ($n)
+  case class_illusionist
+  case class_monk
+    mptransfer $n 14021
+    mpecho $n has entered the Test of Air.
+  case class_marauder
+  case class_ninja
+    mptransfer $n 14020
+    mpecho $n has entered the Test of Water.
+  case class_ranger
+  case class_gladiator
+    mptransfer $n 14022
+    mpecho $n has entered the Test of Earth.
+  case class_elementalist
+  case class_necromancer
+    mptransfer $n 14019
+    mpecho $n has entered the Test of Fire.
+  endif
+endif
+~
+|
+#14008
+ethereal-eight~
+Ethereal Mobile Number Eight~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 50~
+mptransfer $r 9755
+mpecho $r leaves north.
+mpat $r mpforce $r look auto
+~
+>time_prog 24~
+if pcsinroom (14016) == 0
+  mppurge self
+endif
+~
+|
+#14009
+ethereal-nine~
+Ethereal Mobile Number Nine~
+There's an Ethereal mob here.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog exit~
+if hasobjnum ($n) == 14004
+or hasobjnum ($n) == 14005
+or hasobjnum ($n) == 14006
+or hasobjnum ($n) == 14007
+  mptransfer $n 14010
+  mpecho $n has left the Test.
+endif
+~
+|
+#14010
+ma'ar~
+Ma'ar, the evil Lord-Adept~
+The current incarnation of Ma'ar, the evil Lord-Adept is here.~
+Looking at Ma'ar, he changes.  First, you see his true form, as Ma'ar, then
+it changes, and you see the man named Darkness in tayledras, Leatha, who fought
+against Vanyel at the end of the time of the Herald-Mages.  Then, he becomes
+Mornelithe Falconsbane, who fought against k'Sheyna, in the time of Elspeth
+the first of the new Herald-Mages.  Many more incarnations of him flicker by,
+but these scare you most.  You feel the urge to run, and never look back.  Ma'ar
+glances at you, and as if reading your thoughts, says, "you have come too far
+to continue, I must kill you."  Then Ma'ar attacks, and you sink into darkness...
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+-1000 S
+160 0 BODY_HEAD|BODY_MOUTH|BODY_EYE|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d10000+30000 1d160+209
+256237 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+cast 'acid blast'
+cast 'fireball'
+cast 'energy drain'
+cast 'flamewave'
+~
+>hitprcnt_prog 50~
+whirl 
+cast 'acid blast'
+cast 'fireball'
+cast 'energy drain'
+cast 'energy drain'
+cast 'energy drain'
+cast 'energy drain'
+cast 'cure critical'
+cast 'cure critical'
+cast 'cure critical'
+~
+>death_prog 100~
+mpmload 14008
+~
+|
+#14011
+sentinel first citadel~
+the First Sentinel of the Lost Citadel.~
+The First Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+232061 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n {030}An ominous voice rumbles 'Turn back!'
+mpechoat $n {030}An ominous voice rumbles 'You may not continue further!
+mpechoat $n {030}An ominous voice rumbles 'You have entered the Lost Citadel!
+mpechoat $n {030}An ominous voice rumbles 'Only death lies here!'
+~
+>death_prog 100~
+mpmload 14001
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14012
+sentinel second citadel~
+the Second Sentinel of the Lost Citadel.~
+The Second Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+295861 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpmload 14002
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14013
+sentinel third citadel~
+the Third Sentinel of the Lost Citadel.~
+The Third Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+250951 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpmload 14003
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14014
+sentinel fourth citadel~
+the Fourth Sentinel of the Lost Citadel.~
+The Fourth Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+242214 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpmload 14004
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14015
+sentinel fifth citadel~
+the Fifth Sentinel of the Lost Citadel.~
+The Fifth Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+285286 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpmload 14005
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14016
+sentinel sixth citadel~
+the Sixth Sentinel of the Lost Citadel.~
+The Sixth Sentinel of the Lost Citadel guards here.~
+The Sentinel is about 20 feet high, and he fades back and forth from the
+ethereal plane, it is a wonder you can see him.  His mission is to keep
+intruders from uncovering the magical secrets housed inside the Lost Citadel.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_STEALTH
+0 S
+150 0 BODY_TAIL|BODY_TENTACLE|BODY_HORN 1d6806+17638 1d165+137
+271611 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpasound You hear a sentinels death cry.
+mpmload 14006
+mpoload 14001
+mposet i14001 timer 1
+~
+|
+#14017
+ethereal-gateway~
+the ethereal gateway~
+There's another of those silly ethereal mobs here.~
+How are you looking at this?
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 25~
+mpecho A portal shimmers momentarily.
+if rand (20)
+  mpecho The portal reflects visions of Mist City.
+else
+  if rand (25)
+    mpecho The portal reflects visions of Ocean City.
+  else
+    if rand (33)
+      mpecho The portal reflects visions of Roterodamum.
+    else
+      if rand (50)
+        mpecho The portal reflects visions of Avernus.
+      else
+        mpecho The portal reflects visions of the Sun Dome.
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog mist~
+connect north 10914
+~
+>speech_prog chakkor~
+connect east 9755
+~
+>speech_prog sun~
+connect south 11616
+~
+>speech_prog avernus~
+connect west 10813
+~
+>speech_prog ocean~
+connect up 11420
+~
+>rand_prog 5~
+if rand (20)
+  connect north -1
+else
+  if rand (25)
+    connect east -1
+  else
+    if rand (33)
+      connect south -1
+    else
+      if rand (50)
+        connect west -1
+      else
+        connect up -1
+      endif
+    endif
+  endif
+endif
+~
+|
+#14018
+golem flame fire~
+a flame golem~
+There is a wall of fire here.~
+The golem looks like a solid wall of fire.  You realize that you cannot
+continue unless he lets you.  Then, you notice that he is coming closer. OW!!
+HE'S HOT!!!!  You're burning up!!!!
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+75 0 0 1d1+3821 1d75+29
+73996 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14019
+golem water~
+a water golem~
+There is a wave of water here.~
+The wave falls all over you, and you are covered with the burning water from
+around this place.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+75 0 0 1d1+4221 1d75+29
+111510 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14020
+golem earth stone~
+a stone golem~
+There is a stone wall blocking your path here.~
+You try to push through, and nothing happens, it is like trying to move solid
+rock.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+75 0 0 1d1+4421 1d50+50
+119328 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14021
+golem wind air~
+a wind golem~
+You feel a push backwards...in front of you is a wall of air.~
+The winds themselves push you back, and there is nothing you can do to stop
+them, they are inexorable.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+75 0 0 1d1+3621 1d75+29
+113956 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14022
+flame demon fire~
+a fire demon~
+There is a large burning man here.~
+The flame demon is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+84641 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpoload 14004
+~
+|
+#14023
+water demon~
+a water demon~
+The water has raised itself into the form of a man here.~
+The water demon is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d1+6421 1d99+50
+177463 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpoload 14005
+~
+|
+#14024
+earth stone demon~
+a stone demon~
+An enormous mound of earth is here, in the shape of a man.~
+The stone demon is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+94365 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpoload 14006
+~
+|
+#14025
+demon wind air~
+a wind demon~
+The outlines of a large man stand here.~
+The wind demon is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+94496 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpoload 14007
+~
+|
+#14026
+flame lord fire~
+the fire lord~
+The Fire Lord stands in front of you, glaring angrily.~
+The Fire Lord is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+135546 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14027
+water lord~
+the water lord~
+The Water Lord stands in front of you, glaring angrily.~
+The Water Lord is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+137676 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14028
+earth stone lord~
+the earth lord~
+The Earth Lord stands in front of you, glaring angrily.~
+The Earth Lord is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+117021 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14029
+lord wind air~
+the wind lord~
+The Wind Lord stands in front of you, glaring angrily.~
+The Wind Lord is staring angrily at you, and you get the feeling that this
+was not a good day for you...wave your sorry posterior goodbye.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+0 S
+90 0 0 1d2450+5385 1d99+50
+114221 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14030
+ethereal-lock1~
+the ethereal lock 1~
+There's another of those silly ethereal mobs here, but you can't see it.~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+connect north -1
+~
+>act_prog p burns the northern wall down.~
+connect north 14011
+~
+|
+#14031
+ethereal-lock2~
+the ethereal lock 2~
+There's another of those silly ethereal mobs here~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+connect north -1
+~
+>act_prog p washes away the wall to the north.~
+connect north 14012
+~
+|
+#14032
+ethereal-lock3~
+the ethereal lock 3~
+There's another of those silly ethereal mobs here~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+connect north -1
+~
+>act_prog p crushes the wall to the north.~
+connect north 14013
+~
+|
+#14033
+ethereal-lock4~
+the ethereal lock 4~
+There's another of those silly ethereal mobs here~
+How are you looking at this?
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+150 0 0 1d6806+17638 1d165+137
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+connect north -1
+~
+>act_prog p blows the northern wall over.~
+connect north 14014
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#14001
+key citadel~
+a Key to the Lost Citadel~
+There is a key to the Lost Citadel lying here.~
+You see nothing special about the Key to the Lost Citadel.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14003
+stone power~
+the Stone of Power~
+A small, stone lies here, glowing and humming with power.~
+You see nothing special about the Stone of Power. Rumour has it that the stone
+can be used my mages to open shimmers and pass through them. You notice two
+words written into the Stone: 'magepass' and 'mageopen'.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 0 0 0 0 0 0 0
+3 10000000 92
+P 1
+TRIG_UNKNOWN 100 magepass
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 2 30
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 14001 4 31
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_ILLUSIONIST 8 32
+P 8
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho {170}The Stone of Power flares white and there is a shimmering in the air.
+mpechoaround self $I disappears into the shimmer. 
+mpgoto 14010~
+P 10
+TRIG_UNKNOWN 100 mageopen
+OPROG_IF OIF_WEAR_LOC = WEAR_HOLD 11 30
+P 11
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 14001 14 31
+P 14
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_ILLUSIONIST 17 32
+P 17
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho {170}The Stone of Power flares white and there is a shimmering in the air.
+mpechoaround self $I disappears into the shimmer. 
+mpgoto 14017~
+P 30
+TRIG_VOID
+OPROG_ECHO
+You are not holding the Stone of Power.~
+P 31
+TRIG_VOID
+OPROG_ECHO
+This is not the home of the Stone of Power.~
+P 32
+TRIG_VOID
+OPROG_ECHO
+You are not mage.~
+#14004
+key fire~
+the Fire Key~
+There is a key made of fire here.~
+Ouch! Ouch! You are holding a small piece of fire!
+Use it carefully.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 3400000 1
+P 1
+TRIG_UNKNOWN 100 use
+OPROG_IF OIF_USER_ROOM_NUM = 14010 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {110}The fire key leaps out of your hands and burns the northern wall down.
+mpechoaround self {110}The fire key leaps out of $I's hands and burns the northern wall down.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+It is not yet time to unleash the Fire Key.~
+#14005
+key water~
+the Water Key~
+There is a key made of water here.~
+Shouldn't it dribble through your fingers, after all, it's made of water!
+Use it carefully.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 3400000 1
+P 1
+TRIG_UNKNOWN 100 use
+OPROG_IF OIF_USER_ROOM_NUM = 14011 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {140}The water key leaps out of your hands and washes away the wall to the north.
+mpechoaround self {140}The water key leaps out of $I's hands and washes away the wall to the north.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+It is not yet time to unleash the Water Key.~
+#14006
+key stone~
+the Stone Key~
+There is a key made of stone here.~
+It is extremely heavy, but you feel lucky you only have to be carrying
+something heavy, rather than something made of wind, water or fire!
+Use it carefully.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+100 3400000 1
+P 1
+TRIG_UNKNOWN 100 use
+OPROG_IF OIF_USER_ROOM_NUM = 14012 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {030}The stone key leaps out of your hands and crushes the wall to the north.
+mpechoaround self {030}The stone key leaps out of $I's hands and crushes the wall to the north.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+It is not yet time to unleash the stone Key.~
+#14007
+key wind~
+the Wind Key~
+There is a key made of the wind here.~
+You can barely see the outlines, and feel stupid, because it doesn't look like
+you're holding anything!
+Use it carefully.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 3400000 1
+P 1
+TRIG_UNKNOWN 100 use
+OPROG_IF OIF_USER_ROOM_NUM = 14013 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self {160}The wind key leaps out of your hands and blows the northern wall over.
+mpechoaround self {160}The wind key leaps out of $I's hands and blows the northern wall over.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+It is not yet time to unleash the Wind Key.~
+#14008
+gauntlets life~
+the Gauntlets of Life~
+There are a pair of gauntlets quivering here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+10 10000000 94
+A APPLY_DAMROLL 9 0
+A APPLY_HITROLL 9 0
+#14011
+bracer life~
+the Bracer of Life~
+There is a bracer quivering here. It seems almost alive.~
+Does the Pope wear this?
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+6 0 0 0 0 0 0 0
+10 10000000 94
+A APPLY_HITROLL 9 0
+A APPLY_DAMROLL 9 0
+#14012
+helm death~
+the Helm of Death~
+There is a helm, covered with blood here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+10 10000000 94
+A APPLY_DAMROLL 10 0
+#14013
+death band~
+the Death Band~
+A black band lies here. Arcane markings warn you away.~
+It reeks of death. It even has a cute design of a dead person wearing it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+12 0 0 0 0 0 0 0
+10 10000000 94
+A APPLY_DAMROLL 10 0
+#0
+
+
+#ROOMS
+#14000
+~
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14001
+Entrance to the Lost Citadel.~
+Here, the plains begin to turn hilly, and you see a mountain spire in the
+distance.  You realize, from a sign hanging here, that you have entered the
+fabled, long-forgotten Lost Citadel, the place where Ma'ar, the evil
+Lord-Adept, created his magical constructs.  You feel a sense of dread
+as you creep in the direction of the spire.
+~
+0 ROOM_INDOORS SECT_HILLS
+DDIR_NORTH
+The plains, lie behind you.~
+~
+0 0 12943
+DDIR_SOUTH
+A mountain spire hangs above your head south~
+~
+0 0 14002
+E
+sign~
+*****************************************************************************
+*                               ***WARNING***                               *
+*                       You have entered the Lost Citadel, I                *
+*                       recommend that you enter with at least              *
+*                       4-5 people, level 80+.  This is quite               *
+*                       a dangerous area, please take this                  *
+*                       advice to heart.  Thank you,                        *
+*                                       Elspeth the Creator.                *
+*****************************************************************************
+~
+#14002
+Entrance to the Spire.~
+You have entered a cave opening in the mountain spire.  At first, it seemed
+to be natural, but then the cave smoothed out, and you realize that this was
+hewn from the spire using powerful magic...something informs you that this
+was hewn using blood-magic.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Looking out the cave opening, you can see the hills and plains back north.~
+~
+0 0 14001
+DDIR_SOUTH
+A door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14001 14004
+#14003
+Another cave-room in the spire.~
+You are in a cave, with smooth walls, and no apparent exits.  There is a
+sentry of the Citadel here to greet you.  There are statues to the Four
+Primary Elements, Fire, Water, Air, and Earth, along the wall.  You can't
+quite make out the walls, because of the size of this chamber, but you get
+the feeling that there is a door north of you.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+A door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14001 14004
+#14004
+a room in the spire.~
+You have entered a smooth, small room, with no exits.  You can clearly see
+the walls, for some sort of lightsource comes from below, and it also
+provides heat.  It is quite hot in here, and you wonder why...then you glance
+down. LAVA!!!!
+~
+0 ROOM_NO_MOB SECT_LAVA
+#14005
+Another cave-room in the spire.~
+You are in a cave, with smooth walls, and no apparent exits.  There is a
+sentry of the Citadel here to greet you.  You see images flashing in and out
+of sight, towards the ends of the room.  You are not sure what you see, but
+it is quite odd, and you do not wish to investigate.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+A door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14001 14004
+#14006
+Another cave-room in the spire.~
+You are in a cave, with smooth walls, and no apparent exits.  There is a
+sentry of the Citadel here to greet you.  On the walls, you see old, dried
+blood, from where great magics have been worked.  You fear the power that
+you feel in this room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+A door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14001 14004
+#14007
+Another cave-room in the spire.~
+You are in a cave, with smooth walls, and no apparent exits.  There is a
+sentry of the Citadel here to greet you.  On the floor, there is much dried
+blood.  There is a circle marked off in chalk in the middle of the room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+A door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14001 14004
+#14008
+Another cave-room in the spire.~
+You are in a small cave, with smooth walls, and no exits...IT IS A TRAP!!!
+You have walked into the room, and realized that you are trapped.  There are
+no exits in any direction, and no way out.  You know that the only way out
+is to suicide, and you know you will feel stupid when the people at recall
+see you without eq...after all, you're supposed to not die much anymore...
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14009
+Entrance to the Tests.~
+You have passed the sentinels safely, and now it is time to proceed to the
+Tests of Fire, Water, Earth and Air.  Have a good time, for they are
+extremely hard Tests, especially because you will be split up, for once.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14010
+Entrance to the Elemental Inner Citadel.~
+You have passed your test, now you must wait for the rest of your group to
+pass.  You should feel proud, the Tests are extremely hard to pass, and many
+die in them.  This is the Inner Citadel, and you shall now have a chance to
+go after Ma'ar, the evil Lord-Adept...if your group has survived their Test.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14011
+The First Elemental Room of the Inner Citadel.~
+You are in the First Elemental Room of the Inner Citadel.  South of you, a
+door burns hotly, and to the north you see a waterfall with a keyhole.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14012
+The Second Elemental Room of the Inner Citadel.~
+You are in the Second Elemental Room of the Inner Citadel.  South of you, a
+waterfall with a keyhole falls, and to the north you see a heavy stone door.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14013
+The Third Elemental Room of the Inner Citadel.~
+You are in the Third Elemental Room of the Inner Citadel.  South of you, a
+heavy stone door closes shut behind you, and to the north you feel a strong
+wind pushing you back.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14014
+The Fourth Elemental Room of the Inner Citadel.~
+You are in the Fourth Elemental Room of the Inner Citadel.  South of you, a
+very strong wind blows you awake, and to the north, you see the entrance to
+the Inner Citadel.  Near you, you feel the power of Ma'ar growing angry.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Entrance to the Inner Citadel.~
+~
+0 0 14015
+#14015
+Entrance to the Inner Citadel.~
+You have entered the Inner Citadel.  Now, there is nothing to do but go
+forward, and face the wrath of Ma'ar.  You start to have second doubts about
+your sanity for going through with this kind of idea...something whispers
+into your ear "now is the time to die, my young friend."
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Inner Citadel.~
+~
+0 0 14016
+#14016
+The Inner Citadel.~
+You have found the very center of the Inner Citadel.  Now, you shall die, for
+you have invaded the sanctum of Ma'ar, the evil Lord-Adept, himself.  You
+are either a very vain, or a very foolish person, to think that you could
+survive against Ma'ar, himself.  Prepare to die, for Ma'ar is indeed here
+as you see, walking in.  He sees you, and seems very angry that you are
+here.  All of a sudden, a fireball sparks from his fingers, and heads your
+way.  You will not have time to duck...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Chakkor.~
+~
+0 0 9755
+#14017
+The Mage-Room.~
+This is the room where Mages are allowed to go freely within the Citadel. There
+is a servant here who will see to any mage's requests to go where they will.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+#14019
+Entrance to the Test of Fire.~
+You have entered the Test of Fire.  This is an extremely dangerous Test, and
+you will only find Necromancers and Assassins here.  As you are about to
+walk forward, a gusher of fire bursts up in front of your nose.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14023
+#14020
+Entrance to the Test of Water.~
+You have entered the Test of Water.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The Test of Water.~
+~
+0 0 14045
+#14021
+Entrance to the Test of Air.~
+You have entered the Test of Air.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14071
+#14022
+Entrance to the Test of Earth.~
+You have entered the Test of Earth.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14096
+#14023
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?  I would not suggest a wrong step here...
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14025
+DDIR_SOUTH
+Entrance to Test of Fire.~
+~
+0 0 14019
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14024
+#14024
+The Test of Fire.~
+Oops, you made a wrong turn.  Well, time to wait for the lava I left here
+to kill you.  Guess next time you'll listen to my suggestions, right?
+~
+0 ROOM_NO_MOB SECT_LAVA
+#14025
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14026
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14024
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14023
+#14026
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14027
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14025
+#14027
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14024
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14024
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14026
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14028
+#14028
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14027
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14029
+#14029
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14030
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14028
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14024
+#14030
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14031
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14029
+#14031
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14032
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14024
+#14032
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14033
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14031
+#14033
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14034
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14032
+#14034
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14033
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14035
+#14035
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14034
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14036
+#14036
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14038
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14035
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14037
+#14037
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14036
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14039
+#14038
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14024
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14036
+#14039
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14040
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14037
+#14040
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14041
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14024
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14039
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14024
+#14041
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14042
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14040
+#14042
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Fire.~
+~
+0 0 14043
+DDIR_EAST
+The Test of Fire.~
+~
+0 0 14024
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14041
+DDIR_WEST
+The Test of Fire.~
+~
+0 0 14024
+#14043
+The Test of Fire.~
+You have entered the Test of Fire.  You should now prepare to die, because
+you see many geisers of flame pushing themselves up above the surface...what
+is that heat you feel beneath you?  Several large flames are licking their
+way up a large door to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Flame.~
+door flame~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14004 14044
+DDIR_SOUTH
+The Test of Fire.~
+~
+0 0 14024
+#14044
+The Test of Flame.~
+You have entered the last room of the Test of Fire, the Test of Flame.  In
+front of you is the last Test, the FireLord himself...prepare to die, for
+this is the hardest thing anyone has to pass solo...
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14045
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14046
+DDIR_SOUTH
+The Test of Water.~
+~
+0 0 14020
+#14046
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14048
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14045
+DDIR_WEST
+The Test of Water~
+~
+0 0 14047
+#14047
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14048
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14049
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14047
+DDIR_WEST
+The Test of Water~
+~
+0 0 14046
+#14049
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14050
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14048
+#14050
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14047
+DDIR_EAST
+The Test of Water~
+~
+0 0 14047
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14049
+DDIR_WEST
+The Test of Water~
+~
+0 0 14051
+#14051
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14050
+DDIR_WEST
+The Test of Water~
+~
+0 0 14052
+#14052
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14053
+DDIR_EAST
+The Test of Water~
+~
+0 0 14051
+#14053
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14054
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14052
+#14054
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14055
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14053
+DDIR_WEST
+The Test of Water~
+~
+0 0 14047
+#14055
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14056
+DDIR_WEST
+The Test of Water~
+~
+0 0 14054
+#14056
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14057
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14055
+#14057
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14056
+DDIR_WEST
+The Test of Water~
+~
+0 0 14058
+#14058
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14047
+DDIR_EAST
+The Test of Water~
+~
+0 0 14057
+DDIR_WEST
+The Test of Water~
+~
+0 0 14059
+#14059
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14058
+DDIR_WEST
+The Test of Water~
+~
+0 0 14060
+#14060
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14061
+DDIR_EAST
+The Test of Water~
+~
+0 0 14059
+#14061
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14062
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14060
+#14062
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14063
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14061
+#14063
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Water~
+~
+0 0 14064
+DDIR_WEST
+The Test of Water~
+~
+0 0 14062
+#14064
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14065
+DDIR_WEST
+The Test of Water~
+~
+0 0 14063
+#14065
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14066
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14064
+#14066
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14067
+DDIR_EAST
+The Test of Water~
+~
+0 0 14047
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14065
+DDIR_WEST
+The Test of Water~
+~
+0 0 14047
+#14067
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14068
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14066
+#14068
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Water~
+~
+0 0 14069
+DDIR_EAST
+The Test of Water~
+~
+0 0 14047
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14067
+DDIR_WEST
+The Test of Water~
+~
+0 0 14047
+#14069
+The Test of Water.~
+You have entered the Test of Water.  Slosh! You are standing in a pool of
+water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of The Sea~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14005 14070
+DDIR_SOUTH
+The Test of Water~
+~
+0 0 14068
+#14070
+The Test of The Sea.~
+You have entered the last room of the Test of Water, the Test of The Sea.
+Slosh! You are standing in a pool of water 2 feet deep.  The only thing wrong with this picture is, the water
+is boiling hot! OWWWW!!!!
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#14071
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14072
+#14072
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air.~
+~
+0 0 14074
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14071
+DDIR_WEST
+The Test of Air.~
+~
+0 0 14073
+#14073
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_NO_MOB SECT_LAVA
+#14074
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14075
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14073
+DDIR_WEST
+The Test of Air~
+~
+0 0 14072
+#14075
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14076
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14074
+#14076
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air~
+~
+0 0 14073
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14075
+DDIR_WEST
+The Test of Air~
+~
+0 0 14077
+#14077
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air~
+~
+0 0 14076
+DDIR_WEST
+The Test of Air~
+~
+0 0 14078
+#14078
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14079
+DDIR_EAST
+The Test of Air~
+~
+0 0 14077
+DDIR_WEST
+The Test of Air~
+~
+0 0 14073
+#14079
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14080
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14078
+#14080
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air~
+~
+0 0 14081
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14079
+DDIR_WEST
+The Test of Air~
+~
+0 0 14073
+#14081
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14082
+DDIR_WEST
+The Test of Air~
+~
+0 0 14080
+#14082
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14083
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14081
+#14083
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14082
+DDIR_WEST
+The Test of Air~
+~
+0 0 14084
+#14084
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_LAVA
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14073
+DDIR_EAST
+The Test of Air~
+~
+0 0 14083
+DDIR_WEST
+The Test of Air~
+~
+0 0 14085
+#14085
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air~
+~
+0 0 14084
+DDIR_WEST
+The Test of Air~
+~
+0 0 14086
+#14086
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14087
+DDIR_EAST
+The Test of Air~
+~
+0 0 14085
+#14087
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14088
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14086
+#14088
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_EAST
+The Test of Air~
+~
+0 0 14089
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14087
+#14089
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14090
+DDIR_WEST
+The Test of Air~
+~
+0 0 14088
+#14090
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14091
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14089
+#14091
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14092
+DDIR_EAST
+The Test of Air~
+~
+0 0 14073
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14090
+DDIR_WEST
+The Test of Air~
+~
+0 0 14073
+#14092
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14093
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14091
+#14093
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of Air~
+~
+0 0 14094
+DDIR_EAST
+The Test of Air~
+~
+0 0 14073
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14092
+DDIR_WEST
+The Test of Air~
+~
+0 0 14073
+#14094
+The Test of Air.~
+You are standing on in mid-air, looking down.  Funny, you think, it seems you
+are flying, but you don't know how to fly.  Then, you look down, and realize
+the terrain is coming up, fast.  SQUASH!  Oops, guess that was the wrong move.
+~
+0 ROOM_INDOORS SECT_AIR
+DDIR_NORTH
+The Test of the Winds~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14007 14095
+DDIR_SOUTH
+The Test of Air~
+~
+0 0 14093
+#14095
+The Test of the Winds~
+You are standing in the last room of the Test of Air, the Test of the Winds.
+Congratulations, you made it, I'd say, except that you haven't.  You've still
+got one test to go, the Wind Lord.  Have a good time...dying. =)
+~
+0 ROOM_NO_MOB SECT_AIR
+#14096
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14097
+#14097
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14099
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14096
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14098
+#14098
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_NO_MOB SECT_LAVA
+#14099
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14100
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14098
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14097
+#14100
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14101
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14099
+#14101
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14098
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14098
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14100
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14102
+#14102
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14101
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14103
+#14103
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14102
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14104
+#14104
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14105
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14103
+#14105
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14106
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14104
+#14106
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14107
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14105
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14098
+#14107
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14108
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14106
+#14108
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14109
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14107
+#14109
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14108
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14110
+#14110
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14098
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14109
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14111
+#14111
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14110
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14112
+#14112
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14113
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14111
+#14113
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14114
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14112
+#14114
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14115
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14113
+#14115
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14116
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14114
+#14116
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14117
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14115
+#14117
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14118
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14116
+#14118
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14119
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14098
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14117
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14098
+#14119
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14120
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14118
+#14120
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Earth~
+~
+0 0 14121
+DDIR_EAST
+The Test of Earth~
+~
+0 0 14098
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14119
+DDIR_WEST
+The Test of Earth~
+~
+0 0 14098
+#14121
+The Test of Earth~
+You are standing on solid ground, in the Test of Earth.  Around you, you see
+something that will live in your nightmares forever.  As you watch, large
+chunks of this solid ground rise up in unholy majesty for over 200 meters,
+then topple over.  The landscape is barren of life.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The Test of Stone~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14006 14122
+DDIR_SOUTH
+The Test of Earth~
+~
+0 0 14098
+#14122
+The Test of Stone~
+----------------------------------------------------------------------------
+You have entered the last room of the Test of Earth, the Test of Stone.  Be
+Prepared to die, for this is the hardest challenge you have ever faced alone
+-----------------------------------------------------------------------------
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#0
+
+
+#RESETS
+M 14007 100 14009
+M 14009 100 14044
+M 14009 100 14070
+M 14009 100 14095
+M 14009 100 14122
+M 14017 100 14017
+M 14030 100 14010
+M 14031 100 14011
+M 14032 100 14012
+M 14033 100 14013
+M 14026 100 14044
+M 14027 100 14070
+M 14028 100 14122
+M 14029 100 14095
+M 14022 100 14043
+M 14023 100 14069
+M 14024 100 14121
+M 14025 100 14094
+M 14010 100 14016
+E 14012   1 WEAR_HEAD
+E 14003   1 WEAR_HOLD
+G 14008   1 0
+G 14011   1 0
+E 14013   1 WEAR_WRIST_L
+M 14011 100 14002
+M 14012 100 14003
+M 14013 100 14005
+M 14014 100 14006
+M 14015 100 14007
+M 14016 100 14008
+M 14019 100 14048
+M 14019 100 14052
+M 14019 100 14060
+M 14019 100 14063
+M 14019 100 14066
+M 14020 100 14097
+M 14020 100 14101
+M 14020 100 14104
+M 14020 100 14109
+M 14020 100 14114
+M 14020 100 14120
+M 14021 100 14072
+M 14021 100 14077
+M 14021 100 14080
+M 14021 100 14085
+M 14021 100 14090
+M 14018 100 14024
+M 14018 100 14027
+M 14018 100 14030
+M 14018 100 14033
+M 14018 100 14036
+M 14018 100 14040
+M 14018 100 14042
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

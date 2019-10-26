@@ -1,0 +1,156 @@
+#AREA Poor Village~
+#AUTHORS TaT~
+#VERSION 3
+#RANGES 100 100 100 100
+#OLC_RANGES 42900 42999
+#RESETMSG You hear a stomach growl off in the distance.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NORECALL|AFLAG_NOCASTLE|AFLAG_NORIP
+
+
+#HELPS
+0 ULMO~
+{130}
+                                   Ulmo
+{300}
+Ulmo is the God of the seas.
+
+As with all other gods, you may choose to follow from levels 10 - 50.
+
+{120}  (A) {050}Ulmo Area
+
+{120}  (-) {050}Return
+{a}'ULMO AREA'
+~
+
+0 'ULMO AREA'~
+{120}
+                                Ulmo Area
+{300}
+The Ulmo area is still under construction. You can become a follower of
+Ulmo by going 2 north from Roterodamum square between level 10 and 50
+and speak with the ethereal mob that idles there.
+~
+
+0 ULMOGODCHAINCOMMANDS~
+{140}  Call-Water -- for a restore once every 4 hours
+       Warp  -- for an instant teleportation to Poor Village
+ Check-Water -- to see if you can call upon the Power of Water
+  Show-Tick  -- to see your ice cube charging after each restore
+{300}
+~
+
+0 $~
+
+
+#MOBILES
+#42900
+waterRestoreEthereal M42900~
+the waterRestoreEthereal~
+A waterRestoreEthereal mob washes about here.~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p water restore please~
+mpgoto $n
+mpquiet on
+restore $n
+cast 'cure poison' $n
+cast 'cure blindness' $n
+cast 'cure critical' $n
+cast 'remove curse' $n
+mpquiet off
+mpechoat $n {140}You feel the Power of Water coursing through you!
+mpechoaround $n {140}$N gushes with the power of Water!
+if rand (3)
+  if rand (50)
+    mpmset $n long {140}(Avatar) $n embodies the glory of Ulmo.
+  else
+    mpmset $n long {140}(Prophet) $n praises the glory of Ulmo.
+  endif
+  mpechoat $n You feel reborn as Ulmo touches your very soul!!!
+  mpechoaround $n $N looks awe-struck as Ulmo marks $m as his own.
+endif
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#42901
+etherealWaterWarp M42901~
+the ethereal water warp~
+The ethereal water warp dribble on the ground here.~
+~
+ACT_SMART
+AFF_FLYING|AFF_ETHEREAL
+0 S
+2 0 0 2d2+10 1d1+3
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p water warp please~
+if inroom ($n) == 9755
+  mppurge self
+  break
+endif
+mpgoto $n
+mpechoat $n {140}A waterfall carries you away.
+mpechoaround $n {140}A waterfall carries $n away.
+mptransfer $n 9755
+mpat 9755 mpechoaround $n {140}$N appears in a rush of water.
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#ROOMS
+#42900
+A barren path~
+You are standing at the beginning of what appears to be a long path into a
+village.  The road ahead is barren with very low lying bush.  The path curves
+left and right as it leads you into the village.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+Further down the path~
+~
+0 -1 42901
+S
+#42901
+A barren path~
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Further down the path~
+~
+0 -1 42900
+S
+#0
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

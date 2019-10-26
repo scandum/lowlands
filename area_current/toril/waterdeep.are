@@ -1,0 +1,3579 @@
+#AREA Waterdeep~
+#AUTHORS Blythe~
+#VERSION 4
+#RANGES 50 80 1 95
+#OLC_RANGES 8000 8099
+#RESETMSG You hear the tramping of feet and business concludes as usual.~
+
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 WATERDEEP~
+{128}
+                                  Waterdeep
+{308}
+Waterdeep, also known as the City of Splendours is a coastal town on the Sword
+Coast north of Tethyr.  It is a city full of shops that would cater to anyone's
+needs.  It hosts a branch of the Griffon Bank and Travel.  The area contains 3
+quests.
+
+{118}* {308}The first quest will give you level 10 leveling gear.  For it you need
+  to hone your sewing skills.
+{118}* {308}The second quest starts with the Merchant Thann.  It yields level 60
+  mana/ac gear.
+{118}* {308}The third quest will require you getting in to see Blackstaff and gives
+  you level 85 mana/ac gear.
+~
+
+0 $~
+
+
+#MOBILES
+#8000
+danilothannmob than~
+Danilo Thann~
+Danilo Thann gives you a wicked grin.~
+He is a handsome man, dressed to the hilt in the finest of clothes.
+He is from one of the most wealthy families of Waterdeep.
+Actually he looks like a bit of a dandy.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 1d1+1
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if sex ($n) == sex_female
+  mpechoat $n You have entered an all male domain!
+  mpechoat $n Danilo gives you an astonished look.
+  mpechoaround $n Danilo stares in amazement at $n.
+  mpechoat $n Danilo takes you gently by the arm and escorts you to to door.
+  mpechoaround $n Danilo escorts $n to the door.
+  say I am sorry my dear, but this is not the place for a Lady
+  say such as yourself.
+  mptransfer $n 8061
+else
+  if sex ($n) == sex_male
+    say Welcome Sir, what can we do for you?
+  else
+    say Well I surely don't know what you are but you are not welcome here.
+    mpechoat $n The guards come to escort you away.
+    mpechoaround $n The guards come to escort $n away.
+    mptransfer $n 8001
+    say Well I sure don't know what IT was!
+  endif
+endif
+~
+|
+#8001
+miranda mistress~
+Mistress Miranda~
+Mistress Miranda smiles attends to a lady here.~
+She is a beautiful woman, with immaculate hair, and wonderfully dressed in
+pink silk.  Her complexion is delicate, and her eyes a clear blue.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if sex ($n) == sex_male
+  scream $n
+  shout $n is a perverted scoundrel!
+  mpmset $n long (SCOUNDREL) $n is here.
+  emote calls for the guards.
+  mpechoat $n A Waterdeep Tower Guard arrives and escorts you out at great haste.
+  mpechoaround $n A Waterdeep Tower Guard grabs $n and roughly escorts him out.
+  mpechoat $n You are thrown out of the Waterdeep gates.
+  mpechoat $n You land on your butt with a clatter of armour.
+  mptransfer $n 8065
+  mpat 8065 mpmload 8002
+else
+  if sex ($n) == sex_female
+    say Welcome my Lady, how may I serve you?
+  else
+    mpechoat $n Mistress Miranda gives you an odd look.
+    mpechoaround $n Mistress Miranda gives $n an odd look.
+    say Well I know we certainly don't serve your kind.
+    say Kindly leave.
+    mpmload 8002
+    mpechoat $n A Waterdeep Tower Guard escorts you away with a look of distaste on his face.
+    mpechoaround $n A Waterdeep Tower Guard escorts $n away with a look of distaste on his face.
+    mpmset $n long (NEUTER) $n is here.
+    mptransfer $n 8065
+    mpat 8065 mpmload 8002
+  endif
+endif
+~
+|
+#8002
+waterdeeptowerguard tower guard~
+a Waterdeep Tower Guard~
+A Waterdeep Tower Guard stands to attention here.~
+Dressed in dark armour, cleaned and polished to shine, he looks like a
+formidable person to cross.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+95 BODY_HAND BODY_FOOT 1d2256+7613 10d10+100
+100000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 75~
+mpecho The Waterdeep Tower Guard marches off to attend his duties.
+mppurge self
+~
+>fight_prog 50~
+cast 'acid blast'
+~
+|
+#8003
+waterdeepgateguard gate guard~
+a Waterdeep Gate Guard~
+A Waterdeep Gate Guard looks at you sternly.~
+He is wearing a black scale mail armour embossed with an upturned,
+gold crescent moon surrounded by 9 silver stars.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+50 BODY_HAND BODY_FOOT 10d10+1500 1d10+45
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Halt and state your name and business.
+~
+>speech_prog p my name is~
+if name ($n) == $4
+  unlock gate
+  open gate
+  mpechoat $n The guard opens the gate for you.
+  mpechoaround $n The guard opens the gate for $n.
+else
+  mpechoat $n The guard looks deep into your eyes.
+  mpechoaround $n The guard looks deep into $n's eyes.
+  say LIAR!
+  mpkill $n
+endif
+~
+|
+#8004
+waterdeepgateguard gate guard~
+a Waterdeep Gate Guard~
+A Waterdeep Gate Guard looks at you sternly.~
+He is wearing a black scale mail armour embossed with an upturned,
+gold crescent moon surrounded by 9 silver stars.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+50 BODY_HAND BODY_FOOT 10d10+1500 1d10+45
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8005
+blackstaffetherealmob~
+blackstaffetherealmob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p I guess no one is home.~
+if quest (0,5,$n) == 3
+  mpecho A window appears where one wasn't before.
+  mpecho {138}A head pops out and shouts down, 'Come in!'
+  mpecho A door appears where none was before.
+  mpmset $n quest 0 5 4
+  mptransfer $n 8060
+  mpecho $n leaves west, closing the door behind $m.
+  mpat 8060 mpechoat $n You enter the tower, closing the door behind you.
+  mpat 8060 mpechoaround $n $N enters the room.
+  mpat 8060 mpforce $n look auto
+~
+>all_greet_prog 100~
+if quest (0,5,$n) == 10
+  mpecho A door appears where none was before.
+  mpechoat $n You guess this time you were expected.
+  connect west 8060
+  mpforce $n west
+  connect west -1
+endif
+~
+|
+#8006
+morty mortician~
+Morty the mortician~
+Morty waits to take your order~
+Morty, is a brute of a man, wearing an apron covered in blood and things that
+you really don't really know what they are.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 1d1+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+say Hungry are you?
+~
+|
+#8007
+jonathon armourer~
+Jonathon the Armourer~
+Jonathon the Armourer spits on a breastplate before polishing it.~
+Dressed in a light scale mail, he looks like he would wear his armour to bed.
+He offers a wide range of equipment for the warrior.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8008
+waterdeeptownofficial town official~
+a Waterdeep Town Official~
+A Waterdeep Town Official gives you a haughty look.~
+He wears a mixture of green leather and black chainmail, with only the gold
+crescent moon embossed on it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+50 BODY_HAND BODY_FOOT 0d0+1500 1d1+50
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,5,$n) == 13
+  say Welcome again to Waterdeep Merchant $n.
+  say I hope you enjoy your stay with us and that trading
+  say goes well for you.
+  mpquiet on
+  mpoload 8001
+  unlock gate
+  open gate
+  mpquiet off
+  mpechoat $n The Waterdeep Town Official opens the gate for you.
+  mpechoaround $n The Waterdeep Town Official opens the gate for $n.
+  bow $n
+else
+  mpechoat $n The Waterdeep Town Official gives you a haughty look.
+endif
+~
+|
+#8009
+willyweaponsmith weapon smith~
+Willy the Weaponsmith~
+Willy the Weaponsmith sharpens a sword here.~
+With a wickedly scarred face, she doesn't look like the sort
+of person that you should cross.  Especially surrounded by all
+these weapons.  Make sure you don't call her Wilhamena!
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog Wilhamena~
+mpecho Willy calls for the Guards.
+shout No one calls me Wilhamena!!
+mpechoaround $n $n is dragged out of the shop by the Guards.
+mpechoat $n The guards come to take you away.
+mpechoat $n You are dragged out the city gates and left there.
+mptransfer $n 8065
+~
+|
+#8010
+warrior priest tyr~
+a Warrior-Priest of Tyr~
+A Warrior-Priest of Tyr stands ready to train you.~
+He is dressed in white plate mail.  Despite the pious look,
+he doesn't look like someone you want to cross.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY
+0
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 40~
+if class ($n) == class_ranger
+or class ($n) == class_gladiator
+  say I have heard of a far distant place of magic called Faerdale.
+  say For 100 gold pieces I can send you there.
+endif
+~
+>speech_prog faerdale~
+if class ($n) == class_ranger
+or class ($n) == class_gladiator
+  say Ahhhh yes for 1000 gold pieces I can send you to that magic land.
+endif
+~
+>bribe_prog 100~
+if class ($n) == class_ranger
+or class ($n) == class_gladiator
+  say Fare Thee Well $n.  I hear that in Faerdale a young hero is needed.
+  mpecho The priest utters a few strange words.
+  mpecho The priest reaches into a pouch and throws something onto the ground.
+  mpechoat $n You cough and splutter at the smoke that rises up from the ground.
+  mpechoat $n You find yourself elsewhere!
+  mptransfer $n 28464
+  mpecho The smoke produced makes you cough and splutter.
+  mpecho You look up and $n is gone!
+endif
+~
+|
+#8011
+adonofsune sune~
+Adon of Sune~
+Adon of Sune is here.~
+He is an exceptionally good looking young man.  He has the face
+that females swoon over.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if inroom ($n) == 8091
+  if quest (0,5,$n) == 2
+    mpecho Adon of Sune attends to the merchants wife.
+    mpecho Adon of Sune shakes his head in bewilderment.
+    say I am sorry, Mr Than, but your wife has been poisoned.
+    say And I don't know of a cure.
+    say The only person I know who can help us is the magician
+    say Blackstaff.  Go to Blackstaff and say to him that the
+    say poison is Erilium.
+    mpoload 8047
+    give token $n
+    say Give this token to Blackstaff, it will show that
+    say you come in good faith.
+    mpmset $n quest 0 5 3
+    mpecho Adon of Sune leaves for the Temple.
+    mpgoto 8072
+  endif
+endif
+~
+>speech_prog aid~
+if inroom ($n) == 8072
+  if quest (0,5,$n) == 1
+    say You require my help?  I will meet you at the home
+    say of Merchant Than.
+    mpecho Adon gathers together his healing herbs and hurries out of the temple.
+    mpmset $n quest 0 4 2
+    mpgoto 8091
+    mpecho Adon of Sune arrives to aid the Merchant's wife.
+  endif
+endif
+~
+>death_prog 100~
+if rand (50)
+  mpoload 8039
+else
+  mpoload 8056
+endif
+~
+|
+#8012
+ancient priest sune~
+an ancient priest of Sune~
+An ancient priest of Sune is here ready to train you.~
+Dressed in voluminous robes, hes still a good looking man
+despite his age.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+emote sits down to have a chatter with you.
+say I have heard of a new land that one can only
+say get to by magic. I have also heard that one
+say who is prepared to heal and has the HEART to
+say go, may get in to this wondrous land.
+say The land is called Faerdale.
+~
+>speech_prog faerdale~
+say Ahhh all a healer has to do is have the HEART
+say to want to go to Faerdale and $e shall go.
+~
+>speech_prog heart~
+mpechoat $n The room tilts alarmingly and the Priest of Sune fades away.
+mptransfer $n 28464
+mpecho The room tilts and then uprights itself and $n is gone!
+~
+|
+#8013
+priestessofsune sune~
+a priestess of Sune~
+A priestess of Sune is here ready to attend to your needs.~
+She is incredibly beautiful, a credit to her goddess.
+She has a smile that would bring even the hardest man to his
+knees.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 1~
+mpoload 8039
+~
+|
+#8014
+priestessofmystra mystra~
+a priestess of Mystra~
+A priestess of Mystra is here.~
+Dressed in long flowing robes, she seems to exude magical energies.
+Take care you don't cross her, she's liable to turn you into a frog!
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+70 BODY_HAND BODY_FOOT 1d1225+3954 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if class ($n) < 4
+  mpechoat $n You lack the magic talent to enter the Temple of Mystra
+  mpechoat $n You feel a surge of energy and find yourself in a water trough.
+  mpechoaround $n $n disappears in a flash of green smoke.
+  mptransfer $n 8077
+else
+  say Welcome to the Temple of Mystra.
+  say Here you can train and practice your magical skills.
+endif
+~
+>rand_prog 5~
+mpecho The priestess strikes up a conversation with you.
+say I have heard of a magical land where one can
+say obtain wonderous magical items.  It is even said
+say that one can find the Isle of Mystra's Dance
+say there.  Do you want to know more?
+~
+>speech_prog yeah yes yup ok sure~
+say The land is called Faerdale, and it requires a
+say great magic to get to the land.  For 100 gold
+say pieces I can call up this great magic.
+~
+>bribe_prog 100~
+mpechoat $n The Priestess of Mystra enters a trance like state.
+say Frildiek murumdee plonkee defreeput
+mpechoat $n The room shimmers and shakes and the priestess disappears.
+mptransfer $n 28464
+mpecho The room shines brightly as $n disappears into thin air.
+~
+>death_prog 1~
+mpoload 8039
+~
+|
+#8015
+highpriestofcyric priest cyric~
+the high priest of Cyric~
+The high priest of Cyric is here ready to train you.~
+Dressed in dark robes, he exhumes the disgusting odour of death.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+-1000 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say It's only as my lord was once a thief in his
+say mortal life that I consent to train you.
+~
+>rand_prog 5~
+mpecho The high priest laughs to himself as he reads a parchment.
+say It says here that one can join a thieves guild
+say in a place called Faerdale.  You wouldn't be
+say interested in going would you?
+~
+>speech_prog yes yeah yep sure ok~
+mpecho The high priest looks at the parchment to work out how to send you there.
+say Hmmmm ok then .. but it will cost you.
+say I will send you there for 1,000 gold pieces.
+mpechoat $n This priest could have made his living as a thief charging you that much!!
+~
+>bribe_prog 1000~
+mpechoat $n The high priest laughs at you diabolically.
+mpechoaround $n The high priest laughs at $n diabolically.
+mpecho The high priest reads the spell off the parchment in his hands.
+say Wiggly Woggly Waggly my little tail till I go all pale.
+say Piggly Poggly Paggly now I am in Faerdale.
+mpecho The rooms starts to wobble and the high priest laughs even more.
+mpechoat $n Your body feels wierd as you find yourself elsewhere.
+mptransfer $n 28464
+mpecho $n runs their hands all over their body with a look of amazement on
+mpecho their face and disappears.
+~
+|
+#8016
+highpriestofbhaal priest bhaal~
+the high priest of Bhaal~
+The high priest of Bhaal skulks here.~
+He is dressed in robes that make him almost disappear into the shadows.
+Around his neck hangs a necklace of small skulls.  Mysterious dark markings
+are painted on his face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+-1000 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say I can help train you in the sinister arts of
+say being an assassin.
+~
+>rand_prog 5~
+say I have a letter here from the Master in
+say Faerdale.  He needs a young ninja to help
+say him find an ancient artifact. 
+say Would you be interested?
+~
+>speech_prog yes~
+say Well the spell to transfer you to Faerdale
+say costs a great deal.  It will cost you
+say 5,000 gold pieces.
+~
+>bribe_prog 5000~
+mpecho The high priest raises his hands high in the air.
+mpecho You can see skulls peek out from the folds of his robe as he moves.
+shout Bhaal I call upon your power.
+shout Transfer $n to Faerdale!
+mpecho A bolt of lightning hits the priest and bounces off him harmlessly.
+mpechoat $n The brightness of the lightning makes you blink.
+mpechoat $n You open your eyes again and find yourself elsewhere.
+mptransfer $n 28464
+mpechoaround $n The glare of the lightning makes you shut your eyes.
+mpechoaround $n You open your eyes and $n is gone.
+~
+|
+#8017
+durnanthewanderer wanderer~
+Durnan the Wanderer~
+Durnan the Wanderer is here tending bar.~
+He is the owner of the Yawning Portal and he is a retired warrior.
+Unknown to most he is one of the mysterious Lords of Waterdeep, the
+secret democratic council that governs the city.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d10+65
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+say I have a means of getting you into the Underdark
+say if you are interested?
+~
+>speech_prog yeah yes yep sure ok~
+say The Underdark is not for the faint hearted.  Deep
+say within it is the city of the drow.  If you wish
+say to make use of my portal it will cost you 100
+say gold pieces.
+~
+>bribe_prog 100~
+say Take care $n.
+connect 5 8086
+mpechoat $n You place your foot with care into the old well bucket.
+mpechoat $n Durnan lowers you down into the well shaft.
+mpechoaround $n Durnan lowers $n down into the well shaft.
+connect down 8086
+mpforce $n down
+connect down -1
+~
+|
+#8018
+citizenofwaterdeep waterdeep~
+a citizen of Waterdeep~
+A citizen of Waterdeep goes about his business.~
+The citizen is hurrying about attending to his own business and
+ignoring you.
+~
+ACT_SMART|ACT_BODY
+0
+-100 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d10+35
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8019
+waterdeepmerchant merchant~
+a Waterdeep Merchant~
+A Waterdeep Merchant hurries off to trade his goods.~
+Dressed in fine wear, he carries a large bundle of items that he
+will trade at the market.
+~
+ACT_SMART|ACT_BODY
+0
+100 S
+60 BODY_HAND BODY_FOOT 1d900+1774 1d60+19
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8020
+wealthywaterdavian waterdavian~
+a wealthy Waterdavian~
+A wealthy Waterdavian looks at you like you just crawled out from under a rock.~
+Dressed in fine silks and velvets.  He obviously patronises the Gentleman's
+Emporium.
+~
+ACT_SMART|ACT_BODY
+0
+-200 S
+70 BODY_HAND BODY_FOOT 10d10+3000 1d70+25
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8021
+griffon~
+a griffon~
+A griffon flies about here.~
+It has an eagles head and wings with a lions body.  It is a fierce fighter.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_FLYING
+-200 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d70+25
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+mpmload 8022
+mpforce griffonrider mpkill $n
+mpecho The rider clambers off his dead steed and comes at you fighting.
+~
+|
+#8022
+griffonrider rider~
+a griffon rider~
+A Griffon rider glares at you angrily.~
+Dressed in leather and furs to help keep him warm when he rides his griffon,
+he looks pretty mad at the death of his griffon.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+-140 S
+70 BODY_HAND BODY_FOOT 10d10+4000 1d70+25
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8023
+wyverncompanysoldier company soldier~
+a Soldier of the Wyvern Company~
+A Soldier of the Wyvern Company patrols here.~
+Dressed in dark scale mail armour with a golden wyvern
+embossed on the front, he looks like he knows his business.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+200 S
+75 BODY_HAND BODY_FOOT 10d10+4500 1d75+29
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8024
+manticorecompanysoldier company soldier~
+a Soldier of the Manticore Company~
+A Soldier of the Manticore Company patrols here.~
+Dressed in light scale mail armour with a silver maticore embossed on the
+front, he looks like he knows his business.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+80 BODY_HAND BODY_FOOT 10d10+4000 1d80+33
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8025
+volo traveller~
+volo~
+Volo the famous traveller of the Realms is here.~
+Dressed in plain well worn travelling gear, he looks like he's been places.
+He is well informed about the Continent of Toril
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8026
+merikithemadwizard mad wizard~
+Meriki the Mad Wizard~
+Meriki the Mad Wizard gives you a cross-eyed look.~
+Dressed in a brightly coloured robe, of purples and greens, he looks totally
+mad.  However on entering his presence you feel a tingle down your spine -
+the feeling of magic.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8027
+wealthy waterdeep lady~
+a Wealthy Waterdeep Lady~
+A Wealthy Waterdeep Lady sews here.~
+Dressed in fine velvets, she creates a lovely embroidered masterpiece.
+You too could sew like her if you wished.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+50 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#8028
+innkeeper~
+an innkeeper~
+An innkeeper stands behind the bar here.~
+Dressed in a plain white shirt and pants, he wipes down the bar.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+say So what will it be? A hearty meal? An ale?
+~
+|
+#8029
+mrthan wealthy merchant than~
+Mr Than~
+Mr Than, wealthy merchant of Waterdeep, is here.~
+Dressed in fine clothes, he has an anxious expression on his face.
+He looks worried about something.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+100 S
+70 BODY_HAND BODY_FOOT 1d1225+3954 1d70+60
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 0
+  emote gives you an anxious look.
+  say My wife has taken ill suddenly.
+  mpecho Mrs Than groans pitifully.
+  say Will you help us?
+endif
+~
+>give_prog i8048~
+if quest (0,5,$n) == 11
+  say It would be best that my wife has this.
+  give dragolish $n
+endif
+~
+>speech_prog yes~
+if quest (0,5,$n) == 0
+  say Thank you!  Could you please go to the Temple of Sune
+  say and ask for a priest there to AID us.
+  mpmset $n quest 0 5 1
+endif
+~
+>rand_prog 33~
+if quest (0,5,$r) == 12
+  say I am very grateful to you for saving my wife.
+  say As a token of my appreciation please accept these.
+  mpquiet on
+  cast 'giant strength' $r
+  mpquiet off
+  mpoload 8049
+  give tunic $r
+  mpoload 8050
+  give ring $r
+  mpoload 8051
+  give diamond $r
+  say The ring gives you merchant guild rights.
+  say You can shop at the Merchants Guild, and
+  say purchase things at a substantial discount.
+  mpmset $r quest 0 5 13
+endif
+~
+|
+#8030
+mrsthann thann~
+Mrs Thann~
+Mrs Thann lies here looking very ill.~
+Dressed in a fine robe, she looks very ill.  Her face is pale,
+and her eyes are closed, and around her mouth is blue.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+100 S
+70 BODY_HAND BODY_FOOT 1d1225+3954 1d70+60
+10000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>give_prog i8048~
+if quest (0,5,$n) == 11
+  mpecho Mrs Thann drinks the potion.
+  mpecho Mrs Thann starts to look less pale.
+  mpecho Mrs Thann smiles at her husband.
+  mpmset $n quest 0 5 12
+  say I feel so much better.  Thank you $n for saving my life.
+  mpjunk all
+endif
+~
+|
+#8031
+kelben blackstaff magician arunsun~
+Blackstaff~
+Kelben Arunsun, also known as Blackstaff, is here.~
+He is a tall dark haired man with an aura of command about him.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+200 S
+100 BODY_HAND BODY_FOOT 1d2500+8509 1d100+101
+150000 0
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i8047~
+if quest (0,5,$n) == 4
+  say You were sent by a priest of Sune?
+  say What do you seek my help with?
+  mpmset $n quest 0 5 5
+endif
+~
+>speech_prog erilium~
+if quest (0,5,$n) == 5
+  say Now that is one tough poison.  I think there is an antedote.
+  emote takes down a few tomes and starts turning pages.
+  mpmset $n quest 0 5 6
+endif
+~
+>rand_prog 33~
+if quest (0,5,$r) == 6
+  emote looks up at you.
+  say You must be hungry.
+  emote utters some strange words and moves his hands.
+  mpquiet on
+  cast feast
+  mpquiet off
+  emote places a fine feast of food before you and you eat your fill.
+  emote returns to his studies.
+  mpmset $r quest 0 5 7
+else
+  if quest (0,5,$r) == 7
+    say Ahhh here we go.
+    say I can cure her, but I will need some ingredients.
+    emote turns the pages of the tome he had been reading through.
+    mpmset $r quest 0 5 8
+  else
+    if quest (0,5,$r) == 8
+      say Now they wont be easy to find.
+      say I need Brackish Herbs, Dragons Blood, and Golden Thorn.
+      say Now let me think, where can these be found
+      mpmset $r quest 0 5 9
+    else
+      if quest (0,5,$r) == 9
+        say Talk to Robyn Kendrick in Corwell about the Brackish Herbs.
+        say I understand dragons are rampaging in Ethshar again.
+        say Talk to Foxfire in Tethir Forest about the Golden Thorn.
+        say Be quick.  I will prepare the rest of the spell while you are gone.
+        mpmset $r quest 0 5 10
+      endif
+    endif
+  endif
+endif
+if quest (0,5,$r) == 10
+  if quest (5,3,$r) == 7
+    mpecho Blackstaff adds the final ingredients to his potion.
+    mpecho Blackstaff utters some strange words.
+    mpecho Blackstaff swirls the potion and it shines an iridescent purple.
+    mpoload 8048
+    mpquiet on
+    cast 'giant strength' $r
+    mpquiet off
+    give i8048 $r
+    mpjunk all
+    say Take this and give it to the Merchants wife.
+    say It should cure her.
+    mpmset $r quest 0 5 11
+    mpmset $r quest 5 3 0
+  endif
+endif
+~
+>give_prog i222~
+if quest (0,5,$n) == 10
+  say Ahhhh Brackish Herbs.  Good.
+  mpecho Blackstaff mutters as he adds them to a potion.
+  mpmset $n quest 5 1 1
+  mpjunk i222
+endif
+~
+>give_prog i15162~
+if quest (0,5,$n) == 10
+  say Hmmm Golden Thorn.  This is a rare one indeed.
+  mpecho Blackstaff starts grinding up the Golden Thorn.
+  mpmset $n quest 6 1 1
+  mpjunk i15162
+endif
+~
+>give_prog i7503~
+if quest (0,5,$n) == 10
+  say Hmmm Dragons blood.  Not the easiest thing to get.
+  say Dragons don't tend to be easy to kill.
+  mpecho Blackstaff stirs the dragons blood into his potion.
+  mpmset $n quest 7 1 1
+  mpjunk i7503
+endif
+~
+>death_prog 100~
+mpecho You have defeated one of the greatest magicians!
+~
+>fight_prog 30~
+if rand (20)
+  cast fireball $r
+else
+  if rand (25)
+    cast earthquake
+  else
+    if rand (33)
+      cast 'acid blast' $r
+    else
+      if rand (50)
+        cast 'lightning bolt' $r
+      else
+        cast 'flame strike' $r
+      endif
+    endif
+  endif
+endif
+~
+|
+#8032
+guildmaster master merchant~
+the merchant guild master~
+The Merchant guild master is here.~
+Dressed in the tunic of the guild, and wearing the ring
+of the guild, he is obviously a member of the merchant's
+guild.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+1 BODY_HAND BODY_FOOT 0d0+10 1d1+1
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 13
+  say Welcome $n, how may I serve you?
+else
+  say You, $n, are not a member of the Merchant's Guild!
+  mpechoat $n The guild master escorts your firmly to the gates.
+  mpechoaround $n The guild master escorts $n to the gates.
+  mptransfer $n 8065
+endif
+~
+|
+#8033
+waterdeeptowerguard tower guard~
+a Waterdeep Tower Guard~
+A Waterdeep Tower Guard stands to attention here.~
+Dressed in dark armour, cleaned and polished to shine, he looks like a
+formidable person to cross.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+90 BODY_HAND BODY_FOOT 10d10+6000 1d90+41
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 60~
+mpmload 8033
+mpecho The Guard calls for another Guard to assist.
+mpforce $n kill waterdeeptowerguard
+~
+|
+#0
+
+
+#SHOPS
+8000 ITEM_TYPE_ARMOR ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+8001 ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_CONTAINER ITEM_TYPE_POTION ITEM_TYPE_WAND  100  50  0 23
+8006 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+8007 ITEM_TYPE_ARMOR ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+8009 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  120  50  0 23
+8025 ITEM_TYPE_ARMOR ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON  100  50  0 23
+8026 ITEM_TYPE_ARMOR ITEM_TYPE_STAFF ITEM_TYPE_PILL ITEM_TYPE_SCROLL ITEM_TYPE_POTION  120  50  0 23
+8028 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+8032 ITEM_TYPE_ARMOR ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_LIGHT ITEM_TYPE_WEAPON  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#8000
+sign waterdeep~
+a sign~
+A sign is here.~
+{308}
+                 --------------------------------
+                 |     {128}Welcome to Waterdeep {308}    |
+                 |                              |
+                 |      {148}Created by {178}Blythe {308}      |
+                 |                              |
+                 --------------------------------
+                     |  |                 |  |
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+500 10 96
+#8001
+fortified key~
+a fortified key~
+A fortified key lies here.~
+This key is made of a fortified material.  It looks like it would
+fit fortified gates.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+1 10 50
+#8002
+water trough~
+a water trough~
+A water trough to feed the animals is here.~
+A long rectangular trough full of clear water.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1000 10 96
+#8003
+water fountain~
+a water fountain~
+A fountain spills crystal clear water from a dolphin's mouth here.~
+The fountain is a marvellous sculpture with a sea theme.  Dolphins
+cavort happily, and one has water flowing from its mouth.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1000 10 96
+#8004
+silk gown~
+a silk gown~
+A pile of luxurious silk lies here.~
+It is a gown made of the richest silk, with lace edging.
+It is cut low at the front to distract the meanest of opponents.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 10000 15
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#8005
+jewelled ladies dagger~
+a Jewelled Ladies Dagger~
+A Jewelled Ladies Dagger lies here.~
+It is a small silver dagger with a small hilt, so even the smallest
+ladies hand can grasp it with ease.  The hilt is inlaid with fine jewels.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 3 WEAPON_PIERCE 0 0 0 0
+1 500000 15
+#8006
+potion beauty~
+a potion of beauty~
+A potion of beauty lies here.~
+It is a small cut glass bottle filled with a luminous pink liquid.
+It is said to do wonderful things to enhance a ladies beauty.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 134 150 190 0 0 0 0
+1 10000 15
+A APPLY_CON 2 0
+S 1 'heal'
+S 2 'invis'
+S 3 'protection evil'
+#8007
+sewingneedle needle~
+a sewing needle~
+A sewing needles lies here.~
+It's a sewing needles made out of metal.  You could SEW with
+this needle if you had some fabric and thread.  Once you have
+thread you will need to THREAD the needle.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 0 0 0 0 0 0 0
+3 100000 5
+A APPLY_DEX 1 0
+P 1
+TRIG_UNKNOWN 100 thread
+OPROG_IF OIF_USER_ROOM_NUM = 8063 4 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 8078 4 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+You should really find a quieter place to sew.~
+P 4
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 8009 6 5
+P 5
+TRIG_VOID
+OPROG_ECHO
+It would help if you had some thread to thread your needle with.~
+P 6
+TRIG_VOID
+OPROG_ECHO
+You very carefully thread the needle taking care not to prick yourself.~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 8011
+mpjunk i8009
+mpjunk i8007~
+#8008
+finefabric fabric~
+some fine fabric~
+Some fabric lies in a rumbled heap on the ground here.~
+It's a fine piece of fabric that a lady would use to create
+a fine piece of embroidery with.  Maybe you should get a needle
+and thread and SEW.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 100000 5
+A APPLY_CON 1 0
+#8009
+silkthread thread~
+some silk thread~
+Some silk thread lies in a tangle here.~
+It is some fine silk thread.  If you had some fabric and a needle
+you could sew with it.  But don't forget one has to THREAD the needle
+in order to sew.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000 5
+A APPLY_WIS 1 0
+#8010
+fine embroidery~
+some fine embroidery~
+Some fine embroidery lies discarded on the ground here.~
+You are proud of your achievement in having sewn this fine
+piece of embroidery.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+3 0 0 0 0 0 0 0
+3 1000 10
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#8011
+threadedneedle needle~
+a threaded needle~
+A threaded needle lies abandoned on the ground here.~
+It is a needle threaded with some fine silk thread.  If
+you were to find some fine fabric you could SEW.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 0 0 0 0 0 0 0
+3 1000 8
+A APPLY_STR 1 0
+P 1
+TRIG_UNKNOWN 100 sew
+OPROG_IF OIF_USER_ROOM_NUM = 8078 4 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 8063 4 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+You should really find a quieter place to sew.~
+P 4
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 8008 6 5
+P 5
+TRIG_VOID
+OPROG_ECHO
+It would help if you had some fabric to sew on.~
+P 6
+TRIG_VOID
+OPROG_ECHO
+You sit down and embroider a masterpiece.~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 8010
+mpjunk i8008
+mpjunk i8011~
+#8012
+rouge pot~
+a pot of rouge~
+A pot of rouge spills over onto the ground here.~
+A lady would use this rouge on her cheeks to make herself look
+flushed.  Take care that you don't use too much, as you wouldn't
+want to look easy.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 210 235 215 0 0 0 0
+1 100500 40
+S 1 'sanctuary'
+S 2 'stone skin'
+S 3 'shield'
+#8013
+light weight scale mail~
+some light weight scale mail~
+Some light weight scale mail lies here.~
+It is a set of well made light weight scale mail.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 17000 7
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#8014
+boots calf hide~
+a pair of calf hide boots~
+A pair of calf hide boots lie here.~
+Made from fine light weight calf hide, they look like a comfortable
+pair of boots to wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+3 0 0 0 0 0 0 0
+1 105040 2
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+#8015
+gloves calf hide~
+calf hide gloves~
+A pair of calf hide gloves lie here.~
+Made from a fine light weight calf hide, they look like comfortable
+gloves to wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+4 0 0 0 0 0 0 0
+1 105700 3
+A APPLY_CON 1 0
+#8016
+breeches calf hide~
+calf hide breeches~
+A pair of calf hide breeches lie here.~
+Made from a fine light weight calf hide, they look like comfortable
+breeches to wear
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+3 0 0 0 0 0 0 0
+1 103400 2
+A APPLY_DAMROLL 1 0
+#8017
+vest calf hide~
+a calf hide vest~
+A calf hide vest lies here.~
+Made from a fine light weight calf hide, it looks like a comfortable
+vest to wear
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+4 0 0 0 0 0 0 0
+1 108900 3
+A APPLY_DEX 1 0
+#8018
+cap calf hide~
+a calf hide cap~
+A calf hide cap lies here.~
+Made from a fine light weight calf hide, it looks like a comfortable
+cap to wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+4 0 0 0 0 0 0 0
+1 121000 3
+A APPLY_CON 1 0
+#8020
+black scale mail armour gold crescent embossed~
+gold crescent embossed black scale mail armour~
+Gold crescent embossed black scale mail armour lies here.~
+It is a black scale mail armour embossed with an upturned gold
+crescent moon surrounded by 9 silver stars.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+13 0 0 0 0 0 0 0
+3 1000 50
+#8021
+green leather black chain mail~
+green leather and black chain mail armour~
+A green leather and black chain mail armour lies here.~
+The armour is a mixture of green leather and black chain mail,
+with only the gold crescent moon embossed on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+3 1000 45
+A APPLY_DAMROLL 3 0
+#8022
+blue velveteen breeches~
+blue velveteen breeches~
+A pile of blue velvet lies here.~
+It is a pair of breeches made from the finest velveteen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+5 0 0 0 0 0 0 0
+2 100230 15
+A APPLY_HIT 12 0
+#8023
+purple silk robe~
+a purple silk robe~
+A pile of purple silk lies here.~
+It is a robe made of the finest purple silk.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+3 1000 12
+A APPLY_DAMROLL 2 0
+#8024
+polished leather boots~
+polished leather boots~
+A pair of polished leather boots lie here.~
+It is a pair of boots made from the finest polished leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+5 0 0 0 0 0 0 0
+1 176000 17
+A APPLY_DEX 2 0
+A APPLY_STR 2 0
+#8025
+maroon leather belt~
+a maroon leather belt~
+A scrap of maroon leather lies here.~
+It is a narrow belt made of fine maroon leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+2 0 0 0 0 0 0 0
+1 100230 14
+A APPLY_INT 2 0
+#8026
+green silk slippers~
+green silk slippers~
+A pair of green silk slippers lie here.~
+They are a pair of lounging slippers made of fine green silk.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+0 0 0 0 0 0 0 0
+1 197000 25
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+#8027
+black handled broadsword sword~
+a black handled broadsword~
+A black handled broadsword lies rusting on the ground here.~
+It is a broad sword with a black handle.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 2 10 WEAPON_SLICE 0 0 0 0
+5 100000 20
+#8028
+black handled dagger~
+a black handled dagger~
+A black handled dagger lies rusting on the ground here.~
+It is a dagger with a black handle.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 5 WEAPON_PIERCE 0 0 0 0
+1 50000 22
+C
+poke~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#8029
+ladies silk purse~
+a ladies silk purse~
+A ladies silk purse lies here.~
+It is a purse made out of a fine silk purse.  Just the sort
+of thing a lady would carry to put all her bits and pieces in.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+150 0 0 0 0 0 0 0
+1 1000 10
+A APPLY_STR 1 0
+#8030
+chastity belt metal~
+a chastity belt~
+A metal monstrosity lies here.~
+The belt is made of metal, with a flap that loops around to
+go between the legs of the wearer.  Once worn it is hard to
+tell the original sex of the wearer.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_LOCK|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+5 0 0 0 0 0 0 0
+3 1000 20
+A APPLY_SEX -1 0
+A APPLY_MANA 40 0
+#8031
+travellers light~
+a travellers light~
+A travellers light is here.~
+It is a good sturdy light, that looks suitable for someone
+taking a long journey.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 10050 20
+A APPLY_DAMROLL 3 0
+#8032
+travellers rations packet~
+travellers rations~
+A packet of travellers rations is moulding on the ground here.~
+Tightly bound in a waterproof hide, are some dried rations suitable
+for the intrepid traveller.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+1 10 1
+#8033
+travellers water skin~
+a travellers water skin~
+A travellers water skin leaks water onto the ground here.~
+Made of animal skin, it holds a good supply of water for
+the hardy traveller.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+5 4 LIQ_WATER 0 0 0 0 0
+1 20 1
+#8034
+travellers cloak~
+a travellers cloak~
+A travellers cloak lies here.~
+It looks like a cloak that would keep a traveller warm and dry.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+5 0 0 0 0 0 0 0
+3 1000 10
+A APPLY_DEX 2 0
+#8035
+travellers boat~
+a travellers boat~
+A travellers boat is beached here.~
+It is a small boat suitable for no more than 2 people.
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 10000 5
+#8036
+travellers pack~
+a travellers pack~
+A travellers pack lies here.~
+It is a pack that one would use to put things in before
+travelling.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+100 CONT_CLOSEABLE -1 0 0 0 0 0
+1 10000 2
+#8037
+recall scroll~
+a recall scroll~
+A recall scroll lies abandoned on the ground here.~
+Well, it's a scroll, and if you recite it you recall.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#8038
+wizardly potion protection~
+a wizardly potion of protection~
+A wizardly potion of protection lies abandoned here.~
+Well it's a potion that contains spells that will help protect you.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 9 210 215 0 0 0 0
+1 17850 40
+S 1 'armor'
+S 2 'sanctuary'
+S 3 'shield'
+#8039
+wizardly scroll protection~
+a wizardly scroll of protection~
+A wizardly scroll of protection lies abandoned here.~
+Well it's a scroll that contains spells that will help protect you.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 9 210 215 0 0 0 0
+1 17850 40
+S 1 'armor'
+S 2 'sanctuary'
+S 3 'shield'
+#8041
+wizards potion movement~
+a Wizards Potion of Movement~
+A Wizards Potion of Movement lies abandoned here.~
+Well it's a potion that gives you spells to make you move better!
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 113 132 178 0 0 0 0
+1 11220 25
+S 1 'fly'
+S 2 'haste'
+S 3 'pass door'
+#8042
+wizards scroll movement~
+a Wizards Scroll of Movement~
+A Wizards Scroll of Movement lies abandoned here.~
+Well it's a scroll that gives you spells to make you move better!
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 113 132 178 0 0 0 0
+1 11220 25
+S 1 'fly'
+S 2 'haste'
+S 3 'pass door'
+#8043
+purple green wizards robe~
+a purple wizards robe~
+A purple and green wizardly robe lies here.~
+It's a glaring robe that is hard on the eyes with its swirls
+of purple and green.  But then it is said to have magical
+qualities.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+4 0 0 0 0 0 0 0
+1 1000 12
+A APPLY_MANA 20 0
+#8044
+purple green wizards hat~
+a purple wizards hat~
+A purple and green wizardly hat lies here.~
+It's a glaring hat that is hard on the eyes with its swirls
+of purple and green.  But then it is said to have magical
+qualities.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+4 0 0 0 0 0 0 0
+1 1000 12
+A APPLY_MANA 20 0
+#8045
+ale~
+an ale~
+An ale lies on the ground here.~
+It's a mug of fine ale.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_ALE 0 0 0 0 0
+1 20 1
+#8046
+hearty stew bowl~
+a hearty stew~
+A bowl of hearty stew is here.~
+It's a steaming hot bowl of hearty stew.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 20 1
+#8047
+token sune~
+a token of sune~
+A Token of Sune lies here.~
+It is a golden token with a symbol of a beautiful woman embossed
+on it.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 0 0 0 0 0 0
+1 100000 20
+P 1
+TRIG_UNKNOWN 100 knock
+OPROG_IF OIF_USER_ROOM_NUM = 8059 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ You knock on the wall of the tower. 
+mpechoaround $ $ knocks on the wall of the tower. 
+say I guess no one is home.~
+#8048
+dragolish potion~
+a Dragolish Potion~
+A Dragolish Potion is here.~
+It's a potion made of Brackish Herbs, Golden Thorn and
+Dragons Blood.  It will cure anyone who has been poisoned by
+Erilium.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 200 58 56 0 0 0 0
+1 100000 30
+S 1 'remove curse'
+S 2 'curse'
+S 3 'cure poison'
+#8049
+merchant's guild tunic~
+a merchant's guild tunic~
+A merchant's guild tunic lies discarded here.~
+It is a red silk tunic with the symbol of the Than
+Merchant's of Waterdeep.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+14 0 0 0 0 0 0 0
+3 91000 60
+A APPLY_MANA 65 0
+#8050
+merchant guild ring~
+a merchant's guild ring~
+A merchant's guild ring lies discarded here.~
+It is a gold ring with the signet of the Than Merchants
+Guild of Waterdeep.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+14 0 0 0 0 0 0 0
+3 1000 60
+A APPLY_MANA 65 0
+#8051
+expensive diamond~
+an expensive diamond~
+An expensive diamond lies here.~
+It is the biggest diamond that you have ever seen.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 2001000 50
+A APPLY_MANA 50 0
+A APPLY_AC -10 0
+#8052
+merchant guild cap~
+a merchant guild cap~
+A merchant guild cap lies discarded here.~
+It is cap made of red velvet, which has the Merchant Than
+symbol printed on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+14 0 0 0 0 0 0 0
+3 1000 60
+A APPLY_MANA 65 0
+#8053
+map toril~
+a map of Toril~
+A crumpled map lies here.~
+{018}Map of Toril
+
+                     {048}%%%%
+                   %%  %%
+                   %  {058}NP  {048}%                  %%%%%
+                   %%  %%   %%%%%%        %%   %%
+                    %%%%   %%    %%%%   %%%     %
+  %%%%       %%%%%      %%%%   {058}MI     {048}%%%%%       %
+ %%  %%     %%   %%%%%%%%    {058}HV {048}               %%%%
+ %  {058}MS {048} %     %                 {038}|-| {048}           %%%
+ %%   %     %%                  {038}| {048}     TR    %            {028}AN-Anasazi{048}
+  %%%%%      %    {058}LO       {038}|-----------|      {048}%            {028}ET-Ethshar{048}
+             %  {028}WD    {038}|----|           |--|   {048}%%%          {028}HV-Hartsvale{048}
+             %%  {038}|---|    |-- {058}PE {038}          |---| {048}%%         {028}LO-Landover{048}
+              %    {038}|                     |   {058}ET  {048}%         {028}MI-Midian{048}
+             %%    {038}|                     |      {048}%         {028}MS-Moonshae Islands{048}
+     %%%     %   {038}|-|-------|   |---------|      {048}%         {028}NP-North Pole{048}
+    %% %%%   %  {058}TE {038}         |---|          {048}%%%   %         {028}PE-Pern{048}
+    %  {058}PI {048} %   %%          AN            %% %   %%        {028}PI-Paradise Island{048}
+    %%  %%    %%%%%%%%%     %%%%%     %%  %    %        {028}TE-Tethyr{048}
+     %%%%             %%%%%%%   %%%%%%%   %%   %        {028}TR-Transylvania{048}
+                                           %%%%%        {028}WD-Waterdeep
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 100 1
+#8054
+potion levitation~
+a levitation potion~
+A levitation potion lies here.~
+It is a greenish potion in a cut glass jar.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 113 0 0 0 0 0 0
+1 10 5
+S 1 'fly'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#8055
+scroll levitation~
+a levitation scroll~
+A levitation scroll lies here.~
+It is a tightly bound scroll of levitation.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+6 113 0 0 0 0 0 0
+1 10 5
+S 1 'fly'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#8056
+sune token~
+a sune token~
+A sune token lies here.~
+It is a gold token with the head of the beautiful goddess Sune embossed on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000 80
+A APPLY_HITROLL 10 0
+P 1
+TRIG_UNKNOWN 100 knock
+OPROG_IF OIF_USER_ROOM_NUM = 8059 2 4
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_POSITION = POS_STANDING 3 5
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+connect west 8060 
+ west 
+ mpat 8059 connect west -1
+P 3
+TRIG_VOID
+OPROG_ECHO You knock on the tower wall.  A door opens where none was before and you enter the tower.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+P 4
+TRIG_VOID
+OPROG_ECHO
+You see nothing to knock on.~
+P 5
+TRIG_VOID
+OPROG_ECHO
+You must be standing to knock properly.~
+#8057
+blackstaff signet ring gold~
+Blackstaff's Signet Ring~
+A ring of gold lies here.~
+It is a gold ring with the signet of Blackstaff the famous magician of
+Waterdeep on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+19 0 0 0 0 0 0 0
+1 100000 85
+A APPLY_MANA 120 0
+A APPLY_DAMROLL -9 0
+#8058
+blackstaff robe purple shimmering~
+Blackstaff's Robe~
+A robe of shimmering purple lies here.~
+You can feel the magic emmanating from this robe.  It is the robe
+of one of the greatest magicians, Blackstaff.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+19 0 0 0 0 0 0 0
+1 1000 85
+A APPLY_MANA 120 0
+A APPLY_DAMROLL -9 0
+#8059
+blackstaff bracelet gold~
+Blackstaff's Bracelet~
+A bracelet of solid gold lies here.~
+It is a bracelet made of solid gold.  It thrums with magic!
+It is the bracelet of the famous magician of Waterdeep.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+19 0 0 0 0 0 0 0
+1 1000 85
+A APPLY_MANA 120 0
+A APPLY_DAMROLL -9 0
+#8060
+blackstaff boots leather black~
+Blackstaff's boots~
+A pair of black leather boots lie here.
+~
+The boots vibrate with magical energy.  They are the boots of the famous
+magician Blackstaff of Waterdeep.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+19 0 0 0 0 0 0 0
+1 1000 85
+A APPLY_DAMROLL -9 0
+A APPLY_MANA 120 0
+#8061
+fresh meat~
+some fresh meat~
+A lump of fresh meat lies here.~
+Considering you bought this from a morgue, it does make one wonder 
+just what this is the meat of!!!
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 10 30
+#0
+
+
+#ROOMS
+#8000
+Sword Coast~
+You can see Waterdeep to the East.  Its size and magnificence stun you.  To
+your west is the Sea of Swords.  The sea of swords is dotted here and there
+with sails of cargo ships.  You are on a steep coast line atop of which is a
+steep wall, dotted at regular intervals with sturdy towers.  It is broken
+only in the centre of the escarpment , where the cliff is so tall and steep
+that no man can possibly scale it.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_EAST
+Fortified Gates of Waterdeep~
+~
+0 -1 8065
+DDIR_WEST
+Sea of Swords~
+~
+0 -1 15297
+#8001
+Road to Waterdeep~
+You are south of Waterdeep looking down over it. Beyond the high city wall
+you can see a hundred stalwart towers proudly holding their turrets just high
+enough to be visible to you outside the city.  You can see why Waterdeep is
+also know as the City of Splendours.  Beyond Waterdeep you can see a small
+mountain rising some 700 feet above the plains watching over the city that
+bears its name.  At the top of Mount Waterdeep you can see a lone tower,
+around which flocks birds of enormous size.  As you walk closer you see that
+they are not birds at all but griffons.  And on the back of each is a man.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+Fortified Gates~
+~
+0 -1 8065
+DDIR_SOUTH
+Roads of Toril~
+~
+0 -1 16180
+#8002
+Swords Street~
+The street bustles with carts and pedestrians, all intent on some task that
+must seem important to them.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8013
+DDIR_EAST
+Stables~
+~
+0 -1 8077
+DDIR_SOUTH
+Waterdeep way~
+~
+0 -1 8007
+#8003
+Waterdeep way~
+The briny odour of the harbour drifts over the rooftops.  Sturdy warehouses
+are interspersed with shabby tenements.  To your west are the fortified gates
+of Waterdeep.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Mountain Tower~
+~
+0 -1 8005
+DDIR_EAST
+Waterdeep way~
+~
+0 -1 8006
+DDIR_SOUTH
+Piergeeiron's Palace~
+~
+0 -1 8004
+DDIR_WEST
+Fortified Gates of Waterdeep~
+gate~
+EX_ISDOOR -1 8065
+#8004
+Piergeiron's Palace~
+Piergeiron is the only officially recognised Lord of Waterdeep.  His palace
+is a luxurious masterpiece.  It looks out over the Sea of Swords with a
+wonderful view of the ships arriving and leaving the port.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Waterdeepway~
+~
+0 -1 8003
+#8005
+Mountain Tower~
+It's a tall tower that over looks the Sea of Swords.  Soldiers patrol the top
+of the tower, keeping an eye out for anything untoward.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Waterdeep way~
+~
+0 -1 8003
+#8006
+Waterdeep way~
+Thickets of inns and stables stand shoulder to shoulder.  A merchant leading
+a horse and cart hurries past you.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Waterdeep way~
+~
+0 -1 8007
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8003
+#8007
+Waterdeep way~
+The street bustles with carts and pedestrians all going on their own way and
+about their own business.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8002
+DDIR_EAST
+Street of Silks~
+~
+0 -1 8011
+DDIR_SOUTH
+Waterdeep way~
+~
+0 -1 8008
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8006
+#8008
+Waterdeep way~
+The street is bustling with carts and pedestrians all going about their
+business.  The odour of the sea is in the breeze that teases your hair.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Waterdeep way~
+~
+0 -1 8007
+DDIR_EAST
+Waterdeep way~
+~
+0 -1 8009
+#8009
+Waterdeep way~
+You are on the infamous Waterdeep Way.  You are heading deeper into the city
+of Splendours.  Inns line the way.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Waterdeep way~
+~
+0 -1 8010
+DDIR_SOUTH
+Tumbled Wench Tavern~
+~
+0 -1 8092
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8008
+#8010
+Waterdeep way~
+The size and magnificence of Waterdeep stuns you.  It has to be one of the
+biggest and busiest cities that you have ever seen.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Street of Silver~
+~
+0 -1 8012
+DDIR_EAST
+Waterdeep way~
+~
+0 -1 8014
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8009
+#8011
+Street of Silks~
+As you head deeper into the city, merchant shops and fine inns become more
+prevalent.  Better dressed people mill about you.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8015
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8007
+#8012
+The Street of Silver~
+You are in a residential neighbourhood, where grand houses and even a villa
+or two stand along the winding avenue.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Street of Silver~
+~
+0 -1 8016
+DDIR_SOUTH
+Waterdeep way~
+~
+0 -1 8010
+#8013
+Swords Street~
+You can find shops catering to all needs along this street.  Especially shops
+specialising in Weaponery.  To your east a door opens and out rolls a drunk,
+satisfied customer of the Yawning Portal Inn.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Seluth Street and Sword Street.~
+~
+0 -1 8018
+DDIR_EAST
+Yawning Portal Inn~
+Door~
+EX_ISDOOR -1 8017
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8002
+#8014
+Waterdeep way~
+You are in the City of Splendours.  Rising over the buildings near you, you
+can see the towers of the walls of Waterdeep.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Warriors Way~
+~
+0 -1 8019
+DDIR_WEST
+Waterdeep way~
+~
+0 -1 8010
+#8015
+Street of Silks~
+To your east you see the Temple of Mystra, the goddess of Magic.  A mage
+emerges from the temple and looks at you haughtily.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8020
+DDIR_EAST
+Temple of Mystra~
+~
+0 -1 8074
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8011
+#8016
+The Street of Silver~
+You can see why Waterdeep is called the City of Splendours as you walk down
+this part of Waterdeep.  The houses are some of the finest you have ever seen.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of The Street of silver and Selduth Street~
+~
+0 -1 8021
+DDIR_EAST
+Merchant's Guild~
+door~
+EX_ISDOOR -1 8093
+DDIR_SOUTH
+The Street of Silver~
+~
+0 -1 8012
+#8017
+Yawning Portal Inn~
+There is more to the name of this Inn than meets the eye.  "Yawning Portal" is
+a tongue in cheek reference to the tendency of those who indulge in the
+taverns fare to tell a tall tale.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Selduth Street~
+Door~
+EX_ISDOOR -1 8022
+#8018
+Corner of Selduth and Sword Streets~
+Pedestrians busily move about you, the street is so full you are almost
+knocked about.  The smell of food tantalises your nostrils.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8024
+DDIR_EAST
+Selduth Street~
+~
+0 -1 8022
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8013
+DDIR_WEST
+Selduth Street~
+~
+0 -1 8023
+#8019
+Warriors Way~
+The way is lined with shops to meet the needs of a fighter.  Wandering around
+you can see many soldiers patronising the many shops here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Warriors Way~
+~
+0 -1 8025
+DDIR_SOUTH
+Waterdeep way~
+~
+0 -1 8014
+#8020
+Street of Silks~
+The people that wander along this street are well dressed and walk at a
+leisurely pace.  They emerge from fine houses and shops catering to the
+needs of the rich.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Selduth Street and Street of Silks~
+~
+0 -1 8039
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8015
+#8021
+Corner of The Street of Silver and Selduth Street~
+The rumble of cart wheels can be heard as a cart driver whips his horse to
+hurry along.  A lone apple falls from the merchant's cart as he hurries to
+deliver his goods.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silver~
+~
+0 -1 8037
+DDIR_EAST
+Corner of Warrior Way and Selduth Street~
+~
+0 -1 8026
+DDIR_SOUTH
+Street of Silver~
+~
+0 -1 8016
+DDIR_WEST
+Selduth Street~
+~
+0 -1 8038
+#8022
+Selduth Street~
+To your south is the infamous Yawning Portal Inn.  If one knows the owner of
+the Yawning Portal Inn, one could find there are benefits to being a favoured
+patron there.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Corner of Street of Silks and Selduth Street~
+~
+0 -1 8039
+DDIR_SOUTH
+Yawning Portal Inn~
+door~
+EX_ISDOOR -1 8017
+DDIR_WEST
+Corner of Selduth Street and Swords Street~
+~
+0 -1 8018
+#8023
+Selduth Street~
+You are in a tiny culdesac.  Grand houses line the culdesac.  Only the most
+elite of Waterdeep could live or trade in such a prized location.  You can
+smell the sea on the air.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Wizard's Mayhem~
+door~
+EX_ISDOOR -1 8090
+DDIR_EAST
+Corner of Selduth Street and Swords Street~
+~
+0 -1 8018
+DDIR_WEST
+Beautiful Villa~
+door~
+EX_ISDOOR -1 8091
+#8024
+Swords Street~
+A merchant with a cart full of fresh fruit and vegetables wanders
+pass you and you are tempted to snatch an apple from his cart as
+they look so tasty.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8053
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8013
+#8025
+Warriors Way~
+To your east is the Waterdeep Barracks.  A soldier can train and hone his
+skills there.  You can hear the sound of marching from the barracks.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Warriors Way and Selduth Street~
+~
+0 -1 8026
+DDIR_EAST
+Waterdeep Barracks~
+~
+0 -1 8070
+DDIR_SOUTH
+Warriors Way~
+~
+0 -1 8019
+#8026
+Corner of Warriors Way and Selduth Street~
+A company of soldiers march the length of Warriors way ready to protect their
+city if the need arises.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Warriors Way~
+~
+0 -1 8027
+DDIR_SOUTH
+Warriors Way~
+~
+0 -1 8025
+DDIR_WEST
+Corner of The Street of Silver and Selduth Street~
+~
+0 -1 8021
+#8027
+Warriors Way~
+To your east is the weaponsmith.  It has been said that a warrior can attend
+to all their weapon needs there.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Warriors Way~
+~
+0 -1 8028
+DDIR_EAST
+Waterdeep Weaponsmith~
+~
+0 -1 8069
+DDIR_SOUTH
+Corner of Warriors Way and Selduth Street~
+~
+0 -1 8026
+#8028
+Warriors Way~
+You notice the armoury here.  A soldier walks out carrying a nice new shield.
+Maybe you would like to buy yourself some new armour?
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Warriors Way and Bazaar Street~
+~
+0 -1 8029
+DDIR_EAST
+Waterdeep Armoury~
+~
+0 -1 8068
+DDIR_SOUTH
+Warriors Way~
+~
+0 -1 8027
+#8029
+Corner of Warriors Way and Bazaar Street~
+Many people come from the market to the north carry bags of goods that they
+have purchased.  You can hear the shouts of hawkers announcing their wares.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+The Market Square~
+~
+0 -1 8030
+DDIR_SOUTH
+Warriors Way~
+~
+0 -1 8028
+DDIR_WEST
+Bazaar Street~
+~
+0 -1 8034
+#8030
+The Market Square~
+The Market square is crowded with merchants selling all manner of goods.
+People move from merchant to merchant making their purchases.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+Traders Way~
+~
+0 -1 8031
+DDIR_SOUTH
+Corner of Warriors Way and Bazaar Street~
+~
+0 -1 8029
+DDIR_WEST
+Bazaar Street~
+~
+0 -1 8033
+#8031
+Traders Way~
+Merchants move towards the market to the south.  You can hear hawkers
+shouting out their bargains from the market.  Different scents assail
+your nostrils.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+The Market Square~
+~
+0 -1 8030
+DDIR_WEST
+Traders Way~
+~
+0 -1 8032
+DDIR_UP
+Mount Waterdeep~
+~
+0 -1 8080
+#8032
+Traders Way~
+Merchants wander their way along the Way hawking their wares.  You surely
+must be tempted to buy such a wide range of items.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Traders Way~
+~
+0 -1 8031
+DDIR_WEST
+Traders Way~
+~
+0 -1 8061
+#8033
+Bazaar Street~
+The noise from the market to the east is almost overwhelming.  The shouts of
+merchants hawking their wares, the yell of a mother calling to a wandering
+child, the murmur of shoppers talking, and the march of soldiers keeping the
+peace.
+~
+0 0 SECT_CITY
+DDIR_EAST
+The Market Square~
+~
+0 -1 8030
+DDIR_SOUTH
+Bazaar Street~
+~
+0 -1 8034
+DDIR_WEST
+Bazaar Street~
+~
+0 -1 8048
+#8034
+Bazaar Street~
+Inns line the way, where a traveller may find a place to rest in safety and
+a meal to fill his stomach.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Bazaar Street~
+~
+0 -1 8033
+DDIR_EAST
+Corner of Warriors Way and Bazaar Street~
+~
+0 -1 8029
+DDIR_SOUTH
+Corner of The Street of Silver and Keltarn Street~
+~
+0 -1 8035
+DDIR_WEST
+Tharleon Street~
+~
+0 -1 8044
+#8035
+Corner of The Street of Silver and Keltarn Street~
+You are at the corner of The Street of Silver and Keltarn Street.  To your
+north is the rich Street of Silver.  Citizens move from their homes to go
+about their business.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Bazaar Street~
+~
+0 -1 8034
+DDIR_SOUTH
+The Street of Silver~
+~
+0 -1 8036
+DDIR_WEST
+Keltarn Street~
+~
+0 -1 8043
+#8036
+Street of Silver~
+You are in district full of fine houses and villas.  Only the wealthiest of
+Waterdeep reside here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of The Street of Silver and Keltarn Street~
+~
+0 -1 8035
+DDIR_EAST
+Fine House~
+~
+0 -1 8078
+DDIR_SOUTH
+The Street of Silver~
+~
+0 -1 8037
+#8037
+Street of Silver~
+To your east is one of the finest houses that you have ever seen.  Made from
+the finest marble, it reflects the sunlight.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silver~
+~
+0 -1 8036
+DDIR_EAST
+Merchant's House~
+Door~
+EX_ISDOOR|EX_CLOSED -1 8063
+DDIR_SOUTH
+Corner of The Street of Silver and Selduth Street~
+~
+0 -1 8021
+#8038
+Selduth Street~
+To your south is the famous Travellers Emporium.  Its been said that you can
+find all that a traveller might need there.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Corner of The Street of Silver and Selduth Street~
+~
+0 -1 8021
+DDIR_SOUTH
+Travellers Emporium~
+~
+0 -1 8079
+DDIR_WEST
+Corner of Selduth Street and Street of Silks~
+~
+0 -1 8039
+#8039
+Corner of Selduth Street and Street of Silks~
+It feels like you are in the centre of Waterdeep.  To the north you can see
+Mount Waterdeep looming protectively over the town.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8040
+DDIR_EAST
+Selduth Street~
+~
+0 -1 8038
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8020
+DDIR_WEST
+Selduth Street~
+~
+0 -1 8022
+#8040
+Street of Silks~
+To your west is the Temple of Sune.  Sune is the goddess of beauty.  A handsome
+man walks out of the temple.  Only the most beautiful can successfully worship
+the beautiful goddess Sune.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8041
+DDIR_SOUTH
+Corner of Street of Silks and Selduth Street~
+~
+0 -1 8039
+DDIR_WEST
+Temple of Sune~
+~
+0 -1 8071
+#8041
+Street of Silks~
+You can see grand houses all around you, dotted with the occasional exclusive
+shop.  To your east is the famed Ladies Emporium, that is said to cater to a
+ladies ever need.  It is rumoured that no man has set foot in that hallowed
+hall!
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Street of Silks and Keltarn Street~
+~
+0 -1 8042
+DDIR_EAST
+Ladies Emporium~
+Door~
+EX_ISDOOR -1 8066
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8040
+#8042
+Corner of Street of Silks and Keltarn Street~
+The breeze blows in from the west carrying with it the sent of the sea.  It
+refreshes you.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8045
+DDIR_EAST
+Keltarn Street~
+~
+0 -1 8043
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8041
+DDIR_WEST
+Keltarn Street~
+~
+0 -1 8052
+#8043
+Keltarn Street~
+The wind lifts your hair and blows it about.  It carries the fishy smell of
+the sea on it.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Corner of The Street of Silver and Keltarn Street~
+~
+0 -1 8035
+DDIR_WEST
+Corner of The Street of Silks and Keltarn Street~
+~
+0 -1 8042
+#8044
+Tharleon Street~
+You shiver uncomfortably and look around you.  Then you realise why you feel
+like someone is watching you.  You are outside the temple of Bhaal, the god
+of assassins.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Temple of Bhaal~
+~
+0 -1 8076
+DDIR_EAST
+Bazaar Street~
+~
+0 -1 8034
+DDIR_WEST
+Corner of The Street of Silks and Tharleon Street~
+~
+0 -1 8046
+#8045
+Street of Silks~
+It's a street of luxury, fancy shops and fancy houses.  A great lady walks
+by you escorted by her maids.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Street of Silks and Tharleon Street~
+~
+0 -1 8046
+DDIR_SOUTH
+Corner of The Street of Silks and Keltarn Street~
+~
+0 -1 8042
+#8046
+Corner of Street of Silks and Tharleon Street~
+You stand on the corner of the Street of Silks and Tharleon Street.  There
+are a few too many shadowed corners here for your liking.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Street of Silks~
+~
+0 -1 8047
+DDIR_EAST
+Tharleon Street~
+~
+0 -1 8044
+DDIR_SOUTH
+Street of Silks~
+~
+0 -1 8045
+DDIR_WEST
+Tharleon Street~
+~
+0 -1 8051
+#8047
+Street of Silks~
+Now if you were buying a house in Waterdeep, well this would be one of the
+areas you would consider.  The pricing is reasonable, the area nice, and it's
+a mere walk to the shops.  Just the place to raise a family.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Street of Silks and Bazaar Street~
+~
+0 -1 8049
+DDIR_SOUTH
+Corner of The Street of Silks and Tharleon Street~
+~
+0 -1 8046
+#8048
+Bazaar Street~
+Lined with Inns and Shops, this is a street of great commerce.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Bazaar Street~
+~
+0 -1 8033
+DDIR_WEST
+Corner of Street of Silks and Bazaar Street~
+~
+0 -1 8049
+#8049
+Corner of Street of Silks and Bazaar Street~
+The wind carries the scent of the sea from the west.  A seagull flies over
+and drops a deposit in your eye that makes you wish you hadn't looked up
+just now.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Corner of Street of Silks and Traders Way~
+~
+0 -1 8062
+DDIR_EAST
+Bazaar Street~
+~
+0 -1 8048
+DDIR_SOUTH
+The Street of Silks~
+~
+0 -1 8047
+#8050
+Tharleon Street~
+You are on a winding narrow street.  Take care of your gold, many a purse has
+been known to be snatched along here, especially being so close to the Temple
+of Cyric.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Tharleon Street~
+~
+0 -1 8051
+DDIR_WEST
+Tharleon Street~
+~
+0 -1 8056
+#8051
+Tharleon Street~
+The street meanders along is windy way.  Small houses line the way.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Tharleon Street~
+~
+0 -1 8050
+DDIR_EAST
+Corner of Street of Silks and Tharleon Street~
+~
+0 -1 8046
+#8052
+Keltarn Street~
+You shiver.  Was that someone walking over your grave?  You wonder at the
+sign swinging over the door to south.  You don't smell anything pleasant
+coming from there.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Corner of Street of Silks and Keltarn Street~
+~
+0 -1 8042
+DDIR_SOUTH
+Morty's Hot Food~
+~
+0 -1 8067
+DDIR_WEST
+Corner of Keltarn Street and Swords Street~
+~
+0 -1 8054
+#8053
+Swords Street~
+You hear the sound of marching as a small detachment of the Waterdeep guard
+marches past.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8054
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8024
+#8054
+Corner of Keltarn Street and Swords Street~
+You can hear the raucous cry of sea birds and the sound of the waves hitting
+the cliffs below the wall next to you.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8055
+DDIR_EAST
+Keltarn Street~
+~
+0 -1 8052
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8053
+#8055
+Swords Street~
+The smell of rotting seaweed assails your nostrils.  A seagull flies overhead
+and drops a deposit on your helm.  And you had just polished it too!!
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Corner of Keltarn Street and Swords Street~
+~
+0 -1 8054
+DDIR_WEST
+Swords Street~
+~
+0 -1 8058
+#8056
+Tharleon Street~
+To your north is the Temple of Cyric, the god of death and strife.  Being so
+close to it makes you feel uncomfortable.  It's the hangout of thieves and
+murderers.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Temple of Cyric~
+~
+0 -1 8075
+DDIR_EAST
+Tharleon Street~
+~
+0 -1 8050
+DDIR_WEST
+Tharleon Street~
+~
+0 -1 8057
+#8057
+Swords Street~
+You can hear the dull roar of the sea hitting the cliff below the wall.
+A seabird lands on the cobblestones before you and pecks around for any
+bits of food that he can find.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Tharleon Street~
+~
+0 -1 8056
+DDIR_SOUTH
+Swords Street~
+~
+0 -1 8058
+DDIR_WEST
+Swords Street~
+~
+0 -1 8059
+#8058
+Swords Street~
+The street winds its way around at this point.  You are very close to the
+sea here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Swords Street~
+~
+0 -1 8057
+DDIR_EAST
+Swords Street~
+~
+0 -1 8055
+#8059
+Swords Street~
+You stand outside Blackstaff Tower.  For the life of you, you cant see a
+door or a window or any other way in.  You sense the magic in the air.
+If you have a reason to visit Blackstaff the magician, maybe you should
+KNOCK.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Swords Street~
+~
+0 -1 8057
+#8060
+Blackstaff Tower~
+You have entered the tower.  Whereas there had been no obvious doors outside.
+Here you can see windows showing the street outside and the sea as well.
+There is even a door out to Swords Street.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Swords Street~
+~
+0 -1 8057
+DDIR_UP
+Blackstaff Tower Study~
+~
+0 -1 8064
+#8061
+Traders Way~
+You are starting to head out of the city itself towards the looming Mount
+Waterdeep for which the town was named.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Gentlemen's Emporium~
+Door~
+EX_ISDOOR -1 8089
+DDIR_EAST
+Traders Way~
+~
+0 -1 8032
+DDIR_WEST
+Corner of Street of Silks and Traders Way~
+~
+0 -1 8062
+#8062
+Corner of Street of Silks and Traders Way~
+You are on the edge of the city here.  You can see Mount Waterdeep to
+your North East.
+~
+0 0 SECT_CITY
+DDIR_EAST
+Traders Way~
+~
+0 -1 8061
+DDIR_SOUTH
+Corner of The Street of Silks and Bazaar Street~
+~
+0 -1 8049
+#8063
+Grand Merchant's House~
+It is opulently furnished.  This is a merchant who lives in style.  With the
+finest of paintings and tapestries on the walls and the most comfortable of
+furniture upholstered in the richest fabrics.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Street of Silver~
+~
+0 -1 8037
+#8064
+Blackstaff Tower Study~
+Shelves line this room, and they are full of books and scroll and the
+procurements required for the great mage Blackstaff in his magic using.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_DOWN
+Blackstaff Tower~
+~
+0 -1 8060
+#8065
+Fortified Gates of Waterdeep~
+The gates are made of Fortified Stone and when closed they look impenetrable.
+Soldiers guard the gates diligently.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+Waterdeep way~
+gate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 8001 8003
+DDIR_SOUTH
+Road to Waterdeep~
+~
+0 -1 8001
+DDIR_WEST
+Sword Coast~
+~
+0 -1 8000
+#8066
+Ladies Emporium~
+You have entered a shop that caters for a womans needs.  From a potion of
+youth fulness to the most wonderful gown a woman would require for a
+Waterdeep Ball.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Street of Silks~
+~
+0 -1 8041
+#8067
+Morty's Hot Food~
+Well, you are not sure you want to buy this mans hot food.  You would wonder
+just what he would have.  Would it be elf stew? or ogre stroganoff? or human
+soup? or dwarven delicacies? or sauce of drow?  or orcish steak?  Hope that
+you never die whilst in Waterdeep.  You wouldn't want to know what purpose
+Morty would have for YOUR corpse!
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_NORTH
+Keltarn Street~
+~
+0 -1 8052
+#8068
+Waterdeep Armoury~
+Hanging from the walls are all types of armour.  Everything the fighting man
+or woman could need.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Warriors Way~
+~
+0 -1 8028
+#8069
+Waterdeep Weaponsmith~
+From crossbow to longsword, from longbow to dagger, you will find the weapon
+that you need here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Warriors Way~
+~
+0 -1 8027
+#8070
+Waterdeep Barracks~
+With a place to sleep for a weary warrior, and facilities to train and
+practice fighting skills it is truly a place for a warrior.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_WEST
+Warriors Way~
+~
+0 -1 8025
+#8071
+Temple of Sune~
+You have entered the Temple of the goddess of beauty - Sune.  You notice that
+the temple is beautifully appointed with glorious tapestries, silken draperies
+and velvet cushions.  You notice that all the priest and priestesses are of
+uncommon beauty, purely to honour their goddess of course.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+Meditation room~
+~
+0 -1 8073
+DDIR_EAST
+Street of Silks~
+~
+0 -1 8040
+DDIR_SOUTH
+Alter~
+~
+0 -1 8072
+#8072
+Alter of Sune~
+Here a priest or priestess of Sune would meditate to offer prayers and
+praises to their goddess Sune.  The room in keeping with the rest of the
+temple is beautifully appointed with luxurious fabrics.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Temple of Sune~
+~
+0 -1 8071
+#8073
+Meditation Room~
+A healer could spend time in contemplation and meditation to train ones
+healing instinct and improve ones healing skills here.  Of course doing
+so in such a place of beauty is no hardship.
+~
+0 ROOM_INDOORS|ROOM_ALLOW_SHA SECT_INSIDE
+DDIR_SOUTH
+Temple of Sune~
+~
+0 -1 8071
+#8074
+Temple of Mystra~
+A place where mages come to worship the goddess of magic - Mystra.  Here a
+mage could train and practice magical skills.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Street of Silks~
+~
+0 -1 8015
+#8075
+Temple of Cyric~
+Yes Cyric is the God of Death and Strife, but before becoming the God of
+Death and Strife, Cyric spent his mortal life as a thief.  Here a thief
+can contemplate his navel.  He can also train and practice skills if he
+so wishes.
+~
+0 ROOM_INDOORS|ROOM_ALLOW_MAR SECT_INSIDE
+DDIR_SOUTH
+Tharleon Street~
+~
+0 -1 8056
+#8076
+Temple of Bhaal~
+You have entered the temple of the god of assassins - Bhaal.  Corpses hang
+from ropes on the ceiling.  Skulls of various races are displaced on shelves.
+A blood covered alter is at one end of the temple.  Here an assassin can hone
+his skills and train.
+~
+0 ROOM_INDOORS|ROOM_ALLOW_NIN SECT_INSIDE
+DDIR_SOUTH
+Tharleon Street~
+~
+0 -1 8044
+#8077
+Stables~
+This is a reputable stable where a traveller can stable his horse safely.
+For a price of course.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_WEST
+Swords Street~
+~
+0 -1 8002
+#8078
+Fine House~
+You have entered a fine house, opulently furnished.  This citizen of Waterdeep
+obviously has done well for himself.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+Street of Silver~
+~
+0 -1 8036
+#8079
+Travellers Emporium~
+Here you can buy anything a traveller would need.  You can smell the musty
+smell of rations.  Water skins hang from hooks on the ceiling.  Bedrolls are
+stacked on shelves.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Selduth Street~
+~
+0 -1 8038
+#8080
+Base of Mount Waterdeep~
+You are the base of Mount Waterdeep, the mountain for which the town
+Waterdeep was named.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_UP
+Mount Waterdeep~
+~
+0 -1 8081
+DDIR_DOWN
+Traders Way~
+~
+0 -1 8031
+#8081
+Mount Waterdeep~
+You are climbing Mount Waterdeep.  The track is narrow and the mountain steep.
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+Mount Waterdeep~
+~
+0 -1 8082
+DDIR_DOWN
+Base of Mount Waterdeep~
+~
+0 -1 8080
+#8082
+Mount Waterdeep~
+From Mount Waterdeep you can see the eight spires of Pergeriron's Palace.
+You can see the city of Waterdeep stretching before you with smoking chimneys
+and fluttering flags.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+Mount Waterdeep~
+~
+0 -1 8085
+DDIR_WEST
+Mount Waterdeep~
+~
+0 -1 8083
+DDIR_DOWN
+Mount Waterdeep~
+~
+0 -1 8081
+#8083
+Mount Waterdeep~
+You can see the city of Waterdeep stretching before you with smoking chimney
+and fluttering flags.  Beyond Waterdeep itself you can see the clear blue of
+the Sea of Swords.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+Mount Waterdeep~
+~
+0 -1 8084
+DDIR_EAST
+Mount Waterdeep~
+~
+0 -1 8082
+#8084
+Mount Waterdeep~
+From this high vantage point you can see the eight spires of Pergeriron's
+Palace.  You can see the city of Waterdeep stretching before you with smoking
+chimneys and flutter flags.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+Mount Waterdeep~
+~
+0 -1 8085
+DDIR_SOUTH
+Mount Waterdeep~
+~
+0 -1 8083
+#8085
+Mount Waterdeep~
+You are high upon the mountain of Mount Waterdeep.  Men riding griffons
+can be seen clearly.  Above you is the Griffon Bank and Travel.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+Griffon Bank and Travel~
+~
+0 -1 16028
+DDIR_SOUTH
+Mount Waterdeep~
+~
+0 -1 8082
+DDIR_WEST
+Mount Waterdeep~
+~
+0 -1 8084
+DDIR_DOWN
+~
+~
+0 -1 1200
+#8086
+Well Shaft~
+The name of the inn above you - "Yawning Portal" refers to more than the tall
+tales told by patrons.  It also refers to this deep shaft, resembling an
+indoor well, which leads to the caverns beneath Mount Waterdeep.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_ROAD
+DDIR_UP
+Yawning Portal Inn~
+~
+0 -1 8017
+DDIR_DOWN
+Undermountain~
+~
+0 -1 1205
+#8087
+Undermountain~
+You have entered an errie dark place deep under the city of Waterdeep.
+Tunnels lead in all directions.  You hear a rustle and you don't really
+want to know what caused it.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Undermountain~
+~
+0 -1 8088
+DDIR_UP
+Undermountain~
+~
+0 -1 1204
+#8088
+Undermountain~
+You are deep under Mount Waterdeep.  One could get lost in the many tunnels
+under here.  You see a pair of yellow eyes glare at you from a dark corner.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Undermountain~
+~
+0 -1 8087
+DDIR_UP
+Mount Waterdeep~
+~
+0 -1 1200
+#8089
+Gentlemen's Emporium~
+Here one can find all to cater for the gentleman's needs.  From the fanciest
+cravat to the finest silk coat.  The walls are lined with shelves containing
+a rainbow of clothing.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Traders Way~
+~
+0 -1 8061
+#8090
+Wizard's Mayhem~
+This place smells strange.  And there a lot of unknown substances on the
+shelves.  One wall has shelves full of scrolls.  In one corner is a rack
+of clothing thought to be suitable for those of a Wizardly nature.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Selduth Street~
+~
+0 -1 8023
+#8091
+Beautiful Villa~
+Opulently appointed, this villa looks like a place where the elite of Waterdeep
+would reside.  In actual fact it is the family home of one of Waterdeep's
+wealthiest Merchants - The Thans.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Selduth Street~
+~
+0 -1 8023
+#8092
+Tumbled Wench Tavern~
+This place smells of stale ale, and good cooking.  Sturdy wooden tables with
+sturdy chairs litter the place.  Despite the grimy look of the place, one can
+find a good meal and a good ale here.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Waterdeep Way~
+~
+0 -1 8009
+#8093
+Merchant's Guild~
+The walls are lined with shelves filled with all manner of goods.  Here a
+member of the guild can purchase items cheaper than in most shops around
+Waterdeep.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+The Street of Silver~
+~
+0 -1 8016
+#8099
+restart room~
+restart room
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#0
+
+
+#RESETS
+M 8000 100 8089
+G 8008 100 0
+G 8022 100 0
+G 8023 100 0
+G 8024 100 0
+G 8025 100 0
+G 8026 100 0
+M 8001 100 8066
+G 8004 500 0
+G 8005 100 0
+G 8006 500 0
+G 8007 100 0
+G 8009 100 0
+G 8012 500 0
+G 8029 500 0
+M 8033 100 8004
+M 8033 100 8005
+M 8003 100 8065
+E 8020  20 WEAR_BODY
+G 8001   5 0
+M 8004 100 8065
+E 8020  20 WEAR_BODY
+M 8005 100 8059
+G 8010 100 0
+M 8006 100 8067
+G 8061 100 0
+M 8007 100 8068
+G 8013 500 0
+G 8014 500 0
+G 8015 500 0
+G 8016 500 0
+G 8017 500 0
+G 8018 500 0
+M 8008 100 8065
+E 8021  20 WEAR_BODY
+M 8009 100 8069
+G 8027 100 0
+G 8028 100 0
+M 8010 100 8070
+M 8011 100 8072
+G 8030 100 0
+M 8012 100 8073
+M 8013 100 8071
+M 8014 100 8074
+M 8015 100 8075
+M 8016 100 8076
+M 8017 100 8017
+M 8018 100 8003
+M 8018 100 8006
+M 8018 100 8007
+M 8018 100 8008
+M 8018 100 8009
+M 8018 100 8010
+M 8018 100 8014
+M 8018 100 8011
+M 8018 100 8015
+M 8018 100 8020
+M 8018 100 8040
+M 8018 100 8041
+M 8018 100 8045
+M 8018 100 8047
+M 8018 100 8051
+M 8018 100 8050
+M 8018 100 8056
+M 8018 100 8012
+M 8019 100 8033
+M 8019 100 8034
+M 8019 100 8048
+M 8019 100 8032
+M 8019 100 8061
+M 8019 100 8044
+M 8019 100 8031
+M 8019 100 8029
+M 8020 100 8036
+M 8020 100 8037
+M 8020 100 8043
+M 8020 100 8038
+M 8020 100 8052
+M 8020 100 8016
+M 8020 100 8022
+M 8021 100 8080
+M 8021 100 8081
+M 8021 100 8082
+M 8021 100 8083
+M 8021 100 8084
+M 8021 100 8085
+M 8023 100 8002
+M 8023 100 8013
+M 8023 100 8018
+M 8023 100 8024
+M 8023 100 8053
+M 8023 100 8054
+M 8023 100 8055
+M 8023 100 8058
+M 8023 100 8057
+M 8023 100 8059
+M 8024 100 8019
+M 8024 100 8025
+M 8024 100 8026
+M 8024 100 8027
+M 8024 100 8028
+M 8024 100 8035
+M 8024 100 8021
+M 8024 100 8039
+M 8024 100 8042
+M 8024 100 8049
+M 8024 100 8046
+M 8024 100 8062
+M 8025 100 8079
+G 8031 500 0
+G 8032 500 0
+G 8033 500 0
+G 8034 500 0
+G 8035 500 0
+G 8036 500 0
+G 8053 500 0
+M 8026 100 8090
+G 8037 500 0
+G 8038 500 0
+G 8039 500 0
+G 8041 500 0
+G 8042 500 0
+G 8043 500 0
+G 8044 500 0
+G 8054 500 0
+G 8055 500 0
+M 8027 100 8078
+M 8027 100 8063
+M 8028 100 8092
+G 8045 500 0
+G 8046 500 0
+M 8029 100 8091
+M 8030 100 8091
+M 8031 100 8064
+G 8057   1 0
+G 8058   1 0
+G 8059   1 0
+G 8060   1 0
+M 8032 100 8093
+G 8052 500 0
+G 8027 100 0
+G 8028 100 0
+G 8014 500 0
+G 8015 500 0
+G 8016 500 0
+G 8017 500 0
+G 8018 500 0
+G 8037 500 0
+G 8038 500 0
+G 8039 500 0
+G 8041 500 0
+G 8042 500 0
+G 8043 500 0
+G 8044 500 0
+O 8000   1 8065
+O 8002   1 8077
+O 8003   2 8030
+O 8003   2 8071
+D 8065 DIR_EAST  DOOR_CLOSED_LOCKED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

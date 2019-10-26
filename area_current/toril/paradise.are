@@ -1,0 +1,6618 @@
+#AREA Paradise Island~
+#AUTHORS Superdave Minmay~
+#VERSION 4
+#RANGES 65 95 1 95
+#OLC_RANGES 14600 14799
+#FLAGS AFLAG_NODEBUG|AFLAG_NOCASTLE
+
+
+#HELPS
+0 CENSORED~
+{308}
+ {171}******************************************************************************{088}
+ {171}*                 THE FOLLOWING ACTIONS HAVE BEEN CENSORED                   *{088}
+ {171}*                 DUE TO EXPLICT AND GRAPHIC SEXUAL CONTENT                  *{088}
+ {171}******************************************************************************{088}
+{308}~
+
+0 KONG_SLAM~
+{018}Kong's crushing pound {138}***PUMMELS***{308} {018}you for 500 damage!~
+
+0 PARADISE_STORY~
+{171}                      The History of Paradise Island                            {088}
+
+Long ago in the Kingdom of Amazonia, men and women were treated as equals.
+Men and women had equal say, equal duties, and equal respect.  All this
+changed when the just King Nedhis passed away, and Prince Cram ascended the
+throne.  Unlike King Nedihs, King Cram believed that a woman was only good
+for sex and giving birth.  He took away their rights, for he stated that
+Women were the weaker sex, and could not survive without men to protect them.
+Finally, after years of domination, wise Queen Charity got tired of the
+Tyrant Cram.  On the third Summer Festival of Crams coronation, she organized
+all the women of Amazonia, and led them from the Kingdom.  They sailed away
+into the ocean, and founded an all female society on a small tropical island.
+They voted that leaders would be chosen not by their bloodline, but by their
+ability.  A great competition was held, testing each woman in combat, agility,
+and spirituality, and the best in these three challenges were honored as
+leaders.  A challenge of leadership could be made at any time, but these
+tests were difficult, and rarely passed.
+
+  {128}(-) {058}Return
+~
+
+0 PARADISE_EQ~
+{171}                     * * * P A R A D I S E   E Q  * * *                        {088}
+
+The primary quest will get you either high level mana, ac, or damage eq.
+You can also forge a nice weapon if you finish the quest and find the required
+items.  Unfortunately there's no way to restrict items to a particular sex,
+so guys can use the amazon tops and skirts and other various things you may
+find there, if you're into that sort of thing.
+
+  {128}(-) {058}Return
+~
+
+0 PARADISE_QUESTS~
+{171}=============================== PARADISE QUESTS ==============================={088}
+{078}
+There are three quests that you can do if you are a female char.  Of course
+I've added a quest that male chars can do as well.  You sorta get captured if
+you're a male and have to prove your studness.  Note however that you will be
+branded with a tattoo that can only be removed if you finish the quest, or by
+paying a large sum of money to the jailer.
+
+For the female quests, you may chose to challenge for mana, ac, or dam eq.
+The stuff is pretty good, so the quest is challenging as well.
+
+The quests here are all solo quests, but the fights are not too hard.  I've
+provided escape routes for the quest battles just in case.
+
+  {128}(-) {058}Return
+~
+
+0 PARADISE_TIPS~
+{171}================================== T I P S ===================================={088}
+
+Solving the quest requires attention to detail.  I've hidden secret messages
+within the descriptions, and if you need more clues, you can always look
+harder in some rooms.  Also take notes regarding what the amazons say, heck
+take notes on everything.  You never know when you will be asked questions.
+There are some things one needs to use logic to figure stuff out, but the
+descriptions hold the key to solving these puzzles.
+
+  {128}(-) {058}Return
+~
+
+0 'PARADISE ISLAND'~
+{171}                   * * * P A R A D I S E   I S L A N D * * *                   {088}
+
+This area is the home of the legendary Amazons, a society made up entirely
+of females.  Thus, only female chars are allowed on the island.  Male chars
+who infringe upon the isle will be captured and punished accordingly.
+
+  {128}(A) {058}The Story
+  {128}(B) {058}Equipment
+  {128}(C) {058}Quests
+  {128}(D) {058}Tips
+{d}PARADISE_TIPS
+{c}PARADISE_QUESTS
+{b}PARADISE_EQ
+{a}PARADISE_STORY
+~
+
+0 $~
+
+
+#MOBILES
+#14600
+captain visskipper~
+the captain~
+The captain of the Exploration Ship Minerva is here.~
+This is the captain of the E.S. Minerva.  He's dressed in a blue shirt,
+white pants, and has a captains hat.  He's quite big and fat, but seems
+like a nice enough person.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d95+93
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$i) < 3
+  if hasobjnum ($n) == 15160
+    tell $n I see you have found one of my flyers.
+    tell $n Give it to me and we can get started.
+  else
+    tell $n Do you want to go on an adventure?
+  endif
+endif
+if quest (0,5,$i) == 13
+  mpmset self quest 0 5 14
+endif
+~
+>rand_prog 33~
+if inroom ($i) == 14600
+  mpmadd self quest 5 5 1
+  if quest (5,5,$i) == 0
+    mppurge self
+    break
+  endif
+  if quest (5,5,$i) == 5
+    if quest (0,5,$i) == 13
+      mpmset self quest 0 5 14
+      break
+    endif
+  endif
+endif
+if quest (20,1,$i) == 0
+  mpgoto 14726
+  connect east 14722 both
+  east 
+  mpecho A small galleon sails into the harbor.
+  mpmset self quest 20 1 1
+  mpat gilliganmob mpmset gilliganmob quest 0 1 1
+endif
+if quest (0,5,$i) == 1
+  say Okay, we're gonna start the journey in a few moments.
+  say Last chance to come along.
+  mpmset self quest 0 5 2
+  break
+endif
+if quest (0,5,$i) == 2
+  if rand (50)
+    say Okay, final chance to go on the voyage!
+    mpmset self quest 0 5 3
+    break
+  endif
+endif
+if quest (0,5,$i) == 3
+  say Here we go!
+  connect west -1
+  mpgoto 14726
+  connect east 14725
+  mptransfer gilliganmob
+  mpecho You sail out into the ocean for your voyage.
+  mpmset self quest 0 5 4
+  mpmset self quest 10 1 1
+  break
+endif
+if quest (0,5,$i) == 4
+  mpecho You sail upon the ocean.
+  if rand (15)
+    mpmset self quest 0 5 5
+  endif
+  break
+endif
+if quest (0,5,$i) == 5
+  mpecho After some time, dark clouds loom overhead...
+  mpmset self quest 0 5 6
+  break
+endif
+if quest (0,5,$i) == 6
+  mpecho {178}A huge bolt of lightning flashes in the sky!
+  shout HURRY! EVERYONE BELOW DECKS!!!!!
+  connect down 14618 both
+  mpforce gilliganmob down
+  down 
+  mpmset self quest 0 5 7
+  break
+endif
+if quest (0,5,$i) == 7
+  if rand (75)
+    mpecho The Captain Closes the hatch.
+    connect up -1
+    mpat 14726 connect down -1
+    say I hope everyone got in in time.
+    mpgoto 14726
+    mpecho A huge wave knocks you off the boat!
+    mpecho You wash up on the shore near the docks.
+    mptransfer all 17309
+    mpmset self quest 0 5 8
+    mpgoto 14618
+    mpecho The rough storm starts to rage violently!
+  endif
+  break
+endif
+if quest (0,5,$i) == 8
+  mpecho The tiny galleon is tossed by the force of the waves!!
+  mpmset self quest 0 5 9
+  break
+endif
+if quest (0,5,$i) == 9
+  say I hope my crew has the courage to weather this storm!
+  mpmset self quest 0 5 10
+  break
+endif
+if quest (0,5,$i) == 10
+  say No matter what, I will not lose the Minerva!
+  say The Minerva will not be lost!
+  mpmset self quest 0 5 11
+  break
+endif
+if quest (0,5,$i) == 11
+  mpecho After what seems like hours, the ship comes to crashing halt!
+  mpmset self quest 0 5 12
+  break
+endif
+if quest (0,5,$i) == 12
+  mpecho The Captain opens the hatch and looks outside.
+  say It seems the ship has been grounded in sand.
+  say We are beached on the shore of this uncharted desert island.
+  say Lets hurry and exit the ship, before she collapses.
+  connect up 14600
+  mpmset self quest 0 5 13
+  up 
+  mpat 14618 mpforce gilliganmob up
+  break
+endif
+if quest (0,5,$i) == 14
+  mpmset self quest 0 5 15
+  mpat 14618 mptransfer all 14600
+  mpecho The Minerva collapses into a pile of timber.
+  break
+endif
+if quest (0,5,$i) == 15
+  mpmset self quest 0 5 17
+  say I am sorry, my crew has failed us.  We are stranded with
+  say only coconuts and sand.  There is nothing left to do but
+  say die here.  Thou art on thy own now adventurers.
+  mpmset gilliganmob quest 1 1 1
+  mpat 14618 connect up -1
+  break
+endif
+if quest (0,5,$i) == 16
+  say Perhaps our paradise awaits beyond this ocean.
+  mpecho The captain grabs some driftwood and swims away into the ocean.
+  mppurge self
+  break
+endif
+if rand (33)
+  if inroom ($i) == 14722
+    say Would you like to go on an adventure?
+  endif
+endif
+~
+>speech_prog adventure~
+say Aye matey, a three hour voyage across the ocean, to explore
+say an uncharted region!  Who knows what we will find on our
+say journey.  Maybe we will even find some tropical paradise!
+~
+>speech_prog yes~
+say Aye, but you need a ticket to join in the ADVENTURE!
+say The cost of the ticket is a measly 1,000 coins.
+say When you are ready to go, just say "I am ready"
+~
+>speech_prog ticket~
+say Aye, gimme 1,000 coins!!
+~
+>speech_prog p I am ready~
+if quest (10,1,$i) == 0
+  if hasobjnum ($n) == 14603
+    mpmset self quest 0 5 1
+    mpmset $n quest 0 1 1
+    tell $n Just board the E.S. Minerva towards the west!
+    tell $n we will start the voyage once everyone is aboard.
+  else
+    say You need to buy a TICKET first!
+    say Give me 1,000 coins and I will give you one.
+  endif
+endif
+~
+>bribe_prog 1000~
+mpoload 14603
+give i14603 $n
+say There you are $n!
+~
+>give_prog i15160~
+mpjunk i15160
+mpoload 14603
+give i14603 $n
+tell $n When you are ready, say I am ready.
+~
+|
+#14601
+gilliganmob crewman~
+the crewman~
+The crewman of the Minerva stands here.~
+This guy wears a red shirt, and white pants, and to top it off a dopey
+looking sailor's hat.  Unlike the captain, he's quite thin.  He doesn't
+seem too smart either, and looks rather clumsy.
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_HEAD BODY_HAND 1d1+10000 1d95+93
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if inroom ($i) == 14726
+  if hasobjnum ($n) == 14603
+    say Welcome aboard $n.
+  else
+    say You need to buy a 'ticket' from the Captain $n!
+    mpforce $n east
+  endif
+endif
+~
+>rand_prog 33~
+if inroom ($i) == 14600
+  mpmadd self quest 5 5 1
+  if quest (5,5,$i) == 0
+    mppurge self
+    break
+  endif
+endif
+if quest (1,1,$i) == 1
+  mpgoto 14600
+  mpmset visskipper quest 0 5 16
+  say I'm sorry captain, it was all my fault!
+  mpecho The crewman jumps into the ocean and swims away.
+  mppurge self
+  break
+endif
+~
+|
+#14602
+Airika amazonairik~
+Airika~
+Airika the Supply keeper is here.~
+This lovely green-eyed Amazon sports red shoulder length hair.  She is quite
+petite, but has a nice friendly smile.  She's dressed in the regular amazon
+garb, but with a different style.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 10
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A small black leather halter
+  mposet i14654 short A small black leather skirt
+  mposet i14655 short A small peanut
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say What is a man's view of safe sex?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say A padded headboard.
+  laugh 
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Why do men like masturbation?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say It's sex with someone they love.
+  chuckle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say What's the thinnest book in the realms?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say What Men Know about Women!
+  giggle 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some wise sayings?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 2 1 1
+  say So you have come to learn from me eh?
+  say part of understanding the amazons is listening to what
+  say we have to say.  sometimes it is important, sometimes not.
+else
+  say Why should I teach you?
+endif
+~
+>speech_prog p how old are you~
+say Why, I am a mere 19 years old.
+endif
+~
+|
+#14603
+Velita amazonvelit~
+Velita~
+Velita the Weaponsmith is here.~
+Velita is a large Amazon.  But don't let her size fool you.  Though she can
+probably kick your ass in a fight, she most likey will try to avoid it.  She
+has long curly hair which is tied up into a ponytail.
+Right now, she is polishing the weapons in her shop.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+24 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A large leopard skin halter
+  mposet i14654 short A large leopard skin skirt
+  mposet i14655 short A tiki doll
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say What is gross stupidity?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say One hundred men in one room.
+  grin $r
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say What is a man's idea of foreplay?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say A half hour of begging!
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say What do men and beer bottles have in common?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say They're both empty from the neck up!
+  grin 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say Would you like to hear some wise sayings?
+if hasobjnum ($n) == 14660
+  if quest (21,2,$n) == 3
+    tell $n I see you have found some amazonite.
+    tell $n Since you are worthy, I will tell you how to forge
+    tell $n it into a powerful weapon.  Simply place the ore
+    tell $n into the forge below and say 'forge'.
+  else
+    tell $n I see you have found some amazonite.
+    tell $n If only you were worthy...I could show you how to use it.
+  endif
+endif
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  say Every amazon is quite smart.  you must pay attention
+  say to details in order to succeed.  little details can be hidden
+  say everywhere.  sometimes if you look harder, clues can be found
+  say take this object.  see if you can figure out what it does
+  say from its details.  only by solving it may you continue.
+  mpoload 14664
+  give i14664 $n
+else
+  say I know nothing.
+endif
+~
+>speech_prog p how old are you~
+say I am 20 years old.
+endif
+~
+|
+#14604
+Triana amazontrian~
+Triana~
+Triana the Slave trader is here.~
+Triana sports short brown blond hair, which runs a little past her small
+shoulders.  She holds a whip in her hands, which she uses to keep all the
+captured slaves in check.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+23 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A medium brown tiger striped halter
+  mposet i14654 short A medium brown tiger striped skirt
+  mposet i14655 short A leather whip
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say Two guys were walking down the street
+  say when one said: How sad, a dead bird.
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say The other man looked up and said 'WHERE?
+  cackle 
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say How do you save a man from drowning?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say Take your foot off his head.
+  grin 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say How can you tell if a man is happy?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say Who the hell cares?
+  wink $r
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some wise sayings?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 3 1 1
+  say Ah, i have heard about your challenge from the others.
+  say did you know that everything here has an order?  we sometimes
+  say rank things by age, sometimes by from top to bottom, sometimes
+  say clockwise, left to right, sometimes all.
+else
+  say I have nothing to teach you.
+endif
+~
+>speech_prog p how old are you~
+say I have aged 23 years.
+endif
+~
+|
+#14605
+Khalina amazonkhali~
+Khalina~
+Khalina the Warden is here.~
+She has long curly blond hair, and has pale white skin.  She must not get
+much exsposure to the sun you assume.  She gives you a once over, seemingly
+estimating if you are strong enough survive.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 0 0 1d1000+8000 1d100+100
+146908 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>repop_prog 100~
+mpoload 14653
+mpoload 14654
+mpoload 14655
+mposet i14653 short A medium brown halter top
+mposet i14654 short A medium brown skirt
+mposet i14655 short A branding iron
+wear all
+~
+>rand_prog 10~
+if position ($r) == 6
+  say Hey, no fighting in here slaves!
+  peace 
+else
+  say So, do you want your freedom?
+~
+>speech_prog yes~
+say Good.  We Amazon are in need of mighty warriors to rid
+say ourselves of the gargantuan kongs.  Every six months, we
+say must offer to them a virgin sacrifice to appease them.
+say If you think you can defeat all four beasts, then simply
+say state you wish to take the challenge.
+~
+>speech_prog p i wish to take the challenge~
+if level ($n) < 85
+  look $n
+  ponder $n
+  say $n, you are too wimpy.  Begone from my sight!
+  mpecho $n is blindfolded and led away.
+  mpquiet on
+  cast blindness $n
+  mpquiet off
+  mptransfer $n 9755
+  break
+endif
+if quest (25,3,$n) == 1
+  say I see you have killed one kong so far.
+endif
+if quest (25,3,$n) == 2
+  say I see you have killed two kongs so far.
+endif
+if quest (25,3,$n) == 3
+  say I see you have killed three kongs so far.
+endif
+if quest (25,3,$n) == 4
+or quest (25,3,$n) == 5
+  say I see you have killed all four kongs!  We Amazon shall
+  say respect your great prowess, and welcome you.  As your
+  say reward for saving our race, I will grant you a boon.
+  say Which would you like: Combat, Defense, or Magic?
+  mpmset $n quest 25 3 5
+  break
+endif
+if areaquest (0,1,$i) == 1
+  say Sorry, There is already a man on the hunt.
+  say If you want your freedom, you can pay me 75 thousand gold
+  say and I will set you free.  Or you can wait a bit
+  say and try the challenge after that other man returns.
+else
+  say I will now take you to the swamp where the kongs reside.
+  say There you must seek out the giants and do your best to kill
+  say them.  Should you succeed in slaying all four beasts, your
+  say freedom will be granted and you will be rewarded.
+  mptransfer $n 14676
+  mpzset quest 0 1 1
+endif
+~
+>bribe_prog 75000~
+if hasobjnum ($n) == 14630
+  nod $n
+  say Okay slave, you may leave.
+  say Take this and you can have your freedom.
+  say Never come back to this island again!
+  mpjunkperson $n i14630
+  mpmset $n quest 28 1 0
+  mptransfer $n 9755
+else
+  say thanks!
+endif
+~
+>speech_prog combat~
+if quest (25,3,$n) == 5
+  mpmset $n quest 25 3 6
+  mpoload 14656
+  give i14656 $n
+  tell $n when you are ready to leave, just say FREEDOM.
+endif
+~
+>speech_prog defense~
+if quest (25,3,$n) == 5
+  mpmset $n quest 25 3 6
+  mpoload 14657
+  give rod $n
+  tell $n when you are ready to leave, just say FREEDOM.
+endif
+~
+>speech_prog magic~
+if quest (25,3,$n) == 5
+  mpmset $n quest 25 3 6
+  mpoload 14658
+  give shield $n
+  tell $n when you are ready to leave, just say FREEDOM.
+endif
+~
+>speech_prog freedom~
+if quest (25,3,$n) == 6
+  mpmset $n quest 29 1 1
+  mpjunkperson $n i14630
+  mpmset $n quest 28 1 0
+  mptransfer $n 9755
+else
+  say Slave, you must pay me 75 million gold if you desire your freedom.
+endif
+~
+|
+#14606
+Hetheria amazonhethe~
+Hetheria~
+Hetheria the Witch is here.~
+Hetheria is dressed in nothing but a robe made out of ropes.  She slaves
+over a cauldron, creating magical pills.  She has medium length dark brown
+hair, which flows barely over her shoulders.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+24 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A large shirt made of rope
+  mposet i14654 short A large palm leaf skirt
+  mposet i14655 short A pair of iron shackles
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say What do you call a man with half a brain?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say Gifted.
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say How are men like parking stalls?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say The good ones are always taken, and the ones
+  say that aren't are handicapped.
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say What is a man's idea of helping with housework?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say Lifting his legs so you can sweep.
+  sigh 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some words of wisdom?
+if rand (15)
+  mpecho Hetheria raises her eyebrows at you.
+endif
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 5 1 1
+  say Understanding what we say is very important.
+  say amazons are fond of things that are larger than normal.
+  say anything that is larger; eyes, tops, even in the words
+  say and letters we say.
+else
+  say I have nothing to teach at this time.
+endif
+~
+>speech_prog p how old are you~
+say I was born 22 years ago.
+endif
+~
+|
+#14607
+Laurania amazonlaura~
+Laurania~
+Laurania the Amazon Teacher is here.~
+Laurania speaks in a different accent than the other Amazons, except for her
+sister Angelica.  She is quite smart, and can teach you many things that an
+Amazon should know.  Her voice is quite lovely, the sign of a good singer.
+~
+ACT_SENTINEL|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 0 0 10d100+8000 1d100+100
+147967 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A dark raptor-skin halter
+  mposet i14654 short A dark raptor-skin shirt
+  mposet i14655 short A book of songs.
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say What did God say after creating man?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say I can do better.
+  giggle 
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Why do men like love at first sight?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say It saves them alot of time!
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say A woman of 35 thinks about having children.
+  say What does a 35 year old man think about?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say They think about dating children!
+  sigh 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some jokes?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 6 1 1
+  say I will teach you that secrets are a large part of the
+  say amazon mystery.  sometimes we reveal our secrets.
+  say We will reveal our ages if asked, but not our weight.
+  say So just ask us how old we are.
+else
+  say I haven't heard anything today.
+endif
+~
+>speech_prog p how old are you~
+say Why, i'm only 26 years old.
+say But don't ask me about my weight!
+endif
+~
+|
+#14608
+Marccoupa amazonmarcc~
+Marccoupa~
+Marccoupa the Gatherer is here.~
+This is a rather tall and large amazon.  She has some facial hair, and wide
+shoulders.  She is probably the ugliest Amazon on the island, and you wonder
+while she hasn't been exiled yet.  Physically, she is the strongest Amazon on
+the island, but she cannot be queen for her looks are quite revolting.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+25 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A very large tattered halter
+  mposet i14654 short A very large tattered skirt
+  mposet i14655 short A small rusty hammer
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say Why do men want to marry virgins?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say They can't stand criticism.
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say How was Colonel Sanders a typical male?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say He just cared about legs, breasts, and thighs!
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say Why is sleeping with a man like a soap opera?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say Just when it gets interesting
+  say they are finished till next time.
+  wink 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some jokes?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 7 1 1
+  say Yo, even a dumb amazon like me can figure out the secret
+  say password.  i figured it out after i talked to all the other
+  say shopkeepers.
+else
+  say I have nothing to say.
+endif
+~
+>speech_prog p how old are you~
+say I am 29 years of age.
+endif
+~
+|
+#14609
+Angelica amazonangel~
+Angelica~
+Angelica the Amazon Trainer is here.~
+Angelica speaks with a strange accent, different from the other Amazons on
+the island.  She is the sister of Laurania.  Her short blond hair goes well
+with her fair skin.  She is here to help you increase your physical and
+mental skills.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 0 0 10d100+8000 1d100+100
+127144 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A cloth halter dyed red
+  mposet i14654 short A cloth skirt dyed blue
+  mposet i14655 short A white feather
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say Why are blond jokes so short?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say So men can remember them!
+  cackle $r
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Did you hear about the man who won a gold medal?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say He had it bronzed!
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say Husband: I don't know why you wear a bra
+  say Husband: You have nothing to put in it.
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say Wife: You wear briefs, don't you?
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some jokes?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 8 1 1
+  say Long ago, we allowed men to visit paradise island.
+  say but after that incident in the sanctuary, men are not
+  say allowed here.  if any are found, they will be captured.
+else
+  say That is all I can teach you.
+endif
+~
+>speech_prog p how old are you~
+say I believe I am 24 years old.
+say But don't ask me about my weight!
+endif
+~
+|
+#14610
+Zoriana amazonzoria~
+Zoriana~
+Zoriana the Entertainer is here~
+This Amazon woman is dressed really trashy.  She seems to be flirting
+with all the male prisoners.  Her shoulder length cinnamon hair entices
+you, you reach out and try to grab her, but your chains hold you in
+place.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 0 0 10d10+8000 10d10+100
+139544 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>time_prog 1~
+if quest (0,1,$i) == 0
+  mpquiet off
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A blouse made of a thin material
+  mposet i14654 short A skirt made of a thin material
+  mposet i14655 short A feather shawl
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet on
+  mpmset self quest 0 1 1
+endif
+mpecho Zoriana jiggles and dances in front of your face!
+~
+|
+#14611
+Veronnia amazonveron~
+Veronnia~
+Veronnia the Shamaness is here~
+The Shamaness of the village has darker skin than the other women.  She's
+quite petite compared to the others as well.   She has short black hair, and
+a nice smile.  She wears round glasses which look cute on her happy face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+25 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A flat black strap
+  mposet i14654 short A tiny black skirt
+  mposet i14655 short A tome of romance storys
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say What are two reasons why men don't mind their own business?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say No mind and no business.
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Why do women make good ship captains?
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say So if the crew gets lost, at least the women will ask directions!
+  cackle 
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 4
+  say How do men excercise on the beach?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say By sucking in their stomach everytime they see a bikini!
+  ponder 
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say would you like to hear some jokes?
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  say Xenobia is the Queen of the Amazons.  You would know if you
+  say study our history from our books.  I do believe you can buy
+  say some books from the teacher.  Just make sure you 'read' the
+  say books after you get them.
+else
+  say I have nothing to teach you.
+endif
+~
+>speech_prog p how old are you~
+say I am barely 21 years old.
+endif
+~
+|
+#14612
+Daethia amazondaeth~
+Daethia~
+Daethia the Amazon Guardian stands here~
+Daethia has long brown hair, and wears many peircings over her body.  She is
+by far the most freakish looking amazon.  She is quite tall and not pretty,
+perhaps she is related to Marccoupa.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 0 0 10d10+8000 10d10+100
+165834 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>time_prog 1~
+if quest (0,1,$i) == 0
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A golden breastplate
+  mposet i14654 short A golden skirt
+  mposet i14655 short A golden harp
+  wear cloth
+  wear cloth
+  wear cloth
+  mpmset self quest 0 1 1
+endif
+~
+>all_greet_prog 100~
+if quest (29,1,$n) == 1
+  if hasobjnum ($n) == 18491
+    say What a peculiar object you have there.
+    say I'm sure the Queen will want to see you.
+    say If you wish to see her, just say
+    say Let me pass.
+  endif
+endif
+if quest (30,1,$n) == 1
+  say Sorry, you have failed, $n.
+  say begone!
+  mptransfer $n 14644
+  break
+endif
+if quest (14,1,$n) == 1
+  say Welcome.
+  bow $n
+  say If you wish to enter the temple, just say
+  say Let me pass.
+  break
+endif
+if quest (2,9,$n) == 511
+  if quest (11,3,$n) == 0
+    tell $n I see you have talked to all the others.
+    tell $n I hope you have understood what they said.
+    tell $n Tell me the secret password and I will let you in.
+    break
+  endif
+endif
+if quest (11,3,$n) == 2
+  tell $n Okay, I still don't think you are ready yet.
+  tell $n Go visit the shops again and find a secret
+  tell $n phrase.  Tell me this and I'll let you in.
+  break
+endif
+tell $n What do you want, Amazon?
+endif
+~
+>speech_prog pass~
+if quest (14,1,$n) == 1
+  bow $n
+  mptransfer $n 14661
+  break
+endif
+if quest (29,1,$n) == 1
+  if hasobjnum ($n) == 18491
+    mptransfer $n 14661
+  endif
+endif
+~
+>speech_prog temple challenge~
+if quest (0,1,$n) == 1
+  say You wish to challenge the leaders? I do not think you
+  say are worthy.  Go speak with the other amazons on the island
+  say and earn their trust.  Learn from them, and remember them
+  say well.  Ask them to TEACH you the ways of the amazon.
+  mpmset $n quest 1 1 1
+endif
+~
+>speech_prog teach~
+say I have nothing to teach you.  My job is to guard the temple.
+say When you have learned our ways, you will know the secret.
+say Tell me the secret password and I will let you in.
+~
+|
+#14613
+Gabriella Amazongabri~
+Gabriella~
+Gabriella the Princess is here~
+This is the Gabriella, the Princess of the Amazons.  She has long blond
+hair and blue eyes.  She's very talkative and looks sorta tough.  You
+wonder how she became the Princess.  She is wearing some strangely glowing
+armor, perhaps the Artifacts of Defense!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+70 0 0 1d1+4000 1d40+40
+110662 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 33~
+if quest (10,5,$i) == 1
+  say ready yet?
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Too bad, prepare for attack!
+  mpmset self quest 10 5 3
+  mpkill $r
+  break
+endif
+if quest (10,5,$i) == 3
+  mpgoto 14663
+  mpmset self quest 0 30 0
+endif
+if inroom ($i) == 14695
+  if pcsinroom (14695) == 0
+    mpmset self quest 0 30 0
+    mpgoto 14663
+  endif
+endif
+~
+>all_greet_prog 100~
+mpjunk all
+if quest (30,1,$n) == 1
+  say Begone!  You have failed!
+  mptransfer $n 9755
+  break
+endif
+if quest (21,2,$n) == 3
+  smile $n
+  break
+endif
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 1
+    say You have proven yourself worthy by defeating all the spirits.
+    say Now for your final test, you must now face me in mortal combat!
+    mpmset self quest 10 5 1
+    rescale 14613 $n 110
+    mptransfer $n 14695
+    mpgoto 14695
+    break
+  endif
+endif
+if quest (18,3,$n) == 6
+  say Greetings $n.
+  say Have you placed your offering in the altar yet?
+  say And did you chant the MANTRA of the jungle?
+  break
+endif
+if areaquest (1,1,$i) == 0
+  say Welcome Amazon.
+else
+  say The time is not right Amazon, come back in a few minutes.
+  mptransfer $n 14662
+endif
+~
+>give_prog i14620~
+mpquiet on
+get all i14620
+mpjunk i14620
+sacrifice all
+put all i14663
+mpquiet off
+say Are you sure you wish to offer these to me?
+~
+>speech_prog challenge~
+if quest (18,3,$n) > 0
+  if quest (18,3,$n) < 5
+    if quest (15,2,$n) == 1
+      say Very well, go forth and defeat the spirits.
+      mpzset quest 1 1 1
+      mptransfer $n 14685
+    endif
+  endif
+endif
+~
+>fight_prog 50~
+cast fireball
+~
+>death_prog 100~
+mpjunk all
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 1
+    mpmset $n quest 18 3 6
+    mpmset $n long Princess $n of the Amazons is here.
+    say Impossible, you have defeated me...
+    say By Amazon law, you are now the new princess.
+    say Go to the Shrine of Diana and make your offering.
+    say If you are worthy you will be granted powerful artifacts.
+  endif
+endif
+mptransfer $n 14644
+~
+|
+#14614
+Xenobia amazonxenob~
+Xenobia~
+Queen Xenobia stands here.~
+Xenobia is the mighty queen of the amazons.  She used to be a warrior
+princess, but ascended to her current rank after defeating the old queen.
+She has black hair and crystal blue eyes, and wear strange artifacts of
+power.  She lets out a mighty battle cry as you enter.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+75 0 0 1d2+4000 1d75+29
+143904 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 33~
+if inroom ($i) == 14696
+  if pcsinroom (14696) == 0
+    restore self
+    mpmset self quest 0 30 0
+    mpgoto 14665
+  endif
+endif
+if quest (10,5,$i) == 0
+  if quest (20,4,$i) == 0
+    break
+  endif
+endif
+if quest (10,5,$i) == 1
+  say ready yet?
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Too bad, prepare for attack!
+  mpmset self quest 10 5 3
+  if existsroom (plr)
+    mpkill $t
+  endif
+  break
+endif
+if quest (10,5,$i) == 3
+  cast restore($i)
+  mpgoto 14665
+  mpmset self quest 0 30 0
+endif
+if hasobjnum ($i) == 14640
+  if quest (20,4,$i) == 6
+    mpmset self quest 20 4 7
+    say That was wonderful!  You truely are a mighty stud!
+    say Let me have the rest of that potion and I shall
+    say give you what you seek.
+  endif
+  if quest (20,4,$i) == 5
+    mpmset self quest 20 4 6
+    mpecho A few hours pass....
+  endif
+  if quest (20,4,$i) == 4
+    mpmset self quest 20 4 5
+    mpecho Then $I starts to ...
+    mpforce all help censored
+  endif
+  if quest (20,4,$i) == 3
+    mpmset self quest 20 4 4
+    mpecho $I grabs wraps her arms around you and...
+  endif
+  if quest (20,4,$i) == 2
+    mpmset self quest 20 4 3
+    mpecho $I starts to remove her clothing...
+    mpecho You feel all giddy and
+    mpforce $c remove all
+  endif
+  if quest (20,4,$i) == 1
+    mpmset self quest 20 4 2
+    mpecho $I grabs you and starts kissing you all over...
+  endif
+endif
+~
+>all_greet_prog 100~
+if quest (30,1,$n) == 1
+  say Begone!  You have failed!
+  mptransfer $n 9755
+  break
+endif
+if quest (21,2,$n) == 3
+  smile $n
+  break
+endif
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 2
+    say You have proven yourself worthy by defeating all the spirits.
+    say Now for your final test, you must now face me in mortal combat!
+    mpmset self quest 10 5 1
+    rescale 14614 $n 90
+    cackle 
+    mptransfer $n 14696
+    mpgoto 14696
+    break
+  endif
+endif
+if quest (18,3,$n) == 6
+  say Greetings $n.
+  say Have you placed your offering in the altar yet?
+  say And did you chant the MANTRA of the jungle?
+  break
+endif
+if areaquest (2,1,$i) == 0
+  say Welcome Amazon.
+else
+  say The time is not right Amazon, come back in a few minutes.
+  mptransfer $n 14662
+endif
+~
+>give_prog i14620~
+mpquiet on
+get all i14620
+mpjunk i14620
+put all i14663
+mpquiet off
+say Are you sure you wish to offer these to me?
+~
+>speech_prog challenge~
+if quest (18,3,$n) > 0
+  if quest (18,3,$n) < 5
+    if quest (15,2,$n) == 2
+      say Very well, go forth and defeat the spirits.
+      mptransfer $n 14690
+      mpzset quest 2 1 1
+    endif
+  endif
+endif
+~
+>fight_prog 50~
+kick 
+~
+>death_prog 100~
+mpjunk all
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 2
+    mpmset $n quest 18 3 6
+    mpmset $n long Queen $n of the Amazons is here.
+    say Impossible! You have defeated me...
+    say By Amazon law, you are now the new Queen.
+    say Go to the Shrine of Diana and make your offering.
+    say If you are worthy you will be granted powerful artifacts.
+  endif
+endif
+mptransfer $n 14644
+mpmset self quest 0 30 0
+~
+>speech_prog p I feel great!~
+if quest (29,1,$n) == 1
+  if quest (20,4,$i) == 1
+    mposet i14640 name $n i14640
+    mpecho $I gets a strange look on her face as she looks at you.
+    mpmset self quest 20 4 1
+  else
+    say Um, that is nice $n.
+  endif
+else
+  mpecho $I seems to not fall under your spell.
+  say You are not a worthy enough man for me, begone!
+  say A real man would have defeated the mighty kongs in the jungle.
+endif
+~
+>give_prog i18491~
+if quest (20,4,$i) == 7
+  mpmset self quest 20 4 0
+  mpjunk i18491
+  mpoload 18492
+  say I gave the crown to a mighty hero who lived in Anasazi.
+  say The crown is probably buried in his tomb.
+  give i18492 $n
+  say Take this shovel and find his burial site.
+  say Begone from my sight now, you worthless male!
+endif
+~
+|
+#14615
+Kathena~
+Kathena~
+Kathena the Amazon High Priestess is here.~
+Kathena has long redish brown hair which is tied up into a ponytail.  She
+dresses rather conservative compared to the other amazons, but that is
+to be expected from a High Priestess.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+60 0 0 20d100+2000 1d60+19
+56671 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 33~
+if quest (10,5,$i) == 1
+  say ready yet?
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say Too bad, prepare for attack!
+  mpmset self quest 10 5 3
+  if existsroom (plr)
+    mpkill $t
+    break
+  endif
+endif
+if quest (10,5,$i) == 3
+  restore self
+  mpgoto 14664
+  mpmset self quest 0 30 0
+endif
+if inroom ($i) == 14697
+  if pcsinroom (14697) == 0
+    mpmset self quest 0 30 0
+    mpgoto 14664
+  endif
+endif
+~
+>all_greet_prog 100~
+mpjunk all
+if quest (30,1,$n) == 1
+  say Begone!  You have failed!
+  mptransfer $n 9755
+  break
+endif
+if quest (21,2,$n) == 3
+  smile $n
+  break
+endif
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 3
+    say You have proven yourself worthy by defeating all the spirits.
+    say Now for your final test, you must now face me in mortal combat!
+    mpmset self quest 10 5 1
+    rescale 14615 $n 110
+    mptransfer $n 14697
+    mpgoto 14697
+    break
+  endif
+endif
+if quest (18,3,$n) == 6
+  say Greetings $n.
+  say Have you placed your offering in the altar yet?
+  say And did you chant the MANTRA of the jungle?
+  break
+endif
+if areaquest (3,1,$i) == 0
+  say Welcome Amazon.  Why are you here?
+else
+  say The time is not right Amazon, come back in a few minutes.
+  mptransfer $n 14662
+endif
+~
+>give_prog i14620~
+mpquiet on
+get all i14620
+mpjunk i14620
+put all i14663
+drop all
+sacrifice all
+mpquiet off
+say Are you sure you wish to offer these to me?
+~
+>speech_prog challenge~
+if quest (18,3,$n) > 0
+  if quest (18,3,$n) < 5
+    if quest (15,2,$n) == 3
+      say Very well, go forth and defeat the spirits.
+      mpzset quest 3 1 1
+      mptransfer $n 14671
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpjunk all
+if quest (18,3,$n) == 5
+  if quest (15,2,$n) == 3
+    mpmset $n quest 18 3 6
+    mpmset $n long High Priestess $n of the Amazons is here.
+    say Impossible, you have defeated me...
+    say By Amazon law, you are now the new High Priestess.
+    say Go to the Shrine of Diana and make your offering.
+    say If you are worthy you will be granted powerful artifacts.
+  endif
+endif
+mptransfer $n 14644
+mpmset self quest 0 30 0
+~
+|
+#14616
+amazon~
+an Amazon~
+An Amazon citizen is here.~
+This is a just a normal Citizen of Amazonia.  She wearing the usual Amazon
+clothing.  She doesn't look as strong as the other amazons however.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+60 0 0 1d900+1774 1d60+19
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 33~
+if quest (21,2,$n) == 3
+  bow $n
+endif
+~
+|
+#14617
+young amazon~
+a young Amazon~
+A young Amazon girl is here, getting some sun.~
+This is a rather young amazon.  She's quite cute as a matter of fact.
+Some day she may become the queen.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+44 0 0 1d484+912 1d44+10
+53809 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 33~
+if quest (21,2,$n) == 3
+  bow $n
+endif
+~
+|
+#14618
+amazon guard~
+an Amazon Guard~
+An Amazon Guard stands here.~
+This is an above average Amazon in terms of fighting prowess.  She is
+higly trained in the arts of jungle fighting.  Her job is to guard the
+city of Amazonia from wild beasts and perverted men.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+80 0 0 10d100+5000 1d60+50
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 25~
+mpechoat $n The guard looks at you suspiciously.
+if hasobjnum ($n) == 14630
+  tell $n How did you escape!
+  tell $n Back in jail you go!
+  shout My sisters!  I have recaptured the escaped $n!!!!
+  mptransfer $n 14667
+endif
+~
+|
+#14619
+Amazon hunter eth~
+an Amazon Hunter~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+27 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if level ($n) > 84
+  if quest (28,1,$n) == 0
+    if sex ($n) != 2
+      if quest (29,1,$n) == 1
+        bow $n
+      else
+        mpquiet on
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        cast 'remove curse' $n
+        if hasobjnum ($n) == 14630
+          cast 'remove curse' $n
+        else
+          mpoload 14630
+          give i14630 $n
+        endif
+        mpforce $n wear i14630
+        mpmset $n quest 28 1 1
+        mpquiet off
+        shout My Amazon sisters!  I have Captured the insolent $n!!!!
+        mpechoat $n You have been captured and thrown into a prison!
+        mpechoat $n Your captors burn a tattoo into you!
+        mptransfer $n 14667
+        tell $n Only women are allowed here!
+        tell $n You will pay for defiling our Island!
+      endif
+    endif
+  endif
+endif
+~
+|
+#14620
+sabre-tooth tiger parajunga~
+a sabre-tooth tiger~
+A rather large stripped cat growls at you.~
+This is a large feline creature.  It primary weapons are its two huge
+dagger-like teeth,  which cause great damage!  The razor-sharp claws
+are not someting to be taken mildly either.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-500 S
+54 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d100+2500 1d120+1
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (21,2,$n) == 3
+    rescale 14620 $n 175
+    growl 
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+|
+#14621
+raptor parajungb~
+a raptor~
+A man sized lizard hides here.~
+This dangerous looking lizard stands on two feet, and has razor sharp
+talons.  It's tiny head is filled with many rows of razor sharp teeth.
+It's best to avoid this creature at all costs.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+-400 S
+64 BODY_MOUTH|BODY_TAIL|BODY_CLAW BODY_CLAW 1d500+3000 1d140+1
+15000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (21,2,$n) == 3
+    rescale 14621 $n 180
+    growl 
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+|
+#14622
+tyrannosarus t-rex parajungc~
+a Tyrannosarus~
+A gigantic lizard looms overhead.~
+Why are you looking?  You should be fleeing for you life!
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-400 S
+74 BODY_MOUTH|BODY_TAIL|BODY_CLAW BODY_CLAW 1d200+4000 1d200+10
+128408 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (21,2,$n) == 3
+    rescale 14622 $n 200
+    growl 
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+>rand_prog 5~
+mpecho The giant dinosaur lets out a mighty ROAR!!!!!!!!!!!!!
+~
+|
+#14623
+giant gorilla parajungd~
+a giant gorilla~
+A giant gorilla sits here.~
+This is rather large gorilla, about 8ft tall.  It's rather hairy, and
+eyes you suspiciously.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-400 S
+54 BODY_HAND BODY_HAND 1d150+1990 1d100+9
+68967 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (21,2,$n) == 3
+    rescale 14623 $n 170
+    growl 
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+>rand_prog 5~
+mpecho The giant gorilla pounds on its chest.
+~
+|
+#14624
+kong kongmob~
+a kong~
+A mighty kong is here~
+This is one of the four gargantuan apes which roam the island.  They do not
+hunt the Amazons as long as they are given virgin sacrifices every six months.
+It is your task to kill all four of these foul beasts.  It does not seem too
+smart, but you better leave before it mistakes you for an offering.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+80 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d1+5500 1d80+33
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpmadd self quest 0 2 1
+if quest (0,2,$i) == 0
+  mpecho You shiver in fear of kong, and flee back to the prison.
+  mptransfer pcs 14667
+  break
+endif
+if inroom ($n) == 14684
+  rescale 14624 $n 110
+endif
+if inroom ($n) == 14683
+  rescale 14624 $n 100
+endif
+if inroom ($n) == 14682
+  rescale 14624 $n 105
+endif
+if inroom ($n) == 14681
+  rescale 14624 $n 115
+endif
+growl $n
+mpkill $n
+~
+>fight_prog 25~
+cast 'energy drain'
+mpquiet off
+mpforce $n help KONG_SLAM
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 14630
+  if quest (25,3,$n) < 4
+    mpmadd $n quest 25 3 1
+  endif
+endif
+mpecho You return to your prison cell after the grueling fight.
+mptransfer $n 14667
+~
+|
+#14625
+Jungle spirit~
+Jungle Spirit~
+A pile of bones decays here.~
+This is the Spirit of a dead Amazon Priestess!  She must have failed
+the Test of the Maiden, and is doomed to haunt here for all eternity.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+1000 S
+74 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d2000+3500 1d74+28
+100000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if inroom ($n) == 14672
+  say Challenger! Prepare to die!
+  if quest (18,3,$n) == 1
+    rescale 14625 $n 80
+  endif
+  if quest (18,3,$n) == 2
+    rescale 14625 $n 90
+  endif
+  if quest (18,3,$n) == 3
+    rescale 14625 $n 100
+  endif
+  if quest (18,3,$n) == 4
+    rescale 14625 $n 120
+  endif
+  mpkill $n
+else
+  mpecho You wait around for a few hours but encounter no spirits.
+  mpecho Dejected, you wander back to the city to try again.
+  mptransfer $n 14642
+endif
+~
+>death_prog 100~
+if quest (15,2,$n) == 3
+  if quest (18,3,$n) < 5
+    mpmadd $n quest 18 3 1
+  endif
+endif
+mpecho You head back into the city after the battle.
+mptransfer $n 14642
+~
+|
+#14626
+Jungle spirit~
+Jungle spirit~
+A pile of bones decays here.~
+This is the Spirit of a dead amazon woman.  She must have failed the
+Test of Agility, and is now doomed to test other Amazons
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+1000 S
+80 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d2000+4500 1d80+33
+100000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if inroom ($n) == 14686
+  say Challenger! Prepare to die!
+  if quest (18,3,$n) == 1
+    rescale 14626 $n 85
+  endif
+  if quest (18,3,$n) == 2
+    rescale 14626 $n 90
+  endif
+  if quest (18,3,$n) == 3
+    rescale 14626 $n 100
+  endif
+  if quest (18,3,$n) == 4
+    rescale 14626 $n 120
+  endif
+  mpkill $n
+else
+  mpecho You wait around for a few hours but encounter no spirits.
+  mpecho Disappointed, you head back to the city to try again later.
+  mptransfer $n 14642
+endif
+~
+>fight_prog 33~
+mpquiet on
+cast 'heal' $i
+cast 'fireball'
+mpquiet off
+~
+>death_prog 100~
+if quest (15,2,$n) == 1
+  if quest (18,3,$n) < 5
+    mpmadd $n quest 18 3 1
+  endif
+endif
+mpecho You head back into the city after the battle.
+mptransfer $n 14642
+~
+|
+#14627
+Jungle Spirit~
+Jungle Spirit~
+A pile of bones decays here.~
+This is the spirit of a dead amazon warrior.  She must have attempted
+the Test of Combat and failed.  Her spirit is now here to test other
+aspiring amazons who wish to be queen.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+1000 S
+70 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d1+3000 1d1+70
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if inroom ($n) == 14691
+  say Challenger! Prepare to die!
+  if quest (18,3,$n) == 1
+    rescale 14627 $n 80
+  endif
+  if quest (18,3,$n) == 2
+    rescale 14627 $n 90
+  endif
+  if quest (18,3,$n) == 3
+    rescale 14627 $n 100
+  endif
+  if quest (18,3,$n) == 4
+    rescale 14627 $n 120
+  endif
+  mpkill $n
+else
+  mpecho You sit around for a few hours but encounter no spirits.
+  mpecho Sigh, you wander back to the city to try again later.
+  mptransfer $n 14642
+endif
+~
+>fight_prog 33~
+mpquiet on
+kick 
+mpquiet off
+~
+>death_prog 100~
+if quest (15,2,$n) == 2
+  if quest (18,3,$n) < 5
+    mpmadd $n quest 18 3 1
+  endif
+endif
+mpecho You head back into the city after the battle.
+mptransfer $n 14642
+~
+|
+#14628
+goddess diana~
+Goddess Diana~
+The beautiful Goddess Diana stands here.~
+This is the Goddess of the Amazons.  She wears a golden tiara, and is dressed
+in red, white, blue and gold flowing robes.  She also carries a golden lariat
+around her girdle, and wears two glistening bracers.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+1000 S
+100 BODY_MOUTH|BODY_CLAW BODY_CLAW 1d2500+8509 1d100+101
+100000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+mass 'acid blast'
+~
+>death_prog 100~
+remove all
+mpjunk all
+~
+|
+#14630
+altar mob elth~
+a gentle voice~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+150 0 0 10d100+25000 1d150+188
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (30,1,$n) == 1
+  mpecho A strange barrier bars your entrance.
+  mptransfer $n 14662
+endif
+if quest (22,2,$n) == 1
+  say Are you ready for the test of purity $n?
+endif
+~
+>speech_prog p SD~
+if quest (21,2,$n) == 0
+  if quest (18,3,$n) == 6
+    mpquiet on
+    mpjunk all
+    get all i14602
+    cast 'giant strength' $n
+    mpquiet off
+    if hasobjnum ($i) == 14651
+      mpmset $n quest 21 2 1
+      mpecho The altar glows brightly.
+      say Are you ready to enter the test of Purity?
+      say You must be a Maiden to pass the test of purity.
+      say Do not try to deceive me, for the consequences
+      say Are severe.
+    else
+      mpecho The room shakes a bit, but nothing happens.
+      mpecho Diana must not be satisfied with your offering.
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if level ($n) > 90
+  if quest (21,2,$n) == 1
+    if sex ($n) == 2
+      mpecho You remove all your clothing and enter the test.
+      mpquiet on
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'remove curse' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'dispel magic' $n
+      cast 'giant strength' $n
+      mpforce $n remove all
+      if quest (33,1,$n) == 0
+        mpoload 14631
+        give i14631 $n
+        mpforce $n wear qlight123
+        mpmset $n quest 33 1 1
+      endif
+      mpquiet off
+      connect up 14668
+      mpforce $n up
+      connect up -1
+    else
+      say You are not a female.
+      say Continuing further may be hazardous to your health.
+    endif
+  else
+    mpecho The altar shakes, but nothing happens.
+  endif
+else
+  say You are not a Maiden, $n.  Come back when you are higher.
+endif
+~
+|
+#14631
+purity~
+a lovely voice~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+150 0 0 0d0+20000 1d1+200
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpecho A bright light shines upon your nude body.
+mpquiet on
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast 'dispel magic' $n
+cast giant $n
+mpquiet off
+if sex ($n) == 2
+  if quest (21,2,$n) == 1
+    say Greetings Mortal, you have passed the test of purity.
+    say You may wear your clothing once again.  My examination
+    say of you is satisfactory.  You are indeed a maiden.
+    say Say 'ready' when you are ready to proceed.
+    mpmset $n quest 21 2 2
+  endif
+else
+  shout $n has violated our sanctum!
+  say FOOLISH MORTAL!  YOU ARE NOT A MAIDEN!!!!!!
+  say You were warned, and now you must pay the price.
+  mpjunkperson $n qlight123
+  mpmset $n quest 0 30 0
+  mpmset $n quest 30 1 1
+  mptransfer $n 9755
+endif
+~
+>speech_prog ready~
+if quest (21,2,$n) == 2
+  mpecho The room turns bright white.
+  connect up 14669
+  mpforce $n up
+  connect up -1
+endif
+~
+|
+#14632
+diana eth~
+Diana~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+27 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpjunk all
+if sex ($n) != 2
+  say Insolent Male!  You will pay for this intrusion!!!
+  mptransfer $n 9755
+  mpmset $n quest 0 30 0
+  mpmset $n quest 30 1 1
+  break
+endif
+if quest (21,2,$n) == 2
+  mpmset $n quest 21 2 3
+  say Greetings $n.  You have done well.
+  if quest (15,2,$n) == 1
+    shout $n Has passed the Test of Defense!
+    say For your effort and perseverence,
+    say I bestow upon thee these Artifacts of Defense.
+    mpoload 14637
+    mpoload 14638
+    mpoload 14639
+    drop all
+    say Go now, and uphold the Amazon name.
+    say When you are ready to leave, just say 'return'.
+    break
+  endif
+  if quest (15,2,$n) == 2
+    shout $n Has passed the Test of Strength!
+    say For your effort and perseverence,
+    say I bestow upon thee these Artifacts of Strength.
+    mpoload 14640
+    mpoload 14641
+    mpoload 14642
+    drop all
+    say Go now, and uphold the Amazon name.
+    say When you are ready to leave, just say 'return'.
+    break
+  endif
+  if quest (15,2,$n) == 3
+    shout $n Has passed the Test of Spirit!
+    say For your effort and perseverence,
+    say I bestow upon thee these Artifacts of Spirituality.
+    mpoload 14633
+    mpoload 14634
+    mpoload 14635
+    mpoload 14636
+    drop all
+    say Go now, and uphold the Amazon name.
+    say When you are ready to leave, just say 'return'.
+    break
+  endif
+endif
+~
+>speech_prog return~
+say Farewell, Amazon.
+mptransfer $n 14644
+~
+|
+#14633
+princess eth~
+Gabriella~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+23 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog mantra~
+if quest (18,3,$n) == 6
+  say The mantra can be learned by looking at the jungle.
+  say Try looking at the jungle from the top of the temple steps.
+endif
+~
+>speech_prog p all men are worthless~
+if quest (17,1,$n) == 1
+  if quest (18,3,$n) == 0
+    mpmset $n quest 18 3 1
+    say Very good, you have learned the secret of the jungle.
+    say Now you must pass the Test of Defense.  Many have tried,
+    say But they have all failed.  You must venture into the swamp
+    say and defeat the four spirits of failed challengers.
+    say when you are ready, just say CHALLENGE ME.
+  endif
+else
+  say Why, yes they are.
+endif
+~
+>speech_prog yes~
+mpquiet on
+mpjunk all
+get all i14663
+mpquiet off
+if quest (17,1,$n) == 0
+  if quest (15,2,$n) == 1
+    if hasobjnum ($i) == 14625
+      if hasobjnum ($i) == 14626
+        mpmset $n quest 17 1 1
+        say Very well, I am satisfied.
+        say But, I still feel you do not know the jungle and its secrets
+        say well enough. Go explore the jungle and learn its secret
+        say message. Return here when you discover it.  Begone!
+        mptransfer $n 14615
+        mpjunk all
+      else
+        say Close, but I do not like one of these.
+        emote spits. 
+        say Go get me more fruit.
+        mpforce $n east
+      endif
+    else
+      say Foolish Amazon, I do not like these.
+      emote spits. 
+      say Go get me more fruit.
+      mpforce $n east
+    endif
+  endif
+endif
+~
+>speech_prog p I wish to challenge you in mortal combat.~
+if quest (15,2,$n) == 0
+  say Are you sure you want to do that?  I'm quite powerful.
+  say Once you AGREE you cannot revoke your challenge.
+  say So think twice before you take the Challenge of Defense.
+else
+  say You may not take this challenge.  Only one challenge can be
+  say made by an Amazon.  This is Diana's decree.
+endif
+~
+>speech_prog p agree~
+if quest (15,2,$n) == 0
+  say Very well $n.  You will now start the Challenge of Defense.
+  mpmset $n quest 15 2 1
+  say Before you start, I would like an offering of fruit.
+  say bring me a bowl of my two favorite fruit.
+  say Begone now, and remember, I only want my favorite fruit.
+endif
+~
+|
+#14634
+etherealqueen~
+Xenobia~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+23 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog mantra~
+if quest (18,3,$n) == 6
+  say The mantra can be learned by looking at the jungle.
+  say Try looking at the jungle from the top of the temple steps.
+endif
+~
+>speech_prog p all men are worthless~
+if quest (17,1,$n) == 1
+  if quest (18,3,$n) == 0
+    mpmset $n quest 18 3 1
+    say Very good, you have learned the secret of the jungle.
+    say Now you must pass the Test of Strength.  Many have tried,
+    say But they have all failed.  You must venture into the swamp
+    say and defeat the four spirits of failed challengers.
+    say when you are ready, just say CHALLENGE ME.
+  endif
+else
+  say Why, yes they are.
+endif
+~
+>speech_prog yes~
+mpquiet on
+mpjunk all
+get all i14663
+mpquiet off
+if quest (17,1,$n) == 0
+  if quest (15,2,$n) == 2
+    if hasobjnum ($i) == 14622
+      if hasobjnum ($i) == 14624
+        mpmset $n quest 17 1 1
+        say Very well, I am satisfied.
+        say But, I still feel you do not know the jungle and its secrets
+        say well enough. Go explore the jungle and learn its secret
+        say message. Return here when you discover it.  Begone!
+        mptransfer $n 14615
+        mpjunk all
+      else
+        say Close, but I do not like one of these.
+        emote spits. 
+        say Go get me more fruit.
+        mpforce $n south
+      endif
+    else
+      say Foolish Amazon, I do not like these.
+      emote spits. 
+      say Go get me more fruit.
+      mpforce $n south
+    endif
+  endif
+endif
+~
+>speech_prog p I wish to challenge you in mortal combat.~
+if quest (15,2,$n) == 0
+  say Are you sure you want to do that?  I'm quite powerful.
+  say Once you AGREE you cannot revoke your challenge.
+  say So think twice before you take the Challenge of Strength.
+else
+  say You may not take this challenge.  Only one challenge can be
+  say made by an Amazon.  This is Diana's decree.
+endif
+~
+>speech_prog p agree~
+if quest (15,2,$n) == 0
+  say Very well $n.  You will now start the Challenge of Strength.
+  mpmset $n quest 15 2 2
+  say Before you start, I would like an offering of fruit.
+  say bring me a bowl of my two favorite fruit.
+  say Begone now, and remember, I only want my favorite fruit.
+~
+|
+#14635
+ethpriestess~
+Kathena~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+27 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog mantra~
+if quest (18,3,$n) == 6
+  say The mantra can be learned by looking at the jungle.
+  say Try looking at the jungle from the top of the temple steps.
+endif
+~
+>speech_prog p all men are worthless~
+if quest (17,1,$n) == 1
+  if quest (18,3,$n) == 0
+    mpmset $n quest 18 3 1
+    say Very good, you have learned the secret of the jungle.
+    say Now you must pass the Test of Spirit.  Many have tried,
+    say But they have all failed.  You must venture into the swamp
+    say and defeat the four spirits of failed challengers.
+    say when you are ready, just say CHALLENGE ME.
+  endif
+else
+  say Why, yes they are.
+endif
+~
+>speech_prog yes~
+mpquiet on
+mpjunk all
+get all i14663
+mpquiet off
+if quest (17,1,$n) == 0
+  if quest (15,2,$n) == 3
+    if hasobjnum ($i) == 14628
+      if hasobjnum ($i) == 14621
+        mpmset $n quest 17 1 1
+        say Very well, I am satisfied.
+        say But, I still feel you do not know the jungle and its secrets
+        say well enough. Go explore the jungle and learn its secret
+        say message. Return here when you discover it.  Begone!
+        mptransfer $n 14615
+        mpjunk all
+      else
+        say Close, but I do not like one of these.
+        emote spits. 
+        say Go get me more fruit.
+        mpforce $n west
+      endif
+    else
+      say Foolish Amazon, I do not like these.
+      emote spits. 
+      say Go get me more fruit.
+      mpforce $n west
+    endif
+  endif
+endif
+~
+>speech_prog p I wish to challenge you in mortal combat.~
+if quest (15,2,$n) == 0
+  say Are you sure you want to do that?  I'm quite powerful.
+  say Once you AGREE you cannot revoke your challenge.
+  say So think twice before you take the Challenge of Spirit.
+else
+  say You may not take this challenge.  Only one challenge can be
+  say made by an Amazon.  This is Diana's decree.
+endif
+~
+>speech_prog p agree~
+if quest (15,2,$n) == 0
+  say Very well $n.  You will now start the Challenge of Spirit.
+  mpmset $n quest 15 2 3
+  say Before you start, I would like an offering of fruit.
+  say bring me a bowl of my two favorite fruit.
+  say Begone now, and remember, I only want my favorite fruit.
+else
+endif
+~
+|
+#14636
+Sharyn amazonshary~
+Sharyn~
+Sharyn the Armorer is here~
+You see a green-eyed, blond haired beauty working the metal.  She has
+long fingernails, uncommon for a blacksmith.  You wonder how she deals
+with broken nails.  But she's carrying a big hammer, so you better not
+piss her off.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+1 0 0 1d1+10 1d1+1
+24 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if quest (0,1,$i) == 0
+  mpquiet on
+  mpoload 14653
+  mpoload 14654
+  mpoload 14655
+  mposet i14653 short A leaf green halter top
+  mposet i14654 short A green grass skirt
+  mposet i14655 short A book of poetry
+  wear cloth
+  wear cloth
+  wear cloth
+  mpquiet off
+  mpmset self quest 0 1 1
+endif
+if quest (10,5,$i) == 10
+  say How is a man like a snowstorm?
+  mpmset self quest 10 5 1
+  break
+endif
+if quest (10,5,$i) == 1
+  say Because you don't know when he's coming...
+  mpmset self quest 10 5 2
+  break
+endif
+if quest (10,5,$i) == 2
+  say ...How many inches you'll get
+  mpmset self quest 10 5 3
+  break
+endif
+if quest (10,5,$i) == 3
+  say ...or how long it'll stay.
+  mpmset self quest 10 5 4
+  break
+endif
+if quest (10,5,$i) == 5
+  say Why do bachelors like smart women?
+  mpmset self quest 10 5 5
+  break
+endif
+if quest (10,5,$i) == 5
+  say Because opposites attract!
+  cackle 
+  mpmset self quest 10 5 6
+  break
+endif
+if quest (10,5,$i) == 6
+  say Why are women so bad at mathematics?
+  mpmset self quest 10 5 7
+  break
+endif
+if quest (10,5,$i) == 7
+  say Because men keep telling them this
+  mpecho Sharyn makes a small gap with her thumb and forefinger.
+  say is nine inches!
+  cackle 
+  mpmset self quest 10 5 8
+  break
+endif
+if quest (10,5,$i) == 8
+  say How is a man like the weather?
+  mpmset self quest 10 5 9
+  break
+endif
+if quest (10,5,$i) == 9
+  say Nothing can be done to change either of them!
+  ponder 
+  say Well, if you're not an Elementalist that is!
+  mpmset self quest 10 5 0
+  break
+endif
+~
+>all_greet_prog 100~
+say Would you like to hear some jokes?
+if rand (10)
+  smile $n
+endif
+~
+>speech_prog yes~
+mpmset self quest 10 5 10
+~
+>speech_prog teach~
+if quest (0,2,$n) == 3
+  mpmset $n quest 10 1 1
+  say Teaching is what i do best!
+  say surely you know that any amazon can challenge the three
+  say leaders to assume their rankings?  read about it in our
+  say history books i guess.  that's all i can help you with.
+else
+  say I have nothing to say to you stranger.
+endif
+~
+>speech_prog p how old are you~
+say I have been alive for 28 years.
+endif
+~
+|
+#14637
+She-din~
+She-din~
+A prisoner is chained up here.~
+This is a poor captive of the amazon women.  He looks like he's been
+chained up here for many years.  He's quite pale and bony, due to the
+lack of proper nourishment. Many scars adorn his body as well, and you
+assume he must be the favorite whipping subject of the women here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+50 0 0 1d625+1947 1d50+38
+84179 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+if rand (25)
+  say I've been chained up here for 20 years!
+else
+  if rand (33)
+    sigh 
+  else
+    if rand (50)
+      mpecho She-Din tugs on his chains.
+    else
+      say I was caught spying the bathing pool.
+    endif
+  endif
+endif
+~
+|
+#14639
+Rebequa~
+Rebequa~
+A royal grape feeder is here.~
+You see a girl wearing nothing but a big wide grin.  She holds a plate
+of grapes, and a large palm frond.  Her legs dangle into the pool, and
+she playfully kicks water at you as you walk by.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+25 0 0 1d156+283 1d1+25
+23879 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+if rand (25)
+  say Would you like some grapes?
+  mpmset self quest 0 1 1
+else
+  if rand (33)
+    say I Like to dry grapes and make raisins.
+    mpmset self quest 1 2 1
+  else
+    if rand (33)
+      mpecho $I playfully 'squirts' some water at you.
+    else
+      if rand (50)
+        mpecho $I nibbles at an ear of corn.
+      else
+        giggle 
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog yes~
+if quest (0,1,$i) == 1
+  say Sure! Here you go.
+  mpoload 14622
+  give grape $n
+  mpmset self quest 0 1 0
+else
+  say Yes what?
+  shrug 
+endif
+~
+>speech_prog raisins~
+if quest (1,2,$i) == 1
+  say Yes, I make raisins by drying them with a prism.
+  say I possess one if you want it, but it will cost you um...
+  ponder 
+  say ......one hundred thousand gold.
+  mpmset self quest 1 2 2
+else
+  say Raisins?  When did I talk about raisins?
+endif
+~
+>bribe_prog 100000~
+if quest (1,2,$i) == 2
+  mpmset self quest 1 2 0
+  mpoload 14629
+  give prism $n
+  drop prism
+  say There you go.
+  mpjunk all
+else
+  say Wow! thanks for the money!
+endif
+~
+|
+#14640
+ethdaethia~
+Daethia~
+~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES|AFF_ETHEREAL
+1000 S
+1 0 0 1d1+10 1d1+1
+25 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog sexuality~
+if quest (2,9,$n) == 511
+  tell $n Yes! You have Learned the secret password!
+  tell $n But tell me, where did you find the letters to the word?
+  mpmset $n quest 11 3 1
+endif
+~
+>speech_prog first letter clue capital~
+if quest (11,3,$n) == 1
+  ponder $n
+  tell $n Okay you are right, lemme think about this some.
+  tell $n Come back in a second.
+  mpmset $n quest 11 3 2
+  mpforce $n south
+endif
+~
+>speech_prog p amazons are fabled to have very large muscles~
+if quest (11,3,$n) == 2
+  mpmset $n quest 11 3 3
+  tell $n Yes!  You have learned our secret phrase!
+  tell $n But I am still not convinced you are ready.
+  tell $n I will now ask you five questions.  Say QUESTION
+  tell $n when you are ready to answer them.  Beware though
+  tell $n You must answer them correctly, or you will fail.
+endif
+~
+>speech_prog question yes~
+if quest (23,2,$n) == 3
+  tell $n Sorry, you have failed.  You are not worthy.
+  tell $n Try again your next life.  Pay more attention
+  tell $n next time.
+  mpmset $n quest 30 1 1
+  mpforce $n south
+  break
+endif
+if quest (14,1,$n) == 0
+  if quest (11,3,$n) == 3
+    tell $n Okay, first question:
+    tell $n Which Amazon has red hair and green eyes?
+    break
+  endif
+  if quest (11,3,$n) == 4
+    tell $n Okay, next question:
+    tell $n Who is the largest and strongest amazon?
+    break
+  endif
+  if quest (11,3,$n) == 5
+    tell $n Okay, next question:
+    tell $n Which Amazon holds a whip?
+    break
+  endif
+  if quest (11,3,$n) == 6
+    tell $n Okay, next question:
+    tell $n Which Amazon has fair skin?
+    break
+  endif
+  if quest (11,3,$n) == 7
+    tell $n Okay, final question:
+    tell $n Which Amazon has a ponytail?
+    break
+  endif
+endif
+~
+>speech_prog Airika~
+if quest (11,3,$n) > 0
+  if quest (11,3,$n) == 3
+    tell $n Yes! Ready for another question?
+    mpmset $n quest 11 3 4
+  else
+    if quest (23,2,$n) != 3
+      tell $n wrong! Miss three and you fail!
+      mpmadd $n quest 23 2 1
+    endif
+  endif
+endif
+~
+>speech_prog Velita~
+if quest (11,3,$n) > 0
+  if quest (11,3,$n) == 7
+    mpmset $n quest 14 1 1
+    tell $n Yes! Very good, you have passed!  You may now
+    tell $n hold an audience with our leaders.
+    mptransfer $n 14661
+  else
+    if quest (23,2,$n) != 3
+      tell $n wrong! Miss three and you fail!
+      mpmadd $n quest 23 2 1
+    endif
+  endif
+endif
+~
+>speech_prog Triana~
+if quest (11,3,$n) > 0
+  if quest (11,3,$n) == 5
+    tell $n Yes! Ready for another question?
+    mpmset $n quest 11 3 6
+  else
+    if quest (23,2,$n) != 3
+      tell $n wrong! Miss three and you fail!
+      mpmadd $n quest 23 2 1
+    endif
+  endif
+endif
+~
+>speech_prog Hetheria~
+if quest (11,3,$n) > 0
+  if quest (23,2,$n) != 3
+    tell $n wrong! Miss three and you fail!
+    mpmadd $n quest 23 2 1
+  endif
+endif
+~
+>speech_prog Laurania~
+if quest (11,3,$n) > 0
+  if quest (23,2,$n) != 3
+    tell $n wrong! Miss three and you fail!
+    mpmadd $n quest 23 2 1
+  endif
+endif
+~
+>speech_prog Marccoupa~
+if quest (11,3,$n) > 0
+  if quest (11,3,$n) == 4
+    tell $n Yes! Ready for another question?
+    mpmset $n quest 11 3 5
+  else
+    if quest (23,2,$n) != 3
+      tell $n wrong! Miss three and you fail!
+      mpmadd $n quest 23 2 1
+    endif
+  endif
+endif
+~
+>speech_prog Angelica~
+if quest (11,3,$n) > 0
+  if quest (11,3,$n) == 6
+    tell $n Yes! Ready for another question?
+    mpmset $n quest 11 3 7
+  else
+    if quest (23,2,$n) != 3
+      tell $n wrong! Miss three and you fail!
+      mpmadd $n quest 23 2 1
+    endif
+  endif
+endif
+~
+>speech_prog Veronnia~
+if quest (11,3,$n) > 0
+  if quest (23,2,$n) != 3
+    tell $n Wrong! Miss three and you fail!
+    mpmadd $n quest 23 2 1
+  endif
+endif
+~
+>speech_prog Sharyn~
+if quest (11,3,$n) > 0
+  if quest (23,2,$n) != 3
+    tell $n wrong! Miss three and you fail!
+    mpmadd $n quest 23 2 1
+  endif
+endif
+~
+|
+#14641
+ethereal mob~
+an ethereal mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>repop_prog 100~
+mpzset quest 0 4 0
+mppurge self
+~
+|
+#14647
+male slave maleslavemob~
+a male slave~
+A male slave is mining ore here.~
+This guy is quite muscular from working the mines all day.  You wondered
+how the amazons got the ore to make their weapons from.  These men also
+serve another purpose to the Amazons, reproduction, though only the
+strongest of them are chosen.  He seems to be resting after a long days
+work.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-380 S
+54 0 0 1d1+2050 1d80+2
+15000 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_MALE
+>all_greet_prog 100~
+if quest (0,1,$i) == 0
+  if quest (21,2,$n) == 3
+    mpecho The slave tries to rebel!
+    rescale 14647 $n 130
+    mpmset self quest 0 1 1
+  endif
+endif
+~
+>death_prog 3~
+if quest (0,1,$i) == 1
+  mpecho A glittering rock falls out onto the floor.
+  mpoload 14660
+endif
+~
+|
+#14648
+anvil~
+~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d2256+7613 1d1+180
+22 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog forge~
+mpquiet on
+get all i14601
+mpquiet off
+if quest (21,2,$n) == 3
+  mpecho The forge glows a bit and the metal melts.
+  if hasobjnum ($i) == 14660
+  or hasobjnum ($i) == 14632
+    mpecho {178}The molten metal swirls and magically shapes itself into a round disk.
+    mpjunk all
+    mpoload 14632
+    mpquiet on
+    cast 'remove curse' self
+    put all i14601
+    mpquiet off
+    break
+  endif
+else
+  mpjunk all
+  mpecho {118}The forge glows brightly, disintegrating everything inside it!
+endif
+~
+|
+#14649
+ocean~
+~
+~
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+27 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpdelay self 2 1
+~
+>delay_prog 1~
+if rand (50)
+  mpecho {148}The waves gently crash alongside your boat.
+else
+  mpecho {148}The ocean slowy rocks your boat to and fro.
+~
+|
+#14650
+seagull~
+a seagull~
+A small grey seagull flys around.~
+This is a rather small ocean faring bird.  It seems to be eating a small fish
+which was disposed here.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING
+0 S
+1 0 0 1d1+10 1d1+1
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14651
+male slave~
+a male slave~
+A male slave is mining ore here.~
+This guy is quite muscular from working the mines all day.  You wondered
+how the amazons got the ore to make their weapons from.  These men also
+serve another purpose to the Amazons, reproduction, though only the
+strongest of them are chosen.  He seems to be resting after a long days
+work.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-380 S
+54 0 0 1d1+3050 1d54+42
+15000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#14652
+squid~
+a squid~
+~
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_STEALTH
+-380 S
+1 0 0 1d0+10 1d1+1
+10 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+14602 ITEM_TYPE_DRINK_CON ITEM_TYPE_CONTAINER ITEM_TYPE_FOOD ITEM_TYPE_TRASH ITEM_TYPE_TREASURE  100  50  0 18
+14603 ITEM_TYPE_WEAPON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+14604 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+14606 ITEM_TYPE_PILL ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+14607 ITEM_TYPE_TREASURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+14608 ITEM_TYPE_FOOD ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+14611 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL  100  50  0 18
+14636 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 18
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#14600
+goddess statue~
+goddess Statue~
+An enormous statue of Diana is here.~
+You stare in awe at this lovely statue.  It's intricately carved and sculpted
+by a true master artist.  You wonder if someday you will be granted an
+audience with Diana herself.
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#14601
+forge anvil~
+a massive forge~
+A massive forge sits in the center of the room.~
+This forge is where the Amazons create their weapons and armor from.  Perhaps
+if you had the know how and materials, you could forge the legendary Chakram
+here.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+50 0 -1 0 0 0 0 0
+1 10 1
+#14602
+altar~
+altar of Diana~
+An altar to the Goddess Diana is here.~
+Amazon women come here to make offerings and prayers to the Goddess Diana.
+It is rumored that worthy ones are granted an audience with the goddess
+herself.  Only if the Goddess is appeased will she grant followers to her
+domain.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+50 0 -1 0 0 0 0 0
+1 10 1
+#14603
+ticket~
+a travel ticket~
+A piece of paper has been dropped here.~
+The ticket says:
+Good for a three hour tour.  Just REDEEM it at any time and you will
+be instantly transported to the docks!
+~
+ITEM_TYPE_BOAT
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 50000 1
+P 1
+TRIG_UNKNOWN 100 REDEEM
+OPROG_IF OIF_USER_POSITION ! POS_FIGHTING 2 10
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpgoto 14720~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You redeem the ticket and arrive at the docks.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You are too busy for that!~
+#14604
+tree coconut palm~
+a coconut tree~
+A coconut tree grows here~
+This is your normal coconut tree, with coconut tree branches, and coconuts
+growing on it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+20 0 0 0 0 0 0 0
+1 10 1
+#14605
+coconut~
+a coconut~
+A coconut has been left here.~
+This is a hard coconut, with a brown fuzzy shell.  Inside of it, you can
+find coconut MILK.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+2 1 LIQ_MILK 0 0 0 0 0
+1 100 1
+P 1
+TRIG_UNKNOWN 100 milk
+OPROG_IF_HAS_OBJECT 14649 2 10
+P 2
+TRIG_VOID
+OPROG_ECHO
+You crack open the coconut and pour the milk into the gourd.~
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 14648 
+ mpjunk i14649~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You crack open the coconut, but the milk spills out.~
+P 10
+TRIG_VOID
+OPROG_ECHO
+Perhaps you need a container to hold the milk.~
+P 10
+TRIG_VOID
+OPROG_JUNK
+#14606
+banana~
+a ripe banana~
+A ripe banana hangs from a tree here.~
+It is soft and gives off a ripe banana smelling odor.
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14607
+dead squid~
+a dead washed up squid~
+There's a decaying animal washed up on shore here.~
+This decaying squid looks quite gross.  You don't think you should eat it.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14608
+amazon halter top~
+an amazon halter top~
+A piece of clothing has been dropped here.~
+This skimpy top is what most normal amazon women wear.  You would think it
+offers little protection, but its light weight and revealing nature help
+decrease the chances of being hit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+1 50000 45
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 4 0
+#14609
+amazon halter top~
+a large amazon halter top~
+A skimpy piece of clothing has been dropped here.~
+This skimpy top is what most normal amazon women wear.  You would think it
+offers little protection, but its light weight and revealing nature help
+decrease the chances of being hit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+1 10000 45
+A APPLY_DAMROLL 3 0
+A APPLY_DEX 3 0
+#14610
+skirt amazon~
+an amazon skirt~
+A skimpy piece of clothing has been left here.~
+This skimpy skirt is what most normal amazon women wear.  You would think it
+offers little protection, but its light weight and revealing nature help
+decrease the chances of being hit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+9 0 0 0 0 0 0 0
+1 10000 45
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+#14611
+skirt small amazon~
+a small amazon skirt~
+A piece of clothing has been left here.~
+This skimpy skirt is what most normal amazon women wear.  You would think it
+offers little protection, but its light weight and revealing nature help
+decrease the chances of being hit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+12 0 0 0 0 0 0 0
+1 10000 45
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 2 0
+A APPLY_DEX 1 0
+#14612
+javelin~
+an Amazon javelin~
+A sharp pole lays here.~
+This weapon is the primary armanent of the Amazon women.  Amazon are trained
+to throw this weapon with superior accuracy from birth.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 6 6 WEAPON_STAB 0 0 0 0
+2 10000 35
+#14613
+staff~
+an Amazon staff~
+A long blunt pole has been left here.~
+This is simply a long stick made out of strong wood.  Leather straps are
+wound around the center for grip.  It can deal a mighty blow if wielded
+in the proper hands.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 6 6 WEAPON_POUND 0 0 0 0
+5 10000 35
+#14614
+shield~
+an Amazon shield~
+A round metal shield lays here.~
+This is just the standard shield of the amazon women.  It's made out of a
+strange metal.  It's fairly light weight an manuverable; a perfect balance
+of defense and damage.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+12 0 0 0 0 0 0 0
+1 50000 45
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 4 0
+A APPLY_STR 1 0
+#14615
+whip~
+an Amazon whip~
+A coiled length of braided leather has been dropped here.~
+This whip is made out the a strange leather.  You wonder what animal has
+such rough skin.  The leather is so rough that it rips up skin upon
+contact.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 6 6 WEAPON_WHIP 0 0 0 0
+2 10000 35
+#14616
+ball yellow fungus~
+a ball of yellow fungus~
+You see a yellow ball.~
+You wonder where this fungus came from.  Actually, you don't want to know.
+It's bright yellow in color, and actually faintly glows in the dark.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+80 64 65 178 0 0 0 0
+1 10000 75
+S 1 'detect hidden'
+S 2 'detect invis'
+S 3 'pass door'
+#14617
+ball blue fungus~
+a ball of blue fungus~
+A ball of blue fungus has been dropped here.~
+You wonder where this fungus came from.  Actually, you don't want to know.
+It's a dark blue color, and looks quite nasty.  Who knows what properties
+you'll obtain if you eat it.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+80 23 113 159 0 0 0 0
+1 10000 75
+S 1 'bless'
+S 2 'fly'
+S 3 'mage shield'
+#14618
+ball green fungus~
+a ball of green fungus~
+Some fungus has been left here.~
+This ball of fungus smells quite bad.  Is it rotted, or is that just
+a natural odor.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+80 119 190 210 0 0 0 0
+1 10000 75
+S 1 'giant strength'
+S 2 'protection evil'
+S 3 'sanctuary'
+#14619
+mixing bowl~
+a mixing bowl~
+A wooden bowl is here.~
+This bowl is carved out of the native palm wood of the jungle.
+You can use this to MIX things.  Perfect for home cooking.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+3 0 0 0 0 0 0 0
+1 100 5
+P 1
+TRIG_UNKNOWN 100 mix
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 6 3
+P 3
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14645 4 10
+P 4
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14648 5 10
+P 5
+TRIG_VOID
+OPROG_ECHO
+You mix and make some milk chocolate!~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i14645 
+ mpjunk i14648 
+ mpoload 14646~
+P 6
+TRIG_VOID
+OPROG_ECHO
+You must hold the bowl in order to mix.~
+P 10
+TRIG_VOID
+OPROG_ECHO
+You don't have the right ingredients.~
+#14620
+fruit bowl~
+a fruit bowl~
+A wooden bowl is here.~
+This bowl is used for holding fruit.  It is carved out of the hard palm wood
+of the jungle trees.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+3 0 0 0 0 0 0 0
+1 100 5
+#14621
+blueberry~
+a blueberry~
+A blue colored berry has been left here.~
+This berry is {148}Blue{308} in color.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14622
+bunch grapes~
+a bunch of grapes~
+Some grapes have been left here.~
+These grapes are deep {158}purple{308} and look quite tasty.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#14623
+ripe banana~
+a ripe banana~
+An over ripe banana have been left here.~
+This over-ripe banana has turned dark brown.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 100 0 0 0 0 0 0
+1 100 1
+#14624
+apple~
+an apple~
+An apple has been left here.~
+This is a freshly picked {118}red{308} apple.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14625
+pear~
+a pear~
+A pear has been left here.~
+This pear is {138}golden{308} in color.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14626
+kiwi~
+a kiwi fruit~
+A small fuzzy fruit has been dropped here.~
+This {128}green{308} kiwi looks nice and tasty.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14627
+orange~
+an orange~
+Someone dropped an orange orange here.~
+It's just a freshly picked orange.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14628
+grapefruit~
+a grapefruit~
+A big grapefruit has been left here.~
+This is just your normal pink grapefruit.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14629
+crystal prism~
+a crystal prism~
+The light is refracted by a small piece of glass.~
+This prism refracts the sunlight, making a mini rainbow.  If there's enough
+sunlight, it can even be used to {178}dry{308} or {178}melt{308} things with it's focused beam.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+1 1000000 50
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+A APPLY_INT 3 0
+P 1
+TRIG_UNKNOWN 100 dry
+OPROG_IF OIF_USER_ROOM_NUM = 14615 2 10
+P 2
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14622 3 15
+P 3
+TRIG_VOID
+OPROG_ECHO
+You use the prism and dry the grapes!~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 14650 
+ mpjunk i14622~
+P 4
+TRIG_UNKNOWN 100 melt
+OPROG_IF OIF_USER_ROOM_NUM = 14615 5 10
+P 5
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14646 6 20
+P 6
+TRIG_VOID
+OPROG_IF_HAS_OBJECT 14650 7 25
+P 7
+TRIG_VOID
+OPROG_ECHO
+You melt the chocolate and mix it with the raisins!~
+P 7
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 14651 
+ mpjunk i14646 
+ mpjunk i14650~
+P 10
+TRIG_VOID
+OPROG_ECHO
+There's not enough sunlight here.~
+P 15
+TRIG_VOID
+OPROG_ECHO
+You have nothing to dry.~
+P 20
+TRIG_VOID
+OPROG_ECHO
+You have nothing to melt.~
+P 25
+TRIG_VOID
+OPROG_ECHO
+The chocolate melts in your hands!~
+#14630
+tattoo~
+a slave's tattoo~
+How did this get here?~
+This tattoo is the marking of an Amazon Slave.  Unfortunately, it doesn't
+come off, well not easily nor cheaply.  Perhaps if you ask for freedom it
+can be removed.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ARMS
+0 0 0 0 0 0 0 0
+1 10 75
+A APPLY_STR 2 0
+P 1
+TRIG_UNKNOWN 100 freedom
+OPROG_IF_HAS_OBJECT 14659 2 5
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i14659~
+P 2
+TRIG_VOID
+OPROG_ECHO
+The tattoo is removed!~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC = WEAR_NONE 4 0
+P 4
+TRIG_VOID
+OPROG_ECHO
+The magic tattoo burns you!~
+P 4
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -25
+P 5
+TRIG_VOID
+OPROG_ECHO
+You try to remove the tattoo but hurt yourself!~
+P 5
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT -100
+#14631
+torch qlight123~
+the Holy Torch of the Amazons~
+A glowing light illuminates this room.~
+This legendary light is bestowed to only the most devout and worthy Amazons.
+It is created by the Goddess Diana herself, and it grants many blessings to
+it's owner.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 10000000 70
+A APPLY_WIS 5 0
+A APPLY_CON 5 0
+A APPLY_INT 2 0
+#14632
+chakram~
+the Amazons Chakram~
+A round killing thing has been dropped here.~
+This a circular ring of magical metal.  The outer edges are razor sharp, and
+there are many fine engravings about the edges of the ring.  It is the fabled
+weapons of the Amazon warriors, and only the most elite of them are capable
+of wielding it properly without losing any fingers.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 7 10 WEAPON_SLICE 0 0 0 0
+1 5000000 70
+C
+Chakram~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#14633
+maiden robe~
+the Maiden's robe~
+A shimmering robe of magic has been left here.~
+This is robe is made out of material you have never seen before.  It's
+very soft and comfortable, yet it is very strong and offers great
+protection.  You feel quite warm when you wear it, even though it's very
+very thin and practically see-through.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_HITROLL -10 0
+A APPLY_HIT 75 0
+A APPLY_MANA 120 0
+#14634
+wonder bracer~
+the wonder bracer~
+A magical band of metal lays here.~
+This is a band made out of amazonite metal.  It's nearly transparent
+in color, and is adorned with engravings of streaking stars.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_HITROLL -10 0
+A APPLY_HIT 75 0
+A APPLY_MANA 125 0
+#14635
+belt maiden~
+the Maiden's belt~
+A thin, shimmering sash has been left here.~
+This belt has been fashioned out of Amazonite.  It's tinted gold in
+color, and has an engraving of an eagle upon it.  It's fabled to grant
+the user great strength.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_HITROLL -10 0
+A APPLY_MANA 125 0
+A APPLY_STR 5 0
+#14636
+maiden shield~
+the Maiden's shield~
+A glowing shield has been left here.~
+This shield is made out of a strange unknown material.  It is very hard
+yets weighs practically nothing.  It glows with a strange aura, and is
+semi transparent.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_HITROLL -12 0
+A APPLY_HIT 75 0
+A APPLY_MANA 125 0
+#14637
+amazonia staff~
+the Staff of Amazonia~
+A long stick has been left here.~
+This is a pole made out of a very strong wood.  It has metal tips, and
+leather grips at it's center.  It's very well balanced, and can deflect
+many attacks with ease.  Even one of low intelligence can wield this
+weapon with great effectiveness, for it promotes greater thinking with
+it's use.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 1 1 WEAPON_POUND 0 0 0 0
+5 1000000 95
+A APPLY_STR 2 0
+A APPLY_INT 4 0
+A APPLY_AC -17 0
+C
+staff~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#14638
+wonder breastplate~
+the Wonder Breastplate~
+A magical breastplate is here.~
+This breastplate offers great defense from attacks, for it's revealing nature
+causes confusion.  Also, this bit of armor is quite bulky, improving armor,
+but the enhancement hinders swinging radius, thus hampering hitting power.
+It is solid gold in color.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+24 0 0 0 0 0 0 0
+10 1000000 95
+A APPLY_DEX 2 0
+A APPLY_DAMROLL -9 0
+#14639
+wonder bracer~
+the wonder bracer~
+A metal band sits here.~
+This is a band made out of the transparent metal amazonite.  It has the
+ability to project a magical barrier, offering great defense.  It also
+grants the user great strength.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD|ITEM_WEAR_WRIST
+23 0 0 0 0 0 0 0
+5 1000000 95
+A APPLY_DAMROLL -9 0
+A APPLY_STR 3 0
+#14640
+wonder aura~
+(Wonder Aura)~
+Something glows here.~
+This is a shimmering aura, which only the Amazon Queen can possess.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 1000000 94
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 9 0
+A APPLY_AC -10 0
+#14641
+golden lariat~
+the Golden Lariat~
+A golden coil of rope has been dropped here.~
+This is the Golden Lariat of the Queen of the Amazons.  It's made out of
+unbreakable gold amazonite, a very rare material.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+11 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 8 0
+A APPLY_STR 2 0
+#14642
+wonder girdle~
+the Wonder girdle~
+A golden belt lays here.~
+This Girdle is crafted out of Gold Amazonite.  It offers good protection,
+and enhances the strength of the bearer.  The Queen of the Amazons is
+the only keeper of this item.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+14 0 0 0 0 0 0 0
+1 1000000 94
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 6 0
+A APPLY_STR 3 0
+#14643
+rod spirits~
+the Rod of Spirits~
+A small metal staff lays here.~
+The magical stick is rumored to allow passage through various barriers.
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+75 5 3 178 0 0 0 0
+1 50000 75
+S 3 'pass door'
+#14644
+bandage~
+a cloth bandage~
+A spongy thing is here.~
+The item can be used to wrap up wounds.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10000 75
+P 1
+TRIG_UNKNOWN 100 wrap
+OPROG_IF OIF_USER_POSITION = POS_RESTING 2 10
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_HITPT < 100 3 11
+P 3
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 50
+P 3
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You need to rest to use this.~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You aren't injured.~
+#14645
+chocolate~
+a bar of dark chocolate~
+A small brown bar is here.~
+This piece of chocolate looks quite yummy!  It's not too sweet
+though.  You wish you had some milk chocolate.  Perhaps you can make some.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14646
+milk chocolate~
+a bar of hard milk chocolate~
+A small brown bar is here.~
+This piece of chocolate looks quite yummy!  It's quite hard, but
+you can always {078}melt{308} it somehow.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14647
+caramel~
+a cube of caramel~
+A small tan cube is here.~
+This piece of caramel looks quite yummy!
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14648
+milk~
+some coconut milk~
+A gourd of coconut milk.~
+This gourd of milk looks quite sweet!
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14649
+gourd~
+an empty gourd~
+A dried up gourd is here.~
+This is used to hold various fluids.  It is made of a melon which has
+been dried in the sun.  You wonder what types of water or milk this
+can hold.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 0 LIQ_MILK 0 0 0 0 0
+1 100 1
+#14650
+raisins~
+a bunch of raisins~
+A pile of dried grapes has been dropped here.~
+These sun-dried grapes look quite tasty.  Who would have though a shriveled
+up piece of fruit could taste so wonderful.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14651
+raisins~
+some chocolate covered raisins~
+A small pile of brown raisins has been left here.~
+These look quite tasty.  'What a treat' you think to yourself!
+These would make a great offering to the gods.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 100 1
+#14652
+box chocolates~
+a box of chocolates~
+A brown box has been dropped here.~
+Life is like one of these.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+500 CONT_CLOSEABLE -1 0 0 0 0 0
+1 50000 35
+#14653
+clothingtop~
+an Amazon's top~
+An Amazon's top is here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+0 0 0 0 0 0 0 0
+1 10 1
+#14654
+clothingskirt~
+an Amazon's skirt~
+An Amazon's skirt is here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+0 0 0 0 0 0 0 0
+1 10 1
+#14655
+clothinghold~
+an Amazon's item~
+An Amazon's item is here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#14656
+mighty aura~
+the (Mighty Aura)~
+Something glows here.~
+This is a shimmering aura bestowed upon worthy males.  Only those males who
+have proven themselves worthy to the Amazons can obtain this item.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 1000000 94
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 9 0
+A APPLY_SAVING_SPELL -6 0
+#14657
+big thick rod~
+a big thick rod~
+A long stick has been left here.~
+This is a pole made out of a very strong wood.  It has metal tips, and
+leather grips at it's center.  It's very well balanced, and can deflect
+many attacks with ease.  Even one of low intelligence can wield this
+weapon with great effectiveness, for it promotes greater thinking with
+it's use.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 2 5 WEAPON_POUND 0 0 0 0
+5 1000000 95
+A APPLY_INT 4 0
+A APPLY_AC -16 0
+C
+big rod~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#14658
+armor studs shield~
+(Mighty Aura) the Armor of Studs~
+A glowing armor has been left here.~
+You have earned this Armor by passing the amazons challenging challenges.
+This armor is made out a very light weight material, probably amazonite.
+It is studded with many jewels and diamonds, hence it's name.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_SHIELD
+19 0 0 0 0 0 0 0
+1 1000000 95
+A APPLY_DAMROLL -10 0
+A APPLY_HIT 40 0
+A APPLY_MANA 100 0
+#14659
+remover~
+a tattoo remover~
+A small razor lies here~
+this will grant you your freedom
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#14660
+amazonite ore~
+a chunk of amazonite ore~
+A shimmering rock lies here.~
+This is a chunk of amazonite ore.  It can be fashioned into powerful
+weapons if you have the know how.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 1
+#14661
+history book~
+a book on Amazon History~
+A large tome sits here.~
+{118}This book is divided up into many chapters:{308}
+
+{138}Chapter_one:{308}   The History of Paradise Island
+{138}Chapter_two:{308}   The Legend of Diana
+{138}Chapter_three:{308} The Challenge of Combat
+{138}Chapter_four:{308}  The Challenge of Defense
+{138}Chapter_five:{308}  The Challenge of Spirituality
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 50000 35
+E
+chapter_five~
+{171}The Challenge of Spirituality{308}
+The High Priestess of the Amazons is the most devout follower of Diana,
+and one who is Pure and Untainted.  Those wishing to challege for this
+title must approach the current High Priestess and declare I wish to
+challenge you in mortal combat.  Then one must pass the Test of Spirit
+to prove their worthyness.  If you succeed in passing this demanding
+challenge, you will then face the High Priestess in the arena.  If you
+are victorious, you must go to the shrine of the Goddess Diana and
+give her an offering.  If found worthy, you will then be transported to
+the test of Purity.  Only a true Maiden can pass the Test of Purity.
+Those who masquerade as Maidens will be SEVERELY punished!
+~
+E
+chapter_four~
+{171}The Challenge of Defense{308}
+The Princess of the Amazons possesses the strongest defense.  Those
+wishing to challege for this title must approach the current Princess
+and delcare I wish to challenge you in mortal combat.  Then one must
+pass the Test of Defense to prove their worthyness.  If you succeed in
+passing this demanding challenge, you will then face the Princess in
+the arena.  If you are victorious, you must go to the shrine of the
+Goddess Diana and give her an offering.  If found worthy, you will then
+be transported to the test of Purity.  Only a true Maiden can pass the
+Test of Purity.  Those who masquerade as Maidens will be SEVERELY
+punished!
+~
+E
+chapter_three~
+{171}The Challenge of Combat{308}
+The Queen of the Amazons is the strongest of the Amazons.  Those wishing
+to challege for this title must approach the current Queen and delcare
+I wish to challenge you in mortal combat.  Then one must pass the Test
+of Combat to prove their worthyness.  If you succeed in passing this
+demanding challenge, you will then face the Queen in the arena.  If
+you are victorious, you must go to the shrine of the Goddess Diana and
+give her an offering.  If found worthy, you will then be transported to
+the test of Purity.  Only a true Maiden can pass the Test of Purity.
+Those who masquerade as Maidens will be SEVERELY punished!
+~
+E
+chapter_two~
+{171}The Legend of Diana{308}
+After a few generations, a young upstart challenged all three leaders
+and succeeded in passing all the tests.  She was granted a boon by
+the gods, the magical 'Wonder Eq'.  She became the champion of Paradise
+Island and was honored and respected by everyone.  After many years of
+heroic deeds, Diana was elevated to the Status of Goddess.  She split
+her magical eq amongst the three new leaders, declaring that whoever can
+pass the tests shall earn the right to that eq.  To this day, she sits
+atop her palace in the sky, eating her chocolate covered raisins,
+observing the Amazon population.
+~
+E
+chapter_one~
+{171}The History of Paradise Island{308}
+Long ago in the Kingdom of Amazonia, men and women were treated as
+equals.  Men and women had equal say, equal duties, and equal respect.
+All this changed when the just King Evad passed away, and Prince Cram
+ascended the throne.  Unlike King Evad, King Cram believed that a woman
+was only good for sex and giving birth.  He took away their rights, for
+he stated that Women were the weaker sex, and could not survive without
+men to protect them.
+Finally, after years of domination, wise Queen Charity got tired of
+the Tyrant Cram.  On the third Summer Festival of Crams coronation, she
+organized all the women of Amazonia, and led them from the Kingdom.
+They sailed away into the ocean, and founded an all female society on
+a small tropical island.  They voted that leaders would be chosen not
+by their bloodline, but by their ability.
+A great competition was held, testing each woman in combat, agility,
+and spirituality, and the best in these three challenges were honored
+as leaders.  A challenge of leadership could be made at any time, but
+these tests were difficult, and rarely passed.
+~
+P 1
+TRIG_UNKNOWN 100 read
+OPROG_IF OIF_USER_ROOM_NUM = 14638 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+You sit down and read the book!~
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 14600 9 1 1~
+P 3
+TRIG_VOID
+OPROG_ECHO
+This spot is much too noisy to read in.~
+#14662
+recipe book~
+a recipe book~
+A small book lays here.~
+This book contains recipies for making desserts.
+It documents how to make cakes, pies, even how to make Diana's favorite
+chocolate covered raisin.  It simply says to first get raisins, then
+with a mixing bowl in hand, to simply {178}mix{300} chocolate with milk, then
+{178}melt{300} together with raisins.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10000 1
+#14663
+altar~
+an offering pit~
+A small pit of offering sits here.~
+This small pit is cool to the touch, perfect for storing fruits.  You wonder
+how it keeps itself chilled...some strange magic perhaps.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+3 0 -1 0 0 0 0 0
+1 10 1
+#14664
+puzzle~
+a small puzzle~
+A strange puzzle has been left here.~
+This is a puzzle given to you by an amazon.  It has many strange colors
+arranged in various patterns.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+something~
+The spelling reads 'evadrepus'.
+~
+E
+simple~
+The simple order seems spell something.
+~
+E
+order~
+The order seems quite simple.
+~
+E
+sequence~
+The sequence seems to have an order.
+~
+E
+patterns~
+The patterns seem to form a sequence.
+~
+E
+colors~
+The colors are aranged in various patterns.
+~
+P 1
+TRIG_UNKNOWN 100 evadrepus
+OPROG_ECHO
+Excellent!  You have learned to look at details!~
+P 1
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 14600 4 1 1~
+#0
+
+
+#ROOMS
+#14600
+A Desert Island~
+You are shipwrecked on a desert island! The captain and his crewman sure
+did do a lousy job at sailing.  At least there are coconuts to eat while
+you're stranded here.  You wonder how you will get home now, if ever.
+~
+0 ROOM_NO_MOB SECT_DESERT
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14602
+DDIR_EAST
+The Ocean~
+~
+0 -1 14603
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14601
+DDIR_WEST
+The Ocean~
+~
+0 -1 14614
+#14601
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14608
+DDIR_EAST
+The Ocean~
+~
+0 -1 14614
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14602
+DDIR_WEST
+The Ocean~
+~
+0 -1 14605
+#14602
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14613
+DDIR_EAST
+The Ocean~
+~
+0 -1 14610
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14605
+DDIR_WEST
+The Ocean~
+~
+0 -1 14608
+#14603
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14614
+DDIR_EAST
+The Ocean~
+~
+0 -1 14610
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14609
+DDIR_WEST
+The Ocean~
+~
+0 -1 14613
+#14604
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14608
+DDIR_EAST
+The Ocean~
+~
+0 -1 14607
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14613
+DDIR_WEST
+The Ocean~
+~
+0 -1 14614
+#14605
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14606
+DDIR_EAST
+The Ocean~
+~
+0 -1 14602
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14608
+DDIR_WEST
+The Ocean~
+~
+0 -1 14610
+#14606
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14613
+DDIR_EAST
+The Ocean~
+~
+0 -1 14602
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14601
+DDIR_WEST
+The Ocean~
+~
+0 -1 14603
+#14607
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14611
+DDIR_EAST
+The Ocean~
+~
+0 -1 14601
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14608
+DDIR_WEST
+The Ocean~
+~
+0 -1 14613
+#14608
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14613
+DDIR_EAST
+The Ocean~
+~
+0 -1 14601
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14610
+DDIR_WEST
+The Ocean~
+~
+0 -1 14614
+#14609
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14604
+DDIR_EAST
+The Ocean~
+~
+0 -1 14601
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14613
+DDIR_WEST
+The Ocean~
+~
+0 -1 14610
+#14610
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14608
+DDIR_EAST
+The Ocean~
+~
+0 -1 14608
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14601
+DDIR_WEST
+The Ocean~
+~
+0 -1 14614
+#14611
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14608
+DDIR_EAST
+The Ocean~
+~
+0 -1 14601
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14612
+DDIR_WEST
+The Ocean~
+~
+0 -1 14614
+#14612
+lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14603
+DDIR_EAST
+The Ocean~
+~
+0 -1 14615
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14614
+DDIR_WEST
+The Ocean~
+~
+0 -1 14602
+#14613
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14614
+DDIR_EAST
+The Ocean~
+~
+0 -1 14614
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14601
+DDIR_WEST
+The Ocean~
+~
+0 -1 14602
+#14614
+Lost at Sea~
+{148}You sail out into the water hoping to find any semblance of land.
+~
+0 ROOM_NO_RECALL SECT_OCEAN
+DDIR_NORTH
+The Ocean~
+~
+0 -1 14614
+DDIR_EAST
+The Ocean~
+~
+0 -1 14608
+DDIR_SOUTH
+The Ocean~
+~
+0 -1 14610
+DDIR_WEST
+The Ocean~
+~
+0 -1 14602
+#14615
+At the Beach~
+After many days of constant sailing, you finally arrive upon the shore of
+a large jungle island.  You jump into the warm sand of the beach and kiss
+the ground beneath your feet.  It is very hot here as bright beams of
+sunlight shine down from the clear skies.  You can probably fry an egg on
+the sun baked rocks.
+~
+0 ROOM_NO_RECALL SECT_DESERT
+DDIR_EAST
+Jungle Trail~
+~
+0 -1 14616
+DDIR_WEST
+The Ocean~
+~
+0 -1 14602
+#14616
+Jungle trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild Animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14619
+DDIR_WEST
+The beach~
+~
+0 -1 14615
+#14617
+Dense Jungle~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist on this un-charted island.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_NO_RECALL|ROOM_RIP|ROOM_BLOCK SECT_LAKE
+#14618
+Below Decks on the E.S. Minerva~
+You are inside of a small galleon.  It seems fairly clean and ship shape,
+and can weather any storm, you hope.  It smells of dead fish and tabacco
+smoke in here.  The captain and his crew must be used to the smell you assume.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+#14619
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wiLd beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14620
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14616
+#14620
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wiLd beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14621
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14619
+#14621
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14620
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14622
+#14622
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were More
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14621
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14623
+#14623
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals Echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14624
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14622
+#14624
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this uN-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14625
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14623
+#14625
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14626
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14624
+#14626
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo All around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14627
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14625
+#14627
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you pondeR what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14628
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14626
+#14628
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts Exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14629
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14627
+#14629
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14630
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14628
+#14630
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of Wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14631
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14629
+#14631
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echO all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14632
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14630
+#14632
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you pondeR what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14631
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14633
+#14633
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exisT in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14632
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14634
+#14634
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wisH it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14633
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14635
+#14635
+Jungle Trail~
+You venture into the deep dark jungle of the isLand.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14634
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14636
+#14636
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts Exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14635
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14637
+#14637
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animalS echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14639
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14636
+DDIR_WEST
+Jungle trail~
+~
+0 -1 14638
+#14638
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.  This portion of the
+jungle seems strangely quiet.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+Jungle trail~
+~
+0 -1 14637
+#14639
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+Sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14640
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14637
+#14640
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_NORTH
+Jungle trail~
+~
+0 -1 14641
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14639
+#14641
+Jungle Trail~
+You venture into the deep dark jungle of the island.  you wish it were more
+quiet as the screams of wild animals echo all around you.  you ponder what
+sorts of wild beasts exist in this un-charted island.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_LAKE
+DDIR_SOUTH
+Jungle trail~
+~
+0 -1 14640
+DDIR_UP
+Thick Undergrowth~
+vegetation~
+EX_ISDOOR|EX_CLOSED -1 14642
+#14642
+Inside the City~
+You stand within an ancient City built entirely out of stone.  Beautifully
+engraved statues and incredible artwork are engraved into the walls.  A few
+jungle vines overhang the tops of the walls, and the ground is smoothly paved
+with smooth stone.  Sounds of activity can heard in this lost city.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Large intersection~
+~
+0 -1 14643
+DDIR_DOWN
+Back to the jungle~
+vegetation~
+EX_ISDOOR|EX_CLOSED -1 14641
+E
+statues~
+The statues are of women clothed in armor.
+~
+E
+artwork~
+The artwork consists of women defeating dinosaurs.
+~
+#14643
+Large Intersection~
+You stand within a large intersection.  Amazon citizens wander around doing
+their daily activities.  You can see buildings towards each corner of this
+magnificent city.  A large statue lies in the square to the north of here.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+City Square~
+~
+0 -1 14644
+DDIR_EAST
+Small intersection~
+~
+0 -1 14651
+DDIR_SOUTH
+Entrance to the city~
+~
+0 -1 14642
+DDIR_WEST
+Small intersection~
+~
+0 -1 14650
+#14644
+City Square~
+{178}You stand within the center of this Ancient city.  To the north, you can
+see a huge temple.  A large statue of an Amazon warrior is here, casting a
+dark shadow onto the ground.  Several stone markers are placed in a half
+circle around the statue, creating a gigantic sundial.  Water also flows
+from the urn of the statue, creating a lovely fountain type affect.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Approaching the temple~
+~
+0 -1 14645
+DDIR_EAST
+Small intersection~
+~
+0 -1 14647
+DDIR_SOUTH
+Large Intersection~
+~
+0 -1 14643
+DDIR_WEST
+Small intersection~
+~
+0 -1 14646
+#14645
+Approaching the temple~
+You stand within the great shadow of the amazing temple to the north.
+Surprisingly, the temple looks enormous, even at this far a distance.  You
+can make out what seem to be a squad of Amazon guards to the north.  The
+giant statue is to the south of this point.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Base of the temple~
+~
+0 -1 14660
+DDIR_EAST
+Large Intersection~
+~
+0 -1 14649
+DDIR_SOUTH
+City square~
+~
+0 -1 14644
+DDIR_WEST
+Large Intersection~
+~
+0 -1 14648
+#14646
+Small intersection~
+You are standing to the west of the City Square.  You see what look to be
+shops to the north and south of here.  A rather large passageway leads
+down from this point, a cave of some sort.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Large Intersection~
+~
+0 -1 14648
+DDIR_EAST
+City Square~
+~
+0 -1 14644
+DDIR_SOUTH
+Large Intersection~
+~
+0 -1 14650
+DDIR_DOWN
+Mine Entrance~
+~
+0 -1 14700
+#14647
+Small intersection~
+You are standing to the east of the City Square.  You see what look to be
+shops to the north and south of here.  Amazon women stroll the streets,
+escorting young children from shop to shop.  Where do these children come
+from you think to yourself, as you notice no male citizens around.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Large Intersection~
+~
+0 -1 14649
+DDIR_SOUTH
+Large Intersection~
+~
+0 -1 14651
+DDIR_WEST
+City Square~
+~
+0 -1 14644
+#14648
+Large Intersection~
+You stand within a large intersection.  Amazon citizens wander around doing
+their daily activities.  You can see buildings to the north and west of
+this intersection in the city.  The sky is quite lovely this time of year.
+You stop and take a breath of fresh air.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Small building~
+~
+0 -1 14656
+DDIR_EAST
+Approaching the temple~
+~
+0 -1 14645
+DDIR_SOUTH
+Small intersection~
+~
+0 -1 14646
+DDIR_WEST
+Small building~
+~
+0 -1 14654
+#14649
+Large Intersection~
+You stand within a large intersection.  Amazon citizens wander around doing
+their daily activities.  You can see buildings to the north and east of
+this intersection in the city.  You can hear someone singing, and it sure
+does sound nice.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Small building~
+~
+0 -1 14657
+DDIR_EAST
+Small building~
+~
+0 -1 14653
+DDIR_SOUTH
+Small intersection~
+~
+0 -1 14647
+DDIR_WEST
+Approaching the temple~
+~
+0 -1 14645
+#14650
+Large Intersection~
+You stand within a large intersection.  Amazon citizens wander around doing
+their daily activities.  You can see buildings to the south and west of
+this intersection in the city.  This corner is quite smoky for some reason.
+The smell of food draws you towards the south.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Small intersection~
+~
+0 -1 14646
+DDIR_EAST
+Large Intersection~
+~
+0 -1 14643
+DDIR_SOUTH
+Small building~
+~
+0 -1 14658
+DDIR_WEST
+Small building~
+~
+0 -1 14655
+#14651
+Large Intersection~
+You stand within a large intersection.  Amazon citizens wander around doing
+their daily activities.  You can see buildings to the south and east of
+this intersection in the city.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Small intersection~
+~
+0 -1 14647
+DDIR_EAST
+Small building~
+~
+0 -1 14652
+DDIR_SOUTH
+Small building~
+~
+0 -1 14659
+DDIR_WEST
+Large Intersection~
+~
+0 -1 14643
+#14652
+Mystical Building~
+You stand within a darkly lit building.  It is smoky in here, and a smell
+of incense permeates the air.  You can see many vials filled with strange
+liquids, and many scrolls of wisdom neatly arranged on shelves.  You check
+TO see what items of interest can be had here.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Large Intersection~
+~
+0 -1 14651
+E
+vials liquids~
+These must have been made by the shamaness.
+~
+#14653
+Weapon Stockpile~
+This brightly lit building is filled wall to wall with Amazon weapons.
+Rows of spears and swords are stacked in huge piles, as well as polearms
+and whips.  However, you do not see the FABLED Amazon Chakrum anywhere
+in stock.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Large Intersection~
+~
+0 -1 14649
+DDIR_DOWN
+The anvil room~
+~
+0 -1 14727
+E
+Clue~
+The clue reads The first letter...
+~
+E
+harder~
+You look harder and see a clue
+~
+#14654
+Armory~
+Skimpy animal skin clothing and metalic breast plates can be found in this
+room.  They are tailored in many different styles and fabric, to fit those
+with small or large MUSCLES, of all shapes and sizes, so no two amazons will
+dress alike.   You've heard stories about how the Amazons hate how other
+Amazons wear the same outfit as they do to gatherings and events.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Large Intersection~
+~
+0 -1 14648
+E
+Clue~
+The clue reads Sort by age.
+~
+E
+harder~
+You look harder and see a clue.
+~
+#14655
+Witch Doctor's Home~
+The village Witch Doctor dwells within this LARGE home.  It's very neatly
+kept, but you do notice a funny smell in the air.  A smell of tropical
+oils.  Metallic chains and leather straps can be seen neatly hanging on
+walls.  You assume she uses unorthodox methods of treatment.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Large Intersection~
+~
+0 -1 14650
+E
+Clue~
+The clue reads ...of that we teach.
+~
+E
+harder~
+You look harder and see a clue.
+~
+#14656
+Room of Training~
+This area is where the AMAZONS come to exercise and build up their nice,
+athletic bodies.  But more importantly, this is where they also gain
+the sharp and witty intellect all females are noted for.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+Large Intersection~
+~
+0 -1 14648
+#14657
+Practice Room~
+This AREa is where the amazons come to practice the skills they need for
+survival in the harsh world.  Things like spell training, swordsmanship,
+lock picking, house cleaning, men enslaving, etc.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Large Intersection~
+~
+0 -1 14649
+#14658
+Food Storage~
+This room is used to store the meat and vegetables that Amazons hunt and
+gather from the jungle.  It's a VERY large room, as its required in order to
+hold enough food to feed the entire city.  It smells very nice in here, for
+the fruits give off a nice aroma.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Large Intersection~
+~
+0 -1 14650
+#14659
+Equipment Storage~
+The building holds miscellaneous equipment that an Amazon needs to survive
+out in the jungle.  Many dusty footprints are on the ground, letting you know
+that this is a often visited place.  You look at all the various survival
+gear and see which things you don't HAVE.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Large Intersection~
+~
+0 -1 14651
+#14660
+Base of the temple~
+You stand at the base of the giant temple.  The giant shadow of the temple
+darkens this room.  The temple is much much larger than you had first
+estimated it to be.  It must tower at least 300 ft high. Many stone steps
+lead up to an opening.  Many Amazon guards stand here blocking the entrance,
+so it must be an important place.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_SOUTH
+Back to the city~
+~
+0 -1 14645
+DDIR_DOWN
+Hidden room~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 14698
+#14661
+Temple Entrance~
+You stand at the end of the giant steps of the temple, about half way up
+the temple.  From here you can see the city and the entire jungle, kinda
+like a birds eye view.  To the north, you can see a dimly lit room, and
+can hear laughter and sounds of water splashing.
+~
+0 ROOM_DARK|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Sanctuary~
+~
+0 -1 14662
+DDIR_DOWN
+Base of the Temple~
+~
+0 -1 14660
+E
+path~
+You look at the path, and it seems to spell something.  Maybe you
+should map the trail...
+~
+E
+jungle~
+Peering down into the jungle, you can see the {178}path{308} which leads
+through the dense foliage.
+~
+#14662
+Sanctuary~
+{148}The first thing you notice when you enter this room is the large pool of
+crystal clear water filling the center of this large chamber.  If you were
+a guy, the first things you would notice are the nude Amazon women bathing
+here.  A small amount of light filters in from above through a crystal
+sunroof, making the flower petal covered water glint and sparkle.  Three
+stone irises block off rooms to the west, north, and east.
+ A stairway leads up into another chamber.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Room in the temple~
+iris~
+EX_ISDOOR|EX_CLOSED -1 14665
+DDIR_EAST
+Room in the temple~
+iris~
+EX_ISDOOR|EX_CLOSED -1 14664
+DDIR_SOUTH
+Temple entrance~
+~
+0 -1 14661
+DDIR_WEST
+Room in the temple~
+iris~
+EX_ISDOOR|EX_CLOSED -1 14663
+DDIR_UP
+Inner Sanctum~
+Stone~
+EX_ISDOOR|EX_CLOSED -1 14666
+#14663
+Princess's Chamber~
+This is the living quarters of the Amazon Princess.  Her room is decorated
+entirely out of {138}Gold{308} and {128}Emeralds{308}.  Golden silk drapery line the walls,
+and a soft green matting serves as the carpeting.  She must like green and
+gold you think to yourself.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Sanctum~
+~
+0 -1 14662
+#14664
+Priestess Chamber~
+This is the holy sanctum in which the Amazon High Priestess resides.  Pink
+and {048}Sapphire{308} items decorate the room.  Many mirrors adorn this chamber
+as well, as the High Priestess is a very beautiful woman.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Sanctum~
+~
+0 -1 14662
+#14665
+Queen's Chamber~
+You stand with the living quarters of the Beautiful and Powerful Amazon Queen.
+{158}Purple{308} and {118}Ruby{308} items practically litter the room.  Stuffed trophys of
+animal heads fill up one side of a wall, and another side is filled with
+the weapons and armor of defeated enemies.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Sanctum~
+~
+0 -1 14662
+#14666
+Altar Room~
+This quiet room is quite eerie.  You can smell and see blood stains worn onto
+the smooth stone floor.  There's a large altar to the Amazon Goddess Diana on
+the north side of this chamber.  You wonder what ceremonys are performed here
+by the Amazons to appease their Goddess.
+~
+0 ROOM_NO_RECALL SECT_INSIDE
+DDIR_DOWN
+Sanctum~
+~
+0 -1 14662
+#14667
+Prison~
+This is a dark and smelly room made completely out of stone.  Thick metal
+doors block the only exit from this room.  Rows of shackles line the walls,
+some still hold the skeletal remains of ancient prisoners.  You wonder if
+you'll ever leave here again.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#14668
+Hall of Purity~
+You have proven yourself worthy to the Amazon Goddess Diana, thus you have
+been transported to her hall of purity.  Here the Test of Purity is
+performed.  Those who fail the test are severely punished, while those who
+pass are rewarded great artifacts.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+#14669
+Home of the Goddess~
+You have passed the final test, and have arrived at the home plane of the
+Goddess Diana.  All you see around you is nothing except for a bluish light.
+You seem to be floating in some sort of ether, and a strange sense of
+happiness fills your body.
+~
+0 ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Home of the Godess~
+~
+0 -1 14669
+#14670
+reset room~
+You shouldn't be here.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+#14671
+Test of Spirit~
+You wander into a barren room filled with broken weapons and piles of bones.
+A strange sense of fear creeps up your spine as you hear the haunting moans
+of the spirits of the dead.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+Test of Spirit~
+~
+0 -1 14674
+DDIR_EAST
+Test of spirit~
+~
+0 -1 14672
+DDIR_SOUTH
+Test of Spirit~
+~
+0 -1 14675
+DDIR_WEST
+Test of Spirit~
+~
+0 -1 14673
+#14672
+Test of spirit~
+You wander into a barren room filled with broken weapons and piles of bones.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_DOWN
+Escape route~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 14615
+#14673
+Test of Spirit~
+You wander into a barren room filled with broken weapons and piles of bones.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_DOWN
+Escape route~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 14615
+#14674
+Test of Spirit~
+You wander into a barren room filled with broken weapons and piles of bones.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_DOWN
+Escape route~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 14615
+#14675
+Test of Spirit~
+You wander into a barren room filled with broken weapons and piles of bones.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_DOWN
+Escape route~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 14615
+#14676
+Forbidden Swamp~
+Your feet sink into the slimy bog, hindering your progress.  You can see no
+animal tracks, nor do you think anything even lives out here.  You spot
+rather large pits in all four cardinal directions, perhaps the homes of the
+beast which you seek.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_NORTH
+Forbidden swamp~
+~
+0 -1 14677
+DDIR_EAST
+Forbidden Swamp~
+~
+0 -1 14680
+DDIR_SOUTH
+Forbidden Swamp~
+~
+0 -1 14678
+DDIR_WEST
+Forbidden Swamp~
+~
+0 -1 14679
+#14677
+Forbidden swamp~
+The walls close in behind you, giving you no choice but to move on ahead.
+You can sense an incredible heat, and see a strange glow coming from the pit
+in the ground.  A low rumbling sound also eminates from the pit.  Shall you
+explore?
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_DOWN
+Forbidden Swamp~
+~
+0 -1 14684
+#14678
+Forbidden Swamp~
+The walls close in behind you, giving you no choice but to move on ahead.
+You can sense an incredible heat, and see a strange glow coming from the pit
+in the ground.  A low rumbling sound also eminates from the pit.  Shall you
+explore?
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_DOWN
+Forbidden Swamp~
+~
+0 -1 14682
+#14679
+Forbidden Swamp~
+The walls close in behind you, giving you no choice but to move on ahead.
+You can sense an incredible heat, and see a strange glow coming from the pit
+in the ground.  A low rumbling sound also eminates from the pit.  Shall you
+explore?
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_DOWN
+Forbidden Swamp~
+~
+0 -1 14683
+#14680
+Forbidden Swamp~
+The walls close in behind you, giving you no choice but to move on ahead.
+You can sense an incredible heat, and see a strange glow coming from the pit
+in the ground.  A low rumbling sound also eminates from the pit.  Shall you
+explore?
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_DOWN
+Forbidden Swamp~
+~
+0 -1 14681
+#14681
+Forbidden Swamp~
+You don't have time to look around!  Fight!
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_UP
+Forbidden Swamp~
+~
+0 -1 14680
+#14682
+Forbidden Swamp~
+You don't have time to look around!  Fight!
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_UP
+Forbidden Swamp~
+~
+0 -1 14678
+#14683
+Forbidden Swamp~
+You don't have time to look around!  Fight!
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_UP
+Forbidden Swamp~
+~
+0 -1 14679
+#14684
+Forbidden Swamp~
+You don't have time to look around!  Fight!
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_UP
+Forbidden Swamp~
+~
+0 -1 14677
+#14685
+Test of Defense~
+You wander around the catacombs for a few hours and come to four way
+intersection.  You wonder which path leads to the guardian you must face.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+Test of Defense~
+~
+0 -1 14687
+DDIR_EAST
+Test of Defense~
+~
+0 -1 14689
+DDIR_SOUTH
+Test of Defense~
+~
+0 -1 14688
+DDIR_WEST
+Test of defense~
+~
+0 -1 14686
+#14686
+Test of defense~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14687
+Test of Defense~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14688
+Test of Defense~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14689
+Test of Defense~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14690
+Test of Combat~
+You wander around the catacombs for a few hours and come to four way
+intersection.  You wonder which path leads to the guardian you must face.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+DDIR_NORTH
+Test of combat~
+~
+0 -1 14691
+DDIR_EAST
+Test of Combat~
+~
+0 -1 14694
+DDIR_SOUTH
+Test of Combat~
+~
+0 -1 14693
+DDIR_WEST
+Test of Combat~
+~
+0 -1 14692
+#14691
+Test of combat~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14692
+Test of Combat~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14693
+Test of Combat~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14694
+Test of Combat~
+The walls close in behind you.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_CITY
+#14695
+The Arena~
+You are in some sort of pit, an arena of sorts.  A ring of Amazon women
+surrounds you, baring any escape.  The Amazons cheer loudy, as the victor
+will become the new leader.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_DESERT
+#14696
+The Arena~
+You are in some sort of pit, an arena of sorts.  A ring of Amazon women
+surrounds you, baring any escape.  The Amazons cheer loudly, as the victor
+will become the new leader.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_DESERT
+#14697
+The Arena~
+You are in some sort of pit, an arena of sorts.  A ring of Amazon women
+surrounds you, baring any escape. The Amazons cheer loudly, as the victor
+will become the new leader.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_DESERT
+#14698
+Slave Auction~
+You find yourself in a strange room filled with women.  There is a stage with
+shackled men being paraded around like meat!  You check your coin purse and
+see if you can purchase one of these.
+~
+0 ROOM_DARK|ROOM_PET_SHOP|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Back outside~
+~
+0 -1 14660
+#14699
+Slave pen~
+You shouldn't be here
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+#14700
+Mine Entrance~
+You enter into a dark cavern which extends deep into the ground.  Sounds
+of metal hitting rock echo throughout this room.  This must be the mines
+where the Amazons get the ore to make their weapons and armor.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Back to the City~
+~
+0 -1 14646
+DDIR_DOWN
+Deeper into the mine~
+~
+0 -1 14701
+#14701
+Deeper into the mine~
+You descend deeper into the mine.  The sounds of metal hitting rocks is
+gettting louder the deeper you go.  A fine dust fills the air, and you
+can barely make out voices in the distance.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Mine entrance~
+~
+0 -1 14700
+DDIR_DOWN
+Deeper into the mine~
+~
+0 -1 14702
+#14702
+Deeper into the mine~
+You descend deeper into the mine.  The sounds of metal hitting rocks is
+gettting quite loud now.  You can hear human voices, they sound male.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Deeper into the Mine~
+~
+0 -1 14701
+DDIR_DOWN
+Deeper into the mine~
+~
+0 -1 14703
+#14703
+Deeper into the mine~
+You descend deeper into the mine.  The sounds of metal hitting rocks is
+gettting quite clear now.  It is definately mining.  Manly grunts and
+groans echo throughout this room.  You can smell dirt and sweat here.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Deeper into the Mine~
+~
+0 -1 14702
+DDIR_DOWN
+Deeper into the mine~
+~
+0 -1 14719
+#14704
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14719
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14705
+#14705
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14704
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14706
+#14706
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14705
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14707
+#14707
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14706
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14708
+#14708
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14707
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14709
+#14709
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14708
+DDIR_WEST
+End of the mine shaft~
+~
+0 -1 14710
+#14710
+End of the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  This seems to be the end of a the mine shaft.  The slaves haven't
+dug any further than this.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14709
+#14711
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Inside the mine shaft~
+~
+0 -1 14719
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14712
+#14712
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14711
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14713
+#14713
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14712
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14714
+#14714
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14713
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14715
+#14715
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14714
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14716
+#14716
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14715
+DDIR_WEST
+End of the mine shaft~
+~
+0 -1 14717
+#14717
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  They look up at you and growl.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14716
+DDIR_WEST
+End of the mine shaft~
+~
+0 -1 14718
+#14718
+End of the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  This seems to be the end of a the mine shaft.  The slaves haven't
+dug any further than this.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Inside the mine shaft~
+~
+0 -1 14717
+#14719
+Inside the mine shaft~
+You stand within a mine deep within the earth.  Male slaves feverishly
+pick away at the smooth hard rock, hoping to find traces of the amazonite
+ore.  Surprising, no Amazon slave drivers
+can be seen anywhere.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Inside the mine shaft~
+~
+0 -1 14711
+DDIR_WEST
+Inside the mine shaft~
+~
+0 -1 14704
+DDIR_UP
+Deeper into the Mine~
+~
+0 -1 14703
+#14720
+A small fishermans wharf~
+This is a small shipping port, complete with weathered shacks and a fishy
+smell.  A few rats scurry about, dodging in and out of the trash.  The
+wooden planks creak when you walk upon them, but they still seem fairly sturdy.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+Harbour of Zazess~
+~
+0 -1 15108
+DDIR_WEST
+The docks~
+~
+0 -1 14721
+#14721
+At the docks~
+A gentle breeze sweeps the area, filling the air with a salty smell.  You can
+see the ocean here, and the waves mesmorize you with their rythmic motion.
+Seagulls fly overhead, but their squawking is muffled by the sounds of the
+waves crashing against the supports which hold up the dock.
+~
+0 ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+A ship port~
+~
+0 -1 14723
+DDIR_EAST
+Fishermans' Wharf~
+~
+0 -1 14720
+DDIR_SOUTH
+A ship port~
+~
+0 -1 14724
+DDIR_WEST
+A ship port~
+~
+0 -1 14722
+#14722
+A Ship Port~
+You stand within a small traffic port.  You assume that small ships are docked
+here before sailing out.  The wooden planks here seem quite sturdy, despite
+the punishment the crashing waves dish out.  Ropes and fishing hooks, as well
+as seagull droppings line the damp wooden floor.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_EAST
+Back to the docks~
+~
+0 -1 14721
+DDIR_SOUTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_WEST
+The Sea of Swords~
+~
+0 -1 14726
+#14723
+A Ship Port~
+You stand within a small traffic port.  You assume that small ships are docked
+here before sailing out.  The wooden planks here seem quite sturdy, despite
+the punishment the crashing waves dish out.  Ropes and fishing hooks, as well
+as seagull droppings line the damp wooden floor.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_EAST
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_SOUTH
+Back to the docks~
+~
+0 -1 14721
+DDIR_WEST
+The Sea of Swords~
+~
+0 -1 14725
+#14724
+A Ship Port~
+You stand within a small traffic port.  You assume that small ships are docked
+here before sailing out.  The wooden planks here seem quite sturdy, despite
+the punishment the crashing waves dish out.  Ropes and fishing hooks, as well
+as seagull droppings line the damp wooden floor.
+~
+0 ROOM_SAFE|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+Back to the docks~
+~
+0 -1 14721
+DDIR_EAST
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_SOUTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_WEST
+The Sea of Swords~
+~
+0 -1 14725
+#14725
+The Sea of Swords~
+{148}You fall into the ocean and swim around franticly.  There seems to be no escape
+from here.  You wonder why you even tried to jump into the ocean, as you slowly
+sink deeper into the water.
+~
+0 ROOM_NO_MOB|ROOM_MAZE SECT_OCEAN
+DDIR_NORTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_EAST
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_SOUTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_WEST
+The Sea of Swords~
+~
+0 -1 14725
+#14726
+The E.S. Minerva~
+This is small, well-built galleon.  She seems very sturdy and resistant
+to damage.  She is painted entirely in white, with a solid oak steering
+wheel. The words 'E.S. Minerva' are painted along the side of the mighty
+hull. This ship can never sink you think to yourself as you admire her
+workmanship.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_CITY
+DDIR_NORTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_EAST
+The Sea of Swords~
+~
+0 -1 14722
+DDIR_SOUTH
+The Sea of Swords~
+~
+0 -1 14725
+DDIR_WEST
+The Sea of Swords~
+~
+0 -1 14725
+#14727
+The smithy~
+This room holds a single large smelting pit, with a glowing anvil sitting
+right smack in the middle.  It's kinda hot in here, as the glowing embers
+generate tremendous amounts of heat.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Weapon storage~
+~
+0 -1 14653
+#0
+
+
+#RESETS
+R 14600 3 0
+R 14606 3 0
+R 14671 3 0
+R 14676 3 0
+R 14685 3 0
+R 14690 3 0
+R 14609 3 0
+R 14607 3 0
+R 14611 3 0
+R 14614 3 0
+R 14603 3 0
+D 14641 DIR_UP    DOOR_CLOSED
+D 14642 DIR_DOWN  DOOR_CLOSED
+D 14662 DIR_NORTH DOOR_CLOSED
+D 14662 DIR_EAST  DOOR_CLOSED
+D 14662 DIR_WEST  DOOR_CLOSED
+D 14662 DIR_UP    DOOR_CLOSED
+O 14600   1 14644
+O 14601   1 14727
+M 14648 100 14727
+O 14602   1 14666
+O 14663   3 14663
+O 14663   3 14664
+O 14663   3 14665
+O 14604   1 14600
+P 14605   3 14604
+P 14605   3 14604
+P 14605   3 14604
+O 14606   1 14638
+O 14607 100 14615
+M 14647 100 14699
+M 14647 100 14704
+M 14647 100 14704
+M 14647 100 14705
+M 14647 100 14705
+M 14647 100 14706
+M 14647 100 14706
+M 14647 100 14707
+M 14647 100 14707
+M 14647 100 14708
+M 14647 100 14708
+M 14647 100 14709
+M 14647 100 14709
+M 14647 100 14710
+M 14647 100 14710
+M 14647 100 14711
+M 14647 100 14711
+M 14647 100 14712
+M 14647 100 14712
+M 14647 100 14713
+M 14647 100 14713
+M 14647 100 14714
+M 14647 100 14714
+M 14647 100 14715
+M 14647 100 14715
+M 14647 100 14716
+M 14647 100 14716
+M 14647 100 14717
+M 14647 100 14717
+M 14647 100 14718
+M 14647 100 14718
+M 14647 100 14719
+M 14647 100 14719
+M 14600 100 14726
+M 14601 100 14726
+G 14603   1 0
+M 14602 100 14659
+G 14619   1 0
+G 14620   1 0
+G 14649   1 0
+G 14652   3 0
+G 14645  10 0
+G 14647  10 0
+M 14603 100 14653
+G 14612 999 0
+G 14613 999 0
+G 14615 999 0
+M 14604 100 14698
+M 14605 100 14667
+M 14606 100 14655
+G 14616  75 0
+G 14617  75 0
+G 14618  75 0
+M 14607 100 14657
+G 14661 999 0
+G 14662 999 0
+M 14608 100 14658
+G 14621 999 0
+G 14623 999 0
+G 14624 999 0
+G 14625 999 0
+G 14626 999 0
+G 14627 999 0
+G 14628 999 0
+M 14609 100 14656
+M 14610 100 14667
+M 14611 100 14652
+G 14644   5 0
+G 14643  10 0
+M 14612 100 14660
+M 14640 100 14660
+M 14613 100 14663
+E 14637   1 WEAR_WIELD
+E 14638   1 WEAR_BODY
+E 14639   1 WEAR_HOLD
+M 14614 100 14665
+E 14640 100 WEAR_LIGHT
+E 14641 100 WEAR_DUAL_WIELD
+E 14642 100 WEAR_WAIST
+M 14615 100 14664
+E 14633   1 WEAR_BODY
+E 14634   1 WEAR_WRIST_L
+E 14634   1 WEAR_WRIST_R
+E 14635   1 WEAR_WAIST
+E 14636   1 WEAR_SHIELD
+M 14616 100 14643
+M 14616 100 14643
+E 14611 255 WEAR_WAIST
+E 14609 255 WEAR_BODY
+M 14616 100 14645
+M 14616 100 14645
+M 14616 100 14646
+E 14610 255 WEAR_WAIST
+E 14608 255 WEAR_BODY
+M 14616 100 14647
+M 14616 100 14650
+M 14617 100 14643
+M 14617 100 14645
+E 14610 255 WEAR_WAIST
+E 14608 255 WEAR_BODY
+M 14617 100 14646
+M 14617 100 14647
+M 14617 100 14648
+E 14610 255 WEAR_WAIST
+E 14608 255 WEAR_BODY
+M 14617 100 14649
+M 14617 100 14650
+M 14618 100 14660
+M 14618 100 14660
+M 14618 100 14660
+M 14618 100 14642
+E 14614 255 WEAR_SHIELD
+E 14613 255 WEAR_WIELD
+E 14609 255 WEAR_BODY
+E 14611 255 WEAR_WAIST
+M 14618 100 14642
+E 14614 255 WEAR_SHIELD
+E 14613 255 WEAR_WIELD
+E 14609 255 WEAR_BODY
+E 14611 255 WEAR_WAIST
+M 14618 100 14642
+E 14614 255 WEAR_SHIELD
+E 14613 255 WEAR_WIELD
+E 14609 255 WEAR_BODY
+E 14611 255 WEAR_WAIST
+M 14619 100 14616
+M 14619 100 14619
+M 14619 100 14620
+M 14619 100 14621
+M 14619 100 14622
+M 14619 100 14623
+M 14619 100 14624
+M 14619 100 14625
+M 14619 100 14626
+M 14619 100 14627
+M 14619 100 14628
+M 14619 100 14629
+M 14619 100 14630
+M 14619 100 14631
+M 14619 100 14632
+M 14619 100 14633
+M 14619 100 14634
+M 14619 100 14635
+M 14619 100 14636
+M 14619 100 14637
+M 14619 100 14638
+M 14619 100 14639
+M 14619 100 14640
+M 14619 100 14641
+M 14619 100 14642
+M 14619 100 14646
+M 14619 100 14647
+M 14619 100 14643
+M 14619 100 14702
+M 14623 100 14616
+M 14623 100 14620
+M 14623 100 14622
+M 14623 100 14624
+M 14620 100 14619
+M 14620 100 14621
+M 14620 100 14623
+M 14620 100 14625
+M 14622 100 14626
+M 14621 100 14627
+M 14621 100 14628
+M 14621 100 14629
+M 14621 100 14630
+M 14621 100 14631
+M 14622 100 14632
+M 14621 100 14633
+M 14621 100 14634
+M 14621 100 14635
+M 14621 100 14636
+M 14621 100 14637
+M 14621 100 14639
+M 14621 100 14640
+M 14622 100 14641
+M 14624 100 14681
+M 14624 100 14682
+M 14624 100 14683
+M 14624 100 14684
+M 14625 100 14672
+M 14625 100 14673
+M 14625 100 14674
+M 14625 100 14675
+M 14626 100 14686
+M 14626 100 14687
+M 14626 100 14688
+M 14626 100 14689
+M 14627 100 14691
+M 14627 100 14692
+M 14627 100 14693
+M 14627 100 14694
+M 14628 100 14669
+E 14637   1 WEAR_WIELD
+E 14638   1 WEAR_BODY
+E 14639   1 WEAR_HOLD
+E 14640   1 WEAR_LIGHT
+E 14641   1 WEAR_DUAL_WIELD
+E 14642   1 WEAR_WAIST
+E 14633   1 WEAR_ABOUT
+E 14634   1 WEAR_WRIST_L
+E 14634   1 WEAR_WRIST_R
+M 14630 100 14666
+M 14631 100 14668
+M 14632 100 14669
+M 14633 100 14663
+M 14634 100 14665
+M 14635 100 14664
+M 14636 100 14654
+G 14608 255 0
+G 14610 255 0
+G 14614 255 0
+M 14637 100 14667
+M 14639 100 14662
+M 14649 100 14601
+M 14649 100 14602
+M 14649 100 14603
+M 14649 100 14604
+M 14649 100 14605
+M 14649 100 14606
+M 14649 100 14607
+M 14649 100 14608
+M 14649 100 14609
+M 14649 100 14610
+M 14649 100 14611
+M 14649 100 14612
+M 14649 100 14613
+M 14649 100 14614
+M 14650 100 14720
+M 14650 100 14721
+M 14647 100 14670
+M 14620 100 14670
+M 14621 100 14670
+M 14622 100 14670
+M 14623 100 14670
+M 14652 100 14725
+M 14641 100 14644
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

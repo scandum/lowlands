@@ -1,0 +1,2798 @@
+#AREA Phoenix Peak~
+#AUTHORS Deadblt~
+#VERSION 4
+#RANGES 20 30 1 95
+
+
+#HELPS
+0 Phoenix Peak~
+{128}
+                                Phoenix Peak
+{308}
+Thor's Peak has recently been renamed Phoenix Peak by 
+travelers, who report that a phoenix has taken up
+residence on the mountain.  Unconfirmed rumors are
+that a reward is being offered by dwarven business
+interests for the skin of the beast.
+~
+
+0 $~
+
+
+#MOBILES
+#12200
+merchant dwarven~
+a dwarven merchant~
+A dwarven merchant stands pondering the journey before him.~
+The dwarven merchant looks up at the peak.  He shakes his head 
+sadly.  'Too dangerous,' he murmurs, 'too dangerous.'
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD BODY_HEAD 1d100+500 8d7+3
+0 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (0,6,$i) == 0
+  if quest (0,2,$n) == 0
+    mpmset $n quest 0 2 1
+    mpmset $i quest 0 6 15
+  else
+    if quest (0,2,$n) == 2
+      shake $n 
+      say hello $n how goes the quest?
+      say anyone else here want to 'accept'?
+    else
+      if quest (0,2,$n) == 3
+        mpmset $i quest 0 6 5
+      endif
+    endif
+  endif
+endif
+~
+>rand_prog 100~
+if quest (0,6,$i) > 0
+  if quest (0,6,$i) == 15
+    say hello, if you journey up the canyon,
+    say if so, you should know there is danger.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 14
+    say a Phoenix has made it's home there.
+    say and will not allow anyone to pass.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 13
+    say would you be willing to undertake,
+    say a quest for us to kill the Phoenix?
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 12
+    say if so, say you 'accept' the offer.
+    emote smiles broadly.
+  endif
+  if quest (0,6,$i) == 11
+    mpmset $i quest 0 6 0
+  endif
+  if quest (0,6,$i) == 10
+    say our champion was killed by the beast.
+    say he was spread across miles of mountain.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 9
+    say he carried a flame-retardant staff
+    say which would keep the Phoenix from
+    say rising from it's ashes.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 8
+    say the staff was also broken into 7 parts
+    say and scattered.  You must find the various
+    say parts of the staff and rejoin them.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 7
+    say only one who holds the staff can strike
+    say a killing blow on the phoenix.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 6
+    say Thor's luck be with you adventurers.
+    emote waves to you.
+    say BTW, bring back the Phoenix's skin.
+  endif
+  if quest (0,6,$i) == 5
+    mpmset $i quest 0 6 0
+  endif
+  if quest (0,6,$i) == 4
+    say ahh $n I see you have killed the
+    say Phoenix, that is wonderful.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 3
+    say now, if you would like me to make
+    say armor from the beast's skin I would
+    say be more than happy to do so.
+    mpecho ...
+  endif
+  if quest (0,6,$i) == 2
+    say just give me the monster's skin.
+    emote holds out his hand.
+  endif
+  if quest (0,6,$i) == 1
+    mpmset $i quest 0 6 0
+  endif
+  if quest (0,6,$i) > 0
+    mpmadd $i quest 0 6 -1
+  endif
+endif
+~
+>speech_prog accept~
+mpmset $n quest 0 2 2
+shake $n
+say wonderful! You accept the quest!
+mpmset $i quest 0 6 10
+say I have some instructions for you.
+~
+>give_prog I12220~
+emote snips and stitches the hide.
+mpjunk I12220
+mpoload 12214
+mpoload 12215
+mpoload 12216
+mpoload 12217
+mpoload 12218
+drop phoenix
+drop phoenix
+drop phoenix
+drop phoenix
+drop phoenix
+say there you go!
+smile 
+~
+|
+#12201
+teamster dwarven~
+a dwarven teamster~
+A dwarven teamster shoulders a heavy pack easily.~
+A dwarven teamster shifts his pack and shrugs grimly.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD BODY_HEAD 1d100+500 8d7+3
+0 RACE_DWARF
+POS_STANDING POS_STANDING SEX_MALE
+#12202
+pegasus~
+a beautiful pegasus~
+A beautiful pegasus stretches it's wings and prances nervously.~
+The pegasus is pure white in color.  Enormous wings stretch from
+it's shoulders, which it flap's nervously.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+500 S
+40 BODY_LEG|BODY_ARM BODY_WING|BODY_FOOT 1d400+746 9d7+4
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (25)
+  emote rears up on his hind legs.
+  kick 
+else
+  if rand (33)
+    emote rolls its eyes with fear.
+  else
+    if rand (50)
+      emote calls on the gods of Olympus.
+      cast 'call lightning'
+    else
+      emote flaps his wings creating a great gust of wind.
+      if rand (50)
+        mptransfer $n 12285
+        mpecho $n is blown off of the rock.
+        mpat 12285 mpecho You are blown off of the rock.
+        mpat 12285 mpforce $n look
+      endif
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpoload 12201
+~
+|
+#12203
+hydra~
+a many-headed hydra~
+A many headed Hydra hisses angrily at your approach.~
+One of the hydra's heads hisses at you.  The other lunges
+at you.  Another bares it's teeth angrily.  The fourth peers
+at you carefully.  The fifth looks around warily.  Yet another
+tries to hide at the back of the tangle of heads, afraid of
+being hit.  The seventh appears to be sleeping soundly.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD|BODY_LEG|BODY_ARM BODY_MOUTH 1d100+500 8d7+3
+30644 RACE_ELF
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+emote momentarily tangles its many heads.
+~
+>rand_prog 10~
+if quest (0,3,$i) > 0
+  mpmadd self quest 3 1 1
+  if quest (3,1,$i) == 0
+    mppurge self
+  endif
+endif
+~
+>death_prog 100~
+if quest (0,3,$i) == 0
+  mpecho A hydra's first head dies.
+  mpmload 12203
+  mpmset self name nothing
+  mpmset hydra quest 0 3 1
+  mppurge self
+  break
+else
+  if quest (0,3,$i) == 1
+    mpecho A hydra's second head dies.
+    mpmload 12203
+    mpmset self name nothing
+    mpmset hydra quest 0 3 2
+    mppurge self
+    break
+  else
+    if quest (0,3,$i) == 2
+      mpecho A hydra's third head dies.
+      mpmload 12203
+      mpmset self name nothing
+      mpmset hydra quest 0 3 3
+      mppurge self
+      break
+    else
+      if quest (0,3,$i) == 3
+        mpecho A hydra's fourth head dies.
+        mpmload 12203
+        mpmset self name nothing
+        mpmset hydra quest 0 3 4
+        mppurge self
+        break
+      else
+        if quest (0,3,$i) == 4
+          mpecho A hydra's fifth head dies.
+          mpmload 12203
+          mpmset self name nothing
+          mpmset hydra quest 0 3 5
+          mppurge self
+          break
+        else
+          if quest (0,3,$i) == 5
+            mpecho A hydra's sixth head dies.
+            mpmload 12203
+            mpmset self name nothing
+            mpmset hydra quest 0 3 6
+            mppurge self
+            break
+          else
+            if quest (0,3,$i) == 6
+              mpecho A hydra's body finally dies.
+              mpoload 12202
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#12204
+siren~
+a beautiful siren~
+A beautiful siren emerges from the water, singing softly.~
+The siren seems to be made of the water itself.  She waves 
+beckoningly, and as you gaze becomes more and more beautiful
+to you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD BODY_HIP 1d100+700 8d7+3
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+emote sings softly.
+if rand (5)
+  mptransfer $n 12298
+  mpecho $n has fallen in love with a siren.
+  mpat 12298 mpecho You have fallen in love with the siren.
+  mpecho $n slips into the pool and disappears.
+  mpat 12298 mpecho You slip into the wonderful pool.
+  mpat 12298 mpforce $n look
+  mpecho A watery form that looks like $n rises from the pool.
+  mpmload 12204
+endif
+~
+|
+#12205
+backdoor_ether~
+~
+~
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+99 BODY_HEAD BODY_HEAD 1d1+9401 1d1+98
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#12206
+griffon~
+a huge griffon~
+A huge griffon rests on it's haunches, and gazes at you from one eye.~
+The griffon sports yellow and green feathers on it's front half, the
+fur on it's hind-quarters is a tawny brown.  It doesn't seem disturbed
+by your presence.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+40 BODY_HEAD|BODY_TORSO BODY_MOUTH|BODY_CLAW 1d400+746 9d7+4
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (25)
+  emote rears up on it's hind legs and kicks.
+  kick 
+else
+  if rand (33)
+    emote screams in anger.
+  else
+    if rand (50)
+      emote calls on the gods of Olympus!
+      cast 'earthquake'
+    else
+      mptransfer $n 12297
+      emote jumps on top of $n and mauls him!
+      mpat 12297 mpecho A griffon jumps on top of you.
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpoload 12204
+~
+|
+#12207
+gorgon~
+a hideous gorgon~
+A hideous gorgon prowls here, murder in it's eyes.~
+The gorgon has scales of steel, the stench of rust seems to 
+rise from the beast.
+~
+ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+30 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HEAD|BODY_FOOT 1d100+500 8d7+3
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (25)
+  emote snorts angrily.
+else
+  if rand (33)
+    emote rushes you with it's horns.
+  else
+    if rand (50)
+      emote turns and kicks with one hoof.
+      kick 
+    else
+      emote bellows, and steam fills the room.
+      emote slips away.
+      if rand (50)
+        mpgorand 12240 12241 0 1
+      else
+        mpgorand 12236 12237 0 1
+      endif
+    endif
+  endif
+endif
+~
+|
+#12208
+harpie~
+a foul harpie~
+A foul harpie grips the ledge with it's clawlike feet.~
+The harpie is half-bird half-woman, it has sharp teeth and claws
+as well as a powerful stench of carrion.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+30 BODY_HEAD BODY_MOUTH 1d100+500 8d7+3
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+if rand (25)
+  emote screeches at you angrily.
+else
+  if rand (33)
+    emote flaps it's wings.
+    mpecho A powerful stench rises.
+  else
+    if rand (50)
+      emote screeches a spell.
+      cast 'lightning bolt'
+    else
+      emote prays to the gods of Olympus!
+      cast 'cure critical'
+    endif
+  endif
+endif
+~
+>death_prog 100~
+emote turns to solid stone!
+mpgoto 12299
+mpoload 12223
+mpat 12218 drop statue
+~
+|
+#12209
+cyclops~
+an enormous cyclops~
+A cyclops is standing on the hill, enjoying the view with its' one eye.~
+The cyclops hefts a heavy club and considers you, seems it has just
+eaten and can't be bothered to kill you right now.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN
+-500 S
+40 BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 1d400+746 8d7+9
+50000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (25)
+  emote stomps you with his giant foot.
+  kick 
+else
+  if rand (33)
+    emote stomps the ground!
+    cast 'earthquake'
+  else
+    if rand (50)
+      emote spins wildly and screams to the heavens!
+    else
+      mptransfer $n 12208
+      emote knocks $n across the room.
+      mpat 12208 mpecho A cyclops knocks you across the room.
+      mpat 12208 mptransfer $n 12209
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+mpoload 12207
+~
+|
+#12210
+phoenix~
+a powerful phoenix~
+A powerful phoenix stretches it's wings in a blast of fire.~
+The phoenix has scorched the ground nearby, shedding a red light 
+across the whole valley and on the clouds above.  It's powerful
+body resembles an eagle as much as anything else.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_HIDDEN
+1000 S
+40 BODY_LEG|BODY_ARM BODY_MOUTH|BODY_WING 1d100+1000 9d7+4
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+if rand (50)
+  cast 'fireball'
+else
+  emote screams in fury.
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 12213
+  emote cannot burst into flame and dies with a pitiful wail.
+  mpmset $n quest 0 2 3
+  mpoload 12220
+  mpoload 12221
+else
+  emote bursts into flame, and is burned to ashes.
+  emote rises from the ashes of it's former self. 
+  mpecho --------------------------------------------
+  mpgoto 12299
+  mpmload 12210
+  mppurge self
+endif
+~
+|
+#12211
+titan wandering~
+a wandering titan~
+A wandering titan is standing here smiling broadly.~
+The titan seems surrounded by a shimmering field, causing him to 
+blend into the background.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_HIDE
+1000 S
+50 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HEAD|BODY_HAND|BODY_FOOT 1d625+1197 9d7+5
+50000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+emote reaches to the heavens.
+cast 'call lightning'
+~
+>greet_prog 100~
+if hasobjnum ($n) == 12221
+  say hello $n you killed the Phoenix right?
+  say I can make a dagger from its claw if you like.
+endif
+~
+>give_prog I12221~
+emote presses the claw in his giant hand.
+mpjunk i12221
+mpoload 12219
+give i12219 $n
+smile $n
+say good job killing the birdie.
+~
+|
+#12212
+griffon~
+a huge griffon~
+A huge griffon rests on it's haunches, and gazes at you from one eye.~
+The griffon sports yellow and green feathers on it's front half, the
+fur on it's hind-quarters is a tawny brown.  It doesn't seem disturbed
+by your presence.
+~
+ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+70 BODY_HEAD|BODY_TORSO BODY_MOUTH|BODY_CLAW 1d1225+2484 11d7+30
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+mpat 12248 mpecho $n crawls out from under the gryphon.
+mpecho You crawl out from under the gryphon.
+mptransfer $n 12248
+mpat 12248 mpforce $n kill griffon
+~
+|
+#12213
+climbing~
+climbing~
+~
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 BODY_HEAD BODY_ARM 1d1+10 1d1+1
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 50~
+if quest (5,1,$n) == 0
+  mpforce $n down
+  mpecho $n slips and falls downwards.
+endif
+~
+|
+#12214
+siren treasure~
+a beautiful siren~
+A beautiful siren emerges from the water, singing softly.~
+The siren seems to be made of the water itself.  She waves 
+beckoningly, and as you gaze becomes more and more beautiful
+to you.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+30 BODY_HEAD BODY_HIP 2d100+400 8d7+3
+0 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+emote sings softly.
+if rand (5)
+  mptransfer $n 12298
+  mpecho $n has fallen in love with a siren.
+  mpat 12298 mpecho You have fallen in love with the siren.
+  mpecho $n slips into the pool and disappears.
+  mpat 12298 mpecho You slip into the cool waters.
+  mpat 12298 mpforce $n look
+  mpecho A watery form that looks like $n rises from the pool.
+  mpmload 12204
+endif
+~
+>death_prog 100~
+mpoload 12203
+~
+|
+#12215
+gorgon treasure~
+a hideous gorgon~
+A hideous gorgon prowls here, murder in it's eyes.~
+The gorgon has scales of steel, the stench of rust seems to 
+rise from the beast.
+~
+ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+30 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HEAD|BODY_FOOT 1d100+500 8d7+3
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (25)
+  emote snorts angrily.
+else
+  if rand (33)
+    emote rushes you with it's horns.
+  else
+    if rand (50)
+      emote turns and kicks with one hoof.
+      kick 
+    else
+      emote bellows, and steam fills the room.
+      emote slips away.
+      if rand (50)
+        mpgorand 12240 12241 0 1
+      else
+        mpgorand 12236 12237 0 1
+      endif
+    endif
+  endif
+endif
+~
+>death_prog 100~
+mpoload 12205
+~
+|
+#12216
+harpie treasure~
+a foul harpie~
+A foul harpie grips the ledge with it's clawlike feet.~
+The harpie is half-bird half-woman, it has sharp teeth and claws
+as well as a powerful stench of carrion.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-500 S
+30 BODY_HEAD BODY_MOUTH 1d100+500 8d7+3
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+if rand (25)
+  emote screeches at you angrily.
+else
+  if rand (33)
+    emote flaps it's wings.
+    mpecho A powerful stench rises.
+  else
+    if rand (50)
+      emote screeches a spell.
+      cast 'lightning bolt'
+    else
+      emote screeches out to the gods of Olympus!
+      cast 'cure critical'
+    endif
+  endif
+endif
+~
+>death_prog 100~
+emote turns to solid stone!
+mpquiet on
+mpoload 12206
+drop part
+mpgoto 12299
+mpoload 12223
+mpat 12218 drop statue
+mpquiet off
+~
+|
+#12217
+scout satyr~
+a satyr scout~
+A satyr scout stands here trying to keep the trail clear.~
+The satyr has soft brown fur on his hind quarters.  He wears a 
+turquoise sash, indicating he is a member of the olympus scouts.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+20 BODY_HEAD BODY_HEAD 1d200+200 2d9+9
+5000 RACE_ELF
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 50~
+if rand (33)
+  emote executes a beautiful spinning kick.
+  kick 
+else
+  if rand (50)
+    emote ducks and tries to spear you with his horns.
+  else
+    emote cries out for assistance.
+  endif
+endif
+~
+>greet_prog 25~
+if sex ($n) == SEX_FEMALE
+  smile broadly $n
+endif
+~
+|
+#12218
+scout satyr~
+a satyr scout~
+A satyr scout stands here trying to keep the trail clear.~
+The satyr has soft brown fur on her hind quarters.  She wears a 
+turquoise sash, indicating she is a member of the olympus scouts.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+0 S
+20 BODY_HEAD BODY_HEAD 1d100+300 2d9+9
+5000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 50~
+if rand (33)
+  emote executes a beautiful spinning kick.
+  kick 
+else
+  if rand (50)
+    emote ducks and tries to spear you with her horns.
+  else
+    emote cries out for assistance.
+  endif
+endif
+~
+>greet_prog 25~
+if sex ($n) == SEX_MALE
+  kiss $n
+  grin 
+endif
+~
+|
+#0
+
+
+#SHOPS
+12200 ITEM_TYPE_TREASURE ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#12200
+book climbing mountain~
+a mountain climbing book~
+There is a treatise on mountain climbing lying here.~
+The book can be held, and 'read'.
+You will learn something about climbing mountains.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 350 20
+P 1
+TRIG_UNKNOWN 100 read
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 12200 5 1 1~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You learn about climbing mountains.~
+#12201
+part staff1~
+first part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the second part.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12202 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk i22202
+mpoload 12208~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the first and second pieces.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12202
+part staff2~
+second part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the first part.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12203
+part staff3~
+third part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only when the first and second parts
+are together.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12204
+part staff4~
+fourth part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only when the first, second, and
+third parts are together.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12205
+part staff5~
+fifth part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only when the first, second, 
+third and fourth parts are together.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12206
+part staff6~
+sixth part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only when the first, second,
+third, fourth, and fifth parts are together.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12207
+part staff7~
+seventh part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only when the first, second,
+third, fourth, fifth, and sixth parts are together.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12208
+part staff12~
+1st&2nd part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the third part of
+the staff.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 0
+TRIG_VOID
+OPROG_ECHO
+~
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12203 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk staff3
+mpoload 12209~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the third piece.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12209
+part staff123~
+1st,2nd&3rd part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the fourth part of
+the staff.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 0
+TRIG_VOID
+OPROG_ECHO
+~
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12204 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk staff4
+mpoload 12210~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the fourth piece.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12210
+part staff1234~
+1st,2nd,3rd&4th part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the fifth part of
+the staff.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 0
+TRIG_VOID
+OPROG_ECHO
+~
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12205 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk staff5
+mpoload 12211~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the fifth piece of the flame-retardant staff.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12211
+part staff12345~
+1st,2nd,3rd,4th&5th part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the sixth part of
+the staff.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 0
+TRIG_VOID
+OPROG_ECHO
+~
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12206 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk staff6
+mpoload 12212~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the sixth piece of the flame-retardant staff.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12212
+part staff123456~
+1st,2nd,3rd,4th,5th&6th part of a flame-retardant staff~
+There is part of a flame-retardant staff lying here.~
+This piece can be 'join' ed only with the seventh part of
+the staff.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+P 1
+TRIG_UNKNOWN 100 join
+OPROG_IF_HAS_OBJECT 12207 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpjunk staff7
+mpoload 12213~
+P 2
+TRIG_VOID
+OPROG_ECHO
+You join the final piece of the flame-retardant staff.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You cant join those.~
+#12213
+retardant flame staffall~
+a flame-retardant staff~
+There is a a flame-retardant staff lying here.~
+The staff is complete, ready to put out flames.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+5 5000 20
+#12214
+headdress phoenix~
+a phoenix headdress~
+There is a flaming headdress here.~
+The headdress is made from the skin of the famous phoenix,
+rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_DAMROLL -5 0
+A APPLY_MANA 20 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+#12215
+ring1 phoenix~
+a phoenix ring~
+There is a flaming ring here.~
+The ring is made from the skin of the famous phoenix,
+rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_HITROLL 2 0
+A APPLY_MANA 10 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+#12216
+robe phoenix~
+a phoenix robe~
+There is a flaming robe here.~
+The robe is made from the skin of the famous phoenix,
+rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_DAMROLL -5 0
+A APPLY_MANA 20 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+#12217
+belt phoenix~
+a phoenix belt~
+There is a flaming belt here.~
+The belt is made from the skin of the famous phoenix,
+rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+12 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_DAMROLL -5 0
+A APPLY_MANA 20 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+#12218
+boots phoenix~
+some phoenix boots~
+There are some flaming boots here.~
+The boots are made from the skin of the famous phoenix,
+rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+12 0 0 0 0 0 0 0
+1 10000 30
+A APPLY_DAMROLL -5 0
+A APPLY_MANA 20 0
+P 1
+TRIG_TICK 10
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+#12219
+dagger phoenix~
+a phoenix dagger~
+There is a flaming dagger here.~
+The dagger is made from the claw of the famous phoenix, rumored to promote the
+regeneration of mana.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 2 2 WEAPON_STAB 0 0 0 0
+1 10000 30
+A APPLY_AC -8 0
+A APPLY_MANA 50 0
+P 1
+TRIG_DAMAGE 10
+OPROG_APPLY OAPPLY_MANA 10
+#12220
+skin phoenix~
+a phoenix's skin~
+The skin of the mighty phoenix is lying here.~
+The phoenix skin is rumored to promote the regeneration of mana.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+9 0 0 0 0 0 0 0
+1 10000 30
+#12221
+claw phoenix~
+a phoenix's claw~
+There is a flaming claw here.~
+This is the claw of the famous phoenix, rumored to promote 
+the regeneration of mana.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_CLAW 5 5 WEAPON_STAB 0 0 0 0
+1 10000 30
+A APPLY_HITROLL 2 0
+A APPLY_MANA 10 0
+#12222
+pool water~
+~
+A shallow pool of water has formed from the trickling waterfall.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10 10 10
+#12223
+statue harpie~
+a statue of a harpie~
+A statue of a harpie is toppled here.~
+Quite a likeness!
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+100 400000 5
+#0
+
+
+#ROOMS
+#12200
+Thor's Peak~
+Reaching the peak, it is not as impressive as you had thought.  The
+slope levels out to an area about 20 meters across.  To your north
+is a great ocean.  To the south a cloud blocks your view of Thor's
+canyon.  Your gazing is distracted, however, by an area of slagged
+and blasted rock on the peak.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+~
+~
+0 -1 12201
+#12201
+A Steep Climb~
+A rubble covered hillside approaches the peak.  The shale rock slides
+under your feet as you scramble for purchase.  At least there are no
+thorn bushes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12202
+DDIR_UP
+~
+~
+0 -1 12200
+#12202
+A Trail Marker~
+You are finally able to pass over the mountains and begin down the
+north side at this point.  The trail, it seems, is well used but
+a rockslide has piled a formidable barrier in your way.  No doubt
+the satyr scouts will be along someday to clear the path.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12206
+DDIR_WEST
+~
+~
+0 -1 12201
+#12203
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12204
+DDIR_SOUTH
+~
+~
+0 -1 12207
+#12204
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12205
+DDIR_WEST
+~
+~
+0 -1 12203
+#12205
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12206
+DDIR_WEST
+~
+~
+0 -1 12204
+#12206
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12202
+DDIR_WEST
+~
+~
+0 -1 12205
+#12207
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12203
+DDIR_EAST
+~
+~
+0 -1 12208
+DDIR_SOUTH
+~
+~
+0 -1 12210
+#12208
+A Rocky Hillside~
+A hill clear of trees, but covered with short grass is before you.
+At the top of the hill you should get a nice view of the valley.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12207
+DDIR_UP
+~
+~
+0 -1 12209
+#12209
+A Rocky Hill~
+You have reached the top of a small hill.  Barely visible through the
+mists is Anvil Rock, looking quite small and pitiful.  Beyond that
+you can just make out the walls of Chakkor.  Over your shoulder to
+the north, Phoenix peak appears quite close.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+~
+~
+0 -1 12208
+#12210
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12207
+DDIR_EAST
+~
+~
+0 -1 12211
+#12211
+A Wooded Valley~
+Tall and majestic pine trees, as well as oak, have turned this area
+into a virtual forest, though a small one.  Several old campsites can
+be seen here, this spot offers some protection from the elements.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12212
+DDIR_WEST
+~
+~
+0 -1 12210
+#12212
+A Wooded Valley~
+Tall and majestic pine trees, as well as oak, have turned this area
+into a virtual forest, though a small one.  Several old campsites can
+be seen here, this spot offers some protection from the elements.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12213
+DDIR_WEST
+~
+~
+0 -1 12211
+#12213
+A Wooded Valley~
+Tall and majestic pine trees, as well as oak, have turned this area
+into a virtual forest, though a small one.  Several old campsites can
+be seen here, this spot offers some protection from the elements.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12214
+DDIR_WEST
+~
+~
+0 -1 12212
+#12214
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12217
+DDIR_WEST
+~
+~
+0 -1 12213
+#12215
+A Steep Valley~
+A valley rises up toward the east wall of the canyon, and a secondary
+peak.  As expected a small stream trickles down the center.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12216
+DDIR_UP
+~
+~
+0 -1 12218
+#12216
+A Steep Valley~
+A valley rises up toward the east wall of the canyon, and a secondary
+peak.  As expected a small stream trickles down the center.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12215
+DDIR_DOWN
+~
+~
+0 -1 12219
+#12217
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12214
+DDIR_SOUTH
+~
+~
+0 -1 12225
+#12218
+A Nest~
+Something has assembled twigs and branches into a large nest on a
+ledge close to the secondary peak.  Grey feathers can be seen lining
+the nest.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+~
+~
+0 -1 12215
+#12219
+A Steep Valley~
+A valley rises up toward the east wall of the canyon, and a secondary
+peak.  As expected a small stream trickles down the center.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12220
+DDIR_UP
+~
+~
+0 -1 12216
+#12220
+A Deep Crevasse~
+What would be the eastern wall of the canyon has been cut to form
+a crevasse through which a small stream trickles.  The walls rise 
+at least 300 meters.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12221
+DDIR_SOUTH
+~
+~
+0 -1 12226
+DDIR_WEST
+~
+~
+0 -1 12219
+#12221
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12222
+DDIR_WEST
+~
+~
+0 -1 12220
+#12222
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12223
+DDIR_WEST
+~
+~
+0 -1 12221
+#12223
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12224
+DDIR_WEST
+~
+~
+0 -1 12222
+#12224
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12225
+DDIR_WEST
+~
+~
+0 -1 12223
+#12225
+Switchback Valley~
+Small trees and grasses dot what might be called valleys winding back
+and forth as they rise toward the peak.  A small stream flows down the 
+center of each.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12217
+DDIR_WEST
+~
+~
+0 -1 12224
+#12226
+A Deep Crevasse~
+What would be the eastern wall of the canyon has been cut to form
+a crevasse through which a small stream trickles.  The walls rise 
+at least 300 meters.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12220
+DDIR_SOUTH
+~
+~
+0 -1 12227
+#12227
+A Deep Crevasse~
+What would be the eastern wall of the canyon has been cut to form
+a crevasse through which a small stream trickles.  The walls rise 
+at least 300 meters.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12226
+DDIR_EAST
+~
+~
+0 -1 12228
+#12228
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12229
+DDIR_SOUTH
+~
+~
+0 -1 12234
+DDIR_WEST
+~
+~
+0 -1 12227
+#12229
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12230
+DDIR_WEST
+~
+~
+0 -1 12228
+#12230
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12231
+DDIR_WEST
+~
+~
+0 -1 12229
+#12231
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12232
+DDIR_WEST
+~
+~
+0 -1 12230
+#12232
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12235
+DDIR_WEST
+~
+~
+0 -1 12231
+#12233
+Branch of a Dry Stream~
+A trickle of a stream leads off around some boulders toward the 
+western wall of the canyon.  The floor of the stream is sand and
+dirt, walking is easy.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12234
+DDIR_SOUTH
+~
+~
+0 -1 12237
+#12234
+Branch of a Dry Stream~
+A trickle of a stream leads off around some boulders toward the 
+western wall of the canyon.  The floor of the stream is sand and
+dirt, walking is easy.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12228
+DDIR_WEST
+~
+~
+0 -1 12233
+#12235
+A High Meadow~
+At about 2000 meters, the canyon has leveled off into a pleasant
+meadow.  The stream flows with water, though not much.  You notice 
+that the thorns and scrub have been replaced by grass and flowers.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12232
+DDIR_SOUTH
+~
+~
+0 -1 12238
+#12236
+A Limestone Cave~
+An underground river once carved this cave out of the limestone.  It
+is dry now, though cool and moist.  A smell, like rust fills the air.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12237
+DDIR_SOUTH
+~
+~
+0 -1 12240
+#12237
+A Limestone Cave~
+An underground river once carved this cave out of the limestone.  It
+is dry now, though cool and moist.  A smell, like rust fills the air.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12233
+DDIR_SOUTH
+~
+~
+0 -1 12241
+DDIR_WEST
+~
+~
+0 -1 12236
+#12238
+A Rocky Streambed~
+You are forced again to follow the rocky streambed which cuts
+down the center of Thor's Canyon.  A path cuts round the largest
+of the boulders, making the going easier.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12235
+DDIR_EAST
+~
+~
+0 -1 12239
+#12239
+A Rocky Streambed~
+You are forced again to follow the rocky streambed which cuts
+down the center of Thor's Canyon.  A path cuts round the largest
+of the boulders, making the going easier.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12242
+DDIR_WEST
+~
+~
+0 -1 12238
+#12240
+A Limestone Cave~
+An underground river once carved this cave out of the limestone.  It
+is dry now, though cool and moist.  A smell, like rust fills the air.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12236
+DDIR_EAST
+~
+~
+0 -1 12241
+#12241
+A Limestone Cave~
+An underground river once carved this cave out of the limestone.  It
+is dry now, though cool and moist.  A smell, like rust fills the air.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12237
+DDIR_WEST
+~
+~
+0 -1 12240
+#12242
+A Rocky Streambed~
+You are forced again to follow the rocky streambed which cuts
+down the center of Thor's Canyon.  A path cuts round the largest
+of the boulders, making the going easier.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12239
+DDIR_SOUTH
+~
+~
+0 -1 12243
+#12243
+High Campgrounds~
+A few trees surround what has obviously been a frequent campsite
+for travelers.  The ground has been cleared of rocks and bushes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12242
+DDIR_EAST
+~
+~
+0 -1 12244
+DDIR_SOUTH
+~
+~
+0 -1 12245
+#12244
+High Campgrounds~
+A few trees surround what has obviously been a frequent campsite
+for travelers.  The ground has been cleared of rocks and bushes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12246
+DDIR_WEST
+~
+~
+0 -1 12243
+#12245
+High Campgrounds~
+A few trees surround what has obviously been a frequent campsite
+for travelers.  The ground has been cleared of rocks and bushes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12243
+DDIR_EAST
+~
+~
+0 -1 12246
+DDIR_SOUTH
+~
+~
+0 -1 12251
+#12246
+High Campgrounds~
+A few trees surround what has obviously been a frequent campsite
+for travelers.  The ground has been cleared of rocks and bushes.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12244
+DDIR_EAST
+~
+~
+0 -1 12247
+DDIR_WEST
+~
+~
+0 -1 12245
+#12247
+A Thorny Path~
+The path rises sharply to the east, moving up the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12246
+DDIR_UP
+~
+~
+0 -1 12248
+#12248
+A Nest~
+On this rock ledge something has weaved a basket of branches
+and twigs, mostly branches.  Green and yellow feathers can
+be seen in the nest.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+~
+~
+0 -1 12247
+#12249
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12250
+DDIR_SOUTH
+~
+~
+0 -1 12252
+#12250
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12251
+DDIR_WEST
+~
+~
+0 -1 12249
+#12251
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12245
+DDIR_WEST
+~
+~
+0 -1 12250
+#12252
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12249
+DDIR_SOUTH
+~
+~
+0 -1 12254
+#12253
+A Waterfall~
+A trickle of water falls from about 30 meters up, you might call it
+a waterfall if you were generous.  A few acorn trees give shade 
+to a pool of clear water only a foot or so deep, but quite wide.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12256
+#12254
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12252
+DDIR_EAST
+~
+~
+0 -1 12255
+#12255
+A Thorny Path~
+The path rises sharply to the north, following the eastern edge of
+Thor's Canyon.  Small thorn bushes catch at your ankles, leaving
+small irritating scratches on your legs.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12260
+DDIR_WEST
+~
+~
+0 -1 12254
+#12256
+A Clear Streambed~
+The boulders give way to light sand.  Pockets of standing water have
+formed in the relative shade and stillness of the gorge.  The sides
+of the gorge are at least 30 meters tall now.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12253
+DDIR_EAST
+~
+~
+0 -1 12257
+#12257
+A Boulder Filled Stream~
+The large rocks in the streambed are now boulders.  You literally have
+to climb from one to the next.  The sides of the stream are rising up
+to form a gorge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12258
+DDIR_WEST
+~
+~
+0 -1 12256
+#12258
+A Boulder Filled Stream~
+The large rocks in the streambed are now boulders.  You literally have
+to climb from one to the next.  The sides of the stream are rising up
+to form a gorge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12259
+DDIR_WEST
+~
+~
+0 -1 12257
+#12259
+A Boulder Filled Stream~
+The large rocks in the streambed are now boulders.  You literally have
+to climb from one to the next.  The sides of the stream are rising up
+to form a gorge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12260
+DDIR_WEST
+~
+~
+0 -1 12258
+#12260
+A Boulder Filled Stream~
+The large rocks in the streambed are now boulders.  You literally have
+to climb from one to the next.  The sides of the stream are rising up
+to form a gorge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12255
+DDIR_EAST
+~
+~
+0 -1 12261
+DDIR_WEST
+~
+~
+0 -1 12259
+#12261
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12262
+DDIR_WEST
+~
+~
+0 -1 12260
+#12262
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12263
+DDIR_WEST
+~
+~
+0 -1 12261
+#12263
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12264
+DDIR_SOUTH
+~
+~
+0 -1 12267
+DDIR_WEST
+~
+~
+0 -1 12262
+#12264
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12265
+DDIR_WEST
+~
+~
+0 -1 12263
+#12265
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12268
+DDIR_WEST
+~
+~
+0 -1 12264
+#12266
+A Nest~
+Something has torn up several thorn bushes and trees creating a sort
+of clearing.  Some sort of mucus coating has been applied to the 
+surrounding bushes and dried there.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12270
+#12267
+Dense Scrub~
+The creek you were following seems to have disappeared underground
+You are forced to hack your way through scrub bushes for a ways.
+Thorns pull at your legs, leaving small irritating scratches.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12263
+DDIR_SOUTH
+~
+~
+0 -1 12271
+#12268
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12265
+DDIR_EAST
+~
+~
+0 -1 12269
+#12269
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12270
+DDIR_WEST
+~
+~
+0 -1 12268
+#12270
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12266
+DDIR_SOUTH
+~
+~
+0 -1 12272
+DDIR_WEST
+~
+~
+0 -1 12269
+#12271
+Dense Scrub~
+The creek you were following seems to have disappeared underground
+You are forced to hack your way through scrub bushes for a ways.
+Thorns pull at your legs, leaving small irritating scratches.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12267
+DDIR_SOUTH
+~
+~
+0 -1 12274
+#12272
+A Dry Stream~
+Large rocks fill the streambed, you move along by balancing on one
+and then hopping to the next.  It looks better than trying the thorn 
+bushes at the sides of the stream though.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12270
+DDIR_EAST
+~
+~
+0 -1 12273
+#12273
+Thorn Thicket~
+Thick bushes and thorn trees cover the ground as the stream has
+widened a bit.  You could force your way through the bushes, but
+that would only take you back to Anvil Rock.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12272
+#12274
+Dense Scrub~
+The creek you were following seems to have disappeared underground
+You are forced to hack your way through scrub bushes for a ways.
+Thorns pull at your legs, leaving small irritating scratches.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12271
+DDIR_EAST
+~
+~
+0 -1 12275
+#12275
+Dense Scrub~
+The creek you were following seems to have disappeared underground
+You are forced to hack your way through scrub bushes for a ways.
+Thorns pull at your legs, leaving small irritating scratches.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12276
+DDIR_WEST
+~
+~
+0 -1 12274
+#12276
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12275
+DDIR_EAST
+~
+~
+0 -1 12277
+#12277
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12278
+DDIR_WEST
+~
+~
+0 -1 12276
+#12278
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12283
+DDIR_WEST
+~
+~
+0 -1 12277
+#12279
+Base of Anvil Rock~
+The spine of the rock rises at about 25 degrees here.  You stand by
+planting your feet on either side of the spine.  Anvil rock looks
+much steeper up close.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12280
+DDIR_DOWN
+~
+~
+0 -1 12285
+#12280
+Base of Anvil Rock~
+The spine of the rock rises at about 45 degrees here.  You stand by
+planting your feet on either side of the spine.  You are beginning
+to regret deciding to make this climb.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12279
+DDIR_UP
+~
+~
+0 -1 12281
+#12281
+A Rock Promnatory~
+A rock formation rises steeply here, and you are able to make your way
+around it on many handholds.  You are getting a bad feeling about 
+climbing this rock.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12282
+DDIR_DOWN
+~
+~
+0 -1 12280
+#12282
+A Steep Crevasse~
+You are able to inch your way up a crevasse planting your feet on
+either side of the gap.  You are getting a bad feeling about climbing
+this rock.
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12281
+DDIR_UP
+~
+~
+0 -1 12286
+#12283
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12278
+DDIR_EAST
+~
+~
+0 -1 12284
+#12284
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12288
+DDIR_WEST
+~
+~
+0 -1 12283
+#12285
+Base of Anvil Rock~
+The solid stone of Anvil rock rises up out of the earth here.
+On this side there seems to be a way up to the peak.
+~
+0 0 SECT_MOUNTAIN
+DDIR_SOUTH
+~
+~
+0 -1 12292
+DDIR_UP
+~
+~
+0 -1 12279
+#12286
+A Precarious Ledge~
+Anvil rock is obviously not the stable monolith you had thought.
+You feel an urge to move on quickly.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12287
+DDIR_DOWN
+~
+~
+0 -1 12282
+#12287
+A Shaky Rock~
+You balance precariously on a somewhat loose rock near the peak
+of Anvil Rock.  You feel an urge to move on quickly.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 12286
+DDIR_UP
+~
+~
+0 -1 12293
+#12288
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12284
+DDIR_EAST
+~
+~
+0 -1 12289
+#12289
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12290
+DDIR_WEST
+~
+~
+0 -1 12288
+#12290
+A Dry Creek~
+Rocks and pebbles crunch under your feet as you walk along the
+creek bed.  Dense scrub starting at the sides of the creek make
+this the best path right now.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12291
+DDIR_SOUTH
+~
+~
+0 -1 12294
+DDIR_WEST
+~
+~
+0 -1 12289
+#12291
+Up a Grassy Hill~
+Thorn and scrub brushes grab at your legs as you trudge up the
+hill.  Anvil Rock rises to the north-east.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12292
+DDIR_WEST
+~
+~
+0 -1 12290
+#12292
+Up a Grassy Hill~
+Thorn and scrub brushes grab at your legs as you trudge up the
+hill.  Anvil Rock rises to the north-east.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12285
+DDIR_WEST
+~
+~
+0 -1 12291
+#12293
+Atop Anvil Rock~
+You feel yourself to be at an immense height as the valley below
+you slopes down toward Chakkor and the river beyond.  As you look
+back to the north you see the tall peaks of the Olympus range,
+dwarfing the rock you happen to be standing on.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+~
+~
+0 -1 12287
+#12294
+Entrance to Thor's Canyon~
+A Rocky trail leads up towards Thor's Canyon here.  You are just
+a rock formation called Anvil Rock, a sheer basalt monolith.
+It does seem possible to travel up the Spine of the rock if you
+were on the north edge.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 12290
+DDIR_EAST
+~
+~
+0 -1 12295
+#12295
+Mountain~
+A wide ledge leads west around Mt. Olympus here.  There is a 
+considerable incline to the ledge so that you go up as you
+travel westwards.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 12296
+DDIR_WEST
+~
+~
+0 -1 12294
+#12296
+Mountain~
+A wide ledge leads west around Mt. Olympus here.  There is a 
+considerable incline to the ledge so that you go up as you
+travel westwards.
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 17640
+DDIR_WEST
+~
+~
+0 -1 12295
+#12297
+A griffon's underside~
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+#12298
+A Deep Watery Realm~
+All around you is a deep blue water.  Lights which might be fish
+seem to move in the far distance.  You notice you are not breathing
+in fact, you don't feel any need to breathe.  You recall the beauty
+your true love, and your spirit soars.
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+#12299
+Death Depository~
+~
+0 ROOM_NO_MOB SECT_MOUNTAIN
+#0
+
+
+#RESETS
+M 12200 100 12290
+G 12200 999 0
+M 12201 100 12290
+M 12202 100 12293
+M 12203 100 12266
+M 12214 100 12253
+M 12204 100 12253
+M 12204 100 12253
+M 12204 100 12253
+O 12222   1 12253
+M 12206 100 12248
+M 12212 100 12297
+M 12215 100 12240
+M 12207 100 12240
+M 12207 100 12240
+M 12207 100 12240
+M 12216 100 12218
+M 12208 100 12218
+M 12208 100 12218
+M 12208 100 12218
+M 12209 100 12209
+M 12210 100 12200
+M 12211 100 12230
+M 12213 100 12286
+M 12213 100 12281
+M 12213 100 12279
+M 12213 100 12216
+M 12213 100 12200
+M 12217 100 12291
+M 12217 100 12281
+M 12217 100 12278
+M 12217 100 12268
+M 12217 100 12258
+M 12217 100 12251
+M 12217 100 12239
+M 12217 100 12231
+M 12217 100 12220
+M 12217 100 12214
+M 12217 100 12204
+M 12218 100 12291
+M 12218 100 12281
+M 12218 100 12278
+M 12218 100 12268
+M 12218 100 12258
+M 12218 100 12251
+M 12218 100 12239
+M 12218 100 12231
+M 12218 100 12220
+M 12218 100 12214
+M 12218 100 12204
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

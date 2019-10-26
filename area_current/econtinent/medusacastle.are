@@ -1,0 +1,2244 @@
+#AREA Medusa's Castle~
+#AUTHORS Xak~
+#VERSION 4
+#RANGES 50 60 1 95
+
+
+#HELPS
+-1 MEDUSA 'MEDUSA'S CASTLE'~
+{138}                               Medusa's Castle
+{308}
+This is where the hideous gorgon lies.  Myths tell of her power to turn
+men to stone with a single glance.
+~
+
+0 $~
+
+
+#MOBILES
+#11000
+medusa~
+Medusa~
+The evil gorgon prepares for attack!~
+You see a ugly woman with snakes for hair and glowing green eyes!
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_HUNT
+-1000 S
+59 BODY_HAND|BODY_FOOT BODY_MOUTH|BODY_EYE|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 30d30+3000 1d1+46
+106077 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 100~
+if rand (20)
+  mpecho Medusa stares at you, but you turn your head just in time.
+else
+  if rand (20)
+    say You shall join my statue collection!
+    cackle $n
+  else
+    if rand (20)
+      cast 'faerie fire'
+    else
+      if rand (70)
+        cast 'energy drain'
+      else
+        if rand (65)
+          cast 'call lightning'
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#11001
+Blind Witch~
+a Blind Witch~
+An old hag is here.~
+You see an ugly hag.  This witch is one of three sisters.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_BODY
+AFF_BLIND|AFF_SANCTUARY
+-1000 S
+58 BODY_CLAW BODY_MOUTH|BODY_EYE|BODY_TORSO|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d1+2408 1d58+17
+80878 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 10~
+if rand (10)
+  cackle 
+else
+  if rand (10)
+    glare $n 
+  else
+    if rand (30)
+      curse $n
+    else
+      if rand (20)
+        cast 'earthquake'
+      else
+        if rand (20)
+          cast 'energy drain'
+        else
+          if rand (20)
+            cast 'flamestrike'
+          else
+            if rand (20)
+              cast 'lightning bolt'
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#11002
+Sundry Argonaut~
+a Sundry Argonaut~
+A Sundry Argonaut is here.~
+The Sundry Argonaut is out to kill Medusa!
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+400 S
+55 BODY_HAND BODY_HEAD 1d756+1469 9d5+20
+60000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 20~
+if rand (20)
+  say Medusa's head would be a very prized trophy.
+else
+  if rand (20)
+    say I will slay Medusa!
+  else
+    glare $r
+~
+>fight_prog 100~
+if rand (30)
+  cast 'weaken' $n
+else
+  if rand (50)
+    kick 
+  else
+    if rand (75)
+      cast 'burning hands'
+    endif
+  endif
+endif
+~
+|
+#11003
+Snake~
+the Snake~
+A multi-colored snake is here.~
+You see a small but deadly multi-colored snake.
+~
+ACT_AGGRESSIVE|ACT_WIMPY|ACT_BODY
+AFF_SNEAK|AFF_HIDE
+-380 S
+49 BODY_MOUTH BODY_HEAD|BODY_TAIL 1d600+1146 1d1+37
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11004
+Ghastly Wraith~
+a Ghastly Wraith~
+A ghastly wraith is here.~
+You see a long dead wandering Wraith.
+~
+ACT_BODY
+AFF_INVISIBLE
+-300 S
+51 BODY_HAND BODY_HEAD 1d1+1528 1d51+14
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#11005
+Stone Sentry~
+a Stone Sentry~
+A stone sentry comes alive and attacks!~
+You see a living statue that guards Medusa from people like you, who
+would try to slay her.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+-400 S
+55 BODY_HAND BODY_HEAD|BODY_EYE|BODY_HIP|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 1d756+1469 1d55+16
+50000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 50~
+say I swore to protect Medusa from those who would harm her, DIE!!!
+~
+>fight_prog 40~
+say You shall die!!!
+cast 'shocking grasp' $n
+~
+>fight_prog 20~
+cast 'curse' $n
+~
+|
+#11006
+Slave~
+Slave of Chaos~
+A half snake, half man, creature slithers here praying for chaos.~
+This being has been enslaved by chaos.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_HAND BODY_HEAD|BODY_TORSO|BODY_ARM|BODY_TAIL|BODY_HAND 2d500+8000 1d95+46
+132588 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 99~
+say Bring me the head of Medusa I will enchant it for you.
+bow $n
+endif
+~
+>give_prog I11001~
+emote utters the words 'gnol evil soahc'
+mpjunk I11001
+mpoload 11009
+give I11009 $n
+mpjunk I11009
+say Do not let it fall into the wrong hands.
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11000
+sword stone~
+a sword of stone~
+A dull gray sword lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 2 15 WEAPON_SLASH 0 0 0 0
+30 10000 56
+A APPLY_DAMROLL 5 0
+#11001
+Head Medusa~
+head of Medusa~
+A head with many snakes protruding from it and glowing green eyes is lying here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 4000000 60
+A APPLY_STR 2 0
+A APPLY_AC -10 0
+#11002
+Hero Scroll~
+the Hero's Scroll~
+A scroll for a brave hero lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+95 84 24 60 0 0 0 0
+1 100000 85
+S 1 'enchant weapon'
+S 2 'blindness'
+S 3 'demon'
+#11003
+Crystal Eye~
+the Crystal Eye~
+There is a cystal ball on the ground here.~
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 6 6 65 0 0 0 0
+5 10000 50
+S 3 'detect invis'
+#11004
+witch cloak~
+a Witch Cloak~
+A pile of black cloth is on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_EVIL|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+10 1000000 35
+A APPLY_SAVING_SPELL -2 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#11005
+Mirrored Shield~
+a Mirrored Shield~
+You see your reflection on the ground.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+10 0 0 0 0 0 0 0
+35 1000000 70
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 7 0
+#11006
+gray potion~
+a dull gray potion~
+A dull gray potion~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+60 235 24 0 0 0 0 0
+1 10000 55
+S 1 'stone skin'
+S 2 'blindness'
+S 3 '-1 slot'
+#11007
+statue~
+a statue~
+A statue of a man trying to cover his eyes.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+10000 10 1
+#11008
+statue~
+a statue~
+A statue of a man trying to cover his eyes.~
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 0 -1 0 0 0 0 0
+10000 10 7
+#11009
+head medusa~
+head of Medusa~
+A head with many snakes sticking out of it and glowing green eyes lies here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 100 60
+A APPLY_SAVING_SPELL -5 0
+A APPLY_AC -5 0
+A APPLY_DAMROLL 7 0
+#11010
+lightning rod~
+a Lightning Rod~
+A lightning rod from the heavens.~
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+5 10000 50
+A APPLY_DAMROLL 5 0
+A APPLY_STR 2 0
+A APPLY_DEX 2 0
+#11011
+spine thrasher~
+the Spine Thrasher~
+A dull gray dagger lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 5 5 WEAPON_STAB 0 0 0 0
+10 20000 60
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 5 0
+#0
+
+
+#ROOMS
+#11000
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the north.  To the east is a cave entrance.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+You see an overgrown trail.~
+~
+0 -1 11001
+DDIR_WEST
+~
+~
+0 0 17521
+E
+pot weed~
+You see a nice pot plant here, you pick a bud and smoke it..
+~
+#11001
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the west.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see an overgrown trail.~
+~
+0 -1 11002
+DDIR_WEST
+You see an overgrown trail.~
+~
+0 -1 11000
+#11002
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the west.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see an overgorwn trail.~
+~
+0 -1 11001
+DDIR_EAST
+You see an overgrown trail.~
+~
+0 -1 11003
+#11003
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the north.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see an overgrown trail.~
+~
+0 -1 11004
+DDIR_WEST
+You see an overgrown trail.~
+~
+0 -1 11002
+#11004
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the north.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see an overgrown trail.~
+~
+0 -1 11005
+DDIR_WEST
+You see an overgrown trail.~
+~
+0 -1 11003
+#11005
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path continues to the west.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see an overgrown trail.~
+~
+0 -1 11006
+DDIR_WEST
+You see an overgroen trail.~
+~
+0 -1 11004
+#11006
+An Overgrown Trail~
+This narrow trail is covered with weeds and brush.
+You can barely make out the path through all the foilage.
+The path opens up to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The path opens up to the north.~
+~
+0 -1 11007
+DDIR_WEST
+You see an overgrown trail.~
+~
+0 -1 11005
+#11007
+Before the Castle Gate~
+The path has opened up and short grass grows here.
+To the north you can see a castle looming in the distance.
+There is a sign here.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+You see a castle.~
+~
+0 -1 11008
+DDIR_SOUTH
+You see an overgrown trail.~
+~
+0 -1 11006
+DDIR_DOWN
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 11115
+E
+sign~
+The sign says:  Medusa's castle lies directly ahead, beware!
+
+This area was created by Xak.  Thanks to Nihila for some of
+the ideas.
+~
+#11008
+Castle Gate~
+The floor is cracked and the walls are crumbling.  It looks like
+this castle is deserted.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the archway.~
+~
+0 -1 11040
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11009
+DDIR_SOUTH
+You see the trail in to the castle.~
+~
+0 -1 11007
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11039
+#11009
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11010
+DDIR_WEST
+You see the castle gate.~
+~
+0 -1 11008
+#11010
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11011
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11009
+#11011
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11012
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11010
+#11012
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+northwest of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11013
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11011
+#11013
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11014
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11012
+#11014
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11015
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11013
+#11015
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11016
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11014
+#11016
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11017
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11015
+#11017
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11018
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11016
+#11018
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11019
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11017
+#11019
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+west of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11020
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11018
+#11020
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+southwest of you.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11019
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11021
+#11021
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11020
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11022
+#11022
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11021
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11023
+#11023
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11022
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11024
+#11024
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11023
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11025
+#11025
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11024
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11026
+#11026
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11025
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11027
+#11027
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+south of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11026
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11028
+#11028
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+southeast of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11027
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11029
+#11029
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11028
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11030
+#11030
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11029
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11031
+#11031
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11030
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11032
+#11032
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11031
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11033
+#11033
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11032
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11034
+#11034
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11033
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11035
+#11035
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+east of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11034
+DDIR_SOUTH
+Outside the castle wall.~
+~
+0 -1 11036
+#11036
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+northeast of you.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Outside the castle wall.~
+~
+0 -1 11035
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11037
+#11037
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11038
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11036
+#11038
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11039
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11037
+#11039
+Outside The Castle Wall~
+You are wandering around the castle.  The castle wall is
+north of you.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+Outside the castle wall.~
+~
+0 -1 11008
+DDIR_WEST
+Outside the castle wall.~
+~
+0 -1 11038
+#11040
+The Archway~
+You are in the center of the archway, to the west and east
+is the castle wall and to the north you can see the inner
+cort.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the inner cort.~
+~
+0 -1 11064
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11041
+DDIR_SOUTH
+You see the castle gate.~
+~
+0 -1 11008
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11063
+#11041
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  There are
+cobwebs all over and you see a small spider scurrying
+across the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11042
+DDIR_WEST
+You see an archway.~
+~
+0 -1 11040
+#11042
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11043
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11041
+#11043
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11044
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11042
+DDIR_UP
+On the castle wall.~
+~
+0 -1 11089
+#11044
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11045
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11043
+#11045
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11046
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11044
+#11046
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11047
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11045
+#11047
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11048
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11046
+#11048
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11049
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11047
+#11049
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11048
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11050
+DDIR_UP
+On the castle wall.~
+~
+0 -1 11095
+#11050
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11049
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11051
+#11051
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11050
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11052
+#11052
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11051
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11053
+#11053
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11052
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11054
+#11054
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11053
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11055
+#11055
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11054
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11056
+DDIR_UP
+On the castle wall.~
+~
+0 -1 11101
+#11056
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11055
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11057
+#11057
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11056
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11058
+#11058
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11057
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11059
+#11059
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11058
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11060
+#11060
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11059
+DDIR_SOUTH
+You see a hall inside the castle wall.~
+~
+0 -1 11061
+#11061
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hall inside the castle wall.~
+~
+0 -1 11060
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11062
+DDIR_UP
+On the castle wall.~
+~
+0 -1 11107
+#11062
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  Dust rises
+as your foot hits the ground and you sneeze.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11063
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11061
+#11063
+Inside The Castle Wall~
+You are in a hallway inside the castle wall.  There are
+cobwebs all over and you see a small spider scurrying
+across the floor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a hall inside the castle wall.~
+~
+0 -1 11040
+DDIR_WEST
+You see a hall inside the castle wall.~
+~
+0 -1 11062
+#11064
+The Courtyard~
+You are standing at the entrance to a large courtyard
+inside the castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the great hall.~
+~
+0 -1 11082
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11065
+DDIR_SOUTH
+You see the archway.~
+~
+0 -1 11040
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11080
+#11065
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see an old stable.~
+~
+0 -1 11067
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11066
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11064
+#11066
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11068
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11065
+#11067
+The Stable~
+You are in a old stable.  The wood is rotting
+and the ceiling has holes in it.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11068
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11065
+#11068
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11069
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11066
+DDIR_WEST
+You see an old stable.~
+~
+0 -1 11067
+#11069
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11070
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11068
+#11070
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11071
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11069
+#11071
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11070
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11072
+#11072
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11071
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11073
+#11073
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11072
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11074
+#11074
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11073
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11075
+#11075
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11074
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11076
+#11076
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11075
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11077
+#11077
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11076
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11078
+#11078
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11077
+DDIR_EAST
+You see an old stable.~
+~
+0 -1 11079
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11081
+#11079
+The Stable~
+You are in a old stable.  The wood is rotting
+and the ceiling has holes in it.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11080
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11078
+#11080
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see an old stable.~
+~
+0 -1 11079
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11064
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 11081
+#11081
+The Courtyard~
+You are standing in a large courtyard inside the
+castle wall.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the courtyard.~
+~
+0 -1 11078
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 11080
+#11082
+The Great Hall~
+You are standing at the entrance to a great hall.
+The floor is made of a strange green stone and you
+notice unlit torches attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the great hall.~
+~
+0 -1 11083
+DDIR_SOUTH
+You see the courtyard.~
+~
+0 -1 11064
+#11083
+The Great Hall~
+You are in the great hall.  The floor is made of
+a strange green stone and you notice unlit torches
+attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The base of a huge stairway.~
+~
+0 -1 11086
+DDIR_EAST
+You see the great hall.~
+~
+0 -1 11084
+DDIR_SOUTH
+You see the great hall.~
+~
+0 -1 11082
+DDIR_WEST
+You see the great hall.~
+~
+0 -1 11088
+#11084
+The Great Hall~
+You are in the great hall.  The floor is made of
+a strange green stone and you notice unlit torches
+attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the great hall.~
+~
+0 -1 11085
+DDIR_WEST
+You see the great hall.~
+~
+0 -1 11083
+#11085
+The Great Hall~
+You are in the great hall.  The floor is made of
+a strange green stone and you notice unlit torches
+attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the great hall.~
+~
+0 -1 11084
+DDIR_WEST
+The base of a huge stairway.~
+~
+0 -1 11086
+#11086
+The Base of a Stairway~
+You are at the base of a huge stairway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the great hall.~
+~
+0 -1 11085
+DDIR_SOUTH
+You see the great hall.~
+~
+0 -1 11083
+DDIR_WEST
+You see the great hall.~
+~
+0 -1 11087
+DDIR_UP
+The top of a stairway.~
+~
+0 -1 11113
+#11087
+The Great Hall~
+You are in the great hall.  The floor is made of
+a strange green stone and you notice unlit torches
+attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+The base of a huge stairway.~
+~
+0 -1 11086
+DDIR_SOUTH
+You see the great hall.~
+~
+0 -1 11088
+#11088
+The Great Hall~
+You are in the great hall.  The floor is made of
+a strange green stone and you notice unlit torches
+attached to the walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the great hall.~
+~
+0 -1 11087
+DDIR_EAST
+You see the great hall.~
+~
+0 -1 11083
+#11089
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11090
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11112
+DDIR_DOWN
+You see a hall inside the castle wall.~
+~
+0 -1 11043
+#11090
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11091
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11089
+#11091
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11092
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11090
+#11092
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11093
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11091
+#11093
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11094
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11092
+#11094
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11095
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11093
+#11095
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11094
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11096
+DDIR_DOWN
+You see a hall inside the castle wall.~
+~
+0 -1 11049
+#11096
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11095
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11097
+#11097
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11096
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11098
+#11098
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11097
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11099
+#11099
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11098
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11100
+#11100
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11099
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11101
+#11101
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11100
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11102
+DDIR_DOWN
+You see a hall inside the castle wall.~
+~
+0 -1 11055
+#11102
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11101
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11103
+#11103
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11102
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11104
+#11104
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11103
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11105
+#11105
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11104
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11106
+#11106
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11105
+DDIR_SOUTH
+On the castle wall.~
+~
+0 -1 11107
+#11107
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+On the castle wall.~
+~
+0 -1 11106
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11108
+DDIR_DOWN
+You see a hall inside the castle wall.~
+~
+0 -1 11061
+#11108
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11109
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11107
+#11109
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11110
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11108
+#11110
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11111
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11109
+#11111
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11112
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11110
+#11112
+On The Castle Wall~
+From here you can see the dense forest surrounding
+the castle.  The castle wall is crumbling from many
+years of neglect.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+On the castle wall.~
+~
+0 -1 11089
+DDIR_WEST
+On the castle wall.~
+~
+0 -1 11111
+#11113
+The Top of A Stairway~
+You are at the top of a huge Stairway.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see a hallway.~
+~
+0 -1 11114
+DDIR_DOWN
+You see Medusa's bedroom.~
+~
+0 -1 11086
+#11114
+Medusa's Bedroom~
+You are standing in Medusa's beadroom.  There are statues all over!
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The top of a stairway.~
+~
+0 -1 11113
+#11115
+A Secret Chamber~
+You are standing in a secret chamber.
+~
+0 ROOM_NO_MOB SECT_LAVA
+DDIR_UP
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_PICKPROOF -1 11007
+#0
+
+
+#RESETS
+M 11000 100 11114
+E 11001   1 WEAR_HOLD
+G 11002 999 0
+G 11006 999 0
+M 11001 100 11086
+E 11004  20 WEAR_NECK_A
+G 11003 999 0
+G 11006 999 0
+M 11001 100 11086
+E 11004  20 WEAR_NECK_A
+G 11006 999 0
+M 11001 100 11086
+E 11004  20 WEAR_NECK_A
+G 11006 999 0
+M 11002 100 11005
+E 11005 999 WEAR_SHIELD
+M 11002 100 11010
+E 11005 999 WEAR_SHIELD
+M 11002 100 11018
+E 11005 999 WEAR_SHIELD
+M 11002 100 11022
+E 11005 999 WEAR_SHIELD
+M 11002 100 11026
+E 11005 999 WEAR_SHIELD
+M 11002 100 11032
+E 11005 999 WEAR_SHIELD
+M 11002 100 11038
+E 11005 999 WEAR_SHIELD
+M 11002 100 11042
+E 11005 999 WEAR_SHIELD
+M 11002 100 11052
+E 11005 999 WEAR_SHIELD
+M 11002 100 11077
+E 11005 999 WEAR_SHIELD
+M 11003 100 11001
+M 11003 100 11004
+M 11003 100 11007
+M 11003 100 11011
+M 11003 100 11015
+M 11003 100 11024
+M 11003 100 11028
+M 11003 100 11031
+M 11003 100 11037
+M 11004 100 11041
+M 11004 100 11046
+M 11004 100 11050
+M 11004 100 11053
+M 11004 100 11059
+M 11004 100 11084
+M 11004 100 11088
+M 11004 100 11091
+M 11004 100 11096
+M 11004 100 11103
+M 11004 100 11109
+M 11005 100 11008
+E 11000 999 WEAR_HEAD
+M 11005 100 11043
+E 11011 999 WEAR_HEAD
+M 11005 100 11049
+E 11000 999 WEAR_HEAD
+M 11005 100 11055
+E 11011 999 WEAR_HEAD
+M 11005 100 11061
+E 11000 999 WEAR_HEAD
+M 11005 100 11082
+E 11011 999 WEAR_HEAD
+M 11005 100 11086
+E 11000 999 WEAR_HEAD
+M 11005 100 11089
+E 11011 999 WEAR_HEAD
+M 11005 100 11095
+E 11000 999 WEAR_HEAD
+M 11005 100 11098
+E 11011 999 WEAR_HEAD
+M 11005 100 11101
+E 11000 999 WEAR_HEAD
+M 11005 100 11107
+E 11011 999 WEAR_HEAD
+M 11005 100 11110
+E 11000 999 WEAR_HEAD
+M 11006 100 11115
+O 11007 100 11042
+O 11007 100 11048
+O 11007 100 11059
+O 11007 100 11082
+O 11007 100 11083
+O 11007 100 11084
+O 11007 100 11085
+O 11007 100 11086
+O 11007 100 11087
+O 11007 100 11088
+O 11007 100 11091
+O 11007 100 11098
+O 11007 100 11106
+O 11007 100 11113
+O 11008   1 11114
+P 11010 999 11008
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

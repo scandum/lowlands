@@ -1,0 +1,3572 @@
+#AREA Xanth~
+#AUTHORS Jaxom~
+#VERSION 4
+#RANGES 20 50 1 50
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT
+
+
+#HELPS
+0 XANTH~
+{128}
+                                    Xanth
+{308}
+The land of Xanth is one full of magic.  There is an old law that says
+that each person must have a magical talent in order to be there, otherwise
+they will be exiled.  You may find that the Xanth resembles a certain
+mundane peninsula, even though it lies south of Ethshar on the continent
+of Toril.
+~
+
+0 $~
+
+
+#MOBILES
+#43100
+trentmob king~
+King Trent~
+King Trent stands here.~
+He is a middle aged man that stands tall and sure of himself.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+500 S
+50 BODY_HAND BODY_HAND 1d625+1197 1d50+13
+92051 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 0
+  say Welcome to Xanth, $n
+  say I have been looking for someone like you.
+  say I am trying to discover the source of magic in Xanth.
+  say Will you help me?
+else
+  say What news have you, $n?
+endif
+~
+>speech_prog yes ok sure~
+if quest (0,5,$n) == 0
+  smile 
+  say Wonderful!
+  say I suggest you start with a visit to Good Magician Humphrey
+  mpmset $n quest 0 5 1
+else
+  say huh?
+  say Yes what?
+endif
+~
+>speech_prog privacy~
+if quest (0,5,$n) == 11
+  say Very well, we shall have to give him the shieldstone
+  say that helps to protect Xanth from invaders.
+  say Go to the border guard and tell him
+  say 'Trent needs the shieldstone.'
+  mpmset $n quest 0 5 12
+endif
+~
+>give_prog i43103~
+if quest (0,5,$n) == 13
+  say Thank you, $n
+  say I have modified the stone for use for the Demon.
+  say You had better take this to your Demon now.
+  mpquiet on
+  mpjunk all
+  mpoload 43103
+  mpquiet off
+  give i43103 $n
+  mpmset $n quest 0 5 14
+else
+  say Where did you get that?
+  say That is vital for the defence of Xanth!
+endif
+~
+>speech_prog source demon~
+if quest (0,5,$n) == 15
+  say You have done well in the quest I set for you.
+  say Take this as your reward.
+  mpquiet on
+  mpoload 43107
+  give xanthite $n
+  mpoload 43109
+  give xanthite $n
+  mpoload 43110
+  give xanthite $n
+  mpoload 43112
+  give xanthite $n
+  drop all
+  mpquiet off
+  mpechoat $n King Trent gives you a set of Xanthite armor.
+  mpmset $n quest 0 5 16
+else
+  say What about it?
+endif
+~
+|
+#43101
+humphreymob good magician~
+Humphrey~
+Good Magician Humphrey is here.~
+He is short and old and looks rather like a gnome.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+50 BODY_HAND BODY_HAND 1d625+1197 1d50+13
+91017 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 6
+  mpat 43183 connect up -1
+  say Well? What do you want?
+else
+  if quest (5,3,$n) == 2
+    say You have gotten past my obstacles, what do you want?
+  else
+    say You don't belong here!  Go away.
+    mptransfer $n 43100
+  endif
+endif
+~
+>speech_prog source magic~
+if quest (0,5,$n) == 6
+  mpechoat $n Without thought the gnomelike magician begins to speak.
+  say The source of magic in Xanth lies deep below the surface.
+  say You may find an entrance near the Region of Madness.
+  say Oh yes, you may need this.
+  mpoload 43100
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  give moss $n
+  mpmset $n quest 0 5 7
+  say Now leave me alone!
+  mpechoat $n Humphrey waves his hand and you find yourself somewhere else.
+  mptransfer $n 43161
+endif
+~
+>speech_prog help~
+if quest (5,3,$n) == 2
+  mpmset $n quest 5 3 3
+  mpoload 43114
+  give i43114 $n
+  mpoload 43115
+  give i43115 $n
+  mpoload 43116
+  give i43116 $n
+  say There!  If that doesn't help you nothing will!
+  say No go away!
+  mptransfer $n 43100
+endif
+~
+|
+#43102
+X(A/N)th demon~
+the Demon X(A/N)th~
+The Demon X(A/N)th broods here.~
+He is enormous and looks to be made of stone.  He exudes magic
+out of every pore.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+50 BODY_HAND BODY_HAND 10d10+1500 1d50+13
+92642 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+>speech_prog source~
+if quest (0,5,$n) == 9
+  say Of course I am the source of magic.
+  say Now tell me why I should not kill you for disturbing me!
+  mpmset $n quest 0 5 10
+endif
+~
+>rand_prog 33~
+if quest (0,5,$r) == 8
+  shout Why have you awoken me?
+  mpmset $r quest 0 5 9
+else
+  if quest (0,5,$r) == 10
+    if rand (10)
+      say You can give me no reason?  Then perish in the void!
+      mpmset $r quest 0 5 7
+      mpquiet on
+      cast astral $r
+      mpquiet off
+      mptransfer $r 43146
+      mpat $r mpforce $r recall set
+    else
+      mpkill $r
+    endif
+  endif
+~
+>speech_prog privacy~
+if quest (0,5,$n) == 10
+  say Come back when you can ensure my privacy
+  say and I will let you live.  Now begone!
+  mpmset $n quest 0 5 11
+  mptransfer all 43114
+endif
+~
+>fight_prog 40~
+say You dare to fight me?!?!
+cast 'acid blast' $r
+cast 'acid blast' $n
+~
+>death_prog 100~
+say Get out of my land!
+mptransfer all 43100
+~
+>give_prog i43103~
+if quest (0,5,$n) == 14
+  say You have proved resourceful indeed, but I would
+  say have you know that I can provide myself with anything
+  say I need including privacy.  Take this anyway for I have
+  say no need of it.
+  say Now begone!
+  mpquiet on
+  mpjunk all
+  mpoload 43117
+  mpquiet off
+  give shieldstone $n
+  mpmset $n quest 0 5 15
+  mptransfer all 43114
+else
+  say What am I to do with this? Go away!
+  give shieldstone $n
+  mptransfer all 43120
+endif
+~
+|
+#43103
+brain coral~
+the Brain Coral~
+The Brain Coral lies here under the liquid.~
+It looks rather like a brain made of coral.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+95 0 0 10d10+10000 1d10+100
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,5,$n) == 7
+  mpechoat $n Your quest leads to your doom.  Do not continue!
+  rescale 43103 $n 110
+else
+  if quest (0,5,$n) == 14
+    connect east 43178
+    mpmset self quest 5 1 1
+    say You may pass.
+  endif
+endif
+~
+>rand_prog 20~
+if quest (5,1,self) == 1
+  connect east -1
+  mpmset self quest 5 1 0
+endif
+if quest (0,5,$r) == 7
+  say You must kill me if you would continue.
+endif
+~
+>death_prog 100~
+if quest (0,5,$n) == 7
+  connect east 43178
+  mpmset $n quest 0 5 8
+  mpmset self quest 5 1 1
+endif
+~
+|
+#43104
+manticore~
+the Manticore~
+The Manticore is here.~
+He has the body of a lion, the head of a man, and the tail of a wyvern.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+95 BODY_FOOT BODY_FOOT 10d10+10000 1d10+100
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 5
+  say Greetings slug!
+  say You will have to get by me if you want to see the gnome.
+  rescale 43104 $n 110
+endif
+~
+>death_prog 100~
+if quest (0,5,$n) == 5
+  mpmset $n quest 0 5 6
+  connect up 43184
+endif
+~
+|
+#43105
+ouroboros water dragon~
+the Ouroboros~
+An enormous water dragon coils around the castle here.~
+It is a long water dragon with black and white scales that holds its
+tail in its teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_MOUTH BODY_TAIL 1d625+1197 1d50+13
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,5,$n) == 0
+  if quest (5,3,$n) < 3
+    mpechoat $n You take a step back as you realize the moat is filled with firewater.
+    mptransfer $n 43277
+  endif
+else
+  if quest (0,5,$n) > 7
+    if quest (5,3,$n) < 3
+      mpechoat $n You take a step back as you realize the moat is filled with firewater.
+      mptransfer $n 43277
+    endif
+  endif
+endif
+~
+>rand_prog 40~
+connect west -1
+if quest (0,5,$r) == 1
+  mpechoat $r You step onto the back of the water dragon, and start
+  mpechoat $r walking as the loops of the dragon in front of you rise
+  mpechoat $r and the bit you are on starts to submerge.
+  mpmset $r quest 0 5 2
+  if rand (30)
+    mpechoat $r The water dragon's coils pulse and you are thrown clear.
+    mpmset $r quest 0 5 1
+    mpforce $r east
+  endif
+else
+  if quest (0,5,$r) == 2
+    mpechoat $r You look up as you walk along the coil and see that
+    mpechoat $r you are two rows of coils into the moat; about halfway.
+    mpmset $r quest 0 5 3
+    if rand (30)
+      mpechoat $r The water dragon's coils pulse and you are thrown clear.
+      mpmset $r quest 0 5 1
+      mpforce $r east
+    endif
+  else
+    if quest (0,5,$r) == 3
+      mpechoat $r All of a sudden you look up and find yourself on the
+      mpechoat $r innermost coil.  You can hop off onto a narrow ledge.
+      connect west 43181
+      mpmset $r quest 0 5 4
+    else
+      if quest (0,5,$r) == 4
+        mpechoat $r The water dragon's coils pulse and you are thrown clear.
+        mpmset $r quest 0 5 1
+        mpforce $r east
+      else
+        if rand (30)
+          mpechoat $r The water dragon's coils pulse and you are thrown clear.
+          mpforce $r east
+        endif
+      endif
+    endif
+  endif
+endif
+~
+|
+#43106
+zombie guardian~
+a guardian zombie~
+A zombie shambles here.~
+It is a dead man that has been animated.  Its flesh is rotting and
+pieces of it fall off occasionally.
+~
+ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND
+0 S
+50 BODY_HAND BODY_HAND 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#43107
+spearmint plant mint green~
+a spearmint~
+A green plant is here smelling of mint.~
+It is a small plant with green leaves.  It smells like spearmint!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+30 0 0 1d225+410 1d1+21
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 15~
+mpechoat $r The spearmint launches a spear at you as you get too close.
+mpkill $r
+~
+|
+#43108
+peppermint plant mint reddish~
+a peppermint~
+A reddish plant is here smelling of mint.~
+It is a small plant with reddish leaves. It smells of peppermint!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+30 0 0 1d225+410 1d1+21
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpechoat $r You are enveloped in a cloud of pepper.
+mpforce $r sneeze
+~
+|
+#43109
+tangle tree willow~
+a tangle tree~
+A tree that looks like a weeping willow is here.~
+This tree looks just like a weeping willow, though when you look
+closer you see that a large knot in the trunk looks rather like
+a mouth with teeth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-200 S
+50 0 0 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpechoat $r The tangle tree attempts to grab you as you pass under it.
+mpkill $r
+~
+|
+#43110
+gapdragon dragon~
+the Gap Dragon~
+The Gap Dragon charges down the chasm at you!~
+He is a large green dragon that looks well fed.
+~
+ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-100 S
+60 BODY_TAIL BODY_TAIL 10d10+3000 1d10+50
+100000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (124,1,$n) == 0
+    mpmset $n quest 124 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#43111
+centaur~
+a centaur~
+A centaur runs here.~
+He has the upper torso of a man, and the lower body of a horse.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+40 BODY_FOOT BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43112
+ogrefenogre fen~
+an ogre-fen-ogre.~
+An ogre hulks here.~
+It is a large humanoid that is known for enormous strength.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-400 S
+50 BODY_HAND BODY_HAND 1d625+1197 1d50+13
+10000 RACE_OGRE
+POS_STANDING POS_STANDING SEX_MALE
+#43113
+curse fiend man~
+a curse fiend~
+A man stand here, colorfully dressed.~
+This man looks like any you might meet, though he is well dressed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+40 BODY_HAND BODY_HAND 1d400+746 1d10+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43114
+borderguard guard~
+a border guard~
+A border guard stands here, watching for undesirables.~
+He is a bored looking man doing a job.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_HAND 1d625+1947 1d50+38
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Welcome to Xanth, $n
+~
+>speech_prog p Trent needs the shieldstone.~
+if quest (0,5,$n) == 12
+  if sex ($n) == 1
+    say Yes sir!
+  else
+    say Yes ma'am!
+  endif
+  mpoload 43103
+  give shieldstone $n
+  mpmset $n quest 0 5 13
+else
+  say Tell him to get it himself!
+endif
+~
+|
+#43115
+north villager man~
+a north villager~
+A man from north village is here.~
+He looks like a normal citizen of Xanth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+30 BODY_HAND BODY_HAND 1d225+410 1d1+21
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43116
+gargoyle widemouthed bigmouth~
+Bigmouth~
+A widemouthed gargoyle perches here.~
+It is a stone gargoyle that perches here acting as a water spout.
+The gargoyle's mouth looks enormous.  If it were to open its mouth
+all the way, you could probably fit inside it even.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 0 0 1d625+1197 1d50+13
+95447 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,5,$n) == 4
+  mpechoat $n The gargoyle tries to speak to you around the
+  mpechoat $n water that is coming out of its mouth.
+  say Whath thu oou wath, thinkreath?
+endif
+~
+>speech_prog open~
+if quest (0,5,$n) <= 4
+  mpechoat $n you see a tunnel leading into the castle inside.
+  connect west 43183
+  mpmset $n quest 0 5 5
+~
+>rand_prog 10~
+connect west -1
+if quest (0,5,$r) == 5
+  mpecho The gargoyle closes it mouth until the water barely escapes.
+  mpmset $r quest 0 5 4
+endif
+~
+|
+#43117
+nicklepede~
+a nicklepede~
+A nicklepede scuttles here.~
+It is a small silver looking insect with hundreds of legs.
+~
+ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-100 S
+30 BODY_CLAW BODY_CLAW 1d225+410 1d1+21
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43118
+behemothmob~
+a behemoth~
+A behemoth lies here half submerged.~
+It is an enormous creature made mostly of mouth it seems.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_HAND 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog open~
+mpecho The behemoth opens its mouth revealing a tunnel.
+connect west 43168
+~
+>rand_prog 10~
+connect west -1
+mpecho The behemoth closes its mouth
+~
+|
+#43119
+screechingharpy harpy~
+a screeching harpy~
+A screeching harpy flaps here.~
+She has the torso and head of a woman, and the limbs of a vulture.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_FLYING
+-500 S
+40 BODY_CLAW BODY_HAND 1d400+746 1d10+25
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>death_prog 100~
+mpoload 43131
+~
+|
+#43120
+sweatgnats gnats swarm~
+a swarm of gnats~
+A swarm of gnats flies here.~
+The look just like normal gnats.  Are you feeling hot too?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_FLYING
+0 S
+30 0 0 1d225+410 1d1+21
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+mpechoat $r You start to sweat as you are enveloped by a cloud of sweat gnats.
+mpquiet on
+cast hallucinate $r
+cast hallucinate $r
+peace 
+mpquiet off
+~
+|
+#43121
+needle cactus~
+a needle cactus~
+A needle cactus is here.~
+It is a green cactus with long needle like spines.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+40 0 0 1d400+746 1d10+25
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+mpechoat $r The needle cactus launches a volley of needles at you.
+mpkill $r
+~
+|
+#43122
+justintree tree~
+Justin Tree~
+An unusual tree stands here.~
+He has bark the color of flesh and his leaves are shaped like hands.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+500 S
+50 0 0 1d625+1197 1d50+13
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+say Hello $n
+~
+|
+#43123
+seaserpent serpent zombie~
+a zombie sea serpant~
+A zombie sea serpant swims here.~
+It looks like any other sea serpent that has been dead for
+a while, except that it is moving.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+0
+0 S
+40 0 0 1d400+746 1d40+9
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#43124
+spellmender~
+the spellmender~
+The spellmender stands here.~
+She is a woman with a talent for making potions.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+1 0 0 1d0+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#43125
+equipper village~
+the equiper~
+The village equipper stands here.~
+He is a north villager that sells stuff.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+1 0 0 1d0+10 1d1+1
+26 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43126
+rolandmob elder~
+Roland~
+The village elder stands here.~
+He is an aging man but still very capable.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+500 S
+50 0 0 10d10+2000 1d10+50
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#43127
+vortexethereal~
+vortexethereal~
+Vortexethereal~
+This mob transfers you to the lake edge.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+24 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 30~
+mpechoat $r The vortex pulls you down no matter how much you struggle.
+mpquiet on
+mpforce $r sleep
+mptransfer $r 43172
+mpquiet off
+~
+|
+#43128
+xanthethereal~
+xanthethereal~
+Xanthethereal~
+This mob transfers you out of xanth if you arent a mage.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 1d1+10 1d1+1
+22 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#43129
+midasfly fly golden~
+a midas fly~
+A golden fly lands on you.~
+It is a small fly normal in all respects except for the
+fact that it is made of pure gold.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_FLYING
+0 S
+30 0 0 1d225+410 1d1+21
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#43130
+needle cactus~
+a needle cactus~
+A needle cactus is here.~
+It is a green cactus with long needle like spines.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+40 0 0 1d400+746 1d10+25
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+connect up -1
+mpechoat $n The needle cactus launches a volley of needles at you as you come in range.
+mpkill $n
+~
+>fight_prog 15~
+mpechoat $r The needle cactus launches a volley of needles at you.
+mpmadd $n currhp -20
+~
+>death_prog 100~
+if quest (5,3,$n) == 1
+  mpmset $n quest 5 3 2
+  connect up 43184
+endif
+~
+|
+#43131
+basilisk~
+a basilisk~
+A basilisk glares at you.~
+It is a small lizard with six legs and a horn on its snout.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+0 S
+40 0 0 1d400+746 1d10+25
+1000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpquiet on
+get basilisk
+mpjunk all
+if quest (5,3,$n) != 1
+  connect west -1
+endif
+mpquiet off
+~
+>fight_prog 40~
+if hasobjnum ($n) == 43132
+  if quest (5,3,$n) == 0
+    mpechoat $n The basilisk sees itself in your mirror and is turned to stone.
+    mpquiet on
+    connect west 43280
+    mpoload 43133
+    drop i43133
+    mpmset $n quest 5 3 1
+    mpquiet off
+    mppurge self
+  else
+    mpechoat $n The basilisk refuses to look at your mirror.
+  endif
+else
+  mpechoat $n The basilisk glares at you and you are turned to stone!
+  mpquiet on
+  slay $n
+  mpquiet off
+endif
+~
+|
+#43132
+firewaterethereal~
+firewaterethereal~
+firewaterethereal~
+This mob connects the room out of the lava moat.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+22 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 10~
+mpquiet on
+connect west 43278
+mpquiet off
+~
+>all_greet_prog 100~
+mpquiet on
+connect west -1
+mpquiet off
+~
+|
+#0
+
+
+#SHOPS
+43124 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_POTION ITEM_TYPE_PILL  100  50  0 23
+43125 ITEM_TYPE_LIGHT ITEM_TYPE_FOOD ITEM_TYPE_CONTAINER ITEM_TYPE_DRINK_CON ITEM_TYPE_BOAT  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#43100
+phosphorescent moss~
+phosphorescent moss~
+Phosphorescent moss grows here.~
+It is a green moss that seems to give off a gentle glow.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+2 10000 25
+A APPLY_SAVING_SPELL -3 0
+A APPLY_AC -10 0
+#43101
+mint spear~
+a mint spear~
+A mint's spear lies on the ground here.~
+It is a wooden spear that looks like it has grown naturally.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 3 11 WEAPON_PIERCE 0 0 0 0
+10 3000 35
+#43102
+centaurs bow~
+a Centaur's Bow~
+A Centaur's Bow lies on the ground here.~
+It is finely crafted of a dark wood.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SHORTBOW 3 9 WEAPON_POUND 0 0 0 0
+10 3000 25
+#43103
+shieldstone~
+the shieldstone~
+The shieldstone lies on the ground here.~
+It is a normal looking stone with a small shield engraved
+on its surface.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 1000 20
+#43104
+bone dagger~
+a bone dagger~
+A dagger made of bone lies here.~
+It is a dagger made from bone.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 3 10 WEAPON_PIERCE 0 0 0 0
+1 300 25
+#43105
+throne~
+a throne~
+A throne sits upon a dais.~
+It is a large wooden chain draped in expensive fabrics.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+10 10 56
+#43106
+xanthite robe~
+a xanthite robe~
+A robe lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43107
+xanthite tunic~
+a xanthite tunic~
+A tunic lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43108
+xanthite shoes~
+a xanthite shoes~
+A pair of shoes lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43109
+xanthite sleeves~
+a xanthite sleeves~
+A pair of sleeves lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43110
+xanthite breeches~
+a xanthite breeches~
+A pair of breeches lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43111
+xanthite coif~
+a xanthite coif~
+A coif lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43112
+xanthite gloves~
+a xanthite gloves~
+A pair of gloves lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43113
+xanthite belt~
+a xanthite belt~
+A belt lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43114
+xanthite ring~
+a xanthite ring~
+A ring lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43115
+xanthite bracer~
+a xanthite bracer~
+A bracer lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43116
+xanthite cloak~
+a xanthite cloak~
+A cloak lies on the ground here.~
+It is made of the precious magical metal xanthite.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+12 0 0 0 0 0 0 0
+5 50000 29
+A APPLY_HIT 20 0
+A APPLY_DAMROLL -5 0
+#43117
+shieldstone~
+the shieldstone~
+The shieldstone lies on the ground here.~
+It is a normal looking stone with a small shield engraved
+on its surface.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+10 0 0 0 0 0 0 0
+5 100000 25
+A APPLY_SAVING_SPELL -3 0
+#43118
+centaur arrow~
+a centaur's arrow~
+A centaur's arrow lies here.~
+It is a long wooden arrow.
+~
+ITEM_TYPE_AMMO
+0
+ITEM_WEAR_TAKE
+10 30 10 2 0 0 0 0
+1 100 25
+#43119
+passdoor staff~
+a staff of pass door~
+A staff lies on the ground here.~
+It is a wooden staff about 6ft long.
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+60 3 3 178 0 0 0 0
+3 1000 25
+S 3 'pass door'
+#43120
+enhanceobject scroll~
+an enhance scroll~
+A scroll of enhance object is here.~
+It is a roll of parchment with strange writings on it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+51 89 0 0 0 0 0 0
+1 10000 25
+S 1 'enhance object'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#43121
+recall scroll~
+a recall scroll~
+A recall scroll lies abandoned on the ground here.~
+Well, it's a scroll, and if you recite it you recall.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 266 0 0 0 0 0 0
+1 10 1
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#43122
+protection good staff~
+a staff of protection from good~
+A staff lies here.~
+It is a shaft of wood about 8ft in length.
+~
+ITEM_TYPE_STAFF
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+60 3 3 191 0 0 0 0
+3 10000 25
+S 3 'protection good'
+#43123
+robe many pockets~
+a robe of many pockets~
+A robe lies crumpled here.~
+It is a large robe full of pockets.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+400 0 -1 0 0 0 0 0
+1 10000 25
+#43124
+beerbarrel barrel tree~
+a beer barrel~
+A beer barrel tree grows here.~
+It is a tree whose trunk is full of beer.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+4 3 LIQ_BEER 0 0 0 0 0
+1 20 10
+#43125
+breadfruit loaf~
+a breadfruit~
+A loaf of bread lies abandoned on the ground.~
+It looks as though it has been freshly picked.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+24 0 0 0 0 0 0 0
+1 10 10
+#43126
+reversewood wood chunk~
+reverse wood~
+A chunk of wood lies on the ground here.~
+It is a piece of wood.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 50000 35
+A APPLY_SAVING_SPELL -4 0
+A APPLY_AC -10 0
+P 1
+TRIG_COMMAND 60 cast
+OPROG_IF OIF_RANDOM_PERCENT < 50 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+Something prevents your spell from working correctly.~
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+cast hallucinate self~
+P 3
+TRIG_VOID
+OPROG_ECHO
+Something prevents your spell from working correctly.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+cast confusion self~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#43127
+golden bracer~
+a golden bracer~
+A golden bracer is here.~
+It is a bracer made of gold.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+5 100000 5
+#43128
+golden bracelet~
+a golden bracelet~
+A golden bracelet is here.~
+It is a bracelet made of gold.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+0 0 0 0 0 0 0 0
+5 100000 5
+#43129
+golden ring~
+a golden ring~
+A golden ring is here.~
+It is a ring made of gold.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+5 100000 5
+#43130
+reflective potion~
+a reflective potion~
+A potion lies on the ground here.~
+It is a very shiny fluid.  Light reflects off its surface.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+41 170 0 0 0 0 0 0
+1 10000 25
+S 1 'mirror image'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#43131
+harpies voice harpy~
+a harpy's voice~
+A harpy's voice lies here lost.~
+It is very foul and something best not talked about.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 30
+#43132
+silver mirror~
+a silver mirror~
+A silver mirror is here.~
+It is a mirror made of silver.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10000 5
+#43133
+statue basilisk~
+a statue of a basilisk~
+A statue of a basilisk is here.~
+It is a basilisk of stone.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 1000 5
+#0
+
+
+#ROOMS
+#43100
+Mundania~
+This area is dreary and unmagical.  You see no sign of magical flora or
+fauna anywhere.  A strip of land narrows to the east while to the north
+is the main mass of Toril.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_FOREST
+DDIR_NORTH
+Roads of Toril~
+~
+0 -1 16229
+DDIR_EAST
+Isthmus~
+~
+0 -1 43101
+#43101
+Isthmus~
+This is a narrow strip of land joining two larger landmasses.  One is a
+peninsula to the east and south, while the other is the continent of Toril
+to the west and north.  You see signs of magic toward the east.
+~
+0 ROOM_SAFE SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43102
+DDIR_WEST
+~
+~
+0 -1 43100
+#43102
+Guard Station~
+There is a small hut here at the top of a small rise overlooking the fields
+to the west.  It looks like a small military outpost designed to keep
+unwanted visitors out.
+~
+0 ROOM_SAFE SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43103
+DDIR_WEST
+~
+~
+0 -1 43101
+#43103
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43104
+DDIR_SOUTH
+~
+~
+0 -1 43106
+DDIR_WEST
+~
+~
+0 -1 43102
+#43104
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43116
+DDIR_SOUTH
+~
+~
+0 -1 43105
+DDIR_WEST
+~
+~
+0 -1 43103
+#43105
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43104
+DDIR_EAST
+~
+~
+0 -1 43118
+DDIR_SOUTH
+~
+~
+0 -1 43108
+DDIR_WEST
+~
+~
+0 -1 43106
+#43106
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43103
+DDIR_EAST
+~
+~
+0 -1 43105
+DDIR_SOUTH
+~
+~
+0 -1 43107
+#43107
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43106
+DDIR_EAST
+~
+~
+0 -1 43108
+#43108
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43105
+DDIR_SOUTH
+~
+~
+0 -1 43120
+DDIR_WEST
+~
+~
+0 -1 43107
+#43109
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43122
+DDIR_SOUTH
+~
+~
+0 -1 43110
+DDIR_WEST
+~
+~
+0 -1 43132
+#43110
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43109
+DDIR_SOUTH
+~
+~
+0 -1 43139
+DDIR_WEST
+~
+~
+0 -1 43112
+#43111
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43133
+DDIR_SOUTH
+~
+~
+0 -1 43138
+#43112
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43113
+DDIR_SOUTH
+~
+~
+0 -1 43136
+#43113
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43114
+DDIR_WEST
+~
+~
+0 -1 43112
+#43114
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43269
+DDIR_SOUTH
+~
+~
+0 -1 43113
+DDIR_WEST
+~
+~
+0 -1 43115
+#43115
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43142
+DDIR_EAST
+~
+~
+0 -1 43114
+#43116
+Ogre-Fen-Ogre Swamp~
+The land around you has flattened out and water is now standing in open
+pools along your path.  You occasionally see trees that have been twisted
+like pretzels and wonder what could have done it.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43117
+DDIR_SOUTH
+~
+~
+0 -1 43118
+DDIR_WEST
+~
+~
+0 -1 43104
+#43117
+Ogre-Fen-Ogre Swamp~
+The land around you has flattened out and water is now standing in
+open pools along your path.  You occasionally see trees that have been
+twisted like pretzels and wonder what could have done it.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 43119
+DDIR_WEST
+~
+~
+0 -1 43116
+#43118
+Ogre-Fen-Ogre Swamp~
+The land around you has flattened out and water is now standing in open
+pools along your path.  You occasionally see trees that have been
+twisted like pretzels and wonder what could have done it.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43116
+DDIR_EAST
+~
+~
+0 -1 43119
+DDIR_WEST
+~
+~
+0 -1 43105
+#43119
+Ogre-Fen-Ogre Swamp~
+The land around you has flattened out and water is now standing in open
+pools along your path.  You occasionally see trees that have been twisted
+like pretzels and wonder what could have done it.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43116
+DDIR_SOUTH
+~
+~
+0 -1 43273
+DDIR_WEST
+~
+~
+0 -1 43118
+#43120
+North Village~
+This is the largest village in northern Xanth.  A good number of the human
+population of the entire area live here.  It was once the center of
+government as well but that has recently moved further south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43108
+DDIR_SOUTH
+~
+~
+0 -1 43121
+#43121
+Center of North Village~
+This is the largest village in northern Xanth.  A good number of the human
+population of the entire area live here.  It was once the center of
+government as well but that has recently moved further south.
+~
+0 ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43120
+DDIR_SOUTH
+~
+~
+0 -1 43122
+DDIR_WEST
+~
+~
+0 -1 43123
+#43122
+North Village~
+This is the largest village in northern Xanth.  A good number of the human
+population of the entire area live here.  It was once the center of
+government as well but that has recently moved further south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43121
+DDIR_SOUTH
+~
+~
+0 -1 43109
+DDIR_WEST
+~
+~
+0 -1 43126
+#43123
+Path in North Village~
+This is the largest village in northern Xanth.  A good number of the human
+population of the entire area live here.  It was once the center of
+government as well but that has recently moved further south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43125
+DDIR_EAST
+~
+~
+0 -1 43121
+DDIR_SOUTH
+~
+~
+0 -1 43126
+DDIR_WEST
+~
+~
+0 -1 43124
+#43124
+Path in North Village~
+This is the largest village in northern Xanth.  A good number of the
+human population of the entire area live here.  It was once the center
+of government as well but that has recently moved further south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43128
+DDIR_EAST
+~
+~
+0 -1 43123
+DDIR_SOUTH
+~
+~
+0 -1 43127
+#43125
+Elder's House~
+This small house belongs to one of the village elders.  It is nicely
+appointed will all the latest magical furnishings and looks very comfortable.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 43123
+#43126
+Talent Shop~
+This small shop is one of the more frequented shops in North Village.
+It lies of the main north/south road of the village and always seems to
+have customers.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 43123
+DDIR_EAST
+~
+~
+0 -1 43122
+#43127
+Path in North Village~
+This is the largest village in northern Xanth.  A good number of the
+human population of the entire area live here.  It was once the center of
+government as well but that has recently moved further south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43124
+DDIR_SOUTH
+~
+~
+0 -1 43129
+#43128
+Village Shop~
+This is a ramshackle hut.  Items lay scattered on shelves and tables
+accumulating dust.  It doesn't look like anyone has bought anything here
+in years.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 43124
+#43129
+Lookout Rock~
+You climb a slight incline to the top of a large rock.  Arriving at its
+peak you find that it offers a clear view of all of the surrounding areas.
+To the south you see the flat plains where the centaurs roam while to the
+north is North Village.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 43127
+#43130
+Centaur's Range~
+You are in an area made up entirely of flat plains that at first appear to
+be uninhabited.  You change your mind quickly though, for while there are
+no fences as there would normally be in a cultivated area, you do see
+centaurs racing in the distance.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43131
+#43131
+Centaur's Range~
+You are in an area made up entirely of flat plains that at first appear
+to be uninhabited.  You change your mind quickly though, for while there
+are no fences as there would normally be in a cultivated area, you do see
+centaurs racing in the distance.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43132
+DDIR_EAST
+~
+~
+0 -1 43110
+DDIR_SOUTH
+~
+~
+0 -1 43133
+DDIR_WEST
+~
+~
+0 -1 43130
+#43132
+Centaur's Range~
+You are in an area made up entirely of flat plains that at first appear to
+be uninhabited.  You change your mind quickly though, for while there are
+no fences as there would normally be in a cultivated area, you do see
+centaurs racing in the distance.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43109
+DDIR_SOUTH
+~
+~
+0 -1 43131
+#43133
+Centaur's Range~
+You are in an area made up entirely of flat plains that at first appear
+to be uninhabited.  You change your mind quickly though, for while there
+are no fences as there would normally be in a cultivated area, you do
+see centaurs racing in the distance.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43131
+DDIR_EAST
+~
+~
+0 -1 43139
+DDIR_SOUTH
+~
+~
+0 -1 43134
+DDIR_WEST
+~
+~
+0 -1 43111
+#43134
+North Ridge~
+You are standing at the northern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43133
+DDIR_EAST
+~
+~
+0 -1 43135
+DDIR_WEST
+~
+~
+0 -1 43138
+DDIR_DOWN
+~
+~
+0 -1 43140
+#43135
+North Ridge~
+You are standing at the northern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43139
+DDIR_EAST
+~
+~
+0 -1 43136
+DDIR_WEST
+~
+~
+0 -1 43134
+#43136
+North Ridge~
+You are standing at the northern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43112
+DDIR_EAST
+~
+~
+0 -1 43137
+DDIR_WEST
+~
+~
+0 -1 43135
+#43137
+North Ridge~
+You are standing at the northern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_WEST
+~
+~
+0 -1 43136
+#43138
+North Ridge~
+You are standing at the northern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43111
+DDIR_EAST
+~
+~
+0 -1 43134
+#43139
+Peaceful Pines~
+You are walking through a very peaceful and calm pine forest.  It looks as
+though it has never seen the bite of a loggers axe, and you understand why
+for who could violate a peace like this.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43110
+DDIR_SOUTH
+~
+~
+0 -1 43135
+DDIR_WEST
+~
+~
+0 -1 43133
+#43140
+Path into the Chasm~
+You are on a steep and narrow path leading down to the bottom of the Gap
+Chasm.  The rocky trail is perilous and you are careful not to tumble down
+it into the chasm.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_SOUTH
+~
+~
+0 -1 43148
+DDIR_UP
+~
+~
+0 -1 43134
+#43141
+Path into the Chasm~
+You are on a steep and narrow path leading down to the bottom of the
+Gap Chasm.  The rocky trail is perilous and you are careful not to tumble
+down it into the chasm.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+~
+~
+0 -1 43150
+DDIR_UP
+~
+~
+0 -1 43154
+#43142
+Element of Earth~
+You have entered the element of earth.  Rocks jut out of the earth all
+around you as it seems the ground is constantly in motion.  To the north
+is a rocky shore jutting out into a small lake.  That must be water.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 43143
+#43143
+Element of Water~
+You have entered the element of water.  I hope you are not having trouble
+breathing.  The water here is pure and uncontaminated by anything.  The
+denizens of this element watch you curiously.  A wall of air to the north
+delineates the boundaries of air and water.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 43144
+#43144
+Element of Air~
+You are flying through the Element of Air.  You can not see any earth below
+you, but the denizens of the air above you watch you intently.  To the north
+you see a line of fire.
+~
+0 0 SECT_AIR
+DDIR_NORTH
+~
+~
+0 -1 43145
+#43145
+Element of Fire~
+You have entered the element of fire.  Lava spouts from holes in the ground
+all around you and you wonder that anything could live in a place like this.  To the north a blackness seems to absorb all light.
+~
+0 0 SECT_LAVA
+DDIR_NORTH
+~
+~
+0 -1 43146
+#43146
+Void~
+You have entered the void from which nothing escapes.  An absence of light
+here is so extreme you cant even see your hand two inches in front of
+your face.
+~
+0 ROOM_DARK|ROOM_NO_MOB SECT_ASTRAL
+#43147
+Gap Chasm~
+You are at the bottom of an enormous canyon.  It runs east and west across
+the center of Xanth.  You know this was the only way across but why is
+there no sign of life down here?
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 43148
+#43148
+Gap Chasm~
+You are at the bottom of an enormous canyon.  It runs east and west across
+the center of Xanth.  You know this was the only way across but why is there
+no sign of life down here?
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+~
+~
+0 -1 43140
+DDIR_EAST
+~
+~
+0 -1 43149
+DDIR_WEST
+~
+~
+0 -1 43147
+#43149
+Gap Chasm~
+You are at the bottom of an enormous canyon.  It runs east and west across
+the center of Xanth.  You know this was the only way across but why is there
+no sign of life down here?
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 43150
+DDIR_WEST
+~
+~
+0 -1 43148
+#43150
+Gap Chasm~
+You are at the bottom of an enormous canyon.  It runs east and west across
+the center of Xanth.  You know this was the only way across but why is there
+no sign of life down here?
+~
+0 0 SECT_MOUNTAIN
+DDIR_EAST
+~
+~
+0 -1 43151
+DDIR_SOUTH
+~
+~
+0 -1 43141
+DDIR_WEST
+~
+~
+0 -1 43149
+#43151
+Gap Chasm~
+You are at the bottom of an enormous canyon.  It runs east and west across
+the center of Xanth.  You know this was the only way across but why is there
+no sign of life down here?
+~
+0 0 SECT_MOUNTAIN
+DDIR_WEST
+~
+~
+0 -1 43150
+#43152
+One-way Bridge~
+This is an invisible bridge crossing the Gap Chasm.  It is made up of mostly
+ropes so you would almost rather not see it.
+~
+0 ROOM_NO_MOB|ROOM_SOLITARY SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43135
+#43153
+South Ridge~
+You are standing at the southern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark
+and obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43155
+DDIR_SOUTH
+~
+~
+0 -1 43161
+#43154
+South Ridge~
+You are standing at the southern edge of an enormous chasm cutting
+across the center of Xanth.  You wonder that you have not heard of a
+landmark and obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43174
+DDIR_DOWN
+~
+~
+0 -1 43141
+#43155
+South Ridge~
+You are standing at the southern edge of an enormous chasm cutting across
+the center of Xanth.  You wonder that you have not heard of a landmark and
+obstacle to travel like this before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+door~
+EX_ISDOOR|EX_HIDDEN|EX_PICKPROOF -1 43152
+DDIR_WEST
+~
+~
+0 -1 43153
+#43156
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43174
+DDIR_WEST
+~
+~
+0 -1 43157
+#43157
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43156
+DDIR_SOUTH
+~
+~
+0 -1 43158
+DDIR_WEST
+~
+~
+0 -1 43180
+#43158
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43157
+DDIR_EAST
+~
+~
+0 -1 43185
+DDIR_WEST
+~
+~
+0 -1 43159
+#43159
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43158
+DDIR_WEST
+~
+~
+0 -1 43160
+#43160
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43161
+DDIR_EAST
+~
+~
+0 -1 43159
+#43161
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43153
+DDIR_SOUTH
+~
+~
+0 -1 43160
+DDIR_WEST
+~
+~
+0 -1 43274
+#43162
+Region of Madness~
+You have never seen a place as weird as this.  Trees are grown and
+twisted into weird shapes, and nothing seems to look as it should.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43185
+DDIR_SOUTH
+~
+~
+0 -1 43164
+DDIR_WEST
+~
+~
+0 -1 43163
+#43163
+Region of Madness~
+You have never seen a place as weird as this.  Trees are grown and twisted
+into weird shapes, and nothing seems to look as it should.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 -1 43165
+DDIR_SOUTH
+~
+~
+0 -1 43162
+#43164
+Region of Madness~
+You have never seen a place as weird as this.  Trees are grown and twisted
+into weird shapes, and nothing seems to look as it should.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43165
+DDIR_WEST
+~
+~
+0 -1 43162
+#43165
+Region of Madness~
+You have never seen a place as weird as this.  Trees are grown and twisted
+into weird shapes, and nothing seems to look as it should.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43163
+DDIR_EAST
+~
+~
+0 -1 43164
+DDIR_WEST
+~
+~
+0 -1 43166
+#43166
+Lake Ogre-Chobee~
+This lake deep in the wilderness should be teeming with life, but for
+some reason it is barren.  The shore around the lake is likewise blasted
+of life.
+~
+0 0 SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 43165
+DDIR_DOWN
+~
+~
+0 -1 43167
+#43167
+Under Lake Ogre-Chobee~
+You swim down into the murky water at the bottom of the lake.  You expect
+to see no more life in the water than you saw around it.  For the most
+part you are correct in your assumption.
+~
+0 0 SECT_UNDER_WATER
+DDIR_UP
+~
+~
+0 -1 43166
+#43168
+Receiving Hall~
+This entry hall is well appointed and not at all what you would expect
+from a castle under the water.  For one thing, it is dry.  The walls are
+wood paneled and the floor is made of teak.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 43169
+DDIR_WEST
+~
+~
+0 -1 43170
+#43169
+Vortex~
+You enter a swirling maelstrom of water.  You may have made a mistake but
+it is hard to tell as you are too busy trying to stay alive to think.
+~
+0 ROOM_NO_RECALL SECT_UNDER_WATER
+DDIR_NORTH
+~
+~
+0 -1 43168
+#43170
+Auditorium~
+This is a large auditorium with a stage at one end.  The stage is almost
+as big as the seating area.  That doesn't make much sense to you.  The
+chairs are very comfortable.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43168
+DDIR_WEST
+~
+~
+0 -1 43171
+#43171
+Stage~
+This is a large wooden stage.  Here performers can act to their hearts
+content and only a few bored people in the audience have to watch.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43170
+#43172
+Edge of the Underground Lake~
+You have been washed up on the shore of an underground lake.  It is very
+dark here, and while there is a phosphorescent fungus on the walls, it is
+not enough for you to see by.  A small stream trickles into the lake from
+the east.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43173
+#43173
+Small Stream~
+As you walk along the stream you notice glints off of the walls on either
+side of you.  Looking closer you find that they are deeply buried gemstones
+that have come to the surface where the water has eroded away the stone.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43175
+DDIR_WEST
+~
+~
+0 -1 43172
+#43174
+Southern Wilderness~
+The jungle around you is thickly overgrown and deadly to those who are not
+aware of its dangers.  Trees close in on all side with vines hanging from
+them, and the brush is hard to get through.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 -1 43156
+DDIR_WEST
+~
+~
+0 -1 43154
+#43175
+Small Stream~
+As you walk along the stream you notice glints off of the walls on either
+side of you.  Looking closer you find that they are deeply buried
+gemstones that have come to the surface where the water has eroded away
+the stone.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 43176
+DDIR_WEST
+~
+~
+0 -1 43173
+#43176
+Small Stream~
+As you walk along the stream you notice glints off of the walls on either
+side of you.  Looking closer you find that they are deeply buried gemstones
+that have come to the surface where the water has eroded away the stone.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43177
+DDIR_SOUTH
+~
+~
+0 -1 43175
+#43177
+Brain Coral's Pool~
+This is a large cavern which is mostly covered in water, or some other
+liquid.  A small ledge runs around the edge of the cavern towards a opening
+in the opposite wall.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_PRIVATE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 43176
+#43178
+Winding Tunnel~
+This is a winding tunnel heading downwards.  There are twists and turns
+every few feet and you much constantly watch both your head and feet for
+obstacles.  You are descending quickly.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 43177
+DDIR_DOWN
+~
+~
+0 -1 43179
+#43179
+Demon's Chamber~
+You have entered a room with an enormous face at on side of the cavern.
+Walking through the room you sense that you have reached the end of the
+road.  Dust coats the floor for nobody has tread these floors for centuries
+if ever.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS|ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+#43180
+Small Moat~
+You have reached the moat of a small castle in the middle of the wilderness.
+This must be the elusive Good Magician's Castle.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 43157
+#43181
+Ledge inside the Moat~
+There is a small ledge running around the inside of the moat between it
+and the castle wall.  You notice a climbing vine has managed to take hold
+rising up toward the parapet at one point.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL SECT_CITY
+DDIR_UP
+~
+~
+0 -1 43182
+#43182
+Parapet~
+You are on a narrow section of parapet that does not seem to go anywhere.
+The only feature you can see is a large stone gargoyle perched on a
+section of roof dribbling water out its mouth.
+~
+0 ROOM_NO_MOB|ROOM_SOLITARY|ROOM_NO_RECALL SECT_CITY
+DDIR_DOWN
+~
+~
+0 -1 43181
+#43183
+Guardian's Room~
+This room looks more like a cage than an entry hall.  You wonder what
+you have gotten into.  The only exit from this room seems to be a spiral
+staircase at the other end of the room ascending to the top level.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+#43184
+Humphrey's Study~
+This room is so packed with books and other parafenalia that it appears
+tiny.  A large podium dominates the center of the room and a stool stands
+behind it.  You see no exits from this room besides the one you came
+through.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+#43185
+Region of Madness~
+You have never seen a place as weird as this.  Trees are grown and twisted
+into weird shapes, and nothing seems to look as it should.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+~
+~
+0 -1 43162
+DDIR_WEST
+~
+~
+0 -1 43158
+#43186
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43274
+DDIR_SOUTH
+~
+~
+0 -1 43187
+DDIR_WEST
+~
+~
+0 -1 43265
+#43187
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread
+and shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43186
+DDIR_SOUTH
+~
+~
+0 -1 43188
+DDIR_WEST
+~
+~
+0 -1 43264
+#43188
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43187
+DDIR_WEST
+~
+~
+0 -1 43189
+#43189
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43264
+DDIR_EAST
+~
+~
+0 -1 43188
+DDIR_WEST
+~
+~
+0 -1 43190
+#43190
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43263
+DDIR_EAST
+~
+~
+0 -1 43189
+DDIR_WEST
+~
+~
+0 -1 43191
+#43191
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43262
+DDIR_EAST
+~
+~
+0 -1 43190
+DDIR_WEST
+~
+~
+0 -1 43192
+#43192
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and shoe
+trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43193
+DDIR_EAST
+~
+~
+0 -1 43191
+#43193
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43194
+DDIR_EAST
+~
+~
+0 -1 43262
+DDIR_SOUTH
+~
+~
+0 -1 43192
+#43194
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise
+many varieties of fruit trees, but there are many trees that you do
+not recognise.  Among the ones you do not recognise, seem to be bread
+and shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43195
+DDIR_EAST
+~
+~
+0 -1 43261
+DDIR_SOUTH
+~
+~
+0 -1 43193
+#43195
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43196
+DDIR_EAST
+~
+~
+0 -1 43260
+DDIR_SOUTH
+~
+~
+0 -1 43194
+#43196
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread
+and shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43197
+DDIR_EAST
+~
+~
+0 -1 43259
+DDIR_SOUTH
+~
+~
+0 -1 43195
+#43197
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and shoe
+trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43198
+DDIR_EAST
+~
+~
+0 -1 43258
+DDIR_SOUTH
+~
+~
+0 -1 43196
+#43198
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not recognise.
+Among the ones you do not recognise, seem to be bread and shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43199
+DDIR_SOUTH
+~
+~
+0 -1 43197
+#43199
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and shoe
+trees!
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43250
+DDIR_SOUTH
+~
+~
+0 -1 43258
+DDIR_WEST
+~
+~
+0 -1 43198
+#43250
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43251
+DDIR_SOUTH
+~
+~
+0 -1 43257
+DDIR_WEST
+~
+~
+0 -1 43199
+#43251
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43252
+DDIR_SOUTH
+~
+~
+0 -1 43256
+DDIR_WEST
+~
+~
+0 -1 43250
+#43252
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+~
+~
+0 -1 43253
+DDIR_WEST
+~
+~
+0 -1 43251
+#43253
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43252
+DDIR_SOUTH
+~
+~
+0 -1 43254
+DDIR_WEST
+~
+~
+0 -1 43256
+#43254
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and shoe
+trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43253
+DDIR_SOUTH
+~
+~
+0 -1 43274
+DDIR_WEST
+~
+~
+0 -1 43255
+#43255
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You
+can tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43256
+DDIR_EAST
+~
+~
+0 -1 43254
+DDIR_SOUTH
+~
+~
+0 -1 43266
+#43256
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You
+can tell from the stink that they are long dead and wonder that no one
+has cleaned the moat, but then you see what those bits of flesh are
+coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43251
+DDIR_EAST
+~
+~
+0 -1 43253
+DDIR_SOUTH
+~
+~
+0 -1 43255
+DDIR_WEST
+~
+~
+0 -1 43257
+#43257
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You
+can tell from the stink that they are long dead and wonder that no one
+has cleaned the moat, but then you see what those bits of flesh are coming
+from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43250
+DDIR_EAST
+~
+~
+0 -1 43256
+DDIR_WEST
+~
+~
+0 -1 43258
+#43258
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43199
+DDIR_EAST
+~
+~
+0 -1 43257
+DDIR_SOUTH
+~
+~
+0 -1 43259
+DDIR_WEST
+~
+~
+0 -1 43197
+#43259
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43258
+DDIR_SOUTH
+~
+~
+0 -1 43260
+DDIR_WEST
+~
+~
+0 -1 43196
+#43260
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You
+can tell from the stink that they are long dead and wonder that no one
+has cleaned the moat, but then you see what those bits of flesh are coming
+from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43259
+DDIR_SOUTH
+~
+~
+0 -1 43261
+DDIR_WEST
+~
+~
+0 -1 43195
+#43261
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You
+can tell from the stink that they are long dead and wonder that no one
+has cleaned the moat, but then you see what those bits of flesh are coming
+from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43260
+DDIR_SOUTH
+~
+~
+0 -1 43262
+DDIR_WEST
+~
+~
+0 -1 43194
+#43262
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43261
+DDIR_EAST
+~
+~
+0 -1 43263
+DDIR_SOUTH
+~
+~
+0 -1 43191
+DDIR_WEST
+~
+~
+0 -1 43193
+#43263
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_EAST
+~
+~
+0 -1 43264
+DDIR_SOUTH
+~
+~
+0 -1 43190
+DDIR_WEST
+~
+~
+0 -1 43262
+#43264
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming
+from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43265
+DDIR_EAST
+~
+~
+0 -1 43187
+DDIR_SOUTH
+~
+~
+0 -1 43189
+DDIR_WEST
+~
+~
+0 -1 43263
+#43265
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43266
+DDIR_EAST
+~
+~
+0 -1 43186
+DDIR_SOUTH
+~
+~
+0 -1 43264
+#43266
+Castle Roogna's Drawbridge~
+You walk across the Drawbridge of Castle Roogna.  The boards look a bit
+rotten but they seem to hold your weight as you step on them.  Looking
+into the moat beneath you, it doesn't look like a pleasant place to swim.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 43255
+DDIR_EAST
+~
+~
+0 -1 43274
+DDIR_SOUTH
+~
+~
+0 -1 43265
+DDIR_WEST
+~
+~
+0 -1 43267
+#43267
+Castle Roogna Bailey~
+You are in a strip of land between the outer walls of the castle and
+the inner keep.  It is traditionally kept clear to allow troop movements
+in a battle.  As a result there are no permanent structures here.
+~
+0 0 SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 43266
+DDIR_WEST
+~
+~
+0 -1 43268
+#43268
+Castle Roogna Audience Chamber~
+This is the throne room of Castle Roogna.  A large dais at one end
+dominates the room, and a magnificent red carpet runs down the center of
+the room up to the throne.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 43267
+#43269
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43270
+DDIR_SOUTH
+~
+~
+0 -1 43114
+#43270
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43271
+DDIR_SOUTH
+~
+~
+0 -1 43269
+#43271
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it
+all seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43272
+DDIR_SOUTH
+~
+~
+0 -1 43270
+#43272
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43273
+DDIR_SOUTH
+~
+~
+0 -1 43271
+#43273
+Northern Xanth~
+You are in the northern wilds of Xanth.  Fauna and flora about in amazing
+varieties.  You do not recognise much of the vegetation though, for it all
+seems to be made up of strange hybrids.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 -1 43119
+DDIR_SOUTH
+~
+~
+0 -1 43272
+#43274
+Castle Grounds~
+You walk among the grounds around Castle Roogna.  You recognise many
+varieties of fruit trees, but there are many trees that you do not
+recognise.  Among the ones you do not recognise, seem to be bread and
+shoe trees!
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 43254
+DDIR_EAST
+~
+~
+0 -1 43161
+DDIR_SOUTH
+~
+~
+0 -1 43186
+DDIR_WEST
+~
+~
+0 -1 43266
+#43275
+Roogna Moat~
+This moat is a bit murky and has bits of flesh floating in it.  You can
+tell from the stink that they are long dead and wonder that no one has
+cleaned the moat, but then you see what those bits of flesh are coming from.
+~
+0 ROOM_NO_MOB SECT_LAKE
+DDIR_NORTH
+~
+~
+0 -1 43255
+DDIR_SOUTH
+~
+~
+0 -1 43265
+#43276
+Moat filled with firewater~
+You have reached the moat of a small castle in the middle of the wilderness.
+The moat seems to be filled with firewater, a sort of liquid fire.
+This must be the elusive Good Magician's Castle.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_LAVA
+DDIR_EAST
+~
+~
+0 -1 43277
+#43277
+Edge of a Small Moat~
+You have reached the edge of a moat of a small castle in the middle of
+the wilderness.  This must be the elusive Good Magician's Castle.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 43157
+DDIR_WEST
+~
+~
+0 -1 43276
+#43278
+Ledge inside the Moat~
+There is a small ledge running around the inside of the moat between it
+and the castle wall.  You notice a climbing vine has managed to take hold
+rising up toward the parapet at one point.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 43279
+#43279
+Narrow passageway~
+You are on a narrow section of passage that seems to lead into the castle.
+There is enough light coming in from outside that you can see where you are
+going and you notice that the ground is littered with refuse as if a
+basilisk lived here.
+~
+0 ROOM_NO_MOB|ROOM_SOLITARY|ROOM_NO_RECALL SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 43278
+#43280
+Guardian's Room~
+This room looks like a fancy entry hall with potted plants everywhere along
+the walls.  The only exit from this room seems to be a spiral
+staircase at the other end of the room ascending to the top level.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SOLITARY|ROOM_NO_RECALL SECT_INSIDE
+#0
+
+
+#RESETS
+M 43100 100 43268
+M 43101 100 43184
+M 43102 100 43179
+M 43103 100 43177
+M 43104 100 43183
+M 43105 100 43180
+M 43106 100 43186
+M 43106 100 43187
+M 43106 100 43188
+M 43106 100 43189
+M 43106 100 43190
+M 43106 100 43191
+M 43106 100 43192
+M 43106 100 43193
+M 43106 100 43194
+M 43106 100 43195
+M 43106 100 43196
+M 43106 100 43197
+M 43106 100 43198
+M 43106 100 43199
+M 43106 100 43250
+M 43106 100 43251
+M 43106 100 43252
+M 43106 100 43253
+M 43106 100 43254
+M 43106 100 43274
+M 43107 100 43103
+E 43101 500 WEAR_WIELD
+M 43107 100 43270
+E 43101 500 WEAR_WIELD
+M 43108 100 43108
+M 43109 100 43104
+M 43109 100 43273
+M 43109 100 43269
+M 43109 100 43107
+M 43109 100 43111
+M 43110 100 43149
+M 43111 100 43130
+E 43102 500 WEAR_WIELD
+M 43111 100 43131
+G 43118 500 0
+M 43111 100 43132
+E 43102 500 WEAR_WIELD
+M 43111 100 43133
+G 43118 500 0
+M 43112 100 43116
+M 43112 100 43117
+M 43112 100 43118
+M 43112 100 43119
+M 43113 100 43168
+M 43113 100 43170
+M 43113 100 43171
+M 43114 100 43102
+M 43115 100 43120
+M 43115 100 43122
+M 43115 100 43123
+M 43115 100 43124
+M 43115 100 43127
+M 43115 100 43129
+M 43116 100 43182
+M 43117 100 43147
+M 43117 100 43151
+M 43118 100 43167
+M 43119 100 43106
+M 43119 100 43272
+E 43104 500 WEAR_WIELD
+M 43119 100 43138
+M 43119 100 43174
+E 43104 500 WEAR_WIELD
+M 43119 100 43163
+M 43119 100 43159
+E 43104 500 WEAR_WIELD
+M 43119 100 43115
+M 43120 100 43105
+M 43120 100 43154
+M 43120 100 43162
+M 43121 100 43109
+M 43121 100 43158
+M 43121 100 43160
+M 43121 100 43271
+M 43121 100 43113
+M 43122 100 43121
+M 43123 100 43255
+M 43123 100 43256
+M 43123 100 43257
+M 43123 100 43258
+M 43123 100 43259
+M 43123 100 43260
+M 43123 100 43261
+M 43123 100 43262
+M 43123 100 43263
+M 43123 100 43264
+M 43123 100 43265
+M 43123 100 43275
+M 43124 100 43126
+G 43119 500 0
+G 43120 500 0
+G 43121 500 0
+G 43122 500 0
+M 43125 100 43128
+G 43123 500 0
+G 43124 500 0
+G 43125 500 0
+G 43132 500 0
+M 43126 100 43125
+O 43105   1 43268
+M 43127 100 43169
+M 43129 100 43164
+M 43130 100 43280
+M 43131 100 43279
+M 43132 100 43276
+O 43126 500 43165
+D 43155 DIR_NORTH DOOR_OPEN
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

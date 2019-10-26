@@ -1,0 +1,525 @@
+#AREA Ethe Iyurin~
+#AUTHORS Hypnos~
+#VERSION 3
+#RANGES 100 100 100 100
+#OLC_RANGES 25000 25099
+#RESETMSG You hear the sound of many shrieks as visions fade and dreams shatter.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_NORIP
+
+
+#HELPS
+0 HYPNOS~
+{130}
+                                   Hypnos
+{300}
+Hypnos is the God of the mind and the Guardian of Spirit Magic. His followers
+originally came from the Northern Continent, but after the construction of
+the Temple of Demise, they were heavily prosecuted for their beliefs and had
+to flee. Hypnos gave them permission to build their new homes in the mountain
+ranges of the Magic Zone.
+
+As with all other gods, you may choose to follow from levels 10 - 50.
+
+{120}  (A) {050}Ethe Iyurin
+
+{120}  (-) {050}Return
+{a}'ETHE IYURIN'
+~
+
+0 'ETHE IYURIN'~
+{120}
+                                 Ethe Iyurin
+{300}
+Ethe Iyurin is the ancient mansion of the hero and king Akranor. In his long
+and prosperous life the king fought many battles in the name of Hypnos and
+was rewarded with this mansion by his subjects when he retired. The days of
+his retirement he spent in search of pure Knowledge. He pondered over the
+many questions of mankind. After his death a statue was erected with a sacred
+blessing from Hypnos himself engraved on it. 
+{300}
+In recent years, Ethe Iyrin has turned into a pilgrimage and a small village
+has grown close to the mansion. All the people who live here have devoted
+their lives solely to Hypnos's cause.
+{300}
+{120}  (A) {050}Extra Info
+{120}  (-) {050}Return
+{a}ETHEIYURININFO
+{-}HYPNOS
+~
+
+0 ETHEIYURININFO~
+{130}
+                                 Extra Info
+{300}
+Sources of inspiration:
+
+- Robert Jordan's "Wheel Of Time" series.
+- Maggie Furey's "Artifacts of Power" series.
+- The original Star Trek series.
+- Demise (thanks a lot!)
+- My own delusive mind.
+
+Have fun!
+
+Hypnos, November 2001.
+~
+
+0 HYPNOSGODCHAINCOMMANDS~
+{160}  
+  Call-Spirit -- for a restore once every 4 hours
+         Warp -- for an instant teleportation to Ethe Iyurin
+ Check-Spirit -- to see if you can call upon the Power of Spirit
+    Show-Tick -- to see your undefined chain charging after each restore
+~
+
+0 $~
+
+
+#MOBILES
+#25000
+high priest~
+the high priest~
+The high priest is here trying to divine the forces of nature.~
+The high priest obviously thinks much of himself. He is trying to understand
+the basic concepts of the nature around us.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+150 0 0 1d5625+14072 1d150+113
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#25001
+priest~
+a priest~
+A priest is studying an ancient book~
+The priest has been studying this ancient book for so long that he is covered
+almost entirely with dust.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+0 S
+99 0 0 0d0+10000 1d1+100
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#25002
+avatar hypnos dragon recruiter~
+the Avatar of Hypnos~
+The Avatar of Hypnos is watching a stone with hieroglyphs.~
+The dragon you see right before you is perhaps one of the Realm's most ancient
+and knowledgeable creatures. She may be able to help you in ways that you cannot 
+possibly begin to imagine. She knows more about the God Hypnos than anyone
+else in the realm. However, she doesn't look all that happy, and you wonder
+why this is so.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+1000 S
+50 0 BODY_EYE 1d1+2000 1d100+1
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p Why are you so sad?~
+if quest (0,4,$n) <= 1
+  if hasobjnum (25002)
+    emote looks at $n enigmatically. 
+    say You are already searching for the ring.
+    say Come back and see me later, when you have it.
+    break
+  endif
+  say Greetings stranger. I was in the Holy Grove
+  say yesterday for a picknick (yes even Dragons 
+  say have a day off every now and then) and I lost
+  say a very important ceremonial ring. Would you
+  say be so kind and recover it for me?
+else
+  say You have already helped me more than enough.
+  say Your presence is, though appreciated, no
+  say longer needed.
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) <= 1
+  if hasobjnum (25002)
+    say You are already searching for the ring.
+    say Come back later, when you have it.
+    break
+  endif
+  mpmset $n quest 0 4 1
+  mpgorand 8900 8944 0 1
+  mpoload 25000
+  mposet i25000 timer 10
+  mpoload 25002
+  mposet i25002 timer 10
+  mpquiet on
+  drop i25000
+  mpquiet off
+  mpgoto 25008
+  say You are most kind to help me. 
+  say Go now, quickly!
+else
+  say Yes, what?
+endif
+~
+>all_greet_prog 100~
+if quest (0,4,$n) == 1
+  if hasobjnum ($n) == 25000
+    say You have the ring! Good, now I can get
+    say back to work. You cannot imagine how
+    say happy I am!
+    say Please give it to me.
+  else
+    say Do you have the ring? If not, please hurry!
+    say We do not have much time. Go back to the Holy
+    say Grove and find it, quickly!
+  endif
+endif
+~
+>give_prog i25000~
+if quest (0,4,$n) == 1
+  mpjunk i25000
+  if level ($n) >= 10
+    if level ($n) <= 50
+      if whichgod ($n) == god_neutral
+        mpmset $n quest 0 4 2
+        emote concentrates and the ring vanishes in a silvry white cloud!
+        mpecho {170}A silver god chain of Hypnos appears!
+        mpoload 59
+        give i59 $n
+        say Congratulations, you are now a follower
+        say of Hypnos.
+        emote shakes $n's hand and wishes him well.
+        mpquiet on
+        mpforce $n wear i59
+        mpquiet off
+        say May the power of the Spirit be strong in you!
+        break
+      endif
+    endif
+  endif
+else
+  say where did you find this?
+  say are not supposed to have it.
+  mpquiet on
+  mpgorand 8900 8944 0 1
+  drop i25000
+  mpgoto 25008
+  mpquiet off
+endif
+~
+|
+#25050
+ethereal M25050~
+the spirit restore~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+15 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p spirit restore please~
+mpquiet on
+restore $n
+cast 'cure poison' $n
+cast 'remove curse' $n
+cast 'cure critical' $n
+cast 'cure blindness' $n
+mpquiet off
+mpechoat $n {160}You feel the Energy of Spirit coursing through you!
+mpechoaround $n {160}$N calls upon the Energy of Spirit!
+mppurge self
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#25051
+etherealSpiritWarp M25051~
+the ethereal spirit warp~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+15 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p spirit warp please~
+if inroom ($i) != 9755
+  mpechoat $n {160}A shower of star dust rains down upon you.
+  mpechoaround $n {160}A shower of star dust rains down upon $N.
+  mptransfer $n 9755
+  mpat 9755 mpechoaround $n $N materialises in the center of the room.
+endif
+~
+>rand_prog 100~
+mpmadd self quest 0 1 1
+if quest (0,1,$i) == 0
+  mppurge self
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#25000
+silver ring~
+a silver ring~
+A silver ring lies in the dust here.~
+This silver ring looks like a tangled piece of wood, except that it is not
+made of wood, but of silver. The twists and turns of the tangles in the ring
+are so disturbing that they are tiresome to the eye. It glows faintly.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+0 0 0 0 0 0 0 0
+1 10000 10
+A APPLY_INT 2 0
+#25001
+statue of Akranor~
+the statue of Akranor~
+The statue of Akranor stands in the high grass.~
+This is the statue of Akranor. As you may have heard, Akranor was a hero and
+a king during the Time Of Consolidation. He fought many battles, all in the
+name of the God Hypnos and most of them he won. And the few battles that he
+lost were almost always resolved diplomatically afterwards, for he was a
+great diplomat as well. After his retirement, the former king devoted the
+remaining years of his life in search of pure Knowledge. It was during these
+years that his former subjects built this mansion in his honour. Many people
+in this region believe that the statue is engraved with a personal blessing
+from Hypnos. The sign at the pedestal certainly seems to indicate so.
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+0
+0 0 0 0 0 0 0 0
+1 10000 1
+E
+sign~
+The text on the sign reads: "Live long and prosper."
+~
+#25002
+hourglass~
+an hourglass~
+A beautiful crystal hourglass stands here, measuring the eons.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10000 10
+#0
+
+
+#ROOMS
+#25000
+Mystical Garden~
+The Mystical Garden must be the entrance to Akranor's ancient domain. 
+Very little is known about what goes onside in this garden, especially since
+the only part of it that seems to be accessible to the mortal eye is the
+path you're walking on. Somehow you feel really safe here, despite the odd
+looking creatures that you can see walking to and fro in the corners of your
+eyes.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL SECT_FIELD
+DDIR_SOUTH
+~
+~
+EX_ISDOOR|EX_CLOSED -1 25001
+DDIR_WEST
+~
+~
+0 -1 9755
+S
+#25001
+Main Hall of Akranor's Mansion~
+You have arrived at the main hall of Akranor's ancient house. The walls are 
+decorated with numerous paintings depicting the hero-king in many of his
+battles. His banner is displayed on the eastern wall, and looks strangely
+familiar. It is said that the sign on it represents the balance between sanity
+and madness. You wonder what it would be like, devoting your life entirely to
+your God, but before you let your imagination get the better of you, you
+decide to press on.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+EX_ISDOOR|EX_CLOSED -1 25000
+DDIR_SOUTH
+You see a massive wooden door to the south.~
+~
+0 -1 25002
+S
+#25002
+Causeway~
+This is the northernmost room of the interior of the house. There is little
+of value here, although it must be noted that the trend set in the Main Hall
+seems to be continued in here as well, there are large paintings displaying
+our hero-king in battle in here as well. 
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see a massive wooden door to the north.~
+~
+0 -1 25001
+DDIR_EAST
+~
+~
+0 -1 25006
+DDIR_WEST
+~
+~
+0 -1 25003
+S
+#25003
+Western corridor~
+It seems that the entire house is made up of a type of rock not found anywhere
+in this region, although you can never be certain of that. Parts of it are 
+visible on spots where the wallpapers has fallen off the wall. There are
+paintings here as well.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 25002
+DDIR_SOUTH
+~
+~
+0 -1 25004
+S
+#25004
+Western corridor~
+On the wall to the west you notice a small niche. As it is empty, you wonder
+what may have been in it. A closer look reveals no clues, and you press on.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 25003
+DDIR_EAST
+~
+~
+0 -1 25005
+S
+#25005
+Causeway~
+You have arrived at the southernmost causeway of the house. Again there are
+many drapings and paintings on the wall, as well as bits of bare stone exposed
+where the wallpaper has fallen off.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+~
+~
+0 -1 25007
+DDIR_SOUTH
+~
+~
+0 -1 25008
+DDIR_WEST
+~
+~
+0 -1 25004
+S
+#25006
+Eastern corridor~
+You are walking in the eastern corridor of the house. Here, the wall drapings
+and paintings are quite excessive. The paintings depict scenes of utter
+obscenity. Whoever painted these, must have been really mad as there is
+neither logic, nor sanity to any of them.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 -1 25007
+DDIR_WEST
+~
+~
+0 -1 25002
+S
+#25007
+Eastern corridor~
+You are walking in the eastern corridor of the house. Here, the wall drapings
+and paintings are quite excessive. The paintings depict scenes of utter
+obscenity. Whoever painted these, must have been really mad as there is
+neither logic nor sanity to any of them.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 25006
+DDIR_WEST
+~
+~
+0 -1 25005
+S
+#25008
+The Anteroom~
+You are in an ante room without any windows, yet a silvry light illuminates it. 
+As the door closes behind you you notice that it too glows. The light seems
+to come from the very stones, and you can almost sense a presence here. From
+time to time the light seems to flicker, like shadows change with movement.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 25005
+DDIR_SOUTH
+~
+~
+0 -1 25009
+S
+#25009
+The Backyard~
+You are in a backyard, looking at a myriad of wonders. First of all, in the
+distance far away you can barely make out the towers of Aetherea's Castle Of
+The Clouds, home of Hypnos and the spirits of the most devoted of his followers
+that have passed away. Next to you there is a large pole, upon which the entire
+life of Akranor is described. On the other side of the garden, at your left,
+you can see the statue of Akranor, often described by people as the most
+beautiful statue ever made - and you can see why. It glows with a silvry
+white light and as you put your left ear to the right direction, you can
+even hear the soft humming noise it makes. All in all, overawed you wonder
+by what sacred privilege you've been allowed to see this.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 25008
+S
+#0
+
+
+#RESETS
+M 25000 100 25000
+M 25002 100 25008
+O 25001   1 25009
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

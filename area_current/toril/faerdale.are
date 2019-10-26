@@ -1,0 +1,6095 @@
+#AREA Faerdale~
+#AUTHORS Blythe Sharra~
+#VERSION 4
+#RANGES 20 50 1 95
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#HELPS
+0 FAERDALE_QUESTS~
+{128}
+                               Faerdale Quests
+{308}
+There is a quest for each class on Storms of Time.  You need to do the quests
+{118}Before{308} you reach level 45.  You may find that in some of the quests you
+will need to seek the aid of other classes.
+~
+
+0 FAERDALE~
+{128}
+                                  Faerdale
+{308}
+Faerdale is a land for hero's and challenges.  The master of Faerdale has a
+challenge for any who are willing to take it up.
+
+Faerdale is part of the Toril Continent.  To get to Faerdale, one should
+visit a temple of their faith in Waterdeep, and talk to the priest or
+priestess within.
+
+Faerdale has been created by Blythe
+
+  {128}(A) {058}Quests
+{a}FAERDALE_QUESTS
+~
+
+0 $~
+
+
+#MOBILES
+#28400
+masteroffaerdale faerdale~
+the Master of Faerdale~
+The Master of Faerdale hovers in the air above you.~
+Dressed in a robe that shimmers with magical aura, his presence
+is a grand one.  He has a long white beard with long white hair.
+His eyes are kind, and his smile is warm.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+1000 S
+150 BODY_HAND BODY_FOOT 10d10+20000 1d150+113
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,30,$n) == 0
+  if level ($n) < 45
+    if class ($n) == class_ranger
+    or class ($n) == class_gladiator
+      say So young knightling $n.
+      say If you wish to become a hero you should go see
+      say the Lord of Faerdale in Castle Faerdale.
+    endif
+    if class ($n) == class_ninja
+      say Hmmm young killer.
+      say I hear that the Master Assassin in the city is
+      say looking for someone to hunt down a great artifact.
+    endif
+    if class ($n) == class_marauder
+      say Ahhh you would be a young thief in training?
+      say I hear the Moonclaw Theives Guild is recruiting.
+    endif
+    if class ($n) == class_elementalist
+      say Ahhh young druid, you should seek out the
+      say High Druid in the Druids Temple for teachings
+      say in the ways of nature.
+    endif
+    if class ($n) == class_illusionist
+      say So young mage, do you seek the ultimate power of illusion?
+    endif
+    if class ($n) == class_monk
+      say Welcome young healer.  The Priests at the
+      say Temple of Lathander are in need of your
+      say assistance.
+    endif
+    if class ($n) == class_necromancer
+      say Well young riser of the dead.
+      say I hear the High Wizard of Faerdale is seeking a
+      say new apprentice.
+    endif
+  endif
+endif
+if quest (6,4,$n) == 4
+  say So you conquered the want-to-be Thieves Guild.
+  say The real challenge is in the REAL Thieves Guild of Faerdale.
+endif
+~
+>speech_prog yes yeah yep ok~
+if quest (0,30,$n) == 0
+  if class ($n) == class_illusionist
+    if level ($n) < 45
+      say Take note of what I say for I will only tell it to you once.
+      mpecho The Faerdale Master's eyes glaze as he recites from memory.
+      say When you can battle a lich spell for spell and
+      say prevail, seek out Ondils Book of Spells and take
+      say it to the alter of Mystra on the island called
+      say Mystra's Dance.  Surrender it to the goddess there.
+      mpechoat $n The Master of Faerdale looks at you.
+      mpechoaround $n The Master of Faerdale looks at $n.
+      say Go now and do this!
+      mpmset $n quest 14 4 1
+    endif
+  endif
+endif
+~
+>fight_prog 30~
+cast 'acid blast'
+~
+|
+#28401
+lordoffaerdale faerdale~
+the Lord of Faerdale~
+The Lord of Faerdale sits upon his throne here.~
+Dressed in oppulent velvets and silks, he cuts a grand figure.
+His face is handsome in a mature way.  His hair is dark with a few streaks
+of gray running through it.  His eyes are warm and kind.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+95 BODY_HAND BODY_FOOT 1d2256+4906 1d10+140
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_ranger
+or class ($n) == class_gladiator
+  if quest (0,4,$n) == 0
+    if level ($n) < 45
+      say Welcome Young Knightling, $n.
+      say I am in need of a hero.
+      say Would you be the hero that I have been looking for?
+    endif
+  else
+    if quest (0,4,$n) == 7
+      say So you have killed all the bandits in the hills.
+      say My gratitude to you, $n.
+      mpoload 28406
+      give sleeves $n
+      say Please accept these sleeves as a token of our gratitude.
+      mpmset $n long $n, Hero of Faerdale is here.
+      mpmset $n quest 0 4 8
+    else
+      mpecho The Lord of Faerdale stirs restlessly in his throne.
+    endif
+  endif
+endif
+~
+>speech_prog yes yeah yup ok~
+if class ($n) == class_ranger
+or class ($n) == class_gladiator
+  if quest (0,4,$n) == 0
+    if level ($n) < 45
+      say The merchants caravan has been unable to get
+      say through to the castle. There are bandits in
+      say the hills that attack each time it tries.
+      say If you clear the hills of bandits I will
+      say reward you well.
+      mpmset $n quest 0 4 1
+    endif
+  endif
+endif
+~
+|
+#28402
+caravanmerchant merchant~
+a caravan merchant~
+A caravan merchant travels along here.~
+His robe is dusty from the path.  He beams a smile at you as he
+prepares to deliver his sales spiel to you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d20+40
+0 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+mpecho The merchant and his caravan pack up and move on down the mountain pass.
+mppurge self
+~
+|
+#28403
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28400
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28404
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28401
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28405
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28402
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28406
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28403
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28407
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28404
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28408
+bandit~
+a bandit~
+A bandit hides here.~
+Dressed in battered armour that is not complete, he stands ready to attack
+passerbys.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_STEALTH|AFF_TONGUES
+-330 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28405
+  mpecho The bandits armour disintegrates.
+  mpjunk all
+else
+  if level ($n) > 45
+    mpecho The bandit was unable to withstand your superior abilties.
+    mpjunk all
+  else
+    if quest (0,4,$n) > 0
+      if quest (0,4,$n) < 7
+        mpmadd $n quest 0 4 1
+      else
+        mpjunk all
+      endif
+    else
+      mpjunk all
+    endif
+  endif
+endif
+~
+|
+#28409
+rangeretherealmob~
+ranger ethereal mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 8
+  mpmload 28402
+  mpecho The merchant and his caravan lumber into view.
+  mpquiet on
+  mpjunk all
+  mpoload 28407
+  give i28407 caravanmerchant
+  mpquiet off
+  mppurge self
+endif
+~
+|
+#28410
+flying mage~
+a flying mage~
+A flying mage hovers above you here.~
+Dressed in long robes that cover his feet, he flies above you with a
+smug smile on his face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_FLYING|AFF_TONGUES
+-100 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28410
+    mpecho A clear crystal shatters on the floor.
+    mpjunk all
+  else
+    if hasobjnum ($n) == 28411
+      if hasobjnum ($n) == 28412
+        if hasobjnum ($n) == 28413
+          if hasobjnum ($n) == 28414
+            if hasobjnum ($n) == 28415
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28411
+              mpjunkperson $n i28412
+              mpjunkperson $n i28413
+              mpjunkperson $n i28414
+              mpjunkperson $n i28415
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28411
+odiferous mage~
+an odiferous mage~
+An odiferous mage wafts about here.~
+He is dressed in a shabby robe, as he plays about with all manner
+of stinking items.  You wonder if he is the main cause of the odour
+or all the weird things in the room are?
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+-220 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28411
+    mpjunk all
+    mpecho A rose crystal shatters on the floor.
+  else
+    if hasobjnum ($n) == 28410
+      if hasobjnum ($n) == 28412
+        if hasobjnum ($n) == 28413
+          if hasobjnum ($n) == 28414
+            if hasobjnum ($n) == 28415
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28410
+              mpjunkperson $n i28412
+              mpjunkperson $n i28413
+              mpjunkperson $n i28414
+              mpjunkperson $n i28415
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28412
+experimenting mage~
+an experimenting mage~
+A mage is experimenting here.~
+He gives you an abstracted look as he continues on with his experiments.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28412
+    mpjunk all
+    mpecho A green crystal shatters on the floor.
+  else
+    if hasobjnum ($n) == 28411
+      if hasobjnum ($n) == 28410
+        if hasobjnum ($n) == 28413
+          if hasobjnum ($n) == 28414
+            if hasobjnum ($n) == 28415
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28411
+              mpjunkperson $n i28410
+              mpjunkperson $n i28413
+              mpjunkperson $n i28414
+              mpjunkperson $n i28415
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28413
+scholar mage~
+a mage scholar~
+A mage scholar studies here.~
+Dressed in a warm robe, he works away at studying his scrolls and spell books.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28413
+    mpjunk all
+    mpecho A puce crystal shatters on the floor.
+  else
+    if hasobjnum ($n) == 28411
+      if hasobjnum ($n) == 28412
+        if hasobjnum ($n) == 28410
+          if hasobjnum ($n) == 28414
+            if hasobjnum ($n) == 28415
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28411
+              mpjunkperson $n i28412
+              mpjunkperson $n i28410
+              mpjunkperson $n i28414
+              mpjunkperson $n i28415
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28414
+mage astronomer~
+a mage astronomer~
+A mage astronomer studies the stars here.~
+He wears a heavy woolen cloak despite the fact it is not cold in the
+observatory.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28414
+    mpjunk all
+    mpecho A yellow crystal shatters on the floor.
+  else
+    if hasobjnum ($n) == 28411
+      if hasobjnum ($n) == 28412
+        if hasobjnum ($n) == 28413
+          if hasobjnum ($n) == 28410
+            if hasobjnum ($n) == 28415
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28411
+              mpjunkperson $n i28412
+              mpjunkperson $n i28413
+              mpjunkperson $n i28410
+              mpjunkperson $n i28415
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28415
+lazy mage sleeping~
+a lazy mage~
+A lazy mage looks at you with a yawn.~
+Dressed in his night dress and night cap, he looks like hes ready for his
+bed.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+40 BODY_HAND BODY_FOOT 1d400+746 1d40+9
+10000 RACE_HUMAN
+POS_SLEEPING POS_SLEEPING SEX_MALE
+>death_prog 100~
+if quest (4,2,$n) == 1
+  if hasobjnum ($n) == 28415
+    mpjunk all
+    mpecho A blue crystal shatters on the floor.
+  else
+    if hasobjnum ($n) == 28411
+      if hasobjnum ($n) == 28412
+        if hasobjnum ($n) == 28413
+          if hasobjnum ($n) == 28414
+            if hasobjnum ($n) == 28410
+              mpjunk all
+              mpechoat $n The crystals shimmer brightly before coalescing into a colourful chain.
+              mpoload 28416
+              mpquiet on
+              mpjunkperson $n i28411
+              mpjunkperson $n i28412
+              mpjunkperson $n i28413
+              mpjunkperson $n i28414
+              mpjunkperson $n i28410
+              give chain $n
+              mpquiet off
+              mpmset $n quest 4 2 2
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+else
+  mpjunk all
+endif
+~
+|
+#28416
+master assassin~
+the master assassin~
+The Master Assassin gives you the once over.~
+He is dressed all in black and seems to melt into the shadows.  His eyes
+seem to wander all over the place as he looks for threats.  His back is
+to the wall rather than you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+50 BODY_HAND BODY_FOOT 10d10+1500 1d50+13
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_ninja
+  if level ($n) < 45
+    if quest (4,2,$n) == 0
+      mpechoat $n The Master Assassin bows before you respectfully.
+      mpechoaround $n The Master Assassin bows before $n respectfully.
+      say Are you willing to take on a challenge to further your skills?
+    endif
+  endif
+endif
+~
+>speech_prog yeah yep yes ok~
+if class ($n) == class_ninja
+  if level ($n) < 45
+    if quest (4,2,$n) == 0
+      say I challenge you to find the Crystal Chain of
+      say Binding.  It was wrought in the Valley of the Elves
+      say long ages ago.  Elves, dwarves and men have all
+      say searched for it and failed and thought it lost
+      say forever.  The chain is said to have the special
+      say ability of imprisoning a mage and prevent their use
+      say of magic.  I believe the mages themselves hide it
+      say broken into pieces.
+      say Bring me ALL you find.
+      mpmset $n quest 4 2 1
+    endif
+  endif
+endif
+~
+>speech_prog all~
+say There are 6 crystals to the chain of varying
+say colours.  Clear, Rose, Green, Puce, Yellow and Blue.
+say When you find them all they should all form a chain.
+say Bring me the chain that it forms and I will fix it.
+~
+>give_prog i28416~
+if quest (4,2,$n) == 2
+  say Ahhhh, so the Mages in that Tower had it all along.
+  say I have the final missing piece.  I have been saving
+  say it for when I found the rest of the chain.
+  mpecho The Master Assassin turns to a cabinet behind him.
+  mpecho The Master Assassin unlocks a drawer.
+  mpecho The Master Assassin takes out a golden crystal.
+  mpecho The chain blinds you as it shimmers and coaleseces.
+  mpjunk i28416
+  mpoload 28417
+  give chain $n
+  say Give this to any mage and it will prevent them from casting spells!
+  say Use wisely.
+  mpmset $n quest 4 2 3
+endif
+~
+>death_prog 100~
+if quest (4,2,$n) == 3
+  mpoload 28433
+  mpoload 28434
+  mpquiet on
+  give i28433 $n
+  give i28434 $n
+  mpquiet off
+  mpecho The Master Assassin gives you control of the guild.
+  mpmset $n long (Master Assassin) $n of Faerdale is here.
+endif
+~
+>give_prog i28418~
+say Ahhh so some mage figured out the secret of the Crystal
+say Chain of Binding!
+mpecho The Master Assassin throws the Crystal Chain of Power onto the ground.
+mpecho The Chain shatters and disappears.
+mpjunk all
+say I hear that the mages have hidden more crystals if you are up to the challenge.
+mpmset $n quest 4 2 0
+~
+|
+#28417
+magetoweretherealmob~
+mage tower ethereal mob~
+mage tower ethereal mob~
+This mob is for the assassin crystal chain quest.  When the player
+has collected all the crystals it will form the 6 crystals into
+a colourful chain to be given to the Master Assassin.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+mpecho You can feel the strength of the magic around you permeate your very being.
+mpasound You can actually see magic shimmer in the air!
+~
+|
+#28420
+moonclaw leader~
+the moonclaw leader~
+The Moonclaw Leader sits importantly at his desk here.~
+Dressed in a set of the nicest leathers you have seen this guy
+looks like he is full of his own self importance.  You wonder
+how a 'lowly' thief managed to get such a nice set of leathers
+and such a nice head quarters!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d1+1600 1d10+33
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,4,$n) == 0
+  if level ($n) < 45
+    if class ($n) == class_marauder
+      mpechoat $n The moonclaw leader looks you up and down disdainfully.
+      mpechoaround $n The moonclaw leader looks $n up and down disdainfully.
+      say Why are you here?
+    endif
+  endif
+endif
+~
+>speech_prog join recruit~
+if quest (6,4,$n) == 0
+  if level ($n) < 45
+    if class ($n) == class_marauder
+      say Ahhh to join our high class guild you would have to
+      say prove yourself.  You would have to steal a gem of
+      say worth from our rival guild, scruffy lot they are at
+      say that.  I heard they stole an emerald from a rich
+      say merchant in Faerdale last nite.  I want it!  Get it
+      say for me and prove you are worthy of our guild.
+      mpmset $n quest 6 4 1
+    endif
+  endif
+endif
+~
+>give_prog i28428~
+if quest (6,4,$n) == 1
+  mpjunk i28428
+  say Ahhhhhhhhhhhhhhhh.
+  mpecho The Moonclaw Leader carresses the gem reverently.
+  say This makes you worthy of becoming a member of our guild.
+  mpoload 28423
+  give badge $n
+  say Wear this with pride as we are the superior Theives
+  say Guild in the city of Faerdale.
+  mpmset $n quest 6 4 2
+endif
+~
+>death_prog 100~
+if quest (6,4,$n) == 3
+  mpecho On his dying breath, the Moonclaws Leader sneers at you.
+  say You think our guild is a challange.  You should try
+  say the Velvet hands.  They were BORN theives.
+  mpoload 28420
+  mpoload 28421
+  mpoload 28422
+  mpmset $n quest 6 4 4
+endif
+~
+>fight_prog 30~
+mpecho The leader stabs you hard!
+mpquiet on
+cast earthquake
+mpquiet off
+~
+|
+#28421
+moonclaw guild member~
+a moonclaw guild member~
+A Moonclaw guild member sits with his feet up on a couch here.~
+Like the leader of the Moonclaws, he is dressed in immaculate black
+leathers with a guild badge embossed on them.  He looks like he is
+pretty impressed with himself.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d10+63
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 5~
+mpecho The moonclaw trips over his own feet.
+mpecho It makes you wonder what sort of thief he makes!
+~
+>all_greet_prog 100~
+if quest (6,4,$n) == 2
+  mpecho Your fellow guild member looks at you petulantly.
+  say Our beloved leader is arrogant, he thinks this
+  say is the best guild around.  He said he would
+  say promote me when I first joined but all I am is
+  say a glorifed lackey.  Only way to get ahead in
+  say this guild is to get rid of arrogant britches
+  say in there.
+  mpecho The guild member runs his hand over his knife belt.
+  mpmset $n quest 6 4 3
+endif
+~
+|
+#28422
+velvet hands leader guild velvethandsguildleader~
+the velvet hands leader~
+The leader of the Velvet Hands Theives Guild is here.~
+Dressed in worn leathers that look they are moulded to his body,
+he looks like he has been in his chosen profession for some time now.
+He is lean, and he sticks to the shadows of the room.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 10d10+2000 1d10+50
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (6,4,$n) == 1
+  say HO!! What are you doing here.  I bet the moonclaws sent
+  say you to steal our emerald.  Some thief you make when
+  say you can be seen so easily!!!
+  mpkill $n
+else
+  if quest (6,4,$n) == 4
+    say You should join a REAL thieves guild if you
+    say think you have what it takes.  Do you?
+  endif
+endif
+~
+>speech_prog yes yeah yep ok maybe~
+if quest (6,4,$n) == 4
+  say Well first you have to prove your thieving
+  say abilities to us.  I want you to steal the
+  say Faerdale Crown Jewels.  You will need to
+  say break into Faerdale Castle to get them.
+  say We at the Velvet Hands Guild pride ourselves
+  say on our thieving skills without relying on
+  say magic.
+  mpmset $n quest 6 4 5
+endif
+~
+>give_prog i28430~
+if quest (6,4,$n) == 5
+  mpjunk i28430
+  say Ahhhhhhh, you are indeed worth of membership in
+  say our fine guild.  Many have tried and been killed
+  say by the guards for the effort of obtaining these
+  say fine jewels.
+  mpmset $n quest 6 4 7
+  mpmset $n long $n, member of the Velvet Hands Guild is here.
+  mpechoat $n You give the Velvet Hands leader an expectant look.
+  mpechoaround $n $n gives the Velvet Hands leader an expectant look.
+  laugh $n
+  say We don't have fancy badges like that want-to-be
+  say Thieves Guild the Moonclaws.
+endif
+~
+>death_prog 100~
+if quest (6,4,$n) == 8
+  if level ($n) < 45
+    say So you think you can control this unruly lot?
+    mpecho The Velvet Hands Leaders closes his eyes and dies.
+    mpoload 28424
+    mpoload 28425
+    mpoload 28426
+    mpoload 28427
+    mpmset $n quest 6 4 9
+    mpmset $n long $n, Leader of the Velvet Hands Guild is here.
+  endif
+endif
+~
+>fight_prog 30~
+mpecho You flinch at the stab of the Velvet Hands Leader.
+mpquiet on
+cast tremor
+mpquiet off
+~
+|
+#28423
+velvet hands guild member~
+a velvet hands guild member~
+A Velvet Hands Guild Member is here relaxing after a hards night work.~
+Dressed in worn leathers like his leader, this man looks like he
+could do with a good nights sleep.  Except that nights are when he works.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d10+63
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,4,$n) == 7
+  say As you would have learnt in the Moonclaws,
+  say there is only one way to get ahead in a
+  say Thieves Guild.
+  mpechoat $n The Guild member turns away to busy himself with sharpening his dagger.
+  mpmset $n quest 6 4 8
+endif
+~
+|
+#28424
+faerdale castle guard castleguard~
+a faerdale castle guard~
+A Faerdale castle guard protects his Lord's treasure here.~
+Dressed in the Tabard of a Faerdale Guard, he looks fierce, mean and
+ready to kill to protect his master's treasure.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_HAND BODY_FOOT 1d900+1774 1d10+53
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (6,4,$n) == 5
+  say Halt! Who goes there?
+  say Who dare walk the halls of the Lord of Faerdale?
+  mpkill $n
+endif
+~
+>death_prog 100~
+if class ($n) == class_necromancer
+  if level ($n) < 45
+    mpoload 28473
+  endif
+endif
+~
+|
+#28425
+faerdalecastleetherealmob~
+faerdale castle ethereal mob~
+faerdale castle ethereal mob~
+This mob will load up the faerdale jewels and a chest and put them
+in a chest and drop them for the questee to pick the lock.  It will
+also check that the questee is not affected by pass door.  If the
+questee takes too long to pick the lock this mob will load up guards
+to give the questee a hard time.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,4,$n) == 5
+  if level ($n) < 45
+  or level ($n) > 95
+    if validexit (up)
+      mpjunk all
+      mpquiet on
+      mpoload 28430
+      mpoload 28419
+      unlock i28429
+      open i28429
+      put i28430 i28429
+      mpjunk all
+      mpoload 28419
+      close i28429
+      lock i28429
+      mpquiet off
+      mpechoat $n You scan the room looking for a likely spot the jewels may be kept.
+      mpjunk all
+      mppurge self
+    else
+      mpechoat $n Your pass door spell causes you to pass right through the walls of the
+      mpechoat $n treasure room!!  You find yourself sitting on the floor of the sewer
+      mpechoat $n staring up at the leader of the Velvet Hands
+      mpmset $n quest 6 4 6
+      mptransfer $n 28439
+      mpat velvethandsguildleader mpforce velvethandsguildleader say What do you think you are? A mage?
+      mpat velvethandsguildleader mpforce velvethandsguildleader say REAL thieves PICK locks, not use spells.
+      mpat velvethandsguildleader mpforce velvethandsguildleader say You are not suitable for our guild.
+    endif
+  endif
+endif
+~
+>rand_prog 10~
+if quest (6,4,$r) == 5
+  if position ($r) != 6
+    if quest (0,5,$i) < 5
+      mpmadd self quest 0 5 1
+    else
+      mppurge castleguard
+      mpmload 28424
+      mpechoat $r You have taken so long in this room you have been discovered!!!
+      mpforce guard say Halt! Who goes there!
+      mpforce guard mpkill $r
+      mpmset self quest 0 5 0
+    endif
+  endif
+endif
+~
+|
+#28426
+velvethandsetherealmob~
+velvet hands ethereal mob~
+velvet hands ethereal mob~
+This mob loads up the chest and gem for the questee to steal from.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (6,4,$n) == 1
+  mpquiet on
+  mpoload 28419
+  mpoload 28428
+  unlock i28429
+  open i28429
+  put i28428 i28429
+  mpjunk all
+  mpoload 28419
+  close i28429
+  lock i28429
+  mpjunk all
+  mpquiet off
+  mpechoat $n You scan the room for a likely place for the gem to be hidden.
+  mppurge self
+endif
+~
+|
+#28430
+citizen faerdale~
+a citizen of Faerdale~
+A citizen of Faerdale goes about his business here.~
+Just your average citizen.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#28431
+citizen faerdale~
+a citizen of Faerdale~
+A citizen of Faerdale goes about her business here.~
+Just your average citizen.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+45 BODY_HAND BODY_FOOT 1d506+956 1d45+11
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+#28432
+faerdale captain guard~
+the captain~
+The Captain of the Guard of Faerdale stands here ready to help you hone your skills.~
+Dressed in the standard dress of the Faerdale Guard, he stands here looking
+very confident of his abilities.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+70 BODY_HAND BODY_FOOT 1d1225+3954 1d70+60
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+#28433
+mystra goddess~
+Mystra~
+The goddess Mystra hovers above you here.~
+She hovers above you with ease.  She wears robes that shimmer and
+glimmer with magic.  Her hair is long and black and her eyes
+are the most beautiful you have ever seen.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+100 BODY_HAND BODY_FOOT 1d2500+8509 1d1+150
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 80~
+cast fireball
+cast 'acid blast'
+cast 'lightning bolt'
+cast tremor
+mpecho You cannot defeat the Goddess of Magic herself!
+if hitprcnt ($i) < 50
+  mpecho The Goddess of Magic laughs at your feeble attempts to kill her.
+  mass 'acid blast'
+  mpecho You blink and the goddess is gone.
+  mppurge self
+endif
+~
+>social_prog bow~
+if quest (14,4,$n) == 13
+  say You have proven yourself to be a mage of greatness.
+  say Go now and serve me always.
+  mpquiet on
+  mpoload 28453
+  mpoload 28454
+  mpoload 28455
+  give mantle $n
+  give staff $n
+  give book $n
+  mpquiet off
+  mpmset $n long $n, High Mage of Mystra is here.
+  mpecho The goddess of magic shimmers away.
+  mpmset $n quest 14 4 14
+  mppurge self
+endif
+~
+|
+#28440
+high druid~
+the high druid~
+The high druid communes with nature here.~
+Dressed in long flowing robes, with vines entwined through
+his hair he looks like he is at one with nature.  His feet
+are bare, and his toes are curled into the dirt.  He has
+a serene look on his face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (10,4,$n) == 0
+  if class ($n) == class_elementalist
+    if level ($n) < 45
+      say Do you wish to make an item of ultimate elemental power?
+    endif
+  endif
+endif
+~
+>speech_prog yes yeah yup ok~
+if quest (10,4,$n) == 0
+  if class ($n) == class_elementalist
+    if level ($n) < 45
+      say We will be making an elemental globe.
+      say It is something that those who worship nature may do.
+      mpoload 28441
+      give parchment $n
+      say Look at this with care and do not lose it.
+      say You will need to speak to each of the elementals
+      say that surround the temple about what you need to do.
+      say The elementals are very set in the order that you see
+      say them.  First see Air, then Earth, then Water and finally Fire.
+      mpmset $n quest 10 4 1
+    endif
+  endif
+endif
+~
+>give_prog i28450~
+if quest (10,4,$n) == 13
+  if level ($n) < 45
+    mpjunk all
+    say Very well done.  You have followed my directions well.
+    mpechoat $n The High Druid takes your globe and holds it high above him.
+    mpechoaround $n The High Druid takes $n's globe and holds it high above him.
+    mpecho The High Druid enters a trance like state.
+    mpecho You can hear the wind in the trees.
+    mpecho You can hear the roar of a waterfall.
+    mpecho You can smell the dank smell of fresh earth.
+    mpecho You can feel the heat of fire on your face.
+    mpecho The High Druid sways and joins reality again.
+    mpoload 28440
+    give globe $n
+    mpmset $n quest 10 4 14
+    if sex ($n) == 1
+      mpmset $n long $n High Druid of Faerdale is here.
+    else
+      mpmset $n long $n, High Druidess of Faerdale is here.
+    endif
+    bow $n
+  endif
+endif
+~
+>death_prog 100~
+if quest (10,4,$n) == 14
+  if level ($n) < 45
+    mpechoat $n The High Druid relinquishes his power to you.
+    mpechoaround $n The High Druid relinquishes his power to $n.
+    mpquiet on
+    mpoload 28447
+    give robe $n
+    mpquiet off
+  endif
+endif
+~
+>fight_prog 30~
+mpquiet on
+cast fireball
+mpquiet off
+mpecho The High Druid calls upon the elements to aid him in battle.
+if level ($n) > 55
+  mpechoat $n You blink and find yourself somewhere else.
+  mpechoaround $n $n disappears from view.
+  mptransfer $n 8065
+endif
+~
+|
+#28441
+air elemental~
+the air elemental~
+A wisp of air hovers above you.~
+The air elemental is made of air - naturally.  He seems very insubstantial.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_HAND BODY_FOOT 1d900+1774 1d60+19
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog dry globe air help~
+if quest (10,4,$n) == 1
+  if level ($n) < 45
+    mpechoat $n The air whispers "Come to me when you need to cool your globe."
+    mpmset $n quest 10 4 2
+  endif
+endif
+~
+>rand_prog 50~
+if quest (10,4,$r) == 12
+  if level ($r) < 45
+    mpechoat $r The air whispers "I bless the globe that you have dried in my presence."
+    mpquiet on
+    mpoload 28450
+    give globe $r
+    mpquiet off
+    mpmset $r quest 10 4 13
+  endif
+endif
+~
+>death_prog 100~
+if quest (10,4,$n) == 14
+  if level ($n) < 45
+    mpechoat $n The air elemental relinquishes his power to you.
+    mpechoaround $n The air elemental relinquishes his power to $n.
+    mpquiet on
+    cast fly $n
+    mpoload 28445
+    give helm $n
+    mpquiet off
+  endif
+endif
+~
+>fight_prog 40~
+mpquiet on
+cast tremor
+mpquiet off
+mpecho The breath of the earth elemental knocks you to your knees.
+~
+|
+#28442
+earth elemental~
+the earth elemental~
+The earth elemental seems to grow from the ground here.~
+Made of stone and rock, he is the very essence of the earth.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_HAND BODY_FOOT 1d900+1774 1d60+19
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog earth help~
+if quest (10,4,$n) == 2
+  if level ($n) < 45
+    mpechoat $n The earth rumbles "The deepest you can go under Toril is the Underdark."
+    mpechoat $n The earth rumbles "Seek the earth from the stone lovers, the pechs, there."
+    mpmset $n quest 10 4 3
+  endif
+endif
+~
+>rand_prog 50~
+if quest (10,4,$r) == 6
+  if level ($r) < 45
+    mpechoat $r The earth rumbles "I bless the earthern mix you have made."
+    mpquiet on
+    mpoload 28448
+    give i28448 $r
+    mpquiet off
+    mpmset $r quest 10 4 7
+  endif
+endif
+~
+>death_prog 100~
+if quest (10,4,$n) == 14
+  if level ($n) < 45
+    mpechoat $n The earth elemental relinquishes his power to you.
+    mpechoaround $n The earth elemental relinquishes his power to $n.
+    mpquiet on
+    cast 'stone skin' $n
+    mpoload 28446
+    give shield $n
+    mpquiet off
+  endif
+endif
+~
+>fight_prog 40~
+cast earthquake
+~
+|
+#28443
+water elemental~
+the water elemental~
+The water elemental gurgles here.~
+He just seems to be a face made of water, and he flows from the water
+in which he resides.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_HAND BODY_FOOT 10d10+2400 1d60+19
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog water help~
+if quest (10,4,$n) == 3
+  if level ($n) < 45
+    mpechoat $n The water ripples "A pure moonwell can be found on the Moonshae Islands."
+    mpechoat $n The water ripples "Seek your pure water there."
+    mpmset $n quest 10 4 4
+  endif
+endif
+~
+>rand_prog 50~
+if quest (10,4,$r) == 10
+  if level ($r) < 45
+    mpechoat $r The water ripples "I bless the globe that you have dowsed in my waters."
+    mpquiet on
+    mpoload 28449
+    give mud $r
+    mpquiet off
+    mpmset $r quest 10 4 11
+  endif
+endif
+~
+>death_prog 100~
+if quest (10,4,$n) == 14
+  if level ($n) < 45
+    mpechoat $n The water elemental relinquishes his power to you.
+    mpechoaround $n The elemental relinquishes his power to $n.
+    mpquiet on
+    cast 'breath water' $n
+    mpoload 28444
+    give bracelet $n
+    mpquiet off
+    mpjunk all
+  endif
+endif
+~
+>fight_prog 40~
+cast 'chill touch'
+~
+|
+#28444
+fire elemental~
+the fire elemental~
+The fire elemental burns here.~
+He rises from the lava that surrounds him, and forms a shape of
+a large firey monster.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+60 BODY_HAND BODY_FOOT 10d10+2700 1d60+19
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog fire help~
+if quest (10,4,$n) == 4
+  if level ($n) < 45
+    mpechoat $n The fire roars "You will need to bring back your globe to my lava when"
+    mpechoat $n The fire roars "it is ready to be baked."
+    mpmset $n quest 10 4 5
+  endif
+endif
+~
+>rand_prog 50~
+if quest (10,4,$r) == 8
+  if level ($r) < 45
+    mpechoat $r The fire roars "I bless the earthern mix that you have baked."
+    mpquiet on
+    mpoload 28442
+    give i28442 $r
+    mpquiet off
+    mpmset $r quest 10 4 9
+  endif
+endif
+~
+>death_prog 100~
+if quest (10,4,$n) == 14
+  if level ($n) < 45
+    mpechoat $n The fire elemental relinquishes his power to you.
+    mpechoaround $n The fire elemental relinquishes his power to $n.
+    mpquiet on
+    cast 'firewalk' $n
+    mpoload 28443
+    give gauntlets $n
+    mpquiet off
+  endif
+endif
+~
+>fight_prog 40~
+cast fireball
+~
+|
+#28450
+lich~
+the lich~
+A lich glares at you menacingly.~
+He was once a great mage who sought to live forever by becoming undead.
+What was once his skin as now a thin almost clear parchment stretched
+over his bleached bones.  At various points on his body are pockets
+of decaying flesh from which drips trails of magots and puss and gore.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d1+1600 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if class ($n) == class_illusionist
+  if quest (14,4,$n) == 1
+    if level ($n) < 45
+      say What is it you seek?
+    endif
+  endif
+else
+  if quest (18,4,$n) == 10
+    say HO!! So you think because you have defeated all my minions
+    say you can defeat ME??
+    mpkill $n
+  else
+    if quest (18,4,$n) > 0
+      if quest (18,4,$n) < 10
+        mpechoat $n The Lich looks at you disdainfully.
+        say You haven't defeated my minions yet, but you expect
+        say to defeat me?
+        laugh $n
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog ondil ondils ondil's~
+if quest (14,4,$n) == 1
+  if level ($n) < 45
+    if class ($n) == class_illusionist
+      mpecho The lich throws back his head and laughs insanely.
+      say So you seek Ondil's Book of Spells?  You will have
+      say to battle me for that information, and if you win
+      say I may tell you.
+      mpmset $n quest 14 4 2
+      mpkill $n
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if class ($n) == class_illusionist
+  if quest (14,4,$n) == 2
+    if level ($n) < 45
+      mpoload 28451
+      mpechoat $n As you win the battle with the lich one of his bones rattles then falls to the floor.
+      mpechoaround $n As $n wins the battle with the lich one his bones rattles then falls to the floor.
+      mpquiet on
+      drop bone
+      mpquiet off
+      mpecho The lich throws back his head and laughs insanely.
+      say You thought you could kill me??
+      say You cannot take life from something that is already dead!
+      say But as you fought the battle with me spell for spell,
+      say I will tell you the whereabouts of the Book.
+      say It can be found in the floating tower in the Horn Hills.
+      mpecho The lich snaps its bony fingers, spilling maggots, and disappears.
+      mpmset $n quest 14 4 3
+      mpmset $n long $n, Lich Bane is here.
+      mppurge self
+    endif
+  endif
+else
+  if quest (18,4,$n) == 10
+    if level ($n) < 45
+      if class ($n) == class_monk
+        mpoload 28451
+        mpechoat $n As you win the battle with the lich one of his bones rattles then falls to the floor.
+        mpechoaround $n As $n wins the battle with the lich one his bones rattles then falls to the floor.
+        mpquiet on
+        drop bone
+        mpquiet off
+        mpecho The lich throws back his head and laughs insanely.
+        say You thought you could kill me??
+        say You cannot take life from something that is already dead!
+        mpecho The lich snaps its bony fingers, spilling maggots, and disappears.
+        mpmset $n quest 18 4 11
+        mpmset $n long $n, Lich Bane is here.
+        mppurge self
+      endif
+    endif
+  endif
+endif
+~
+>fight_prog 30~
+cast 'acid blast' $r
+cast 'lightning bolt' $n
+~
+|
+#28451
+floatingtowerethereal~
+floating tower ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if hasobjnum ($n) == 21
+  mpecho Your continual light brightens the room.
+else
+  if quest (14,4,$n) == 3
+    if level ($n) < 45
+      mpechoat $n The room is very dark.  Perhaps you should light it up with a spell.
+    endif
+  endif
+endif
+~
+|
+#28452
+chamber of speaking statues ethereal~
+chamber of speaking statues ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_illusionist
+  if quest (14,4,$n) == 3
+    if level ($n) < 45
+      if hasobjnum ($n) == 21
+        mpecho This tower is far larger than it appears from the outside.
+      else
+        mpechoat $n The room is too dark for you to see anything.
+        mpechoat $n Perhaps you should cast a spell to light it up.
+        mptransfer $n 28419
+      endif
+    endif
+  endif
+endif
+~
+|
+#28453
+chamber of rainbow lights ethereal~
+chamber of rainbow lights ethereal~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (14,4,$n) == 3
+  mpechoat $n Your ball of light goes out and you are in the dark again.
+  mpechoaround $n $n's light goes out and you are in the dark again.
+  mpecho All of a sudden, the room starts to light up with coloured lights.
+  mpforce $n look rainbow
+  mpjunkperson $n i21
+  mpmset $n quest 14 4 4
+  mpechoat $n The room goes dark again and you will need to recast your light spell.
+endif
+~
+|
+#28454
+ondils study ethereal~
+ondils study ethereal~
+ondils study ethereal~
+This mob will make sure that the ill has continual light.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_illusionist
+  if quest (14,4,$n) == 4
+    if level ($n) < 45
+      if hasobjnum ($n) == 21
+        mpechoat $n Four spheres hang from the ceiling.
+        mpechoat $n One contains a dragon, another contains a mindflayer.
+        mpechoat $n The third contains a beholder.
+        mpechoat $n The final contains a skeleton holding a book.
+      else
+        mpechoat $n The room is too dark for you to see anything.
+        mpechoat $n Perhaps you should cast a spell to light it up.
+        mptransfer $n 28419
+      endif
+    endif
+  endif
+endif
+~
+>rand_prog 50~
+if quest (14,4,$r) == 4
+  mpecho The first sphere cracks open and out steps the dragon.
+  mpmload 28455
+  mpechoat $r The dragon growls at you and attacks.
+  mpechoaround $r The dragon growls at $r and attacks.
+  mpforce dragonmob mpkill $r
+  mpmset $r quest 14 4 5
+else
+  if quest (14,4,$r) == 6
+    mpecho The sphere containing the mindflayer cracks open.
+    mpmload 28456
+    mpechoat $r A blast of evil power hits your mind and the mindflayer attacks.
+    mpechoaround $r $r reels back at the evil mind blast of the mindflayer.
+    mpforce mindflayermob mpkill $r
+    mpmset $r quest 14 4 7
+  else
+    if quest (14,4,$r) == 8
+      mpecho The sphere with the beholder shatters and the beholder steps out growling.
+      mpmload 28457
+      mpechoat $r The beholder turns one of its many eyes on you and then attacks.
+      mpechoaround $r The beholder turns one of its many eyes on $r and then attacks.
+      mpforce beholdermob mpkill $r
+      mpmset $r quest 14 4 9
+    else
+      if quest (14,4,$r) == 10
+        mpecho The final sphere shatters and the skeleton shakily steps out.
+        mpmload 28458
+        mpecho The skeleton that was Ondil looks around.
+        mpforce ondilskeletonmob say So you have killed all my protectors.
+        mpforce ondilskeletonmob say But you will not get my spell book!
+        mpforce ondilskeletonmob mpkill $r
+        mpmset $r quest 14 4 11
+      endif
+    endif
+  endif
+endif
+~
+|
+#28455
+dragonmob~
+a dragon~
+A dragon is here.~
+It is a dragon that has recently stepped from a sphere in which it has
+been encaptured for an age.  It looks relieved and angry at its release.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 20~
+mpechoat $n You feel the heat of the dragons fire.
+mpquiet on
+cast 'fireball' $n
+mpquiet off
+~
+>death_prog 100~
+if quest (14,4,$n) == 5
+  mpmset $n quest 14 4 6
+endif
+~
+|
+#28456
+mindflayermob~
+a mindflayer~
+A mindflayer is here.~
+It is a mindflayer that has recently stepped from a sphere in which it has
+been encaptured for an age.  It looks relieved and angry at its release.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (14,4,$n) == 7
+  mpmset $n quest 14 4 8
+endif
+~
+>fight_prog 20~
+mpecho You reel as you feel the evil mind blast of the mindflayer.
+mpquiet on
+cast earthquake
+mpquiet off
+~
+|
+#28457
+beholdermob~
+a beholder~
+A beholder is here.~
+It is a beholder that has recently stepped from a sphere in which it has
+been encaptured for an age.  It looks relieved and angry at its release.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (14,4,$r) == 9
+  mpmset $n quest 14 4 10
+endif
+~
+|
+#28458
+skeleton ondilskeletonmob~
+Ondil's skeleton~
+A skeleton holding a book is here.~
+This skeleton was once Ondil the mage.  As he was dying he set himself up to
+protect his much coveted spell book.  He set up the spheres and himself
+to protect it.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d10+42
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (14,4,$n) == 11
+  mpoload 28452
+  shout NO! You cannot take my spell book.
+  shout $n you will never be able to turn a single page without the aid of Mystra herself!
+  mpmset $n quest 14 4 12
+endif
+~
+>fight_prog 40~
+mpecho The bones of Ondil's skeleton glow bright and then a ball of light hits you.
+mpquiet on
+cast tremor
+mpquiet off
+~
+|
+#28459
+mystras dance ethereal~
+a feminine voice~
+mystras dance ethereal~
+This ethereal will take the non enchanted spell book and enchant it.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (14,4,$n) == 12
+  if hasobjnum ($n) == 28452
+    mpjunkperson $n i28452
+    mpechoat $n You put Ondil's spell book on the altar.
+    say In order to become a great mage you need to worship
+    say Mystra.  Will you bow down and worship her?
+  endif
+endif
+~
+>speech_prog yes~
+if quest (14,4,$n) == 12
+  mpmload 28433
+  mpechoat $n Mystra, the goddess of magic appears before you.
+  mpmset $n quest 14 4 13
+endif
+~
+|
+#28460
+priest lathander~
+a priest of lathander~
+A priest of Lathander heals the wounded here.~
+Dressed immaculatly in robes of the deepest green, he stands here
+ready to heal those that have been wounded.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 0d0+1500 1d10+45
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if quest (18,4,$n) == 0
+    if level ($n) < 45
+      say Hurry. Hurry $n.
+      say The High Priest needs your help!
+    endif
+  else
+    if quest (18,4,$n) > 3
+      if quest (18,4,$n) < 10
+        say Go Back $n!!!
+        say There are still more undead plaguing the crypt.
+      else
+        if quest (18,4,$n) == 10
+          say Lathander protect you $n.
+          say For now you have to battle the lich itself!
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog aid help~
+if quest (18,4,$n) == 1
+  say I cannot come with you as my place is here
+  say to heal the wounded.  But I can help you
+  say with information.  All the evil things down
+  say there are undead, so use your natural skills
+  say to get rid of undead.
+  say They are also evil if you are able to dispel
+  say evil, it should make your battle easier.
+  mpechoat $n The Priest of Lathander casts a spell of protection upon you.
+  mpquiet on
+  cast bless $n
+  mpquiet off
+  mpoload 28460
+  give i28460 $n
+  say Take this and wear it.  It will help protect you in your battle against evil.
+  mpmset $n quest 18 4 2
+endif
+~
+>speech_prog key~
+if quest (18,4,$n) > 0
+  say You would be needing the key to the crypt.
+  mpoload 28465
+  give key $n
+else
+  if quest (14,4,$n) > 0
+    say You would be needing the key to the crypt?
+    mpoload 28465
+    give key $n
+  endif
+endif
+~
+>rand_prog 20~
+if rand (20)
+  mpquiet on
+  cast heal $r
+  mpquiet off
+  mpechoat $r The priest of Lathander touches your hand and you feel better.
+else
+  if rand (25)
+    mpquiet on
+    cast armor $r
+    mpquiet off
+    mpechoat $r The Priest of Lathander calls upon his god to protect you.
+  else
+    if rand (33)
+      mpquiet on
+      cast shield $r
+      mpquiet off
+      mpechoat $r The Priest of Lathander calls upon his god to protect you.
+    else
+      if rand (50)
+        mpquiet on
+        cast refresh $r
+        mpquiet off
+        mpechoat $r The Priest of Lathander touches your head and you feel refreshed.
+      else
+        mpquiet on
+        cast bless $r
+        mpquiet off
+        mpechoat $r The Priest of Lathander blesses you.
+      endif
+    endif
+  endif
+endif
+~
+|
+#28461
+high priest lathander~
+the high priest of Lathander~
+The high priest of Lathander stands here ready to aid you.~
+He is dressed in robes of deepest green.  Around his neck hangs a chain
+from which hangs a holy symbol of Lathander.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+0 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_monk
+  if level ($n) < 45
+    if quest (18,4,$n) == 0
+      say We are in dire need of your help $n.
+      say Are you prepared to help your fellow healers?
+    else
+      if quest (18,4,$n) == 11
+        mpechoat $n The High Priest gives you a look of awe and respect.
+        mpechoaround $n The High Priest gives $n a look of awe and respect.
+        say So you killed the Lich and its minions.
+        say Well done.
+        say Our dead can finally rest in peace.
+        say Please accept induction into our order.
+        mpoload 28461
+        mpoload 28462
+        mpquiet on
+        cast 'giant strength' $n
+        mpquiet off
+        give i28461 $n
+        give i28462 $n
+        mpmset $n quest 18 4 12
+        if sex ($n) == 1
+          mpmset $n long $n, Priest of Lathander is here.
+        else
+          mpmset $n long $n, Priestess of Lathander is here.
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>fight_prog 40~
+mpechoat $r The High Priest calls upon his god for aid.
+cast 'lightning bolt' $r
+~
+>speech_prog yeah yep yes ok~
+if quest (18,4,$n) == 0
+  if class ($n) == class_monk
+    if level ($n) < 45
+      say Thank you so much.
+      say Our crypt below the temple has been overrun
+      say by a lich and its minions and our dearly
+      say departed no longer rest in peace.
+      say We need you to clear out the crypt for us.
+      say Ask the other priest here to AID you in your
+      say quest.
+      mpmset $n quest 18 4 1
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if quest (18,4,$n) == 12
+  if class ($n) == class_monk
+    if level ($n) < 60
+      mpoload 28463
+      mpoload 28464
+      mpquiet on
+      cast 'giant strength' $n
+      give i28463 $n
+      give i28464 $n
+      mpquiet off
+      mpechoat $n The High Priest abdicates his position to you.
+      mpmset $n quest 18 4 13
+      if sex ($n) == 1
+        mpmset $n long $n, High Priest of Lathander is here.
+      else
+        mpmset $n long $n, High Priestess of Lathander is here.
+      endif
+    endif
+  endif
+endif
+~
+|
+#28462
+wraith~
+a Wraith~
+A wraith hovers here.~
+The wraith in an evil undead spirit of a powerful human that seeks to
+absorb human life energy.  It looks like a black man-shaped cloud.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND|AFF_TONGUES
+-500 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28460
+  if quest (18,4,$n) == 2
+    mpechoat $n Your amulet glows bright as you destroy the creature of evil.
+    mpmset $n quest 18 4 3
+  else
+    if quest (18,4,$n) == 6
+      mpechoat $n Your amulet glows bright as you defeat the creature of evil.
+      mpmset $n quest 18 4 7
+    endif
+  endif
+endif
+~
+|
+#28463
+wight~
+a wight~
+A wight growls at you.~
+>From a distance the wight is easily mistaken for any humanoid race.
+They are a nightmarish relflection of their former self, with cruel
+burning eyes set in mummified flesh over a twisted skeleton with hands
+that end in sharp claws.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND|AFF_TONGUES
+-200 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28460
+  if quest (18,4,$n) == 3
+    mpechoat $n Your amulet glows bright as you destroy the creature of evil.
+    mpmset $n quest 18 4 4
+  else
+    if quest (18,4,$n) == 7
+      mpechoat $n Your amulet glows bright as you defeat the creature of evil.
+      mpmset $n quest 18 4 8
+    endif
+  endif
+endif
+~
+|
+#28464
+zombie~
+a zombie~
+A zombie stares at you blankly.~
+It is a mindless animated corpse controlled by its creator.  It is missing
+the limbs that it lost when it died.  It also missing the hair and flesh
+that decayed since the death of the humanoid it was.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND|AFF_TONGUES
+-300 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28460
+  if quest (18,4,$n) == 4
+    mpechoat $n Your amulet glows bright as you destroy the creature of evil.
+    mpmset $n quest 18 4 5
+  else
+    if quest (18,4,$n) == 8
+      mpechoat $n Your amulet glows bright as you defeat the creature of evil.
+      mpmset $n quest 18 4 9
+    endif
+  endif
+endif
+~
+|
+#28465
+ghoul~
+a ghoul~
+A ghoul is here ready to feed on the flesh of your corpse!~
+The ghoul is an undead creature, once human, who now feeds on the flesh
+of corpses.  The change from human to ghoul has deranged and destroyed
+its mind.  But take care it still has the cunning to effectively hunt
+its prey.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE|ACT_UNDEAD
+AFF_UNDERSTAND|AFF_TONGUES
+-400 S
+50 BODY_HAND BODY_FOOT 1d625+1197 1d50+13
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 28460
+  if quest (18,4,$n) == 5
+    mpechoat $n Your amulet glows bright as you destroy the creature of evil.
+    mpmset $n quest 18 4 6
+  else
+    if quest (18,4,$n) == 9
+      mpechoat $n Your amulet glows bright as you defeat the creature of evil.
+      mpmset $n quest 18 4 10
+    endif
+  endif
+endif
+~
+|
+#28466
+ghost priest lathander~
+a ghost of a priest of lathander~
+A ghost of a Priest of Lathander is here.~
+Dressed in ghostly green robes, this ghost was once a Priest of Lathander.
+He had been disturbed from eternal rest by the evil undead creatures that
+have invaded his resting place.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+20 BODY_HAND BODY_FOOT 1d1+279 1d1+17
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 40~
+if quest (18,4,$n) == 13
+  say Our rest is more peaceful thanks to you.
+else
+  if quest (18,4,$n) > 2
+    if quest (18,4,$n) < 11
+      say Help us.  Our peaceful eternal rest has
+      say been disturbed by the evil Lich and its
+      say minions.
+    endif
+  endif
+endif
+~
+|
+#28470
+highwizardoffaerdale wizard faerdale~
+High Wizard of Faerdale~
+The High Wizard of Faerdale is here.~
+Dressed in opulent robes, he cuts a regal figure.  His hair is dark
+with wings of grey.  Instead of walking, he hovers above the ground
+about a foot.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+50 BODY_HAND BODY_FOOT 10d10+1700 1d10+50
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if class ($n) == class_necromancer
+  if quest (20,5,$n) == 0
+    if level ($n) < 45
+      say Who dares disturb me?
+      say What do YOU want?
+    endif
+  else
+    if quest (20,5,$n) == 2
+      if quest (25,1,$n) == 1
+        mpecho The Wizard looks up from his spell book.
+        say You done?
+        mpecho The High Wizard looks around.
+        say Hmmmm you have done well.
+        say Been a while since the floors were this clean.
+        mpmset $n quest 20 5 3
+        mpechoat $n The High Wizard returns to what he was doing and leaves you standing there.
+      else
+        if quest (25,1,$n) == 0
+          say The floors are still filthy.
+          say Sweep them some more!!!
+        endif
+      endif
+    else
+      if quest (20,5,$n) == 11
+        mpecho The High Wizard sits down to eat his meal.
+        say Mmmmm.  Tethyrian Port! The best you can get.
+        mpechoat $n The High Wizard gestures to you with his fork as he starts to talk.
+        mpechoaround $n The High Wizards gestures to $n with his fork as he starts to talk.
+        say I am conducting a new experiment.
+        mpforce $n cringe
+        mpecho The High Wizard pauses to chew a mouthful of food.
+        mpmset $n quest 20 5 12
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog apprentice~
+if quest (20,5,$n) == 0
+  if class ($n) == class_necromancer
+    if level ($n) < 45
+      say Yes. Yes.  I was looking for a new lackey ...
+      say erm apprentice.  Seems my last apprentice
+      say objected to my experimenting on him.
+      mpecho The high wizards voice lowers to a mutter.
+      say Don't know why he didn't want to become a lich.
+      say I suppose you will be suitable.
+      mpmset $n quest 20 5 1
+      mpoload 28474
+      give i28474 $n
+      say Wear these as they befit your position, or lack thereof.
+      mpechoat $n The High Wizard turns away to return to what he was working on.
+    endif
+  endif
+endif
+~
+>rand_prog 33~
+switch quest (20,5,$r)
+  case 1
+    mpechoat $r The High Wizard turns to see you standing there looking stupid.
+    say You can start by sweeping the floor.
+    mpoload 28470
+    give i28470 $r
+    say Make sure you do the WHOLE tower!
+    mpmset $r quest 20 5 2
+  case 3
+    mpechoat $r The High Wizards looks up to see you standing there waiting his command.
+    say Cook needs someone to go shopping for her.
+    say Go see what she needs.
+    mpmset $r quest 20 5 4
+  case 12
+    mpecho The High Wizard finishes his mouthful and continues.
+    say No need to look afraid.
+    say The experiment is not on YOU!
+    say This time.
+    mpecho The High Wizard takes another mouthful of food and chews thoughtfully.
+    mpmset $r quest 20 5 13
+  case 13
+    say I want to create a special undead creature.
+    say I want to combine the best parts of certain
+    say creatures, to make the beast the best undead
+    say creature that you can get.
+    mpecho The High Wizard pauses for another mouthful of food.
+    mpmset $r quest 20 5 14
+  case 14
+    say I have compiled a list.
+    say You will need to kill these things,
+    say and bring me back the various body parts.
+    mpoload 28472
+    give i28472 $r
+    mpecho The High Wizard takes a sip of Tethyrian Port.
+    mpmset $r quest 20 5 15
+  case 15
+    say Mmmmm.  Good Port.
+    say If you have any questions about where
+    say to find any of these creatures, just ask.
+    mpecho The High Wizard returns to his meal.
+    mpmset $r quest 20 5 16
+  case 24
+    mpecho The High Wizard emerges from under his work table.
+    say Well so much for that!
+    say You have more potential than I thought.
+    say We cant have that!
+    say I am the best wizard there is!
+    mpmset $r quest 20 5 25
+  case 25
+    mpechoat $r The High Wizard lunges at you angrily.
+    say But you die for killing my wonderful creation!!
+    mpkill $r
+  default
+    if rand (5)
+      if sex ($r) == sex_female
+        mpechoat $r The High Wizard pats you on the bottom.
+        mpechoaround $r The High Wizard pats you on the bottom.
+        mpforce $r say LECH!!
+        mpforce $r slap wizard
+    endswitch
+~
+>speech_prog head dragon~
+say Only the head of the dragon Strabo in Landover
+say will do for this special creature.
+~
+>speech_prog wight cave~
+say Hmmmm I want the claw of a cave wight
+say from Landover.
+~
+>speech_prog harpy voice~
+say There is a harpy in Xanth.
+~
+>speech_prog fin sahuagin~
+say Sahuagin a plenty swim in the Sea of Swords
+say off the coasts of Tethyr and Waterdeep.
+~
+>speech_prog shell crustacean~
+say Crustaceans can be found in an underground
+say spring beneath the palace of Abrum Assante
+say in Tethyr.
+~
+>speech_prog newt eye~
+say Newt can be found in the Moonshae Islands.
+~
+>speech_prog leg legs human~
+say Hmmmm let me think.
+say The guards in Faerdale Castle are nice and
+say strong.
+say Kill one of them and get their legs.
+~
+>give_prog i15164~
+if quest (20,5,$n) == 16
+  mpjunk all
+  mpecho The High Wizard places the crustacean shell on his work table.
+  say Now I need the dragon's head.
+  mpmset $n quest 20 5 17
+endif
+~
+>give_prog i15033~
+if quest (20,5,$n) == 17
+  mpjunk all
+  mpecho The High Wizard places the head atop the crustacean shell.
+  mpecho The High Wizard mutters an incarnation.
+  mpecho The dragons head is fused to the crustacean shell.
+  mpmset $n quest 20 5 18
+  say Now I need the eye of Newt.
+else
+  if quest (20,5,$n) == 16
+    say No. No. I need to start with the crustacean shell.
+    give i15033 $n
+    say Hold on to that until I am ready for it.
+  else
+    if quest (20,5,$n) > 16
+      say No. No.  You need to listen for what I ask for!!
+      mpecho The High Wizard mutters under his breath about moronic apprentices.
+      give i15033 $n
+      say Hold onto that until I am ready for it.
+      mpmset $n long (IDIOT) $n is here.
+    endif
+  endif
+endif
+~
+>give_prog i226~
+if quest (20,5,$n) == 18
+  mpjunk all
+  mpecho The High Wizard places the eye of Newt on the dragons head.
+  mpecho The High Wizard mutters an incarnation.
+  mpecho The eye of Newt blinks and stares at you from the dragons head.
+  mpmset $n quest 20 5 19
+  say Now I need the Harpy's voice.
+else
+  if quest (20,5,$n) == 16
+    say No. No. I need to start with the crustacean shell.
+    give i226 $n
+    say Hold onto this until I am ready to use it.
+  else
+    if quest (20,5,$n) > 16
+      say No. No. Did I ask for THIS?
+      mpecho The High Wizard mutters under his breath about idiotic apprentices.
+      give i226 $n
+      say Hold onto this and give it to me when I ask for it!
+      mpmset $n long (IDIOT) $n is here.
+    endif
+  endif
+endif
+~
+>give_prog i43131~
+if quest (20,5,$n) == 19
+  mpjunk all
+  mpecho The High Wizard places the Harpy's voice in the dragons mouth.
+  mpecho The High Wizard utters an incarnation.
+  mpecho A high pitched wail fills the room as the dragon opens its mouth.
+  mpecho The High Wizard promptly shuts the dragons mouth.
+  mpecho The High Wizard rubs his ears ruefully.
+  say Hmmm that works!
+  say Now I need the sahaugin fin.
+  mpmset $n quest 20 5 20
+else
+  if quest (20,5,$n) == 16
+    say No. No. I need to start with the crustacean shell.
+    give i28131 $n
+    say Hold onto this until I need it.
+  else
+    if quest (20,5,$n) > 16
+      groan 
+      say Are you a moron?  Are you an idiot?
+      say Did I ask for THIS voice now?
+      say Now give me what I asked for!
+      give i28131
+      say Now hold onto this until I am ready to use it.
+      mpmset $n long (IDIOT) $n is here.
+    endif
+  endif
+endif
+~
+>give_prog i15163~
+if quest (20,5,$n) == 20
+  mpjunk all
+  mpecho The High Wizard places the fin on the back of the crustacean's shell.
+  mpecho The High Wizard utters another incarnation.
+  mpecho The fin melds tight to the shell.
+  mpmset $n quest 20 5 21
+  say Now I need those human legs.
+else
+  if quest (20,5,$n) == 16
+    say No. No. I need to start with the crustacean shell.
+    give i15163 $n
+    say Hold onto this until I am ready for it.
+  else
+    if quest (20,5,$n) > 16
+      glare coldly $n
+      say What moron recommended you to me as an apprentice?
+      say Remind me to use him in my next experiment!
+      give i15163 $n
+      say Now give me what I asked for!
+      mpmset $n long (IDIOT) $n is here.
+    endif
+  endif
+endif
+~
+>give_prog i28473~
+if quest (20,5,$n) == 21
+  mpjunk all
+  mpecho The High Wizard places the hairy legs at the bottom of the crustacean shell.
+  mpecho The High Wizard utters yet another incarnation.
+  mpecho The toes on the feet wiggle.
+  mpecho One of the legs kicks the High Wizard between his own legs!
+  groan 
+  mpecho The High Wizard doubles over and catches his breath.
+  say Good strong legs you got me there!!!
+  say Now for the final touch!
+  say Give me the cave wights claw NOW!
+  mpmset $n quest 20 5 22
+else
+  if quest (20,5,$n) == 16
+    say No. No.  I need to start with the crustacean shell.
+    give i28473 $n
+    say Hold onto these hairy legs until I am ready for them.
+  else
+    if quest (20,5,$n) > 16
+      say Do these hairy legs in any way resemble
+      say what I asked for?
+      say If so I suggest you go to a healer
+      say and ask him to tend to your eyes!
+      give i28473 $n
+      say Hold onto these legs until I am ready for them
+      mpecho High Wizard mutters under his breath about morons and idiots.
+      mpmset $n long (IDIOT) $n is here.
+    endif
+  endif
+endif
+~
+>give_prog i15018~
+if quest (20,5,$n) == 22
+  mpjunk all
+  mpecho The High Wizard places the claws to the front of the crustacean shell.
+  mpecho The High Wizard mutters his final incarnation, longer than the others.
+  mpecho The creature starts to move and groan and wail.
+  mpmload 28472
+  mpechoat $n The High Wizard turns to you gleefully, proud of his achievement.
+  mpmset $n quest 20 5 23
+else
+  if quest (20,5,$n) == 16
+    say No. No. I need to start with the crustacean shell.
+    give i15018 $n
+    say Hold onto these claws until I am ready for them.
+  else
+    if quest (20,5,$n) > 16
+      shout I am surrounded by idiots, and $n is the biggest of them all!!
+      groan 
+      mpmset $n long (IDIOT) $n is here.
+      say This claw in no way resembles what I asked for.
+      give i15018 $n
+    endif
+  endif
+endif
+~
+>fight_prog 40~
+cast 'energy drain'
+cast 'acid blast'
+~
+>death_prog 100~
+if quest (20,5,$n) == 25
+  if level ($n) < 45
+    if class ($n) == class_necromancer
+      mpjunk all
+      shout $n has defeated me! Turncoat apprentice!!
+      mpmset $n quest 20 5 26
+      mpmset $n long High Wizard $n of Faerdale is here.
+      mpoload 28475
+      mpoload 28476
+      mpoload 28477
+      mpoload 28478
+    endif
+  endif
+endif
+~
+|
+#28471
+cook high wizard faerdale~
+the cook~
+The cook of the High Wizard of Faerdale is here.~
+The Cook is very ample in girth.  I guess she must be a very very good
+cook.  She has rosy cheeks and a happy look on her face.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+70 BODY_HAND BODY_FOOT 1d1225+3954 1d70+60
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if quest (20,5,$n) == 4
+  say Good.  High Wizard has sent me a helper.
+  say I need you to go shopping.  Here's the list.
+  mpoload 28471
+  give list $n
+  say If you don't know where to get anything on this list, ask me.
+  mpecho The cook turns back to her cooking.
+  mpmset $n quest 20 5 5
+endif
+~
+>speech_prog milk~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say High Wizard only likes milk from the cows in Ofcol.
+say They give the creamiest milk.
+mpecho The cook turns around to her cooking again.
+~
+>speech_prog port~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say High Wizard only likes the finest Tethyrian Port from Tethyr.
+say The Breaching Whale Tavern in Tethyr sells it.
+mpecho The cook turns around to her cooking again.
+~
+>speech_prog meat~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say High Wizard only likes the freshest of meat.
+say Morty's in Waterdeep has the freshest.
+mpecho The cook turns around to her cooking again.
+~
+>speech_prog shrimp~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say High Wizard only likes the freshest of shrimp.
+say They sell the best there is in Ocean City.
+mpecho The cook turns around to her cooking again.
+~
+>speech_prog pie~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say High Wizard only likes the biggest and best of pies.
+say The baker in Midgaard has the best there is.
+mpecho The cook turns around to her cooking again.
+~
+>speech_prog bread~
+mpechoat $n The cook turns around to answer your question.
+mpechoaround $n The cook turns around to answer $n's question.
+say Only one place I know to get bread fruit.
+say They grow it and sell it in Xanth.
+mpecho The cook turns around to her cooking again.
+~
+>give_prog i8061~
+if quest (20,5,$n) == 5
+  say Ahhh good, some of Morty's freshest.
+  say Looks like leg of dwarf to me.
+  say High Wizard does love a tender dwarf!
+  mpecho The cook places the meat in the oven to bake.
+  mpmset $n quest 20 5 6
+  mpechoat $n The cook turns back to face you.
+  say Do you have the shrimp platter?
+  mpjunk all
+endif
+~
+>give_prog i11416~
+if quest (20,5,$n) == 6
+  mpecho The cook gives the shrimp platter to a maid to take to the High Wizard.
+  mpmset $n quest 20 5 7
+  mpjunk all
+  say I need the port so the High Wizard can drink it with his shrimp entre.
+else
+  if quest (20,5,$n) == 5
+    say No No I need to put the meat on to cook first!
+    give shrimp $n
+    say Hold that for me till I need it.
+  endif
+endif
+~
+>give_prog i15165~
+if quest (20,5,$n) == 7
+  mpecho The cook gives the port to the maid to take up to the High Wizard.
+  mpmset $n quest 20 5 8
+  mpjunk all
+  say I should start heating up the pot pie for High Wizards Dinner.
+  mpechoat $n The cook looks at you expectantly.
+  mpechoaround $n The cook looks at $n expectantly.
+else
+  if quest (20,5,$n) == 5
+    say No. No. I need to put the meat on to cook first!
+    give port $n
+    say Hold on to this till I need it.
+  else
+    if quest (20,5,$n) == 6
+      say No. No.  I said I needed the shrimp platter now.
+      give port $n
+      say Hold on to this till I need it.
+    endif
+  endif
+endif
+~
+>give_prog i3009~
+if quest (20,5,$n) == 8
+  mpecho The cook puts the pie in the oven to heat for High Wizard's Dessert.
+  mpmset $n quest 20 5 9
+  mpjunk all
+  say If you have the milk, I should really put it to chill in the cellar.
+  mpechoat $n The cook looks at you expectantly.
+  mpechoaround $n The cook looks at $n expectantly.
+else
+  if quest (20,5,$n) == 5
+    say No. No.  I need to put the meat on to cook first.
+    give pie $n
+    say Hold onto this until I need it.
+  else
+    if quest (20,5,$n) == 6
+      say No.  I said I needed the shrimp platter now!
+      give pie $n
+      say Hold onto this until I need it.
+    else
+      if quest (20,5,$n) == 7
+        say I need to give the High Wizard his port now.
+        give pie $n
+        say Hold onto this until I need it.
+      endif
+    endif
+  endif
+endif
+~
+>give_prog i611~
+if quest (20,5,$n) == 9
+  mpecho The cook gives the milk to a maid to take to the cellar to chill.
+  mpmset $n quest 20 5 10
+  mpjunk all
+  say I need the bread fruit now please.
+  mpechoat $n The cook looks at you expectantly.
+  mpechoaround $n The cook looks at $n expectantly.
+else
+  if quest (20,5,$n) == 5
+    say No. No. I need to put the meat on to cook first.
+    give milk $n
+    say Hold on to this until I need it.
+  else
+    if quest (20,5,$n) == 6
+      say No. No.  I said I needed the shrimp platter now.
+      give milk $n
+      say Hold onto this until I need it.
+    else
+      if quest (20,5,$n) == 7
+        say I need to give the High Wizard his port now.
+        give milk $n
+        say Hold onto this until I need it.
+      else
+        if quest (20,5,$n) == 8
+          say I need to put the pie onto heat now.
+          give milk $n
+          say Hold onto this until I need it.
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>give_prog i43125~
+if quest (20,5,$n) == 10
+  mpecho The cook places the bread fruit on the table and slices it.
+  say You can go back to the High Wizard now.
+  say I dont need you anymore.
+  mpmset $n quest 20 5 11
+else
+  if quest (20,5,$n) == 5
+    say No. No. I need to put the meat on to cook first.
+    give bread $n
+    say Hold onto this until I need it.
+  else
+    if quest (20,5,$n) == 6
+      say No. No.  I said I needed the shrimp platter now.
+      give bread $n
+      say Hold onto this until I need it.
+    else
+      if quest (20,5,$n) == 7
+        say I need to give the High Wizard his port now.
+        give bread $n
+        say Hold onto this until I need it.
+      else
+        if quest (20,5,$n) == 8
+          say I need to put the pie on to heat now.
+          give bread $n
+          say Hold onto this until I need it.
+        else
+          if quest (20,5,$n) == 9
+            say I need to put the milk on to chill now.
+            give bread $n
+            say Hold on to this until I need it.
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+~
+>death_prog 100~
+groan 
+say Now YOU can cook the High Wizards dinner, $n.
+~
+|
+#28472
+horrible undead creature~
+the horrible undead creature~
+A horrible undead creature drools all over itself here.~
+It is the most terrible undead creature you have ever seen.  It is made
+of a mismatch of body parts.  With the body of a crustacean and the head
+of a dragon it is most fearful.  The worst part is the hair human legs
+that protrude from the crustacean body.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_UNDERSTAND|AFF_TONGUES
+1000 S
+50 BODY_HAND BODY_FOOT 10d10+1600 1d10+50
+10000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 33~
+if quest (20,5,$r) == 23
+  mpecho The undead creature starts to drool all over itself.
+  mpechoat $r The undead creature spies you and lunges.
+  mpechoaround $r The undead creature spies $r and lunges.
+  mpecho The High Wizard cowers under his work bench.
+  mppurge highwizardoffaerdale
+  mpkill $r
+endif
+~
+>fight_prog 20~
+mpecho You try to cover your ears as a frightful wail emmanates from the creature.
+mpquiet on
+cast acid blast
+mpquiet off
+~
+>death_prog 100~
+if quest (20,5,$n) == 23
+  mpechoat $n The horrible undead creature sprays you with its drool as it dies.
+  mpechoaround $n The horrible undead creature sprays $n with its drool as it dies.
+  mpmset $n quest 20 5 24
+endif
+~
+|
+#0
+
+
+#SHOPS
+28402 ITEM_TYPE_ARMOR ITEM_TYPE_TREASURE ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#28400
+tattered leather armour~
+some tattered leather armour~
+Some tattered leather armour lies abandoned here.~
+It is made of a well worn leather that has been so abused it is now
+in tatters.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+7 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_DEX 1 0
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The armour disintegrates.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28401
+dented helm~
+a dented helm~
+A dented helm lies abandoned here.~
+Made of a metal it looks like its been in many a battle for all its dents.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_DEX 3 0
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 3 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The helm disintegrates.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28402
+rusty gauntlets~
+some rusty gauntlets~
+A pair of rusty gauntlets lies abandoned here.~
+They are old and so poorly cared for that the metal in them is rusting away.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+5 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The gauntlets rust away.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28403
+scorched leather jerkin~
+a scorched leather jerkin~
+A scorched leather jerkin lies abandoned here.~
+It looks like someone left this jerkin too close to the fire
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+5 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The jerkin disintegrates.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28404
+rotted boots~
+some rotted boots~
+A pair of rotted boots lie abandoned here.~
+It looks like someone left these out in the rain too long.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+1 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_STR 2 0
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The boots rot away.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28405
+blood stained cloak~
+a blood stained cloak~
+A blood stained cloak lies abandoned here.~
+Well someone wore this cloak to the death.  It appears to have sword cuts
+in it and blood stains.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The cloak disintegrates.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28406
+sleeves faerdale~
+sleeves of faerdale~
+Sleeves of Faerdale lies here.~
+It is a silver pair of sleeves with the symbol of Faerdale on the sides.
+It must have been given to a truly great hero of Faerdale.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+1 100 35
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The sleeves disintegrate.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28407
+chainlink link belt~
+a chainlink belt~
+A chain lies here.~
+It is a belt made of chain.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+6 0 0 0 0 0 0 0
+1 1000 35
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_RANGER 0 3
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_CLASS = CLASS_GLADIATOR 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The belt disintegrates.~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28410
+clear crystal~
+a clear crystal~
+A clear crystal lies here.~
+It is a clear crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28411
+rose crystal~
+a rose crystal~
+A rose crystal lies here.~
+It is a rose crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28412
+green crystal~
+a green crystal~
+A green crystal lies here.~
+It is a green crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28413
+puce crystal~
+a puce crystal~
+A puce crystal lies here.~
+It is a puce crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28414
+yellow crystal~
+a yellow crystal~
+A yellow crystal lies here.~
+It is a yellow crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28415
+blue crystal~
+a blue crystal~
+A blue crystal lies here.~
+It is a blue crystal.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28416
+colourful crystal chain~
+a colourful crystal chain~
+A colourful crystal chain glitters in the sunlight here.~
+It is a chain made of six crystals.  Each crystal is a different colour.
+Clear, Rose, Green, Puce, Yellow and Blue.  Perhaps the Master Assassin
+in Faerdale can make it into something of value?
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 20
+#28417
+crystal chain binding~
+a crystal chain of binding~
+A crystal chain of binding lies here.~
+This crystal chain has the unique powers of being able to bind a mage
+by preventing them from casting a spells.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+9 0 0 0 0 0 0 0
+1 100000 30
+P 1
+TRIG_COMMAND 50 cast
+OPROG_IF OIF_USER_POSITION = POS_SITTING 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your hands are bound by the crystal chain and your spell fails.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The crystal chain absorbs the power of your spell.~
+P 3
+TRIG_VOID
+OPROG_QUEST_ADD 0 9 1
+P 4
+TRIG_TICK 10
+OPROG_OBJECT_QUEST_IF 0 9 > 100 5 0
+P 5
+TRIG_VOID
+OPROG_ECHO
+The crystal chain of binding shimmers into a crystal chain of POWER.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpoload 28418~
+P 5
+TRIG_VOID
+OPROG_JUNK
+#28418
+crystal chain power~
+a crystal chain of power~
+A crystal chain of power pulsates here.~
+This crystal chain has absorbed the power of its wearing to change
+from a crystal chain of binding that bound the mage to become a chain
+of power to aid its spell caster wearer.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WAIST
+10 0 0 0 0 0 0 0
+1 1000000 40
+A APPLY_MANA 80 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+You shiver as you feel the POWER!!~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 30
+#28419
+faerdalekey key~
+the faerdale key ~
+the key to that chest~
+if you have this key then you bloody well shouldnt.  Only the ethereal
+mobs for the rogues quest should have this key.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 30
+#28420
+expensive dark leather boots~
+a pair of expensive dark leather boots~
+A pair of expensive dark leather boots lie here collecting dust.~
+These boots are made of the finest dark leather that money can
+buy.  Around the top of the boots is embossed the symbol of the
+Moonclaws Theives Guild of Faerdale.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+4 100000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 4 0
+A APPLY_DEX 1 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The boots disintegrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28421
+moonclaws signet ring~
+a moonclaw signet ring~
+A signet ring lies here collecting dust.~
+It is an expensive gold ring with an eleborate signet embossed
+with the symbol of the Moonclaw Thieves Guild of Faerdale.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+6 0 0 0 0 0 0 0
+4 100000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 4 0
+A APPLY_CON 1 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The vest disintegrates.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28422
+expensive dark leather gloves~
+a pair of expensive dark leather gloves~
+A pair of expensive dark leather gloves lie here collecting dust.~
+These gloves are made of the finest, most expensive dark leather
+that money can buy.  On the cuff is embossed the symbol of the
+Moonclaws Thieves Guild of Faerdale.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+4 100000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 4 0
+A APPLY_WIS 1 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The gloves disintegrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28423
+moonclaw guild badge~
+a moonclaw guild badge~
+A moonclaw guild badge lies here collecting dust.~
+The badge is made of a heavy metal, with the emblem of the Moonclaw
+Thieves Guild of Faerdale embossed into the metal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WAIST
+6 0 0 0 0 0 0 0
+10 100000 25
+A APPLY_DAMROLL 3 0
+A APPLY_HITROLL 4 0
+A APPLY_STR 1 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The guild badge melts.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28424
+worn dark leather leggings~
+a pair of worn dark leather leggings~
+A pair of worn dark leather leggings lie in a pile on the ground here.~
+The leather of these leggings is very worn, but worn to such a state
+where they are very supple and comfortable to wear.  One could move
+about in such a pair of leather pants with ease.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+7 0 0 0 0 0 0 0
+10 100000 35
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 5 0
+A APPLY_MANA -40 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The leggings disintergrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28425
+worn dark leather vest~
+a worn dark leather vest~
+A worn dark leather vest lies in a pile on the ground here.~
+The leather of this vest is very worn, but worn to such a state
+where it is very supple and comfortable to wear.  One could move
+about in such a vest with ease and no restriction of movement.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+8 0 0 0 0 0 0 0
+10 100000 35
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 2 0
+A APPLY_DEX 3 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The vest disintergrates.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28426
+worn dark leather gloves~
+a pair of worn dark leather gloves~
+A pair of worn dark leather gloves lie in a pile on the ground here.~
+The leather of these gloves is very worn, but worn to such a state
+where they are very supple and comfortable to wear.  One could steal
+things in such a pair of gloves with ease.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+6 0 0 0 0 0 0 0
+10 100000 35
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 5 0
+A APPLY_INT 1 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The gloves disintergrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28427
+worn dark leather boots~
+a pair of worn dark leather boots~
+A pair of worn dark leather boots lie in a pile on the ground here.~
+The leather of these boots is very worn, but worn to such a state
+where they are very supple and comfortable to wear.  One could move
+about in such a pair of leather boots with ease.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+6 0 0 0 0 0 0 0
+10 100000 35
+A APPLY_DAMROLL 4 0
+A APPLY_HITROLL 4 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MARAUDER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The boots disintergrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28428
+precious emerald~
+a precious emerald~
+a precious emerald glints in the light here.~
+It is a precious gem who's many facets pick up the brilliant green
+colour.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10000 1
+#28429
+plain chest~
+a plain chest~
+A plain chest sits in the corner of the room here.~
+It is a plain wooden chest with a large lock.  You have no idea
+where the key for it may be.  I guess the only way to see what is
+inside it would be to PICK it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+100 CONT_CLOSEABLE|CONT_CLOSED|CONT_LOCKED 28419 0 0 0 0 0
+1 10 1
+#28430
+faerdale crown jewels~
+the faerdale crown jewels~
+The Faerdale Crown Jewels lie here.~
+You hold in your hot little hands, a clump of jewels, consisting
+of a tangled mess of necklaces, bracelets and rings.  They are made
+up of gold and silver and an assortment of gems.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 1000000 1
+#28432
+sign~
+a sign~
+A sign hangs in the void here.~
+.------------------------------.
+|                           ---|
+|    {118}Welcome to Faerdale{308}     --|
+|--                            |
+|   {138}Area Created by Blythe{308}     |
+|---                           |
+.------------------------------.
+          {128}\\{308}|       |{128}//{308}
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+100 100 100
+#28433
+black leather cloak~
+a black leather cloak~
+A black leather cloak lies here.~
+This cloak is made from fine, soft, supple leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+9 0 0 0 0 0 0 0
+1 10000 36
+A APPLY_DAMROLL 4 0
+A APPLY_INT 3 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NINJA 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The boots disintergrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28434
+master assassins belt~
+a master assassins belt~
+A master assassins belt lies here.~
+It is made of a fine leather, and is filled with all sorts of wicked
+things that an assassin uses in his 'trade'.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+9 0 0 0 0 0 0 0
+1 1000 36
+A APPLY_DAMROLL 4 0
+A APPLY_INT 3 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NINJA 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The boots disintergrate.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28440
+elemental globe~
+an elemental globe~
+An elemental globe lies here, trying to merge with the earth.~
+Someone has taken the effort to fullfil the long complicated
+process of making this globe.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+3 4000 40
+A APPLY_AC -13 0
+A APPLY_DEX 3 0
+A APPLY_DAMROLL -5 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your elemental globe disperses to the elements.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28441
+parchment recipe elemental globe~
+elemental globe recipe~
+Some parcment lies here, perhaps it is important?~
+.-------------------------------------------------------------------.
+|  {128}RECIPE OF AN ELEMENTAL GLOBE{308}                                     |
+|  {028}To be made only by a druid or druidess.{308}                          |
+|                                                                   |
+|  {118}Ingredients{308}                                                      |
+|  ===========                                                      |
+|  {178}*{308} EARTH from the deepest of the deep.                            |
+|  {178}*{308} WATER from a pure moonwell.                                    |
+|                                                                   |
+|  {118}Directions{308}                                                       |
+|  ==========                                                       |
+|  {178}*{308} MIX the earth and the water in the presence of an              |
+|    earth elemental.                                               |
+|  {178}*{308} BAKE in the warmest fire in the presense of a fire             |
+|    elemental.                                                     |
+|  {178}*{308} DOUSE it in water in the presense of a water elemental.        |
+|  {178}*{308} DRY in the purest air in the presense of an air elemental.     |
+|  {178}*{308} Take it to the High Druid of Faerdale for blessing.            |
+|                                                                   |
+.-------------------------------------------------------------------.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28442
+baked mud~
+some baked mud~
+Some baked mud lies here.~
+It is a globe that a druid has not yet finished making into
+a magical elemental globe.  It still needs to be doused and
+dried.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+P 1
+TRIG_UNKNOWN 100 douse
+OPROG_IF OIF_USER_ROOM_NUM = 28458 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+Nothing happens. You must not be in the presence of an elemental.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You douse your mud ball in the pool of water.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 28400 10 4 10~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28443
+gauntlets fire~
+a pair of gauntlets of fire~
+A pair of guantlets of fire burn the ground here.~
+They are made of fire and as such only a druid may wear them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+11 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_HIT 30 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+The gauntlets of fire burst into flames and disappear.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28444
+water bracelet~
+a water bracelet~
+A water bracelet lies in a pool of water here.~
+It is made of water and as such only a druid may wear it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+11 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_HIT 30 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your water bracelet trickles away to nothing.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28445
+helm air~
+a helm of air~
+A helm of air floats above you here.~
+It is made of air and as such only a druid may wear it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+11 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_HIT 30 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your helm of air floats away in the breeze.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28446
+earthen shield~
+an earthen shield~
+An earthen shield melds with the earth here.~
+It is made of earth and as such only a druid may wear it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+11 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_HIT 30 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your earthern shield crumbles into small mounds of dirt.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28447
+high druids robe~
+a high druid's robe~
+A high druid's robe lies here.~
+It is the robe only the highest of druids would wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+13 0 0 0 0 0 0 0
+1 1900 40
+A APPLY_DEX 3 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ELEMENTALIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your druids robes tear apart and scatter to the elements.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28448
+mud ball~
+a ball of mud~
+A ball of mud lies here on the ground.~
+It is mud made from earth from the underdark and water from the Moonwell
+in Moonshae Islands.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+P 1
+TRIG_UNKNOWN 100 bake
+OPROG_IF OIF_USER_ROOM_NUM = 28462 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+Nothing happens. You must not be in the presence of an elemental.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+The fire burns bright as you bake your mud.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 28400 10 4 8~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28449
+wet ball mud~
+a wet ball of mud~
+A wet ball of mud lies here.~
+It is an elemental globe that is not yet finished.  It needs to be dried
+in the presence of an air elemental before it is even close to completion.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+P 1
+TRIG_UNKNOWN 100 dry
+OPROG_IF OIF_USER_ROOM_NUM = 28457 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+Nothing happens. You must not be in the presence of an elemental.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+A breeze stirs around your unformed globe.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 28400 10 4 12~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28450
+unformed elemental globe~
+an unformed elemental globe~
+An unformed elemental globe lies here.~
+This globe just requires the blessing of the High Druid in Faerdale
+to become an elemental globe of power.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28451
+lich bone~
+a lich bone~
+A bone from a lich lies here.~
+It is a bone from the lich who resided under the Temple of Lathander
+in Faerdale.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+2 500 40
+A APPLY_HIT 20 0
+A APPLY_MANA 35 0
+A APPLY_DAMROLL -5 0
+#28452
+ondils spell book~
+Ondil's Spell Book~
+The pages of Ondil's Spell Book flap in the breeze here.~
+This is the spell book of the old mage Ondil.  It is much coveted by
+all mages.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 5000 35
+#28453
+ondils spell book~
+Ondil's Spell Book~
+The pages of Ondil's Spell Book flap around wildly here.~
+This is the spell book of the old mage Ondil.  It is much coveted by
+all mages.  This one has been enchanted by the goddess Mystra herself.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+13 0 0 0 0 0 0 0
+10 50000 40
+A APPLY_MANA 40 0
+A APPLY_DAMROLL -5 0
+P 1
+TRIG_TICK 5
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+Motes of coloured lights float around Ondil's Spell Book.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 10
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 10
+P 4
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ILLUSIONIST 0 4
+P 4
+TRIG_VOID
+OPROG_ECHO
+The pages of your spell book fall out and the book is gone!~
+P 4
+TRIG_VOID
+OPROG_JUNK
+#28454
+mystras mantle~
+Mystra's Mantle~
+Mystra's Mantle lies here abandoned by a mage.~
+This is the mantle that Mystra bestows on those mages that have
+proved themselves to be of merit.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+13 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_MANA 50 0
+A APPLY_DAMROLL -5 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ILLUSIONIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your mantle disappears in a blinding light.~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28455
+staff mystra~
+a staff of Mystra~
+A staff of Mystra lies here.~
+It is a staff that Mystra gives only to the greatest of mages that
+have proven themselves to her.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+1 5000 40
+A APPLY_AC -12 0
+A APPLY_MANA 40 0
+A APPLY_DAMROLL -5 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_ILLUSIONIST 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your staff of Mystra shines bright and is gone!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28460
+amulet lathander~
+an amulet of Lathander~
+An amulet of Lathander lies on the ground here.~
+It is an amulet that hangs upon a golden chain.  The amulet itself
+is a symbol of renewal.  It is said to help protect the wearer.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+11 0 0 0 0 0 0 0
+1 5000 35
+A APPLY_MANA 55 0
+A APPLY_DAMROLL -5 0
+P 1
+TRIG_HIT 40
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your lathander amulet helps protect you in your battle.~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_MANA 30
+#28461
+lathander priest robes~
+lathander priest robes~
+Lathander Priest Robes lie here.~
+They are robes made from a soft fabric of the deepest green.
+The green represents renewal for which Lathander is the god of.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_MANA 60 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your Lathander Priest robes disintergrate!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28462
+ring lathander~
+a ring of lathander~
+A ring of Lathander lies here.~
+It is a small gold ring with a signet embossed with the symbol of
+Lathander on it, the god of renewal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+10 0 0 0 0 0 0 0
+1 5000 40
+A APPLY_MANA 60 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your Lathander Priest ring falls off your finger and is gone!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28463
+high priest lathander robes~
+High Priest of Lathander Robes~
+High Priest of Lathander Robes lie here.~
+Made from the softest of fabric, they are the deepest of greens.
+They are trimmed with gold and gems shaped into symbols of renewal.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+11 0 0 0 0 0 0 0
+1 5000 45
+A APPLY_MANA 70 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your Lathander Priest robes disintergrate!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28464
+high priest lathander sceptre~
+High Priest Lathander's sceptre~
+High Priest Lathander's sceptere lies here.~
+It is an ornate gold sceptre, decorated with symbols of renewal and
+green gems.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+10 50000 45
+A APPLY_AC -10 0
+A APPLY_MANA 70 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_MONK 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your Lathander Priest sceptre goes out!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28465
+crypt key~
+the crypt key~
+A key to a crypt lies here.~
+Its a big iron key, the would open a door to a crypt.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28470
+broom~
+a broom~
+A broom leans up against the wall here.~
+Its just an ordinary broom.  Made by Jaxom Broommakers of Ethshar.
+One could SWEEP a floor with it if one was told to do it.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 100 30
+P 1
+TRIG_UNKNOWN 100 sweep
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You have to hold a broom to sweep with it.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 28488 4 5
+P 4
+TRIG_VOID
+OPROG_QUEST_SET 0 1 1
+P 4
+TRIG_VOID
+OPROG_ECHO
+You sweep the floor.~
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 28489 6 7
+P 6
+TRIG_VOID
+OPROG_QUEST_SET 1 1 1
+P 6
+TRIG_VOID
+OPROG_ECHO
+You sweep the floor.~
+P 7
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 28490 8 9
+P 8
+TRIG_VOID
+OPROG_QUEST_SET 2 1 1
+P 8
+TRIG_VOID
+OPROG_ECHO
+You sweep the floor.~
+P 9
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 28491 10 11
+P 10
+TRIG_VOID
+OPROG_QUEST_SET 3 1 1
+P 10
+TRIG_VOID
+OPROG_ECHO
+You sweep the floor.~
+P 11
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 28492 12 13
+P 12
+TRIG_VOID
+OPROG_QUEST_SET 4 1 1
+P 12
+TRIG_VOID
+OPROG_ECHO
+You sweep the floor.~
+P 13
+TRIG_VOID
+OPROG_ECHO
+This room does not need sweeping.~
+P 14
+TRIG_TICK 10
+OPROG_OBJECT_QUEST_IF 0 6 = 31 15 0
+P 15
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmset self questr 28400 25 1 1~
+P 15
+TRIG_VOID
+OPROG_QUEST_SET 0 6 63
+#28471
+shopping list~
+the shopping list~
+A shopping list lies on the ground here.~
+.-------------------------------.
+| {118}Cook's Shopping List{308}          |
+|                               |
+|  * Bottle of milk             |
+|  * Tethyrian Port             |
+|  * Fresh Meat                 |
+|  * Shrimp Platter             |
+|  * Pot pie                    |
+|  * Bread Fruit                |
+|                               |
+.-------------------------------.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28472
+body part list parchment~
+the body part list~
+A piece of parchment lies on the ground here.~
+.------------------------------------.
+|  {118}High Wizard's Body Part's List{308}    |
+|                                    |
+|  * Head of a Dragon                |
+|  * Cave Wight's Claw               |
+|  * A voice of a Harpy              |
+|  * A Sahaugin Fin                  |
+|  * A Crustacean Shell              |
+|  * Eye of Newt                     |
+|  * Human legs                      |
+|                                    |
+.------------------------------------.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28473
+human legs~
+a pair of human legs~
+A pair of human legs lie here.~
+They look like the legs of a strong human male.  They sure are hairy!
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 100 30
+#28474
+apprentices robes~
+apprentice's robes~
+Apprentice's robes lie here.~
+They are made from a coarse cloth and look none to comfortable to wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+2 100 30
+A APPLY_MANA 40 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NECROMANCER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your robes are torn off you by an undead monster!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28475
+high wizards robes~
+high wizard's robes~
+High Wizard's Robes lie here.~
+Made from soft silk they would be pure luxury to wear.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+13 0 0 0 0 0 0 0
+2 100 40
+A APPLY_MANA 60 0
+A APPLY_HITROLL -8 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NECROMANCER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your robes are torn off you by an undead monster!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28476
+high wizards belt~
+high wizard's belt~
+High Wizard's belt lies here.~
+It is made of the softest green leather.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+13 0 0 0 0 0 0 0
+2 100 40
+A APPLY_MANA 60 0
+A APPLY_HITROLL -8 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NECROMANCER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your belt is torn off you by an undead monster!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28477
+high wizards hat~
+high wizard's hat~
+High Wizard's hat lies here.~
+It is made of the softest green silk, stiffened by magic to a point.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+13 0 0 0 0 0 0 0
+2 100 40
+A APPLY_MANA 60 0
+A APPLY_HITROLL -8 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NECROMANCER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your hat is torn off you by an undead monster!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28478
+high wizards sceptre~
+high wizard's sceptre~
+High Wizard's sceptre lies here.~
+It is made of heavy gold and encrusted with rubys and emeralds.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+13 0 0 0 0 0 0 0
+2 100 40
+A APPLY_MANA 60 0
+A APPLY_HITROLL -8 0
+P 2
+TRIG_WEAR 100
+OPROG_IF OIF_USER_CLASS = CLASS_NECROMANCER 0 3
+P 3
+TRIG_VOID
+OPROG_ECHO
+Your sceptre is torn off you by an undead monster!~
+P 3
+TRIG_VOID
+OPROG_JUNK
+#28480
+bag faerie~
+a bag~
+A bag lies here~
+Its is a bag that one may personalise it to be your very OWN bag
+for the cost of one hundred gold coins.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE
+1100 0 -1 0 0 0 0 0
+1 10000 60
+P 1
+TRIG_UNKNOWN 100 own
+OPROG_IF OIF_USER_GOLD > 100 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You do not have enough gold for that.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmadd self gold -100
+mposet i28480 short $I's faerie bag
+mposet i28480 v0 1500
+mposet i28480 v3 125
+~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You make the bag your own.
+~
+#0
+
+
+#ROOMS
+#28400
+Entrance to Faerdale~
+The air shimmers with a blue mystical haze, a remnant of the magic that brought
+you here.  The ground at your feet is made of a clear crystal that shows
+your reflection many times over.  The sky above you is a clear, clear blue
+from where the sun shines its warmth down upon you.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_FIELD
+DDIR_NORTH
+Dusty Path~
+~
+0 -1 28401
+DDIR_DOWN
+Void~
+~
+0 -1 28464
+#28401
+Dusty Path~
+Your boots stir up whirls of dust as you walk.  The air is still.  You can
+hear birds chirping in the trees about the trail.  A rustle in the undergrowth
+makes you wonder what else besides birds are here with you now.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_FIELD
+DDIR_NORTH
+Dusty Path~
+~
+0 -1 28444
+DDIR_EAST
+Well Travelled Road~
+~
+0 -1 28429
+DDIR_SOUTH
+Entrance to Faerdale~
+~
+0 -1 28400
+DDIR_WEST
+Dusty Path~
+~
+0 -1 28402
+#28402
+Dusty Path~
+The path is becoming rocky, and your feet slide a bit as the rocks move under
+your feet.  The air is getting cooler and your breath creates little puffs of
+steam.  A bird hops along the path in front of you.
+~
+0 ROOM_NO_RECALL SECT_FIELD
+DDIR_EAST
+Dusty Path~
+~
+0 -1 28401
+DDIR_WEST
+Mountain Pass~
+~
+0 -1 28403
+#28403
+Mountain Pass~
+Steep mountains rise up on either side of you.  Granite boulders perch
+precariously on the peak.  The cry of a bird echos across the path.
+Was that really a bird that you heard?
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_EAST
+Dusty Path~
+~
+0 -1 28402
+DDIR_WEST
+Mountain Pass~
+~
+0 -1 28405
+DDIR_UP
+Mount Faerdale~
+~
+0 -1 28404
+#28404
+Mount Faerdale~
+The mountain is sparse with very little vegetation.  A mountain goat nibbles
+at a scrawny bush near by.  There are many crevices in the side of the mountain,
+making ideal hiding places.
+~
+0 0 SECT_MOUNTAIN
+DDIR_UP
+Mages Tower~
+~
+0 -1 28423
+DDIR_DOWN
+Mountain Pass~
+~
+0 -1 28406
+#28405
+Mountain Pass~
+The path becomes steep, and you become short of breath as the air thins from
+the high altitude.  A small rock comes scuttling down the side of the mountain.
+Is there someone up there?
+~
+0 ROOM_DARK SECT_MOUNTAIN
+DDIR_NORTH
+Mountain Pass~
+~
+0 -1 28406
+DDIR_EAST
+Mountain Pass~
+~
+0 -1 28403
+DDIR_UP
+Mount Faerdale~
+~
+0 -1 28407
+#28406
+Mountain Pass~
+The pass has become very narrow.  A party would have to walk single file here.
+Large rocks scrape at your armour as you try to move along the pass.  A
+dangling vine brushes you across the face as you cautiously move on.
+~
+0 ROOM_DARK|ROOM_SOLITARY SECT_MOUNTAIN
+DDIR_SOUTH
+Mountain Pass~
+~
+0 -1 28405
+DDIR_WEST
+Mountain Pass~
+~
+0 -1 28408
+#28407
+Mount Faerdale~
+This part of the mountain has more vegetation.  Tall trees reach towards
+the sky.  A nibble of grass can be seen amoungst the granite boulders.
+Patches of snow can be seen on the highest points of the mountain.
+~
+0 0 SECT_MOUNTAIN
+DDIR_DOWN
+Mountain Pass~
+~
+0 -1 28405
+#28408
+Mountain Pass~
+The pass is wider here, and a party can move with some freedom.  You hear the
+far off snarl of some wild creature, and you hope that you do not have to do
+battle with it.  You wrap your cloak tighter around you.
+~
+0 0 SECT_MOUNTAIN
+DDIR_NORTH
+Path to Horn Hills~
+~
+0 -1 28414
+DDIR_EAST
+Mountain Pass~
+~
+0 -1 28406
+DDIR_WEST
+Tranquil Clearing~
+~
+0 -1 28409
+#28409
+Tranquil Clearing~
+You have entered the most peaceful clearing that you have ever seen.  The grass
+is lush and green.  Colourful flowers dot the field.  A small pond is in the
+centre, with ducks sailing peacefully on it.  Large trees provide shade on the
+edges of the clearing.  In the distance to the south you can see a wonderful
+castle, with spires reaching towards the clear blue sky.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+Mountain Pass~
+~
+0 -1 28408
+DDIR_SOUTH
+Faerdale Castle Entrance~
+~
+0 -1 28410
+DDIR_WEST
+Magical Path~
+~
+0 -1 28486
+#28410
+Faerdale Castle Entrance~
+It is a wonderful castle.  Made of a light grey stone, it seems to reflect the
+sunlight.  Tapestries depicting long since battles line the high walls.  The
+floors are made of a fine marble, with long red carpet leading on to the Grand
+Hall.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Tranquil Clearing~
+~
+0 -1 28409
+DDIR_SOUTH
+Faerdale Castle Barracks~
+~
+0 -1 28411
+DDIR_WEST
+Grand Hall~
+~
+0 -1 28412
+#28411
+Faerdale Castle Barracks~
+Cots line the walls, all neatly made up by those that occupy them.  In the
+centre are test dummies for the soldiers to practice on.  Along one wall is
+a long table at which the soliders sit to eat their meals.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+Faerdale Castle Entrance~
+~
+0 -1 28410
+#28412
+Grand Hall~
+Above your head is the most magnificent stained glass window that you have
+ever seen.  It depicts a battle scene between a courageous knight and a black
+and red dragon.  Streams of fire pour forth from the dragons mouth towards the
+valiant knight.  A long red carpet runs from the Throne Room to the Castle
+Entrance.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_EAST
+Faerdale Castle Entrance~
+~
+0 -1 28410
+DDIR_WEST
+Castle Hall~
+~
+0 -1 28465
+DDIR_UP
+Faerdale Castle Throne Room~
+~
+0 -1 28413
+#28413
+Faerdale Castle Throne Room~
+Upon a dias sits a golden throne, encrusted in jewels of many colours.  It is draped with scarlet velvet curtains, and royal blue cussions.  A red carpet
+leads up the stairs of the dias.  Upon the throne sits the Lord of Faerdale
+and his beautiful wife.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL SECT_INSIDE
+DDIR_DOWN
+Grand Hall~
+~
+0 -1 28412
+#28414
+Path to Horn Hills~
+You are at the start of a long path to the Horn Hills.  To your south the path
+rises to run between the mountains.  To your north the path winds up into
+the hills.  The path is not a well trodden one, so I suppose only those
+of a quest of some importance would have reason to travel this path.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+Path to Horn Hills~
+~
+0 -1 28415
+DDIR_SOUTH
+Mountain Pass~
+~
+0 -1 28408
+#28415
+Path to the Horn Hills~
+Tall trees overshadow the path making the way dark and gloomy.  Large yellow
+eyes peer at you from the dark shadows off the side of the path.  The path
+here is barely discernable.  You stand at the base of the Horn Hills.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_SOUTH
+Path to Horn Hills~
+~
+0 -1 28414
+DDIR_UP
+Horn Hills~
+~
+0 -1 28416
+#28416
+Horn Hills~
+The hills are heavily treed.  The undergrowth is so thick that you can barely
+move through it.  In fact, you will need a scythe or a strong weapon to make
+your way up into the hills.
+~
+0 ROOM_DARK SECT_HILLS
+DDIR_UP
+Horn Hills~
+~
+0 -1 28417
+DDIR_DOWN
+Path to Horn Hills~
+~
+0 -1 28415
+#28417
+Horn Hills~
+The vegetation is so thick here there is no way through.  Sunlight battles to
+make its way to light your way.  Even in the bright noon sun a light would
+be needed to light your way.
+~
+0 ROOM_DARK|ROOM_BLOCK SECT_HILLS
+DDIR_UP
+Horn Hills~
+~
+0 -1 28418
+DDIR_DOWN
+Horn Hills~
+~
+0 -1 28416
+#28418
+Horn Hills~
+This place is so remote, and so hard to get to, that no wonder it hides
+something so special.  You can feel the magic emmanating from above.  You look
+up and you see the most amazing thing.  It is a tower just hanging or sitting
+if you will in mid-air!  It shimmers with a magical haze.  It can only be the
+home of a most powerful mage.
+~
+0 0 SECT_HILLS
+DDIR_UP
+In the Air~
+~
+0 -1 28460
+DDIR_DOWN
+Horn Hills~
+~
+0 -1 28417
+#28419
+Floating Tower~
+You are in a tower that is just hovering in the air.  It is a bit disconcerting.
+You feel like it may decide to drop to the ground far below at any moment.
+You hope that the magic that put this tower here is strong and lasting.  Despite
+the feeling of magic the room is dark.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_UP
+Floating Tower~
+~
+0 -1 28420
+DDIR_DOWN
+In the air~
+~
+0 -1 28460
+#28420
+Chamber of Speaking Statues~
+All around you are statues.  When you first enter this dimly lit room they are
+silent.  Then as if alerted to your presense the all start to talk at once.
+You pick out the occassional word in the bable but in all it his hard to work
+out what they are saying.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_WEST
+Chamber of Rainbow Lights~
+~
+0 -1 28421
+DDIR_DOWN
+Floating Tower~
+~
+0 -1 28419
+#28421
+Chamber of Rainbow Lights~
+You have entered a room that is very very very dark.  Suddenly the room lights
+up with RAINBOW LIGHTS.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Chamber of Speaking Statues~
+~
+0 -1 28420
+DDIR_WEST
+Ondil's Study~
+door~
+EX_ISDOOR|EX_HIDDEN -1 28422
+E
+rainbow lights~
+{138}*     {308}      {118}*    {308}     {128}   *   {308}           *
+  {028}  *  {308}                        *                   {058} *
+{308}
+              *
+                 {128} *    {308}                      {118} * {308}
+
+                 {178}  *  {308}        {138}  *
+{308} *                     {118}  *    {308}        {138}*   {308}
+       {158}  *   {308}                {178}  *  {308}                *
+
+
+*            *                         {038}* {308}             {048} *
+{308}
+      {178} * {308}*
+{138}*{308}  *         {118}  * {308}    {018} * {308}*         {158}  *
+{308}
+         {068}  *    {308}
+        {128}*
+{308}                              *                             {158}*
+{308}
+         {118}  *
+~
+#28422
+Ondil's Study~
+Ondil was once a great mage, one of the greatest that ever was.  His spell book
+is one that every mage would like to get their hands on.  The power of having
+access to his spells sends a shiver up every mage of worth's spine.  In order to
+see what really lies in this room, a mage must cast continual light.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Chamber of Rainbow Lights~
+~
+0 -1 28421
+#28423
+Mages Tower~
+All around you are shelves full of scrolls and spell books.  Cobwebs hang
+in the corners of the room.  Dust coats the floor.  The mage who lives here
+must fly everywhere!  You leave footprints in the dust as you move around the
+room.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_UP
+Mages Tower~
+~
+0 -1 28424
+DDIR_DOWN
+Mount Faerdale~
+~
+0 -1 28404
+#28424
+Mages Tower~
+In the middle of the room is a large table.  On it contain the makings for
+different spells.  A piece of stone, a length of twine, a vial of dragons
+blood, a lock of hair, and a frogs leg.  A strange odour fills the air.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_UP
+Mages Tower~
+~
+0 -1 28425
+DDIR_DOWN
+Mages Tower~
+~
+0 -1 28423
+#28425
+Mages Tower~
+On the shelves that line the room are all manner of things, from vials of
+potions to scrolls of different spells.  Jars contain the wierdest and rarest
+of objects, from bat wings to tears of a drow.  
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Mages Tower~
+~
+0 -1 28426
+DDIR_WEST
+Mages Tower~
+~
+0 -1 28428
+DDIR_UP
+Mages Tower Pinicle~
+~
+0 -1 28427
+DDIR_DOWN
+Mages Tower~
+~
+0 -1 28424
+#28426
+Mages Tower~
+In the corner is a sparse cot.  Perhaps the mage here doesn't sleep very
+often.  In another corner is a desk littered with scrolls and papers.  Heavy
+tomes are stacked in piles around the desk.  It seems that the mage that lives
+here is a scholar.
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_WEST
+Mages Tower~
+~
+0 -1 28425
+#28427
+Mages Tower~
+You are in the pinicle of the Mages Tower.  There is no roof or walls yet
+you do not feel a breeze.  When you look up the stars seem closer than
+they really are.  In the corner is an odd looking contraption shaped like
+a long cylinder.  Perhaps it can be used to view the stars?
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_DOWN
+Mages Tower~
+~
+0 -1 28425
+#28428
+Mages Tower~
+In the corner is a luxurious bed, covered in silken sheets and cussions.  It
+looks like the most comfortable you have ever seen.  The desk in the corner
+is bare, and the tomes on the shelves are covered in dust, looking like they
+rarely get read.  It seems that this mage likes his bed more than his studies!
+~
+0 ROOM_INDOORS|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Mages Tower~
+~
+0 -1 28425
+#28429
+A well travelled road~
+The road is smooth and well travelled.  Merchants travel along the way with
+caravans full of goods.  Guards patrol the way making this a safe road
+for travellers.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Well Travelled Road~
+~
+0 -1 28430
+DDIR_WEST
+Dusty Path~
+~
+0 -1 28401
+#28430
+A well travelled road~
+To your east you can see the large gates of the City of Faerdale.  This road
+is well made and maintained with a heavy flow of traffic consisting of
+farmers coming to the city to sell their produces and merchant caravans.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+City Gates~
+~
+0 -1 28431
+DDIR_SOUTH
+Well Travelled Road~
+~
+0 -1 28429
+#28431
+Gates to the City of Faerdale~
+The gates are made of a solid timber and don't ever seem to close.  Guards
+patrol the gates and the road outside keeping the city safe for the
+citizens of Faerdale.
+~
+0 ROOM_NO_MOB SECT_CITY
+DDIR_EAST
+City Street~
+~
+0 -1 28433
+DDIR_WEST
+Well Travelled Road~
+~
+0 -1 28430
+#28432
+Wealthy Faerdale Citizen's Home~
+Oppulently furnished, you have obviously entered a home on the better side
+of the city.  A table has been set with a feast of fine foods.  Would be
+nice if you could sit down and partake, but then that would be rude.  Best
+that you just kill the home's owner instead ;)
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+City Street~
+~
+0 -1 28434
+#28433
+City Street~
+The street is well maintained here.  The road is free of pot holes and is
+a dream to walk on.  The citizens that walk around this part of the city
+look well and happy.  Potted plants line the streets.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Hovel~
+~
+0 -1 28440
+DDIR_EAST
+City Street~
+~
+0 -1 28435
+DDIR_SOUTH
+City Street~
+~
+0 -1 28434
+DDIR_WEST
+City Gates~
+~
+0 -1 28431
+DDIR_UP
+City Square~
+~
+0 -1 28461
+#28434
+City Street~
+Merchants travel along the streets ready to trade their wares.  The breeze
+is welcome as for some reason there is an unpleasant odour in the air here.
+The cobbles of the road are a bit crooked here.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+City Street~
+~
+0 -1 28433
+DDIR_EAST
+City Street~
+~
+0 -1 28436
+DDIR_WEST
+Grand Home~
+~
+0 -1 28432
+DDIR_UP
+City Square~
+~
+0 -1 28461
+DDIR_DOWN
+Sewer Entrance~
+~
+0 -1 28438
+#28435
+City Street~
+You step hastily out of the way of a drunk riding his horse rather
+haphazardly.  It seems he was a patron of the Tavern that is off this
+street.  The scent of a good meal wafts past your nostrils.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+Tavern~
+~
+0 -1 28441
+DDIR_EAST
+Assassins Guild~
+~
+0 -1 28437
+DDIR_SOUTH
+City Street~
+~
+0 -1 28436
+DDIR_WEST
+City Street~
+~
+0 -1 28433
+DDIR_UP
+City Square~
+~
+0 -1 28461
+#28436
+City Street~
+EEEWWWWW!!!!  It seems that some merchant neglected to clean up after his
+horse and you just stepped in it!  The traffic is pretty heavy in this part
+in town.  Take care of pick pockets.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+City Street~
+~
+0 -1 28435
+DDIR_EAST
+City Street~
+~
+0 -1 28470
+DDIR_WEST
+City Street~
+~
+0 -1 28434
+DDIR_UP
+City Square~
+~
+0 -1 28461
+#28437
+Assassins Guild~
+Even the shadows are stealthed here.  You have entered the hallowed halls
+of the master assassins of Faerdale.  Here an assassin learns his craft, that
+is if he survives his lessons!
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+City Street~
+~
+0 -1 28435
+#28438
+Sewer Entrance~
+Green slime lines the stone walls of the sewer.  You step in water full
+of unmentionable objects.  The odour is bad enough to make even the toughest
+warrior faint.  It is the burrow and hideaway of thieves.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+City Street~
+~
+0 -1 28436
+DDIR_DOWN
+Sewer~
+~
+0 -1 28496
+#28439
+Velvet Hands Hideout~
+Thankfully the odour of the sewer is lessened in here.  Actually you can
+smell someone cooking! A simple table is in the centre of the room, with
+many stools pulled up to it.  A few mugs of ale are on the table and
+plates containing all that remains of a hearty stew are pushed to the
+centre out of the way.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_PRIVATE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_UP
+Sewer~
+~
+0 -1 28496
+#28440
+A hovel~
+Some of the boards are missing from the walls so quite a draft blows through
+making the house very chilly.  The floor is made of dirt, which is muddy in
+some patches due to rain leaking through holes in the roof.  You pity the
+poor sod that has to live here.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+City Street~
+~
+0 -1 28433
+#28441
+Weeping Wench Tavern~
+You smell ale and stew.  It makes you hungry and thirsty all at once.
+Perhaps this would be a good place to stop and rest and eat up.
+The tables are scared, and half the chairs have been hastily repaired.
+This place looks like its seen many a brawl.  Hopefully you wont be the
+cause of one now?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+City Street~
+~
+0 -1 28435
+DDIR_UP
+Stairs~
+~
+0 -1 28442
+#28442
+Stairs~
+The stairs are made of wood, and scuffed from many booted feet going up and
+down them.  You can hear the din of the Tavern below you.  The stair below
+you creaks as you step on it.  So much for a stealthy entrance.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+door~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 28419 28443
+DDIR_DOWN
+Tavern~
+~
+0 -1 28441
+#28443
+Moonclaws Hideout~
+Despite being the den of theives the hideout is very well furnished.
+Cushioned seats are pulled up to a polished table.  Velvet covered couches
+are placed randomly around the room.  On one wall hangs a rack of uniforms.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+Stairs~
+~
+0 -1 28442
+#28444
+Dusty Path~
+In the distance you can see the blue of an ocean.  A sea breeze refreshes you.
+Off to your east is a dark dark path.  The path beneath your feet is very
+dusty, and not that well travelled.  You can hear birds chirping in the
+trees that lines the paths.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+Beach~
+~
+0 -1 28445
+DDIR_SOUTH
+Dusty Path~
+~
+0 -1 28401
+DDIR_UP
+Dark Path~
+~
+0 -1 28453
+#28445
+Beach~
+You stand upon an idylic beach.  The sun warms your skin, the sea breeze
+blows through your hair and the sea air rusts your armour.  You can hear
+the waves crashing upon the shore.  The sound soothes you.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_LAKE
+DDIR_NORTH
+Mysterious Sea~
+~
+0 -1 28446
+DDIR_SOUTH
+Dusty Path~
+~
+0 -1 28444
+#28446
+Mysterious Sea~
+You sail upon a wide blue sea.  You can hear the cry of sea gulls, and
+your boat rocks on the waves.  The boat keeps rocking, rocking, rocking
+and you start to look a bit {128}green.  {128}
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_OCEAN
+DDIR_NORTH
+Mysterious Sea~
+~
+0 -1 28448
+DDIR_EAST
+Mysterious Sea~
+~
+0 -1 28447
+DDIR_SOUTH
+Beach~
+~
+0 -1 28445
+DDIR_WEST
+Mysterious Sea~
+~
+0 -1 28447
+#28447
+Mysterious Sea~
+The ocean seems to go on endlessly.  You wonder if you will ever reach your
+destination.  A fish jumps out of the water next to your boat.  A seagull
+drops a message from the sky.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_OCEAN
+DDIR_NORTH
+Mysterious Sea~
+~
+0 -1 28449
+DDIR_EAST
+Mysterious Sea~
+~
+0 -1 28446
+DDIR_SOUTH
+Mysterious Sea~
+~
+0 -1 28449
+DDIR_WEST
+Mysterious Sea~
+~
+0 -1 28448
+#28448
+Mysterious Sea~
+The sun beats down on your back making you bake in your armour.  The salty air
+makes your eyes sting, and the glare of the sun on the ocean blinds you to what
+lays ahead.  Only the cry of gulls leads you to believe that land lies not
+to far away.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_OCEAN
+DDIR_NORTH
+Mysterious Sea~
+~
+0 -1 28446
+DDIR_EAST
+Mysterious Sea~
+~
+0 -1 28447
+DDIR_SOUTH
+Mysterious Sea~
+~
+0 -1 28446
+DDIR_WEST
+Mysterious Sea~
+~
+0 -1 28449
+#28449
+Mysterious Sea~
+You begin to wonder if this sea is somehow magical.  You feel like you
+have been sailing forever.  The sea laps at the sides of your boat.
+A dolphin raises his head above the water to grin at you before
+disappearing below the waves.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_OCEAN
+DDIR_NORTH
+Island of Mystra's Dance~
+~
+EX_ISDOOR|EX_HIDDEN -1 28450
+DDIR_EAST
+Mysterious Sea~
+~
+0 -1 28448
+DDIR_SOUTH
+Mysterious Sea~
+~
+0 -1 28447
+DDIR_WEST
+Mysterious Sea~
+~
+0 -1 28448
+#28450
+Island of Mystra's Dance~
+The feeling of magic is strong.  You are on an island that Mystra is
+reputed to favour.  It is here they say a mage can feel truly close
+to their Goddess of Magic.  The island itself is like a paradise,
+with white beaches and palm trees and warm sea breezes.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_DESERT
+DDIR_SOUTH
+Mysterious Sea~
+~
+0 -1 28449
+DDIR_UP
+Island of Mystra's Dance~
+~
+0 -1 28451
+#28451
+Island of Mystra's Dance~
+You stand on what was once a volcano.  Looking down you can see the Mysterious
+Sea.  Your magic feels stronger here.  You can almost see the weave that is
+magic.  Here you feel even closer to Mystra.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_FIELD
+DDIR_UP
+Altar~
+~
+0 -1 28452
+DDIR_DOWN
+Island of Mystra's Dance~
+~
+0 -1 28450
+#28452
+Altar of Mystra~
+You stand before the hallowed Altar of the Goddess of Magic - Mystra.
+You feel there is a great sense of mystery and history here, and you
+wish you knew how this altar came into being.  Its creation was surely
+magicial.  Bow down mage, before your Goddess, and know her.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_ASTRAL
+DDIR_DOWN
+Island of Mystra's Dance~
+~
+0 -1 28451
+#28453
+Dark Dark Path~
+The way is dark, but here a druid can feel like they are coming closer to
+their source of power.  The elements merge here and then part again.  You
+feel at one with the earth, warmth of the fire, the air on your face, and the
+rain on your skin.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE|ROOM_ALLOW_DRU SECT_FOREST
+DDIR_UP
+Dark Path~
+~
+0 -1 28454
+DDIR_DOWN
+Dusty Path~
+~
+0 -1 28444
+#28454
+Dark Path~
+You can hear a bird cheeping, and you feel at one with the bird.  Then you
+hear the growl of a wolf, and you feel at one with the wolf.  To a druid
+the animals are precious.  Although all you can see are shadows in the dark
+you know what each animal is that is out in the shadows.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE|ROOM_ALLOW_DRU SECT_FOREST
+DDIR_UP
+Druids Temple~
+~
+0 -1 28455
+DDIR_DOWN
+Dark Path~
+~
+0 -1 28453
+#28455
+Druid's Temple~
+The temple is just a few large stones that rise towards the skies.  Here
+a druid can feel at one with the elements.  A temple that enclosed a druid
+indoors would not be a true temple for a druid.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL|ROOM_NO_SAVE|ROOM_ALLOW_DRU SECT_FOREST
+DDIR_NORTH
+Room of Fire~
+~
+0 -1 28456
+DDIR_EAST
+Dark Cave~
+~
+0 -1 28463
+DDIR_SOUTH
+Pool of Water~
+~
+0 -1 28458
+DDIR_UP
+Thin Air~
+~
+0 -1 28457
+DDIR_DOWN
+Dark Path~
+~
+0 -1 28454
+#28456
+Room of Fire~
+The flames leap up at your body threatening to burn you to a crisp.  But
+to reach the fire elemental you must pass through his natural habitat.
+You are passing over a lava pit, filled with boiling lava, with steam rising
+to the heavens.
+~
+0 0 SECT_LAVA
+DDIR_NORTH
+The Hearth~
+~
+0 -1 28462
+DDIR_SOUTH
+Druids Temple~
+~
+0 -1 28455
+#28457
+Thin Air~
+You float above the ground, into the domain of the air elemental.  The wind
+pulls at your hair, and the feeling that flying gives is exhilarating.
+Here a druid feels at one with the air.
+~
+0 0 SECT_AIR
+DDIR_DOWN
+Druids Temple~
+~
+0 -1 28455
+#28458
+Pool of pure water~
+You swim in a pool of pure water.  The water cleanses your soul as you breathe
+the water.  You feel at one with the water here.  Light seems to come from
+within the water itself.
+~
+0 0 SECT_UNDER_WATER
+DDIR_NORTH
+Druids Temple~
+~
+0 -1 28455
+#28459
+Hole of earth~
+You venture deep under the ground.  You can hear the muttering of creatures
+that thrive under the earth's crust and you feel at one with them.  You feel
+the urge to take a handful of earth and absorb it into your very soul.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_UP
+Dark Cave~
+~
+0 -1 28463
+#28460
+In the Air~
+You are flying above the floating tower, and above the Horn Hills.  You are
+amazed at how this tower just seems to sit in the sky, never moving, even
+in the breeze.
+~
+0 ROOM_DARK SECT_AIR
+DDIR_UP
+Floating Tower~
+~
+0 -1 28419
+DDIR_DOWN
+Horn Hills~
+~
+0 -1 28418
+#28461
+Faerdale City Square~
+The cobbles of the city square are all different colours.  As you look closer
+you see that they are a wonderful mosaic.  You climb the fountain to take a
+look, despite the odd look from Faerdale Citizens.  After a minute it hits
+you, it is a rendering of the famous monk Jaxom.  Looking at a plaque on the
+fountain you read that it was commissioned by his wife Blythe, in thanks
+for his wonderous help and love.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_DOWN
+City Street~
+~
+0 -1 28434
+#28462
+The Hearth~
+You stand in the fire elementals chamber.  You can still feel the intense
+warmth of the lava that your recently left behind you.  You run your hands
+through your hair and feel the singed ends from your recent foray through
+the lava pit.
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_SOUTH
+Room of Fire~
+~
+0 -1 28456
+#28463
+Dark Cave~
+The walls are made of a dark earth mixed with a myriad of gems.  In the dim
+light they glitter at you enticingly.  Above you, you can see a streak of
+unmined gold.  This looks like a dwarf miner's paradise!
+~
+0 ROOM_DARK|ROOM_NO_RECALL SECT_INSIDE
+DDIR_WEST
+Druids Temple~
+~
+0 -1 28455
+DDIR_DOWN
+Hole of Earth~
+~
+0 -1 28459
+#28464
+Void~
+You disappear into the void.  You are in a world of nothingness, floating
+in a place where time does not matter.  Above you a light shines, and
+you are drawn towards it.  Below you is the mundane city from whence you
+came.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_UP
+Entrance to Faerdale~
+~
+0 -1 28400
+DDIR_DOWN
+Fortified gates of Waterdeep~
+~
+0 -1 8065
+#28465
+Faerdale Castle Hall~
+The walls of the hall are hung with elaborate tapestries depicting
+battles of the Lord of Faerdales forebears.  One of the tapestries
+looks newer than the rest.  It shows the current Lord of Faerdale
+riding valiantly into battle to defend Faerdale.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Grand Hall~
+~
+0 -1 28412
+DDIR_SOUTH
+Castle Hall~
+~
+0 -1 28467
+DDIR_WEST
+Castle Hall~
+~
+0 -1 28469
+#28466
+Faerdale Castle Hall~
+The floors are made from a marble that has been imported at great cost
+from the Mountains in the Moonshae Islands.  It is so clean that it
+almost blinds you.  Down the centre is a long green carpet so that the
+sounds of footsteps do not echo to disturb the Lord of Faerdale.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+DDIR_NORTH
+Castle Hall~
+~
+0 -1 28469
+DDIR_EAST
+Castle Hall~
+~
+0 -1 28467
+#28467
+Faerdale Castle Hall~
+On the walls are paintings of previous Lords of Faerdale and their ladies.
+The Lords all appear to have a similar trait that seems to be passed down
+the family line.  All have a nose that leans to the left!  On the floor
+you notice an irregular line in the marble.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+DDIR_NORTH
+Castle Hall~
+~
+0 -1 28465
+DDIR_WEST
+Castle Hall~
+~
+0 -1 28466
+DDIR_DOWN
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 0 28468
+#28468
+Castle Treasure Room~
+On the walls is shelf after shelf of treasure.  The treasure varies from
+jewels that the Lords and Ladies of Faerdale would wear to chests full of
+gold.  It seems that you have found the treasury for Faerdale.  If you could
+get all this loot out you would be set up for life!
+~
+0 ROOM_INDOORS|ROOM_SOLITARY|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_UP
+~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_BASHPROOF|EX_MAGICPROOF 0 28467
+#28469
+Faerdale Castle Hall~
+The windows in the hall overlook a lovely green valley.  In the distance
+you can see peasants working in the fields for the Lord of Faerdale.  It
+seems like a peaceful existance.  On a pedastal is a bust of the current
+Lord of Faerdale.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Castle Hall~
+~
+0 -1 28465
+DDIR_SOUTH
+Castle Hall~
+~
+0 -1 28466
+#28470
+City Street~
+You are moving out into a better district of Faerdale.  Here one
+can see off the street fine houses and temples.  Citizens dressed
+in fine clothes are moving along minding their own business.  The
+street is paved with stones so that the wealthy of Faerdale do not
+have to dirty their finery with a muddy path.
+~
+0 0 SECT_CITY
+DDIR_EAST
+City Street~
+~
+0 -1 28471
+DDIR_WEST
+City Street~
+~
+0 -1 28436
+#28471
+City Street~
+You are in the temple district of Faerdale.  To your south
+is the Temple of Lathander.  He is the god of renewal.  It
+is here that a hurt person may recieve healing if needed.
+Priests in their holy robes walk around here.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+Temple~
+~
+0 -1 28472
+DDIR_WEST
+City Street~
+~
+0 -1 28470
+#28472
+Temple of Lathander~
+You are inside the Temple of Lathander.  The walls are adorned with
+tapestries depicting times of renewal.  Many show spring time scenes,
+as it is the ultimate time of renewal.  Fresh flowers fill vases
+on pedastals and their heady scent fills the air.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+City Street~
+~
+0 -1 28471
+DDIR_EAST
+Altar~
+~
+0 -1 28473
+DDIR_DOWN
+Crypt~
+door~
+EX_ISDOOR|EX_HIDDEN 28465 28474
+#28473
+Altar~
+You are standing before the altar of Lathander.  Here for a price
+the mortally wounded can retrieve their corpse and goods that they
+died with.  One can also recieve healing if one is patient enough
+to wait for the spells to be cast on them.
+~
+0 ROOM_INDOORS|ROOM_MORGUE SECT_INSIDE
+DDIR_WEST
+Temple of Lathander~
+~
+0 -1 28472
+#28474
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Crypt~
+~
+0 -1 28475
+DDIR_SOUTH
+Crypt~
+~
+0 -1 28477
+DDIR_UP
+Temple~
+~
+0 -1 28472
+#28475
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+Crypt~
+~
+0 -1 28476
+DDIR_SOUTH
+Tomb~
+~
+0 -1 28478
+DDIR_WEST
+Crypt~
+~
+0 -1 28474
+#28476
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Crypt~
+~
+0 -1 28479
+DDIR_WEST
+Crypt~
+~
+0 -1 28475
+#28477
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+~
+0 -1 28474
+DDIR_EAST
+Tomb~
+~
+0 -1 28478
+DDIR_SOUTH
+Crypt~
+~
+0 -1 28480
+#28478
+Tomb~
+You are standing in a tomb that holds the remains of the high priests
+of Lathander.  Their remains lie within stone coffins.  The coffins
+are decorated with symbols of renewal and are made from gold.
+The floor is dusty looking like its been a long time since anyone
+has been down here.  Anyone that touches the ground that is.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+~
+0 -1 28475
+DDIR_EAST
+Crypt~
+~
+0 -1 28479
+DDIR_SOUTH
+Crypt~
+~
+0 -1 28481
+DDIR_WEST
+Crypt~
+~
+0 -1 28477
+DDIR_DOWN
+Tomb~
+~
+0 -1 28483
+#28479
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+~
+0 -1 28476
+DDIR_SOUTH
+Crypt~
+~
+0 -1 28482
+DDIR_WEST
+Tomb~
+~
+0 -1 28478
+#28480
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+~
+0 -1 28477
+DDIR_EAST
+Crypt~
+~
+0 -1 28481
+#28481
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Tomb~
+~
+0 -1 28478
+DDIR_EAST
+Crypt~
+~
+0 -1 28482
+DDIR_WEST
+Crypt~
+~
+0 -1 28480
+#28482
+Crypt~
+You are deep under the Temple of Lathander.  Here are buried the
+Priests of Lathander.  In little recesses are small urns carrying
+the ashes of those who's corpses were burned.  In larger recesses
+are the bones of those laid to rest without fire.  Everynow and
+then you can see a glint of gold as some were laid to rest with
+an artifact.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Crypt~
+~
+0 -1 28479
+DDIR_WEST
+Crypt~
+~
+0 -1 28481
+#28483
+Tomb~
+You are standing in a tomb that holds the remains of the high priests
+of Lathander.  Their remains lie within stone coffins.  The coffins
+are decorated with symbols of renewal and are made from gold.
+The floor is dusty looking like its been a long time since anyone
+has been down here.  Anyone that touches the ground that is.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Tomb~
+~
+0 -1 28478
+DDIR_DOWN
+Tomb~
+~
+0 -1 28484
+#28484
+Tomb~
+You are standing in a tomb that holds the remains of the high priests
+of Lathander.  Their remains lie within stone coffins.  The coffins
+are decorated with symbols of renewal and are made from gold.
+The floor is dusty looking like its been a long time since anyone
+has been down here.  Anyone that touches the ground that is.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Tomb~
+~
+0 -1 28483
+DDIR_DOWN
+Lich's Lair~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN 28451 28485
+#28485
+Lich's Lair~
+This was once a priest of Lathanders Tomb, but it has since been taken
+over by a Lich.  It has placed wards to warn it of your presence, and
+spells have been placed to hide its presence from the priests in the
+temple above.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Tomb~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_HIDDEN 28451 28484
+#28486
+Magical Path~
+The path shimmers and disappears beneath your feet periodically.  The trees
+on the edge of the path keep changing from purple to green.  The birds in
+the air fly upside down for a minute and the right side up for another
+minute.  Red eyes star at your from the shadows, then green eyes.
+~
+0 0 SECT_ETHEREAL
+DDIR_NORTH
+Magical Path~
+~
+0 -1 28487
+DDIR_EAST
+Tranquil Clearing~
+~
+0 -1 28409
+#28487
+Magical Path~
+You walk on a path that constantly shimmers and disappears from beneath
+your feet.  To your north a tower rises above the path.  It shimmers
+magically, changing colours as you watch.  Green, Blue, Yellow then Red.
+An almost musical hum fills the air.
+~
+0 0 SECT_ETHEREAL
+DDIR_NORTH
+High Wizard's Tower~
+~
+0 -1 28488
+DDIR_SOUTH
+Magical Path~
+~
+0 -1 28486
+#28488
+High Wizards Tower~
+You have entered the hallowed halls of the High Wizard of Faerdale.
+The hall is magically lit by spells cast by the High Wizard.
+The floor is marble imported from mines deep in the Underdark to
+the great risk of the miners there.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Servants Hall~
+~
+0 -1 28489
+DDIR_SOUTH
+Magical Path~
+~
+0 -1 28487
+DDIR_UP
+High Wizards Tower~
+~
+0 -1 28491
+#28489
+Servants Hall~
+This hall runs between the servants quarters and the oppulent luxury of
+the High Wizards Tower.  Servants bustle busily back and forth carrying
+cleaning rags and trays of food.  The room here is lit by the humble
+candle, deemed not worthy of being lit by the magical orbs that the tower
+is lit by.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+Kitchen~
+~
+0 -1 28490
+DDIR_SOUTH
+High Wizards Tower~
+~
+0 -1 28488
+#28490
+Kitchen~
+Pots and pans hang from the wall.  Fires burn brightly in various hearths.
+Cauldrons hang over the fires.  A cast iron stove warms the room.  Upon the
+stove sit pots simmer, emanating the most wonderful smells.  Bulbs of garlic
+and onions hang from the ceiling.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+Servants Hall~
+~
+0 -1 28489
+#28491
+High Wizards Tower~
+The walls are covered with shelves.  The shelves on one wall are full of
+weighty tomes and scrolls.  Potions fill the shelves on another wall.
+Bottles containing spell components are on the shelves of another wall.
+The room is lit by globes of magic.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+High Wizards Chambers~
+~
+0 -1 28492
+DDIR_DOWN
+High Wizards Tower~
+~
+0 -1 28488
+#28492
+High Wizards Chambers~
+On one wall is a large bed, covered in furs and silks and large cushions.
+In the middle of the room is a large table covered in scrolls, books,
+potions and spell components.  On one end of the table is what remains
+of a meal.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_DOWN
+High Wizards Tower~
+~
+0 -1 28491
+#28493
+City Street~
+You are wandering along a street on the 'good' side of town.
+Merchants scurry about getting ready to set up shop to sell
+the residents of Faerdale their every need.  Things tend to cost more
+in Faerdale as it is not on the normal trade routes.
+~
+0 0 SECT_CITY
+DDIR_EAST
+City Street~
+~
+0 -1 28494
+DDIR_SOUTH
+City Street~
+~
+0 -1 28471
+#28494
+City Street~
+The citizens of Faerdale wander along the streets with false confidence.
+They believe themselves to be undiscovered by the rest of the realms
+and therefore crime to be low.  But the word is out and simple citizens
+can no longer wander along without a care in the world.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+City Street~
+~
+0 -1 28495
+DDIR_WEST
+City Street~
+~
+0 -1 28493
+#28495
+City Street~
+The streets of Faerdale are paved with cobblestones, so in the winter
+you are not walking along in a muddy sloshy track.  Potted plants add
+an exclusive atmosphere to the streets.  Fine houses line the streets,
+windows open and curtains fluttering in the breeze.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+City Street~
+~
+0 -1 28494
+DDIR_WEST
+City Street~
+~
+0 -1 28471
+#28496
+Sewer~
+You stand deeper within the sewer.  It certainly smells bad.
+You can hear rats rustle nearby, and the splash of creatures
+moving through the slimy and filthy water that covers the
+bottom of the sewer, getting as deep as your calves in places.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Sewer Entrance~
+~
+0 -1 28438
+DDIR_DOWN
+door~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 28419 28439
+#28499
+restart room~
+restart room.  Well this is the room I plonk mobs in and out of
+when i need them to leave the room when they are being norty
+or not in use.
+~
+0 ROOM_NO_MOB|ROOM_SAFE|ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+#0
+
+
+#RESETS
+M 28400 100 28400
+M 28401 100 28413
+G 28480 500 0
+M 28403 100 28403
+E 28400 100 WEAR_BODY
+M 28404 100 28404
+E 28401 100 WEAR_HEAD
+M 28405 100 28405
+E 28402 100 WEAR_HANDS
+M 28406 100 28406
+E 28403 100 WEAR_ABOUT
+M 28407 100 28407
+E 28404 100 WEAR_FEET
+M 28408 100 28408
+E 28405 100 WEAR_NECK_B
+M 28409 100 28409
+G 28400 500 0
+G 28401 500 0
+G 28402 500 0
+G 28403 500 0
+G 28404 500 0
+G 28405 500 0
+M 28410 100 28423
+G 28410   9 0
+M 28411 100 28424
+G 28411   9 0
+M 28412 100 28425
+G 28412   9 0
+M 28413 100 28426
+G 28413   9 0
+M 28414 100 28427
+G 28414   9 0
+M 28415 100 28428
+G 28415   9 0
+M 28416 100 28437
+M 28417 100 28423
+M 28417 100 28424
+M 28417 100 28425
+M 28417 100 28426
+M 28417 100 28427
+M 28417 100 28428
+M 28420 100 28443
+M 28421 100 28441
+M 28422 100 28439
+M 28423 100 28438
+M 28424 100 28469
+M 28424 100 28465
+M 28424 100 28467
+M 28424 100 28466
+M 28425 100 28468
+G 28419   5 0
+M 28426 100 28439
+G 28419   5 0
+M 28430 100 28434
+M 28430 100 28470
+M 28430 100 28435
+M 28430 100 28493
+M 28430 100 28434
+M 28430 100 28470
+M 28430 100 28435
+M 28430 100 28493
+M 28431 100 28471
+M 28431 100 28433
+M 28431 100 28436
+M 28431 100 28494
+M 28431 100 28495
+M 28431 100 28471
+M 28431 100 28433
+M 28431 100 28436
+M 28431 100 28494
+M 28431 100 28495
+M 28432 100 28411
+M 28440 100 28455
+M 28441 100 28457
+M 28442 100 28459
+M 28443 100 28458
+M 28444 100 28462
+M 28450 100 28485
+M 28451 100 28419
+M 28452 100 28420
+M 28453 100 28421
+M 28454 100 28422
+M 28459 100 28452
+M 28460 100 28472
+M 28461 100 28473
+G 28465 500 0
+M 28462 100 28474
+M 28462 100 28482
+M 28463 100 28475
+M 28463 100 28480
+M 28464 100 28476
+M 28464 100 28481
+M 28465 100 28477
+M 28465 100 28479
+M 28466 100 28478
+M 28466 100 28483
+M 28466 100 28484
+M 28470 100 28492
+M 28471 100 28490
+O 28432   1 28464
+O 28429   9 28439
+O 28429   9 28468
+D 28449 DIR_NORTH DOOR_OPEN
+D 28496 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 28442 DIR_UP    DOOR_CLOSED_LOCKED
+D 28467 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 28468 DIR_UP    DOOR_CLOSED_LOCKED
+D 28484 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 28485 DIR_UP    DOOR_CLOSED_LOCKED
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

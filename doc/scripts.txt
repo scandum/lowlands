@@ -1,0 +1,113 @@
+Lola comes with a couple of useful scripts.
+
+
+compile :
+----------
+
+ Syntax : compile (no arguments)
+
+Compile installs the mud in such a way that you can start running the mud
+right after compile is finished.
+
+
+down :
+-------
+
+syntax : down (no arguments)
+
+down shuts the mud down, by sending the called scripts and the running binary
+the SIGTERM signal.
+
+
+lola.csh :
+-------
+
+syntax : lola.csh [-h]
+	 lola.csh [-p <port#>] [-areadebug <level>] [-nosocket] [-n] [-count]
+
+lola.csh starts the mud. Except with the -h parameter.
+Here comes the meaning of the flags:
+-h                 : shows the syntaxes described above
+-p <port#>         : This defines the port on which lola will run, it defaults to
+                     4321. If you define another port this way, the mud will run
+                     as a testsite
+-areadebug <level> : The mud can give lots of info while booting and loading
+                     the areas. With this option you can check wether or not
+                     there are problems with an area. Possible level values
+                     are 1 - 5.
+-nosocket          : On some systems the mud would give heaps of SO_ERROR
+                     messages, this suppresses them.
+-n                 : Don't show the log to the screen. This is very handy
+                     when you use nohup to run the mud, or your nohup.out
+                     will grow, with double info, since this info is in the
+                     normal logs already!
+-count             : a nice addition, counting how many areas, mobs, rooms
+                     and objects are in the running.
+
+findip :
+---------
+
+syntax : findip <ip-address>
+
+findip quickly searches all the playerfiles for the given IP address. So if
+you found out that someone behaved really nasty, eg. made the mud crash, you
+can search for his/her IP address. That persons characters are found, by IP
+address. All the playernames are stored in badass.txt
+
+down :
+-------
+
+syntax : down [-lola] [-tail] [-current_lola]
+
+'down' is used to kill the processes that are used by the mud. While the
+flags exists, they have become deprecated. You better use only 'down' with
+no arguments, so only the processes that are attached to the location where
+you are running the mud are being shut off. It also removed the files
+lola.pid, script.pid and RUNNING
+
+
+backup :
+---------
+
+syntax : backup [-h] [[-player] [-area] [-clan] [-doc] [-src]]
+
+backup is going to be the replacement for 'tarball'. The idea with backup
+is that you can choose which part you want to backup instead of the whole.
+If you don't use any argument with backup, backup will assume you choose all
+the arguments (except for -h), for the -h is not used in combination with
+any other argument. It doesn't matter in which order you give the arguments,
+though the order of execution is fixed. Backup is quite powerfull, though I
+still have to get used to the quirks of 'tcsh'. Backup calls another new
+script : clean_src...
+
+
+startup :
+----------
+(no arguments)
+
+starts lola in one word :) Essentially it only does:
+
+nohup lola.csh -nosocket -n >/dev/null&
+
+
+install :
+----------
+(no arguments)
+
+I know you're lazy, just as I am... You only have to run this script once,
+when you've just unpacked the tarball that is lola (lola-<version>.tar)
+it will install everything you need.
+
+
+mkpackage :
+------------
+(no arguments)
+
+Makes a tarfile from your backups.
+
+
+un-install :
+-------------
+destroys all files (except the backups) associated with lola, for if you
+wish to re-install everything.
+

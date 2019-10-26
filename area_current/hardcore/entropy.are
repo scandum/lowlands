@@ -1,0 +1,2318 @@
+#AREA Tower of Entropy~
+#AUTHORS Chaos~
+#VERSION 4
+#RANGES 1 95 1 95
+#OLC_RANGES 43000 43099
+#FLAGS AFLAG_NODEBUG|AFLAG_NORECALL|AFLAG_NOCASTLE
+
+
+#HELPS
+0 'TOWER OF ENTROPY' TOWEROFENTROPY~
+{130}
+                            The Tower of Entropy
+{300}
+                 The Tower of Entropy was created by Chaos.
+~
+
+0 $~
+
+
+#MOBILES
+#43000
+servant entropy~
+the Servant of Entropy~
+The Servant of Entropy stands here.~
+The Servant of Entropy seems to have no shape or form, but undulates with a
+subliminal glow of power.  He waits for those who which to enter the Tower.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+150 BODY_LEG|BODY_ARM BODY_HEAD|BODY_CLAW 1d1+17999 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog tower~
+say The Tower of Entropy is in constant change.
+~
+>speech_prog chaos~
+say So you wish to enter the Tower of Entropy, $N?
+if whichgod ($n) != god_neutral
+  say You are already a God follower.
+  say You may not enter, $N.
+  break
+endif
+if level ($n) < 20
+or level ($n) > 89
+  say You cannot attempt to enter the tower at your level.
+  break
+endif
+if reinc ($n) == 0
+  say You must reincarnate before you can attempt to enter the tower.
+  break
+endif
+if quest (4,4,$n) == 3
+  say You cannot attempt to enter the tower more than three times.
+  break
+endif
+if pcsinarea (43000) != 0
+  say The Tower of Entropy is currently occupied.
+else
+  mptransfer $n 43001
+  mpgoto 43001
+  mppurge area
+  mpmaze 3 3 2 18
+  mpmload 43001
+  mpgorand 43002 43008 1 2
+  if validexit (up)
+    up 
+  endif
+  connect up 43020
+  doorset up name gate
+  doorset up key 43018
+  doorset up flag ex_isdoor|ex_closed|ex_locked
+  mpmload 43002
+  mpforce wenlo mpoload 43018
+  mpgorand 43010 43018 1 2
+  mpmload 43003
+  mpgorand 43002 43008 0 2
+  mpmload 43005
+  mpgorand 43010 43018 0 2
+  mpmload 43006
+  mpforce m43006 mpoload 43017
+  mpgorand 43002 43009 0 1
+  if validexit (down)
+    down 
+  endif
+  connect down 43019
+  doorset down name cellar door
+  doorset down key 43017
+  doorset down flag ex_isdoor|ex_closed|ex_locked
+  mpgoto 43019
+  mpmload 43004
+  mpat 43014 mpoload 43013 r
+  mpat 43014 mpoload 43014 r
+  mpat 43022 mpoload 43015 r
+  mpat 43022 mpoload 43016 r
+  mpgoto 43020
+  mpmload 43007
+  mpforce guardian mpoload 21 w
+  mpmaze 2 2 4 16
+  mpgoto 43001
+  mpecho {000}
+  say Here you are, so look around.
+  mpecho You realize that you are not in the City of Chakkor anymore.
+  say Have a nice tour, $n.
+  mpmset $n quest 0 4 0
+  mpmadd $n quest 4 4 1
+  mpmset $n quest 8 8 0
+  mpecho The Servant of Entropy leaves the way he came.
+  rescale 43001 $n 100
+  rescale 43004 $n 125
+  mpseed $n
+  if numberrange (1,5) > 0
+    mpzset quest 0 4 $x
+  endif
+  mpgoto 9820
+  mplog $n has started the Chaos quest.
+endif
+~
+>rand_prog 2~
+if whichgod ($r) == god_neutral
+  say You may enter the Tower of Entropy by saying the name of its owner.
+endif
+~
+>repop_prog 100~
+mpgoto 9820
+~
+|
+#43001
+sentry~
+the Sentry~
+There is a Sentry here in dress uniform.~
+The sentry does not seem to have eyes at all, just black orbs.  His hair is
+slowly waving in the breeze, but there is no breeze.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+99 BODY_HEAD|BODY_ARM|BODY_FOOT BODY_LEG|BODY_HAND 1d1+7999 1d110+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if quest (0,4,$i) <= 5
+  switch quest (0,4,$i)
+    case 0
+      say Greetings mortal.  I hope you are comfortable here.
+      say You are asked not to reveal anything you see here to others, on pain of death.
+    case 1
+      say You may find it very important to look at everything here $R.
+    case 2
+      emote stares at you with a thoughtful look in his eyes.
+      say I think you should go spank those twins.
+    case 3
+      say Most of the people here will talk to you if you speak to them.
+    case 4
+      say My best friend has always been the maid.
+      emote smiles softly.
+      say She's very lovely.
+    case 5
+      emote yawns. 
+  endswitch
+  mpmadd self quest 0 4 1
+endif
+~
+>speech_prog maid~
+say I want to marry Miss Tanlo.
+emote sights softly.
+~
+>speech_prog Tanlo~
+say Truthfully, I think I just want her for a friend, Elizabeth that is.
+emote smirks.
+~
+>speech_prog captain~
+say Wenlo, the captain of the guard, may be found prowling the premises.
+~
+>speech_prog step steps~
+say The steps up the tower are over that direction.
+emote points.
+~
+>speech_prog elizabeth~
+say The maid is quite the little lady.
+~
+>speech_prog ring~
+say I will not give up my ring, ever.
+emote glares icily at you.
+say You will have to kill me before I do.
+~
+>death_prog 100~
+if quest (0,4,$n) == 4
+  mpoload 43000 r
+  mpmset $n quest 0 4 5
+  mpecho You notice a small green object fall from the guts of the sentry.
+endif
+~
+|
+#43002
+captain wenlo~
+the Captain of the Guard~
+The Captain of the Guard is here wondering if you should be.~
+The Captain of the Guard seems incredibly strong.  He has a large sword and
+a small black shield that seems to change size.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+150 BODY_EYE|BODY_HAND BODY_HEAD|BODY_ARM 1d1+17999 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if quest (0,4,$i) == 0
+  if quest (0,4,$r) < 7
+    say You wouldn't want to venture into the section of the Tower that is in the plane of Entropy.
+    mpmset self quest 0 4 1
+  endif
+endif
+~
+>speech_prog strength~
+if quest (0,4,$n) > 2
+  say I think the maid knows a bit about strengths.
+  say I have something for you if you know your true strength.
+endif
+~
+>speech_prog plane entropy~
+say The plane of Entropy can be reached by going up.
+~
+>speech_prog adaptability~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 1
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog hate~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 2
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog quickness~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 3
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog deviousness~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 4
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog surefootedness~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 5
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog agression~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 6
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog stubbornness~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 7
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+>speech_prog drive~
+if quest (0,4,$n) == 6
+  if quest (8,4,$n) == 8
+    say I see you know your true strength.
+    give key $n
+    mpmset $n quest 0 4 7
+  else
+    say Bollocks!
+    slaughter $n
+  endif
+endif
+~
+|
+#43003
+maid elizabeth tanlo~
+the tower maid~
+The tower maid is here dusting off some furniture.~
+The tower maid is very beautiful, but has blue skin.  She appears to be of the
+wood sprite race.  She seems very duty bound, and determined.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+99 BODY_HIP|BODY_TAIL BODY_MOUTH|BODY_TORSO 1d1+7999 1d110+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if quest (0,4,$i) == 0
+  if quest (0,4,$r) < 7
+    say Has that damned sentry been telling you stories again?
+    mpmset self quest 0 4 1
+  endif
+endif
+~
+>speech_prog sentry~
+say The sentry is the laziest person I have ever met.
+~
+>speech_prog wenlo~
+say Wenlo is a fine warrior, but a little lacking upstairs.
+~
+>speech_prog plane entropy~
+say The plane of Entropy is somewhere above us, hidden.
+say I think I found it once, but I don't remember where.
+~
+>speech_prog strength~
+if quest (0,4,$n) == 3
+  say I know a bit about strengths, but...
+  say The sentry has a ring that I want.
+  mpmset $n quest 0 4 4
+endif
+~
+>give_prog I43000~
+if quest (0,4,$n) != 5
+  say Thank you for this ring.
+  say But I cannot help you.
+  break
+endif
+switch numberrange (1,8)
+  case 1
+    say Your greatest strength is your adaptability.
+    mpmset $n quest 8 4 1
+  case 2
+    say Your greatest strength is your hate.
+    mpmset $n quest 8 4 2
+  case 3
+    say Your greatest strength is your quickness.
+    mpmset $n quest 8 4 3
+  case 4
+    say Your greatest strength is your deviousness.
+    mpmset $n quest 8 4 4
+  case 5
+    say Your greatest strength is your surefootedness.
+    mpmset $n quest 8 4 5
+  case 6
+    say Your greatest strength is your agression.
+    mpmset $n quest 8 4 6
+  case 7
+    say Your greatest strength is your stubbornness.
+    mpmset $n quest 8 4 7
+  case 8
+    say Your greatest strength is your drive.
+    mpmset $n quest 8 4 8
+endswitch
+mpecho {160}The maid sweeps you into the dustbin.
+mpmset $n quest 0 4 6
+mptransfer $n 43019
+mpat 43019 mpdelay m43004 2 1 $n
+~
+|
+#43004
+mouse m43004~
+the small mouse~
+The small mouse is scurrying across the floor.~
+The mouse looks like it could use some food, with it's black beady eyes, and
+yellow teeth.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_STEALTH
+0 S
+99 BODY_LEG|BODY_TAIL BODY_MOUTH|BODY_CLAW 1d1+7999 1d110+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>hitprcnt_prog 50~
+if quest (0,1,$i) == 0
+  switch areaquest (0,4,$i)
+    case 1
+      mpmset self remember Chaos Beast
+    case 2
+      mpmset self remember Chaos Monster
+    case 3
+      mpmset self remember Chaos Fiend
+    case 4
+      mpmset self remember Chaos Spawn
+    case 5
+      mpmset self remember Chaos Hound
+  endswitch
+  mpecho The bones of the small mouse make a grinding noise as it changes into a $X.
+  mpmset self short the $X
+  mpmset self long  The $X attacks you with no mercy.
+  mpmset self name $X M43004
+  berserk 
+  mpmset self quest 0 1 1
+else
+  if rand (50)
+    mpecho The $X squeeks angrily while black vitriol drips from its fangs.
+  endif
+endif
+~
+>delay_prog 1~
+if validexit (north)
+  connect north -1
+endif
+if validexit (south)
+  connect south -1
+endif
+if existsroom ($X)
+  if rand (3)
+    mpecho $I chews through the wall to the north.
+    connect north 43005
+  endif
+  if rand (3)
+    mpecho $I checks through the wall to the south.
+    connect south 43005
+  endif
+  mpdelay self 4 1 $t
+~
+>all_greet_prog 100~
+mpecho There is a rustling under the bags of grain.
+if quest (0,4,$n) == 1
+  mpmset $n quest 0 4 2
+endif
+mpdelay self 2 1 $n
+~
+|
+#43005
+child chaos@ m43005done~
+the child of Chaos~
+There is a small child of Chaos playing here.~
+The child of Chaos looks like it's having alot of fun, by causing sections of
+the floor to melt into it's primordial material.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+150 BODY_WING|BODY_TAIL BODY_HORN|BODY_CLAW 1d1+17999 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if quest (0,4,$r) == 0
+  say I think you might want the key my twin has...
+endif
+if quest (0,4,$r) == 2
+  if quest (12,4,$r) == 0
+    say Have you met my twin?
+  endif
+endif
+~
+>speech_prog twin~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 0
+    say Can you tell my twin to get lost?
+    mpmset $n quest 12 4 1
+    break
+  endif
+endif
+~
+>speech_prog p kiss off~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 2
+    say Can you tell my twin what the couches are made of around here?
+    mpmset $n quest 12 4 3
+  endif
+endif
+~
+>speech_prog metal metals~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 4
+    say Go tell my twin the name of the mouse.
+    mpmset $n quest 12 4 5
+  endif
+endif
+~
+|
+#43006
+child chaos@ m43006~
+the child of Chaos~
+There is a small child of Chaos playing here.~
+The child of Chaos looks like it's having alot of fun, by causing sections of
+the wall to melt into it's primordial material.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+150 BODY_WING|BODY_TAIL BODY_HORN|BODY_CLAW 1d1+17999 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if quest (0,4,$r) == 0
+  say I found this key...  Do you want it?  Have no idea what it goes to.
+endif
+~
+>speech_prog key~
+if quest (0,4,$n) == 0
+  say Say please...
+endif
+~
+>speech_prog please~
+if quest (0,4,$n) == 0
+  say here you go!
+  give key $n
+  mpmset $n quest 0 4 1
+endif
+~
+>speech_prog p get lost~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 1
+    say Don't tell me to get lost!!!
+    say Go tell my twin to kiss off!!!
+    mpmset $n quest 12 4 2
+  endif
+endif
+~
+>speech_prog steel~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 3
+    say You think steel is strong...
+    say Go ask my twin about metals.
+    mpmset $n quest 12 4 4
+  endif
+endif
+~
+>speech_prog p chaos beast~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 5
+    if areaquest (0,4,$i) == 1
+      say Wow, you have been around.
+      say But you might go ask the Captain about strength.
+      mpmset $n quest 0 4 3
+      grin 
+    else
+      say You are a fool to say that!
+      say This quest is over!
+      slaughter $n      
+    endif
+    break
+  endif
+endif
+peer $n
+~
+>speech_prog p chaos monster~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 5
+    if areaquest (0,4,$i) == 2
+      say Wow, you have been around.
+      say But you might go ask the Captain about strength.
+      mpmset $n quest 0 4 3
+      grin 
+    else
+      say You are a fool to say that!
+      say This quest is over!
+      slaughter $n      
+    endif
+    break
+  endif
+endif
+peer $n
+~
+>speech_prog p chaos fiend~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 5
+    if areaquest (0,4,$i) == 3
+      say Wow, you have been around.
+      say But you might go ask the Captain about strength.
+      mpmset $n quest 0 4 3
+      grin 
+    else
+      say You are a fool to say that!
+      say This quest is over!
+      slaughter $n      
+    endif
+    break
+  endif
+endif
+peer $n
+~
+>speech_prog p chaos spawn~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 5
+    if areaquest (0,4,$i) == 4
+      say Wow, you have been around.
+      say But you might go ask the Captain about strength.
+      mpmset $n quest 0 4 3
+      grin 
+    else
+      say You are a fool to say that!
+      say This quest is over!
+      slaughter $n      
+    endif
+    break
+  endif
+endif
+peer $n
+~
+>speech_prog p chaos hound~
+if quest (0,4,$n) == 2
+  if quest (12,4,$n) == 5
+    if areaquest (0,4,$i) == 5
+      say Wow, you have been around.
+      say But you might go ask the Captain about strength.
+      mpmset $n quest 0 4 3
+      grin 
+    else
+      say You are a fool to say that!
+      say This quest is over!
+      slaughter $n      
+    endif
+    break
+  endif
+endif
+peer $n
+~
+|
+#43007
+guardian entropy~
+the Guardian of Entropy~
+The Guardian of Entropy awaits your doom at the hands of Chaos.~
+The Guardian of Entropy seems to have no shape or form, but undulates with a
+subliminal glow of power.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+0 S
+150 BODY_LEG|BODY_HAND BODY_TORSO|BODY_HIP 1d1+17999 1d150+114
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog order~
+if quest (0,4,$n) == 8
+  if hasobjnum ($n) == 43009
+    say Sorry, that is the wrong answer.
+    slaughter $n
+  endif
+endif
+~
+>speech_prog chaos~
+if quest (0,4,$n) == 8
+  if hasobjnum ($n) == 43009
+    say Thank you.
+    say You may proceed.
+    mpmset $n quest 0 4 9
+    mptransfer $n 43036
+  else
+    say You do not have the artifact I asked you for.
+  endif
+endif
+~
+>speech_prog fog~
+say Ahh.   The fog was talking to you.
+say The fog is very knowledgable about various devices.
+~
+>speech_prog device devices~
+say I do know that you must include the cube into the sphere.
+say This will create a pointed object.
+~
+>speech_prog p pointed object~
+say I think you mean the cantrip.
+say Just include it.
+say But I think there is only one spot where you can do this.
+~
+>all_greet_prog 100~
+if quest (0,4,$n) == 7
+  say Hello, $N.
+  say I need the Arrow of Chaos.
+  mpgorand 43021 43035 0 1
+  mpmload 43008
+  mpgorand 43021 43035 0 1
+  mpmload 43009
+  mpgorand 43021 43035 0 1
+  mpmload 43010
+  mpgorand 43021 43035 0 1
+  mpmload 43011
+  mpgorand 43021 43035 0 1
+  mpmload 43012
+  mpgoto 43034
+  mpoload 43010 r
+  mpmload 43013
+  mpat 43043 mpmload 43014
+  mpat 43041 mpmload 43014
+  mpat 43039 mpmload 43014
+  mpat 43045 mpmload 43015
+  mpgoto 43025
+  mpoload 43011 r
+  mpoload 43012
+  put i43012 i43011
+  mpat 43028 mpmload 43016
+  mpat 43031 mpmload 43017
+  mpgoto 43020
+  rescale 43008 $n 95
+  rescale 43009 $n 105
+  rescale 43010 $n 115
+  rescale 43011 $n 125
+  rescale 43012 $n 135
+  rescale 43015 $n 150
+  rescale 43016 $n 150
+  rescale 43017 $n 150
+  mpmset $n quest 0 4 8
+  break
+endif
+if quest (0,4,$n) < 7
+  say You should not be here!
+  slaughter $n
+  break
+endif
+if hasobjnum ($n) == 43009
+  say I see you have the Arrow.
+  say Who do you wish to follow?
+else
+  say I need the arrow.
+endif
+~
+|
+#43008
+demon~
+the minor demon~
+There is a small demon here.~
+The demon is babbling in a totally foreign language.  You think you understand
+some of the words it is saying, but you're not sure.  Regardless, he doesn't
+seen to be prone to light conversation.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+99 0 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_TAIL|BODY_HORN|BODY_CLAW 1d1+7999 1d110+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpecho The demon explodes into small pieces.
+mpoload 43001 r
+~
+>fight_prog 20~
+if rand (50)
+  mpecho {160}The demon gives you the evil eye.
+  cast chill
+else
+  cast 'cure light'
+endif
+~
+|
+#43009
+demon~
+the small demon~
+There is an incredibly ugly little demon here.~
+This demon has the face of a dog, and the body of a monkey.  It's ears
+are definitely human, yet the eyes are a solid opaque yellow.  There
+are some small horns protruding from the slimy head.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+99 0 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_TAIL|BODY_HORN|BODY_CLAW 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+say Damn you!
+say I just got over the last moron that entered here.
+mpoload 43002 r
+~
+>fight_prog 20~
+say The path of Chaos is resticted to those powerful enough to survive.
+~
+|
+#43010
+demon~
+the demon~
+There is an ugly demon flying here.~
+The demon has large claws and fangs dripping with black ooze.  It
+has black wings similar to a bat's, but oddly it has no legs, only
+a mass of tenticles.  Having three arms, it looks almost comical,
+as it whacks you across the head several times.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+99 0 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_TAIL|BODY_HORN|BODY_CLAW 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 25~
+if rand (66)
+  say You will never be allowed to complete the path of Chaos.
+else
+  mpecho {160}The demon caughs on you.
+  cast fireball
+endif
+~
+>death_prog 100~
+mpecho The sputtering of what life the demon had is now gone.
+mpoload 43003 r
+~
+|
+#43011
+demon~
+the large demon~
+There is a large demon growling fiercely.~
+This demon has the body of a gorilla, and the head of Dar, the Master
+trainer.  This fellow does not appear to be as friendly as Dar.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+99 0 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_TAIL|BODY_HORN|BODY_CLAW 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpecho The demon explodes.
+cast tremor
+mpoload 43004 r
+~
+>fight_prog 20~
+if rand (33)
+  mpecho {160}You train your wisdom.
+  cast 'mage blast'
+else
+  if rand (50)
+    mpecho {160}You train your strength.
+    cast 'chill touch'
+  else
+    say The path of Chaos cannot be tread lightly.
+    say And by your size, I would say you are too light.
+    grin 
+  endif
+endif
+~
+|
+#43012
+demon~
+the major demon~
+There is a major demon here.~
+This demon has two heads.  One is a bull, and the other is a
+crocodile.  These heads face opposite directions.  It also has
+two sets of human arms going in either direction.   Having five legs
+seems to do no less than give it a very good fighting stance.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_DETECT_INVIS
+-1000 S
+99 0 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_TAIL|BODY_HORN|BODY_CLAW 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpoload 43005 r
+~
+>fight_prog 20~
+if rand (50)
+  mpecho A putred gas eminates from the demon.
+  cast 'cure serious'
+else
+  if rand (50)
+    mpecho {160}The demon lays his unholy hands on you.
+    cast 'vampiric touch'
+  else
+    say You are a fool to embark on the path of Chaos.
+  endif
+endif
+~
+|
+#43013
+chair~
+the chair~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+-1000 S
+99 0 0 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 5~
+if position ($r) == pos_sitting
+  say Do you know anything about the cone?
+~
+>speech_prog cone~
+say The cone is used with the cylinder.
+~
+>speech_prog cylinder~
+say That must be immersed in the cone.
+~
+|
+#43014
+fall~
+the fall~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+99 0 0 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpecho You immediately fall several hundred feet to your death.
+mpat 9745 mpecho You see $N falling down from the clouds above.
+mpat 9745 mpasound You see $N falling down from the clouds above.
+mptransfer $n 9745
+mpat 9745 mpdamage $n 15000 16000 crush
+mpat 9745 mposet pc_corpse long The splattered corpse of $N lies here.
+~
+|
+#43015
+priestess~
+the High Priestess of Chaos~
+The High Priestess of Chaos awaits the bidding of her God.~
+The High Priestess is wearing flowing white robes.  She has a
+very beautiful elven body, with feline eyes.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+99 0 0 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+say Hello $n.
+say You have survived the tests.
+say You must now make your plea.
+say What can you tell me about the path of Chaos?
+~
+>speech_prog p The path of Chaos is neither safe nor straight~
+if quest (0,4,$n) == 9
+  say Very well.  You are allowed to enter the ranks of Chaos.
+  mpoload 50
+  give i50 $n
+  mpforce $n wear i50
+  mpmset $n quest 4 4 5
+  emote slowly vanishes.. or did you vanish?
+  mptransfer $n 9755
+endif
+~
+>speech_prog order~
+say You must be insane to speak that name here.
+slaughter $n
+~
+|
+#43016
+gardener~
+the Gardener~
+The Gardener is working on a small plant.~
+The gardener looks to be the only friendly person here.  He is of Ogre
+stock, and is wearing green pants, and a brown cloak.
+~
+ACT_SENTINEL|ACT_SMART
+0
+-1000 S
+99 0 0 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+say Hello $n.
+~
+>fight_prog 100~
+say Get out of here, you little twit!
+mpforce $n flee
+mpforce $n flee
+mpforce $n flee
+restore self
+peace 
+~
+>speech_prog hello~
+say I have a puzzle for you.
+say If a hole is dug two feet wide, by three feet deep.
+say And it is four feet long.
+say How much dirt is there?
+~
+>speech_prog 24 twenty-four twentyfour twenty four~
+say You need a hole in your head that large, so here!
+cast 'fireball' $n
+~
+>speech_prog none zero 0~
+say Ah, the smart one, are we?
+say Then you should also know that the
+say Dim Room is for the cantrip.
+~
+|
+#43017
+bartender~
+the Bartender~
+The demonic bartender is here serving drinks.~
+The demonic bartender has more than a few eyes, and uses them
+all to their best ability.  You doubt you could do anything
+fishy here.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS
+-1000 S
+99 0 0 1d1+7999 1d99+50
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+say Hello $n.  Would you like a drink?
+~
+>fight_prog 100~
+say Hey!  No fighting in my bar!
+mpforce $n flee
+mpforce $n flee
+mpforce $n flee
+restore self
+peace 
+~
+>speech_prog drink yes~
+say Give me five thousand and I'll serve you a drink.
+say Give me fifteen thousand and I'll serve you a stiff one.
+~
+>bribe_prog 15000~
+say Here is your long island tea.
+mpoload 43020
+give i43020 $n
+~
+>bribe_prog 5000~
+say Here is your beer.
+mpoload 43019
+give i43019 $n
+~
+>act_prog p drinks beer from an iron mug.~
+if quest (0,4,$i) == 0
+  say Nice and frosty isn't it?
+  say I seem to remember that the dingy room serves a purpose.
+  mpmset self quest 0 4 1
+endif
+if quest (0,4,$i) == 2
+  say Nice and frosty isn't it?
+  say Aah, yes.  You can make the arrow there.
+  mpmset self quest 0 4 3
+endif
+~
+>act_prog p drinks rum from an iron chalice.~
+if quest (0,4,$i) == 0
+  say Fixes you right up, doesn't it?
+  say I seem to remember that the dingy room serves a purpose.
+  mpmset self quest 0 4 2
+endif
+if quest (0,4,$i) == 1
+  say Fixes you right up, doesn't it?
+  say Ahh, yes.  You can make the arrow there.
+  mpmset self quest 0 4 3
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#43000
+green ring~
+a green ring~
+There is a green ring laying here.~
+The ring seems to be made of some kind of stone.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+2 0 0 0 0 0 0 0
+1 50 10
+A APPLY_DAMROLL 2 0
+A APPLY_STR 2 0
+A APPLY_DEX 2 0
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self A green ring fades out of existence.
+  mpjunk i43000
+endif
+~
+|
+#43001
+sphere~
+the sphere~
+There is a small sphere laying here.~
+The small sphere is black beyond immagination.  It seems to
+absorb light, as there is a black haze around the object.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The sphere fades out of existence.
+  mpjunk i43001
+endif
+~
+|
+#43002
+pyramid~
+the pyramid~
+There is a grey pyramid sitting on the floor here.~
+The pyramid has no markings on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inroom ($i) != 43000
+  mpechoat self The pyramid turns to dust.
+  mpjunk i43002
+endif
+~
+|
+#43003
+cylinder~
+the cylinder~
+There is a miniature cylinder hovering above the floor.~
+This appears to be about three inches in diameter and about four
+and a half in length.  There is a small tab on one end.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+tab~
+The tab reads 'Pull to open.'
+Another line reads '5c Chakkor Refund.'
+~
+>unknown_prog immerse~
+if hasobjnum ($i) == 43006
+  if inroom ($i) == 43035
+    mpechoat self You immerse the cylinder in the cone.
+    mpechoat self They create a spring.
+    mpjunk i43003
+    mpjunk i43006
+    mpoload 43007
+  endif
+endif
+~
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The tap of the cylinder falls open.
+  mpechoat self A little homonculous crawls out and runs away with it.
+  mpjunk i43003
+endif
+~
+|
+#43004
+cube~
+the steel cube~
+A steel cube slowly rotates on the ground.~
+The steel cube seems to rotate on it's own, whenever left to
+itself.  It has small numbers written on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+numbers~
+The numbers range from one to six.
+~
+>unknown_prog include~
+if hasobjnum ($i) == 43001
+  if inroom ($i) == 43026
+    mpechoat self You include the cube in the sphere.
+    mpechoat self They create a cantrip.
+    mpjunk i43001
+    mpjunk i43004
+    mpoload 43008
+  endif
+endif
+~
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The cube slips out of your grasp and turns to smoke as it hits the ground.
+  mpjunk i43004
+endif
+~
+|
+#43005
+toroid~
+an iron toroid~
+A large iron toroid rests on the floor.~
+The toroid looks like a pastry, but by it's weight, it's
+definitely not edible.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>unknown_prog combine~
+if hasobjnum ($i) == 43002
+  if inroom ($i) == 43029
+    mpechoat self You combine the pyrmid with the toroid.
+    mpechoat self They create a cone.
+    mpjunk i43002
+    mpjunk i43005
+    mpoload 43006
+  endif
+endif
+~
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self You eat an iron toroid.
+  mpjunk i43005
+endif
+~
+|
+#43006
+cone~
+a stone cone~
+A stone cone is stuck into the wall here.~
+The cone is surrounded by small swirls of color.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The stone cone dies of strangulation.
+  mpjunk i43006
+endif
+~
+|
+#43007
+spring~
+the small spring~
+A small spring hangs from the ceiling, bouncing up and down.~
+The small spring never seems to stay still long enough to get a
+good look at.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The small spring dries up.
+  mpjunk i43007
+endif
+~
+|
+#43008
+cantrip~
+a cantrip~
+A cantrip awaits someone to step on.~
+The cantrip seems awfully sharp.  It is suggested not to step on it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>unknown_prog merge~
+if hasobjnum ($i) == 43007
+  if inroom ($i) == 43023
+    mpechoat self You merge the cantrip with the spring.
+    mpechoat self They create an arrow.
+    mpjunk i43007
+    mpjunk i43008
+    mpoload 43009
+  endif
+endif
+~
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self You step on a cantrip and fling it away in anger.
+  mpjunk i43008
+endif
+~
+|
+#43009
+arrow~
+the arrow~
+You have no idea what is on the floor here.~
+The arrow is dark-red and always points to a different direction, but never
+the way it's actually pointed.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The arrow shoots away by itself.
+  mpjunk i43009
+endif
+~
+|
+#43010
+chair~
+a chair~
+A soft chair is here mumbling to itself.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SIT_IN|FURNITURE_SIT_ON 125 0 0 0 0
+1 50 1
+#43011
+skeleton~
+the skeleton~
+There is a skeleton chained to the wall here.~
+The skeleton has a small sign attacked to it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10 0 -1 0 0 0 0 0
+1 50 1
+#43012
+bone~
+the bone~
+The bone of a skeleton has been negligently left here.~
+The small bone looks very hard, but edible.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+1 0 0 0 0 0 0 0
+1 50 1
+>command_prog eat~
+mpechoat self The bone is very hard, but you eat it anyways.
+mpechoat self You are overwhelmed with the feeling that the dusk room must be used with the cone.
+mpjunk i43012
+~
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self The bone grows wings and flies off.
+  mpjunk i43012
+~
+|
+#43013
+massive bed~
+a massive bed~
+There is a massive bed in the middle of the room here.~
+The bed has several imps attempting to straighten the bed. One of the imps is
+on top of the bed, playing with something.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+10 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 125 0 0 0 0
+1 100 1
+#43014
+brasiure~
+a brasiure~
+There is a brasiure next to the bed here.~
+The brasiure has a pile of wood on it the size of a small house.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50 1
+#43015
+large painting~
+a large painting~
+There is a large painting on the wall here.~
+The painting depicts several hundred imps, all glowing in their own light.~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50 1
+#43016
+small statue~
+a small statue~
+A small statue stands here.~
+The statue is of a naked drow female.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 50 1
+#43017
+small key~
+a small key~
+a small key lies here.~
+The end of the key slowly spins around, as if it wishes to unlock something
+by itself.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self A small key turns to rust.
+  mpjunk i43001
+endif
+~
+|
+#43018
+gate key~
+a gate key~
+A gate key lies here.~
+The end of the key slowly spins around, as if it wishes to unlock something
+by itself.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+>rand_prog 100~
+if inarea ($i) != 43000
+  mpechoat self A gate key turns to rust.
+  mpjunk i43001
+endif
+~
+|
+#43019
+iron mug~
+an iron mug~
+A large iron mug rests on the floor.~
+The mug is full of beer.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_BEER 0 0 0 0 0
+1 10 1
+#43020
+iron chalice~
+an iron chalice~
+A heavy iron chalice rests on the floor.~
+It contains a mixture of ice, rum, and a variety of unidentifiable ingredients
+which cause it to resemble iced tea.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+1 1 LIQ_RUM 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#43000
+Entrance to the Tower of Entropy~
+The entrance area is a large room with several pillars holding up an arched
+roof.  There is a smaller entry to the east.  Chakkor is to the north west.
+There is a large moat between you and the entrance to the Tower.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 9709
+E
+moat~
+The moat is made up of flowing black stuff that cannot be seen very easily.
+~
+#43001
+Entrance to the Tower of Entropy~
+The entrance area is a small room with several pillars holding up an arched
+roof.  Hallways lead off in several directions.  There is a guard post near
+the west side of the room.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+#43002
+The straight hallway~
+This is a hallway that leads of in one direction.
+You realize that there is a mirror placed on the opposite wall that makes the
+hallway appear to be straight and long.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+mirror~
+You do not see yourself in the mirror.
+~
+#43003
+Sitting room~
+You are in a small sitting room, with a fireplace on one wall, and a large
+table taking up the center.  There are numberous chairs scattered around the
+room, and several couches.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+fireplace fire~
+The fireplace is burning a green fire, from purple logs.
+~
+E
+table~
+The table is covered with dust that the maid hasn't gotten to yet.
+~
+E
+chair chairs~
+The chairs might be good for a Halfling, but no-one else is small enough to
+sit in them, although they appear to be expensive.
+~
+E
+couch couches~
+The couches all look nice a soft, but upon testing, feel to be made out of
+steel.
+~
+#43004
+The Kitchen~
+This room has lots of cookware.  There are large pots hanging from the ceilings.
+There are also large chunks of meat hanging from hooks.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+pots~
+The pots look nice a clean, and made out of a strange metal.
+~
+E
+meat~
+The meat looks very tasty, until you realize that it is human meat.
+~
+#43005
+The pantry~
+This room has several brooms, and a vary basket about 8 feet tall.  The doors
+are slotted, and there is a large hand-pump here.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+pump~
+The hand pump is dripping water onto your head.
+The hand pump is at least 15 feet tall, and you could swing on the handle.
+~
+E
+basket~
+{160}You climb for several minutes.
+{060}When you reach the top, you notice that the basket is full of clothes.
+{060}Then, you fall into the basket.
+
+{170}Inside the Basket
+{060}You see no visible exits.
+~
+#43006
+Imp's bedroom~
+This room is very small.  The doors are about two feet wide, and only four
+feet tall.  There is a tiny bed here, and a few dressers.
+The window seems to offer a view.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+bull~
+The bull looks very strong, but appears to be purple.
+~
+E
+window~
+The window looking out to the north shows large fields beyond a moat.
+There are cattle grazing, with one nice bull drinking from the moat.
+~
+E
+oil~
+After closer inspection, the moat is just one basic color.   Plaid.
+But the chocolate milk cow seems to moo somthing to you.
+~
+E
+cow~
+{030}The brown cow moos 'I think the snake knows the name of the mouse.'
+~
+E
+bed~
+The bed has silk covers, and the bed itself seems to be made out of some
+jellatinous material, as it continually ripples slowly.
+~
+E
+moat~
+The moat seems to be covered by some kind of scintillating oil.
+~
+#43007
+The long hall~
+This is an extremely ordinary hallway, except for the length of the hall.
+You can barely see the ends of it.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_OCEAN
+#43008
+The den~
+This room is filled with books stacked to the ceiling.  There are several
+chairs and a large couch in the middle of the room, and a large desk against
+one wall.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+chairs~
+The chairs look very comfortable.
+~
+E
+books~
+There are books on Destruction, Creation, Mandelbrot, and Law.
+~
+E
+destruction~
+This book is titled 'Destruction of the known and unknown Universe'.
+It is written by Dregan Socrae.
+~
+E
+creation~
+This book is filled with bad comments and markings.
+It is title 'The construction of creation', by Patrokles.
+~
+E
+law~
+This book is title 'Everything that is wrong with Law'.
+This book has no author, and appears to be a book of poems.
+~
+E
+couch~
+The couch looks good enough to sleep on.
+~
+E
+desk~
+The desk is covered with notes.
+~
+E
+note~
+Upon completing the device, sanctitude is granted.
+~
+E
+mandelbrot~
+'Mandelbrot set, and the mathematics of Chaos' is a book that looks
+well used.  It is filled with very complex mystical symbols.
+~
+#43009
+Workshop~
+This room is filled with tools and devices of unhumanly nature.  There are
+several large tables scattered across the room.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+tables~
+The tables are completely worn.  They appear to be very old.
+~
+E
+tools devices~
+The tools appear to be either used for torure or mass destruction.
+~
+#43010
+The mildy warm room~
+The room is mildly warm for a fire knute, you are actually burning up.
+There is a large statue of Chaos here.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_LAVA
+E
+closer~
+The sign reads,
+
+    Who so ever reads this sign.
+    Must exist in an ungulfing state of insanity.
+    As the lava burns you away.
+
+    But I like that,  Chaos.
+~
+E
+statue~
+This statue is muscular and over twelve feet tall.
+The statue is holding up a small sign.
+~
+E
+sign~
+The sign is too far away, you must look closer.
+~
+#43011
+Hall of Enchantments~
+This is a short hallway filled with large mirrors.  There is a square mirror,
+a round mirror, and a triangular mirror.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+triangular~
+The triangular mirror shows you an image of what appears to be yourself at a
+very old age.  You can't decide whether you look wise or just tired.
+~
+E
+round~
+The round mirror shows your face covered in blood and gashes.
+~
+E
+square~
+The square mirror reflects an image of yourself as you looked when you were
+very young.
+~
+#43012
+Water Closet~
+This room is about waist deep in slimy stinking water.  You notice a few
+things floating about in the water.  They do not look too healthy.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_LAKE
+E
+healthy~
+Who ever said that the effects of Chaos were healthy?
+~
+E
+things~
+The things floating in the water do not appear to be very good
+to eat.
+~
+E
+water~
+The water is very dingy, and has a few things floating on it.
+~
+#43013
+The Laboratory~
+This room stinks of chemicals and minerals, and other smells you cannot pick
+out.  There are many glass devices and some larger machines scattered across
+the room.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+cables~
+The cables make your hair stand on end as you look at them closely.
+~
+E
+machines~
+The machines have many coated metal cables sprouting from it in
+various direction.
+~
+E
+liquid~
+The liquid ranges in color from red to green, and black to clear.
+~
+E
+devices~
+The devices have some kind of liquid bubbling in them.
+~
+#43014
+The large bedroom~
+This room is about two hundred feet square, and over sixty feet tall.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+feet~
+There is a small green and chrome snake at your feet.
+~
+E
+imp~
+The little imp on top the bed throws something at you that lands at your feet.
+~
+E
+snake~
+The snake looks up at you.
+{038}The snake says 'The mouse shows its true name when angered'.
+~
+#43015
+The attic~
+The hallway here moves quickly up into the ceiling.  You notice that there is a
+set of stairs back down to the main tower.  Incredibly this appears to be the
+entrance to the attic.  There are several large items just out of reach.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+organ~
+The organ is leaking blood.  It looks like a fist sized heart.
+~
+E
+plaque~
+The plaque reads 'Baldwing'.
+~
+E
+piano~
+This is a very expensive looking piano with a small plaque
+set into it's side.
+~
+E
+crate~
+The crate is locked.
+~
+E
+items~
+There is a large crate, a large piano, and a small organ.
+~
+#43016
+The Conference Room~
+This is an incredibly big room with a large table and sets of chairs around
+it.  One end of the table is a massive raised throne, and at the other is a
+large mirror.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+placcard~
+The path of Chaos is neither safe nor straight.
+~
+E
+throne~
+The throne appears to be a seat for someone about three times the size of a
+normal humanoid.
+There is a small ornamental placcard on the base of the throne.
+~
+E
+chair~
+The chairs do not look very comfortable, but quite functional.
+~
+E
+candle~
+The candles do not appear to be burning up.
+~
+E
+table~
+The table has a candle by each chair.
+~
+#43017
+Music hall~
+This is a large room with several plush couches.  There is a loft that some
+music is coming out of.  There are various musical instruments scattered
+across the floor.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+loft~
+The loft has many singers screaming their hearts out.
+~
+E
+instruments~
+The instruments appear to be playing on their own.
+~
+E
+couch~
+The couches are made of plaid and gold fabric.
+~
+E
+singers~
+The singers do not have tongues, and each scream a different
+pitch.
+~
+#43018
+The great staircase~
+This is a massive staircase that leads both up, and down.  It also seems to
+lead other directions to.  When the staircase almost reaches the ceiling, it
+turns down again, and starts bending.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+stairs staircase~
+The stairs seem to lead nowhere.
+~
+#43019
+The cellar~
+This room has many racks of wine along the walls, and a few broken instruments
+of torture.  There are mildewing chunks of meat scrattered across the floor.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+meat~
+The meat looks humanoid, and quite fresh.
+~
+E
+instruments~
+The instruments of torture looks quite deadly, and in very good condition.
+~
+E
+wine~
+The wine looks very old and of the finest blends.
+~
+#43020
+The foyer~
+This is a dimly lit room with several statues on the walls.  You get a great
+sense of dread from the sounds in the rooms ahead.  The rooms start to darken
+and fill with fog.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+#43021
+The Void~
+This area is a totally devoid of all markings.  The fog is rolling through at a
+slow pace.  There is a diffuse light coming from all directions.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+fog~
+The fog seems to say 'Ask the guardian about me.'
+~
+E
+light~
+The light seems to shine through the fog from all directions.
+~
+#43022
+The Art Room~
+This room is littered with works of art from the great artists.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+#43023
+The Dingy room~
+This room has muck covering the floors.  There is a small sheen of muck
+covering the walls.  There is a bit of muck dripping from the ceiling.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+muck~
+The green muck seems mostly to be on the ceiling.
+~
+E
+brown~
+What, have you not had enough muck yet?
+~
+E
+green~
+The green muck is dripping onto the floor to become brown muck.
+~
+#43024
+The Hallway~
+This is a hallway.  It contains a floor, ceiling and several walls.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+floor~
+The floor has been recently mopped.
+Obviously someone left a mess here before your arrival.
+~
+E
+wall walls~
+Staring at the walls, are we?
+~
+E
+ceiling~
+The ceiling is particularly blank.
+~
+#43025
+The Dungeon~
+This room is filled with mancles and chains.  There are more than a few
+skeletons hanging on the walls.  More than a few are fresh.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+sign~
+The sign reads: Eat my bones for more enlightenment'
+~
+#43026
+The Dim Room~
+This room does not have any windows, and is very dim.  There are no visible
+light sources.  There is a small switch on the wall.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+switch~
+The switch seems to be broken.
+~
+#43027
+The Garden~
+This room is filled with plant life.  There are many that are well known to
+you and many that you have never seen before.  A small path winds between
+the plants.
+~
+0 ROOM_NO_SAVE SECT_FOREST
+E
+handwriting~
+This combination creates a cone.
+~
+E
+scribbling~
+You must combine the pyramid with the toroid.
+There is some smudged handwriting also.
+~
+E
+bench~
+On closer inspection you discover some scribbling.
+~
+E
+seat~
+It's really a quite comfortable bench.
+~
+E
+path~
+There is a small seat on the path.
+~
+#43028
+The Gardener's Room~
+This room is filled with assorted tools, a work-bench covered in dirt and a
+small cot.  There is a fire glowing from a hearth.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+tools~
+The tools don't look like the ones your mother used.
+~
+E
+fire~
+The fire is glowing a slight blue.
+~
+E
+plant~
+The plant is eating on the lower portion of a canine.
+~
+E
+work bench~
+The bench has a pot on it with an ugly plant in it.
+~
+#43029
+The Dusk room~
+This room is encased in a perpetual dusk.  Several windows look out to a
+setting sun.  There is a small candle on a table beside the window.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+window~
+The window looks out over a flat plane of fog.  Absolutely nothing is
+visible on the surface of the realm.
+~
+E
+candle~
+The candle is about half gone, or should that be half there?
+~
+E
+table~
+The table is made from black oakwood.
+~
+#43030
+The Sitting Room~
+The sitting room has several lights, a small table, and a large fur on the
+floor.  There are numerous candelabras on the wall.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+fur~
+The fur is from a polar bear.
+~
+E
+candelabras~
+The candelabras are currently empty.
+~
+E
+obituary~
+You read the obituaries, and you guessed it.  You're in there.
+~
+E
+arrows~
+The section on the arrow is quite technical, about space-time distortions
+that only a god necromancer could read.  You glean the following:
+You must merge the cantrip with the spring to make an arrow.
+~
+E
+bonds~
+This is a list of all the best bondage equipment throughout the realm.
+~
+E
+stocks~
+The stocks for gold have been going down for awhile, but are on an
+upward trend.
+~
+E
+newspaper~
+There is an article on stocks, bonds, and arrows.
+There is an obituary section.
+~
+E
+table~
+There's a newspaper on the table.
+~
+#43031
+The Bar~
+This is the bar for the tower.  There is a long table with high backed chairs,
+and a large mirror on the wall behind the table.  The table is taller than
+normal tables.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+mirror~
+Hey, you see yourself.   What did you expect?
+~
+E
+chairs~
+The chairs almost look comfortable.
+~
+E
+table~
+This serves the function as a bar in the bar.
+~
+#43032
+The Sunning Room~
+This room has sunlight pouring in from all windows placed around the room.
+There are several benches in the room.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+bench benches~
+The benches look like they would almost make you lay back prone to
+sit apon them.
+~
+E
+sunlight windows~
+You have no idea where the light is actually coming from, since some
+of the walls are on the inside of the tower.
+You do notice a small note on the floor.
+~
+E
+note~
+The note reads:     The Spring can be made in the Dank Room.
+~
+#43033
+The Storage Room~
+There are numberous boxes stacked to the ceiling, and a tight path is carved out
+of the space left behind.
+~
+0 ROOM_DARK|ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+boxes~
+The boxes are all closed except for one openbox.
+~
+E
+openbox~
+The open box is currently empty.
+~
+#43034
+Hallway~
+This is a short hallway between rooms.  It is devoid of furnishings.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+furnishings~
+Hey, there is nothing here.
+~
+#43035
+The Dank Room~
+Upon entering this room, you are immediately covered in sweat.  There is a heavy
+fog or steam floating in this room.  The room is about the temperature of a hot
+summer day.  There is a small puddle in the room.
+~
+0 ROOM_INDOORS|ROOM_NO_SAVE SECT_INSIDE
+E
+puddle~
+The puddle reflects your grizzly appearance.
+You realize that you need a hair cutt and a bath.
+~
+#43036
+Tower Pinnacle~
+You are at the pinnacle of the tower.  There is a small path across a cloud
+that extends out over the city.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_EAST
+~
+~
+0 0 43037
+E
+path~
+The path seems to have very little substance.
+~
+#43037
+The path over the city~
+You are standing on a patch of fog forming a small path.  Directly down from
+here is a city.  The path continues straight to the east.  There are a few
+fluffy patches to the north.  There is a solid brick path to the south.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_NORTH
+You see a path made of clouds and fog.~
+~
+0 0 43042
+DDIR_EAST
+You see a straight path.~
+~
+0 0 43040
+DDIR_SOUTH
+You see a path made from solid bricks.~
+~
+0 0 43038
+E
+city~
+The city does not appear to be Chakkor.  After intense study, you determine that
+it is actually the fabled city of Avernus.
+~
+E
+brick bricks~
+The bricks look very safe and solid.
+~
+E
+fluffy fluff patches~
+The patches do not look very safe, but it may be possible to jump from one patch
+to another.
+~
+E
+path~
+The path is made of clouds and fog.
+~
+#43038
+The Brick Path~
+The bricks still look solid, except they seem to disappear behind you.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 43039
+DDIR_SOUTH
+~
+~
+0 0 43039
+#43039
+The Brick Path~
+The bricks still look solid, except they seem to disappear behind you.  A
+little too late you realize there are no bricks left...
+
+~
+0 ROOM_NO_SAVE SECT_HILLS
+#43040
+The Straight Path~
+The straight path continues to the east.  There seems to be no end of the
+path in sight.  Either side of you gives a good view of Chakkor.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_EAST
+~
+~
+0 0 43041
+E
+chakkor~
+Chakkor looks miles below you.
+Chakkor lies miles below you.
+~
+#43041
+The Straight Path~
+The straight path continues to the east.  There seems to be no end of the path
+in sight.  As you continue on exploring eastwards you observe the path
+becoming increasingly narrow, until it ceases to exist...
+
+~
+0 ROOM_NO_SAVE SECT_HILLS
+#43042
+The Fluffy Clouds~
+The clouds here are barely large enough to stand on.  To the north is a small
+platform with something glinting with the color of gold on it.  To the east is
+another set of fluffy clouds.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_NORTH
+~
+~
+0 0 43044
+DDIR_EAST
+~
+~
+0 0 43043
+E
+chain~
+The chain appears to be made out of black gold.
+~
+E
+gold glint glinting~
+There seems to be a chain on the platform.
+~
+E
+platform~
+The platform is a refreshing site up here in the clouds.
+~
+#43043
+The Fluffy Clouds~
+These fluffy clouds seem to give a bit, and at the last instant, you fall
+through.
+
+~
+0 ROOM_NO_SAVE SECT_HILLS
+#43044
+The Small Platform~
+This is a small platform floating out over the city.  It seems solid enough
+for you.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+DDIR_EAST
+~
+~
+0 -1 43045
+E
+chain~
+There is an illusion of a chain here.
+~
+#43045
+The Large Patch of Swhirling Chaotic Clouds~
+You are standing in the massive Void.  There is nothing here that can be
+visible, yet you feel that there is some oppressive power here.  You feel that
+the power is neither good nor evil, yet that power is quite strong.
+~
+0 ROOM_NO_SAVE SECT_HILLS
+#0
+
+
+#RESETS
+M 43000 100 43000
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

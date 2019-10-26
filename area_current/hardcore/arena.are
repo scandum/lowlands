@@ -1,0 +1,1132 @@
+#AREA The Arena~
+#AUTHORS Chaos~
+#VERSION 4
+#RANGES 1 95 1 95
+#OLC_RANGES 10500 10599
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOGOHOME|AFLAG_NORECALL|AFLAG_NOCASTLE
+
+
+#MOBILES
+#10500
+master arena~
+the Arena Master~
+The Arena Master stands here wondering if you wish to exit.~
+The Arena Master seems to have an air of immortality.  He's so confident that
+he seems to ignore your presence.
+~
+ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+1 0 0 5d5+1 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+say You may ask me to let you out of the Arena by
+say telling me 'Leave'.
+~
+>speech_prog leave~
+if isfight ($n)
+  tell $n Perhaps when you're not so busy, $n
+else
+  mptransfer $n 9755
+  tell $n Thank you for visiting.
+endif
+~
+|
+#10501
+sprite~
+the Arena Sprite~
+Incredibly, you see the Arena Sprite standing here.~
+The Arena Sprite seems to have an air of immortality.  He's so confident that
+he seems to ignore your presence.
+~
+ACT_WIMPY|ACT_SMART
+0
+0 S
+100 0 0 1d2500+5510 1d100+52
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 99~
+rescale self $n 100
+cast "sanctuary" $n
+~
+|
+#10502
+arena beast~
+the Arena Beast~
+The Arena Beast is here growling intently.~
+The Arena Beast looks awefully vicious, and seems to have a bad temper.
+~
+ACT_SMART
+0
+0 S
+100 0 0 1d2500+5510 1d100+52
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 99~
+rescale self $n 100
+mpkill $n
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#10504
+master~
+the MorphMaster~
+The Morph Master stands here.~
+{128}+--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--+
+{178}Syntax: say battlemorph <player> <morphlingname>
+{178}Syntax: say close exits
+{178}Syntax: say open exits
+{128}+--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--++--+--+--+
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+100 0 0 0d0+10000 0d0+200
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog battlemorph~
+if level ($n) == 99
+  mpmload 10
+  mpmset M10 level 100
+  mpmset M10 move 2000
+  mpmset M10 mana 5000
+  restore M10
+  mpmset M10 short $3
+  mpquiet on
+  cast sanctuary M10
+  cast shield M10
+  cast 'stone skin' M10
+  cast bless M10
+  mpquiet off
+  morph player $2 M10
+  mpmset M10 name $3 morphling
+endif
+~
+>speech_prog p open exits~
+if level ($n) == 99
+  connect north 10528
+  connect east 10534
+  connect south 10538
+  connect west 10532
+  mpecho {178}The surrounding exits shimmer and suddenly doors slam wide open!
+  mpforce morphling north
+  mpforce morphling east
+  mpforce morphling south
+  mpforce morphling west
+  mpforce morphling north
+  mpforce morphling east
+  mpforce morphling south
+  mpforce morphling west
+  mpforce morphling north
+  mpforce morphling east
+  mpforce morphling south
+  mpforce morphling west
+endif
+~
+>speech_prog p close exits~
+if level ($n) == 99
+  connect north -1
+  connect east -1
+  connect south -1
+  connect west -1
+  mpecho {178}The surrounding exits shimmer and suddenly the doors slam shut!
+endif
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#ROOMS
+#10500
+The Entrance to the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10501
+#10501
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10502
+DDIR_SOUTH
+~
+~
+0 -1 10506
+DDIR_WEST
+~
+~
+0 -1 10500
+#10502
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10503
+DDIR_SOUTH
+~
+~
+0 -1 10507
+DDIR_WEST
+~
+~
+0 -1 10501
+#10503
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10504
+DDIR_WEST
+~
+~
+0 -1 10502
+#10504
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 10509
+DDIR_WEST
+~
+~
+0 -1 10503
+#10505
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10506
+DDIR_SOUTH
+~
+~
+0 -1 10510
+#10506
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10501
+DDIR_SOUTH
+~
+~
+0 -1 10511
+DDIR_WEST
+~
+~
+0 -1 10505
+#10507
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10502
+DDIR_EAST
+~
+~
+0 -1 10508
+DDIR_SOUTH
+~
+~
+0 -1 10512
+#10508
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10509
+DDIR_SOUTH
+~
+~
+0 -1 10513
+DDIR_WEST
+~
+~
+0 -1 10507
+#10509
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10504
+DDIR_SOUTH
+~
+~
+0 -1 10514
+DDIR_WEST
+~
+~
+0 -1 10508
+#10510
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10505
+DDIR_EAST
+~
+~
+0 -1 10511
+DDIR_SOUTH
+~
+~
+0 -1 10515
+#10511
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10506
+DDIR_EAST
+~
+~
+0 -1 10512
+DDIR_WEST
+~
+~
+0 -1 10510
+#10512
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10507
+DDIR_SOUTH
+~
+~
+0 -1 10517
+DDIR_WEST
+~
+~
+0 -1 10511
+#10513
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10508
+DDIR_EAST
+~
+~
+0 -1 10514
+DDIR_SOUTH
+~
+~
+0 -1 10518
+#10514
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10509
+DDIR_WEST
+~
+~
+0 -1 10513
+#10515
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10510
+DDIR_EAST
+~
+~
+0 -1 10516
+#10516
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10517
+DDIR_WEST
+~
+~
+0 -1 10515
+#10517
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10512
+DDIR_EAST
+~
+~
+0 -1 10518
+DDIR_WEST
+~
+~
+0 -1 10516
+#10518
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10513
+DDIR_EAST
+~
+~
+0 -1 10519
+DDIR_WEST
+~
+~
+0 -1 10517
+#10519
+A room in the Arena~
+A room unlike any other, in the arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_WEST
+~
+~
+0 -1 10518
+#10520
+The Entrance to the Clanhall Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10528
+DDIR_EAST
+~
+~
+0 -1 10534
+DDIR_SOUTH
+~
+~
+0 -1 10538
+DDIR_WEST
+~
+~
+0 -1 10532
+DDIR_UP
+~
+~
+0 -1 19000
+#10521
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10541
+DDIR_SOUTH
+~
+~
+0 -1 10526
+DDIR_WEST
+~
+~
+0 -1 10525
+#10522
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10523
+DDIR_SOUTH
+~
+~
+0 -1 10527
+#10523
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 10528
+DDIR_WEST
+~
+~
+0 -1 10522
+#10524
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10525
+DDIR_SOUTH
+~
+~
+0 -1 10529
+#10525
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10545
+DDIR_EAST
+~
+~
+0 -1 10521
+DDIR_WEST
+~
+~
+0 -1 10524
+#10526
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10521
+DDIR_EAST
+~
+~
+0 -1 10527
+#10527
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10522
+DDIR_SOUTH
+~
+~
+0 -1 10532
+DDIR_WEST
+~
+~
+0 -1 10526
+#10528
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10523
+DDIR_EAST
+~
+~
+0 -1 10529
+DDIR_SOUTH
+~
+~
+0 -1 10546
+#10529
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10524
+DDIR_EAST
+~
+~
+0 -1 10530
+DDIR_WEST
+~
+~
+0 -1 10528
+#10530
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 10535
+DDIR_WEST
+~
+~
+0 -1 10529
+#10531
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10532
+DDIR_SOUTH
+~
+~
+0 -1 10536
+#10532
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10527
+DDIR_EAST
+~
+~
+0 -1 10546
+DDIR_WEST
+~
+~
+0 -1 10531
+#10533
+Center of the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10528
+DDIR_EAST
+~
+~
+0 -1 10534
+DDIR_SOUTH
+~
+~
+0 -1 10538
+DDIR_WEST
+~
+~
+0 -1 10532
+#10534
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10535
+DDIR_SOUTH
+~
+~
+0 -1 10539
+DDIR_WEST
+~
+~
+0 -1 10546
+#10535
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10530
+DDIR_WEST
+~
+~
+0 -1 10534
+#10536
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10531
+DDIR_EAST
+~
+~
+0 -1 10537
+#10537
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10538
+DDIR_SOUTH
+~
+~
+0 -1 10542
+DDIR_WEST
+~
+~
+0 -1 10536
+#10538
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10546
+DDIR_SOUTH
+~
+~
+0 -1 10543
+DDIR_WEST
+~
+~
+0 -1 10537
+#10539
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10534
+DDIR_EAST
+~
+~
+0 -1 10540
+DDIR_SOUTH
+~
+~
+0 -1 10544
+#10540
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 10545
+DDIR_WEST
+~
+~
+0 -1 10539
+#10541
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_EAST
+~
+~
+0 -1 10542
+DDIR_SOUTH
+~
+~
+0 -1 10521
+DDIR_WEST
+~
+~
+0 -1 10545
+#10542
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10537
+DDIR_WEST
+~
+~
+0 -1 10541
+#10543
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10538
+DDIR_EAST
+~
+~
+0 -1 10544
+#10544
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10539
+DDIR_WEST
+~
+~
+0 -1 10543
+#10545
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10540
+DDIR_EAST
+~
+~
+0 -1 10541
+DDIR_SOUTH
+~
+~
+0 -1 10525
+#10546
+A room in the Arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 10528
+DDIR_EAST
+~
+~
+0 -1 10534
+DDIR_SOUTH
+~
+~
+0 -1 10538
+DDIR_WEST
+~
+~
+0 -1 10532
+#10551
+Old School's Gutsfeldian~
+Your senses are at their utmost limits.  You never know what will take
+place here.  It's simply chaotic!  A few best warriors keep their
+composure and glance at the pandemonium.  Maybe you can take them out,
+like the times you did in Lost Citadel, or Neptune's Garden, with a big
+enough group.  Suddenly, you remember the Chancellor at university, and
+your blood begins to boil.  Death has again regained control over your
+weak mind.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19012
+#10552
+Thunderdome of NIRVANA~
+BEWARE!! You have entered the battle grounds of NIRVANA.
+There are planks surronding the battle ring and every weapon imaginable 
+scatterered about the cage.  Here, death is your friend.
+And from the amount of blood staining the floor it appears you just made 
+a new friend.  Learn from your experiences here so that you will be able 
+to stand tall and strong as you explore the realms.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19022
+#10553
+Satan's private arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19032
+#10554
+SUBANG Dojo~
+You bow as you enter a room that is dedicated to the study of martial 
+arts and combat.  The bare wooden floors and loose fitting wall planks 
+provide a simple setting suitable for the practice of fighting skills.  
+Wooden racks line the walls, holding weapons of many varieties, 
+including the Bo, Kama, and Sword.  A mist of sweat lingers in the air 
+from a previous sparring session.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19045
+#10555
+The Combat Room~
+You enter a large room, with high ceilings and a black-and white floor. 
+Looking closer, you see the floor is a chessboard. There are many diagrams 
+on the walls illustrating ideal fighting techniques, ways for spellcasters 
+to best concentrate in battle, and best angles for backstabbing and knifing. 
+Equipment of battle hangs on the walls, some seemingly still bloodied. 
+You see several clan members honing their skills and comparing equipment 
+as they spar.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19052
+E
+chalkboard~
+You see plans for equipment runs scribbled on the board, along with 
+well-natured challenges from clan-members to each other.
+~
+E
+board large~
+This board list the great fighters of all classes in the clan. Looking at 
+this list, and recognizing the names, you realize the combination of 
+talent and knowledge is all-powerful. You long to challenge those listed 
+on the board and learn from them...and perhaps, to appear on that board 
+yourself.
+~
+E
+thrones two~
+You see a dark throne and a white throne. This must be where the Kings 
+and Queens of the clan watch the challenges. You wonder what happens when 
+more than two of the royalty wish to watch a match...do they have to 
+fight for a seat?
+~
+E
+arena master~
+In this room of black and white, this person is purely neutral, nebulous. 
+This individual is garbed in robes of grey that seem to swirl and shift as 
+you look at them, so you can never say they are dark or light grey. This 
+individual is not distinguishable as male or female. You think you see 
+characteristics of all races in the arenamaster's face.
+~
+#10556
+The Hall of Combat~
+You heart begins to pound as you step out onto the flagstone floor,
+forever stained black with blood spilled in many a contest over the years. You 
+feel the instinctive urge to kill, to plunge your trembling blade into warm 
+flesh and inhale the steam which rises from a fresh wound.  And yet, in the 
+back of your mind, something reminds you that the battles on this stage 
+are merely a rehearsal for the battle which rages across the realms like an 
+unbridled steed.  There is no glory to be won here, only lessons to be 
+learned and carried out into the violent world outside these cold stone walls.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19065
+#10557
+Riot's private arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19075
+#10558
+Discordant sound~
+Here, the sounds are discordant and brash. You are filled with the knowledge
+that here, anything is possible. You feel an urge to test the possibilities
+and look around for a victim.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19082
+#10559
+The Forked Tongue of the Serpent~
+You look out across eternity. Distant stars twinkle as you glance at them. 
+This is why Eternal exists. This is why you exist. You exist to guard the 
+sight that graces your eyes from the ravages of the beast that sleeps at your 
+back. In this space all things seem possible, you feel restless and fidgety.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19155
+#10560
+Staircase in the mist~
+You are at the bottom of a huge staircase that leads up into the mist.
+The glow of torches illumintates this great hall.  There are huge statues
+of beasts that roam the realm here. The floors are made of the finest
+marble found in the land.  Huge pillars of granite from the dwarven mines
+support the high ceiling.  This is the Entrance hall to the Clan Arena.
+Fight well and hard, Take what you learn here and carry it with you at all
+times in the realm.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+~
+~
+0 -1 19105
+#10561
+Coven's private arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19112
+#10562
+Santa's Training room~
+You stand within a large red and white striped circular room.  This
+chamber is where Santa's helpers can come to hone their combat skills.
+It's also a place where arguments can be solved by pure brute force.
+Nurses stand by just in case of casualties, as those things do happen
+accidentaly.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_DOWN
+~
+~
+0 -1 19165
+#10563
+Roots of Conflict~
+The air in this room is very still and very thick.  Strewn across the
+room you can see the blood and broken bones of those who have lost in
+battle. These are the roots of conflict. This is where clan members can
+come to battle with each other, whether it be friendly or not.  You can
+battle here without the worry of losing experience or levels.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_UP
+~
+~
+0 -1 19135
+#10564
+Everclear's private arena~
+A room unlike any other, in the morphling arena.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19142
+#10565
+The temple arena~
+This is the area of the temple that has been made to test your strengths
+and weaknesses.  There are runes and murals on the walls showing many
+great battles of the people living in the temple.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_NORTH
+~
+~
+0 -1 19175
+#10566
+Weapons Training~
+You enter the weapons training arena through massive oaken doors. Lining the
+high stone walls are many brightly burning torches. The light glints of off
+large shields depicting the coats of arms of the many Clan houses. You notice
+that the doors and the walls are scarred from many earlier battles. There is a
+feeling of power here as you face your opponent.
+~
+0 ROOM_INDOORS SECT_CITY
+DDIR_SOUTH
+~
+~
+0 -1 19115
+#0
+
+
+#RESETS
+M 10500 100 10508
+M 10501 100 10512
+M 10502 100 10517
+M 10504 100 10533
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

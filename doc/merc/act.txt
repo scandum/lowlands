@@ -1,0 +1,131 @@
+Merc Release 2.2
+Wednesday 24 November 1993
+
+Kahn
+Hatchet
+
+
+=== The function 'send_to_char'
+
+The central output functions are 'send_to_char' and 'act'.  Of the two,
+'send_to_char' is much simpler, faster, and less powerful.
+
+The interface for send_to_char is:
+
+    void send_to_char( const char *txt, CHAR_DATA *ch )
+
+The string 'txt' is sent to the character 'ch'.  That's all there is to it.
+
+
+
+=== The function 'act'
+
+The function 'act' is much hairier.  The following section is a precise
+reference guide.  If you don't already have some notion of what 'act' format
+strings look like, then you should read some code which uses 'act' (such as
+some of the spell functions in magic.c) to get a concrete introduction to this
+function.
+
+    void act( const char *str, CHAR_DATA *ch, OBJ_DATA *obj, const void *vo,
+	int type )
+
+    const char *str;
+
+	This is a format string, with formatting specifications introduced
+	by '$' (just as 'printf' introduces its formatting sequences with '%').
+	Typically this is a complete sentence with a subject and an object.
+
+    CHAR_DATA *ch;
+
+	This is the subject of the sentence.
+
+    OBJ_DATA *obj;
+
+	This is the object of the sentence.
+
+    const void *vo;
+
+	This is the target of the sentence, as well as possibly the object of
+	the sentence.  This may be either a victim, an object, or possibly a
+	text string.
+
+    int type;
+
+	This is the 'to' type of the sentence.  Values are:
+
+	    TO_CHAR	Send only to 'ch'.
+	    TO_VICT	Send only to 'vo' (and then only if vo != ch).
+	    TO_ROOM	Send to all chars in room except 'ch'.
+	    TO_NOTVICT	Send to all chars in room except 'ch' and 'vict'.
+
+	In every case, only characters in the same room as 'ch' are considered.
+
+    Global boolean MOBTRIGGER;
+
+	This is the global variable used to allow the mobprograms to trigger.
+	It is default TRUE.
+
+Each awake character in the same room as 'ch' is considered for output.  (Thus
+'ch' must always be a legitimate character whose location is not NOWHERE).  If
+the target character meets the 'type' requirements, then the formatting string
+'str' is used to construct an output string, with '$' sequences substituted
+using values from 'ch', 'obj', and 'vo'.
+
+In the substitution of '$' sequences, attention is paid to visibility by
+calling 'can_see' and 'can_see_obj' as needed.
+
+The first character of the output string is always capitalized.
+
+
+
+
+=== The '$' sequences
+
+Here are all the '$' sequences supported by 'act':
+
+    $T
+	Result is simply the 'vo' argument interpreted as a string.
+
+    $n
+	Result is the name of 'ch'.  If 'ch' is not visible to the target
+	character, result is the string 'someone'.
+
+    $N
+	Result is the name of 'vo' (considered as a victim).  If 'vo' is not
+	visible to the target character, result is the string 'someone'.
+
+    $e
+	Result is 'he', 'she', or 'it', depending on the sex of 'ch'.
+
+    $E
+	Result is 'he', 'she', or 'it', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $m
+	Result is 'him', 'her', or 'it', depending on the sex of 'ch'.
+
+    $M
+	Result is 'him', 'her', or 'it', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $s
+	Result is 'his', 'her', or 'its', depending on the sex of 'ch'.
+
+    $S
+	Result is 'his', 'her', or 'its', depending on the sex of 'vo'
+	(considered as a victim).
+
+    $p
+	Result is the short description of 'obj'.  If 'obj' is invisible to the
+	target character, result is the string 'something'.
+
+    $P
+	Result is the short description of 'vo', considered as an object.  If
+	'vo' is invisible to the target character, result is the string
+	'something'.
+
+    $d
+	Result is the first word in 'vo', considered as a string.  If 'vo' is
+	NULL, result is the string 'door'.  This is meant for extracting the
+	name from a door's keyword list, but may be used in general for other
+	keyword lists.

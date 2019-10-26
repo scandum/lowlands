@@ -1,0 +1,7882 @@
+#AREA Order's Domain~
+#AUTHORS Picard Hupster~
+#VERSION 4
+#RANGES 65 95 35 95
+#OLC_RANGES 13800 13999
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_NORIP
+
+
+#HELPS
+0 DOM_CHANGES~
+August 29, 1998   Domain completed and readied for implementation.
+
+January 1, 1999   Domain revision and corrections made:  Fixed item bugs
+
+June 24,   2001   Domain completely revised.
+~
+
+0 DOM_CPRT~
+This area copywritten under intellectual property rights.  It may be modified,
+as long as the changes are reported under DOM_CHANGES.  Although changes do
+not require the specific written consent of the author, it would be 'nice' to
+do so.
+~
+
+0 DOMAIN "ORDER'S DOMAIN"~
+{128}                                Order's Domain
+{308}
+The Domain of Order is an earthly realm of the God Order.  No one seems to
+know how this sacred place could be reached, as the last time a mortal set
+foot there from this realm was close to 400 years ago.  Bards still sing of
+the greatness of the masters that teach there, as Lord Order searched the
+realm far and wide to select those to teach Her arts.
+
+  {128}(A) {058}Storyline
+  {128}(B) {058}Quests
+  {128}(C) {058}Equipment
+{b}DOM_QUEST
+{c}DOM_EQU
+{a}DOM_STORY
+~
+
+0 DOM_CREDITS~
+{128}                                   Credits
+{308}
+This area is originally from Hupsterman, written in 1995.  Me (Picard)
+was asked to bring it into MR readyness some time in 1997.
+
+Thanks go out to Hupsterman for getting started in coding this, to of
+course the real Lord Order for inspiration, Lord Chaos for his time on
+improving the Mud, Lovely Lady Maytrim for her complete understanding of
+listening to me whine, my Clan Subang for listening to me whine (notice
+a pattern of whining here?), and all others for their help and ideas.
+
+  Thanks all, and enjoy.
+
+  Picard, August 29th, 1998.
+
+  {128}(-){058} Return to Domain help
+{-}DOMAIN "ORDER'S DOMAIN"
+~
+
+0 DOM_EQU~
+{128}                                  Equipment
+{308}
+The Masters that Order selected to teach his Sacred Arts are known to have the
+strongest power in all the land.  Each has something they can teach those
+willing to listen.  In addition, the Lord will probably reward his loyal
+servants, and punish those who soil his Domain.
+
+  {128}(-) {058}Return to Domain help
+{-}DOMAIN "ORDER'S DOMAIN"
+~
+
+0 DOM_QUEST~
+{128}                                   Quests
+{308}
+There are a few quests in Order's Domain.  None are obvious and require an
+adventurer to make full use of their skills of observation and exploration.
+
+  {128}(-) {058}Return to Order's Domain help
+{-}DOMAIN "ORDER'S DOMAIN"
+~
+
+0 DOM_STORY~
+{128}                                    Story
+{308}
+Order's Domain was founded as a sanctuary for all Order followers.  Here they
+could become closer to their Goddess, as well as learn more about Her.
+Unfortunately, during the massive upheaval caused by the Earth and Fire wars,
+all contact seems to have been lost with the Domain.  Some still maintain that
+the secret entrance can be found in the ancient songs of the bards, however,
+most feel this is idle speculation.
+
+  {128}(-) {058}Back to Order's Domain help
+{-}DOMAIN "ORDER'S DOMAIN"
+~
+
+0 DOMAIN_REVISION~
+Revision 2.6 of Order's Domain 6/24/2001
+~
+
+0 $~
+
+
+#MOBILES
+#13800
+servant~
+a Servant to Order~
+A Servant to Order wanders through the halls.~
+The Servant is small and weak.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+100 S
+35 BODY_EYE BODY_ARM 1d306+931 1d3+25
+20000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+rescale self $n 125
+if whichgod ($n) == god_neutral
+  say Welcome $n, may your stay here be fulfilling.
+else
+  if whichgod ($n) == god_order
+    say Welcome $n,  May Order guide us well.
+  else
+    mpkill $n
+  endif
+endif
+~
+|
+#13801
+guard~
+a Domain guard~
+A Guard of Orders Domain stands here quietly.~
+The Guard is very strong, and is covered from head to toe in armor.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY|AFF_UNDERSTAND|AFF_HUNT|AFF_TONGUES
+500 S
+150 BODY_ARM|BODY_HAND BODY_LEG|BODY_HAND 1d1+18000 1d150+113
+200000 RACE_ELF
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+if whichgod ($n) == god_chaos
+  mpkill $n
+else
+  bow $n
+  mpecho $I quietly steps back into the shadows.
+  mppurge self
+endif
+~
+|
+#13802
+maid serving~
+a serving maid~
+A maid of the Domain stands here waiting to be of service.~
+Clad in a flimsy gauze, she looks at your feet while awaiting your order.
+She is very beautiful.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+100 S
+60 BODY_HAND BODY_HEAD|BODY_LEG 1d900+2853 1d60+19
+38176 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>greet_prog 100~
+if whichgod ($n) != god_order
+  say Welcome $n.  Only Followers of Order should be here.
+endif
+~
+>fight_prog 10~
+if !existsroom (guard)
+  say No Please don't hurt me!  Guards!!
+  mpmload 13801
+  mpforce guard mpkill $n
+endif
+~
+>speech_prog refreshments~
+if whichgod ($n) != god_order
+  if !isfight ($i)
+    say You shall be fed and cursed.
+    cast 'feast'
+    cast 'curse' $n
+    peace self
+  endif
+else
+  cast 'feast'
+  smile $n
+endif
+~
+|
+#13803
+monk~
+a monk of Order~
+A monk is here offering himself to Order.~
+They appears to be incredibly happy.
+~
+ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+300 S
+50 BODY_MOUTH BODY_HAND|BODY_FOOT 1d625+1947 5d5+30
+70133 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog donation gift offer~
+say Yes, a small tax deductible gift can have a wonderous
+say effect on your spiritual life......
+grin 
+~
+>all_greet_prog 100~
+if quest (1,5,$i) == 0
+  if quest (0,2,$n) == 2
+    say Welcome $n,  Followers of the Dark Lords should be careful here.
+    say $n, do you have any of your worldly possession
+    say to offer unto the goddess?
+    say The monks are close to Order.
+    mpmset self quest 1 5 1
+    rest 
+    mpecho The Monk throws himself on the ground.
+~
+>bribe_prog 25000~
+say Your offering is appreciated.
+say Good believers are always rewarded in order...
+if quest (0,2,$n) == 2
+  mpmset $n quest 0 2 3
+  say You might find more challenging oponents from now on
+endif
+mpjunk i3
+~
+>bribe_prog 1~
+say Thank you $n, a small donation, but all donations are welcome.
+mpjunk i3
+~
+>rand_prog 75~
+if quest (1,5,$i) > 0
+  mpmadd self quest 1 5 1
+  if quest (1,5,$i) == 2
+    say Oh Holy father of Reason... Take my offering.
+  endif
+  if quest (1,5,$i) == 3
+    say Oh Holy father of Light... Make me pure!
+  endif
+  if quest (1,5,$i) == 3
+    mpecho The monk starts wailing louder.
+  endif
+  if quest (1,5,$i) == 4
+    say Oh Holy father of Truth... I offer myself unto thee!
+  endif
+  if quest (1,5,$i) == 5
+    mpecho The Holy monk kisses the ground.
+  endif
+  if quest (1,5,$i) == 6
+    stand 
+    say Lord Order is most gracious.
+    mpmset self quest 1 5 0
+  endif
+endif
+~
+|
+#13804
+shopper sleepy~
+a sleepy shopper~
+A sleepy shopper is here looking for bargains.~
+This lady is laden down with several bags, and has a voucher for goods in
+another.  She is on a mission to shop till she drops, or the credit runs dry.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+35 0 0 1d306+564 2d12+15
+50611 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 30~
+say Must shop more....let me shop...please.....
+~
+>death_prog 100~
+say I didn't even get to finish the lingere sale!
+sniff 
+pout 
+~
+|
+#13805
+elementalist master~
+the Elemental master~
+An elementalist is sizzling with power.~
+With every twitch of his fingers, an element springs forth.  That is the reason
+that the room is singed, soggy, dirty, and sparking.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+95630 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_ELEMENTALIST
+>all_greet_prog 100~
+rescale self $n 120
+if whichgod ($n) == god_order
+  mpecho A small earth elemental greets you at the door.
+else
+  if whichgod ($n) == god_chaos
+    mpkill $n
+  else
+    say Welcome $n.
+~
+>fight_prog 100~
+cast "magic missile"
+if rand (25)
+  say You will pay for your deceit $n!!
+endif
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+or class ($n) != class_elementalist
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13800
+  if hasobjnum ($n) == 13800
+    if hasobjnum ($i) == 13801
+      if hasobjnum ($n) == 13801
+        if hasobjnum ($i) == 13802
+          if hasobjnum ($n) == 13802
+            if hasobjnum ($i) == 13803
+              if hasobjnum ($n) == 13803
+                if hasobjnum ($i) == 13804
+                  if hasobjnum ($n) == 13804
+                    if hasobjnum ($i) == 13805
+                      if hasobjnum ($n) == 13805
+                        if hasobjnum ($i) == 13806
+                          if hasobjnum ($n) == 13806
+                            if hasobjnum ($i) == 13807
+                              if hasobjnum ($n) == 13807
+                                if hasobjnum ($i) == 13808
+                                  if hasobjnum ($n) == 13808
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13808
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13807
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13806
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13805
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13804
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13803
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13802
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13801
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13800
+  break
+endif
+mpjunk all
+~
+|
+#13806
+illusionist master~
+the Illusionist master~
+A master of the magic arts floats here.~
+Draped in golden robes, and radiating a powerful aura, this man stands before
+you as the master chosen before all others by Lord Order.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+89351 RACE_GNOME
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_ILLUSIONIST
+>all_greet_prog 100~
+say Welcome $n.
+rescale self $n 120
+if whichgod ($n) == god_order
+  mpechoat $n You feel different.
+endif
+~
+>fight_prog 40~
+if rand (66)
+  cast 'acid blast'
+else
+  if rand (33)
+    cast 'blind'
+  else
+    if rand (50)
+      cast 'faerie fire'
+    else
+      say You will pay for your deceit $n!!
+    endif
+  endif
+endif
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+or class ($n) != class_illusionist
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13800
+  if hasobjnum ($n) == 13800
+    if hasobjnum ($i) == 13801
+      if hasobjnum ($n) == 13801
+        if hasobjnum ($i) == 13802
+          if hasobjnum ($n) == 13802
+            if hasobjnum ($i) == 13803
+              if hasobjnum ($n) == 13803
+                if hasobjnum ($i) == 13804
+                  if hasobjnum ($n) == 13804
+                    if hasobjnum ($i) == 13805
+                      if hasobjnum ($n) == 13805
+                        if hasobjnum ($i) == 13806
+                          if hasobjnum ($n) == 13806
+                            if hasobjnum ($i) == 13807
+                              if hasobjnum ($n) == 13807
+                                if hasobjnum ($i) == 13808
+                                  if hasobjnum ($n) == 13808
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13808
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13807
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13806
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13805
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13804
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13803
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13802
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13801
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13800
+  break
+endif
+mpjunk all
+~
+|
+#13807
+necromancer master~
+the Necromancer master~
+A darkened man wearing a cowl over his face stands before you in a pentagram.~
+He is very strong.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+83072 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_NECROMANCER
+>all_greet_prog 100~
+say Welcome $n.
+if whichgod ($n) == god_order
+  rescale 13807 $n 120
+  mpecho $I conjurs a minor demon to follow you!
+endif
+~
+>fight_prog 75~
+if rand (66)
+  cast 'energy drain' $n
+else
+  if rand (50)
+    cast 'mage blast' $n
+  else
+    say You will pay for your deceit $n!!
+  endif
+endif
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+or class ($n) != class_necromancer
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13800
+  if hasobjnum ($n) == 13800
+    if hasobjnum ($i) == 13801
+      if hasobjnum ($n) == 13801
+        if hasobjnum ($i) == 13802
+          if hasobjnum ($n) == 13802
+            if hasobjnum ($i) == 13803
+              if hasobjnum ($n) == 13803
+                if hasobjnum ($i) == 13804
+                  if hasobjnum ($n) == 13804
+                    if hasobjnum ($i) == 13805
+                      if hasobjnum ($n) == 13805
+                        if hasobjnum ($i) == 13806
+                          if hasobjnum ($n) == 13806
+                            if hasobjnum ($i) == 13807
+                              if hasobjnum ($n) == 13807
+                                if hasobjnum ($i) == 13808
+                                  if hasobjnum ($n) == 13808
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13808
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13807
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13806
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13805
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13804
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13803
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13802
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13801
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13800
+  break
+endif
+mpjunk all
+~
+|
+#13808
+ranger master~
+the Ranger master~
+A shining Knight is witnessing your actions with indifference.~
+He is very strong.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+81483 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_RANGER
+>all_greet_prog 100~
+say Welcome $n.
+if whichgod ($n) == god_order
+  bow $n
+  rescale self $n 120
+endif
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+  mpjunk all
+  break
+endif
+if class ($n) != class_ranger
+  if class ($n) != class_gladiator
+    mpjunk all
+    break
+  endif
+endif
+if hasobjnum ($i) == 13810
+  if hasobjnum ($n) == 13810
+    if hasobjnum ($i) == 13811
+      if hasobjnum ($n) == 13811
+        if hasobjnum ($i) == 13812
+          if hasobjnum ($n) == 13812
+            if hasobjnum ($i) == 13813
+              if hasobjnum ($n) == 13813
+                if hasobjnum ($i) == 13814
+                  if hasobjnum ($n) == 13814
+                    if hasobjnum ($i) == 13815
+                      if hasobjnum ($n) == 13815
+                        if hasobjnum ($i) == 13816
+                          if hasobjnum ($n) == 13816
+                            if hasobjnum ($i) == 13817
+                              if hasobjnum ($n) == 13817
+                                if hasobjnum ($i) == 13818
+                                  if hasobjnum ($n) == 13818
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13818
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13817
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13816
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13815
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13814
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13813
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13812
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13811
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13810
+  break
+endif
+mpjunk all
+~
+>fight_prog 99~
+if rand (75)
+  kick 
+  say You will pay for your deceit $n!!
+endif
+~
+|
+#13809
+marauder master~
+the Marauder master~
+The Marauder master is standing here.~
+He is very strong.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+79894 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_MARAUDER
+>all_greet_prog 100~
+say Welcome $n.
+if whichgod ($n) == god_order
+  rescale self $n 120
+  mpecho $I narrows his eyes slightly.
+endif
+~
+>fight_prog 10~
+gouge 
+say You will pay for your deceit $n!!
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+or class ($n) != class_marauder
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13810
+  if hasobjnum ($n) == 13810
+    if hasobjnum ($i) == 13811
+      if hasobjnum ($n) == 13811
+        if hasobjnum ($i) == 13812
+          if hasobjnum ($n) == 13812
+            if hasobjnum ($i) == 13813
+              if hasobjnum ($n) == 13813
+                if hasobjnum ($i) == 13814
+                  if hasobjnum ($n) == 13814
+                    if hasobjnum ($i) == 13815
+                      if hasobjnum ($n) == 13815
+                        if hasobjnum ($i) == 13816
+                          if hasobjnum ($n) == 13816
+                            if hasobjnum ($i) == 13817
+                              if hasobjnum ($n) == 13817
+                                if hasobjnum ($i) == 13818
+                                  if hasobjnum ($n) == 13818
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13818
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13817
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13816
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13815
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13814
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13813
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13812
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13811
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13810
+  break
+endif
+mpjunk all
+~
+|
+#13810
+ninja master~
+the Ninja Master~
+An innocent man leans against a wall here.~
+You think you are looking at him, but see absolutely nothing special.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_HIDE|AFF_STEALTH|AFF_TONGUES
+200 S
+90 BODY_ARM BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+92020 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_NINJA
+>all_greet_prog 100~
+say Welcome $n.
+if whichgod ($n) == god_order
+  rescale self $n 120
+  mpecho $I steps beside himself and disappears.
+endif
+~
+>fight_prog 15~
+acupunch 
+say You will pay for your deceit $n!!
+~
+>death_prog 100~
+if whichgod ($n) != god_order
+or class ($n) != class_ninja
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13810
+  if hasobjnum ($n) == 13810
+    if hasobjnum ($i) == 13811
+      if hasobjnum ($n) == 13811
+        if hasobjnum ($i) == 13812
+          if hasobjnum ($n) == 13812
+            if hasobjnum ($i) == 13813
+              if hasobjnum ($n) == 13813
+                if hasobjnum ($i) == 13814
+                  if hasobjnum ($n) == 13814
+                    if hasobjnum ($i) == 13815
+                      if hasobjnum ($n) == 13815
+                        if hasobjnum ($i) == 13816
+                          if hasobjnum ($n) == 13816
+                            if hasobjnum ($i) == 13817
+                              if hasobjnum ($n) == 13817
+                                if hasobjnum ($i) == 13818
+                                  if hasobjnum ($n) == 13818
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13818
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13817
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13816
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13815
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13814
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13813
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13812
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13811
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13810
+  break
+endif
+mpjunk all
+~
+|
+#13811
+monk master~
+the monk master~
+A powerful monk rests upon a throwing mat.~
+Incredibly strong and more powerful than any other monk you have ever met,
+this man silently eyes you.  A small, flimsy robe covers his muscular torso.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART|ACT_BODY|ACT_RACE|ACT_CLASS
+AFF_UNDERSTAND|AFF_TONGUES
+200 S
+90 BODY_HAND BODY_HEAD|BODY_HAND 1d1+7000 1d90+41
+91482 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+C CLASS_MONK
+>all_greet_prog 100~
+if whichgod ($n) == god_order
+  bow $n
+endif
+~
+>speech_prog p north wall~
+if quest (11,2,$n) == 1
+  mpecho $I looks around nervously.
+  tell $n What do you know about that???
+  tell $n If you think you can best me, try it.
+  growl $n
+else
+  grin $n
+  say Care to test the mat?
+endif
+~
+>fight_prog 75~
+cast harm
+cast heal
+say You will pay for your deceit $n!!
+~
+>death_prog 100~
+if quest (11,2,$n) == 2
+or quest (11,1,$n) == 1
+  mpoload 13819
+  give i13819 $n
+  say You are a good warrior!
+  mpmset $n quest 11 2 3
+endif
+if whichgod ($n) != god_order
+or class ($n) != class_monk
+  mpjunk all
+  break
+endif
+if hasobjnum ($i) == 13800
+  if hasobjnum ($n) == 13800
+    if hasobjnum ($i) == 13801
+      if hasobjnum ($n) == 13801
+        if hasobjnum ($i) == 13802
+          if hasobjnum ($n) == 13802
+            if hasobjnum ($i) == 13803
+              if hasobjnum ($n) == 13803
+                if hasobjnum ($i) == 13804
+                  if hasobjnum ($n) == 13804
+                    if hasobjnum ($i) == 13805
+                      if hasobjnum ($n) == 13805
+                        if hasobjnum ($i) == 13806
+                          if hasobjnum ($n) == 13806
+                            if hasobjnum ($i) == 13807
+                              if hasobjnum ($n) == 13807
+                                if hasobjnum ($i) == 13808
+                                  if hasobjnum ($n) == 13808
+                                    mpjunk all
+                                    break
+                                  endif
+                                  mpjunk all
+                                  mpoload 13808
+                                  break
+                                endif
+                                mpjunk all
+                                break
+                              endif
+                              mpjunk all
+                              mpoload 13807
+                              break
+                            endif
+                            mpjunk all
+                            break
+                          endif
+                          mpjunk all
+                          mpoload 13806
+                          break
+                        endif
+                        mpjunk all
+                        break
+                      endif
+                      mpjunk all
+                      mpoload 13805
+                      break
+                    endif
+                    mpjunk all
+                    break
+                  endif
+                  mpjunk all
+                  mpoload 13804
+                  break
+                endif
+                mpjunk all
+                break
+              endif
+              mpjunk all
+              mpoload 13803
+              break
+            endif
+            mpjunk all
+            break
+          endif
+          mpjunk all
+          mpoload 13802
+          break
+        endif
+        mpjunk all
+        break
+      endif
+      mpjunk all
+      mpoload 13801
+      break
+    endif
+    mpjunk all
+    break
+  endif
+  mpjunk all
+  mpoload 13800
+  break
+endif
+mpjunk all
+~
+|
+#13812
+Gargoyle~
+a gargoyle~
+An evil looking gargoyle stands before you.~
+This gargoyle looks like the one you fought with a long time ago in the tower.
+Now, however, he's a little bit bigger......
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 1d1+8000 1d95+46
+60037 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,2,$n) == 1
+  rescale self $n 125
+  glare 
+else
+  if quest (0,2,$n) == 2
+    rescale self $n 150
+    cackle 
+  else
+    if quest (0,2,$n) == 3
+      rescale self $n 165
+      grin 
+    else
+      rescale self $n 100
+      yawn 
+    endif
+  endif
+endif
+~
+>death_prog 100~
+gasp 
+look $n
+smile $n
+say You will reincarnate someday.....and I'll be waiting.....
+if rand (10)
+  mpmload 13812
+  say But why not start NOW!!!!
+  mpforce 2.gargoyle mpkill $n
+endif
+~
+|
+#13815
+Lord Order Shimmer~
+Lord Order~
+A shimmer is here.~
+The vague outline of a man existing on two planes pulses before you.
+Energy singes the air surrounding the glowing shape, allowing no doubt
+as to who must be standing before you.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+100 0 0 1d2500+8509 1d100+101
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog p In harmony all shall prosper~
+mpmset self quest 1 3 1
+mpecho The shimmer flickers suddenly!
+~
+>speech_prog p Order guides all of our paths~
+if quest (1,3,$i) == 1
+  mpmset self quest 1 3 2
+  mpecho The shimmer flares brighter than the sun!
+endif
+~
+>speech_prog p The bodies of our enemies shall be vanquished for thee~
+if quest (1,3,$i) == 2
+  mpecho The shimmer pulses violently, blinding everyone in the room.
+  mpechoat $n In the haze of your distorted vision, a man walks slowly towards you.
+  mpechoat $n He bows deeply and raises his left hand and places it upon your shoulder.
+  tell $n Do you want to become a great warrior?
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 3
+  if quest (0,2,$n) == 0
+    tell $n Very good, $n, I believe you have the spirit to do so.
+    tell $n Go now and battle my warriors
+    mpechoaround $n The light in your eyes slowly fades to normal.
+    mpechoat $n The man bows deeply, turns away, and begins to lose his shape.
+    mpechoat $n You believe you can see him smiling, even though his back is towards you.
+    mpmset self quest 1 3 0
+    mpmset $n quest 0 2 1
+  endif
+endif
+~
+>speech_prog no~
+if quest (1,3,$i) == 3
+  if quest (0,2,$n) == 0
+    tell $n Very well.  Perhaps later you shall change your mind.
+    mpmset self quest 1 3 0
+~
+|
+#13817
+ghoul vermin RAT_DEATH_ONE~
+a horrible ghoul~
+A pale faced fleshless creature stares at your heart.~
+Little bits of flesh dangle off partially faded limbs.
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+60 0 BODY_HEAD|BODY_HAND 1d1000+2000 2d25+34
+50558 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if quest (1,1,$i) == 1
+  sleep 
+endif
+~
+|
+#13818
+ghoul vermin RAT_DEATH_TWO~
+a horrible ghoul~
+A pale faced fleshless creature stares at your heart.~
+Little bits of flesh dangle off partially faded limbs.
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+60 0 BODY_HEAD|BODY_HAND 1d900+1774 2d25+34
+30862 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if quest (1,1,$i) == 1
+  sleep 
+endif
+~
+|
+#13819
+ghoul vermin RAT_DEATH_THREE~
+a horrible ghoul~
+A pale faced fleshless creature stares at your heart.~
+Little bits of flesh dangle off partially faded limbs.
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+60 0 BODY_HEAD|BODY_HAND 1d900+1774 2d25+34
+49533 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+if quest (1,1,$i) == 1
+  sleep 
+endif
+~
+|
+#13820
+Lord Order Shimmer~
+Lord Order~
+A shimmer is here.~
+The vague outline of a man existing on two planes pulses before you.  Energy
+singes the air surrounding the glowing shape, allowing no doubt as to what
+must be standing before you.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_HIDDEN|AFF_SANCTUARY
+1000 S
+100 0 0 1d2500+8509 1d100+101
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+mpechoat $n A shimmering shape pulses before you!
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) == 0
+    mpmset $n quest 0 2 2
+    bow $n
+    say Congratulations, $n.
+    say You have proven yourself a mighty and worthy warrior.
+    mpareaecho $n has proven themself a truly great warrior.
+    say $n, You may have your choice of equipment for such a
+    say display.  Will you choose Armour, Damage, or Defer
+    say till later?
+    mpmset self quest 2 1 1
+  endif
+endif
+~
+>rand_prog 10~
+if quest (0,31,$i) > 0
+  if pcsinroom (13878) == 0
+    mpmset self quest 0 31 0
+  endif
+endif
+~
+>fight_prog 100~
+slay $n
+restore self
+~
+>speech_prog armour~
+if quest (2,1,$i) == 1
+  if quest (9,2,$n) == 0
+    nod $n
+    say Your choice of a Sash, Helmet, Bracer, or Boots.
+    mpmset $n quest 9 2 1
+  else
+    if quest (9,2,$n) == 1
+      nod $n
+      say Your choice of a Sash, Helmet, Bracer, or Boots.
+    else
+      say You have already chosen the path of Damage, choose it again.
+    endif
+  endif
+endif
+~
+>speech_prog sash~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) == 0
+    if quest (9,2,$n) == 1
+      say Take this precious armour; May it keep you safe.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13820
+      drop i13820
+    endif
+  endif
+endif
+~
+>speech_prog Boots~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) == 0
+    if quest (9,2,$n) == 1
+      say Take this precious armour; May it keep you safe.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13828
+      drop i13828
+    endif
+  endif
+endif
+~
+>speech_prog bracer~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 1
+      say Take this precious armour; May it keep you safe.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13829
+      drop i13829
+    endif
+  endif
+endif
+~
+>speech_prog Helmet~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 1
+      say Take this precious armour; May it keep you safe.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13821
+      drop i13821
+    endif
+  endif
+endif
+~
+>speech_prog damage~
+if quest (2,1,$i) == 1
+  if quest (9,2,$n) == 0
+    say Would you prefer to slay thy foes with
+    say power of Spirit, strong Vambrace, a dragon's Tooth,
+    say a Girth of power, or a magic Kilt?
+    mpmset $n quest 9 2 2
+  else
+    if quest (9,2,$n) == 2
+      say Would you prefer to slay thy foes with
+      say power of Spirit, strong Vambrace, a dragon's Tooth,
+      say a Girth of power, or a magic Kilt?
+      mpmset $n quest 9 2 2
+    else
+      say You have chosen the path of Protection, choose from it again.
+    endif
+  endif
+endif
+~
+>speech_prog vambrace~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 2
+      say Take this powerful creation; May it help thee slay thy foes.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13824
+      drop i13824
+    endif
+  endif
+endif
+~
+>speech_prog girth~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 2
+      say Take this powerful creation; May it help thee slay thy foes.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13826
+      drop i13826
+    endif
+  endif
+endif
+~
+>speech_prog tooth~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 2
+      say Take this powerful creation; May it help thee slay thy foes.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13825
+      drop i13825
+    endif
+  endif
+endif
+~
+>speech_prog kilt~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 2
+      say Take this powerful creation; May it help thee slay thy foes.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13827
+      drop i13827
+    endif
+  endif
+endif
+~
+>speech_prog spirit~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) != 1
+    if quest (9,2,$n) == 2
+      say Take this powerful creation; May it help thee slay thy foes.
+      mpecho Lord Order opens his palm, and an item takes shape.
+      mpmset $n quest 8 1 1
+      mpmset self quest 0 31 0
+      mpoload 13823
+      drop i13823
+    endif
+  endif
+endif
+~
+>speech_prog defer~
+if quest (2,5,$n) == 31
+  if quest (8,1,$n) == 0
+    mpmset self quest 2 1 0
+    nod $n
+    say I will be waiting for your wish.
+    say Go now with my blessings.
+    cast bless $n
+  endif
+endif
+~
+>speech_prog revision_number~
+say revised to the completeness Scandum desires
+~
+|
+#13821
+ShrineEth_One~
+ShrineEth_One~
+ShrineEth_One~
+You can't see this!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+15 0 0 1d1+206 1d15+9
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) > 0
+  mpechoat $n The shrine shivers and begins to glow!
+  mpechoaround $n The shrine begins to shiver and glow at $n's approach!
+  if quest (2,1,$n) != 1
+    mpecho The embodied spirit of a great warrior begins to take shape before $n!
+    mpecho {138}Lord Dracip says 'Are you here to test your strength??'{308}
+    mpmset self quest 1 3 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 1
+  mpecho {138}Lord Dracip says 'Of course you are, IMBECILE!'{308}
+  mpecho {138}Lord Dracip says 'Whom is your Goddess?'{308}
+  mpmset self quest 1 3 2
+endif
+~
+>speech_prog Order~
+if quest (1,3,$i) == 2
+  mpecho Lord Dracip nods his head in approval.
+  mpecho {138}Lord Dracip says 'When you are ready, say so'{308}
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog p I am ready~
+if quest (1,3,$i) == 3
+  mpmset self quest 1 3 0
+  if quest (0,2,$n) > 0
+    mpecho Lord Dracip nods his head in approval.
+    mpecho {138}Lord Dracip says 'Of course, Sir.'{308}
+    mpmload 13822
+    if level ($n) < 80
+      rescale 13822 $n 200
+    else
+      rescale 13822 $n 150
+    endif
+    mpmset $n quest 7 1 1
+    mpforce SHRINE_ONE_MOB mpkill $n
+    mppurge self
+  endif
+endif
+~
+|
+#13822
+Lord Dracip Greatest Warrior Order SHRINE_ONE_MOB~
+Lord Dracip of Order~
+A powerfully built man strides confidently towards you.~
+No longer encased in the shrine on the wall, this man is your challenge to the
+some of the most powerful armours known to the gods.
+If you can beat him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 0 0 1d1+12500 1d1+120
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mppurge self
+~
+>death_prog 100~
+if quest (7,1,$n) == 1
+  mpmset $n quest 7 1 0
+  mpmset $n quest 2 1 1
+endif
+say You are a great warrior, $n.
+mpecho $I vanishes in a pulse of light!
+mppurge self
+~
+|
+#13823
+ShrineEth_Two~
+ShrineEth_Two~
+ShrineEth_Two~
+You can't see this!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+15 0 0 1d56+172 1d1+12
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) > 0
+  mpechoat $n The shrine shivers and begins to glow!
+  mpechoaround $n The shrine begins to shiver and glow at $n's approach!
+  if quest (3,1,$n) != 1
+    mpecho The embodied spirit of a great warrior begins to take shape before $n!
+    mpecho {138}Lord Ariel says 'Are you here to test your strength??'{308}
+    mpmset self quest 1 3 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 1
+  mpecho {138}Lord Ariel says 'Of course you are, IMBECILE!'{308}
+  mpecho {138}Lord Ariel says 'Whom do all beings Battle to the death?'{308}
+  mpmset self quest 1 3 2
+endif
+~
+>speech_prog Chaos~
+if quest (1,3,$i) == 2
+  mpecho Lord Ariel nods his head in approval.
+  mpecho {138}Lord Ariel says 'When you are ready, say so'{308}
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog p I am ready~
+if quest (1,3,$i) == 3
+  mpmset self quest 1 3 0
+  if quest (0,2,$n) > 0
+    mpecho Lord Ariel nods his head in approval.
+    mpecho {138}Lord Ariel says 'Of course, Sir.'{308}
+    mpmload 13824
+    if level ($n) < 80
+      rescale 13824 $n 200
+    else
+      rescale 13824 $n 150
+    endif
+    mpmset $n quest 7 1 1
+    mpforce SHRINE_TWO_MOB mpkill $n
+    mppurge self
+  endif
+endif
+~
+|
+#13824
+Lord Ariel Greatest Warrior Order SHRINE_TWO_MOB~
+Lord Ariel of Order~
+A powerfully built man strides confidently towards you.~
+No longer encased in the shrine on the wall, this man is your challenge to the
+some of the most powerful armours known to the gods.
+If you can beat him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 0 0 1d1+12500 1d1+120
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mppurge self
+~
+>death_prog 100~
+if quest (7,1,$n) == 1
+  mpmset $n quest 3 1 1
+  mpmset $n quest 7 1 0
+endif
+say You are a great warrior, $n.
+mpecho $I vanishes in a pulse of light!
+mppurge self
+~
+|
+#13825
+ShrineEth_Three~
+ShrineEth_Three~
+ShrineEth_Three~
+You can't see this!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+15 0 0 1d1+209 1d1+16
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) > 0
+  mpechoat $n The shrine shivers and begins to glow!
+  mpechoaround $n The shrine begins to shiver and glow at $n's approach!
+  if quest (4,1,$n) != 1
+    mpecho The embodied spirit of a great warrior begins to take shape before $n!
+    mpecho {138}Lord Amadiro says 'Are you here to test your strength??'{308}
+    mpmset self quest 1 3 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 1
+  mpecho {138}Lord Amadiro says 'Of course you are, IMBECILE!'{308}
+  mpecho {138}Lord Amadiro says 'What do the blood of our slain hero's call for?'{308}
+  mpmset self quest 1 3 2
+endif
+~
+>speech_prog death revenge~
+if quest (1,3,$i) == 2
+  mpecho Lord Amadiro nods his head in approval.
+  mpecho {138}Lord Amadiro says 'When you are ready, say so'{308}
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog p I am ready~
+if quest (1,3,$i) == 3
+  mpmset self quest 1 3 0
+  if quest (0,2,$n) > 0
+    mpecho Lord Amadiro nods his head in approval.
+    mpecho {138}Lord Amadiro says 'Of course, Sir.'{308}
+    mpmload 13826
+    if level ($n) < 80
+      rescale 13826 $n 200
+    else
+      rescale 13826 $n 150
+    endif
+    mpmset $n quest 7 1 1
+    mpforce SHRINE_THREE_MOB mpkill $n
+    mppurge self
+  endif
+endif
+~
+|
+#13826
+Lord Amadiro Greatest Warrior Order SHRINE_THREE_MOB~
+Lord Amadiro of Order~
+A powerfully built man strides confidently towards you.~
+No longer encased in the shrine on the wall, this man is your challenge to the
+some of the most powerful armours known to the gods.
+If you can beat him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 0 0 1d1+12500 1d1+120
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mppurge self
+~
+>death_prog 100~
+if quest (7,1,$n) == 1
+  mpmset $n quest 4 1 1
+  mpmset $n quest 7 1 0
+endif
+say You are a great warrior, $n.
+mpecho $I vanishes in a pulse of light!
+mppurge self
+~
+|
+#13827
+ShrineEth_Four~
+ShrineEth_Four~
+ShrineEth_Four~
+You can't see this!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+15 0 0 1d56+172 1d1+15
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) > 0
+  mpechoat $n The shrine shivers and begins to glow!
+  mpechoaround $n The shrine begins to shiver and glow at $n's approach!
+  if quest (5,1,$n) != 1
+    mpecho The embodied spirit of a great warrior begins to take shape before $n!
+    mpecho {138}Lord Olivaw says 'Are you here to test your strength??'{308}
+    mpmset self quest 1 3 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 1
+  mpecho {138}Lord Olivaw says 'Of course you are, IMBECILE!'{308}
+  mpecho {138}Lord Olivaw says 'Who guards our sanctuary in the hills?'{308}
+  mpmset self quest 1 3 2
+endif
+~
+>speech_prog knight~
+if quest (1,3,$i) == 2
+  mpecho Lord Olivaw nods his head in approval.
+  mpecho {138}Lord Olivaw says 'When you are ready, say so'{308}
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog p I am ready~
+if quest (1,3,$i) == 3
+  mpmset self quest 1 3 0
+  if quest (0,2,$n) > 0
+    mpecho Lord Olivaw nods his head in approval.
+    mpecho {138}Lord Olivaw says 'Of course, Sir.'{308}
+    mpmload 13828
+    if level ($n) < 80
+      rescale 13828 $n 200
+    else
+      rescale 13828 $n 150
+    endif
+    mpmset $n quest 7 1 1
+    mpforce SHRINE_FOUR_MOB mpkill $n
+    mppurge self
+  endif
+endif
+~
+|
+#13828
+Lord Olivaw Greatest Warrior Order SHRINE_FOUR_MOB~
+Lord Olivaw of Order~
+A powerfully built man strides confidently towards you.~
+No longer encased in the shrine on the wall, this man is your challenge to the
+some of the most powerful armours known to the gods.
+If you can beat him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 0 0 1d1+12500 1d1+120
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mppurge self
+~
+>death_prog 100~
+if quest (7,1,$n) == 1
+  mpmset $n quest 5 1 1
+  mpmset $n quest 7 1 0
+endif
+say You are a great warrior, $n.
+mpecho $I vanishes in a pulse of light!
+mppurge self
+~
+|
+#13829
+ShrineEth_Five~
+ShrineEth_Five~
+ShrineEth_Five~
+You can't see this!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_SANCTUARY|AFF_ETHEREAL
+1000 S
+15 0 0 1d1+251 1d1+11
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,2,$n) > 0
+  mpechoat $n The shrine shivers and begins to glow!
+  mpechoaround $n The shrine begins to shiver and glow at $n's approach!
+  if quest (6,1,$n) != 1
+    mpecho The embodied spirit of a great warrior begins to take shape before $n!
+    mpecho {138}Lord Namretspuh says 'Are you here to test your strength??'{308}
+    mpmset self quest 1 3 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (1,3,$i) == 1
+  mpecho {138}Lord Namretspuh says 'Of course you are, IMBECILE!'{308}
+  mpecho {138}Lord Namretspuh says 'Why do we battle Fire scum?'{308}
+  mpmset self quest 1 3 2
+endif
+~
+>speech_prog glory~
+if quest (1,3,$i) == 2
+  mpecho Lord Namretspuh nods his head in approval.
+  mpecho {138}Lord Namretspuh says 'When you are ready, say so'{308}
+  mpmset self quest 1 3 3
+endif
+~
+>speech_prog p I am ready~
+if quest (1,3,$i) == 3
+  mpmset self quest 1 3 0
+  if quest (0,2,$n) > 0
+    mpecho Lord Namretspuh nods his head in approval.
+    mpecho {138}Lord Namretspuh says 'Of course, Sir.'{308}
+    mpmload 13830
+    if level ($n) < 80
+      rescale 13830 $n 200
+    else
+      rescale 13830 $n 150
+    endif
+    mpmset $n quest 7 1 1
+    mpforce SHRINE_FIVE_MOB mpkill $n
+    mppurge self
+  endif
+endif
+~
+|
+#13830
+Lord Namretspuh Greatest Warrior Order SHRINE_FIVE_MOB~
+Lord Namretspuh of Order~
+A powerfully built man strides confidently towards you.~
+No longer encased in the shrine on the wall, this man is your challenge to the
+some of the most powerful armours known to the gods.
+If you can beat him.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+110 0 0 1d1+12500 1d1+120
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mppurge self
+~
+>death_prog 100~
+if quest (7,1,$n) == 1
+  mpmset $n quest 6 1 1
+  mpmset $n quest 7 1 0
+endif
+say You are a great warrior, $n.
+mpecho $I vanishes in a pulse of light!
+mppurge self
+~
+|
+#13831
+altar boy~
+the altar boy~
+The altar boy of the following of Order is here doing some paperwork.~
+He is young and weak, but his dedication to his Liege and Lord is unmatched.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+0 S
+60 BODY_LEG BODY_HAND|BODY_FOOT 1d1+3500 1d5+51
+38533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Hello there $n.
+if whichgod ($n) != god_order
+  say I am sorry $n,  I cannot let you go any further.
+  say The priests are very busy.  Would you like to make
+  say an appointment $n.?
+  mpforce $n say No, I'll pass, thank you.
+  say No?  Very well then, be on your way.
+  mpforce $n rest
+endif
+~
+>give_prog i13819~
+say I do not wish this item!
+drop i13819
+~
+>fight_prog 99~
+if rand (65)
+  kick 
+  cast "acid blast"
+endif
+~
+>death_prog 50~
+say Order please have my soul.
+mpecho A large translucent hand reaches down and raises the altar boy's soul into the clouds.
+~
+|
+#13832
+minister~
+the Minister of Earth~
+The Minister of Earth is here behind his desk working on some documents.~
+He is very old and feeble...but the gleem in his eye betrays not a hint of
+senility.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY
+400 S
+70 BODY_ARM BODY_FOOT 1d1225+3954 1d10+60
+113208 0
+POS_RESTING POS_RESTING SEX_MALE
+>all_greet_prog 99~
+if quest (11,2,$n) == 3
+  if hasobjnum ($n) == 13819
+    say I see you've obtained a prize..... give it too me.
+  endif
+else
+  if quest (11,2,$n) == 1
+    say Have you completed your task yet, $n?
+  else
+    if quest (11,2,$n) == 2
+      say Have you completed your task yet, $n?
+    else
+      if quest (1,10,$i) == 0
+        say Huh what??
+        say Let me find my glasses.
+        mpmset $n quest 11 2 1
+        mpmset self quest 1 10 1
+      endif
+    endif
+  endif
+~
+>rand_prog 75~
+if quest (1,10,$i) == 1
+  mpecho The minister picks up his glasses and wears them.
+  say Oh, Goodevening $r.
+  say I fear I can not let you go any further.
+  say The priests are very busy.
+  mpecho The minister reaches down and grasps his ivory handled cane in one hand.
+  mpmset self quest 1 10 2
+  break
+endif
+if quest (1,10,$i) == 2
+  say Please leave back from whence you came.
+  mpecho The minister points his cane at the door.
+  mpasound A dull thud occurs nearby.
+  mpecho The minister teeters briefly, before crashing down to the ground.
+  mpecho WHUMP!!
+  groan 
+  mpmset self quest 1 10 3
+  break
+endif
+if quest (1,10,$i) == 3
+  say Oh...  Darn knee... ain't been the same since the war.
+  mpecho The minister stands slowly, his cane providing the support.
+  mpecho The minister sits back in his chair and ignores you.
+  mpmset self quest 1 10 4
+  break
+endif
+if quest (1,10,$i) == 4
+  say By the way, $r, I will show you Order's great power.
+  say Bring me the monk's worldly prize...
+  mpmset self quest 1 10 0
+  break
+endif
+~
+>give_prog i13819~
+if quest (11,2,$n) < 3
+  say You've forgotten something important......
+  mpjunk i13819
+endif
+if quest (11,2,$n) == 3
+  mpmset self quest 1 10 5
+  say O' Holy father reason take the offering...
+  say And bless this weapon with your power!
+endif
+~
+>rand_prog 75~
+if quest (1,10,$i) == 5
+  mpecho A Bright light blinds you for a moment.
+  mpmset self quest 1 10 6
+  mpforce $r rub
+  break
+endif
+if quest (1,10,$i) == 6
+  mpecho The light fades and the minister is dazed.
+  say Here , take this and never forget the power of Order.
+  mpjunk all
+  mpoload 13830
+  cast "remove curse"
+  drop i13830
+  say Now leave me.
+  mpmset self quest 1 10 0
+  break
+endif
+~
+>fight_prog 99~
+if rand (75)
+  if rand (65)
+    kick 
+    cast "acid blast"
+  endif
+endif
+~
+>death_prog 99~
+say Order please have my soul.
+mpecho A large translucent hand reaches down and raises the
+mpecho Minister's soul unto the clouds.
+~
+|
+#13833
+healer protector guardian~
+the protector of Order~
+A guardian of Lord Order is administering here.~
+The man standing before you is over 3 rods tall, and must weigh 130 stones!
+Yet the touch he administers to the sick and wounded around the altar is the
+kindest in the land.  Lord Order surely chose well here!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+125 BODY_LEG BODY_HAND|BODY_FOOT 1d1+15000 1d125+141
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 15~
+if whichgod ($r) == god_order
+  cast 'heal' $r
+~
+>rand_prog 5~
+cast feast
+~
+|
+#13834
+hair pile diner resident boast loud drunk~
+an obnoxious drunk~
+Boisterous laughter emanates from a pile of hair.~
+This warrior seems to have had just a bit too much to drink... several of
+his friends are gathered around ale mugs telling stories.  He motions to
+you to come forward and join them, but all you think you'll end up doing is
+buying more drinks.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+70 BODY_LEG BODY_HAND|BODY_FOOT 1d1+4000 1d1+59
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 20~
+if whichgod ($n) == god_order
+  say A round for my good friend $n!
+  mpasound A cheer goes up upon the entrance of $n!
+endif
+~
+>rand_prog 10~
+if rand (33)
+  mpasound Raccous laughter can be heard everywhere.
+  mpasound {138}A drunk shouts 'And we ran the Fire fool thru till his gizzard....'{308}
+  say Listen to this story!
+else
+  if rand (50)
+    mpasound Several drunks begin to argue.
+    mpasound {138}A drunk shouts 'NO!'
+    mpasound {138}A drunk shouts 'The Secret Fire rituals make them castrate themselves...'{308}
+  else
+    mpasound You can hear whistles from the table next door.
+  endif
+endif
+~
+>rand_prog 5~
+mpecho $I orders another round for everyone!
+mpquiet on
+cast feast
+mpquiet off
+~
+|
+#13835
+lord order god man beautiful~
+Lord Order~
+The most powerful man you have ever seen stands before you.~
+He is bathed in a glowing white aura.  With just a glance at you, tongues
+of nature sizzle from every pore and hair on your body.
+He is truly a God.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+11000 1d95+93
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+say Welcome, brothers.  Come in peace, stay in peace, or leave in pieces.
+~
+>rand_prog 30~
+if whichgod ($r) == god_order
+  say Brother, you are most welcome here.  Follow your heart, let
+  say it guide you thru the twisting hells of Fire.  Strike them
+  say dead for their crimes.
+  if quest (17,1,$r) == 1
+    mpechoat $r $I stares curiously at you for a moment.
+    say You have done extremely well in your glory seeking, will
+    say you try so again?
+    mpmset self quest 2 1 1
+  endif
+endif
+~
+>speech_prog yes~
+if quest (2,1,$i) == 1
+  say Go find my lowliest servants, perhaps he can donate time
+  say help you back.
+  mpmset self quest 2 1 0
+endif
+~
+>speech_prog p I shall~
+mpquiet on
+cast bless $n
+mpquiet off
+say Go with my blessing.
+endif
+~
+>rand_prog 5~
+say There was once a champion in my legions, named Gilikak.
+say Somehow Lord Chaos conspired to strike him, and has tried
+say to remove his existance from all of history.  Remember
+say his sayings, as they are the keys to all knowledge.
+mpmset self quest 0 31 0
+~
+|
+#13836
+strong guard prof man powerful~
+a strong guard~
+A powerful man clad in shining armor watches your moves carefully~
+The man standing before you is over 3 rods tall, and must weigh 130 stones!
+Muscles are rippling with every breath he takes, and every ounce of attention
+seems to be focussed on you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+rescale self $n 125
+if whichgod ($n) == god_order
+  mpechoat $n A flicker of recognition crosses the guards face at your arrival.
+endif
+if whichgod ($n) == god_chaos
+  mpkill $n
+endif
+~
+>rand_prog 5~
+if whichgod ($r) != god_order
+  glance $r
+  mpechoaround $r $r suddenly looks uncomfortable.
+  mpechoat $r You can feel the guards cool gaze scanning your features.
+endif
+~
+|
+#13837
+pious monk cowled shape hooded~
+a cowled monk~
+A hooded shape moves silently before you.~
+There is nothing to be seen in this man, err, woman, err, something.  The dark
+brown robes conceal any sexual information, and the cowl is pulled far enough
+forward to mask any facial distinctions while a disguising monotone seems to
+emanate from its center.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+rescale self $n 125
+if whichgod ($n) == god_chaos
+  mpkill $n
+endif
+~
+>rand_prog 5~
+if whichgod ($r) != god_order
+  glance $r
+endif
+~
+>death_prog 100~
+if quest (11,2,$n) == 1
+  say You ain't getting my worldly prize $n
+  say You must challenge the guild master for one
+endif
+~
+|
+#13838
+apple loader~
+Apple_Loader_Eth~
+An apple loader silently hides behind the curtain here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY|AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+32 1d5+3
+1011 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (13,4,$n) == 0
+  mpmset $n quest 13 4 1
+endif
+if hasobjnum ($n) == 13839
+  if quest (13,4,$n) > 3
+    mpechoat $n You notice some ripened fruit on the branches above you.
+  endif
+endif
+~
+>act_prog p It starts to rain.~
+mpquiet on
+mpoload 13834
+drop all
+mpquiet off
+mpecho The hard rain drives a few apples off the tree.
+~
+>rand_prog 100~
+if ispc ($r)
+  if pcsinroom (13886) > 0
+    mpgoto 13970
+    if quest (2,1,RAT_DEATH_ONE) == 1
+      mpmset RAT_DEATH_ONE quest 2 1 0
+      if quest (1,1,RAT_DEATH_ONE) == 0
+        mpmset RAT_DEATH_ONE quest 1 1 1
+      else
+        mpmset RAT_DEATH_ONE quest 1 1 0
+      endif
+      mpgoto 13886
+      mpquiet on
+      mpoload 13834
+      drop all
+      mpquiet off
+      mpecho The hard rain and your peckings drive a few apples off the tree.
+    else
+      mpgoto 13886
+    endif
+  endif
+endif
+~
+|
+#13839
+pear loader~
+Pear_Loader_Eth~
+A pear loader silently hides behind the curtain here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY|AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+37 1d5+3
+949 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (13,4,$n) == 0
+  mpmset $n quest 13 4 1
+endif
+if hasobjnum ($n) == 13839
+  if quest (13,4,$n) > 3
+    mpechoat $n You notice some ripened fruit on the branches above you.
+  endif
+endif
+~
+>act_prog p It starts to rain.~
+mpquiet on
+mpoload 13835
+drop all
+mpquiet off
+mpecho The hard rain drives a few pears off of the tree.
+~
+>rand_prog 100~
+if ispc ($r)
+  if pcsinroom (13887) > 0
+    mpgoto 13970
+    if quest (2,1,RAT_DEATH_TWO) == 1
+      mpmset RAT_DEATH_TWO quest 2 1 0
+      if quest (1,1,RAT_DEATH_TWO) == 0
+        mpmset RAT_DEATH_TWO quest 1 1 1
+      else
+        mpmset RAT_DEATH_TWO quest 1 1 0
+      endif
+      mpgoto 13887
+      mpquiet on
+      mpoload 13835
+      drop all
+      mpquiet off
+      mpecho The hard rain and your efforts jar loose some fruit.
+    else
+      mpgoto 13887
+    endif
+  endif
+endif
+~
+|
+#13840
+peach loader~
+Peach_Loader_Eth~
+A peach loader silently hides behind the curtain here.~
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_SANCTUARY|AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+32 1d1+5
+1000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (13,4,$n) == 0
+  mpmset $n quest 13 4 1
+endif
+if hasobjnum ($n) == 13839
+  if quest (13,4,$n) > 3
+    mpechoat $n You notice some ripened fruit on the branches above you.
+  endif
+endif
+~
+>act_prog p It starts to rain.~
+mpquiet on
+mpoload 13836
+drop all
+mpquiet off
+mpecho The hard rain gently nudges a few peaches off the tree.
+~
+>rand_prog 100~
+if ispc ($r)
+  if pcsinroom (13890) > 0
+    mpgoto 13970
+    if quest (2,1,RAT_DEATH_THREE) == 1
+      mpmset RAT_DEATH_THREE quest 2 1 0
+      if quest (1,1,RAT_DEATH_THREE) == 0
+        mpmset RAT_DEATH_THREE quest 1 1 1
+      else
+        mpmset RAT_DEATH_THREE quest 1 1 0
+      endif
+      mpgoto 13890
+      mpquiet on
+      mpoload 13836
+      drop all
+      mpquiet off
+      mpecho A strong gust of wind helps jar loose a fruit from the tree.
+    else
+      mpgoto 13890
+    endif
+  endif
+endif
+~
+|
+#13841
+cook shopkeeper floured flour baker~
+a baker~
+A white cloud of flour seems to envelope some shape here.~
+You've heard rumors that his favorite fruits are peaches, then apples.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if hasobjnum ($n) == 13840
+  if quest (13,4,$n) == 2
+    gasp 
+    say So he finally finished the plans?  Great! Let me see them.
+  else
+    say That's some odd papers you have there....
+  endif
+else
+  say Welcome to this humble bakers abode.
+endif
+~
+>give_prog i13840~
+if quest (13,4,$n) == 2
+  mpecho The baker flips quickly through the pages, scanning the drawings intently.
+  mpjunk i13840
+  smile $n
+  say This is perfect... tell him to go ahead and build it for me.
+  mpmset $n quest 13 4 3
+endif
+~
+>give_prog i13839~
+if quest (13,4,$n) == 8
+  say Why that little devil.... he already built it!
+  say This is really great, you've been such a help to me.  I can't
+  say let you go unrewarded.... I wish I could find a way to repay
+  say you.  Why don't you go try it out... I don't have time to
+  say pick any fruits right now.  Just bring it back when you are done!
+  give i13839 $n
+  mpmset $n quest 13 4 9
+  mpmset $n quest 17 1 1
+else
+  if quest (13,4,$n) == 9
+    if quest (18,1,$n) == 1
+      say Thank you for returning the device, but you've done so much
+      say work with it, I hardly feel honored to ask for it back.
+      say Besides, a man with your touch may find many uses for it.
+      say Please keep it as a gift.
+      mpjunk i13839
+      mpoload 13837
+      give i13837 $n
+    else
+      say Thank you for returning the device, but you've done so much
+      say work with it, I hardly feel honored to ask for it back.
+      say Please keep it as a gift.
+      give i13839 $n
+    endif
+  else
+    say Such a neat device.... I wonder what it was for.
+  endif
+endif
+~
+>give_prog i13836~
+smile 
+mpecho The baker quickly gobbles up the rich peach.
+say Oh ZEUS!! These peaches were touched by Mirthansis himself!
+say Anything you want, it is yours... You have the touch of a God!!
+mpmset $n quest 18 1 1
+mpjunk i13836
+bow $n
+~
+>give_prog i13834~
+if quest (17,1,$n) == 1
+  mpjunk i13834
+  say My my my my my....You've saved me alot of time by picking this!
+  say And quite an expert too!
+  giggle 
+  say If you have a little more time, could you core it as well?
+  say I'd even be willing to sell you my favorite apple corer!
+  say Would you like to help me core them too?
+  mpmset self quest 1 1 1
+else
+  say Thank you, this looks delicious.
+  mpjunk i13834
+  mpecho $I takes a big bite out of the apple.
+endif
+~
+>give_prog i13835~
+say Well, I guess I know the thing works.
+say Don't look so glum.... hrm... why don't you take it to Gorath
+say and see if he could use it?
+give i13835 $n
+~
+>speech_prog yes~
+if quest (1,1,$i) == 1
+  if quest (17,1,$n) == 1
+    mpmset self quest 1 1 0
+    say Excellent!
+    mpoload 13838
+    mpforce $n list
+  endif
+else
+  say Yes? Yes what?
+endif
+~
+>speech_prog no~
+mpmset self quest 1 1 0
+say Too bad.
+sniff 
+~
+|
+#13842
+shimmer glowing Sa'quin shopkeeper magician mage~
+Sa'quin~
+A glowing shimmer hovers before you.~
+This mage can conjur all forms of demons to do the bidding of his Lord, Order.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat you feel a deathly calm come over you.
+mpechoaround $n $n shivers slightly under the stare of the mage.
+~
+>give_prog i13835~
+say Interesting item.  Stagnant, but interesting nonetheless.  I
+say believe I may be able to manipulate it so that we can unlock
+say the power in it, but it will take some time, and it will cost
+say you.  Do you want me to do it ?
+mpmset self quest 1 1 1
+~
+>speech_prog no~
+say Too bad, really.
+mpmset self quest 1 1 0
+give i13835 $n
+~
+>speech_prog yes sure~
+if quest (1,1,$i) == 1
+  say Of course!
+  mpjunk i13835
+  mpecho The mage draws from within himself a power never before seen in the realm.
+  say OooooooooooooooooooooOOooooooooooooooOoooooooooooooooooOOooooo
+  mpecho The fleshy fruit around the pear vanishes, leaving the rotten core!
+  if rand (50)
+    mpoload 13849
+  else
+    mpoload 13850
+  endif
+  say Now, it will cost you!
+  cackle 
+  mpforce $n list
+  mpmset self quest 1 1 0
+endif
+~
+|
+#13843
+Gorath man shopkeeper weaponsmith weapon smith~
+Gorath~
+A muscle strapped man watches you keenly.~
+This man is probably one of the largest you've ever seen.  The largest shirt
+in the realm still seems to burst at its seems when this man moves.  His
+muscles ripple with every smooth movement... he must be one of the strongest
+men in the Realm.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+bow $n
+~
+>speech_prog quarterstaff~
+mpecho Gorath examines you intently for a moment.
+if quest (19,3,$n) == 3
+  say Yes, mine friend from the Gypsies trusts you, so I shall as well.
+  say There is a way to build a staff so strong that none can get past
+  say its defense.  When gripped in a master, there is no way to remove
+  say it from his hold, save magic.  Do you wish to build this item?
+  mpmset self quest 6 3 2
+else
+  say You know nothing of this.
+endif
+~
+>rand_prog 30~
+if quest (13,4,$r) == 1
+  say Hey, any chance I can get you to run these plans over to
+  say the baker for me?  He's been asking me to get him this
+  say new wierd tool for something...you'd be helping me alot.
+  mpmset self quest 1 1 1
+endif
+~
+>speech_prog yes sure~
+if quest (13,4,$n) == 1
+  if quest (1,1,$i) == 1
+    say Hey, that's great!  Thanks for helping me out, $n.
+    mpmset $n quest 13 4 2
+    mpmset self quest 1 1 0
+    mpoload 13840
+    give i13840 $n
+  endif
+endif
+if quest (19,3,$n) == 3
+  if quest (6,3,$i) == 2
+    say Good.  Bring me an apple, and I shall try to remember how to
+    say build it.
+    mpmset $n quest 19 3 4
+  else
+    say Yes? Huh?
+    mpmset self quest 0 31 0
+  endif
+endif
+~
+>give_prog i13834~
+if quest (19,3,$n) == 4
+  say Thank you.  I've found the plans, and it can be built
+  say readily enough.  However, thou shall hath to work at it.
+  mpmset self quest 6 3 0
+  say Take this and go see Jonathan in the woods, he'll show thee what
+  say to do.
+  mpoload 13920
+  give i13920 $n
+  mpmset $n quest 19 3 5
+endif
+~
+>speech_prog p build it~
+if quest (13,4,$n) == 3
+  laugh 
+  say I figured he'd want it.... I've already constructed it.
+  say See?  What do you think?
+  mpecho Gorath slides out a tremendously long pole from beneath his table.
+  mpmset $n quest 13 4 4
+endif
+~
+>speech_prog nice good neat~
+if quest (13,4,$n) == 4
+  say Thanks.  All that is needed is a leather strap to make it work.
+  sigh 
+  say I don't know who deals in fine leather nowadays.
+endif
+~
+>give_prog i13844~
+if quest (13,4,$n) == 7
+  say This is perfect!
+  mpecho Gorath deftly strings one end of the strap over a small latch and clips it down.
+  say Why don't you take it over to the baker and see if it will work for him?
+  mpjunk i13844
+  mpoload 13839
+  give i13839 $n
+  mpmset $n quest 13 4 8
+endif
+~
+>give_prog i13835~
+say Hrm.  Interesting...... It has a magical aura to it.  Maybe the
+say mage can help you uncover a use for it.
+give i13835 $n
+~
+>rand_prog 1~
+if pcsinroom (13825) == 0
+  mpmset self quest 0 31 0
+endif
+~
+|
+#13844
+Heather woman beautiful gypsy lady seduc GYP_DAUGHT~
+Heather~
+A ravishingly beautiful woman dances before you.~
+Stunning in every detail, this gypsy woman mesmerizes you with a gyrating
+dance.  Hips swaying, bosom following, silk clothing parting ever so much as
+she twirls about you.... you watch for more glimpses of such a beauty.  Every
+action makes you want to smile at her all the stronger.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 100~
+giggle $n
+mpecho $I murmurs softly, beckoning you closer.
+~
+>rand_prog 30~
+if quest (1,4,$i) == 0
+  if ispc ($r)
+    if quest (13,4,$r) == 4
+      say Why are you so glum looking?
+      mpmset self quest 1 4 1
+      mpmset $r quest 13 4 5
+    endif
+  endif
+endif
+~
+>rand_prog 65~
+if quest (1,4,$i) == 1
+  say Are you searching for something? Maybe I can....
+  mpecho $I's breathing becomes deeper, and she steps slightly closer to you.
+  mpmset self quest 1 4 2
+  break
+endif
+if quest (1,4,$i) == 2
+  say ..... help .....
+  mpecho She siddles up very near you.  You can smell her deeply enticing perfume.
+  mpmset self quest 1 4 3
+  break
+endif
+if quest (1,4,$i) == 3
+  say ..... you......
+  mpecho $I moves to within inches of your face.  You can feel the heat of her body
+  mpecho as it sways slightly in front of you.  Her revealing clothing show she
+  mpecho is as well endowed as she seems....and it seems she wants you....
+  mpmset self quest 1 4 4
+  break
+endif
+if quest (1,4,$i) == 4
+  mpecho The soft thud of footsteps can be heard.
+  mpecho Heather gasps slightly and jerks away from you, pulling her revealing clothing
+  mpecho tightly around her.  A deep male voice clears his throat behind you.
+  mpmload 13845
+  mpmset self quest 1 4 5
+  break
+endif
+if quest (1,4,$i) == 5
+  say Father!
+  hug GYP_LEAD
+  mpmset self quest 1 4 6
+  break
+endif
+~
+>rand_prog 80~
+if quest (1,4,$i) == 6
+  mpecho Jonathan smiles gently as his daughter releases him.
+  mpforce GYP_LEAD say Hello, my daughter.  With whom are you speaking currently?
+  mpecho You feel the cool gaze of a father on the back of your neck.
+  mpmset self quest 1 4 7
+  break
+endif
+if quest (1,4,$i) == 7
+  smile 
+  say OH, Father!  It's , uhh....It's ....
+  mpforce $r tip
+  mpmset self quest 1 4 8
+  break
+endif
+if quest (1,4,$i) == 8
+  mpforce $r say My name is $r, M'Lord.
+  mpmset self quest 1 4 9
+  break
+endif
+if quest (1,4,$i) == 9
+  mpecho You turn to address the womans father.
+  mpforce $r say Greetings, Jonathan.  I am deeply honored to meet the man from
+  mpforce $r say whom such a beautiful woman comes.
+  mpforce $r bow
+  mpmset self quest 1 4 10
+  break
+endif
+if quest (1,4,$i) == 10
+  mpforce GYP_LEAD say I see.  Well, daughter, I have business to attend.  Be
+  mpforce GYP_LEAD say present for dinner this evening.  You are expected.
+  mpforce GYP_LEAD hug GYP_DAUGHT
+  mpecho Jonathan walks swiftly away from you, yet somehow you are not relieved.
+  mpmset self quest 1 4 0
+  mppurge GYP_LEAD
+  break
+endif
+~
+>social_prog kiss~
+if quest (13,4,$n) > 5
+  say He agreed to let you court me?????
+  gasp 
+  kiss $n
+  say I hope you know which wagon is mine.........
+  stare $n
+endif
+~
+>rand_prog 15~
+if quest (13,4,$r) == 5
+  mpforce $r smile GYP_DAUGHT
+  mpechoat $r You try to impress the gorgeous woman before you.
+  mpechoaround $r $r tries to impress Heather, but only succeeds in looking stupid.
+endif
+~
+>social_prog smile~
+if quest (13,4,$n) == 5
+  say Where were we.... Ahhh yes... You were searching for something.
+  mpforce $n say I need some sort of leather strap.
+  say Of course you need a leather thong.....
+  blush 
+  say Go see if you can dig some old horse hide out of one of our
+  say old campfires along the trail.  Then see my father..... perhaps
+  say he could give thee some advice as to what to how to cure it.
+  giggle 
+  if rand (35)
+    mpgoto 13910
+    mpoload 13845
+    drop all
+    mpgoto 13908
+  else
+    if rand (50)
+      mpgoto 13884
+      mpoload 13845
+      drop all
+      mpgoto 13908
+    else
+      mpgoto 13914
+      mpoload 13845
+      drop all
+      mpgoto 13908
+    endif
+  endif
+  mpmset $n quest 13 4 6
+endif
+~
+|
+#13845
+Jonathan bard gypsy leader GYP_LEAD~
+Jonathan~
+A powerful bard stands before, dressed in clashing colors.~
+Your eyes ache at the sight of the bold colors of this man's dress.  Bright
+yellows next to pungent oranges, near a lime green bright enough to sear
+flesh!  Yet he walks with an air of royalty, as the leader of gypsy tribe here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+95 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d95+46
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (13,4,$n) == 6
+  if quest (1,4,$i) == 0
+    glare $n
+    say So....Did you find my daughter.... Enchanting ???
+    mpmset self quest 1 4 1
+  endif
+endif
+~
+>give_prog i13920~
+if quest (19,3,$n) == 5
+  say So Gorath wishes me to help thee????
+  say Fine..... I have a stave I hath been working upon to make into
+  say a spike, it shall have to suffice.  The village elder will
+  say perform the magic on it for thee, thou should go see him shortly.
+  mpjunk i13920
+  mpmset $n quest 19 3 6
+endif
+~
+>speech_prog yes~
+if quest (1,4,$i) == 1
+  say That is very nice to hear, $n.  I hope for your sake that
+  say is ALL you found from her.
+  mpecho $I slowly draws a tanning knife from his belt to sharpen on some leather.
+  if hasobjnum ($n) == 13845
+    mpmset self quest 1 4 2
+  else
+    mpmset self quest 1 4 0
+  endif
+else
+  if quest (1,4,$i) == 5
+    say All the Hellenist Gods!  Why would you carry an uncured hide around?
+    say It'll attract animals from all four corners of the realm!
+    say Give it to me, I'll show you how to fix it.
+    mpecho $I smiles slightly, now knowing how to proceed.
+    mpmadd self quest 1 4 1
+  endif
+endif
+~
+>speech_prog no~
+if quest (1,4,$i) == 1
+  say Interesting.  I do not appreciate liars, though.  Begone from my sight!
+  mpechoat $n A blinding pulse of light strikes you from all sides!!!!!!!!!!
+  mptransfer $n 13810
+  mpmset self quest 1 4 0
+endif
+~
+>rand_prog 65~
+if quest (1,4,$i) == 2
+  mpecho $I looks down at his knife, shakes his head, and sheathes the blade.
+  say That wasn't very fair.  My daughter is quite the enchantress,
+  say she's bewitched every man that comes near her.  All from
+  say her mother...
+  mpecho $I grins sheepishly.
+  mpmadd self quest 1 4 1
+  break
+endif
+if quest (1,4,$i) == 3
+  mpecho $I glances around nervously, as if he's unsure how to proceed.
+  mpmadd self quest 1 4 1
+  break
+endif
+if quest (1,4,$i) == 4
+  sigh 
+  mpecho $I stares curiously at you for a moment.
+  say You know... are you the source of that *stench* ???
+  mpmadd self quest 1 4 1
+  break
+endif
+if quest (1,4,$i) == 7
+  mpecho $I quickly removes the flesh from the pot and hangs it between two posts.
+  say Now we tighten it to remove all stretchingness from the cord....
+  mpecho $I seems to struggle tightening the bolts.
+  mpmadd self quest 1 4 1
+  break
+endif
+if quest (1,4,$i) == 8
+  mpforce $r say Let me help
+  say Ok, sure, just tug down.
+  mpecho Together, you pull the now brown hide into a strong cord.
+  mpmadd self quest 1 4 1
+  break
+endif
+if quest (1,4,$i) == 9
+  if quest (13,4,$r) == 6
+    say Congratulations.....here it is!
+    mpoload 13844
+    give i13844 $r
+    drop i13844
+    say Also, you have my blessings to court her.  She's my pride and joy.
+    mpmset self quest 1 4 0
+    mpmset $r quest 13 4 7
+    mpjunk i13845
+    break
+  endif
+endif
+~
+>give_prog i13845~
+if quest (1,4,$i) == 6
+  say OK.  First you soak it in a strong solution of cherry tree bark.
+  say This softens and preserves the flesh, and kills anything in it.
+  mpmadd self quest 1 3 1
+endif
+~
+|
+#13846
+lad gypsy boy young~
+a gypsy boy~
+A gypsy youth smiles serenely at nothing.~
+This young lad seems to have wandered off from the caravan.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+0 S
+83 BODY_LEG BODY_HAND|BODY_FOOT 1d1+8000 1d1+80
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog p go home~
+if quest (19,3,$n) == 1
+  say No! I can't go home right now, I just figured this out!
+  mpecho $I utters the words, 'ezilatsycr'
+  say See what I can do now????
+  mpjunk i13848
+  mpoload 13848
+  mpecho $I gets a small crystal.
+  wear i13848
+  mpmset $n quest 19 3 2
+endif
+~
+|
+#13847
+youth gypsy boy young~
+a young boy~
+A gypsy youth wanders over the hillside.~
+He is dressed in wild and outlandish colors.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+85 BODY_LEG BODY_HAND|BODY_FOOT 1d1+5000 1d85+37
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+#13848
+gypsy boy young~
+a gypsy girl~
+A gypsy girl wanders over the hillside.~
+She is dressed in the barest of all clothings, clad in sheer (and if it
+weren't so cleverly opaque in the right spots) fabric.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+85 BODY_LEG BODY_HAND|BODY_FOOT 1d1+5000 1d85+37
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+#13849
+gypsy elder woman~
+an elderly woman~
+An elderly lady assaults your senses with bright and colorful clothing.~
+This woman may be ancient, but she's still got quite a fight left in her!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+85 BODY_LEG BODY_HAND|BODY_FOOT 1d1+5000 1d85+37
+138533 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>all_greet_prog 50~
+if quest (19,3,$n) == 2
+  say You've found him and he's safe?  Oh, Thank you!
+  kiss $n
+  say In return for your kindness, thou ought to ask a friend
+  say of mine, Gorath, about a mystical weapon called a
+  say Quarterstaff.  It is rumoured that it can beat back thine
+  say foes from a distance, and that it increases your chances
+  say of avoiding them.
+  mpmset $n quest 19 3 3
+else
+  mpecho $I looks up quickly as you enter, then lowers her eyes.
+  sigh 
+endif
+~
+>speech_prog help problem wrong matter~
+say My son has wandered off, and I don't know where he is.
+say Will thou lend thine eyes to find him?
+~
+>speech_prog yes sure~
+say Thank thee, when thou findest him, tell him to go home.
+mpmset $n quest 19 3 1
+smile gratefully $n
+~
+|
+#13850
+gypsy elder man~
+a gypsy elder~
+An elderly man meditates serenely here.~
+This man may be ancient, but he probably has quite a fight left in him!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+85 BODY_LEG BODY_HAND|BODY_FOOT 1d1806+5988 1d1+85
+138533 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 50~
+mpecho $I's eye's flicker slightly at your approach.
+if quest (19,3,$n) == 6
+  say I have prepared the stave for you, $n, but I will not
+  say give it to thee. Thou are not worthy of it.
+  pat $n
+  mpmset $n quest 19 3 7
+endif
+~
+>death_prog 100~
+if quest (19,3,$n) == 7
+  say Aye, thou hath proven thine worth to me!
+  say Taketh this stave.
+  mpquiet on
+  cast 'cure blindness'
+  mpquiet off
+  mpoload 13847
+  give i13847 $n
+  mpmset $n quest 19 3 0
+else
+  mppurge self
+endif
+~
+|
+#13851
+Etherial_Statue~
+an etherial_statue~
+~
+An etherial statue loads equipment for the wise
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+35 1d5+3
+1038 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p begs and grovels~
+mpquiet on
+cast giant $n
+mpoload 13853
+give i13853 $n
+mpjunk i13853
+mpquiet off
+mpechoat $n A powerful force washes over your body like a wave of water.
+mpechoaround $n $n is visibly moved while praying.
+~
+|
+#13853
+Etherial_Statue~
+an etherial_statue~
+~
+This man may be ancient, but he probably has quite a fight left in him!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+41 1d1+5
+933 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p begs and grovels~
+mpforce protector say Of course, M'lord.
+mptransfer $n 13931
+~
+|
+#13854
+Etherial_Statue~
+an etherial_statue~
+~
+This man may be ancient, but he probably has quite a fight left in him!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d6+27 1d5+3
+972 0
+POS_STANDING POS_STANDING SEX_MALE
+>act_prog p begs and grovels~
+mpquiet on
+cast giant $n
+mpoload 13851
+give i13851 $n
+mpjunk i13851
+mpquiet off
+~
+|
+#13855
+Quest Debugger~
+Quest Debugger~
+Quest Debugger~
+This debugger is left in for review of the quest in place.  It is not complete.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_ETHEREAL
+0 S
+5 BODY_LEG BODY_HAND|BODY_FOOT 1d1+31 1d1+4
+971 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog debug~
+say Debug mode on!
+if quest (0,2,$n) == 1
+  say Warrior Rescale set to 125%
+else
+  if quest (0,2,$n) == 2
+    say Warrior Rescale set to 150%
+  else
+    if quest (0,2,$n) == 3
+      say Warrior Rescale set to 165%
+    endif
+  endif
+endif
+if quest (2,1,$n) == 1
+  say Shrine Quest 1 set to 1
+endif
+if quest (3,1,$n) == 1
+  say Shrine Quest 2 set to 1
+endif
+if quest (4,1,$n) == 1
+  say Shrine Quest 3 set to 1
+endif
+if quest (5,1,$n) == 1
+  say Shrine Quest 4 set to 1
+endif
+if quest (6,1,$n) == 1
+  say Shrine Quest 5 set to 1
+endif
+if quest (7,1,$n) == 1
+  say Shrine Quest Fight Lockout set to 1
+endif
+if quest (8,1,$n) == 1
+  say Shrine Quest EQU Lockout set to 1
+endif
+if quest (9,2,$n) == 1
+  say AC equipment chosen
+endif
+if quest (9,2,$n) == 2
+  say Damage equipment chosen.
+endif
+if quest (11,2,$n) == 0
+  say didn't start monk quest yet
+endif
+if quest (11,2,$n) == 1
+  say Monk quest ; seen minister, told to get prize.
+endif
+if quest (11,2,$n) == 2
+  say killed pious monk, told to go see monk guild master
+endif
+if quest (11,2,$n) == 3
+  say killed guild monk, gotten prize
+endif
+if quest (13,4,$n) == 1
+  say picker quest, walked past trees
+endif
+if quest (13,4,$n) == 2
+  say picker quest, gorath gives plans to player
+endif
+if quest (13,4,$n) == 3
+  say picker quest, Cook tells player to tell gorath to build device
+endif
+if quest (13,4,$n) == 4
+  say picker quest, player sees gorath, gorath bemoans missing piece
+endif
+if quest (13,4,$n) == 5
+  say picker quest, player sees heather
+endif
+if quest (13,4,$n) == 6
+  say picker quest, heather loads the missing hide
+endif
+if quest (13,4,$n) == 7
+  say picker quest, set when strap is given to player
+endif
+if quest (13,4,$n) == 8
+  say picker quest, Gortah sets when given the strap
+endif
+if quest (13,4,$n) == 9
+  say picker quest, baker returns the picker to player
+endif
+if quest (13,4,$n) == 10
+  say picker quest, set when player gives picker to baker
+endif
+if quest (17,1,$n) == 1
+  say fruit quest, apple given
+endif
+if quest (18,4,$n) == 1
+  say fruit quest, peach given
+endif
+if quest (19,3,$n) == 1
+  say quarterstaff quest, elderly lady sends u on your way
+endif
+if quest (19,3,$n) == 2
+  say quarterstaff quest, boy refuses to go home
+endif
+if quest (19,3,$n) == 3
+  say quarterstaff quest, elderly lady thanks you
+endif
+if quest (19,3,$n) == 4
+  say quarterstaff quest, gorath asks for an apple
+endif
+if quest (19,3,$n) == 5
+  say quarterstaff quest, apple given to gorath, he tels u to see jonathan
+endif
+if quest (19,3,$n) == 6
+  say quarterstaff quest, Jonathan says its built, see elderly man
+endif
+if quest (19,3,$n) == 7
+  say quarterstaff quest, elderly man refuses to give staff, killer gets item.
+endif
+if quest (0,2,$n) == 0
+  say the warriors go easy on you
+endif
+if quest (0,2,$n) == 1
+  say the warriors go kind of easy on you
+endif
+if quest (0,2,$n) == 2
+  say completed fighting quest, warriors are fair oponents
+endif
+if quest (0,2,$n) == 3
+  say donated 2.5M, warriors think you are bold+daring
+endif
+~
+|
+#13945
+warrior m13945~
+a warrior~
+An incredibly powerful warrior rests upon his sword.~
+He returns your gaze unflinchingly.
+~
+ACT_SENTINEL|ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+130 0 0 1d4225+10065 1d130+86
+141482 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+switch quest (0,2,$n)
+  case 1
+    mpmset self level 110
+    say Still learning the trade, I will go easy on you!
+  case 2
+    mpmset self level 120
+    say Strong and sure, we shall see who stands after the battle!
+  case 3
+    mpmset self level 130
+    say A bold and daring one..... I shall best you yet!
+  case 0
+    mpmset self level 100
+    say BAH! Beginner!  Would you like me to fall on my sword???
+    emote spits. 
+endswitch
+~
+>death_prog 100~
+gasp 
+look $n
+mpecho A warrior touches the gaping wound your blade just dug.
+mpecho A warrior prays to Lord Order for mercy.
+mpecho A large translucent hand reaches down and touches the warrior on the head.
+if rand (10)
+  mpmload 13945
+  say My brethen will see you vanquished!
+  mpforce 2.M13945 mpkill $n
+endif
+~
+|
+#13946
+warrior m13946~
+a warrior~
+An incredibly powerful warrior rests upon his sword.~
+He returns your gaze unflinchingly.
+~
+ACT_SMART|ACT_RACE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+130 0 0 1d4225+10065 1d130+86
+141482 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+switch quest (0,2,$n)
+  case 1
+    mpmset self level 110
+    say Still learning the trade, I will go easy on you!
+  case 2
+    mpmset self level 120
+    say Strong and sure, we shall see who stands after the battle!
+  case 3
+    mpmset self level 130
+    say A bold and daring one..... I shall best you yet!
+  case 0
+    mpmset self level 100
+    say BAH! Beginner!  Would you like me to fall on my sword???
+    emote spits. 
+endswitch
+~
+>death_prog 100~
+gasp 
+look $n
+mpecho A warrior touches the gaping wound your blade just dug.
+mpecho A warrior prays to Lord Order for mercy.
+mpecho A large translucent hand reaches down and touches the warrior on the head.
+if rand (10)
+  mpmload 13946
+  say My brethen will see you vanquished!
+  mpforce 2.m13946 mpkill $n
+endif
+~
+|
+#0
+
+
+#SHOPS
+13841 ITEM_TYPE_FOOD ITEM_TYPE_DRINK_CON ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+13842 ITEM_TYPE_SCROLL ITEM_TYPE_WAND ITEM_TYPE_POTION ITEM_TYPE_STAFF ITEM_TYPE_NOTHING  100  50  0 23
+13843 ITEM_TYPE_WEAPON ITEM_TYPE_LIGHT ITEM_TYPE_TREASURE ITEM_TYPE_TRASH ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#13800
+white cloth robe~
+a white cloth robe~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13801
+white cloth vest~
+a white cloth vest~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13802
+white cloth armband~
+a white cloth armband~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13803
+white cloth gloves~
+a pair of white cloth gloves~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13804
+white cloth moccasins~
+a pair of white cloth moccasins~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13805
+white cloth leggings~
+white cloth leggings~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13806
+white cloth head dress~
+a white cloth head dress~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13807
+white cloth loop~
+a white cloth loop~
+A pile of white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_NECK
+16 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DEX 1 0
+#13808
+white cloth staff~
+a white cloth wrapped staff~
+A stick covered with white cloth lies here in a heap.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+16 0 0 0 0 0 0 0
+3 30000 63
+#13810
+jade green cloth~
+a jade green cloth~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_DEX 1 0
+#13811
+jade green vest~
+a jade green vest~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_STR 1 0
+#13812
+jade green armband~
+a jade green armband~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS|ITEM_WEAR_WRIST
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_STR 1 0
+#13813
+jade green gloves~
+a pair of jade green gloves~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_DEX 1 0
+A APPLY_HITROLL 3 0
+#13814
+jade green boots~
+a pair of jade green boots~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_DEX 1 0
+#13815
+jade green leggings~
+a pair of jade green leggings~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_DEX 1 0
+#13816
+jade green helm~
+a jade green helmet~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_INT 1 0
+#13817
+jade green loop~
+a jade green loop~
+A bolt of jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 3 0
+A APPLY_DEX 1 0
+#13818
+jade green staff~
+a jade green staff~
+A rod wrapped with jade green cloth is lying here.~
+Although this cloth feels flimsy, it has been infused with the magical powers
+of Lord Order, and crafted by his guildsmen.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+3 30000 63
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 6 0
+#13819
+monk prize monk-prize~
+a monk's possession~
+A wordly prize of a pious monk~
+This is the cherished prize of a dedicated pious monk.  You must have been a
+very cold and calous individual to have taken it from him.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+14 250000 35
+#13820
+ivory white sash~
+an ivory white sash~
+A shiny white object lies here.~
+The sash gleams with the power or Order, driving all the chaotic thoughts from
+your mind.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+23 0 0 0 0 0 0 0
+14 250000 90
+A APPLY_DAMROLL -10 0
+A APPLY_DEX 2 0
+#13821
+ivory white helmet~
+an ivory white helmet~
+A shiny white helmet lies here.~
+Glimmering metallic flakes are embedded in the artwork of this helmet.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+23 0 0 0 0 0 0 0
+18 300000 90
+A APPLY_DEX 2 0
+A APPLY_DAMROLL -10 0
+#13822
+ivory white scarf~
+an ivory white scarf~
+A shiny bolt of cloth lies here gathering dust.~
+This is a sacred scarf of the ministry of Order.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WAIST
+11 0 0 0 0 0 0 0
+13 400000 75
+A APPLY_STR 2 0
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+#13823
+ivory white spirit suit~
+an ivory white suit~
+A shiny piece of armor lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+30 600070 90
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL 8 0
+A APPLY_MANA -100 0
+#13824
+ivory white vambrace~
+an ivory white vambrace~
+A shiny white loop is here in the dust.~
+Covered in runes of power, this vambrace radiates a glow that will blind your
+enemies surely!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+30 600070 90
+A APPLY_DAMROLL 7 0
+A APPLY_STR 2 0
+A APPLY_HITROLL 7 0
+#13825
+ivory white dragon teeth gloves~
+gloves of ivory white dragon teeth~
+A shiny pair of gloves are lying here in the dust.~
+These gloves are coated with a glowing powder, and they seem to draw the life
+blood of your enemies out upon their touching them.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+19 200000 90
+A APPLY_HITROLL 8 0
+A APPLY_DAMROLL 8 0
+A APPLY_MANA -100 0
+P 1
+TRIG_DAMAGE 15
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 0
+P 2
+TRIG_VOID
+OPROG_ECHO
+The dragon tooth drives deep into your opponents flesh!~
+P 2
+TRIG_VOID
+OPROG_APPLY OAPPLY_HIT 30
+#13826
+Gleaming ivory white corset~
+an ivory white corset~
+A shiny white strip of cloth lies here in the dust.~
+It hugs your waist and helps hold in that big ale gut.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+24 400000 90
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 7 0
+A APPLY_STR 2 0
+#13827
+Gleaming ivory white kilt~
+an ivory white kilt~
+A shiny white length of cloth lies here in the dust.~
+Done in the ancient scottish design, alternating shades of ivory cloth
+complement the resiliant strength of the fabric.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+18 400000 90
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL 8 0
+A APPLY_MANA -100 0
+#13828
+Gleaming ivory white stilts~
+white ivory stilts~
+Two long shiny white poles lie here in the sand.~
+These stilts give you added height for battle, but take a long time to get
+used to walking in.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+23 0 0 0 0 0 0 0
+8 400000 90
+A APPLY_DEX 2 0
+A APPLY_DAMROLL -10 0
+#13829
+Gleaming ivory white bracer~
+a ivory white bracer~
+A shiny white loop lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+23 0 0 0 0 0 0 0
+2 500000 90
+A APPLY_DAMROLL -10 0
+A APPLY_DEX 2 0
+#13830
+Gleaming ivory white hammer~
+an ivory white sigil-hammer~
+A shiny white hammer lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 14 5 WEAPON_PIERCE 0 0 0 0
+12 500000 77
+#13831
+sculpture statue~
+a sculpture~
+A beautiful sculpture is centered in the room here.~
+The statue is over 7 foot tall and created from solid gold.  It depicts a
+youthful man resting one foot upon a severed head.  In one hand the man holds
+a scythe; in the other, a small pouch.  The head is tilted sideways just a bit,
+ruining the perfect symmetry of the statue.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+3000 50 1
+E
+head~
+The hair looks to be long, with several thick braids in itself.  The mouth,
+hanging agape, is scarred along the left side.  The eyes are shut in death,
+a small coin placed against them.  There is a small plaque at the very base of
+the neck.
+~
+E
+plaque~
+Inscribed is:
+            Monuit eos ne hoc facerent
+~
+E
+scythe~
+Sharp even as a portrait, this weapon obviously was responsible for the head.
+~
+E
+pouch~
+It appears to have been once a supple leather sack, big enough to hold a
+severed head.
+~
+#13832
+Gilikak sculpture statue~
+a Gilikak statue~
+Gilikak stands proudly upon a marble pillar.~
+The workmanship in this statue approaches lifelike quality.  Even the pores
+of this great man are preserved in striking detail.  His arm is poised to
+drive a deathly blow to a Fire follower, subjugated at his feet.  In his
+hand lies the mighty GodSlayer, rumoured to have once been inches from the
+vile Lord Chaos's throat.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+3000 50 1
+E
+GodSlayer~
+The weapon is constructed of some glowing metal;  Even in this relief form
+it seems to radiate power.  There is a small inscription at the hilt of the
+tool.
+~
+E
+inscription~
+Inscribed is:
+
+            Memento Mori
+
+
+You wonder what it could mean!
+~
+#13833
+cube statue sculpture floater~
+a small cube~
+A curiously carved cube floats in the center of the room.~
+As you stare at the cube, your eyes begin to defocus, and you find it hard to
+concentrate.  There seems to be one too many edges, but the shape is not
+constant.  It is as if the cube is constantly expanding along all 6 sides, but
+shrinking smaller while it does so.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+3000 50 1
+E
+hypercube hyper~
+Congratulations, you know your physics well.
+~
+#13834
+apple fruit~
+a golden apple~
+A glistening apple lies without a speck of dirt here.~
+Prized for their taste, these are valued at fountain parties all across the
+realm.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 750000 10
+#13835
+pear fruit~
+an unripe pear~
+A pear gathers dirt on the ground here.~
+This fruit seems to have been intentionally neglected, and ought to be thrown
+away.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 750000 10
+#13836
+peach fruit~
+a delicious peach~
+A fuzzy peach lies softly upon some untread grass.~
+Prized for their taste, these are valued at fountain parties all across the
+realm.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 750000 10
+#13837
+fruit pick picker~
+a fruit picker~
+An odd looking pole lies here.~
+This pole has a little lever on one end, and a sharpened blade on the other.
+There is a small thread that runs between the two as well.  It seems as if it
+could  harvest  fruit with it.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 -1 0 0 0 0 0
+3 500000 46
+A APPLY_STR 1 0
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 5 0
+P 1
+TRIG_UNKNOWN 100 harvest
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You fumble with the device while it's laying at your feet.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13886 6 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13887 15 5
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13890 25 2
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 7 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 8
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 8
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 9 30
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_ONE QUEST 2 1 1~
+P 15
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 16 17
+P 16
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 17
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 17
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 17
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 18 30
+P 18
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_TWO QUEST 2 1 1~
+P 25
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 26 27
+P 26
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 27
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 27
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 27
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 29 30
+P 29
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_THREE QUEST 2 1 1~
+P 30
+TRIG_VOID
+OPROG_ECHO
+The winds don't seem right to pick fruits.~
+#13838
+apple corer core~
+an apple corer~
+An odd looking implement lies here.~
+A strange looking blade and a round stick make up this pile of junk.  But all
+of it is very, very sharp.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 4 12 WEAPON_PIERCE 0 0 0 0
+3 500000 46
+#13839
+fruit pick picker~
+a fruit picker~
+An odd looking pole lies here.~
+This pole has a little lever on one end, and a sharpened blade on the other.
+There is a small thread that runs between the two as well.  It seems as if it
+could  harvest  fruit with it.
+~
+ITEM_TYPE_LIGHT
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+3 500000 46
+P 1
+TRIG_UNKNOWN 100 harvest
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+You fumble with the device while it's laying at your feet.~
+P 3
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13886 6 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13887 15 5
+P 5
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 13890 25 2
+P 6
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 7 8
+P 7
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 8
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 8
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 8
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 9 30
+P 9
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_ONE QUEST 2 1 1~
+P 15
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 16 17
+P 16
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 17
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 17
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 17
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 18 30
+P 18
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_TWO QUEST 2 1 1~
+P 25
+TRIG_VOID
+OPROG_IF OIF_USER_PERCENT_MOVE < 20 26 27
+P 26
+TRIG_VOID
+OPROG_ECHO
+You are too exhausted from trying to reach the fruit!~
+P 27
+TRIG_VOID
+OPROG_APPLY OAPPLY_MOVE -100
+P 27
+TRIG_VOID
+OPROG_ECHO
+You pull on the string, and attempt to jar loose some fruit.~
+P 27
+TRIG_VOID
+OPROG_IF OIF_WEATHER > 1 28 30
+P 28
+TRIG_VOID
+OPROG_GOD_COMMAND
+MPAT 13970 MPMSET RAT_DEATH_THREE QUEST 2 1 1~
+P 30
+TRIG_VOID
+OPROG_ECHO
+The winds don't seem right to pick fruits.~
+#13840
+plans secret plan sheath paper~
+a sheathing of papers~
+A small pile of papers have been sheathed and left here.~
+These papers are coverd with intricate pennings of some odd device, and have
+hardly any written words on them.  There seems to be a rod, with a blade on
+it, but that is all you can make out.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 200 4
+#13841
+tree apple~
+an apple tree~
+An apple tree stands at the head of the row.~
+This tree is covered in delicious apples, all in different stats of ripeness
+to be picked.  It's too bad you don't have something to pick them with.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50 1
+#13842
+peach tree~
+a peach tree~
+A peach tree blooms beneath the sun here.~
+Soft and luxorius looking, perfect pink peaches coat the branches of this
+perfectly trimmed tree.  Your watering mouth makes you wish you could pick
+some.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50 1
+#13843
+tree pear~
+a pear tree~
+A pear tree stands neglected here.~
+Several of the hard fruits lie at the bottom, unused and rotting.  Your
+stomach turns at the thought of ingesting one of these...delicacies...
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50 1
+#13844
+strap leather cured~
+a leather strap~
+A thin, brown band lies in the dirt.~
+It is extremely tough, and seems to not stretch even a bit when pulled on.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+0 0 0 0 0 0 0 0
+1 350 1
+A APPLY_CON 1 0
+#13845
+raw leather horse hide~
+a piece of horse hide~
+A flimsy piece of horse flesh rots here.~
+Flimsy to the touch (and god does it stink!) this rotten flesh should be
+burned and buried.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+0 0 0 0 0 0 0 0
+1 350 1
+A APPLY_CON 1 0
+#13846
+knife tanning tan~
+a tanning knife~
+A sharpened blade lies here gathering rust.~
+Razor sharp for skinning hides off of animals, this blade would make short
+work of any armour.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 18 2 WEAPON_PIERCE 0 0 0 0
+2 500000 46
+#13847
+quarter staff rod quarterstaff~
+a quarter staff~
+A long wooden rod gathers lies against a tree.~
+Perfect for striking an enemy from a distance, this weapon delivers a whopping
+hit.  There are smooth indentations where you can lodge your hands so tight
+that nothing can possibly remove the weapon from your grasp.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+20 0 0 0 0 0 0 0
+1 10 90
+A APPLY_DAMROLL -10 0
+C
+thrust~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#13848
+crystal herb~
+a crystal herb~
+A beautiful lattice of crystals has covered a plant here.~
+Defining patterns envelop this young plant, coating it to become a thing of
+beauty.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+21 0 0 0 0 0 0 0
+1 50000 90
+#13849
+legging leg rotten core wood~
+a piece of rotten wood~
+A pair of rotten tubes lie here~
+These leggings reek of molded wood.  It would probably take quite a bit of
+courage to wear them in this condition.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+2 0 0 0 0 0 0 0
+1 50000 1
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#13850
+boots boot rotten core wood~
+a piece of rotten wood~
+A pair of rotten clumps lie here~
+These boots reek of molded wood.  It would probably take quite a bit of
+courage to wear them in this condition.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET|ITEM_WEAR_HANDS
+2 0 0 0 0 0 0 0
+1 50000 1
+A APPLY_CON 1 0
+A APPLY_WIS 1 0
+#13851
+gilikak gold statue small~
+a small statue of Gilikak~
+An intricate carving of Gilikak is lying here.~
+Crafted in what appears to be solid gold, this statue is exactly like the
+larger one, just ten times smaller.  No mortal could have made it so detailed.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 50000 1
+#13852
+statue hupster hup gold~
+a statue of Lord Hupsterman~
+A statue of Lord Hupsterman stands before you.~
+A glorious man stands before you, hands raised defiantly above his head.  His
+foot rests upon the corpse of a slain enemy, and the sword hung upon his belt
+looks wet of blood.  From his pose you can sense a raging battle occurring
+around him, but one look from his eyes calms all.  The sculptor truly knew
+this man.  A small inscription is at the base.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50000 1
+E
+inscription~
+A small inscritpion reads:
+
+For having dedicated his life to the service of our Lord Order,
+342 Anno Domini.
+~
+#13853
+token gold precious~
+a precious token~
+A small symbol is laying on the floor here.~
+There is a small picture of a man pressed on the face of this token.  There
+is also an inscription running around the edge of the object.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 50000 1
+E
+inscription~
+Prayers are answered in all forms......
+~
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+#13854
+well soul slain~
+a well of souls~
+A pit is swallowing all of the light in the room.~
+There is a ghostly looking hole in the floor of the room.  It sucks the
+brightness out of your light.  You feel an intense cold eminating from the
+edges of the abyss.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 50000 1
+#13903
+blue gold helm~
+a blue-gold helm~
+A helm lies here in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+15 0 0 0 0 0 0 0
+5 55000 90
+A APPLY_SAVING_SPELL -8 0
+#13904
+blue gold bracer~
+a set of blue-gold bracer~
+A bracer dusted in blue gold lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+15 0 0 0 0 0 0 0
+5 55000 90
+A APPLY_SAVING_SPELL -8 0
+#13905
+blue gold greaves~
+a set of blue-gold greaves~
+A golden blue magical greave lies in the dust.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS|ITEM_WEAR_ARMS
+15 0 0 0 0 0 0 0
+5 55000 90
+A APPLY_SAVING_SPELL -8 0
+#13906
+blue gold lance~
+a blue-gold lance~
+A lance lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 7 5 WEAPON_STAB 0 0 0 0
+14 55000 46
+#13907
+blue gold dagger~
+a blue-gold dagger~
+A dagger lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 6 7 WEAPON_STAB 0 0 0 0
+10 55000 51
+#13908
+blue gold flail~
+a blue-gold flail~
+A flail lies here in the dust.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_FLAIL 7 7 WEAPON_POUND 0 0 0 0
+13 55000 61
+#13912
+scroll heal~
+a scroll of heal~
+A scroll lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 54 54 54 0 0 0 0
+2 50000 50
+S 1 'cure critical'
+S 2 'cure critical'
+S 3 'cure critical'
+#13913
+scroll armor~
+a scroll of armor~
+A scroll lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 9 0 0 0 0 0 0
+2 40000 30
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13914
+scroll protection~
+a scroll of protection~
+A scroll lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 190 0 0 0 0 0 0
+2 80000 30
+S 1 'protection evil'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13915
+potion heal~
+a potion of heal~
+A potion lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 54 54 54 0 0 0 0
+2 50000 50
+S 1 'cure critical'
+S 2 'cure critical'
+S 3 'cure critical'
+#13916
+potion armor~
+a potion of armor~
+A potion lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 9 0 0 0 0 0 0
+2 40000 30
+S 1 'armor'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13917
+potion protection~
+a potion of protection~
+A potion lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 190 0 0 0 0 0 0
+2 80000 30
+S 1 'protection evil'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13918
+squid rock petrified stone~
+a petrified squid~
+Some sort of stone creature lies here.~
+This creature is solid rock!  Millions of years of earthy forces have combined
+to make this ancient squid completely stone.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 80000 30
+#13919
+potion empty container~
+an empty potion~
+An empty potion lies here.~
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+1 10 25
+S 1 '-1 slot'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13920
+sheath papers quarterstaff plans~
+a sheathing of plans~
+A sheathing of plans are rolled up here.~
+Several magical incantations are written over this small bundle of papers,
+while the main focus seems to be that one of a .... stick...
+Perhaps it is more than it seems.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 25
+#0
+
+
+#ROOMS
+#13800
+Order's Domain~
+This is the earthy entrance to Order's Domain, which only goto will
+allow access to.  So if you are here, you deserve to be, if not,
+well, what are you waiting for, leave now! :)
+      -Picard, Saturday March 28th, 1998 at 2:15 PM
+
+feel free to hang around a lil :p
+      -Scandum, Sunday somewhere in Juli, 2001 at 11:45 am
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The Best Area in the MUD!!!!~
+~
+0 0 13801
+#13801
+Order's Domain~
+Slowly the surroundings fade in as the personal sigil pass of Lord Order grows
+cold.  The walls are the purest white you have ever witnessed; the floor, the
+most stunning white marble; the lights the brightest white.  You find yourself
+thinking shamefully of your past actions, but knowing that somehow it will all
+turn out correct in the end.  Reason and Order slowly seeps into your mind,
+and you fear not what you did a moment ago.  You know that the pure of heart,
+pure of mind, and pure of soul will fear nothing here.  A small plaque, made
+from white gold, is nestled snugly into the wall to your left.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+The hallway begins~
+~
+0 0 13802
+E
+plaque~
+Carefully inscribed into the purest white gold is the following:
+
+                        {138}__________________________
+                      {138}/__________________________/|
+                     {138}|                           ||
+                     {138}|    {178}Order's Domain  {138}        ||
+                     {138}|                           ||
+                     {138}|    {178}Created by: {138}           ||
+                     {138}|          {118}Hupsterman 12/95 {138}||
+                     {138}|                           ||
+                     {138}|    {178}Revised by: {138}           ||
+                     {138}|          {148}Picard 2/98 {138}     ||
+                     {138}|                           ||
+                     {138}|___________________________|/
+~
+#13802
+Hallway~
+As you stroll along the white marbled hallway, your mind slowly winds down
+from the troubles that have made themselves felt.  There is beautiful,
+peaceful music echoing softly through these hallways.  Try as you might to
+find something out of disorder, no matter where you glance there is not even
+a speck of dust that seems out of place.  Everything has it's place.  Order is
+everywhere.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You may begin your journey in this direction~
+~
+0 0 13803
+DDIR_WEST
+The entrance to the Earthy realm of Lord Order~
+~
+0 0 13801
+#13803
+Hallway~
+The pass still warm within your hands, you can't help but feel relaxed as the
+music calms your soul.  Everything is placed where it should be, everything is
+ordered, everything is right.  No fear can remain; Lord Order is the one and
+only true God.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The way that you came~
+~
+0 0 13804
+DDIR_WEST
+A sitting room~
+~
+0 0 13802
+#13804
+Sitting room~
+You are in a room lined with couches and pillows.  Trays of food and wine are
+scattered around the room.  That rumbling you have begun to feel at the bottom
+of your stomach is making itself felt more strongly than before.  It would be
+logical to seek out the maid and ask if she could serve you some refreshments.
+More of the hallway can be seen to the east, an open doorway into the gardens
+around the Domain to the north, and the way that you entered this Realm is
+back to the west.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+More hallways~
+~
+0 0 13880
+DDIR_EAST
+~
+~
+0 0 13805
+DDIR_WEST
+The way that you came~
+~
+0 0 13803
+#13805
+Hallway~
+As you leave behind the couches and food for the white marbled hallway, your
+mind continues it's relaxation from the now trifling troubles that had made
+themselves felt.  The beautiful, peaceful music echoing softly through the
+hallway calms your irrational fears.  No longer will the disordered world
+intrude.  Order is felt.  Earth is power.  Peace is here.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13806
+DDIR_WEST
+~
+~
+0 0 13804
+#13806
+A darkened ballroom~
+Here, the white marbled walls are not as well lit as the others in the hall.
+Torches placed around the room cast an eerie glow on the walls.  You get the
+feeling that this room was used to serve some sinister purpose.  Glancing at
+some of the stains on the ground, dark maroon and black, and the scratches
+that are near them, tends to confirm this may have been a ritualistic death
+room for the enemies of earth.  Ghostly apparitions flicker around your
+vision.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A very secluded room~
+~
+0 0 13808
+DDIR_EAST
+To the east you see the quiet and bustling shops of the Domain~
+~
+0 0 13809
+DDIR_SOUTH
+To the south you see a gilded hallway, ripe with paintings and art~
+~
+0 0 13807
+DDIR_WEST
+The way from whence you came~
+~
+0 0 13805
+E
+blood stain~
+The dark shape of the blood looks as if a body laid here for some time before
+it was moved, even though the shape seems to be missing a few limbs, a head,
+and have a large gaping hole in the center.
+~
+#13807
+Gilded Hallway~
+As you turn your back on the ghastly room to the north, the warmth and beauty
+returns quickly to Order's realm.  This hallway is decorated with several
+paintings and statues of the greatest followers of Lord Order.  All of the
+statues seem to be maintained extremely well, very few are in need of repair.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A ballroom of death~
+~
+0 0 13806
+DDIR_SOUTH
+More gilded hallways~
+~
+0 0 13826
+E
+broken~
+This broken statue has had the face obliterated completely, leaving only the
+vague outline of beautiful woman's face.  It has also been placed slightly
+behind the others, as if something shameful or distasteful befell this person.
+Lord Order has been known to allow those less faithful followers a chance to
+follow no one, and so you surmise this is what happened to this individual.
+~
+#13808
+A secluded alcove~
+The stench in this room assaults your nose at an unbelievable pace, you can
+hardly keep your stomach under control.  All those dark stains you saw on the
+ground outside obviously came from one (or more) source, and most of it is
+lying here on the ground, partially decayed.  You can still see the faint
+glow of the eternal fire of the Fire follower on the half rotted corpse, it's
+color as red as the blood around it.  The apparitions you thought you really
+hadn't seen outside seem to be clustering around the body in the center of
+the room, all their hatred directed toward the rotting corpse.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13806
+#13809
+A busy hallway~
+This room is a much needed relief from the ballroom west of you, no hint of
+the ghosts flickering about in your vision.  The white marble practically
+glows and radiates peace, as if to wash the ballad of death from your mind.
+You hear several voices over the sounds of the soft music in the hall, echoing
+in from the east.  There is a golden light ahead, pulsing with the power of
+Order.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13810
+DDIR_WEST
+~
+~
+0 0 13806
+#13810
+An altar room of Order~
+You gape in awe as you walk into this spacious room:  There is no ceiling to
+speak of, only a white unending void of bright light.  Everywhere you look
+seems to radiate peace, with no scent of trouble or suffering seen.  At your
+feet is a small altar to Lord Order.  The marketplace to the east seems very
+busy, people caught up in haggling over prices and having a joyous time, but
+the serene peace of this room is unaffected, and all that pass through pay
+homage to Lord Order's servant.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Guilds~
+~
+0 0 13811
+DDIR_EAST
+Shopping Central~
+~
+0 0 13821
+DDIR_SOUTH
+Guilds~
+~
+0 0 13812
+DDIR_WEST
+~
+~
+0 0 13809
+E
+altar offering~
+Constructed of the purest and most flawless piece of white marble, and
+decorated with a small filigree of gold trim, this altar is probably the most
+important one in the realm.  It is rumored that Lord Order often visits this
+place, disguised as a simple servant, so that she may personally grant a
+devoted follower their wish.
+~
+#13811
+Glorified Guildsmen Way~
+Along this small side street lies the guild masters:  People whom Lord Order
+herself chose to teach Her followers in the ways of their class.  No one in
+the entire realm has more knowledge than these men and women, and no one knows
+their trade as they do.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The dark magics may be practiced here~
+~
+0 0 13820
+DDIR_EAST
+You can see the flickering of fire, while you are chilled to the bone~
+~
+0 0 13819
+DDIR_SOUTH
+Back towards the Altar~
+~
+0 0 13810
+DDIR_WEST
+You can not make out the state of that room~
+~
+0 0 13818
+#13812
+Glorified Guildsmen Way~
+Along this small side street lies the guild masters:  People whom Lord Order
+herself chose to teach Her followers in the ways of their class.  No one in
+the entire realm has more knowledge than these men and women, and no one knows
+their trade as they do.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Back to the Altar~
+~
+0 0 13810
+DDIR_EAST
+You can see the back wall of the shop, it is line with sharp weapons~
+~
+0 0 13817
+DDIR_SOUTH
+More of the Glorified Guildsmen~
+~
+0 0 13813
+DDIR_WEST
+A gleaming suit of armor catches your eye~
+~
+0 0 13816
+#13813
+Glorified Guildsmen Way~
+Along this small side street lies the guild masters:  People whom Lord Order
+herself chose to teach Her followers in the ways of their class.  No one in
+the entire realm has more knowledge than these men and women, and no one knows
+their trade as they do.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Back to the Altar~
+~
+0 0 13812
+DDIR_EAST
+You see nothing remarkable....at all.....or do you?~
+~
+0 0 13815
+DDIR_WEST
+The room appears empty~
+~
+0 0 13814
+#13814
+Monk Guild~
+The door swings shut softly behind you, barely a whisper of dust is disturbed
+upon it's movement.  The room is nearly utterly bare, the throwing mat
+perfectly centered in the room.  The walls are stark and undecorated, except
+for the north wall.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Back to the Guild's road~
+~
+0 0 13813
+E
+mat throwing throw~
+The mat looks as if it has gotten a great amount of use as of late.  You feel
+a small bit of relief that there is no blood stains on it.  Of course, you
+haven't challenged your master yet, either.....
+~
+E
+north wall~
+A small indentation in the wall seems completely out of place with the rest of
+the room.  The stark symmetry is upset by this one little marred plane of wood.
+~
+#13815
+Ninja Guild~
+As you glance around this stark room, nothing seems to be out of order.
+Suddenly, there is a flash of white metal and a whirling of motion to your
+right!  Before you can begin to defend yourself, you have been knocked clear
+across the room, and a wicked looking stiletto is poised mere inches from the
+bridge of your nose.  Only after your heart calms down enough to appreciate
+the lesson you've been taught, do you begin to understand what is meant by
+Lord Order handpicking these guildsmen.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Back to the Guild's road~
+~
+0 0 13813
+#13816
+Ranger Guild~
+This is the guild for Rangers.  The power that this room radiates is unlike
+anything you have ever felt before in your entire life.  There is the gleaming
+suit of armor that you saw from across the street, but it is being worn by a
+man that is nearly two times your height!  Even if you tried to wrap your arms
+around his chest, you would fail miserably.  He doesn't move a muscle, but you
+know you are being watched.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Back to the Guild's road~
+~
+0 0 13812
+#13817
+Marauder Guild~
+The powerful array of weapons presented against the back wall nearly blinds
+you as you stroll into the room.  Upon closer examination, most of them do not
+look completely functional.  However, they all seem deadly.  There is a
+curious looking weapon laid out on the table in the middle of the room, it
+appears to have been disassembled for repair.  The blades, of which there are
+three, seem to be spring loaded.  You get the feeling this isn't a weapon
+you'd prefer to have projecting from your back.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Back to the Guild's road~
+~
+0 0 13812
+E
+tahg~
+Actually, the weapon is called a d'k tahg, and was used in the assassination
+of several prominent members of Lord Chaos's priesthood.  In principle, the
+weapon would be stabbed past any armor the victim was wearing, into the soft
+flesh.  Then, when the wielder withdrew his hand, the two addition blades
+would spring open, locking the weapon into the victims body.  Should the
+victim try to fight the weapon and remove it, they would eviscerate themselves.
+
+I'm sure the guild master would love to have this one repaired.
+~
+#13818
+Illusionist Guild~
+Walking into the room softly is your only option, as everything is padded in
+soft, white cloth.  A strain of peaceful music can be heard, but you are
+unable to locate it's source.  Small tapestries penned in pure gold are hung
+from the ceiling, and in beautiful detail depict the current Master being
+chosen by Lord Order.  This man must be the most powerful sorcerer in the
+realm.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Back to the Guild's road~
+~
+0 0 13811
+#13819
+Elementalist Guild~
+Within the first few moments of stepping through the doorway, you have been
+blasted with incredible heat, chilled to the bone, drenched in a sudden down
+pour, and electrocuted.  The Master, hand picked by Lord Order, is standing
+just outside the reach of your weapons, but you have no doubt that if you were
+to attempt anything, you would soon become a dead lump of charred flesh.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Back to the Guild's road~
+~
+0 0 13811
+#13820
+Necromancer Guild~
+Walking into this room is walking into utter blackness.  The solitary light
+source is a candle, sitting in the middle of the room.  Etched in blood upon
+the ground is a pentagram, the Master sitting in the middle.  You can feel
+him staring at you, his eyes covered in his cowl.  There is no doubt that
+if you were to die to him, your soul would be forfeit.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Back to the Guild's road~
+~
+0 0 13811
+E
+candle~
+Upon closer inspection, the flame never wavers, never burns lower, never drops
+a rivulet of wax.
+~
+E
+pentagram~
+The bloodied lines are sharp and as clear as if they were etched this morning.
+Perhaps, knowing the affinity that Fire followers have for death, they were.
+~
+#13821
+Gone Shopping~
+Small stores line this cramped back street, and peddlers pull at your cloaks
+offering the best deals on rare items of the land.  You keep your back strong
+though, as the real shops are just ahead.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The real shops~
+~
+0 0 13822
+DDIR_WEST
+Back to the Altar~
+~
+0 0 13810
+#13822
+The Entrance to Commissary~
+You have survived all the petty shops, and now are at the point where the real
+shopping may begin.  Within these walls the best of the best may be bought,
+for a price of course.  Nowhere else will you find a better deal, or a harder
+bargain.  After all, Lord Order picked the best tradesmen, and they happen to
+be the best bargainers as well.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Magic lies ahead~
+~
+0 0 13823
+DDIR_EAST
+Several sharp looking implements of destruction can be seen~
+~
+0 0 13825
+DDIR_WEST
+Back in to common people~
+~
+0 0 13821
+#13823
+A room of Magic~
+A musty scent presents itself for you upon entering this darkened room.  The
+magician sitting behind a rotted table is nothing like anyone else in the
+realm.  Totally disorganized and covered in a fine white powder, he hardly
+notices your presence.  Scroll after tapestry after burnt out wand cover
+every inch of the room.  No matter where you look, there is no refuge to be
+sought.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+A bread shop~
+~
+0 0 13824
+DDIR_SOUTH
+Entrance to Commissary~
+~
+0 0 13822
+#13824
+Bread Shoppe~
+The aroma of freshly baked bread is nearly overwhelming.  In contrast to the
+utter perfectness of the surrounding area, there is flour floating in the air,
+on the ground, and has been quite liberally applied to the man standing before
+you.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+A weaponsmith~
+~
+0 0 13825
+DDIR_WEST
+A magic man~
+~
+0 0 13823
+#13825
+The Weaponsmith~
+The glint of sharpened steel draws your eye towards the wall on which axes are
+fastened, each perfectly polished, each with a listing of dead Fire followers
+inscribed upon the blade itself.  The masterful smith has created more weapons
+for the battle with Chaos than any other mortal, which is why his weapons are
+the number one choice for all Order followers.  After all, Lord Order only
+accepts the best.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The bread shoppe~
+~
+0 0 13824
+DDIR_WEST
+Back to the entrance~
+~
+0 0 13822
+#13826
+Gilded hallway~
+White marbled columns meet golden statues in a work of art rivaled only by
+the works of the gods.  Skilled artisans and stone masons must have worked
+ages to come with these lively looking busts.  No less can be expected for
+Lord Order's realm.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13807
+DDIR_SOUTH
+~
+~
+0 0 13827
+#13827
+A bend in the Guilded hallway~
+The golden light is a bit dimmer here, but the artwork no less stunning.  Every
+single piece seems to come alive, expressions perfectly frozen in place for
+eternity.  The music is also a bit softer here, more peaceful.  Ahead you have
+come to the dining halls; rooms so full of food and of wine that no one has
+ever been known to exhaust it's supply.  Several small benches line the walls
+here, so that one may rest and recover from such a meal.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13826
+DDIR_EAST
+~
+~
+0 0 13828
+#13828
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13829
+DDIR_SOUTH
+~
+~
+0 0 13833
+DDIR_WEST
+~
+~
+0 0 13827
+#13829
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13830
+DDIR_SOUTH
+~
+~
+0 0 13832
+DDIR_WEST
+~
+~
+0 0 13828
+#13830
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13831
+DDIR_WEST
+~
+~
+0 0 13829
+#13831
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13830
+DDIR_WEST
+~
+~
+0 0 13832
+#13832
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13829
+DDIR_EAST
+~
+~
+0 0 13831
+DDIR_SOUTH
+~
+~
+0 0 13834
+DDIR_WEST
+~
+~
+0 0 13833
+#13833
+Dining Room~
+Tables of food, heaped to the point that they may spill, run down the center
+of the room.  Servants scurry about, making sure all are fed well.  Wine flows
+freely from the servant maiden's pitchers, and several drunken followers are
+heaped over their plates sleeping the powerful wine off.  Boastful voices
+shout out about their last win over Chaos, and each claim is accompanied
+with raucous laughter.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13828
+DDIR_EAST
+~
+~
+0 0 13832
+#13834
+Gilded hallway~
+As you stroll further along this marbled hallway, your mind drifts to the meal
+from the maid, the food rich in taste, the wine sweet with the summer's sun.
+No more fear, no more worries, just peace.  The marble columns extend
+gracefully towards the pristine ceiling.  Not even dust dares make itself seen
+in this perfect place.  Back to the north the wonderful aroma of food
+can be smelled.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13832
+DDIR_SOUTH
+~
+~
+0 0 13835
+#13835
+An intersection~
+The high vaulted marble ceiling is a marvel of craftsmanship, and is higher
+here than in the other rooms.  Even though the light seems to come from the
+very top of the dome here, it still seems to be of midday quality.  A darkened
+hallway runs to the west, and the corridor continues onwards to the south.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13834
+DDIR_SOUTH
+~
+~
+0 0 13841
+DDIR_WEST
+~
+~
+0 0 13836
+#13836
+Dark hallway~
+As you step out of the intersection and head in this direction, you are
+engulfed in total blackness.  There is still a sense of peace, so you aren't
+alarmed.  It just seems very odd that there should be so much blackness in
+a normally well lit place.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+More darkness~
+~
+0 0 13835
+DDIR_WEST
+A well lit intersection~
+~
+0 0 13837
+#13837
+Complete darkness~
+The darkness here is complete.  Nothing can be seen, not even this.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A well concealed doorway in the wall~
+panel wall doorway~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN 0 13838
+DDIR_EAST
+A bit less darkness~
+~
+0 0 13836
+#13838
+Gilthean's Apartment~
+You have just entered Gilthean's apartment.  He is the brother of Order's
+greatest champion, Gilikak.  The room is adorned with tapestries depicting
+battles fought by him and his brother.  Ancient weapons and armor are on
+display.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13840
+DDIR_SOUTH
+The other side of the well concealed doorway~
+panel wall doorway~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN 0 13837
+DDIR_WEST
+~
+~
+0 0 13839
+#13839
+Meditation chamber~
+There is a simple altar here, to Order.  Burnt offerings of lamb have been
+placed upon it, in worship of Earth.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13838
+E
+altar~
+The small altar is the work of a little boy, who has been brought up to
+believe in the power of Lord Order.
+~
+#13840
+Gilthean's room~
+You are in the private house of Gilthean.  His only son, Gorthesus, currently
+lives here.  Pillows are laid everywhere in the room.  Many artifacts brought
+back from wars fought long ago by his grandfather adorn the shelves against
+the wall.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13838
+E
+shelves~
+The shelves are covered in ancient weaponry and encased in a strange energy
+field you can not reach past.  With a multitude of different implements of
+destruction just within his reach, Gorthesus might be a formidable opponent.
+~
+E
+maytrim~
+The most beautiful woman to walk the face of this earth, she is forever
+honored and revered by all Order's followers.
+~
+#13841
+Gilded hallway~
+The walls to the south seem here seem slightly more orange; perhaps there is a
+warm fire in that direction to color them such.  The statues here give way to
+a more modern set of paintings, of which no bit of detail has been spared.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13835
+DDIR_SOUTH
+~
+~
+0 0 13842
+#13842
+Gilded hallway~
+Indeed, your thoughts were correct.  There is a large on the southern wall
+here, illuminating and giving much needed warmth.  The marble walls are basked
+in a golden orange delight, and the warmth given off chases the chill out of
+your weary body.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13841
+DDIR_EAST
+~
+~
+0 0 13843
+E
+fireplace fire wall~
+The fire burns with a golden hue, warming your soul as well as your hands.
+~
+#13843
+Gilded hallway~
+There is a vast opening to the east!  Pure white light streams from that
+direction, drowning out the golden glow of the fireplace behind you.  There is
+a mystical quality to the light; hazy yet completely transparent, everything
+glows in that place.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13844
+DDIR_WEST
+~
+~
+0 0 13842
+#13844
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13845
+DDIR_EAST
+~
+~
+0 0 13852
+DDIR_SOUTH
+~
+~
+0 0 13851
+DDIR_WEST
+~
+~
+0 0 13843
+#13845
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13846
+DDIR_SOUTH
+~
+~
+0 0 13844
+#13846
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.  A stained blood trail can be seen to the north.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13978
+DDIR_EAST
+~
+~
+0 0 13847
+DDIR_SOUTH
+~
+~
+0 0 13852
+DDIR_WEST
+~
+~
+0 0 13845
+#13847
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13848
+DDIR_WEST
+~
+~
+0 0 13846
+#13848
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.  A stained blood trail can be seen to the east.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13847
+DDIR_EAST
+~
+~
+0 0 13871
+DDIR_SOUTH
+~
+~
+0 0 13849
+DDIR_WEST
+~
+~
+0 0 13852
+#13849
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13848
+DDIR_WEST
+~
+~
+0 0 13850
+#13850
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13852
+DDIR_EAST
+~
+~
+0 0 13849
+DDIR_SOUTH
+~
+~
+0 0 13872
+DDIR_WEST
+~
+~
+0 0 13851
+#13851
+Arched dome~
+The grandeur of the arched dome here is unbelievable.  Everywhere you look,
+there is a brightly glowing light that nearly blinds you.  There is absolutely
+no music, no sound, no anything at all except for the white light.  The ground,
+however, has been scoured clean, as if to remove whatever had stained it
+previously.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13844
+DDIR_EAST
+~
+~
+0 0 13850
+#13852
+The Altar~
+The blinding white light fills this room bathing everything in a brilliant
+glow.  There can be seen a ghastly fire follower tied spread-eagle and upside
+down to an altar of Order here.  The fire follower struggles meekly at his
+bonds, the light and the power of earth too great for his wretched mind.
+A small cup collects the blood dripping from the many hideous wounds, which
+is then fed into the fountain, feeding it's nourishing strength.
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13846
+DDIR_EAST
+~
+~
+0 0 13848
+DDIR_SOUTH
+~
+~
+0 0 13850
+DDIR_WEST
+~
+~
+0 0 13844
+E
+mattaro~
+Sir Mattaro, instrumental in getting me room desc's since i was far too lazy
+to walk to entropy and get them myself.  If you see him on, thank him :)
+~
+#13855
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13858
+DDIR_EAST
+~
+~
+0 0 13860
+DDIR_SOUTH
+~
+~
+0 0 13979
+DDIR_WEST
+~
+~
+0 0 13856
+#13856
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13857
+DDIR_EAST
+~
+~
+0 0 13855
+#13857
+A force cage~
+Evil thoughts of your youth creep into the back of your mind, where strong
+gargoyles attack and punish you at every turn.....and what is this??? One is
+lurking in the back corner here?  Perhaps it is payback.........for them.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13858
+DDIR_SOUTH
+~
+~
+0 0 13856
+#13858
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13859
+DDIR_SOUTH
+~
+~
+0 0 13855
+DDIR_WEST
+~
+~
+0 0 13857
+#13859
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.  A large stained glass window
+is to the north.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13860
+DDIR_WEST
+~
+~
+0 0 13858
+#13860
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13859
+DDIR_EAST
+~
+~
+0 0 13861
+DDIR_WEST
+~
+~
+0 0 13855
+#13861
+Battle grounds~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13971
+DDIR_EAST
+~
+~
+0 0 13975
+DDIR_SOUTH
+~
+~
+0 0 13862
+DDIR_WEST
+~
+~
+0 0 13860
+#13862
+Battle grounds~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13861
+DDIR_EAST
+~
+~
+0 0 13863
+DDIR_SOUTH
+~
+~
+0 0 13976
+DDIR_WEST
+~
+~
+0 0 13980
+#13863
+Battle grounds~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13864
+DDIR_WEST
+~
+~
+0 0 13862
+#13864
+Cavern of battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13863
+DDIR_EAST
+~
+~
+0 0 13865
+DDIR_SOUTH
+~
+~
+0 0 13869
+#13865
+Cavern of battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13866
+DDIR_SOUTH
+~
+~
+0 0 13868
+DDIR_WEST
+~
+~
+0 0 13864
+#13866
+Cavern of battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13867
+DDIR_WEST
+~
+~
+0 0 13865
+#13867
+A force cage~
+Evil thoughts of your youth creep into the back of your mind, where strong
+gargoyles attack and punish you at every turn.....and what is this??? One is
+lurking in the back corner here?  Perhaps it is payback.........for them.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13866
+DDIR_WEST
+~
+~
+0 0 13868
+#13868
+Cavern of battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13865
+DDIR_EAST
+~
+~
+0 0 13867
+DDIR_WEST
+~
+~
+0 0 13869
+#13869
+Cavern of battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13864
+DDIR_EAST
+~
+~
+0 0 13868
+DDIR_SOUTH
+~
+~
+0 0 13870
+#13870
+Battle grounds~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13869
+DDIR_WEST
+~
+~
+0 0 13871
+#13871
+Battle grounds~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13870
+DDIR_WEST
+~
+~
+0 0 13848
+#13872
+Hall of Heroes~
+Here are the Champions of Lord Order, people whom will forever be committed to
+the cause of reason.  Forms only are seen here; perhaps a battle can be fought
+to test your worth against the Champions.  A small shrine is centered on the
+southern wall.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13850
+DDIR_EAST
+~
+~
+0 0 13873
+E
+shrine~
+This shrine holds the embodied spirit of a Champion of Order.  You can sense
+the intelligence of the spirit, even in it's captive state.  Perhaps a battle
+can be arranged to test your mettle against some of the bravest of the land.
+~
+#13873
+Hall of Heroes~
+Here are the Champions of Lord Order, people whom will forever be committed to
+the cause of reason.  Forms only are seen here; perhaps a battle can be fought
+to test your worth against the Champions.  A small shrine is centered on the
+southern wall.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13874
+DDIR_WEST
+~
+~
+0 0 13872
+E
+shrine~
+This shrine holds the embodied spirit of a Champion of Order.  You can sense
+the intelligence of the spirit, even in it's captive state.  Perhaps a battle
+can be arranged to test your mettle against some of the bravest of the land.
+~
+#13874
+Hall of Heroes~
+Here are the Champions of Lord Order, people whom will forever be committed to
+the cause of reason.  Forms only are seen here; perhaps a battle can be fought
+to test your worth against the Champions.  A small shrine is centered on the
+southern wall.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13875
+DDIR_WEST
+~
+~
+0 0 13873
+E
+shrine~
+This shrine holds the embodied spirit of a Champion of Order.  You can sense
+the intelligence of the spirit, even in it's captive state.  Perhaps a battle
+can be arranged to test your mettle against some of the bravest of the land.
+~
+#13875
+Hall of Heroes~
+Here are the Champions of Lord Order, people whom will forever be committed to
+the cause of reason.  Forms only are seen here; perhaps a battle can be fought
+to test your worth against the Champions.  A small shrine is centered on the
+southern wall.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13876
+DDIR_WEST
+~
+~
+0 0 13874
+E
+shrine~
+This shrine holds the embodied spirit of a Champion of Order.  You can sense
+the intelligence of the spirit, even in it's captive state.  Perhaps a battle
+can be arranged to test your mettle against some of the bravest of the land.
+~
+#13876
+Hall of Heroes~
+Here are the Champions of Lord Order, people whom will forever be committed to
+the cause of reason.  Forms only are seen here; perhaps a battle can be fought
+to test your worth against the Champions.  A small shrine is centered on the
+southern wall.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13877
+DDIR_WEST
+~
+~
+0 0 13875
+E
+shrine~
+This shrine holds the embodied spirit of a Champion of Order.  You can sense
+the intelligence of the spirit, even in it's captive state.  Perhaps a battle
+can be arranged to test your mettle against some of the bravest of the land.
+~
+#13877
+The room of Earth~
+Utter silence greets your entrance.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13878
+DDIR_SOUTH
+~
+~
+0 0 13876
+#13878
+A shrine to Order~
+White light streams from the walls, ceiling, and floor here.  Soft music
+soothes and heals your wounds, while scantily clad servants bring you food and
+wine.  The power of Order is awash in every living creature in this realm,
+and no where can it be felt more closely than here.  There is much magic here,
+out of reach, but still powerful enough for all if you are worthy.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13877
+DDIR_UP
+~
+~
+0 0 13810
+E
+Order~
+Although you can not be sure, there seems to be a shimmer of a woman here,
+mortal in all respects except that she glows with a power brighter than the
+sun, and you are forced to look away.
+~
+#13880
+Outside the hallway~
+Just outside the hallway of the Domain, a quite and peaceful wooded area is to
+be seen.  Lately, a wandering gypsy tribe has made itself welcome here,
+bringing humor and a much needed influx of goods.  Trade is always welcome
+among them, but buyer beware, the gypsies are fierce bargainers.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13881
+DDIR_SOUTH
+~
+~
+0 0 13804
+#13881
+A small wooded path~
+Not far from the house, Order's power makes itself felt in the woods enclosing
+his realm.  Villagers and residents of Lord Order travel here, freely, and
+experience all kinds of rest and relaxation.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13882
+DDIR_SOUTH
+~
+~
+0 0 13880
+#13882
+A small clearing~
+The ground here has been rutted in a circular pattern, consistent with the
+tales of the wandering gypsies that are known to inhabit the area.  As their
+custom, there is not a speck of debris or refuse lying anywhere within sight.
+Even their campfires have been doused and dusted to look normal.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13885
+DDIR_EAST
+~
+~
+0 0 13883
+DDIR_WEST
+~
+~
+0 0 13881
+E
+campfire fire~
+Just charcoal and dirt, properly doused to prevent any chance of fire.
+~
+#13883
+A small clearing~
+The ground here has been rutted in a circular pattern, consistent with the
+tales of the wandering gypsies that are known to inhabit the area.  As their
+custom, there is not a speck of debris or refuse lying anywhere within sight.
+Even their campfires have been doused and dusted to look normal.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13884
+DDIR_WEST
+~
+~
+0 0 13882
+E
+campfire fire~
+Just charcoal and dirt, properly doused to prevent any chance of fire.
+~
+#13884
+A small clearing~
+The ground here has been rutted in a circular pattern, consistent with the
+tales of the wandering gypsies that are known to inhabit the area.  As their
+custom, there is not a speck of debris or refuse lying anywhere within sight.
+Even their campfires have been doused and dusted to look normal.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13886
+DDIR_SOUTH
+~
+~
+0 0 13883
+DDIR_WEST
+~
+~
+0 0 13885
+E
+campfire fire~
+Just charcoal and dirt, properly doused to prevent any chance of fire.
+~
+#13885
+A small clearing~
+The ground here has been rutted in a circular pattern, consistent with the
+tales of the wandering gypsies that are known to inhabit the area.  As their
+custom, there is not a speck of debris or refuse lying anywhere within sight.
+Even their campfires have been doused and dusted to look normal.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13884
+DDIR_SOUTH
+~
+~
+0 0 13882
+E
+campfire fire~
+Little pieces of a pear core may be seen, but otherwise it's just charcoal and
+dirt.
+~
+#13886
+A secluded apple grove~
+Discordia may have chosen one of these prized fruits for the inscription of
+"Bellissimae".  You are tempted to touch one, to see if indeed it is really a
+fruit, or, if it is as pure gold as it appears to be.  Rumors of their
+sweetness and taste have traveled even to Rotterodamum, where they are prized
+as delicacies for several prominent citizens who guard the fountains.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13887
+DDIR_WEST
+~
+~
+0 0 13884
+#13887
+A secluded pear grove~
+Planted in perfect rows, the most beautiful fruit trees your eyes have ever
+seen are covered with small blossoms.  Perfect without a blemish, they stand
+ten meter tall with ripened fruit available for the taking.  Rumors of their
+sweetness and taste have traveled even to Rotterodamum, where they are prized
+as delicacies for several prominent citizens who guard the fountains.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13890
+DDIR_WEST
+~
+~
+0 0 13886
+E
+bird birds~
+The birds seem to be circling something to the north east.
+~
+#13888
+A fruit grove~
+The ground here is stained with blood red fruit, the trees are dripping juices
+towards the ground.  There are large moans and cries of pain to the east.
+Actually, there are soon to be large cries of pain here, too.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13889
+DDIR_SOUTH
+~
+~
+0 0 13887
+#13889
+The fruit grove~
+TOO LATE!!!!!  Chaos has infiltrated this place, and is preparing an assault
+into the Realm.  Multitudes of hostile creatures have been awaiting some
+young fresh blood to test their strength on......it will probably be yours.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+~
+~
+0 0 13888
+#13890
+A secluded peach grove~
+Here lie the most incredibly beautiful trees your eyes have ever seen.
+Perfect without a blemish, they stand ten meter tall and are in full bloom.
+The fuzziest peaches are within arms reach; rumors of their sweetness and
+taste have traveled even to Rotterodamum, where they are prized as delicacies
+for several prominent citizens who guard the fountains.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13891
+DDIR_WEST
+~
+~
+0 0 13887
+E
+bird birds~
+The birds seem to be circling something directly to the north.
+~
+#13891
+A young trail~
+Slender saplings grace the edges of the trail, their pale white bark still
+moist with dawn's breath.  Small birds glide lazily across the clear sky.  The
+fresh scent untrodden grass lies before you.  Ahead in the distance several
+small paths are marked by deep cuts in the moist grass.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13892
+DDIR_EAST
+~
+~
+0 0 13898
+DDIR_WEST
+~
+~
+0 0 13890
+E
+birds bird~
+The birds seem to be circling something to the north west.
+~
+#13892
+A young trail~
+Only your footprints disturb the pristine morning around you.  All is quiet;
+occasionally one of the trees can be heard to rustle as a bird, dissatisfied
+with its view, takes flight for another limb.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13893
+DDIR_SOUTH
+~
+~
+0 0 13891
+E
+bird birds~
+The birds seem to be circling something to the east.
+~
+#13893
+A wooded trail~
+The forest is lighter here, the ground more broken up by heavy travel.  The
+strains of a stringed instrument float around you with no apparent direction.
+The jingle of a young woman's laughter gently caresses your ears.  Perhaps
+the gypsies are near.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13904
+DDIR_SOUTH
+~
+~
+0 0 13892
+DDIR_WEST
+~
+~
+0 0 13894
+E
+avian bird darkened~
+These birds are unlike the ones near fruit orchards.  Their eyes gleam with a
+shiny black pearl, and they betray no emotion as they stare upon you.
+~
+#13894
+A wooded trail~
+Small shrubs line a well made path that leads east from the forest westwards,
+in which largely open areas can be seen.  The trail widens to a fair width
+here, allowing passage of wagons to the north.  The strains of music are much
+more evident.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13911
+DDIR_EAST
+~
+~
+0 0 13893
+DDIR_WEST
+~
+~
+0 0 13895
+E
+wagon tracks track~
+Wagon tracks here have crushed a rut about thirty centimeter wide into the
+the ground.  Several large fragments of wood lie off to the side.
+~
+E
+wood fragment piece~
+The pieces seem to be from a wagon wheel, the metal rim repaired but the wood
+left behind.  One or two of the spindles seemed useable though.
+~
+#13895
+An open meadow~
+Your first guess was correct!  This field stretches in all directions, and is
+covered in the most beautiful wild flowers your eyes have ever seen.  All
+colors of the rainbow are represented, and the patches of brilliant color
+swirl as the morning breeze stirs past them.  There is not a cloud to be seen
+in the radiant blue sky.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13894
+DDIR_WEST
+~
+~
+0 0 13896
+#13896
+An open meadow~
+The meadow has broadened out into a small field, with beautiful wild flowers.
+Although there is no well defined path, it would be shameful to step off the
+route and damage the beauty lying at your feet.  The trail beckons southward.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13895
+DDIR_SOUTH
+~
+~
+0 0 13897
+E
+wild flower wild flower wild flowers~
+If any of these flowers were picked and given to a woman, she would be yours
+in an instant.
+~
+#13897
+An open meadow~
+The trail bends to the east while the ground dips slowly down a hill.  Far off
+in the distance you can see some of the walls enclosing the Domain's realm.
+The ground glows with colorful waves of flowers as the breeze gently touches
+their petals.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13896
+DDIR_WEST
+~
+~
+0 0 13916
+E
+wild flower wild flower wild flowers~
+If any of these flowers were picked and given to a woman, she would be yours
+in an instant.
+~
+#13898
+A wooded trail~
+The trail here breaks off into two separate paths; the one to the north is
+well lit, and several species of bird can be seen flying above the tree tops,
+while the one to the south is dark, the trees taller, and silence emanates
+from the enfolded branches.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13903
+DDIR_SOUTH
+~
+~
+0 0 13899
+DDIR_WEST
+~
+~
+0 0 13891
+E
+wild flower wild flower wild flowers~
+If any of these flowers were picked and given to a woman, she would be yours
+in an instant.
+~
+#13899
+Into the deep forest~
+The trunks of the trees here show incredible age, pock-marked and covered in
+moss, and reach into the sky like a thousand needles.  There is no light
+coming through the tree canopy, hundreds of feet above you, and the ground is
+bare of plants and animals.  The smell of humus is strong in the air.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13898
+DDIR_EAST
+~
+~
+0 0 13900
+#13900
+The heart of the forest~
+Tall trees are preventing much of the light of the brilliant sun from reaching
+the ground.  The earth is cold and cool, damp with moisture, and soft
+underfoot.  Small mushrooms grow out from under fallen tree limbs, thriving on
+the low lighting and the rich soil.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13901
+DDIR_WEST
+~
+~
+0 0 13899
+#13901
+The heart of the forest~
+Some of the tallest trees in the entire world grow here, reaching incredible
+heights.  Neither animals can be seen nor birds can be heard here.  Your only
+companion is the small mushrooms that grow out of the dark humus.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13902
+DDIR_SOUTH
+~
+~
+0 0 13900
+#13902
+The heart of the forest~
+This must be the oldest section of the forest; the trees block out nearly all
+the light.  A few of the quicker growing pine trees were able to survive,
+their broken and multi-limbed trunks climbing upwards for hundreds of feet.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+~
+~
+0 0 13901
+DDIR_WEST
+~
+~
+0 0 13903
+DDIR_UP
+You might be able to climb up these dead tree limbs!~
+blah_dont_see~
+EX_ISDOOR|EX_HIDDEN 0 13917
+#13903
+Into the deep forest~
+Several gaps in the canopy of trees allow light to pour forth from the radiant
+sun down to the cold earth.  The soil is dark and rich with life; swarms of
+insects gather fallen material and foods, and drag them off into the ground
+below.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13904
+DDIR_EAST
+~
+~
+0 0 13902
+DDIR_SOUTH
+~
+~
+0 0 13898
+E
+insect ant~
+These small creatures rummage around seeking anything that can be used for the
+good of the many.
+~
+E
+mush mushroom~
+These mushrooms are about two centimeters in diameter and are pink.  The very
+tip looks spongy, and the underside is ribbed in a black and gold pattern.
+~
+#13904
+A wooded trail~
+There is a bit more laughter on this lightened trail, but there is still no
+sign of the gypsies.  The wooded trees are smaller than the ones in the heart
+of the forest, allowing more light in to see by.  A sudden outburst of
+laughter is heard to the north.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13905
+DDIR_SOUTH
+~
+~
+0 0 13903
+DDIR_WEST
+~
+~
+0 0 13893
+#13905
+A gypsy encampment~
+The trail terminates into this T-intersection, where the beginnings of a small
+camp of gypsies can be seen.  Swirls of colored cloth and abundant laughter
+mark a sharp transition from the forest trails to this clearing.  More of the
+population can be seen to the east, while another trail into the forest is to
+the west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13908
+DDIR_EAST
+~
+~
+0 0 13906
+DDIR_SOUTH
+~
+~
+0 0 13904
+DDIR_WEST
+~
+~
+0 0 13910
+#13906
+A gypsy encampment~
+Small blackened circles of extinguished charcoal fires litter the rutted
+ground.  The gypsies are careful not to approach too near the muddied and
+burnt ground, so that their clothing isn't soiled.  Their bright colored cloth
+swirls in an endless artistic vision with every step.  Children, being
+children. chase each other, play in the dead fires, and generally make a
+nuisance of themselves.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13907
+DDIR_WEST
+~
+~
+0 0 13905
+#13907
+A gypsy encampment~
+Several large wagons have been circled here.  The elaborate designs present on
+the walls of the wagons indicate that these must be the elders.  The children
+respectfully avoid these wagons, keeping their games far away from the men
+who rule them.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_SOUTH
+~
+~
+0 0 13906
+DDIR_WEST
+~
+~
+0 0 13908
+#13908
+A gypsy encampment~
+A few of the smaller wagons have been set up here with small displays of goods
+lining the tables.  Most of the gypsies are dressed in a brilliant display of
+colorful cloth, some of which is for sale before you.  Several children,
+clothed only as needed, run with total disregard for everyone else, dodging
+between displays and people in an endless game of 'tag'.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13907
+DDIR_SOUTH
+~
+~
+0 0 13905
+DDIR_WEST
+~
+~
+0 0 13909
+#13909
+A gypsy encampment~
+The beaten path broadens into a wide meadow, sloping eastwards, that has been
+crossed back and forth with wagons.  Several gypsies can be seen to wander
+about aimlessly, dressed in bright, eye catching colors and outlandish designs.
+There is much laughter coming from the east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13908
+DDIR_SOUTH
+~
+~
+0 0 13910
+#13910
+A wooded trail~
+The ground here is harder, better packed, and shows less of the rutting and
+damage the passage of wagons have inflicted on other trails in the Realm.  The
+gypsy camp should be near, as strains of musical laughter reach your ear.
+You are almost close enough to make out individual conversations, but all that
+can be said is there is much happiness about.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+~
+~
+0 0 13909
+DDIR_EAST
+~
+~
+0 0 13905
+DDIR_WEST
+~
+~
+0 0 13911
+#13911
+A wooded intersection~
+Enough of the young growth has been cleared away to allow the passage of a
+fairly sized wagon.  In fact, the ground shows said passage quite well, with
+wheel ruts deeply engraved in the soft, damp soil.  Care has been taken to
+flatten these ruts out, but they still remain, marring the otherwise perfect
+grass.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13910
+DDIR_SOUTH
+~
+~
+0 0 13894
+DDIR_WEST
+~
+~
+0 0 13912
+#13912
+A wooded trail~
+The trail widens to a fair width here, allowing the passage of wagons only if
+they are small, but not much headway could be made.  To the distant west you
+can see a brilliant swath of blue sky.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13911
+DDIR_WEST
+~
+~
+0 0 13913
+#13913
+A wooded trail~
+Small shrubs line a well made path that leads east from the forest westwards,
+in which largely open areas can be seen.  The trail widens to a fair width
+here, but still not wide enough to get a wagon past.  The trail is marked at
+irregular intervals with small stones stacked upon one another.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+~
+~
+0 0 13912
+DDIR_WEST
+~
+~
+0 0 13914
+#13914
+An open meadow~
+The meadow narrows here, with small shrubs growing where the colorful flowers
+used to live.  Ahead to the east you can see young saplings with a clearly
+marked trail down the middle, while back to the south is a steep descent
+downwards towards a flower covered meadow.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+~
+~
+0 0 13913
+DDIR_SOUTH
+~
+~
+0 0 13915
+#13915
+An open meadow~
+The meadow is leveled off here, and your feet thank you for the rest in the
+arduous climb they've been under.  There seems to be no end in sight of the
+little flowers that decorate the ground everywhere at your feet, their colors
+still as brilliant under the morning sun as they were the day before.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13914
+DDIR_SOUTH
+~
+~
+0 0 13916
+#13916
+An open meadow~
+Too bad the climb up isn't as easy as the one down!  The blue poppies are very
+prevalent, covering nearly all of the ground within sight.  As the wind
+whistles over this western face, the petals come alive with an explosion of
+motion and color.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 0 13915
+DDIR_EAST
+~
+~
+0 0 13897
+#13917
+Near the top of the trees~
+WOW!  The forest floor is just a dizzying speck far below your feet.  The
+climb, while extremely taxing, was nowhere near as difficult as you thought it
+would be, but still, you don't feel as if you would like to try going down.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13918
+DDIR_DOWN
+The forest floor is sure a long way down~
+~
+0 0 13902
+#13918
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There isn't a single thing below you
+can identify with certainty, but the sun and the view from here makes it all
+worth while.  But whatever you do, dont fall!
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13917
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13919
+#13919
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There isn't a single thing below you
+can identify with certainty, but the sun and the view from here makes it all
+worth while.  But whatever you do, dont fall!
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13918
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13920
+#13920
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There isn't a single thing below you
+can identify with certainty, but the sun and the view from here makes it all
+worth while.  But whatever you do, dont fall!
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13919
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13921
+#13921
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There isn't a single thing below you
+can identify with certainty, but the sun and the view from here makes it all
+worth while.  But whatever you do, dont fall!
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13920
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13922
+#13922
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There isn't a single thing below you
+can identify with certainty, but the sun and the view from here makes it all
+worth while.  But whatever you do, dont fall!
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13921
+DDIR_SOUTH
+Tree tops~
+~
+0 0 13923
+#13923
+The canopy~
+Here, at the top of the tallest trees in the world, you can see the bright sun
+pouring its warmth down on the realm.  There are enough gaps in the trees here
+to be able to climb down to a lower level.  Which would probably be a good
+idea, as the next tree southwards is far out of your reach.  And there isn't
+even any good vines to swing along.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+Tree tops~
+~
+0 0 13922
+DDIR_DOWN
+A large tree limb~
+~
+0 0 13924
+#13924
+Outside a stained glass window~
+This tree limb terminates two meter from a window in the battle halls!
+There are shadowed shapes moving past the stained glass, and torches can
+be seen to flicker inside.  You have a tremendous urge to jump through
+the glass, hero style.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_SOUTH
+The window......Dare you break it?~
+~
+0 0 13859
+DDIR_UP
+The tree tops await your ascent~
+~
+0 0 13923
+E
+window~
+The stained glass work is unbelievable....it would truly be a shame to
+break it......then again.....
+~
+#13931
+A tunnel~
+This damp and decayed tunnel leads downwards from the center square.  The
+interior of the hall must have been built over these catacombs.  The smell
+of musty wood is carried along by a breeze to the north.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13932
+DDIR_UP
+~
+~
+0 0 13810
+#13932
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13931
+DDIR_WEST
+~
+~
+0 0 13933
+#13933
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13932
+DDIR_SOUTH
+~
+~
+0 0 13934
+#13934
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13933
+DDIR_SOUTH
+~
+~
+0 0 13935
+#13935
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13934
+DDIR_EAST
+~
+~
+0 0 13936
+#13936
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13937
+DDIR_WEST
+~
+~
+0 0 13935
+#13937
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13938
+DDIR_WEST
+~
+~
+0 0 13936
+#13938
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13939
+DDIR_SOUTH
+~
+~
+0 0 13937
+#13939
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13940
+DDIR_SOUTH
+~
+~
+0 0 13938
+#13940
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13939
+DDIR_WEST
+~
+~
+0 0 13941
+#13941
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13940
+DDIR_WEST
+~
+~
+0 0 13942
+#13942
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13941
+DDIR_WEST
+~
+~
+0 0 13943
+#13943
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13942
+DDIR_SOUTH
+~
+~
+0 0 13944
+#13944
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13943
+DDIR_SOUTH
+~
+~
+0 0 13945
+#13945
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13944
+DDIR_SOUTH
+~
+~
+0 0 13946
+#13946
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13945
+DDIR_SOUTH
+~
+~
+0 0 13947
+#13947
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13946
+DDIR_EAST
+~
+~
+0 0 13948
+#13948
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13949
+DDIR_WEST
+~
+~
+0 0 13947
+#13949
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13950
+DDIR_WEST
+~
+~
+0 0 13948
+#13950
+Catacombs~
+Well, it's not exactly a tunnel anymore.  Rusted iron shackles dangle loosely
+from the walls, while a dark black matter clings to them.  You start to feel
+uneasy that the last visitors here were very welcome....
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13951
+DDIR_WEST
+~
+~
+0 0 13949
+#13951
+Catacombs~
+The walls here broaden outwards, and there are no more rusted shackles dangling
+from the course stones.  There also appears to be a bit more light streaming
+through the northern exit.  The ground is no longer damp, but well paved, and
+no where on its path can you see debris.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13952
+DDIR_WEST
+~
+~
+0 0 13950
+#13952
+A tunnel~
+The light here is much more powerful than the dim and dark catacombs that had
+to be traversed to get here.  The path beneath your feet is smooth.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_NORTH
+Distant mumblings can be heard~
+~
+0 0 13953
+DDIR_SOUTH
+~
+~
+0 0 13951
+#13953
+A tunnel~
+The walls of this tunnel broaden outwards considerably.  Modest winds buffet
+your forward movement, causing your eyes to water.  Through bleary vision, you
+think you can see movement in the tunnel to the north.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13954
+DDIR_SOUTH
+~
+~
+0 0 13952
+#13954
+A tunnel~
+A beautifully carved statue stands here, illuminated with several torches.
+The shapes you thought you saw were nothing more than shadows, caused by the
+flickering light.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13955
+DDIR_SOUTH
+~
+~
+0 0 13953
+#13955
+A hallway~
+The rough walls before give way to smooth, polished stone here.  The broad
+floor is now carpeted, and greasy torches give way to glowing balls of light.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13956
+DDIR_WEST
+~
+~
+0 0 13954
+#13956
+A small room~
+The hallway has terminated into this room. Not much can be seen, a few
+candellabras, two desks, a footstool, and a small table are placed around the
+walls.  Another short hallway leads to the east, while the tunnel is back to
+the north.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13955
+DDIR_EAST
+~
+~
+0 0 13957
+#13957
+A hallway~
+Bustling activity greets your arrival.  Cowled forms walk each way in front of
+you, oblivious to your prescence.  Looking deeply into their hoods, you can see
+nothing.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13958
+DDIR_WEST
+~
+~
+0 0 13956
+#13958
+A busy hallway~
+A sense of unease permeates your soul as you enter this room.  Everything is in
+place, a spotless carpet surrounded by flawless tapestries.  A small desk sits
+perfectly centered in the room, with two piles of papers.  Each tapestry
+depicts different areas of the realm, at different times.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13959
+DDIR_SOUTH
+~
+~
+0 0 13957
+#13959
+A small dome~
+Here several hooded shapes move quietly through your peripheral vision.  A
+stately man is seated at the desk, piled under several layers of parchment.
+Watching you discretely, he motions you closer.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13962
+DDIR_EAST
+~
+~
+0 0 13964
+DDIR_SOUTH
+~
+~
+0 0 13958
+DDIR_WEST
+~
+~
+0 0 13960
+#13960
+A small dome~
+Hooded figures gather around a small altar in the center of the room.  The
+walls are a pale gold, adorned with white marble and silver figurines.
+A soft murmur of masculine voices encompass the room.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13961
+DDIR_EAST
+~
+~
+0 0 13959
+#13961
+A small dome~
+Hooded figures gather around a small altar in the center of the room.  The
+walls are a pale gold, adorned with white marble and silver figurines.
+A soft murmur of masculine voices encompass the room.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13962
+DDIR_SOUTH
+~
+~
+0 0 13960
+#13962
+A stairwell~
+There is a spiraling staircase in the exact center of the room.  A pair of
+white armoured guards stand menacingly at the lowest steps.  The sound of a
+shoe scraping upon marbled floors draws your attention.  Suddenly, a man not
+there before steps in front of you.  An aura of power radiates from him.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13963
+DDIR_SOUTH
+~
+~
+0 0 13959
+DDIR_WEST
+~
+~
+0 0 13961
+DDIR_UP
+~
+~
+0 0 13965
+#13963
+A small dome~
+Hooded figures gather around a small altar in the center of the room.  The
+walls are a pale gold, adorned with white marble and silver figurines.
+A soft murmur of masculine voices encompass the room.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13964
+DDIR_WEST
+~
+~
+0 0 13962
+#13964
+A small dome~
+Hooded figures gather around a small altar in the center of the room.  The
+walls are a pale gold, adorned with white marble and silver figurines.
+A soft murmur of masculine voices encompass the room.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13963
+DDIR_WEST
+~
+~
+0 0 13959
+#13965
+Sacred hallways of Order~
+As you walk along these ornate hallways, your footsteps are swallowed as soon
+as they are made.  A feeling of intense power radiates from the corridor to
+the south.  A series of small, flickering torches cast dancing shadows on the
+walls of the chamber.
+~
+0 ROOM_NO_MOB SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13966
+DDIR_DOWN
+~
+~
+0 0 13962
+#13966
+The outer Chambers of Order~
+The hallway terminates into a series of circular archways, which span the
+entire length of the room.  Inscribed within each arch is a historic battle
+between the armies of Order and the forces of Darkness.  In each depiction,
+a shimmering shape pulses before the leaders, guiding them to destiny.  A
+small plaque is at the floor board of each wall.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13965
+DDIR_SOUTH
+~
+~
+0 0 13967
+E
+plaque~
+Carefully etched in gold is the following:
+In harmony all shall prosper
+Order guides all of our paths
+The bodies of our enemies shall be vanquished for thee
+
+Gilikak, spoken in 109 Anno Dominae
+~
+#13967
+The outer Chambers of Order~
+As you approach the most inner series of arches, the radiating power is almost
+palpable.  Every breath you take swells your chest with the thunderous might
+of a God still believed in and worshipped.  There can be only one Lord Order.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13966
+DDIR_SOUTH
+~
+~
+0 0 13968
+#13968
+The Sacred inner Chamber of Order~
+Words can not describe the blessed splendor radiating from the man in front of
+you.  Everything is bathed in a pure white light.  Nothing evil can lurk here,
+and all your crimes are exposed by the power of Order.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13967
+#13970
+BuBBle~
+This BuBBle in the Space-Time continium floats just outside of our earth.
+Shimmering shapes of different realities drift through your vision like a
+small storm tossed ship, adrift.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS|ROOM_SAFE|ROOM_NO_RECALL SECT_INSIDE
+DDIR_DOWN
+~
+~
+0 0 13968
+#13971
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13972
+DDIR_SOUTH
+~
+~
+0 0 13861
+#13972
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13973
+DDIR_SOUTH
+~
+~
+0 0 13975
+DDIR_WEST
+~
+~
+0 0 13971
+#13973
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 13974
+DDIR_WEST
+~
+~
+0 0 13972
+#13974
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13973
+DDIR_WEST
+~
+~
+0 0 13975
+#13975
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13972
+DDIR_EAST
+~
+~
+0 0 13974
+DDIR_WEST
+~
+~
+0 0 13861
+#13976
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13862
+DDIR_WEST
+~
+~
+0 0 13977
+#13977
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13980
+DDIR_EAST
+~
+~
+0 0 13976
+DDIR_WEST
+~
+~
+0 0 13978
+#13978
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 13979
+DDIR_EAST
+~
+~
+0 0 13977
+DDIR_SOUTH
+~
+~
+0 -1 13846
+#13979
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 13855
+DDIR_EAST
+~
+~
+0 0 13980
+DDIR_SOUTH
+~
+~
+0 0 13978
+#13980
+Cavern of Battles~
+The floor here is dented and scratched, and the cries of wounded enemies fill
+the air piercing your ears.  Steel on steel clanging can be heard in all
+directions, even though no one is in sight.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 13862
+DDIR_SOUTH
+~
+~
+0 0 13977
+DDIR_WEST
+~
+~
+0 0 13979
+#0
+
+
+#RESETS
+M 13812 100 13857
+M 13812 100 13867
+M 13817 100 13931
+M 13817 100 13932
+M 13817 100 13934
+M 13817 100 13936
+M 13817 100 13937
+M 13817 100 13939
+M 13817 100 13940
+M 13817 100 13942
+M 13817 100 13943
+M 13817 100 13945
+M 13817 100 13946
+M 13817 100 13948
+M 13817 100 13949
+M 13818 100 13931
+M 13818 100 13932
+M 13818 100 13934
+M 13818 100 13936
+M 13818 100 13937
+M 13818 100 13939
+M 13818 100 13940
+M 13818 100 13942
+M 13818 100 13943
+M 13818 100 13945
+M 13818 100 13946
+M 13818 100 13948
+M 13818 100 13949
+M 13819 100 13931
+M 13819 100 13932
+M 13819 100 13934
+M 13819 100 13936
+M 13819 100 13937
+M 13819 100 13939
+M 13819 100 13940
+M 13819 100 13942
+M 13819 100 13943
+M 13819 100 13945
+M 13819 100 13946
+M 13819 100 13948
+M 13819 100 13949
+M 13817 100 13970
+M 13818 100 13970
+M 13819 100 13970
+M 13855 100 13800
+M 13805 100 13819
+E 13800   4 WEAR_ABOUT
+E 13801   4 WEAR_BODY
+E 13802   4 WEAR_ARMS
+E 13803   4 WEAR_HANDS
+E 13804   4 WEAR_FEET
+E 13805   4 WEAR_LEGS
+E 13806   4 WEAR_HEAD
+E 13807   4 WEAR_FINGER_L
+E 13808   4 WEAR_HOLD
+M 13806 100 13818
+E 13800   4 WEAR_ABOUT
+E 13801   4 WEAR_BODY
+E 13802   4 WEAR_ARMS
+E 13803   4 WEAR_HANDS
+E 13804   4 WEAR_FEET
+E 13805   4 WEAR_LEGS
+E 13806   4 WEAR_HEAD
+E 13807   4 WEAR_FINGER_L
+E 13808   4 WEAR_HOLD
+M 13807 100 13820
+E 13800   4 WEAR_ABOUT
+E 13801   4 WEAR_BODY
+E 13802   4 WEAR_ARMS
+E 13803   4 WEAR_HANDS
+E 13804   4 WEAR_FEET
+E 13805   4 WEAR_LEGS
+E 13806   4 WEAR_HEAD
+E 13807   4 WEAR_FINGER_L
+E 13808   4 WEAR_HOLD
+M 13808 100 13816
+E 13810   4 WEAR_ABOUT
+E 13811   4 WEAR_BODY
+E 13812   4 WEAR_ARMS
+E 13813   4 WEAR_HANDS
+E 13814   4 WEAR_FEET
+E 13815   4 WEAR_LEGS
+E 13816   4 WEAR_HEAD
+E 13817   4 WEAR_FINGER_L
+E 13818   4 WEAR_HOLD
+M 13809 100 13817
+E 13810   4 WEAR_ABOUT
+E 13811   4 WEAR_BODY
+E 13812   4 WEAR_ARMS
+E 13813   4 WEAR_HANDS
+E 13814   4 WEAR_FEET
+E 13815   4 WEAR_LEGS
+E 13816   4 WEAR_HEAD
+E 13817   4 WEAR_FINGER_L
+E 13818   4 WEAR_HOLD
+M 13810 100 13815
+E 13810   4 WEAR_ABOUT
+E 13811   4 WEAR_BODY
+E 13812   4 WEAR_ARMS
+E 13813   4 WEAR_HANDS
+E 13814   4 WEAR_FEET
+E 13815   4 WEAR_LEGS
+E 13816   4 WEAR_HEAD
+E 13817   4 WEAR_FINGER_L
+E 13818   4 WEAR_HOLD
+M 13811 100 13814
+E 13800   4 WEAR_ABOUT
+E 13801   4 WEAR_BODY
+E 13802   4 WEAR_ARMS
+E 13803   4 WEAR_HANDS
+E 13804   4 WEAR_FEET
+E 13805   4 WEAR_LEGS
+E 13806   4 WEAR_HEAD
+E 13807   4 WEAR_FINGER_L
+E 13808   4 WEAR_HOLD
+M 13833 100 13810
+M 13946 100 13852
+M 13833 100 13852
+M 13820 100 13878
+M 13815 100 13878
+M 13821 100 13872
+M 13823 100 13873
+M 13825 100 13874
+M 13827 100 13875
+M 13829 100 13876
+M 13834 100 13828
+M 13834 100 13829
+M 13834 100 13830
+M 13834 100 13831
+M 13834 100 13832
+M 13834 100 13833
+M 13841 100 13824
+G 13918 100 0
+M 13842 100 13823
+G 13912 100 0
+G 13913 100 0
+G 13914 100 0
+G 13915 100 0
+G 13916 100 0
+G 13917 100 0
+G 13919 999 0
+M 13843 100 13825
+G 13903 100 0
+G 13904 100 0
+G 13905 100 0
+G 13906 100 0
+G 13907 100 0
+G 13908 100 0
+M 13831 100 13955
+M 13803 100 13957
+M 13832 100 13958
+E 13822  50 WEAR_NECK_A
+M 13800 100 13804
+M 13802 100 13828
+M 13802 100 13831
+M 13835 100 13968
+M 13836 100 13962
+M 13836 100 13962
+M 13837 100 13963
+M 13837 100 13962
+M 13837 100 13961
+M 13837 100 13960
+M 13838 100 13886
+M 13839 100 13887
+M 13840 100 13890
+M 13844 100 13908
+M 13845 100 13907
+E 13846  10 WEAR_WIELD
+M 13847 100 13905
+M 13847 100 13915
+M 13847 100 13890
+M 13847 100 13899
+M 13847 100 13895
+M 13847 100 13920
+M 13848 100 13905
+M 13848 100 13915
+M 13848 100 13890
+M 13848 100 13899
+M 13848 100 13895
+M 13848 100 13920
+M 13846 100 13916
+M 13849 100 13906
+M 13850 100 13906
+M 13854 100 13966
+M 13945 100 13859
+M 13851 100 13859
+M 13853 100 13810
+O 13831   1 13954
+O 13832   1 13966
+O 13833   1 13967
+O 13852   1 13859
+O 13841   1 13886
+O 13842   1 13890
+O 13843   1 13887
+D 13902 DIR_UP    DOOR_OPEN
+M 13945 100 13851
+M 13945 100 13850
+M 13945 100 13849
+M 13945 100 13848
+M 13945 100 13845
+M 13945 100 13846
+M 13945 100 13847
+M 13945 100 13978
+M 13945 100 13977
+M 13945 100 13976
+M 13945 100 13980
+M 13945 100 13979
+M 13945 100 13855
+M 13945 100 13856
+M 13946 100 13858
+M 13945 100 13858
+M 13945 100 13860
+M 13945 100 13971
+M 13946 100 13972
+M 13945 100 13972
+M 13945 100 13973
+M 13945 100 13974
+M 13945 100 13975
+M 13945 100 13861
+M 13945 100 13862
+M 13945 100 13863
+M 13945 100 13864
+M 13945 100 13865
+M 13945 100 13866
+M 13946 100 13868
+M 13945 100 13868
+M 13945 100 13869
+M 13945 100 13870
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

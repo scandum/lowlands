@@ -1,0 +1,2123 @@
+#AREA Crater~
+#AUTHORS Grimace~
+#VERSION 4
+#RANGES 26 36 1 95
+#OLC_RANGES 19400 19499
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE
+
+
+#HELPS
+0 CRATER~
+{138}
+                                   Crater
+{308}
+As I was wandering the holy grove one day, seeking out a druid to help with
+a nasty dwarven toe fungus that had been maligning me, I stumbled into a
+strange void.  When I emerged, I found myself near Thalos, except it wasn't
+the sere desecrated ruins that we know as Thalos, but a verdant, lush Thalos,
+full of wonder and spectacle.  Surely this was the Thalos of the past, but
+how?
+
+As I explored the perimeter of the great city, I came across a crossroads.
+I turned north, smelling an acrid odor from that direction, only to find
+myself at the bank of a midnight-black stream, cutting across a place where
+all the trees had been burned to the ground.  Across the stream and to the
+north sprouted a huge crater, roughly 400 horseheads into the sky, the trees
+blown down all around it in a radial pattern.  The light was growing dim,
+and the stream ran deep, so I was forced to turn back, but I hope that I 
+will one day have a chance to explore this strange and wonderful place.
+
+I have heard stories of gemstones and minerals being harvested from just such
+craters near the dwarven kingdom.
+{148}
+                   Grimace 1996    Last update: February 2002
+~
+
+0 $~
+
+
+#MOBILES
+#19400
+crater kobold~
+a crater kobold~
+A crater kobold wanders the crater floor with his pick.~
+The crater kobold is quite furry and reeks of carrion.  Although
+not known as a mining race, the opportunities presented by this
+location were obviously too much for the kobolds to pass up.
+~
+ACT_SCAVENGER|ACT_BODY|ACT_RACE
+0
+0 S
+36 BODY_MOUTH|BODY_TORSO|BODY_HAND BODY_MOUTH|BODY_TORSO|BODY_HAND 1d400+700 2d25+2
+12000 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 2~
+mpecho The crater kobold swings his pick wildly.
+~
+>rand_prog 1~
+if rand (75)
+  mpecho The crater kobold growls and bares his teeth.
+  break
+endif
+if hasobjnum ($i) == 19418
+  break
+endif
+if !hasobjnum ($i) == 19419
+  mpoload 19419 w
+  break
+endif
+get i19418 basket
+if hasobjnum ($i) == 19418
+  wear i19418
+  break
+endif
+mpoload 19418
+put i19418 basket
+~
+|
+#19401
+crater shaman~
+the crater shaman~
+The crater shaman stands here with a contented smile on his face.~
+While the kobold race in general is organized into various ranks determined
+by military necessity, relegating religion to a minor role, something has
+happened to this particular band to turn their superstitions into a way of
+life.  The kobold shaman is a product of that transformation, and he wears
+the garb of someone of great importance.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+250 S
+36 BODY_MOUTH|BODY_TORSO|BODY_HAND BODY_MOUTH|BODY_TORSO|BODY_HAND 1d324+598 2d20+20
+46555 RACE_ORC
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog I19400~
+nod $n
+say You honor me with your gift.
+say You have shown great courage and shall be duly rewarded.
+mpoload 19401
+give i19401 $n
+if quest (0,4,$n) == 1
+  say I hope you don't expect to receive a promotion
+  say by doing that tired old quest over and
+  say over again, though.... This thing is already
+  say mummified.  How about some fresh blood?
+  say Try killing some of those tenticles that keep
+  say raiding camp in the middle of the night.  The
+  say great Fire in the Sky needs sacrifice.
+  sigh 
+endif
+if quest (0,4,$n) == 0
+  say I dub thee "Kobold in Training,  Private 1st Class"
+  say With some hard work, you could move up the ranks.
+  say Go and make me proud.
+  mpmset $n long Kobold in Training, Private 1st Class $n stands here.
+  mpmset $n quest 0 4 1
+endif
+~
+>give_prog I19420~
+if quest (0,4,$n) == 1
+  nod $n
+  say You honor me with your gift.
+  say You have shown great courage and shall be duly rewarded.
+  say I dub thee "Kobold in Training,  Corporal $n."
+  say Go and make me proud.
+  mpmset $n long Kobold in Training, Corporal $n stands here.
+  mpmadd $n quest 0 4 1
+else
+  if quest (0,4,$n) == 2
+    nod $n
+    say You honor me with your gift.
+    say You have shown great courage and shall be duly rewarded.
+    say I dub thee "Kobold in Training,  Sergeant $n."
+    say Go and make me proud.
+    mpmset $n long Kobold in Training, Sergeant $n stands here.
+    mpmadd $n quest 0 4 1
+  else
+    if quest (0,4,$n) == 3
+      nod $n
+      say You honor me with your gift.
+      say You have shown great courage and shall be duly rewarded.
+      say I dub thee "Kobold Associate,  2nd Lieutenant $n."
+      say Go and make me proud.
+      mpmset $n long Kobold Associate, 2nd Lieutenant $n stands here.
+      mpmadd $n quest 0 4 1
+    else
+      if quest (0,4,$n) == 4
+        nod $n
+        say You honor me with your gift.
+        say You have shown great courage and shall be duly rewarded.
+        say I dub thee "Kobold Associate,  1st Lieutenant $n."
+        say Go and make me proud.
+        mpmadd $n quest 0 4 1
+        mpmset $n long Kobold Associate, 1st Lieutenant $n stands here.
+      else
+        if quest (0,4,$n) == 5
+          nod $n
+          say You honor me with your gift.
+          say You have shown great courage and shall be duly rewarded.
+          say I dub thee "Kobold Advisor,  Captain $n."
+          say Go and make me proud.
+          mpmadd $n quest 0 4 1
+          mpmset $n long Kobold Advisor, Captain $n stands here.
+        else
+          if quest (0,4,$n) == 6
+            nod $n
+            say You honor me with your gift.
+            say You have shown great courage and shall be duly rewarded.
+            say I dub thee "Kobold Advisor,  Major $n."
+            say Go and make me proud.
+            mpmset $n long Kobold Advisor, Major $n stands here.
+            mpmadd $n quest 0 4 1
+          else
+            if quest (0,4,$n) == 7
+              nod $n
+              say You honor me with your gift.
+              say You have shown great courage and shall be duly rewarded.
+              say I dub thee "Kobold Officer,  Lt. Colonel $n."
+              say Go and make me proud.
+              mpmset $n long Kobold Officer, Lt. Colonel $n stands here.
+              mpmadd $n quest 0 4 1
+            else
+              if quest (0,4,$n) == 8
+                nod $n
+                say You honor me with your gift.
+                say You have shown great courage and shall be duly rewarded.
+                say I dub thee "Kobold Officer,  Colonel $n."
+                say Go and make me proud.
+                mpmadd $n quest 0 4 1
+                mpmset $n long Kobold Officer, Colonel $n stands here.
+              else
+                if quest (0,4,$n) == 9
+                  nod $n
+                  say You honor me with your gift.
+                  say You have shown great courage and shall be duly rewarded.
+                  say I dub thee "Kobold Leader,  General $n."
+                  say You have earned a place among the kobolds of
+                  say this tribe as a respected leader and advisor.
+                  say We shall not forget you.
+                  say There is a FAVOR I'd like to ask of you...
+                  mpmadd $n quest 0 4 1
+                  mpmset $n long Kobold Leader, General $n stands here.
+                else
+                  if quest (0,4,$n) == 10
+                    nod $n
+                    say You honor me with your gift,
+                    say but you need not prove your worth to anyone.
+                    say We are ever appreciative of your efforts.
+                    bow $n
+                  else
+                    say Try grabbing that mummified tenticle first...
+                  endif
+                endif
+              endif
+            endif
+          endif
+        endif
+      endif
+    endif
+  endif
+endif
+mpjunk i19420
+~
+>greet_prog 100~
+if rand (25)
+  mpdelay self 5 1
+endif
+if quest (0,4,$n) > 0
+  bow $n
+endif
+if quest (0,4,$n) == 1
+  say Greetings, Private $n.
+else
+  if quest (0,4,$n) == 2
+    say Greetings, Corporal $n.
+  else
+    if quest (0,4,$n) == 3
+      say Greetings, Sergeant $n.
+    else
+      if quest (0,4,$n) == 4
+        say Greetings, 2nd Lieutenant $n.
+      else
+        if quest (0,4,$n) == 5
+          say Greetings, 1st Lieutenant $n.
+        else
+          if quest (0,4,$n) == 6
+            say Greetings, Captain $n.
+          else
+            if quest (0,4,$n) == 7
+              say Greetings, Major $n.
+            else
+              if quest (0,4,$n) == 8
+                say Greetings, Lt. Colonel $n.
+              else
+                if quest (0,4,$n) == 9
+                  say Greetings, Colonel $n.
+                else
+                  if quest (0,4,$n) == 10
+                    say Greetings, General $n.
+~
+>delay_prog 1~
+cast feast
+~
+>speech_prog p favor~
+if quest (0,4,$n) == 10
+  say While our problems with the tenticles are ongoing and
+  say serious, there is native resident in this crater who
+  say has been here far longer than our scaly tenants.  This
+  say swamp creature has been ravaging our trade network down
+  say at the lake, and has caused us no end of trouble.
+  say Unfortunately, we lack the equipment necessary to seek it
+  say out in its watery depths to kill it, though I'm sure
+  say a great explorer like yourself would be able to find it.
+  say It is also said that loach skin demonstrates an immunity
+  say to its attacks.  Good luck, General.
+  bow $n
+else
+  emote coughs uneasily.
+endif
+~
+>give_prog i19421~
+say I knew you wouldn't let us down, General!
+mpoload 19402
+give i19402 $n
+say If that creature ever comes back again, I'll
+say trust that you will take care of it for us!
+smile $n
+~
+|
+#19402
+swamp thing~
+the Swamp Thing~
+Some sort of swamp creature is trolling slowly through the algae.~
+The creature has webbed feet, and dorsal fins, though the body type is
+basically humanoid.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY|AFF_STEALTH
+-1000 S
+40 BODY_MOUTH|BODY_ARM BODY_MOUTH|BODY_ARM 1d1+1748 2d50+2
+23638 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+mpdelay self 5 1
+~
+>delay_prog 1~
+mpkill $r
+~
+>death_prog 100~
+if hasobjnum ($n) == 28743
+  mpechoaround $n The Swamp Thing wraps his head around $n's ear.
+  mpechoat $n The Swamp Thing wraps his head over your ear and whispers:
+  mpechoat $n {038}$I whispers 'I like to eat kobolds.  I bet you'd like them too.'
+  mpechoat $n {038}$I whispers 'My father, the oh so mighty Prince Arcus of Atlantis'
+  mpechoat $n {038}$I whispers 'likes them too... they're quite a delicacy... take him'
+  mpechoat $n {038}$I whispers 'one and he'll be pleased.'
+  mpecho The Swamp Thing bursts into a fine chum of flayed flesh
+  mpecho and streams of bodily fluid.
+  if quest (0,4,$n) == 10
+    mpecho You notice a long scaly tongue floating by...
+    mpoload 19421
+    mpquiet on
+    cast 'cure blindness'
+    drop all
+    mpquiet off
+  endif
+endif
+mppurge self
+~
+>hitprcnt_prog 20~
+if hasobjnum ($n) == 28743
+  break
+endif
+mpecho The Swamp Thing whispers in a raspy voice:
+mpecho {038}"Foolish mortals!  I am protected by Lord Neptune
+mpecho {038}himself.  You cannot kill me.  I only have
+mpecho {038}one vulnerability, and I doubt you can guess what
+mpecho {038}that is."
+mpecho The Swamp Thing makes a quiet prayer to Lord Neptune and is gone!
+mppurge self
+~
+|
+#19403
+leathery egg~
+a leathery egg~
+A leathery egg sits here, humming gently.~
+The egg looks reptilian in origin.
+~
+ACT_SENTINEL|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-1000 S
+1 0 0 1d0+10 1d1+1
+1 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 10~
+if numberrange (5,10) > 0
+  mpdelay self $x 1
+~
+>delay_prog 1~
+mpecho One of the eggs starts shaking violently, then stops.
+~
+|
+#19404
+gargolith~
+the gargolith~
+A large scaly beast lets forth a low rumble which shakes you to your core.~
+This otherworldly creature has evidently mothered hundreds of eggs,
+some of which you saw, some of which are tucked away in other
+inaccessible recesses, in hopes of starting some sort of colony.  Let's hope
+these things aren't too ambitious...
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+36 BODY_MOUTH|BODY_TENTACLE BODY_MOUTH|BODY_TENTACLE 1d324+598 1d1+31
+29118 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpecho The gargolith snaps at you with its teeth, almost taking off your head.
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#19405
+tentacle~
+a tentacle~
+A long tentacle slithers around here.~
+This tentacle may or may not be attached to the large beast here.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+36 BODY_TENTACLE BODY_TENTACLE 1d1+750 2d20+5
+44362 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 10~
+mpechoat $n The tenticle slaps across your body, leaving behind a row of sucker marks.
+mpquiet on
+cast 'poison' $n
+mpquiet off
+~
+>death_prog 50~
+mpoload 19420
+~
+|
+#19406
+ethereal~
+an ethereal mob~
+An ethereal mob stands here.~
+The ethereal mob cannot be described.
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+1000 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+mpecho The tenticle quickly disappears down a hole.
+mppurge self
+~
+|
+#19407
+burly tenticle~
+a burly tenticle~
+A long tenticle slithers here.~
+The tenticle may or may not be attached to the large beast here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+0
+-1000 S
+65 BODY_TENTACLE BODY_TENTACLE 1d1+2999 1d1+74
+44362 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 5~
+mpoload 19420
+~
+>rand_prog 1~
+mpechoat $r The tenticle writhes and pulsates.
+~
+>time_prog 1~
+mpmadd self quest 0 3 1
+if quest (0,3,$i) == 0
+  mpecho The burly tenticle turns black and dies.
+  mppurge self
+endif
+~
+|
+#19408
+ethereal~
+an ethereal mob~
+An ethereal mob stands here.~
+The ethereal mob cannot be described.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 100~
+mpgoto 19430
+mpecho BLAM!  As the pick breaks through the west wall of the cave,
+mpecho you hear the deafening roar of steam roaring up from deep inside
+mpecho the earth below.  You just have time to wrap your cloak around
+mpecho your face as a blast of supercritical water sprays into the room.
+mpecho Luckily, the main force of this geyser seems to have been
+mpecho directed upward rather than eastward.  You can hear the barking
+mpecho of kobolds, and you suddenly smell the sickening aroma of fried eggs.
+connect 3 19445 both
+mpmload 19409
+mpgoto 19433
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19434
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19435
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19436
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19437
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19438
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19439
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19440
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19441
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19442
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19443
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19444
+mppurge all
+mpecho You hear the roar of steam as a wall of supercritical water
+mpecho carries you to the surface.  You are lucky to be alive.
+mptransfer all 19416
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpoload 19423 room
+mpgoto 19416
+mpecho A geyser erupts!
+mppurge self
+~
+|
+#19409
+ethereal~
+an ethereal mob~
+An ethereal mob stands here.~
+The ethereal mob cannot be described.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+1000 S
+1 0 0 1d0+10 1d1+1
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 24~
+mpgoto 19430
+connect west -1
+mpecho Suddenly the ceiling partially caves in, sealing off the geyser hole with a thick pile of rock!
+mpgoto 19445
+connect east -1
+mpecho Suddenly the ceiling partially caves in, sealing off the
+mpecho gargolith tunnel with a thick pile of rock!
+mppurge self
+~
+|
+#19410
+cook royal~
+the Royal Cook~
+The Royal Cook stands here, working on the carcuss.~
+The Royal Cook wears the finest turquoise.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_HUNT
+0 S
+85 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND BODY_LEG|BODY_ARM 5d500+4200 1d85+37
+20000 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_MALE
+>time_prog 24~
+emote dresses the carcass, then drags it away.
+mpquiet on
+sacrifice corpse
+sacrifice corpse
+sacrifice corpse
+sacrifice corpse
+sacrifice corpse
+mpquiet off
+mppurge self
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#19400
+mummified tentacle~
+a mummified tentacle~
+A shriveled up tentacle lies here gathering dust.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 10 1
+#19401
+tenticle sash~
+a tenticle sash~
+A mummified tenticle lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT|ITEM_WEAR_WAIST
+0 0 0 0 0 0 0 0
+2 10 36
+A APPLY_DAMROLL 4 0
+A APPLY_MANA -70 0
+A APPLY_HITROLL 8 0
+#19402
+tenticle gloves~
+tenticle gloves~
+A pair of tenticle gloves are lying here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+0 0 0 0 0 0 0 0
+2 10 36
+A APPLY_DAMROLL 4 0
+A APPLY_MANA -70 0
+A APPLY_HITROLL 8 0
+#19403
+suit crater armor~
+a suit of crater armor~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19404
+crater helmet~
+a crater helmet~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19405
+crater arm guards~
+crater arm guards~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19406
+crater leg guards~
+crater leg guards~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19407
+crater boots~
+crater boots~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19408
+crater gauntlets~
+crater gauntlets~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19409
+crater neckguard~
+crater neckguard~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19410
+crater amulet~
+crater amulet~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19411
+crater sash~
+crater sash~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19412
+blue band~
+blue band~
+A blue band lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19413
+turquoise ring~
+turquoise ring~
+A turquoise ring lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19414
+crater girth~
+crater girth~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19415
+crater shield~
+crater shield~
+Some strange rocks lie here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_HUM|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+8 0 0 0 0 0 0 0
+2 23000 26
+A APPLY_HIT 20 0
+#19416
+kobold's kobold pick~
+kobold's pick~
+A blunt tool lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_AXE 4 7 WEAPON_CRUSH 0 0 0 0
+2 23000 31
+E
+instructions pick kobold's~
+As you look at the pick, a small voice in your head tells you:
+"Type 'pick-rock' to continue your explorations."
+You see nothing particularly special about a kobold's pick.
+~
+A APPLY_WIS 1 0
+A APPLY_CON 1 0
+P 1
+TRIG_UNKNOWN 100 pick-rock
+OPROG_IF OIF_USER_ROOM_NUM = 19430 3 2
+P 2
+TRIG_VOID
+OPROG_ECHO
+The rock is way too hard to pick here.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat $ You begin hacking at the soft west wall of the chamber.
+mpechoaround $ $ begins hacking at the soft west wall of the chamber.
+mpmload 19408~
+#19417
+crater whip~
+crater whip~
+A long, slender whip has been left here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 3 3 WEAPON_WHIP 0 0 0 0
+2 23000 36
+A APPLY_HIT 20 0
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+#19418
+strange mineral deposit~
+a strange mineral deposit~
+A strange mineral deposit has been pried from the bedrock.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 143011 10
+A APPLY_WIS 2 0
+A APPLY_CON 2 0
+#19419
+basket~
+a basket~
+A basket sits here.~
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+100 0 0 0 0 0 0 0
+1 10 2
+#19420
+dead tenticle~
+a dead tenticle~
+A dead tenticle lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 10 1
+#19421
+swamp thing's tongue scaly~
+the Swamp Thing's scaly tongue~
+A scaly tongue floats here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 10 1
+#19422
+sphere incubation~
+the Sphere of Incubation~
+A humming sphere has been abandoned here.~
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 10 1
+E
+sphere incubation instructions~
+This sphere is designed to accelerate the incubation of a variety
+of types of eggs, catering to those of the lizard and slaad families.
+~
+#19423
+fried gargolith egg~
+a fried gargolith egg~
+A fried gargolith egg simmers here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 0 0 0 0 0 0 0
+10 10 1
+#0
+
+
+#ROOMS
+#19400
+The Small River~
+You find yourself on a narrow but swiftly flowing river which has been
+partially blocked off upstream by some sort of landslide.  The rapids
+downstream aren't navigable.  A rough path leads off to the north, where
+there seems to be some sort of barking, though it's hard to make it out.
+~
+0 0 SECT_OCEAN
+DDIR_NORTH
+The path leads off to the north.~
+~
+0 -1 19401
+DDIR_SOUTH
+The path leads off to the south.~
+~
+0 -1 5365
+#19401
+On the Rough Path~
+You're trudging along a rough path which has been ground into dark
+volcanic tuff.  The path is narrow and faint, but it seems to lead up the
+steep ridge which lies to the north.  The countryside is strangely devoid
+of all vegetation, and you get the feeling that something cataclysmic has
+occurred here not long ago.  The path also leads off to the south.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You can probably scramble up the ridge to the north.~
+~
+0 -1 19411
+DDIR_SOUTH
+The path leads off to the south.~
+~
+0 -1 19400
+#19402
+On the Rim~
+You find yourself gasping for air after your short, steep scramble.  You now
+see that your have climbed up a high ridge above a fairly substantial
+depression of some sort which dominates the landscape to the north.  It
+would be difficult to climb down into the basin from here, but you might
+be able to skirt the crater to the east or north and find an easier way down.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19457
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19414
+#19403
+On the Rim~
+The rim is quite narrow and jagged here, and you feel a little vertigo wash
+over you as you work your way along the knife edge.  There is no way
+to climb down to either the east or west, but the rim continues north and
+south.  Is that barking you hear rising up from below?
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19404
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19457
+#19404
+On the Rim~
+The rim has broadened a bit, and it seems to slope gently down to the north,
+but descent to the east and west would still be treacherous.  The rough rock
+underneath your feet is broken by the occasional glint of something metallic.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19405
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19403
+#19405
+On the Rim~
+The ridge drops off abruptly to the north, where you can see evidence
+of rock having been strewn by some great force across the rolling hills and
+forest that lies in that direction.  Descent into the crater may be possible
+to the east, and the rim is negotiable to the south.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19406
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19404
+#19406
+On the Rim~
+The rim is much lower here, broad and flat.  Descent into the crater to the
+south looks easy, and the climb to the east along the rim looks much easier
+than the steeper one to the west.  The howling from the south has stopped.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19407
+DDIR_SOUTH
+You can climb down into the crater from here.~
+~
+0 -1 19415
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19405
+#19407
+On the Rim~
+The rim is much lower here, broad and flat.  Descent into the crater to the
+south looks easy, and the climb to the west along the rim looks much easier
+than the steeper one to the east.  The howling from the south has stopped.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19454
+DDIR_SOUTH
+You can climb down into the crater from here.~
+~
+0 -1 19416
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19406
+#19408
+On the Rim~
+The rim is broad and high here, and you are blessed with sweeping views
+across the rolling hills and forest to the east and north.  The crater beckons
+you from below, but the descent from here would be quite difficult.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19409
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19454
+#19409
+On the Rim~
+The rim here is much narrower, and you feel suddenly off-balance as
+a strong breeze whips up and threatens to blow you off into the depths
+on either side of you.  The rocks here are laced with a metallic glint.  Too
+bad you forgot your rock hammer.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19408
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19410
+#19410
+On the Rim~
+You find yourself high above the hills to the east, and it is difficult to even
+make out the floor of the crater to the west.  As you scramble around
+some large boulders, you step in something slimy.  A wave of nausea
+consumes you when you realize that it is the feces of some small creature,
+evidently one whose diet does not agree with it.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19409
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19456
+#19411
+On the Rim~
+The views from this pinnacle of rock are superb, but in the interest of
+self-preservation, you decide to move on quickly.  The rim climbs to the
+north and slopes down away to the west.  Watch your step.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19456
+DDIR_SOUTH
+The path leads back down the slope.~
+~
+0 -1 19401
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19455
+#19412
+On the Rim~
+You are standing on top of a large boulder that has somehow made its way
+to the top of the rim.  Its very flatness is inviting considering all of the
+climbing you've been doing, and you long to rest for a bit.  As you rest your
+weary bones, you hear something rustling in the rocks to the south.  Your
+keen eyes pick up a trail you didn't see at first heading off in that direction.
+The rim continues east and west.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19455
+DDIR_SOUTH
+A path leads to the south.~
+~
+0 -1 19413
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19414
+#19413
+The Kobold Shaman's Perch~
+As you round a boulder, you spot a small campsite with a fire circle and
+straw pallet which has been slept on.  Someone has dragged a wooden
+table up on top of this rocky ridge, and the pile of supplies under a rock to
+your left indicates that the larder is well stocked and continually resupplied.
+There is a lake to the south, presumably created by the landslide you
+saw earlier, but a thick cover of algae and an intense odor keep you away.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim lies to the north.~
+~
+0 -1 19412
+#19414
+On the Rim~
+The rim leads steadily up from east to west, and descent to either the
+north or south would be quite difficult.  The rock has been blasted
+to small pieces here, and you can see how it has been strewn down the rim
+to the south into the river, cutting off half the flow.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19412
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19402
+#19415
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You can climb the rim in that direction.~
+~
+0 -1 19406
+DDIR_EAST
+The floor stretches off to the east.~
+~
+0 -1 19416
+DDIR_SOUTH
+The floor stretches off to the south.~
+~
+0 -1 19418
+#19416
+On the Crater Floor~
+The black glass is exceedingly hot here, and you quickly decide that
+it's in your best interest to leave.  The air has a musty, ripe smell,
+the smell of old wet fur mixed with the breath of a carrion eater.
+You start to feel a little dizzy.  You can hear the not so distant
+pounding of rock picks.  You spy a geyser hole ringed with mineral
+deposits.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You can climb the rim in that direction.~
+~
+0 -1 19407
+DDIR_EAST
+The floor stretches off to the east.~
+~
+0 -1 19417
+DDIR_SOUTH
+The floor stretches off to the south.~
+~
+0 -1 19449
+DDIR_WEST
+You can climb the rim in that direction.~
+~
+0 -1 19415
+#19417
+On the Crater Floor~
+The glassy floor is streaked with royal blue and crimson, impurities unlike
+any you've encountered in the realm.  The glass is studded with small
+nuggets of odd metallic composition, and there are a few baskets sitting
+about which have been filled with these strange rocks.  The
+dense air is difficult to breathe, and the blood in your head is pounding.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You can climb the rim in that direction.~
+~
+0 -1 19454
+DDIR_SOUTH
+The crater floor stretches off to the south.~
+~
+0 -1 19450
+DDIR_WEST
+The crater floor stretches off to the west.~
+~
+0 -1 19416
+#19418
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19415
+DDIR_EAST
+The floor stretches off to the east.~
+~
+0 -1 19449
+DDIR_SOUTH
+The floor stretches off to the south.~
+~
+0 -1 19451
+#19419
+In the Tube~
+You've slid down into a large, glass-walled tube.  The air is thick and hot,
+and the perfectly uniform walls indicate that the tunnel you are in is not
+of natural origin.  The duergar dwarves would even be envious.  The tube
+curves around to the north.  A wave of panic washes through you as you
+realize that the walls are far too smooth to climb back up into the crater.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_NORTH
+The tube curves to the north.~
+~
+0 -1 19420
+#19420
+In the Tube~
+The glassy tube snakes around from south to west and begins to slope
+gently down in the latter direction.  A strange mist wafts up from below,
+catching the scattered light from above and reflecting it in all the colors
+of the rainbow.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+The tube curves to the south.~
+~
+0 -1 19419
+DDIR_WEST
+The tube heads gently down to the west.~
+~
+0 -1 19421
+#19421
+In the Tube~
+As you slip and slide along the smooth-walled tube, which heads down to
+the south and up to the east, you catch a glimpse of a small hole opening
+up to the north through the mist.  The air is acrid here.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A small hole opens through the mist.~
+~
+0 -1 19422
+DDIR_EAST
+The tunnel heads gently up to the east.~
+~
+0 -1 19420
+DDIR_SOUTH
+The tunnel heads gently down to the south.~
+~
+0 -1 19423
+#19422
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  You wonder what you're standing in, for
+it is obviously not the same smooth tunnel you've been exploring.  As you
+bend down, you realize that the mist forms a thick layer above about
+waist height, and below that level, it is clear.  Clear enough, in fact, that
+you are able to see the perfect rows of large, leathery eggs, stretching out
+across the room at your feet.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+The tunnel lies back to the south.~
+~
+0 -1 19421
+#19423
+In a Tube~
+You've climbed down below the layer of mist, and it now sparkles above
+your head.  The air is noticeable warmer here.  Your feet slip on the smooth
+walls of the tube as it snakes downward into a sort of dead end.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The tube leads up to the north.~
+~
+0 -1 19421
+DDIR_DOWN
+Another tube has opened below you.~
+~
+0 -1 19424
+#19424
+In a Tube~
+As you drop into the new tube, you sink up to your waist into the same mist
+you saw up above.  Otherwise, this tube looks to be the same, from its
+smooth walls to hot, stale air.  You cough for a second, then continue
+your spelunking.  You decide not to waste your energy trying to climb
+back up the glass.
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+The tube leads gently down to the south.~
+~
+0 -1 19427
+DDIR_WEST
+The tube leads to the west.~
+~
+0 -1 19425
+#19425
+In a Tube~
+You've reached a dead end.  The mist here is thick and rainbow colored,
+but it seems confined to a layer which extends from your ankles to your
+waist.  As you turn to go, you realize that there is a hole in the mist to
+the south.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The tube leads to the east.~
+~
+0 -1 19424
+DDIR_SOUTH
+The hole opens to the south.~
+~
+0 -1 19426
+#19426
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 ROOM_NO_RECALL SECT_HILLS
+DDIR_NORTH
+The tube lies to the north.~
+~
+0 -1 19425
+#19427
+In the Tube~
+The smooth-walled tube seems to end here, which is probably
+for the best since the air has become unbearable warm and your clothes
+are soaked with sweat.  Maybe spelunking wasn't your calling in
+life.  At least you've descended below the mist, which sparkles and
+shines just above your head.  The sight is almost intoxicating.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The tube continues to the north.~
+~
+0 -1 19424
+DDIR_DOWN
+Another tube has opened up below you.~
+~
+0 -1 19428
+#19428
+In the Tube~
+You've dropped into another smooth-walled tube, though this one
+has no mist to clutter your vision or clog your lungs.  You can head
+either west or east from here, both of which lead down into both
+heat and darkness.  You cannot, however, head back up the way you
+came down.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The tube heads down to the east.~
+~
+0 -1 19429
+DDIR_WEST
+The tube heads down to the west.~
+~
+0 -1 19430
+#19429
+In the Tube~
+You're standing at a dead end in a smooth-walled tube, though something
+about the far wall seems a little strange.  The color is... hey, the wall is
+made not of glassy rock, but of water which shines silvery in the dim light
+of this room.  There appears to be a membrane of some sort which holds
+back the water, but as you gently slip your hand through the membrane,
+it becomes clear that you should have no trouble passing through in this
+direction.  But into what?
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The membrane occupies the east end of the room.~
+~
+0 -1 19432
+DDIR_WEST
+The tube leads up to the west.~
+~
+0 -1 19428
+#19430
+In the Tube~
+You've entered a large chamber whose west wall has a scaly, yet moist,
+texture, unlike any of the other walls you've encountered in this maze
+of smooth-walled tubes.  As you reach out to touch it, suddenly you
+realize that it's alive!
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The tube leads up to the east.~
+~
+0 -1 19428
+DDIR_DOWN
+~
+~
+EX_HIDDEN -1 19431
+#19431
+A Small Chamber~
+You've managed to squeeze beneath the hulking body of the gargolith,
+where there is a small chamber which contains what looks like mainly
+dead skin from that huge beast.
+~
+0 0 SECT_HILLS
+DDIR_UP
+The only exit is to come back the way you came...~
+~
+EX_HIDDEN -1 19430
+#19432
+The Nasty Lake~
+You slide carefully through the membrane, holding your breath in
+anticipation of what lies on the other side.
+
+Glub!
+
+Glub!
+
+Glub!
+
+Suddenly you find yourself entangled in thick, foul-smelling algae.
+You scramble for shore as quickly as you can, quicker even.  You
+almost preferred the tubes to this....
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The shore is in that direction.~
+~
+0 -1 19413
+#19433
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the geyser hole.~
+~
+0 -1 19445
+#19434
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the geyser hole.~
+~
+0 -1 19445
+#19435
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the geyser hole.~
+~
+0 -1 19446
+#19436
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_WEST
+You see the geyser hole.~
+~
+0 -1 19446
+#19437
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the geyser hole.~
+~
+0 -1 19446
+#19438
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the geyser hole.~
+~
+0 -1 19446
+#19439
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the geyser hole.~
+~
+0 -1 19447
+#19440
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_WEST
+You see the geyser hole.~
+~
+0 -1 19447
+#19441
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the geyser hole.~
+~
+0 -1 19447
+#19442
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_SOUTH
+You see the geyser hole.~
+~
+0 -1 19448
+#19443
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_EAST
+You see the geyser hole.~
+~
+0 -1 19448
+#19444
+The Hatchery~
+You are standing in thick mist which fills your eyes with rainbow colors
+and makes it hard to breathe.  As you bend down, you see the perfect
+rows of large, leathery eggs, stretching out across the room at your feet.
+Don't you wonder how these boys would scramble up in the morning?
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+You see the geyser hole.~
+~
+0 -1 19448
+#19445
+The Geyser~
+The steam released by your sharp pick has ripped a jagged hole through
+the volcanic tuff and obsidian above and below you.  Unlike the smooth
+tunnels carved by the tenticles, you find abundant handholds suitable
+for climbing into the hole above your head, or safely descending into
+the rumbling abyss below your feet.  You spy two hollows with smooth
+walls to the north and west bearing tenticle marks.  You would
+be well-advised to make your explorations hasty, as it is uncertain
+just how long it will take before the geyser repressurizes and
+blows again...
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A hatchery lies to the north.~
+~
+0 -1 19433
+DDIR_WEST
+A hatchery lies to the west.~
+~
+0 -1 19434
+DDIR_UP
+The geyser hole continues in that direction.~
+~
+0 -1 19447
+DDIR_DOWN
+The geyser hole continues in that direction.~
+~
+0 -1 19446
+#19446
+The Geyser~
+As you descend into the geyser hole, you find that your handholds of
+volcanic tuff have been replaced with solid bedrock granite.  The crack
+below you has irissed itself down so tight that even the smallest
+pixie would be unable to squeeze inside it.  You can see now that the
+gargolith has left its imprint on these walls, carving smooth rooms
+in four directions to safely harbor its young within this hellish world
+of geothermal heat and steam.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A hatchery lies in that direction.~
+~
+0 -1 19435
+DDIR_EAST
+A hatchery lies in that direction.~
+~
+0 -1 19436
+DDIR_SOUTH
+A hatchery lies in that direction.~
+~
+0 -1 19437
+DDIR_WEST
+A hatchery lies in that direction.~
+~
+0 -1 19438
+DDIR_UP
+The geyser hole continues in that direction.~
+~
+0 -1 19445
+#19447
+The Geyser~
+You have managed to scramble your way up through the volcanic tough
+into a small room where presumably a deposit of soluble rock has been
+eroded away by the hot steam from below.  The roof of this room is
+solid obsidian glass, much harder than the surrounding volcanic tuff,
+which has been carved by both gargolith tenticle and steam alike into
+a myriad of passageways and rooms.  The geyser hole continues west and
+down.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A hatchery lies in that direction.~
+~
+0 -1 19439
+DDIR_EAST
+A hatchery lies in that direction.~
+~
+0 -1 19440
+DDIR_SOUTH
+A hatchery lies in that direction.~
+~
+0 -1 19441
+DDIR_WEST
+The geyser hole continues in that direction.~
+~
+0 -1 19448
+DDIR_DOWN
+The geyser hole continues in that direction.~
+~
+0 -1 19446
+#19448
+The Geyser~
+The steam from the earth below has found a small seam in the obsidian
+glass above your head, carving a small hole which you'd be hard-pressed
+to squeeze yourself into, so to speak.  A hint of sunlight from above
+lights the acrid air, and you have a sudden yet impractical urge to
+claw your way through the solid rock to freedom and fresh air.  All
+around you are the marks of the gargolith, who has carved wide rooms
+in the volcanic tuff to house its young, oddly secure in this hostile
+environment.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+A hatchery lies in that direction.~
+~
+0 -1 19442
+DDIR_EAST
+The geyser hole continues in that direction.~
+~
+0 -1 19447
+DDIR_SOUTH
+A hatchery lies in that direction.~
+~
+0 -1 19444
+DDIR_WEST
+A hatchery lies in that direction.~
+~
+0 -1 19443
+#19449
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19416
+DDIR_EAST
+The crater floor stretches off to the east.~
+~
+0 -1 19450
+DDIR_SOUTH
+The crater floor stretches off to the south.~
+~
+0 -1 19452
+DDIR_WEST
+The crater floor stretches off to the west.~
+~
+0 -1 19418
+DDIR_DOWN
+A large uniform hole with smooth walls opens below you.~
+~
+0 -1 19419
+#19450
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19417
+DDIR_SOUTH
+The crater floor stretches off to the south.~
+~
+0 -1 19453
+DDIR_WEST
+The crater floor stretches off to the west.~
+~
+0 -1 19449
+#19451
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19418
+DDIR_EAST
+The crater floor stretches off to the east.~
+~
+0 -1 19452
+#19452
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19449
+DDIR_EAST
+The crater floor stretches off to the east.~
+~
+0 -1 19453
+DDIR_WEST
+The crater floor stretches off to the west.~
+~
+0 -1 19451
+#19453
+On the Crater Floor~
+A foul odor hanging on thick, hot air assaults your nostrils as you make
+your way across the flat bottom of the depression.  The ground here has
+been fused into glass, and you find that it's quite hard to keep your footing.
+There are rocks imbedded in the glass which have a metallic glint, and you
+can hear the not so distant pounding of rock picks.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The crater floor stretches off to the north.~
+~
+0 -1 19450
+DDIR_WEST
+The crater floor stretches off to the west.~
+~
+0 -1 19452
+#19454
+On the Rim~
+The rim is much lower here, broad and flat.  Descent into the crater to the
+south looks easy, and the climb to the west along the rim looks much easier
+than the steeper one to the east.  The howling from the south has stopped.
+~
+0 ROOM_NO_MOB SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19408
+DDIR_SOUTH
+You can climb down into the crater from here.~
+~
+0 -1 19417
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19407
+#19455
+On the Rim~
+The rim leads steadily up from east to west, and descent to either the
+north or south would be quite difficult.  The rock has been blasted
+to small pieces here, and you can see how it has been strewn down the rim
+to the south into the river, cutting off half the flow.
+~
+0 0 SECT_HILLS
+DDIR_EAST
+The rim is negotiable to the east.~
+~
+0 -1 19411
+DDIR_WEST
+The rim is negotiable to the west.~
+~
+0 -1 19412
+#19456
+On the Rim~
+The rim here is much narrower, and you feel suddenly off-balance as a strong
+breeze whips up and threatens to blow you off into the depths on either side
+of you.  The rocks here are laced with a metallic glint.  Too bad you forgot
+your rock hammer.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19410
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19411
+#19457
+On the Rim~
+The rim has broadened a bit, and it seems to slope gently down to the north,
+but descent to the east and west would still be treacherous.  The rough rock
+underneath your feet is broken by the occasional glint of something metallic.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+The rim is negotiable to the north.~
+~
+0 -1 19403
+DDIR_SOUTH
+The rim is negotiable to the south.~
+~
+0 -1 19402
+#0
+
+
+#RESETS
+M 19400  20 19415
+E 19416 100 WEAR_WIELD
+M 19400  20 19415
+E 19416 100 WEAR_WIELD
+M 19400  20 19415
+E 19416 100 WEAR_WIELD
+M 19400  20 19415
+E 19416 100 WEAR_WIELD
+M 19400  20 19417
+E 19416 100 WEAR_WIELD
+M 19400  20 19417
+E 19416 100 WEAR_WIELD
+M 19400  20 19417
+E 19416 100 WEAR_WIELD
+M 19400  20 19417
+E 19416 100 WEAR_WIELD
+M 19400  20 19418
+E 19416 100 WEAR_WIELD
+M 19400  20 19418
+E 19416 100 WEAR_WIELD
+M 19400  20 19418
+E 19416 100 WEAR_WIELD
+M 19400  20 19418
+E 19416 100 WEAR_WIELD
+M 19400  20 19449
+E 19416 100 WEAR_WIELD
+M 19400  20 19449
+E 19416 100 WEAR_WIELD
+M 19400  20 19449
+E 19416 100 WEAR_WIELD
+M 19400  20 19449
+E 19416 100 WEAR_WIELD
+M 19400  20 19450
+E 19416 100 WEAR_WIELD
+M 19400  20 19450
+E 19416 100 WEAR_WIELD
+M 19400  20 19450
+E 19416 100 WEAR_WIELD
+M 19400  20 19450
+E 19416 100 WEAR_WIELD
+M 19400  20 19451
+E 19416 100 WEAR_WIELD
+M 19400  20 19451
+E 19416 100 WEAR_WIELD
+M 19400  20 19451
+E 19416 100 WEAR_WIELD
+M 19400  20 19451
+E 19416 100 WEAR_WIELD
+M 19400  20 19452
+E 19416 100 WEAR_WIELD
+M 19400  20 19452
+E 19416 100 WEAR_WIELD
+M 19400  20 19452
+E 19416 100 WEAR_WIELD
+M 19400  20 19452
+E 19416 100 WEAR_WIELD
+M 19400  20 19453
+E 19416 100 WEAR_WIELD
+M 19400  20 19453
+E 19416 100 WEAR_WIELD
+M 19400  20 19453
+E 19416 100 WEAR_WIELD
+M 19400  20 19453
+E 19416 100 WEAR_WIELD
+M 19401 100 19413
+E 19403   2 WEAR_BODY
+E 19404   2 WEAR_HEAD
+E 19405   2 WEAR_ARMS
+E 19406   2 WEAR_LEGS
+E 19407   2 WEAR_FEET
+E 19408   2 WEAR_HANDS
+E 19409   2 WEAR_NECK_A
+E 19410   2 WEAR_NECK_B
+E 19411   2 WEAR_ABOUT
+E 19412   2 WEAR_FINGER_R
+E 19413   2 WEAR_FINGER_L
+E 19414   2 WEAR_WAIST
+E 19415   2 WEAR_SHIELD
+E 19417   2 WEAR_WIELD
+M 19402 100 19432
+M 19403 100 19422
+M 19403 100 19422
+M 19403 100 19422
+M 19403 100 19422
+M 19403 100 19422
+M 19403 100 19426
+M 19403 100 19426
+M 19403 100 19426
+M 19403 100 19426
+M 19403 100 19426
+M 19403 100 19433
+M 19403 100 19433
+M 19403 100 19433
+M 19403 100 19433
+M 19403 100 19433
+M 19403 100 19434
+M 19403 100 19434
+M 19403 100 19434
+M 19403 100 19434
+M 19403 100 19434
+M 19403 100 19435
+M 19403 100 19435
+M 19403 100 19435
+M 19403 100 19436
+M 19403 100 19436
+M 19403 100 19436
+M 19403 100 19437
+M 19403 100 19437
+M 19403 100 19437
+M 19403 100 19438
+M 19403 100 19438
+M 19403 100 19438
+M 19403 100 19439
+M 19403 100 19439
+M 19403 100 19439
+M 19403 100 19440
+M 19403 100 19440
+M 19403 100 19440
+M 19403 100 19441
+M 19403 100 19441
+M 19403 100 19441
+M 19403 100 19442
+M 19403 100 19442
+M 19403 100 19442
+M 19403 100 19443
+M 19403 100 19443
+M 19403 100 19443
+M 19403 100 19444
+M 19403 100 19444
+M 19403 100 19444
+M 19404 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19405 100 19430
+M 19406 100 19423
+M 19406 100 19427
+O 19400   2 19431
+M 19400  20 19416
+E 19416 100 WEAR_WIELD
+M 19400  20 19416
+E 19416 100 WEAR_WIELD
+M 19400  20 19416
+E 19416 100 WEAR_WIELD
+M 19400  20 19416
+E 19416 100 WEAR_WIELD
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

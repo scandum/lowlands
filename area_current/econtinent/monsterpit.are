@@ -1,0 +1,710 @@
+#AREA Monster Pit~
+#AUTHORS PinkF~
+#VERSION 4
+#RANGES 5 10 1 95
+
+
+#HELPS
+-1 MONSTER 'MONSTER PIT'~
+{138}                                 Monster Pit
+{308}
+The monster pit is run by overseer Brandil with an iron fist.  He has
+gathered some of the best magicians in the land to help him create or
+summon monsters to be dispersed throughout the realms.  This area was
+originally called Mob Factory but has been revised by
+
+  {128}(A) {058}Jaxom
+~
+
+0 $~
+
+
+#MOBILES
+#9401
+beasthound hound dog~
+the beasthound~
+The beasthound is here, his eyes glowing green!~
+You see a beasthound, glaring at you with green eyes!  You wonder if
+this training facility meets any guidelines....
+~
+ACT_AGGRESSIVE|ACT_WIMPY
+AFF_DETECT_INVIS
+-700 S
+6 0 0 0d0+30 1d6+1
+5 0
+POS_STANDING POS_STANDING SEX_MALE
+#9402
+overseer brandilmob~
+Overseer Brandil~
+The Overseer is here, making plans for the future.~
+You see the Overseer of the Monster Pit -- a sterling example of what comes
+of dedicated monster creation!  Rewarded for his years of dedication as a monster
+slayer, the Overseer now creates beasts for other adventurers to fight.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY
+2 S
+12 0 0 1d1+90 1d12+4
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+if level ($n) > 20
+  mpjunk i9400
+endif
+~
+|
+#9403
+cityguards guards head~
+the Cityguard's head~
+The Cityguard's head floats around aimlessly.~
+You see a disembodied Cityguard's head floating around without a care in
+the world.  Obviously, this one got past quality control!  Careful, those
+teeth look sharp...
+~
+0
+AFF_FLYING
+0 S
+9 0 0 1d1+50 1d9+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#9404
+wafer golem~
+a Wafer Golem~
+A Wafer Golem is here, spinning in place.~
+You see a wafer golem who looks much like other other golems...He has a
+featureless bipedial body and is completely smooth without hair or
+wrinkles.
+~
+ACT_SCAVENGER|ACT_WIMPY
+0
+1 S
+2 0 0 1d1+11 1d3+1
+50 0
+POS_STANDING POS_STANDING SEX_MALE
+#9405
+Green slime~
+the green slime~
+A pool green slime lies on the floor.~
+Yick.  Looks like someone had digestion problems!  The slime oozes towards
+you slowely, If you go to sleep it might actually catch you.
+~
+ACT_SENTINEL|ACT_SCAVENGER
+0
+0 S
+4 0 0 1d1+20 2d4+1
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#9406
+summoner monster~
+a monster summoner~
+A monster summoner is standing here, casting a spell.~
+The worker wears a bright orange robe, with the words "Monster Pit" written
+in a bright purple starburst.
+~
+ACT_WIMPY
+0
+100 S
+3 0 0 1d1+15 1d4+1
+50 0
+POS_STANDING POS_STANDING SEX_MALE
+#9407
+creator monster~
+a monster creator~
+A monster creator is here, asleep in a chair.~
+If the Overseer walks in, you can bet there'll be trouble.  Guess she
+shouldn't have worked the late shift!
+~
+ACT_SENTINEL|ACT_WIMPY
+0
+150 S
+3 0 0 1d1+20 1d3+1
+75 0
+POS_SLEEPING POS_SLEEPING SEX_FEMALE
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#9400
+iron fist~
+an iron fist~
+A fist made of iron lies here.~
+It is a clenched fist made of iron, or maybe it is a severed hand that
+has been hollowed out and turned into iron.  The craftsmanship is so good
+that it is hard to tell.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+5 0 0 0 0 0 0 0
+5 10000 5
+A APPLY_DAMROLL 1 0
+A APPLY_HITROLL 1 0
+A APPLY_STR 1 0
+#0
+
+
+#ROOMS
+#9400
+Entrance to the Monster Pit~
+You find that you have entered a strange building. This building isn't
+used to make armor or cloth or something - it makes monsters!  To the
+north you see the storage area, to the south the overseers's office, to
+the east the entrance hallway, and to the west the eastern end of alley.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9401
+DDIR_EAST
+~
+~
+0 0 9407
+DDIR_SOUTH
+~
+~
+0 0 9403
+DDIR_WEST
+~
+~
+0 0 17539
+#9401
+Monster Pit Storage Area~
+This is where the raw materials from which monsters are manufactured are
+stored. You see sacks of arms and leg, cans of eyes, a large box
+containing hair and a bottle mysteriously labelled "solution x". Exits
+are more of storage to the east and north, and entrance to the monster
+pit to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9402
+DDIR_EAST
+~
+~
+0 0 9406
+DDIR_SOUTH
+~
+~
+0 0 9400
+#9402
+Monster Pit Storage Area~
+This is where the raw materials from which monsters are manufactured are
+stored. You see sacks of arms and leg, cans of eyes, a large box
+containing hair and a bottle mysteriously labelled "solution x". Exits
+are more of storage to the east and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 9405
+DDIR_SOUTH
+~
+~
+0 0 9401
+#9403
+Overseer's Office~
+This is the office of the Monster Pit overseer. The room is sparsely
+furnished with a wooden desk, a couple of chairs, and a shelf with
+helmets of various sizes. Exits lead north to the Monster Pit entrance
+and south to the overseer's bathroom.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9400
+DDIR_SOUTH
+~
+~
+0 0 9404
+#9404
+Overseer's Bathroom~
+This is the place where the overseer makes frequent visits. The smell
+here is very strong and reminds you of bovine excrement! There is a
+hole in a raised platform with a board across it. On the floor you can
+see stains of a very suspicious nature. The only exit leads north to
+the overseer's office.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9403
+#9405
+Monster Pit Storage Area~
+This is where the raw materials from which monsters are manufactured are
+stored. You see sacks of arms and leg, cans of eyes, a large box
+containing hair and a bottle mysteriously labelled "solution x". Exits
+are more of storage to the west and south, and an inspection room to
+the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 9410
+DDIR_SOUTH
+~
+~
+0 0 9406
+DDIR_WEST
+~
+~
+0 0 9402
+#9406
+Monster Pit Storage Area~
+This is where the raw materials from which monsters are manufactured are
+stored. You see sacks of arms and leg, cans of eyes, a large box
+containing hair and a bottle mysteriously labelled "solution x". Exits
+are more of storage to the west and north, an inspection room to the
+east and the entrance hallway to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9405
+DDIR_EAST
+~
+~
+0 0 9411
+DDIR_SOUTH
+~
+~
+0 0 9407
+DDIR_WEST
+~
+~
+0 0 9401
+#9407
+Entrance Hallway to Monster Pit~
+You are standing in the entrance hallway of the Monster Pit.  You can
+hear people shouting in the distance. Every once in a while you get
+creepy feeling that a pair of eyes is observing you...... Exits are
+north to the storage area, east to the entrance hallway, south to the
+dining hall and west to the monster factory entrance.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9406
+DDIR_EAST
+~
+~
+0 0 9412
+DDIR_SOUTH
+~
+~
+0 0 9408
+DDIR_WEST
+~
+~
+0 0 9400
+#9408
+Monster Pit Dining Hall~
+You find that you have entered the dining hall of the Monster Pit. There
+are many summoners and creators eating at the numerous tables placed
+around the room.  The food doesn't look too appetising, but the they don't
+seem to care. There are many places where food and drink have been
+spilled on the ground. Exits are north to the entrance hallway and
+south to the Monster Pit dining hall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9407
+DDIR_SOUTH
+~
+~
+0 0 9409
+#9409
+Monster Pit Dining Hall~
+You find that you have entered the dining hall of the Monster Pit. There
+are many summoners and creators eating at the numerous tables placed
+around the room.  The food doesn't look too appetising, but the they don't
+seem to care. There are many places where food and drink have been
+spilled on the ground. The only exit is north to the Monster Pit
+dining hall.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9408
+#9410
+Monster Pit Inspection Room~
+You have entered the Monster Pit inspections room. This is where the
+monsters that have been created or summoned are inspected for defects. A
+whole team of inspectors from the Chakkor Inspections Bureau is
+standing around, trying to look busy. Exits are south to the monster
+pit inspection room, east to the creation room and west to
+the storage area.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 9415
+DDIR_SOUTH
+~
+~
+0 0 9411
+DDIR_WEST
+~
+~
+0 0 9405
+#9411
+Monster Pit Inspection Room~
+You have entered the Monster Pit inspections room. This is where the
+monsters that have been created or summoned are inspected for defects. A
+whole team of inspectors from the Chakkor Inspections Bureau is
+standing around, trying to look busy. Exits are south to the monster
+pit inspection room, east to the creation room and west to
+the storage area.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9410
+DDIR_EAST
+~
+~
+0 0 9416
+DDIR_SOUTH
+~
+~
+0 0 9412
+DDIR_WEST
+~
+~
+0 0 9406
+#9412
+Entrance Hallway to Monster Pit~
+You are standing in the entrance hallway of the Monster Pit.  You can
+hear people shouting in the distance. Every once in a while you get
+creepy feeling that a pair of eyes is observing you...... Exits are
+north to the inspection room, east to the creation room, south to the
+reject room and west to the entrance hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9411
+DDIR_EAST
+~
+~
+0 0 9417
+DDIR_SOUTH
+~
+~
+0 0 9413
+DDIR_WEST
+~
+~
+0 0 9407
+#9413
+Monster Pit Reject Room~
+This is the buildings reject room. All the monsters that are created
+incorrectly or have some defect are placed here before subsequent
+destruction. You shudder at the many deformed and grotesque shapes
+present before you. Exits are south to the reject room and north to
+the entrance hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9412
+DDIR_SOUTH
+~
+~
+0 0 9414
+#9414
+Monster Pit Reject Room~
+This is the buildings reject room. All the monsters that are created
+incorrectly or have some defect are placed here before subsequent
+destruction. You shudder at the many deformed and grotesque shapes
+present before you. The only exit is north to the reject room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9413
+#9415
+Creation Room~
+This is the creation of the Monster Pit. Here, all the
+monsters seen roaming around the city of Chakkor are created from
+raw materials.  It seems that the creators are making beasthounds
+today. Exits are east to the summoning room, south to the creation
+room and west to the inspection room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+~
+~
+0 0 9420
+DDIR_SOUTH
+~
+~
+0 0 9416
+DDIR_WEST
+~
+~
+0 0 9410
+#9416
+Creation Room~
+This is the creation of the Monster Pit. Here, all the
+monsters seen roaming around the city of Chakkor are created from
+raw materials.  It seems that the creators are making beasthounds
+today. Exits are east to the summoning room, north and south to the
+creation room and west to the inspection room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9415
+DDIR_EAST
+~
+~
+0 0 9421
+DDIR_SOUTH
+~
+~
+0 0 9417
+DDIR_WEST
+~
+~
+0 0 9411
+#9417
+Creation Room~
+This is the creation of the Monster Pit. Here, all the
+monsters seen roaming around the city of Chakkor are created from
+raw materials.  It seems that the creators are making beasthounds
+today. Exits are east to the summoning, north and south to the
+creation room and west to the entrance hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9416
+DDIR_EAST
+~
+~
+0 0 9422
+DDIR_SOUTH
+~
+~
+0 0 9418
+DDIR_WEST
+~
+~
+0 0 9412
+#9418
+Creation Room~
+This is the creation of the Monster Pit. Here, all the
+monsters seen roaming around the city of Chakkor are created from
+raw materials.  It seems that the creators are making beasthounds
+today. Exits are east to the summoning room, north and south to the
+creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9417
+DDIR_EAST
+~
+~
+0 0 9423
+DDIR_SOUTH
+~
+~
+0 0 9419
+#9419
+Creation Room~
+This is the creation of the Monster Pit. Here, all the
+monsters seen roaming around the city of Chakkor are created from
+raw materials.  It seems that the creators are making beasthounds
+today. Exits are east to the summoning room and north to the
+creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9418
+DDIR_EAST
+~
+~
+0 0 9424
+#9420
+Summoning Room~
+This is the summoning room of the Monster Pit. You are surprised to
+see green slimes appear in the room!  The very sight is sickening,
+but the summoners seem to be quite cheerful about their work. Exits
+are south to the summoning room and west to the creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+~
+~
+0 0 9421
+DDIR_WEST
+~
+~
+0 0 9415
+#9421
+Summoning Room~
+This is the summoning room of the Monster Pit. You are surprised to
+see green slimes appear in the room!  The very sight is sickening,
+but the summoners seem to be quite cheerful about their work.  Exits
+are north and south to the summoning room and west to the creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9420
+DDIR_SOUTH
+~
+~
+0 0 9422
+DDIR_WEST
+~
+~
+0 0 9416
+#9422
+Summoning Room~
+This is the summoning room of the Monster Pit. You are surprised to
+see green slimes appear in the room!  The very sight is sickening,
+but the summoners seem to be quite cheerful about their work. Exits
+are north and south to the summoning room and west to the creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9421
+DDIR_SOUTH
+~
+~
+0 0 9423
+DDIR_WEST
+~
+~
+0 0 9417
+#9423
+Summoning Room~
+This is the summoning room of the Monster Pit. You are surprised to
+see green slimes appear in the room!  The very sight is sickening,
+but the summoners seem to be quite cheerful about their work.  Exits
+are north and south to the summoning room and west to the creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9422
+DDIR_SOUTH
+~
+~
+0 0 9424
+DDIR_WEST
+~
+~
+0 0 9418
+#9424
+Summoning Room~
+This is the secondary asembly line of the Monster Pit. You are
+surprised to see cityguard heads come floating on the conveyor belt!
+The very sight is sickening, but the workers seem to be quite
+cheerful about their work. Exits are north to the secondary
+assembly line and west to the creation room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 0 9423
+DDIR_WEST
+~
+~
+0 0 9419
+#0
+
+
+#RESETS
+M 9405 100 9401
+M 9401 100 9402
+M 9402 100 9403
+E 9400 300 WEAR_HANDS
+M 9405 100 9404
+M 9403 100 9406
+M 9405 100 9408
+M 9401 100 9408
+M 9405 100 9409
+M 9407 100 9410
+M 9404 100 9410
+M 9403 100 9410
+M 9407 100 9411
+M 9401 100 9411
+M 9404 100 9413
+M 9403 100 9414
+M 9405 100 9415
+M 9406 100 9415
+M 9406 100 9416
+M 9406 100 9417
+M 9406 100 9418
+M 9401 100 9418
+M 9406 100 9419
+M 9406 100 9420
+M 9407 100 9420
+M 9405 100 9421
+M 9403 100 9421
+M 9403 100 9422
+M 9406 100 9423
+M 9403 100 9423
+M 9403 100 9424
+M 9406 100 9424
+M 9405 100 9424
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

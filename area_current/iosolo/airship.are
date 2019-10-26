@@ -1,0 +1,2766 @@
+#AREA Airship~
+#AUTHORS Oren~
+#VERSION 4
+#RANGES 30 60 1 95
+#OLC_RANGES 43300 43399
+#RESETMSG You hear seagulls flying overhead.~
+
+#FLAGS AFLAG_NOTELEPORT|AFLAG_NOCASTLE|AFLAG_NORIP
+
+
+#HELPS
+1 airship~
+{128}                                Airship
+{308}
+The airship is a fun little ship that will help you travel from here to there.
+There are several locations the airship departs from.  Sun Dome, Ellis City,
+Piscyra, and the Gnome Empire.  Take a ride when you get a chance.  The
+airship is run mainly by drunken gnomes so be patient with the crew!
+
+Oren
+~
+
+0 $~
+
+
+#MOBILES
+#43300
+hickley gnome first mate~
+Hickley~
+Hickley, the first mate, is here.~
+Hickley seems to be a bit drunk ... ummm ... under the weather!  He is in charge
+of the everyday operations of the airship and reports to the captain himself.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>give_prog i43323~
+if quest (4,4,$n) == 5
+  mpmset $n quest 4 4 6
+  say Wow, $N, who gave you this??
+  mpjunk i43323
+endif
+~
+>speech_prog jovial~
+if quest (4,4,$n) == 6
+  mpmset $n quest 4 4 7
+  say Jovial that little sneak, I should have known.  You see this
+  say medallion was a gift from my father and for the last few years
+  say I thought I'd lost it but I'm very happy you have returned it
+  say to me.  I'll deal with Jovial later...
+  cheer 
+  say I couldn't help but overhear that you are looking for Dr.
+  say Winklestaff's suction device, normally I keep this on the hush
+  say hush, to protect the privacy of our crew, but since you've
+  say returned my medallion I'll tell you where you can find it.
+  say You may have noticed him before but Spunky the ship's idiot took
+  say it to do who-knows-what with it.  Search the ship he hides all
+  say over the place, sad to say you will probably have to beat him up
+  say a bit to get it from him, good luck.
+  cap $n
+endif
+~
+|
+#43301
+gnome crewman~
+a crewman~
+A crewman is here, swabbing the decks.~
+The crewman is drably dressed and toils all day.
+~
+ACT_DRUNK|ACT_SMART|ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 10d10+500 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 10~
+sing Kiss me I'm Drunk!!
+~
+|
+#43302
+gnome crewman~
+a crewman~
+A crewman is here, working.~
+The crewman seems to be testing the ropes for stability.
+~
+ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_TORSO|BODY_LEG|BODY_ARM BODY_LEG|BODY_ARM 10d10+500 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43303
+gnome crewman~
+a crewman~
+A crewman is here, swabbing the decks.~
+The crewman is here swabbing, toiling, and whistling a merry tune.
+~
+ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_EYE BODY_HEAD|BODY_LEG|BODY_ARM|BODY_FOOT 40d10+400 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43304
+gnome crewman~
+a crewman~
+A crewman is here, swabbing the decks.~
+The crewman is swabbing and singing a sea chanty as he works.
+~
+ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_ARM|BODY_FOOT BODY_HEAD|BODY_EYE 0d0+600 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43305
+crewman gnome~
+a crewman~
+A crewman is here standing his post.~
+This crew member is on steady watch on this gangway and on the plankway that is
+used to exit the ship upon docking at a location.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+30 BODY_HEAD BODY_ARM|BODY_HAND 40d10+400 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43306
+crewman gnome pippy~
+Pippy~
+Pippy the Lude is here, strumming on his lute.~
+Pippy is a rather plump Gnome that seems to be a bit drunk, not unlike the
+other crewmembers.  He hold a nice lute in his hands and strums it softly.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+20 0 0 0d0+300 1d1+13
+12000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 75~
+if quest (0,4,$i) == 0
+  break
+endif
+if quest (0,4,$i) == 1
+  sing What do you do with a drunken sailor?!?
+endif
+if quest (0,4,$i) == 2
+  sing What do you do with a drunken sailor!!??!!
+endif
+if quest (0,4,$i) == 3
+  sing What do you do with a drunken sailor, Eeaarllly in the morning!!!
+endif
+if quest (0,4,$i) == 4
+  say Did you like my song?
+  mpmset self quest 0 4 15
+endif
+mpmadd self quest 0 4 1
+~
+>greet_prog 100~
+if quest (0,4,$i) == 0
+  if quest (0,4,$n) == 0
+    say Hello $N, would you like to hear a song?
+  endif
+endif
+~
+>speech_prog yes~
+if quest (0,4,$i) == 0
+  say Okay here we go $n.
+  if quest (0,4,$n) == 0
+    mpmset $n quest 0 4 1
+    mpmset self quest 0 4 1
+    break
+  endif
+  if quest (0,4,$n) == 1
+    say Thanks $N, but I know I'm not the best singer in
+    say the realms...  But I play a damn HotHot flute!!
+    say But I have seemed to misplaced it somewhere on the ship...
+    cry 
+    say Think you could help me find it?
+    mpmset $n quest 0 4 2
+    break
+  endif
+  if quest (0,4,$n) == 2
+    say Great!!!  I'm sure its around here somewhere!  If you can find
+    say it I can help you get into the ship's cabin where all the
+    say important people are.
+    mpmset $n quest 0 4 3
+    break
+  endif
+endif
+~
+>give_prog i43316~
+if quest (0,4,$n) == 3
+  say WOOOOHOOOO!!!  Thanks alot $n I've been looking everywhere
+  say for my precious, precious flute!  Here take this key it will
+  say help get you into the cabin of the airship!
+  mpoload 43309
+  give i43309 $n
+  mpjunk i43316
+  mpmset $n quest 0 4 0
+endif
+~
+>speech_prog no~
+if quest (0,4,$n) == 0
+  sniff 
+endif
+~
+|
+#43307
+gnome crewman~
+a crewman~
+A crewman is here, working.~
+The crewman looks like any average gnome sailor, but he's better prepared for
+flying than your average pirate!
+~
+ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_ARM|BODY_HAND BODY_LEG 20d20+400 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43308
+gnome crewman~
+a crewman~
+A crewman is here, working.~
+The crewman is here watching for birds.
+~
+ACT_BODY
+0
+0 S
+30 BODY_EYE|BODY_LEG|BODY_ARM BODY_HEAD|BODY_TORSO|BODY_LEG 10d50+400 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43309
+gnome crewman~
+a crewman~
+A crewman is here, swabbing the decks.~
+The crewman is here with mop and bucket swabbing the decks.
+~
+ACT_SMART|ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_EYE|BODY_LEG|BODY_ARM BODY_HAND|BODY_FOOT 10d50+500 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog spyglass~
+if quest (8,4,$n) == 7
+  mpmset $n quest 8 4 8
+  say Spyglass eh?? ......ermm.........
+  say You mean that lil' seeing device the navigator uses?  Oh yeah!!
+  say I know which one you mean!  Uhmmm I kinda...
+  emote shivers. 
+  say ...lost it down in the hold and one of those damn rats stole
+  say it, it wasn't my fault you gotta believe me!  Please find it
+  say so Pinklewart doesn't throw me off the edge of the ship!!
+  say Look for the rats in the hold they are sneaky so keep your
+  say eyes open one of them has it, please please find the spyglass!
+  break
+endif
+~
+>greet_prog 100~
+if quest (8,4,$n) == 9
+  say Woooo!  I see you found the spyglass, please return it to
+  say Pinklewart, thanks for your help!
+endif
+~
+|
+#43310
+albatross~
+an Albatross~
+A large, white albatross is perched here.~
+{178}        .---.        .-----------
+       {178}/     \  __  /    ------
+      {178}/ /     \(  )/    -----
+     {178}//////   ' {138}\/{178} `   ---
+    {178}//// / // :    : ---
+   {178}// /   /  /`    '--
+  {178}//          //..\\
+{028}============={138}UU{028}===={138}UU{028}====
+             {178}'//||\\`
+               {178}''``
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+75 0 0 20d40+4000 5d10+70
+50000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>rand_prog 5~
+mpechoat $r $I Sqwuaks loudly at you!
+mpechoaround $r $I Sqwuaks loadly at $R!
+~
+|
+#43311
+cook Grubwaggle~
+Cook Grubwaggle~
+Grubwaggle the Cook is cooking and serving here.~
+This cook is extremely busy and extremely fat!!  Hopefully this running around
+will help him with his weight problem.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+30 0 0 20d20+300 4d4+30
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43312
+jovial gnome~
+Jovial the Shady~
+Jovial the Shady is here, trying to sell you something from his stash.~
+Jovial is a below average height gnome, which means he's really SHORT!  He is
+finely dressed in the finest of gnomish apparel.  He has a large sack full of
+goodies that he wants to sell to you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+90 BODY_HEAD BODY_HEAD 10d10+6000 4d10+90
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 10~
+tell $n Pssst.  You need something??
+~
+>speech_prog p winklestaff needs help~
+if quest (4,4,$n) == 1
+  mpmset $n quest 4 4 2
+  say Winklestaff, that crazy guy, can't keep a grasp on that
+  say suction device.  Well with some of these Gnomes don't
+  say get to go to port to often they get a bit lonely if you
+  say know what i mean.
+  nudge $n
+  say I might know who stole the device, but if you want my
+  say help I'm going to need a lil' favor from you.
+  wink $n
+endif
+~
+>speech_prog favor~
+if quest (4,4,$n) == 2
+  say There's a certain little gnome that stiffed me some
+  say money he owed me from a lil' gambling debt he has.
+  say Lets just say he can be found sleeping on his watch
+  say quite a bit, he's way past his due date and I've lost
+  say my patience with him, so if you could finish the job
+  say if you know what i mean I'd be greatful.  Bring me back
+  say one of that bum's fingers and I'll tell you more.
+  say So $N are you up for this?
+endif
+~
+>speech_prog yes~
+if quest (4,4,$n) == 2
+  mpmset $n quest 4 4 3
+  say Great
+  say bring me back that bastard's finger and we'll talk more.
+endif
+~
+>give_prog i43322~
+if quest (4,4,$n) == 4
+  mpmset $n quest 4 4 5
+  mpjunk i43322
+  say Very nice.
+  say I'll put this with my other trophies of deliquents.
+  say As for your information you requested, I don't know for
+  say sure who stole it but I know who does!  Give this to
+  say Hickley he'll know what its for.
+  mpoload 43323
+  give i43323 $n
+endif
+~
+|
+#43313
+captain gnome dingbatuck~
+Captain Dingbatuck~
+Captain Dingbatuck is here.~
+The captain is a well dressed man, sporting an eye patch over his right
+eye and a peg leg on his left leg (only missing the hook).  He is wearing a
+oversized captain's hat that seems to be human sized so it doesn't quite fit
+him.  He seems to have a confident look to him is why the men respect and
+fear him so.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+90 BODY_HEAD|BODY_ARM|BODY_HAND BODY_HEAD|BODY_EYE|BODY_TORSO|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT 0d0+7500 5d10+60
+50000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (8,4,$n) == 0
+  say Hey!  How did you get in here?
+  say No passengers are allowed in the cabin!
+  say Oh who am I kidding, with half my crew drunk and the
+  say other half incompetent its easy to explain how you
+  say got back here.
+  snicker 
+  say While you are here would you like a drink?
+endif
+~
+>speech_prog yes~
+if quest (8,4,$n) == 0
+  mpmset $n quest 8 4 1
+  say Outstanding, lets have one...
+  mpechoat $n The captain pours you a tall mug of mead and hands it over.
+  mpechoaround $n The captain pours $n a tall mug of mead and hands it over.
+  say Here's to swimmin' with bow-legged women!
+  mpechoat $n You tip mugs with the captain and down the grog.
+  mpechoaround $n $n tips mugs with the captain and downs the grog.
+  mpforce $n burp
+  say Good stuff eh $N?
+  break
+endif
+if quest (8,4,$n) == 1
+  mpmset $n quest 8 4 2
+  say Yeah its the best mead north of Sun Dome. Hey you
+  say seem like a honest, hardworking person.  Most of
+  say my crew is utterly useless and we are really behind
+  say in our daily work on the ship.
+  say You think you could help me out?
+  break
+endif
+if quest (8,4,$n) == 2
+  mpmset $n quest 8 4 3
+  say Good enough, we really need the help, go talk to
+  say Pinklewart the ship's sorceror, I know he can get
+  say you started.  Thanks again.
+endif
+~
+>speech_prog no~
+if quest (8,4,$n) == 0
+  say Well get the hell out you ungreatful bum!
+  mptransfer $n 43300
+endif
+~
+|
+#43314
+lookout gnome~
+a Gnome Lookout~
+A tired Gnome lookout is here.~
+The lookout looks tired but he still keeps watch for birds.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+30 BODY_HEAD|BODY_EYE BODY_HEAD|BODY_MOUTH|BODY_EYE|BODY_ARM 0d0+1000 4d4+20
+10000 0
+POS_SITTING POS_SITTING SEX_MALE
+#43315
+gnome sleepy mcgee~
+Sleepy McGee~
+Sleepy McGee is here.~
+This fat gnome is either really tired or really drunk.  Not your best man
+for watching for birds and other obstructions.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+50 BODY_HEAD|BODY_ARM BODY_EYE 20d20+1500 4d4+50
+15000 0
+POS_RESTING POS_RESTING SEX_MALE
+>greet_prog 100~
+if quest (4,4,$n) == 3
+  wake 
+  emote shivers.
+  mpforce $n say Well, well McGee it seems you owe some money and I'm here to collect!
+  say You'll have to kill me before I pay that bastard!!
+  kill $n
+endif
+~
+>death_prog 100~
+if quest (4,4,$n) == 3
+  mpmset $n quest 4 4 4
+  say Why Lord Chaos, Why have you forsaken a wretch like me!!
+  mpecho You slice McGee's finger right off!
+  mpoload 43322 room
+endif
+~
+|
+#43316
+navigator squee M43316~
+Squee~
+Squee the Navigator steers the airship towards your destination.~
+Squee is a stout little gnome, wearing an eyepatch over his left eye and a
+bandana over his head he has the look of a true helmsmen.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+50 0 0 0d0+2000 4d5+40
+1000 0
+POS_STANDING POS_STANDING SEX_MALE
+#43317
+sorc sorceror wizard pinklewart~
+Pinklewart~
+Pinklewart the Sorceror is here.~
+Pinklewart is dressed in colorful garb.  His robe has all the colors of the
+rainbow and he wears a gold amulet in the symbol of his mighty God Chaos He
+seems to go in and out of deep concentration.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+50 0 0 0d0+2000 5d5+30
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (8,4,$n) == 3
+  mpmset $n quest 8 4 4
+  say Hello $N
+  say I've heard you are here to help us out.
+  say Thats great we really could use the help right now a few of
+  say the crew are not pulling their weight.
+  say You ready to get started $N?
+endif
+if quest (8,4,$n) == 6
+  mpmset $n quest 8 4 7
+  say Great!! Thanks for your help with those hungry crewman, they
+  say may have eaten the cabin boy without your help!  Well I have
+  say another job for you.  It seems that one of the crew lost my
+  say spyglass I use to help navigate our course.  Ask around with
+  say the crew on the deck to see if they can help you more.
+  say Please return the spyglass to me!
+  grovel $n
+endif
+~
+>speech_prog yes~
+if quest (8,4,$n) == 4
+  mpmset $n quest 8 4 5
+  say Okay!  What we really need is more food in crew mess, the
+  say poor cabin boy is being overrun with hungry sailors!  Take
+  say this magic ball and use the magic word written on it when
+  say you are in the mess to feed the crew, hurry before the cabin
+  say boy becomes their meal!
+  mpoload 43331
+  give i43331 $n
+endif
+~
+>give_prog i43344~
+if quest (8,4,$n) == 9
+  mpmset $n quest 8 4 10
+  mpjunk i43344
+  cheer 
+  mpecho $I examines the spyglass and cleans it off with $s handkerchief.
+  say Thank you ever so much $n!!
+  say I've been looking for this for quite some time!
+  say You have been so helpful, but I must burden you with one
+  say more task for you...
+endif
+~
+>speech_prog task~
+if quest (8,4,$n) == 10
+  groan 
+  say It is not a hard task but I'm a bit embarrased to ask you
+  say this...  If you don't mind I'm kinda short on coins from my
+  say last leave in Moon City I have seemed to lost most of it
+  say gambling...  If you could be ever so kind to loan me
+  say .....ermmm......
+  ponder 
+  stare 
+  say Ten thousand gold coins??  If so I would be ever so grateful!
+  mpforce M43316 sigh
+endif
+~
+>bribe_prog 10000~
+if quest (8,4,$n) == 10
+  mpmset $n quest 8 4 11
+  cheer 
+  say Thank you so much $N!!
+  say I will not forget what you've done to help me with my
+  say financial problems as well as the help you've provided to
+  say the crew and ship!
+  say Here take these they may help you in the future.
+  mpoload 43345
+  mpoload 43346
+  give i43345 $n
+  give i43346 $n
+  say Also if you are ever in Ellis City give this to LoffLoff
+  say he's an old friend of mine and this belongs to him.
+  say Thanks again for all your help.
+  mpoload 43347
+  give i43347 $n
+endif
+~
+|
+#43318
+M43318 cabin boy gnome~
+the Cabin Boy~
+The Cabin Boy is here serving slop to the crew.~
+The cabinboy is a little gnome dressed in rags, you can tell the crew doesn't
+give him much respect, poor little guy, his day will come.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 0d0+2
+1 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (8,4,$n) == 5
+  say Help!!  These guys are demanding food and there is not enough
+  say food to go around help please!!!!
+endif
+~
+|
+#43319
+gnome crewman~
+a crewman~
+A crewman is here.~
+This little gnome seems tired.
+~
+ACT_SENTINEL|ACT_BODY
+0
+0 S
+30 BODY_HEAD BODY_HEAD 4d10+500 4d5+20
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+>repop_prog 100~
+sleep bed
+~
+|
+#43321
+doctor dr gnome winklestaff~
+Dr. Winklestaff~
+Doctor Winklestaff is here creating magic gas.~
+Dr. Winklestaff is here in his secret lab creating the magic gas that
+makes the airship fly!  He is wearing a white labcoat and his hair is a
+bit on the messy side.  Other than that he seems just fine.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+95 BODY_HEAD BODY_HEAD 0d0+8000 9d8+80
+25000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (4,4,$n) == 0
+  say Ack!  I am in serious trouble!
+  say I can't get any magic gas out of the tank without my
+  say suction device!  The suction device was right on the
+  say table just a few minutes ago, now it is gone.
+  say I think one of the crewmen may have STOLEN it...
+  pout 
+endif
+~
+>speech_prog stolen~
+if quest (4,4,$n) == 0
+  say You see some of the crew use the suction device for other
+  say things...
+  say I won't get into details, but I need it back or we may
+  say run out of magic gas for further trips on the airship.
+  cry 
+  say Are you willing to HELP me, I will reward you nicely.
+  grovel $n
+endif
+~
+>speech_prog help~
+if quest (4,4,$n) == 0
+  mpmset $n quest 4 4 1
+  say Great thanks!  I'm not sure who may have stolen it, but
+  say I'd go see Jovial he seems to know a lot about the
+  say secretive things that go on with the crew, tell him
+  say winklestaff needs help.
+  say I'm sure he'll think of something.
+  cap $n
+endif
+~
+>greet_prog 66~
+mpecho You hear a strange rattling sound from the magic gas tank!
+~
+>give_prog i43320~
+if quest (4,4,$n) == 8
+  mpmset $n quest 4 4 9
+  mpjunk i43320
+  say WooHoo!  The suction device atlast I can continue magic
+  say gas production and not a second too late!
+  mpecho Dr. Winklestaff attaches the suction device to the gas tank.
+  mpecho You see gas begin to flow from the gas tank into the tubes that feed the airship's balloon!
+  say Just in the nick of time, were running a bit low there!
+  say I can't thank you enough for all you have done to help!
+  say Here is a token of my gratitude!
+  mpoload 43324
+  give i43324 $n
+  say If you are ever around again say secret and I'll take
+  say you to my private magic shop!
+  mpecho Dr. Winklestaff waves his hand and you are transported!
+  mptransfer pcs 43300
+endif
+~
+>speech_prog secret~
+if quest (4,4,$n) == 9
+  say Okay, here we go!  Zap!
+  mpechoat $n $I waves his hand and you go poof!
+  mpechoaround $n $I waves his hand and $N goes poof!
+  mptransfer $n 43329
+endif
+~
+|
+#43322
+spunky gnome M43322~
+Spunky the Idiot~
+Spunky the Idiot is here.~
+Spunky is a slender gnome, and very sneaky he seems to zip around like
+nobodies business.  He can be often found in the Crow's nest or talking
+to barrels.
+~
+ACT_SMART
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_SNEAK|AFF_STEALTH
+0 S
+50 0 0 2d2+2000 4d5+60
+20000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+if quest (4,4,$n) == 7
+  say Daaaaaaaah!!! Gotta go!!!!! WEEEeeeEEEeeeEE!!!
+  if inroom ($i) != 43328
+    mpecho Spunky runs around in circles and vanishes!
+    mpgoto 43328
+  else
+    mpecho Spunky runs around in circles but can't find an exit!
+  endif
+endif
+~
+>hitprcnt_prog 30~
+if quest (4,4,$n) == 7
+  mpmset $n quest 4 4 8
+  peace 
+  say OWIE!  That hurts!
+  say Okay, Okay, I'll give the suckie toy back!!
+  mpoload 43320
+  give i43320 $n
+  say BYeeeeeee!!
+  mpgorand 43300 43320 0 1
+  restore self
+endif
+~
+|
+#43323
+servant unseen M43323~
+an Unseen Servant~
+The Unseen Servant~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog return~
+mpechoat $n You are transported!!
+mpechoaround $n $N is transported!!
+mptransfer $n 43300
+~
+>time_prog 24~
+say say 'return' to leave...
+~
+|
+#43324
+gnome crew hungry M43324~
+a Hungry Crewman~
+A hungry crewman is screaming for food here.~
+This scrawny gnome hasn't been fed recently it seems.  He is pounding his
+fork on the table waiting for his meal that doesn't seem to be coming
+quick enough for his liking.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+30 BODY_HEAD BODY_HAND 10d5+500 3d4+30
+10000 0
+POS_SITTING POS_SITTING SEX_MALE
+>rand_prog 5~
+say We Want Food!!
+~
+|
+#43325
+rat M43325~
+a Dirty Rat~
+A Dirty rat is hiding here.~
+Its a dirty rat, EEEeeeWWWwww!
+~
+ACT_SENTINEL|ACT_WIMPY|ACT_BODY
+AFF_SNEAK|AFF_STEALTH
+0 S
+30 0 BODY_MOUTH 4d4+500 1d1+30
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 20~
+if quest (8,4,$n) == 8
+  mpmset $n quest 8 4 9
+  mpecho The gut is slit open and a blood-stained spyglass falls out onto the floor, damn rats will eat ANYTHING!
+  mpoload 43344
+endif
+~
+>greet_prog 40~
+cringe $n
+~
+|
+#43334
+guard gnome donk m43334 ~
+Donk the Guard~
+Donk the guard stands at attention here.~
+Donk is a very sturdy gnome standing before.  He eyes you as you enter the
+cabin making sure you won't be causing any trouble here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+0 S
+60 BODY_HEAD|BODY_EYE|BODY_ARM|BODY_HAND BODY_HEAD|BODY_LEG|BODY_HAND 5d10+2500 5d4+40
+35000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+say Hey $N!
+say I got my eye on you, don't try anything funny.
+~
+>death_prog 100~
+say Damn you $n, you've bested me!
+say Take my armor in hopes it my aid you now!
+~
+|
+#43351
+ticket clerk gnome~
+the Ticket Clerk~
+A small man is here selling tickets.~
+This small man is dressed in a spiffy uniform and is here to sell tickets.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 100~
+say Hello $N
+say Would you like to purchase a ticket for the airship?
+~
+>speech_prog yes~
+say Well for a mere cost of 1,000 gold coins you can get a ticket!
+~
+>bribe_prog 1000~
+if hasobjnum ($n) == 43352
+  say You already have a ticket, $n!
+  give i3 $n
+  break
+endif
+mpoload 43352
+give i43352 $n
+mpjunk all
+~
+|
+#43389
+M43389 Bouncer gnome~
+the bouncer~
+A pumped up gnome stands here.~
+This bouncer is the biggest Gnome you've ever seen, he means business, so
+you better do what he says!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT
+0 S
+95 0 0 0d0+10000 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if hasobjnum ($n) == 43352
+  cap 
+  say Climb aboard $n!
+else
+  say Hey pal!  No ticket no ride!!!
+  mpforce $n north
+endif
+~
+|
+#43390
+M43390 Swapper~
+the ship rotator~
+~
+~
+ACT_SENTINEL
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog echo~
+switch numberrange (1,4)
+  case 1
+    mpat 43317 mpecho Pinklewart raises his hands and starts to pray.
+  case 2
+    mpat 43317 mpecho Pinklewart levitates as he starts to chant.
+  case 3
+    mpat 43317 mpecho Bolts of lightning surround Pinklewart as he starts to utter.
+  case 4
+    mpat 43317 mpecho Pinklewart utters the words 'qaihfar xzahpzf'.
+endswitch
+switch numberrange (1,4)
+  case 1
+    mpmset M43391 short A strong wind alters the course of the ship $2wards.
+  case 2
+    mpmset M43391 short You hear running feet and shoutings from crew as the ship starts to turn $2wards.
+  case 3
+    mpmset M43391 short The boards creak as the ship turns $2wards.
+  case 4
+    mpmset M43391 short The seagulls fly up squawking as the ship turns $2 on a strong ocean wind.
+endswitch
+mpechoat M43391 ship_echo
+~
+>act_prog swap~
+mpgoto 43300
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43301
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43302
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43303
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43304
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43305
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43306
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43307
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43308
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43309
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43310
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43311
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43312
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43313
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43314
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43315
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43316
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43317
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43318
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43319
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43320
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43321
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43322
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43323
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43324
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43325
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43326
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43327
+mpswap n $2
+mpswap s $3
+mpswap n s
+mpgoto 43399
+~
+|
+#43391
+M43391 Echoer~
+Announcer~
+The announce mob stands here.~
+~
+ACT_SENTINEL
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog ship_echo~
+mpat 43300 mpecho $I
+mpat 43301 mpecho $I
+mpat 43302 mpecho $I
+mpat 43303 mpecho $I
+mpat 43304 mpecho $I
+mpat 43305 mpecho $I
+mpat 43306 mpecho $I
+mpat 43307 mpecho $I
+mpat 43308 mpecho $I
+mpat 43309 mpecho $I
+mpat 43310 mpecho $I
+mpat 43311 mpecho $I
+mpat 43312 mpecho $I
+mpat 43313 mpecho $I
+mpat 43314 mpecho $I
+mpat 43315 mpecho $I
+mpat 43316 mpecho $I
+mpat 43317 mpecho $I
+mpat 43318 mpecho $I
+mpat 43319 mpecho $I
+mpat 43320 mpecho $I
+mpat 43321 mpecho $I
+mpat 43322 mpecho $I
+mpat 43323 mpecho $I
+mpat 43324 mpecho $I
+mpat 43325 mpecho $I
+mpat 43326 mpecho $I
+mpat 43327 mpecho $I
+~
+>act_prog sun_dome_echo~
+mpat 43350 mpecho $I
+mpat 43351 mpecho $I
+mpat 43352 mpecho $I
+mpat 11600 mpareaecho outdoors $I
+~
+>act_prog gnome_empire_echo~
+mpat 43355 mpecho $I
+mpat 43356 mpecho $I
+mpat 43357 mpecho $I
+mpat 12300 mpareaecho outdoors $I
+~
+>act_prog ellis_city_echo~
+mpat 43360 mpecho $I
+mpat 43361 mpecho $I
+mpat 43362 mpecho $I
+mpat 12000 mpareaecho outdoors $I
+~
+>act_prog piscyra_echo~
+mpat 43365 mpecho $I
+mpat 43366 mpecho $I
+mpat 43367 mpecho $I
+mpat 28700 mpareaecho outdoors $I
+~
+|
+#43392
+M43392 Crusher~
+the crusher~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpquiet off
+mpechoat $n {118}The Airship's CRUSH **** *OBLITERATES* **** you!
+mpechoat $n {308}
+mpechoat $n You have been KILLED!!
+mpechoat $n {308}
+mpechoat $n The gods have retreived your soul from oblivion.
+mpquiet on
+slay $n
+mpquiet off
+~
+|
+#43393
+M43393 Lander~
+the lander~
+~
+~
+ACT_SENTINEL
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+mpmadd self quest 4 4 1
+if quest (4,4,$i) == 1
+  mpmset M43391 short A huge airship blocks the sunlight as it begins its descent.
+  switch quest (0,4,$i)
+    case 1
+      mpechoat M43391 sun_dome_echo
+    case 2
+      mpechoat M43391 gnome_empire_echo
+    case 3
+      mpechoat M43391 ellis_city_echo
+    case 4
+      mpechoat M43391 piscyra_echo
+  endswitch
+  switch quest (0,4,$i)
+    case 1
+      mpmset M43391 short The airship comes to a halt as it begins its descent into Sun Dome.
+    case 2
+      mpmset M43391 short The airship comes to a halt as it begins its descent into the Gnome Empire.
+    case 3
+      mpmset M43391 short The airship comes to a halt as it begins its descent into Ellis City.
+    case 4
+      mpmset M43391 short The airship comes to a halt as it begins its descent into Piscyra.
+  endswitch
+  mpechoat M43391 ship_echo
+endif
+if quest (4,4,$i) == 3
+  mpgoto 43305
+  mpecho You hear the grinding of gears as the airship comes to a halt.
+  mpecho Members of the crew winch down a rope ladder to the landing platform below.
+  switch quest (0,4,$i)
+    case 1
+      connect down 43350
+    case 2
+      connect down 43355
+    case 3
+      connect down 43360
+    case 4
+      connect down 43365
+  endswitch
+  down 
+  connect down 43390
+  mpquiet on
+  mpforce all down
+  mpquiet off
+  connect down -1
+  mpasound The landing platform shudders as the airship lands.
+  mpmload 43389
+  mpoload 43353 room
+  mptransfer M43392
+  mpat 43390 mppurge all
+  mptransfer M43392 43390
+  mppurge self
+endif
+~
+|
+#43394
+M43394 Riser~
+the riser~
+~
+~
+ACT_SENTINEL
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 100~
+mpmadd self quest 4 4 1
+if quest (4,4,$i) == 1
+  switch quest (0,4,$i)
+    case 1
+      mpgoto 43350
+    case 2
+      mpgoto 43355
+    case 3
+      mpgoto 43360
+    case 4
+      mpgoto 43365
+  endswitch
+  mpechoaround M43389 The bouncer grabs a rope and quickly climbs into the departing airship.
+  mppurge M43389
+  mppurge I43353
+endif
+if quest (4,4,$i) == 2
+  mpgoto 43399
+  mpmset M43391 short A huge airship blocks the sunlight as it rises into the sky.
+  switch quest (0,4,$i)
+    case 1
+      mpechoat M43391 sun_dome_echo
+    case 2
+      mpechoat M43391 gnome_empire_echo
+    case 3
+      mpechoat M43391 ellis_city_echo
+    case 4
+      mpechoat M43391 piscyra_echo
+  endswitch
+  switch quest (0,4,$i)
+    case 1
+      mpmset M43391 short The airship shivers, then rises up from Sun Dome.
+    case 2
+      mpmset M43391 short The airship shivers, then rises up from the Gnome Empire.
+    case 3
+      mpmset M43391 short The airship shivers, then rises up from Ellis City.
+    case 4
+      mpmset M43391 short The airship shivers, then rises up from Piscyra.
+  endswitch
+  mpechoat M43391 ship_echo
+  mpat 43305 connect down -1
+  mppurge self
+endif
+~
+|
+#43395
+M43395 Climber~
+Climb Mob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog climb_trigger~
+if inroom ($n) == 43350
+or inroom ($n) == 43355
+or inroom ($n) == 43360
+or inroom ($n) == 43365
+  if existsroom (i43353)
+    if hasobjnum ($n) == 43352
+      mpechoat $n You hand your ticket to the bouncer and climb on board the airship.
+      mpechoaround $n $N gives $s ticket to the bouncer and climbs on board the airship.
+      mpjunkperson $n i43352
+      mptransfer $n 43305
+      mpat $n mpforce $n look auto
+    else
+      mpechoat $n The bouncer grabs your arm and pulls you back.
+      mpforce bouncer say Hey pal!  No ticket no ride!!!
+      mpforce $n north
+    endif
+    mppurge self
+    break
+  endif
+endif
+mplog rope ladder program used in unknown situation.
+mppurge self
+~
+>rand_prog 100~
+mppurge self
+~
+|
+#43399
+controller M43399~
+the airship controller~
+~
+~
+ACT_SENTINEL
+0
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>time_prog 24~
+if quest (0,4,$i) == 0
+  if time () == 6
+    mpmload 43394
+    mpmset M43394 quest 0 4 1
+    break
+  else
+    if time () != 7
+      break
+    endif
+  endif
+endif
+mpmadd self quest 0 4 1
+switch quest (0,4,$i)
+  case 1
+    mpechoat M43390 swap west east
+    mpechoat M43390 echo west
+  case 2
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo north
+  case 3
+    mpmload 43393
+    mpmset M43393 quest 0 4 2
+  case 4
+    mpmload 43394
+    mpmset M43394 quest 0 4 2
+  case 5
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo east
+  case 6
+    mpechoat M43390 swap west east
+    mpechoat M43390 echo north
+  case 7
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo east
+  case 8
+    mpmload 43393
+    mpmset M43393 quest 0 4 3
+  case 9
+    mpmload 43394
+    mpmset M43394 quest 0 4 3
+  case 10
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo south
+  case 11
+    mpmload 43393
+    mpmset M43393 quest 0 4 4
+  case 12
+    mpmload 43394
+    mpmset M43394 quest 0 4 4
+  case 13
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo west
+  case 14
+    mpechoat M43390 swap east west
+    mpechoat M43390 echo north
+  case 15
+    mpmload 43393
+    mpmset M43393 quest 0 4 1
+endswitch
+~
+|
+#0
+
+
+#SHOPS
+43312 ITEM_TYPE_POTION ITEM_TYPE_SCROLL ITEM_TYPE_CONTAINER ITEM_TYPE_BOAT ITEM_TYPE_TREASURE  100  50  0 23
+43323 ITEM_TYPE_POTION ITEM_TYPE_ARMOR ITEM_TYPE_WEAPON ITEM_TYPE_SCROLL ITEM_TYPE_TREASURE  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#43300
+barrel keag~
+the barrel~
+A barrel of beer rests here.~
+This wooden barrel is made from oak and seems to be quite weatherbeaten.  From
+time to time crewmen fill their mugs from it, although some crewmen seem to
+partake more than others.  Strangely, it is never empty!
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_BEER 0 0 0 0 0
+30000 10 1
+#43309
+key skull~
+a Skull-Shaped Key~
+A skull shaped key rests here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#43310
+potion fizzy pop~
+a Potion of Fizzy Pop~
+A potion of fizzy pop lies here.~
+It's FIZZY!
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 178 0 0 0 0 0 0
+1 25000 10
+S 1 'pass door'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#43311
+gunny sack~
+a Gunny Sack~
+A Gunny Sack is here.~
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE
+500 0 0 60 0 0 0 0
+1 15000 35
+#43312
+blowgun blow gun~
+a Blowgun~
+A blowgun lies here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_BLOWPIPE 2 5 WEAPON_PIERCE 0 0 0 0
+1 10000 30
+#43313
+dart bird~
+a Bird Dart~
+A bird dart lies here.~
+This small dart is made for killing pesky birds.
+~
+ITEM_TYPE_AMMO
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+13 7 15 3 0 0 0 0
+1 10 10
+#43314
+scroll fizzy pop~
+a Scroll of Fizzy Pop~
+A scroll of fizzy pop lies here.~
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 178 0 0 0 0 0 0
+1 25000 10
+S 1 'pass door'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#43315
+barrel~
+a barrel~
+An old barrel is here.~
+The barrel is weather-beaten but still in good shape.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+10 CONT_CLOSEABLE|CONT_CLOSED 0 150 0 0 0 0
+1 10 1
+#43316
+flute~
+a wooden flute~
+A wooden flute lies here.~
+The flute looks old and worn, like it has been used many times.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_HUM
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#43317
+helm~
+the helm~
+You see the helm of the ship here.~
+The helm is a circular steering device that keeps the airship going straight.
+You can see an inscription on the helm.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+0
+0 0 0 0 0 0 0 0
+30000 10 1
+E
+inscription~
+{128}LoffLoff wuz here!
+~
+#43318
+bed bunk-bed bunk~
+a bunk-bed~
+A bunk-bed is here.~
+The bed is made for gnomes, but i think u can squeeze in there.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+12 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#43319
+gas tank~
+a magic gas tank~
+A Tank of Magic Gas is here!~
+The tank seems to be faulty, no magic gas is coming out of it.  There is
+some writing on the tank.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+1000 CONT_CLOSEABLE|CONT_PICKPROOF|CONT_CLOSED|CONT_LOCKED 43320 150 0 0 0 0
+30000 1000 90
+E
+writing~
+{118}Caution Flamable!
+{118}Hot Hot!
+~
+#43320
+suction device~
+a Suction Device~
+a strange device lies here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 1 1 0 0 0 0 0
+1 10 1
+#43321
+bench~
+a wooden bench~
+A wooden bench is here.~
+This bench looks very sturdy and comfortable, and the trip is long.  Why not
+take a load off and have a seat?
+~
+ITEM_TYPE_FURNITURE
+0
+0
+10 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 200 0 0 0 0
+1 10 1
+#43322
+mcgee finger~
+Mcgee's finger~
+McGee's finger is here.~
+Ick!  Its a severed finger!
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#43323
+ivory medallion~
+an ivory medallion~
+An ivory medallion lies here.~
+This medallion depicts a large white bird soaring through the clouds, it
+seems to be nicely crafted and could catch a pretty penny at the market.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+2 100000 1
+#43324
+swirling orb~
+a Swirling Orb~
+An orb filled with a strange gas lies here.~
+{128}The Orb is filled with a strange gas that swirls endlessly.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_BLESS
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+6 0 0 0 0 0 0 0
+5 1000 51
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 6 0
+A APPLY_HIT -25 0
+#43325
+swirling potion~
+a swirling potion~
+A swirling potion lies here.~
+The vial is filled with swirling liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+50 159 215 9 0 0 0 0
+1 30000 45
+S 1 'mage shield'
+S 2 'shield'
+S 3 'armor'
+#43326
+swirling scroll i43226~
+a swirling scroll~
+A swirling scroll lies here.~
+The scroll has swirling runes on it!
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+50 159 215 9 0 0 0 0
+1 30000 45
+S 1 'mage shield'
+S 2 'shield'
+S 3 'armor'
+#43327
+swirling mirror~
+a swirling mirror~
+A swirling mirror stands here.~
+The mirror has a constant spiral and nothing can be made out from looking
+at it.
+~
+ITEM_TYPE_STAFF
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 20 20 170 0 0 0 0
+5 500000 45
+C
+~
+FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+S 3 'mirror image'
+#43328
+Endless Pouch~
+an endless pouch~
+A small leather pouch sits here.~
+This small leather pouch seems nothing out of the ordinary.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+750 CONT_CLOSEABLE|CONT_CLOSED 0 75 0 0 0 0
+5 50000 45
+#43329
+spectral disk~
+a spectral disk~
+A spectral disk hovers above the ground here.~
+This disk hovers above your head illuminating all around you.  It hums
+faintly you feel great power when it is near you.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+10 1000000 45
+A APPLY_HIT 50 0
+A APPLY_INT 3 0
+A APPLY_AC -5 0
+#43330
+spectral blade~
+a Spectral Blade~
+A spectral blade lies here.~
+This blade is stained with all the colors of the rainbow, its gives off
+a faint light as you look at it closer.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 6 7 WEAPON_SLASH 0 0 0 0
+10 100000 46
+#43331
+ball~
+a magic ball~
+A magic ball is here.~
+The ball is about the size of an apple and glows a bright blue.  Its very
+intriguing.  You notice an inscription on the ball.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000 1
+E
+inscription~
+{128}feedme
+~
+P 1
+TRIG_UNKNOWN 100 feedme
+OPROG_IF OIF_USER_ROOM_NUM ! 43321 2 3
+P 2
+TRIG_VOID
+OPROG_ECHO
+There is no need to use this here.~
+P 3
+TRIG_VOID
+OPROG_PLAYER_QUEST_IF 8 4 ! 5 4 5
+P 4
+TRIG_VOID
+OPROG_ECHO
+There is no need to use this here.~
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self You activate the magic ball!!
+mpecho Magically the table is cleaned off by some invisible force and clean plates float from the cabinets and are placed in front of the hungry crew.
+mpforce M43318 gasp
+mpecho Food is placed on the plates and the crewman scarf it down faster than starving pigs.  After they are done the crew go back to work until their next meal.
+mpforce M43318 say Thanks so much for your help!
+mpforce M43318 say Go see Pinklewart I'm sure he'll be pleased, thanks again!
+mpecho The Cabin Boy runs off to attend to other matters.
+mppurge all.gnome
+mpmset self questr 43318 8 4 6
+mpjunk i43331
+~
+#43339
+spectral bracer~
+a Spectral Bracer~
+A spectral bracer has been left here.~
+This bracer has a faint glow to it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+8 0 0 0 0 0 0 0
+3 15000 50
+A APPLY_DAMROLL 5 0
+A APPLY_HITROLL 5 0
+#43343
+table~
+a table~
+A long table is here.~
+This long table is covered with empty bowls and plates.  An empty bottle
+of rum with a lit candle stuck in it sits at the center of the table
+providing light to this chamber.
+~
+ITEM_TYPE_FURNITURE
+0
+0
+1 0 FURNITURE_SLEEP_ON|FURNITURE_REST_ON|FURNITURE_SIT_ON|FURNITURE_STAND_ON 10 0 0 0 0
+1000 10 1
+#43344
+spyglass~
+a Spyglass~
+A spyglass has been left here.~
+The spyglass is a bit stained from rat guts, but its still in working condition.
+You see a small etching on the spyglass.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+etching~
+{118}Property of Pinklewart
+~
+#43345
+cat nine tail whip~
+a Cat of Nine Tails~
+A whip has been left here.~
+This weapon has nine barbed tails on the end of its handle.  Its purpose
+is discipline.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 5 10 WEAPON_WHIP 0 0 0 0
+5 10000 50
+#43346
+razortail belt~
+Razortail~
+A snake skin belt lies here.~
+This belt is made from some sort of snake skin, it is very impressive and
+you feel more protected when you wear it.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+6 0 0 0 0 0 0 0
+2 1000 50
+A APPLY_DAMROLL 6 0
+A APPLY_HITROLL 4 0
+#43347
+wooden coin~
+a wooden coin~
+A wooden coin has been left here.~
+The coins is made of some sort of hard wood.  There are engravings of
+a large dragon on the one side of the coin, while the other side has
+some runes of a strange language that you cannot comprehend.  You have a
+feeling there is something special about this coin.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_HUM|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#43350
+sign~
+a sign~
+A sign is posted here.~
+Keep Off Platform When Ship is Landing!
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43351
+blank~
+a sign~
+A sign is hanging on the wall here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43352
+airship ticket~
+an airship ticket~
+A ticket lies here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#43353
+rope ladder~
+the rope ladder~
+A rope ladder is here.~
+You see a rope ladder leading up into the airship. It looks like you could climb
+it.
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 climb
+OPROG_GOD_COMMAND
+mpmload 43395
+mpechoat M43395 climb_trigger~
+#43355
+sign~
+a sign~
+A sign is posted here.~
+Keep Office Platform When Ship is Landing!
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43356
+blank~
+a sign~
+A sign is hanging on the wall here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43360
+sign~
+a sign~
+A sign is posted here.~
+Keep Off Platform When Ship is Landing!
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43361
+blank~
+a sign~
+A sign is hanging on the wall here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43365
+sign~
+a sign~
+A sign is posted here.~
+Keep Off Platform When Ship is Landing!
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#43366
+blank~
+a sign~
+A sign is hanging on the wall here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#0
+
+
+#ROOMS
+#43300
+Main Deck~
+You find yourself on a massive galleon, although at second glance you realize
+it's not a galleon at all, but an airship!  It sails lazily through the air,
+using a massive red balloon full of magic gas mounted onto it by strong ropes
+and harnesses.  This ship makes long flights, so make yourself at home and enjoy
+the ride!
+~
+0 ROOM_NO_MOB|ROOM_ALTAR_N|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+The deck continues towards the bow...~
+~
+0 -1 43301
+DDIR_EAST
+To the starboard gangway...~
+~
+0 -1 43304
+DDIR_SOUTH
+The deck continues towards the stern...~
+~
+0 -1 43302
+DDIR_WEST
+To the port gangway...~
+~
+0 -1 43305
+#43301
+Bow Deck~
+The deck continues towards the bow of the ship several members of the crew are
+here doing their daily duties on the ship.  Its quite windy out here you
+wonder how the crew can endure this especially in colder days.  You can see a
+hatch here that must lead to the hold below and other parts of the ship.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Bow of the Airship~
+~
+0 -1 43310
+DDIR_EAST
+To the starboard gangway...~
+~
+0 -1 43306
+DDIR_SOUTH
+Deck continues to the main deck.~
+~
+0 -1 43300
+DDIR_WEST
+To the port gangway...~
+~
+0 -1 43307
+DDIR_DOWN
+The hatch.~
+hatch~
+EX_ISDOOR|EX_CLOSED -1 43318
+#43302
+Stern Deck~
+As you travel towards the stern of the airship you find yourself before a
+large oaken door that must lead into cabin area.  There is also a stairway
+that leads up above the cabin where the helm of the ship is.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The deck continues towards the bow...~
+~
+0 -1 43300
+DDIR_EAST
+To the starboard gangway...~
+~
+0 -1 43303
+DDIR_SOUTH
+A sturdy oaken door.~
+oaken door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 43309 43309
+DDIR_WEST
+To the port gangway...~
+~
+0 -1 43308
+DDIR_UP
+Stairway to the helm and lookouts.~
+~
+0 -1 43314
+#43303
+Along the Gangway~
+You find yourself on the gangway leading up and down the ship's edge where
+crewmembers can keep lookout and travel safely to the bow and stern of the
+ship.  There are long wooden railways on the edge of the ship for safety.
+Many coils of rope, sacks, and barrels are on the side of the gangway
+ready if the crew needs any of them right away.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The gangway continues...~
+~
+0 -1 43304
+DDIR_WEST
+Down to the stern deck.~
+~
+0 -1 43302
+#43304
+Along the Gangway~
+You find yourself on the gangway leading up and down the ship's edge where
+crewmembers keep a lookout and can travel safely to the bow and stern of the
+ship.  There are long wooden railways bordering the edge of the ship and coils
+of rope, sacks, and barrels stand ready for use.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The gangway continues...~
+~
+0 -1 43306
+DDIR_SOUTH
+The gangway continues...~
+~
+0 -1 43303
+DDIR_WEST
+Down to the main deck.~
+~
+0 -1 43300
+#43305
+Along the Gangway~
+This part of the gangway is a bit wider than the rest and will serve as the
+passenger exit when the ship docks at its next port of call.  It is also used as
+a loading area for cargo.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The gangway continues...~
+~
+0 -1 43307
+DDIR_EAST
+Down on the main deck.~
+~
+0 -1 43300
+DDIR_SOUTH
+The gangway continues...~
+~
+0 -1 43308
+#43306
+Along the Gangway~
+You find yourself on the gangway leading up and down the ship's edge where
+crewmembers can keep lookout and travel safely to the bow and stern of the
+ship.  There are long wooden railways on the edge of the ship for safety.
+Many coils of rope, sacks, and barrels are on the side of the gangway
+ready if the crew needs any of them right away.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The gangway continues...~
+~
+0 -1 43304
+DDIR_WEST
+Down on the bow deck.~
+~
+0 -1 43301
+#43307
+Along the Gangway~
+You find yourself on the gangway leading up and down the ship's edge where
+crewmembers can keep lookout and travel safely to the bow and stern of the
+ship.  There are long wooden railways on the edge of the ship for safety.
+Many coils of rope, sacks, and barrels are on the side of the gangway
+ready if the crew needs any of them right away.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Down on the bow deck.~
+~
+0 -1 43301
+DDIR_SOUTH
+The gangway continues...~
+~
+0 -1 43305
+#43308
+Along the Gangway~
+You find yourself on the gangway leading up and down the ship's edge where
+crewmembers can keep lookout and travel safely to the bow and stern of the
+ship.  There are long wooden railways on the edge of the ship for safety.
+Many coils of rope, sacks, and barrels are on the side of the gangway
+ready if the crew needs any of them right away.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The gangway continues...~
+~
+0 -1 43305
+DDIR_EAST
+Down on the stern deck.~
+~
+0 -1 43302
+#43309
+Airship Cabin~
+As you enter this chamber you feel nice and warm away from the howling winds
+on the main deck of the ship.  You notice a wood stove in the center of
+the room that heats the main cabin.  Four benchs surround the stove where
+crewmates can sit and rest from the toil of their daily duties.  A long table
+rests against the far wall which seems to be covered in maps and navigational
+tools.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+A stury oaken door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 43309 43302
+DDIR_EAST
+Doorway leading to the Wardroom.~
+~
+0 -1 43312
+DDIR_SOUTH
+Doorway to the Captain's quarters.~
+Bronze Door~
+EX_ISDOOR -1 43313
+DDIR_WEST
+Doorway to the Officer's Mess.~
+~
+0 -1 43311
+#43310
+Bow of the Airship~
+The bow of the airship is very windy as you arrive.  It seems as if you can
+see forever.There is a protective railing so no one will fall off and die.
+You also see several barrels in the corner.  You soak in the breathtaking
+view.  You notice a big white bird squaking at you, SQUAKK!!
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+The deck continues on...~
+~
+0 -1 43301
+#43311
+Officer's Mess~
+The Mess has several tables lined in 2 rows on the north side of the room
+lined on each side by a long bench where the officers eat their meals at
+chow time.  This room doubles as the ship's kitchen for the south part
+of the chamber has a large oven and a cooking pit along with a large
+cabinet filled with cooking utensils.  Several officers are enjoying a
+gormet Gnomish meal while an overweight cook runs back and forth cooking
+and serving the crew.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Doorway to the cabin.~
+~
+0 -1 43309
+#43312
+Wardroom~
+You find your self on the ship's Wardroom which is usually reserved for ship
+officers only but you have managed to find your way in here.  Several of the
+higher ranking officers on the Airship are here enjoying a drink and a good
+conversation while the other gnomes toil over the daily operations of the
+ship.  One gnome catches your eye as you enter.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Doorway to the cabin.~
+~
+0 -1 43309
+#43313
+Captain's Quarters~
+This chamber is elaborately furnished and very well kept it is by far the
+most impressive chamber in the cabin.  There are seagull heads mounted on the
+wall here, you find that odd, as well as other hunting trophies like
+albatross and ducks.  It seems the captain is an avid hunter, as much as one
+can hunt in an airship.  There is a nice bed in the corner and a deck in the
+center of the room where you see the captain sitting, browsing the ship's
+manifest and logs.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+Doorway to the cabin.~
+Bronze Door~
+EX_ISDOOR -1 43309
+#43314
+Above the Cabin~
+After climbing the stairway you find yourself at the highest point of the
+airship, except for on top of the balloon, of course.  There are wooden railing
+on the edge of this room protecting people from falling down on the lower deck
+or even worse off the edge!  It's quite windy up here.  Too bad you didn't bring
+a scarf!
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Walkway to the starboard lookout.~
+~
+0 -1 43316
+DDIR_SOUTH
+To the ship's helm...~
+~
+0 -1 43317
+DDIR_WEST
+Walkway to the port lookout.~
+~
+0 -1 43315
+DDIR_UP
+Up to the crow's nest...~
+~
+0 -1 43328
+DDIR_DOWN
+Stern Deck~
+~
+0 -1 43302
+#43315
+Port Lookout~
+This small lookout doesn't have much room to walk around.  The railing
+continues here around the edge of the lookout.  You can hear the loud snores
+from a sleeping Gnome, maybe you should wake him.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+To the stairway to the deck.~
+~
+0 -1 43314
+#43316
+Starboard Lookout~
+This small lookout doesn't have much room to walk around.  The railing
+continues here around the edge of the lookout.  A gnome sits on a stool here
+half asleep supposedly acting as a lookout.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+To the stairway to the deck.~
+~
+0 -1 43314
+#43317
+Helm~
+This is the very stern of the ship, its where the helmsmen and navigators
+steer the ship on the correct course.  You can see two crewman are here
+doing just that.  A long wooden railing is all that is between you and
+a very long fall to the ground.  The view is magnificent here.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+To the stairway to the deck.~
+~
+0 -1 43314
+E
+view~
+{178}            ^^{138}                   @@@@@@@@@
+{178}       ^^       ^^{138}            @@@@@@@@@@@@@@@
+{138}                            @@@@@@@@@@@@@@@@@@{178}              ^^
+{138}                           @@@@@@@@@@@@@@@@@@@@
+{048} ---- -- ----- -------- --{148} &&&&&&&&&&&&&&&&&&&&{048} ------- ----------- ---
+{148}-         --   -  -       -------------------- -       --     -- -
+{148}   -      --      -- -- --  ------------- ----  -     ---    - ---  - --
+{148}   -  --     -         -      ------  -- ---       -- - --  -- -
+{148} -  -       - -      -           -- ------  -      --  -             --
+{148}       -             -        -      -      --   -             -
+~
+#43318
+Hold~
+This is the hold where all the cargo on the trip is stored this section
+does not seem to be too overly cluttered with cargo.  There is a ladder
+that leads up to the main deck here.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+The hold continues...~
+~
+0 -1 43319
+DDIR_SOUTH
+To the crew mess.~
+~
+0 -1 43321
+DDIR_WEST
+The hold continues...~
+~
+0 -1 43320
+DDIR_UP
+The hatch.~
+hatch~
+EX_ISDOOR|EX_CLOSED -1 43301
+#43319
+Hold~
+This cargo hold is packed wall to wall with crates, barrels, sacks, and
+dried foods.  There is little room to walk around here because of all the
+cargo.  You see a mouse or two scamper around the boxes.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Hold~
+~
+0 -1 43318
+#43320
+Hold~
+You have entered the livestock area of the cargo hold.  There are oxen, cows,
+and chickens here in pens or tied up.  There are several more crates and
+barrels here stacked in the corner containing foods and other supplies.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Hold~
+~
+0 -1 43318
+#43321
+Crew Mess~
+Upon entering this room you smell a foul stench.  You soon realize the stench
+is dinner for the crew!  The cabin boy is here serving up the slop to the
+them.  You come to believe this may be the left overs from the officer's
+meal.  The room itself has one long table with a bench on each side in the
+center of the room where crewmembers sit and enjoy a meal of slop.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+To the ship's hold.~
+~
+0 -1 43318
+DDIR_EAST
+Walkway to the Crews' bunks...~
+~
+0 -1 43323
+DDIR_SOUTH
+To the cargo hold.~
+~
+0 -1 43324
+DDIR_WEST
+Walkway to the Crews' bunks...~
+~
+0 -1 43322
+#43322
+Crews' Bunks~
+This is where the crew members sleep.  There are atleast 12 bunk beds
+lined up in three rows in this room.  There are foot lockers near the beds
+where the crew can keep their personal belongings.  There is a mirror and
+barrel of water where the crew can clean themselves before their work day.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Crew Mess~
+~
+0 -1 43321
+#43323
+Crews' Bunks~
+This is where the crew members sleep.  There are atleast 12 bunk beds
+lined up in three rows in this room.  There are foot lockers near the beds
+where the crew can keep their personal belongings.  There is a mirror and
+barrel of water where the crew can clean themselves before their work day.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Crew Mess~
+~
+0 -1 43321
+#43324
+Cargo Hold~
+This is the rear cargo hold.  There are stacks of crates as high as the
+ceiling.  Its hard to make your way around here but the cargo seems to go
+for quite a while.  There seems to be something weird about the wall here.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+To the crew mess.~
+~
+0 -1 43321
+DDIR_EAST
+The cargo hold continues...~
+~
+0 -1 43326
+DDIR_SOUTH
+The iron door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN -1 43327
+DDIR_WEST
+Doorway to the storage room.~
+~
+0 -1 43325
+E
+wall~
+There seems to be a hidden door here perhaps!
+~
+#43325
+Storage Room~
+This room is the storage room that contains ship supplies.  There are many
+coils of rope and lengths of chain in a pile in the corner.  Several
+barrels are stacked on the other side of the room.  There are some peculiar
+looking containers near the end wall with some weird inscriptions on them.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Doorway to the cargo hold.~
+~
+0 -1 43324
+E
+inscriptions~
+{138}Do Not Touch!!!
+~
+#43326
+Cargo Hold~
+This room has many more crates stacked up.  It is so cluttered its amazing the
+gnomes even know whats in here.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+Cargo hold continues...~
+~
+0 -1 43324
+#43327
+Magic Gas Making Room~
+You have uncovered the secret laboratory of Dr. Winklestaff, the genius that
+invented the magical gas that allows the airship to float in the air.  You
+see a table set up with lots of high-tech instruments, vials, beakers, and
+containers full of special chemicals and ingredients.  The doctor himself
+is here mixing a brew of the gas as we speak.  There are a few tanks
+in the corner of the lab.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+The iron door.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_HIDDEN -1 43324
+#43328
+Crow's Nest~
+You climb the ladder to find yourself in the ship's crow's nest.  Its
+not like an ordinary ocean vessel's crow's nest because you are at
+the very rear of the ship.  You can see for miles from this spot, there are
+several birds hovering nearby making alot of noise.
+~
+0 0 SECT_INSIDE
+DDIR_DOWN
+Down the ladder...~
+~
+0 -1 43314
+#43329
+Secret Magic Shop~
+You find yourself in a strange room filled with magic potions, scrolls,
+tomes, and other magical devices.  You hear a voice say How may I help
+you sir?  What a strange shop...
+~
+0 ROOM_NO_MOB SECT_INSIDE
+#43350
+Sun Dome Landing Platform~
+This large platform is where some sort of ship lands and launchs off.
+Strangely enough there is no water to launch into the only way to launch
+would be up in the sky!
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Walkway to the ticket office.~
+~
+0 -1 43351
+#43351
+Sun Dome Ticket Office~
+This small room seems to be some sort of depot.  There are a few people here
+looking at a large sign on the wall.  A small man sits behind a counter
+collecting gold coins from people in exchange for a ride on the ship here.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+Walkway to the landing platform.~
+~
+0 -1 43350
+DDIR_DOWN
+Down the tunnelway...~
+~
+0 -1 43352
+E
+sign~
+###############################################
+#                                             #
+#             Airship Schedule                #
+#                                             #
+#                      {128}Arrival   {138}Departure {308}   #
+#  {118}Destination    {128}      Time     {138}  Time{308}       #
+#  {118}-----------         {128}-------   {138}---------{308}    #
+#                                             #
+#  Sun Dome             9:00PM     6:00AM     #
+#  Gnome Empire         9:00AM    10:00AM     #
+#  Ellis City           2:00PM     3:00PM     #
+#  Piscyra              5:00PM     6:00PM     #
+#                                             #
+#       No flights from 9:00PM to 6:00AM      #
+#                                             #
+###############################################
+~
+#43352
+Entrance to the Ticket Office~
+You find yourself in a busy tunnelway that leads to a spiral staircase
+leading up.  Several tourists and travelers walk by here, most carrying
+bags and things.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the Sun Dome in all its glory.~
+~
+0 -1 11620
+DDIR_UP
+Up the tunnelway...~
+~
+0 -1 43351
+#43355
+Gnome Empire Landing Platform~
+This large platform is where some sort of ship lands and launchs off.
+Strangely enough there is no water to launch into the only way to launch
+would be up in the sky!
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Doorway to the ticket office.~
+~
+0 -1 43356
+#43356
+Gnome Empire Ticket Office~
+This small room seems to be some sort of depot.  There are a few people here
+looking at a large sign on the wall.  A small man sits behind a counter
+collecting gold coins from people in exchange for a ride on the ship here.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Walkway to the landing platform.~
+~
+0 -1 43355
+DDIR_DOWN
+Down the tunnelway...~
+~
+0 -1 43357
+E
+sign~
+###############################################
+#                                             #
+#             Airship Schedule                #
+#                                             #
+#                      {128}Arrival   {138}Departure {308}   #
+#  {118}Destination    {128}      Time     {138}  Time{308}       #
+#  {118}-----------         {128}-------   {138}---------{308}    #
+#                                             #
+#  Gnome Empire        9:00AM    10:00AM      #
+#  Ellis City          2:00PM     3:00PM      #
+#  Piscyra             5:00PM     6:00PM      #
+#  Sun Dome            9:00PM     6:00AM      #
+#                                             #
+#       No flights from 9:00PM to 6:00AM      #
+#                                             #
+###############################################
+~
+#43357
+Entrance to the Ticket Office~
+You find yourself in a busy tunnelway that leads to a spiral staircase
+leading up.  Several tourists and travelers walk by here, most carrying
+bags and things.
+~
+0 0 SECT_INSIDE
+DDIR_WEST
+~
+~
+0 -1 12337
+DDIR_UP
+Up the tunnelway...~
+~
+0 -1 43356
+#43360
+Ellis City Landing Platform~
+This large platform is where some sort of ship lands and launchs off.
+Strangely enough there is no water to launch into the only way to launch
+would be up in the sky!
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Doorway to the ticket office.~
+~
+0 -1 43361
+#43361
+Ellis City Ticket Office~
+This small room seems to be some sort of depot.  There are a few people here
+looking at a large sign on the wall.  A small man sits behind a counter
+collecting gold coins from people in exchange for a ride on the ship here.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+To the landing platform~
+~
+0 -1 43360
+DDIR_DOWN
+Down the tunnelway...~
+~
+0 -1 43362
+E
+sign~
+###############################################
+#                                             #
+#             Airship Schedule                #
+#                                             #
+#                      {128}Arrival   {138}Departure {308}   #
+#  {118}Destination    {128}      Time     {138}  Time{308}       #
+#  {118}-----------         {128}-------   {138}---------{308}    #
+#                                             #
+#  Ellis City          2:00PM     3:00PM      #
+#  Piscyra             5:00PM     6:00PM      #
+#  Sun Dome            9:00PM     6:00AM      #
+#  Gnome Empire        9:00AM    10:00AM      #
+#                                             #
+#       No flights from 9:00PM to 6:00AM      #
+#                                             #
+###############################################
+~
+#43362
+Entrance to the Ticket Office~
+You find yourself in a busy tunnelway that leads to a spiral staircase
+leading up.  Several tourists and travelers walk by here, most carrying
+bags and things.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+Ellis city south dock is to the east.~
+~
+0 -1 43700
+DDIR_UP
+Up the tunnelway...~
+~
+0 -1 43361
+#43365
+Piscrya Landing Platform~
+This large platform is where some sort of ship lands and launchs off.
+Strangely enough there is no water to launch into the only way to launch
+would be up in the sky!
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+Doorway to the ticket office.~
+~
+0 -1 43366
+#43366
+Piscrya Ticket Office~
+This small room seems to be some sort of depot.  There are a few people here
+looking at a large sign on the wall.  A small man sits behind a counter
+collecting gold coins from people in exchange for a ride on the ship here.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+Walkway to the landing platform.~
+~
+0 -1 43365
+DDIR_DOWN
+Down the tunnelway...~
+~
+0 -1 43367
+E
+sign~
+###############################################
+#                                             #
+#             Airship Schedule                #
+#                                             #
+#                      {128}Arrival   {138}Departure {308}   #
+#  {118}Destination    {128}      Time     {138}  Time{308}       #
+#  {118}-----------         {128}-------   {138}---------{308}    #
+#                                             #
+#  Piscyra             5:00PM     6:00PM      #
+#  Sun Dome            9:00PM     6:00AM      #
+#  Gnome Empire        9:00AM    10:00AM      #
+#  Ellis City          2:00PM     3:00PM      #
+#                                             #
+#       No flights from 9:00PM to 6:00AM      #
+#                                             #
+###############################################
+~
+#43367
+Entrance to the Ticket Office~
+You find yourself in a busy tunnelway that leads to a spiral staircase
+leading up.  Several tourists and travelers walk by here, most carrying
+bags and things.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see a city wall of Piscyra.~
+~
+0 -1 28869
+DDIR_UP
+Up the tunnelway...~
+~
+0 -1 43366
+#43390
+C R U S H !~
+You gonna be squashed like a bug here :)
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+#43399
+The Control Center~
+You are standing in the control center of this marvelous air ship.  Here is
+where all the hard work takes place.  A small sign has been placed here.
+~
+0 ROOM_NO_MOB|ROOM_SAFE SECT_INSIDE
+E
+sign~
+{128}--------------------------------------------------------------------------------
+{178}                                 Scandum Technologies
+{128}--------------------------------------------------------------------------------
+~
+#0
+
+
+#RESETS
+M 43399 100 43399
+D 43302 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 43309 DIR_NORTH DOOR_CLOSED
+D 43301 DIR_DOWN  DOOR_CLOSED
+D 43318 DIR_UP    DOOR_CLOSED
+M 43321 100 43327
+O 43319 100 43327
+D 43327 DIR_NORTH DOOR_CLOSED
+D 43324 DIR_SOUTH DOOR_CLOSED
+M 43305 100 43305
+M 43306 100 43305
+M 43316 100 43317
+M 43317 100 43317
+M 43312 100 43312
+G 43313 100 0
+G 43314 100 0
+G 43312 100 0
+G 43311 100 0
+G 43310 100 0
+O 43317 100 43317
+M 43314 100 43316
+M 43315 100 43315
+M 43300 100 43300
+E 43329   1 WEAR_LIGHT
+O 43300 100 43300
+M 43311 100 43311
+M 43313 100 43313
+D 43313 DIR_NORTH DOOR_OPEN
+D 43309 DIR_SOUTH DOOR_OPEN
+M 43301 100 43301
+M 43302 100 43301
+M 43310 100 43310
+O 43315 100 43310
+P 43316   1 43315
+M 43307 100 43307
+M 43309 100 43306
+M 43308 100 43308
+M 43303 100 43303
+M 43304 100 43304
+M 43318 100 43321
+M 43319 100 43323
+O 43318 100 43323
+M 43319 100 43322
+O 43318 100 43322
+O 43321 100 43300
+O 43350 100 43350
+M 43351 100 43351
+O 43351 100 43351
+M 43392 100 43390
+M 43351 100 43356
+O 43356 100 43356
+O 43355 100 43355
+O 43360 100 43360
+M 43351 100 43361
+O 43361 100 43361
+O 43365 100 43365
+M 43351 100 43366
+O 43366 100 43366
+M 43322 100 43328
+M 43323 100 43329
+G 43330 100 0
+G 43329 100 0
+G 43328 100 0
+G 43327 100 0
+G 43326 100 0
+G 43325 100 0
+M 43334 100 43309
+E 43339   1 WEAR_WRIST_L
+E 43330   1 WEAR_WIELD
+O 43343 100 43321
+M 43324 100 43321
+M 43324 100 43321
+M 43324 100 43321
+M 43324 100 43321
+M 43325 100 43320
+M 43325 100 43320
+M 43325 100 43320
+M 43325 100 43319
+M 43325 100 43319
+M 43325 100 43319
+M 43390 100 43399
+M 43391 100 43399
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

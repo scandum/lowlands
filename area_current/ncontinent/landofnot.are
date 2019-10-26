@@ -1,0 +1,1068 @@
+#AREA Land of Not~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 10 20 10 95
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 'LAND OF NOT'~
+{128}                                Lands of Not
+{308}
+The Land of Not is an area loaded with all sorts of illusions.
+Some are extremely scary.  Others will make players laugh.
+The area is located in the jungle, north of Ocean City.
+~
+
+0 $~
+
+
+#MOBILES
+#11900
+spider twelve~
+a Twelve-Legged Spider~
+A spider with twelve legs is here sucking blood from a frog.~
+The spider's fangs are about three inches long.  And all of
+his five hundred eyes are staring at you.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_HUNT
+0 S
+10 0 0 1d25+81 1d10+6
+15 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 50~
+emote bites you.
+mpecho You feel sick.
+~
+>death_prog 25~
+mpoload 11900
+~
+|
+#11901
+shark flying~
+a Flying Shark~
+There's a shark with wings flying toward you!~
+Can you believe it?  It's a flying shark!
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_DETECT_HIDDEN
+0 S
+12 BODY_WING BODY_MOUTH|BODY_WING 20d6+75 3d5+3
+30 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpkill $n
+~
+>entry_prog 100~
+mpkill $r
+~
+>fight_prog 33~
+if rand (50)
+  mpecho A Flying Shark's bite  EVISCERATES you!
+  mpecho {008}
+  mpecho *** You sure are BLEEDING!
+  mpecho {008}
+  mpecho That REALLY did hurt!
+else
+  mpecho A Flying Shark opens his jaws and soars for your head!
+endif
+~
+>death_prog 25~
+mpoload 11901
+~
+|
+#11902
+shapeshifter frog dragon tree~
+a Shapeshifter~
+There is a shapeshifter here.~
+This shapeshifter bears no definate form.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+14 0 0 20d7+75 3d6+3
+60 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if rand (25)
+  mpmset self short A Frog
+  mpmset self long There is a large green frog here.
+  mpmset self desc This frog is about three feet long and two feet tall.
+else
+  if rand (25)
+    mpmset self short A Dragon
+    mpmset self long A huge, fiery dragon is here glaring at you!
+    mpmset self desc This dragon is enormous.  You should run away!
+  else
+    if rand (25)
+      mpmset self short A Tree
+      mpmset self long There is a tree here.
+      mpmset self desc This tree is brown bark and green leaves.
+    else
+      mpmset self short A Shapeshifter
+      mpmset self long There is a shapeshifter here.
+      mpmset self desc This shapeshifter bears no definate form.
+    endif
+  endif
+endif
+mpecho A shapeshifter flickers for a second.
+~
+>fight_prog 50~
+if rand (30)
+  emote EVISCERATES you!
+else
+  if rand (30)
+    emote *** DEMOLISHES *** you!
+    mpecho {008}
+    mpecho *** You sure are BLEEDING!
+  else
+    if rand (30)
+      emote turns into a giant demon.
+      mpecho A Giant Demon *** DEMOLISHES *** you!
+      mpecho {008}
+      mpecho *** You sure are BLEEDING!
+    else
+      say Please don't hurt me.  What did I ever do to you?
+    endif
+  endif
+endif
+~
+>death_prog 10~
+mpoload 11902
+~
+|
+#11903
+you~
+You~
+You are here!~
+This looks just like you.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_HUNT
+0 S
+17 0 0 20d9+100 1d17+10
+120 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+if quest (0,1,self) == 1
+  mppurge self
+else
+  mpmset self short $n
+  mpmset self long $n is here.
+  shout Help! I'm being attacked by $n!
+  mpkill $n
+  mpmset self quest 0 1 1
+endif
+~
+>fight_prog 50~
+if rand (30)
+  emote EVISCERATES you!
+else
+  if rand (30)
+    emote *** DEMOLISHES *** you!
+    mpecho {008}
+    mpecho *** You sure are BLEEDING!
+  else
+    say I'll kill you $n if it's the last thing I do!
+  endif
+endif
+~
+>death_prog 100~
+say Why would you do this to yourself?
+~
+|
+#11904
+rabbit killer bunny~
+the Killer Rabbit~
+The Killer Rabbit from Monty Python is here!~
+It is the harmless little bunny!  Look at the bones!
+RUN AWAY!  RUN AWAY!  RUN AWAY!  RUN AWAY!  RUN AWAY!
+~
+ACT_SENTINEL|ACT_SMART
+AFF_HIDE
+0 S
+25 0 0 2d199+250 3d10+15
+240 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>all_greet_prog 100~
+mpechoat $n {118}$I's bite  *** OBLITERATES *** you!
+mpechoaround $n $I's bite *** OBLITERATES *** $n!
+mpecho {008}
+mpechoaround $n $n is DEAD!!!
+mpechoat $n You are incapacitated and will slowly die, if not aided.
+mpechoat $n {118}$I's bite  *** OBLITERATES *** you!
+mpechoat $n You have been KILLED!
+mpechoat $n {008}
+mpechoat $n Your soul has been retrieved from oblivion.
+mpechoat $n {008}
+mpechoat $n Nah... You feel too relaxed...
+mpechoat $n Nah... You feel too relaxed...
+~
+>give_prog I11907~
+mpecho {128}The Holy Hand Grenade *** DISINTEGRATES *** the Killer Rabbit!
+mpecho The Killer Rabbit is DEAD!
+mpecho And there was much rejoicing.
+mppurge self
+~
+>fight_prog 30~
+mpechoat $n {118}$i MUTILATES you!
+mpechoat $n  *** You sure are BLEEDING!
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+mpoload 11903
+~
+|
+#11905
+tim necromancer~
+the Necromancer~
+A necromancer is here.~
+This is a necromancer, similar to the ones you see all over the realm.
+He says there are some that call him Tim, but is that his real name?
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+19 0 0 20d15+100 5d5+7
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+tell $n Hello $n.  I heard you were searching
+tell $n for a grail!  I have what you need,
+tell $n but you'll have to kill me for it.
+~
+>death_prog 100~
+mpoload 11904
+~
+|
+#11906
+keeper bridge~
+the Bridge Keeper~
+The bridge keeper is here.~
+This is an old man.  Answer his three questions and you may have the grail.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+19 0 0 20d15+100 5d5+7
+100 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+tell $n What is your quest?
+~
+>speech_prog p holy grail~
+tell $n What is your favorite color?
+~
+>speech_prog blue~
+mpechoat $n {118}$I's punch  *** OBLITERATES *** you!
+mpechoaround $n $I's punch *** OBLITERATES *** $n!
+mpecho {008}
+mpechoaround $n $n is DEAD!!!
+mpechoat $n You are incapacitated and will slowly die, if not aided.
+mpechoat $n {118}$I's punch  *** OBLITERATES *** you!
+mpechoat $n You have been KILLED!
+mpechoat $n {008}
+mpechoat $n Your soul has been retrieved from oblivion.
+mpechoat $n {008}
+mpechoat $n Nah... You feel too relaxed...
+mpechoat $n Nah... You feel too relaxed...
+~
+>speech_prog red~
+tell $n What is the velocity of a laden swallow?
+~
+>speech_prog p I don't know that~
+mpechoat $n {118}$I's punch  *** OBLITERATES *** you!
+mpechoaround $n $I's punch *** OBLITERATES *** $n!
+mpecho {008}
+mpechoaround $n $n is DEAD!!!
+mpechoat $n You are incapacitated and will slowly die, if not aided.
+mpechoat $n {118}$I's punch  *** OBLITERATES *** you!
+mpechoat $n You have been KILLED!
+mpechoat $n {008}
+mpechoat $n Your soul has been retrieved from oblivion.
+mpechoat $n {008}
+mpechoat $n Nah... You feel too relaxed...
+mpechoat $n Nah... You feel too relaxed...
+~
+>speech_prog p african or european?~
+tell $n I don't know that!
+mpoload 11905
+drop grail
+emote is cast into the gorge.
+mppurge self 
+~
+>death_prog 100~
+say You've defeated me, but you will not have the grail!
+emote throws the grail into the gorge.
+mpecho The earth shivers over the loss of the Holy Grail.
+~
+|
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#11900
+fang~
+a spider's fang~
+A spider's fang lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_DAGGER 8 2 WEAPON_PIERCE 0 0 0 0
+2 100 10
+A APPLY_AC 6 0
+#11901
+soup shark fin~
+a bowl of shark fin soup~
+A bowl of shark fin soup lies here.~
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+48 0 0 0 0 0 0 0
+1 10000 10
+A APPLY_MANA 20 0
+A APPLY_AC -4 0
+A APPLY_DEX 2 0
+#11902
+tunic~
+the shape changer's tunic~
+The shape changer's tunic lies here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+9 0 0 0 0 0 0 0
+6 10000 17
+A APPLY_DEX 1 0
+#11903
+stew rabbit bowl~
+killer rabbit stew~
+A bowl of rabbit stew is here.~
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+24 0 0 0 0 0 0 0
+1 1000 10
+A APPLY_STR 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_HITROLL 2 0
+#11904
+grenade holy hand~
+the holy hand grenade~
+The holy hand grenade lies here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 100000 1
+E
+grenade~
+This grenade still has the pin.  PULL it out.  
+~
+P 1
+TRIG_UNKNOWN 100 pull
+OPROG_GOD_COMMAND
+MPOLOAD 11906~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#11905
+grail holy~
+the holy grail~
+The holy grail lies here.~
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 25 LIQ_WATER 0 0 0 0 0
+1 10 10
+A APPLY_CON 2 0
+A APPLY_WIS 2 0
+A APPLY_INT 2 0
+#11906
+grenade holy hand~
+the holy hand grenade~
+The holy hand grenade lies here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 10 1
+E
+grenade~
+This grenade does NOT have the pin.  You must now count to three.  
+(To do this, type one_two_three and press enter.)
+~
+P 1
+TRIG_UNKNOWN 100 one_two_three
+OPROG_GOD_COMMAND
+MPOLOAD 11907~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#11907
+grenade holy hand~
+the holy hand grenade~
+The holy hand grenade lies here.~
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 10 1
+E
+grenade~
+This grenade is ready to be given to the enemy.
+~
+#11908
+sign~
+a sign~
+A sign is staked here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+sign~
+The sign:            ____________________________
+                    |                            |
+                    |     The  Land  of  Not     |
+                    | -========================- |
+                    |      For Levels 10-20      |
+                    | -========================- |
+                    |  Created by Presto 2-5-95  |
+                    |____________________________|
+                                 |  |
+                                 |  |
+                                 |  |
+                                 |  |
+                            \\/__|__|__\//
+~
+#0
+
+
+#ROOMS
+#11900
+A Clearing~
+You enter a small clearing.  There is not much here except rocks and
+patches of grass.  To the east you can see the forest you came out of.
+To the south it is very dark.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11901
+DDIR_SOUTH
+You see a dark cave entrance.~
+~
+0 -1 11905
+#11901
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11906
+DDIR_WEST
+You see a clearing.~
+~
+0 -1 11900
+#11902
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11903
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11909
+#11903
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11910
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11902
+#11904
+The Gorge~
+This is the gorge.  There is no escape.
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_FOREST
+#11905
+At a Dark Cave~
+It is very dark here.  You feel the presence of something evil, though you
+can't quite tell what it is.  You feel like running away, but your feet
+won't let you.  The clearing is back north.  You can't see through the cave.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see the clearing.~
+~
+0 -1 11900
+DDIR_SOUTH
+You see the cave.~
+~
+0 -1 11913
+#11906
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11901
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11914
+#11907
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11908
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11915
+#11908
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11916
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11907
+#11909
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11902
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11917
+#11910
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11903
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11911
+#11911
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see a clearing.~
+~
+0 -1 11912
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11910
+#11912
+A Clearing~
+You stand in a small clearing.  It feels good to see the sky again.
+The air isn't as musty or wretched as in the forest either.
+You see the forest to the south and west.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11920
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11911
+#11913
+At the Bridge~
+You stand at a bridge.  Below the bridge is an extremely deep gorge.
+Falling into it would mean instant death.  The being you see before
+you must be the bridge keeper.  The exit is north.
+~
+0 ROOM_DARK SECT_FOREST
+DDIR_NORTH
+You see cave.~
+~
+0 -1 11905
+DDIR_SOUTH
+You see the entrance to the forest across the bridge.~
+~
+0 -1 11928
+#11914
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11906
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11915
+#11915
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11907
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11914
+#11916
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11908
+DDIR_SOUTH
+You see a clearing.~
+~
+0 -1 11924
+#11917
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11909
+DDIR_SOUTH
+You see a clearing.~
+~
+0 -1 11925
+#11918
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11919
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11926
+#11919
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11927
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11918
+#11920
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a clearing.~
+~
+0 -1 11912
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11921
+#11921
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11922
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11920
+#11922
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11923
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11921
+#11923
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11930
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11922
+#11924
+A Clearing~
+You stand in a small clearing.  It feels good to see the sky again.
+The air isn't as musty or wretched as in the forest either.
+You see the forest to the north and south.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11916
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11931
+#11925
+A Clearing~
+You stand in a small clearing.  It feels good to see the sky again.
+The air isn't as musty or wretched as in the forest either.
+You see the forest to the north and east.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a clearing.~
+~
+0 -1 11917
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11926
+#11926
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11918
+DDIR_WEST
+You see a clearing.~
+~
+0 -1 11925
+#11927
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11919
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11932
+#11928
+The Entrance to the Forest~
+This entrance is shocking.  In front of you lie the widest variety of
+trees in the world.  They're all extremely tall.  You can see that
+further into the forest it gets a lot darker.  At night you better have
+a light source if you wish to survive.  The forest is south.  There is
+a small clearing to the east.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see a clearing.~
+~
+0 -1 11929
+DDIR_SOUTH
+You see the forest.~
+~
+0 -1 11933
+#11929
+The Land of Not~
+You enter a clearing.  To the west you see enormous trees.  They even have
+bark of different shades of the rainbow.  To the east of you is the 
+residential road of Ocean City.  There is a sign staked in the clearing here.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+You see a jungle trail.~
+~
+0 -1 11872
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11928
+#11930
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11923
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11931
+#11931
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a clearing.~
+~
+0 -1 11924
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11930
+#11932
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11927
+DDIR_EAST
+You see the forest.~
+~
+0 -1 11933
+#11933
+The Forest~
+The trees here are magnificent.  They're not only larger than the great
+redwoods that you've heard legends about, they're also different shades
+of the rainbow.  Some are quite impressive.  At night this forest would
+have to be extremely dark.  Hopefully nothing out there lurks in shadows.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see the forest.~
+~
+0 -1 11928
+DDIR_WEST
+You see the forest.~
+~
+0 -1 11932
+#0
+
+
+#RESETS
+M 11900 100 11933
+M 11900 100 11932
+M 11900 100 11932
+M 11900 100 11927
+M 11900 100 11927
+M 11900 100 11927
+M 11900 100 11919
+M 11900 100 11919
+M 11900 100 11918
+M 11900 100 11918
+M 11900 100 11918
+M 11900 100 11926
+M 11900 100 11926
+M 11901 100 11917
+M 11901 100 11909
+M 11901 100 11909
+M 11901 100 11902
+M 11901 100 11902
+M 11901 100 11902
+M 11901 100 11903
+M 11901 100 11903
+M 11901 100 11910
+M 11901 100 11910
+M 11901 100 11910
+M 11901 100 11911
+M 11901 100 11911
+M 11902 100 11920
+M 11902 100 11921
+M 11902 100 11921
+M 11902 100 11922
+M 11902 100 11922
+M 11902 100 11922
+M 11902 100 11923
+M 11902 100 11923
+M 11902 100 11930
+M 11902 100 11930
+M 11902 100 11930
+M 11902 100 11931
+M 11902 100 11931
+M 11903 100 11916
+M 11903 100 11908
+M 11903 100 11908
+M 11903 100 11907
+M 11903 100 11907
+M 11903 100 11907
+M 11903 100 11915
+M 11903 100 11915
+M 11903 100 11914
+M 11903 100 11914
+M 11903 100 11914
+M 11903 100 11906
+M 11903 100 11906
+M 11904 100 11905
+M 11905 100 11900
+M 11906 100 11913
+O 11908   1 11929
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,4869 @@
+#AREA Alchemist's Workshop~
+#AUTHORS Psiloc~
+#VERSION 4
+#RANGES 25 50 1 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT
+
+
+#HELPS
+0 ALCHEMIST WORKSHOP 'ALCHEMIST WORKSHOP'~
+{120}
+                          The Alchemist's Workshop
+{300}
+The Alchemist's Workshop can be found by going east on the stream south of the
+gnome village.  Be prepared to talk to the mobs and write down the clues that
+they give you (there are too many to remember).  Words in all caps are likely
+to be good conversation starters.
+
+Do not trust the hints given to you by other PCs because the clues and the
+solutions to quests will vary from person to person.  Be prepared to use your
+brain a little bit if you want to learn how to make gold and enter the guild
+of Alchemists.
+~
+
+0 $~
+
+
+#MOBILES
+#14400
+yellow mouse~
+the yellow mouse~
+A yellow mouse scurries about here.~
+It is about the right size for a mouse, but it seems a lot more muscular.
+It's fur is yellow.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS
+-50 S
+20 BODY_HEAD|BODY_LEG|BODY_TAIL BODY_MOUTH|BODY_TAIL|BODY_CLAW 2d25+325 3d6+14
+7500 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+mpecho The mouse looks for some grass to eat.
+~
+>fight_prog 20~
+if rand (40)
+  say SQUEAK...SQUEAK
+  say SQUEAK!
+else
+  say Don't kill me!
+endif
+~
+|
+#14401
+packrat~
+the packrat~
+A packrat searches for something to carry here.~
+It is about two feet long.  It has strong jaws that it uses to carry various
+items.  It doesn't seem to like you in its territory!
+~
+ACT_AGGRESSIVE|ACT_BODY
+AFF_HUNT
+-150 S
+25 BODY_HEAD|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_CLAW 4d7+450 3d6+18
+10000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#14402
+leader~
+the packrat leader~
+The leader of the ratpack scurries here.~
+The toughest looking of all the pack rats.  She must have gotten her position
+by carrying the most stuff around.  She sure looks strong.  She doesn't seem
+to notice you at all, but would put up a very nasty fight if provoked.
+~
+ACT_SMART|ACT_BODY
+AFF_DETECT_INVIS|AFF_PASS_DOOR
+-150 S
+28 BODY_HEAD|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_CLAW 4d7+550 3d6+20
+25001 0
+POS_STANDING POS_STANDING SEX_FEMALE
+>fight_prog 10~
+say KWE-AK  KWE-AK  KWE-AK!
+mpecho $I calls for help!
+mpmload 14401
+~
+>death_prog 100~
+if quest (0,2,$n) == 1
+  mpoload 14421
+endif
+if quest (0,2,$n) == 2
+  mpoload 14462
+endif
+if quest (0,2,$n) == 3
+  mpoload 14463
+endif
+if quest (0,2,$n) == 0
+  mpoload 14470
+endif
+mpecho The rat leader quivers and falls dead.
+~
+|
+#14403
+giant yellow bat~
+the giant yellow bat~
+A giant yellow bat swoops in the air here!~
+It is not very different from a normal bat, except in its size, strength
+and color.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_BODY
+AFF_DETECT_INVIS|AFF_FLYING
+-300 S
+26 BODY_EYE|BODY_WING BODY_MOUTH|BODY_WING|BODY_CLAW 4d7+500 3d6+17
+1100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 10~
+mpecho The yellow bat flashes its teeth and swoops again!
+~
+|
+#14404
+giant yellow bat~
+the giant yellow bat~
+A giant yellow bat swoops in the air here!~
+It is not very different from a normal bat, except in its size, strength
+and color.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_BODY
+AFF_DETECT_INVIS|AFF_FLYING|AFF_HUNT
+-300 S
+26 BODY_EYE|BODY_WING BODY_MOUTH|BODY_WING|BODY_CLAW 4d7+500 3d6+17
+1100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 15~
+mpecho The yellow bat flashes its teeth and swoops again!
+~
+|
+#14405
+sewer rat~
+the sewer rat~
+A big sewer rat scavenges for scraps of food here.~
+It is not very different from a normal sewer rat, just extra mean and strong.
+What mystical knowledge would it have taken to change these creatures?
+Or what terrible mistake?
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_BODY
+AFF_DETECT_INVIS|AFF_SNEAK|AFF_HUNT
+-400 S
+29 BODY_EYE|BODY_TAIL BODY_MOUTH|BODY_CLAW 4d7+550 2d6+22
+11000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 15~
+mpecho The rat rages and attacks more viciously!
+~
+|
+#14406
+lead boulder~
+the lead boulder~
+An immense boulder made of lead sits here.~
+A very large quantity of pure lead.  Only an immortal could lift it.  Wait!
+Did it just move?
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+150 S
+31 BODY_TORSO BODY_TORSO|BODY_HIP 1d7+600 1d6+25
+110 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>death_prog 100~
+if rand (80)
+  mpoload 14423
+  mpquiet on
+  drop i14423
+  mpquiet off
+  mpecho A large piece of the boulder breaks loose!
+else
+  mpjunk all
+  mpecho The boulder quits moving.
+endif
+~
+|
+#14407
+crypt keeper~
+the crypt keeper~
+The crypt keeper stands here.~
+The crypt keeper stands 2.5 meters tall.  You can not make out any of its
+features because of the large cloak and cowl that it is wearing.  All you
+can make out is a set of glowing yellow eyes glowering at you.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-850 S
+30 BODY_HEAD|BODY_LEG BODY_HAND 6d5+585 2d5+21
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+>fight_prog 65~
+if rand (20)
+  if position ($r) == pos_fighting
+    mpecho $I opens his cloak.
+    mpechoaround $r {140}A torrent of acidic liquid flies towards $r!
+    mpechoat $r {140}A torrent of acidic liquid flies towards you!
+    mpquiet on
+    cast 'acid blast' $r
+    mpquiet off
+  endif
+else
+  mpecho $I grits his teeth with rage!
+endif
+~
+>rand_prog 5~
+mpecho $I is unamused by your presence here.
+~
+|
+#14408
+pit viper~
+the pit viper~
+A multi-colored pit viper is coiled in the corner here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 10~
+mpecho {100}The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpechoaround $r {020}The viper's fangs dig deep into $r!
+  mpechoat $r {020}The viper's fangs dig deep into you!
+  mpechoat $r {160}You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpechoat $r {160}You don't feel so well.
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpechoat $r {160}You don't feel so well.
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpechoat $r {160}You can't see!!
+      mpquiet on
+      cast 'blindness' $r
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+|
+#14409
+old man alchemist meldrum~
+the old man~
+An old gnome alchemist sits silently here.~
+The old alchemist is sitting morosely, his head in his hands.  You are sur-
+prised to see that he is a gnome.  Based on their POLITICS, you thought that
+all gnomes were basically ignorant of any useful information or philosophy.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS
+-50 S
+10 BODY_HEAD|BODY_LEG BODY_HAND 1d25+81 2d6+5
+10 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>rand_prog 5~
+mpecho The old gnome sighs.
+~
+>fight_prog 15~
+say Kill me if you like...it makes no difference
+say I have nothing to live for!
+~
+>speech_prog politics~
+if quest (10,3,$n) == 0
+  say What a sore spot for me!
+  grumble 
+  say Good King Paoli dubbed me Meldrum, Sixth Earl of Sochi
+  say Yes that's right Sixth Earl.. don't forget it!
+  say I was Royal Alchemist of the Gnome Empire.
+  say Now I have nothing, stripped of all my titles by the
+  say usurpers who wrested the throne from the rightful heir.
+  say How I yearn for the days of the old Transcendental
+  say Empire of Gnomes!
+endif
+~
+>speech_prog meldrum~
+say Meldrum...that's my name!  Glad to meet you.
+~
+>speech_prog troubles~
+if quest (10,3,$n) == 0
+  say Troubles?!  Just look around.
+  say It was Politics that took all I have.
+  say Now I have to eke out a living trying to
+  say practice my art with sub-standard materials
+  say and worthless apprentices.
+  say Somehow an experiment got out of control and
+  say those creatures took over my house.
+  say I haven't been in it for years.
+  sigh 
+endif
+~
+>speech_prog transmutation~
+if quest (10,3,$n) == 0
+  say Are you interested in Gold?
+  say No one has made any around here for a long time.
+endif
+~
+>speech_prog gold~
+if quest (10,3,$n) == 0
+  look $n
+  say So you're interested in learning the art of alchemy?
+  say Making gold is a simple matter...
+  say However, any information that I could give you
+  say would be useless unless you could get to my equipment
+  say in the Lab in my house...
+endif
+~
+>speech_prog lab~
+if quest (10,3,$n) == 0
+  say Well, if you could get there, I could
+  say teach you how to make it work...
+  look $n
+  say But before I do, I want to test you first
+  say On the wall of the lab is a plaque that
+  say describes the process of gold making in detail.
+  say Tell me what guards the temple according to the
+  say plaque and I will be convinced that you are worth
+  say bothering with.
+  mpmset $n quest 10 3 1
+else
+  say Have you found what guards the temple yet?
+endif
+~
+>speech_prog serpent~
+if quest (10,3,$n) == 1
+  smile 
+  say Very good!  Before we get to some specifics of
+  say gold synthesis, I must explain some Theory.
+  mpmset $n quest 10 3 2
+endif
+~
+>speech_prog theory~
+if quest (10,3,$n) == 2
+  mpmset $n quest 10 3 3
+  say As you may know, all things are made of
+  say the four elements: earth, water, wind and fire.
+  say Only the relative proportions determine the properties
+  say of specific materials. If you want gold, you need to
+  say know the percentages of the elements that make it up.
+  say Combining other less valuable starting materials in
+  say the right amounts, will reproduce the constitution of
+  say gold... The first step is to collect the right
+  say Materials and melt them together.
+  if rand (33)
+    mpmset $n quest 0 2 1
+  else
+    if rand (50)
+      mpmset $n quest 0 2 2
+    else
+      mpmset $n quest 0 2 3
+    endif
+  endif
+endif
+~
+>speech_prog materials~
+if quest (10,3,$n) == 3
+  say To make gold you need a large piece of LEAD,
+  say two ounces of saltpeter,
+  say 6 drams of quicksilver,
+  say and one ounce of Alum
+  say Give these to my melting pot golem and then
+  say in a very loud and strong voice
+  if quest (0,2,$n) == 1
+    say speak the magic word Schwindel
+  else
+    if quest (0,2,$n) == 2
+      say speak the magic word Tuchtig
+    else
+      if quest (0,2,$n) == 3
+        say speak the magic word Zauberkunst
+      endif
+    endif
+  endif
+  say and it will do the hard work.
+  say When you are done, come back and tell me what
+  say you got and I will help you further.
+endif
+~
+>speech_prog lead~
+if quest (10,3,$n) == 3
+  say You can get some lead from the old mine
+  say up the road a bit. Here is the key.
+  mpoload 14401
+  give i14401 $n
+  say The other materials you will have to
+  say scrounge up yourself.
+endif
+~
+>speech_prog blood~
+if quest (10,3,$n) == 3
+  mpmset $n quest 10 3 4
+  say Well done!  You have the right mix of the
+  say elements to eventually make gold. I have
+  say forgotten what to do now, however.
+  say You will have to ask my Teacher.
+endif
+~
+>speech_prog teacher~
+if quest (10,3,$n) == 4
+  say Yes, my old teacher could tell you, but now
+  say he is dead.  You can wake his spirit if you
+  say speak his Name aloud. If you bring some Gift
+  say that was important to him in life, he may
+  say help you in making gold.
+endif
+~
+>speech_prog gift~
+if quest (10,3,$n) == 4
+  if quest (0,2,$n) == 1
+    say My master always liked to keep a toothbrush
+    say handy for his teeth. Give his corpse a
+    say toothbrush before waking him and he may give
+    say you some information.
+  else
+    if quest (0,2,$n) == 2
+      say My master always liked to his pelican flask.
+      say Give his corpse his pelican flask before waking
+      say him and he may give you some information.
+    else
+      if quest (0,2,$n) == 3
+        say My master always liked to warm up his drinks
+        say with a brassier. Give his corpse a brassier before
+        say waking him and he may give you some information.
+      endif
+    endif
+  endif
+endif
+~
+>speech_prog name~
+if quest (10,3,$n) == 4
+  say I can not speak his name aloud and wake him!
+  say But I can tell you that he is known as the
+  say Master Alchemist of Yellow.
+  say If you are a bright one, you will find his name.
+  say There should be enough Clues in the house for
+  say you figure it out. The crypt is under the house.
+endif
+~
+>speech_prog clues~
+if quest (10,3,$n) == 4
+  say If I know those old alchemists, each one will
+  say probably only tell you a single step in gold
+  say making.  You must speak to each of my predecessors
+  say in the order of their lives in order to complete
+  say the synthesis. (Each step of the synthesis will be
+  say carried out by a different machine.) My advice to
+  say you is to work out the order of the 6 alchemists
+  say that have lived in the house before you try talking
+  say to them. I will give you one more hint. I am the
+  say sixth and final Lord Alchemist of the line. My tomb
+  say awaits me in the crypt.  Traditionally the heir to
+  say the alchemist knowledge layed his master to rest.
+  say I don't know who I will find to place my old bones
+  say there when I leave this plane of exsistence.
+  say If you bring me the key for the pit under my crypt
+  say I may give you one more hint.
+endif
+~
+>give_prog i14407~
+if quest (10,3,$n) == 4
+  smile 
+  say Thank you for my key.
+  say I don't know who ran off with it.
+  say Here is the hint I promised.
+  mpquiet on
+  cast 'giant strength' $n
+  mpoload 14478
+  mpquiet off
+  give proclamation $n
+  mpjunk all
+endif
+~
+|
+#14410
+yellow alchemist master~
+the yellow corpse~
+A yellow master alchemist rests in peace here.~
+A remarkably well preserved body.  It looks only a few days dead.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+550 S
+50 BODY_HEAD|BODY_LEG BODY_HAND|BODY_FOOT 1d625+1197 3d6+34
+70000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog libavius~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14446
+    say Ah, my toothbrush!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to convert your lion's blood to
+    say Dragon's Venom, the next step in your quest for
+    say gold.  You must degrade the blood to fully free
+    say up the elements. Take your blood and some fuel,
+    say give it to the Furnace Golem and speak Burgschaft.
+    say You can get the fuel in the pit below my crypt.
+    say Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14410
+    give yellow $n
+    say As for the next step you will have to ask my master.
+    say Be sure to give him his labcoat before speaking his name!
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog beauvais~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14448
+    say Ah, my pelican flask!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to convert your lion's blood to
+    say Dragon's Venom, the next step in your quest for
+    say gold.  You must degrade the blood to fully free
+    say up the elements. Take your blood and some fuel,
+    say give it to the Furnace Golem and speak Schrecklich.
+    say You can get the fuel in the pit below my crypt.
+    say Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14410
+    give yellow $n
+    say As for the next step you will have to ask my master.
+    say Be sure to give him his toothbrush before speaking his name!
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog albertus~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14450
+    say Ah, my brassier!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to convert your lion's blood to
+    say Dragon's Venom, the next step in your quest for
+    say gold.  You must degrade the blood to fully free
+    say up the elements. Take your blood and some fuel,
+    say give it to the Furnace Golem and speak VERNUNFT.
+    say You can get the fuel in the pit below my crypt.
+    say Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14410
+    give yellow $n
+    say As for the next step you will have to ask my master.
+    say Be sure to give him his labcoat before speaking his name!
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>fight_prog 15~
+if position ($r) == pos_fighting
+  mpecho $I breaks a small vial.
+  mpechoat $r {160}You are drenched with acid!
+  mpquiet on
+  cast 'acid breath' $r
+  mpquiet off
+endif
+~
+|
+#14411
+blue alchemist master~
+the blue corpse~
+A blue master alchemist rests in peace here.~
+A remarkably well preserved body.  It looks only a few days dead.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+550 S
+50 BODY_HEAD|BODY_LEG BODY_HAND|BODY_FOOT 1d625+1197 3d6+34
+70000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog albertus~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14447
+    say Ah, my labcoat!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to convert your dragon's venom to
+    say white silver, the next step in your quest for
+    say gold.  You must grow the silver out of the venom
+    say soil by the process of leukosis. Take your venom
+    say and some orpiment, give it to the Olembic Bottle
+    say golem and speak the word Frohlockend. Orpiment will
+    say catalyze the silver's growth. You can get it in
+    say the pit below my crypt. Here is the key.
+    mpoload 14406
+    give blue $n
+    say As for the next step you will have to ask my master.
+    say Give him his pelican flask before speaking his name.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog rupescissca~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14449
+    say Ah, my goggles!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to convert your silver to crude
+    say gold, the next step in your quest for pure
+    say gold.  You must complete the transmutation of
+    say the metal by the process of xanthosis. Take
+    say some silver and some theion hudor (or divine
+    say water), give it to the Retort golem and speak
+    say the word Distillierblase.  You can get the
+    say theion hudor in the pit below my crypt.
+    say Here is the key.
+    mpoload 14406
+    give blue $n
+    say As for the next step you will have to ask my
+    say master.  Give him his lab coat and speak his
+    say name and he may help you.
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog beauvais~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14446
+    say Ah, my toothbrush!  Thank you very much.
+    say You must have talked to my disciple. I see
+    say that you want to purify your crude gold into
+    say finished gold, the last step in your quest
+    say for gold.  You must burn away all of the
+    say impurities in your sample. Take your crude
+    say gold and some liquid air, give it to the Cupel
+    say golem and speak the word Konigsfischer. You
+    say can get the air in the pit below my crypt.
+    say Here is the key.
+    mpoload 14406
+    give blue $n
+    say As for the next step you will have to ask my
+    say master.  Give him his pelican flask and speak
+    say his name and he may help you.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>fight_prog 15~
+if position ($r) == pos_fighting
+  mpecho $I breaks a small vial.
+  mpechoat $r {160}You feel a very cold wind blow over you!
+  mpquiet on
+  cast 'frost breath' $r
+  mpquiet off
+endif
+~
+|
+#14412
+orange alchemist master~
+the orange corpse~
+An orange master alchemist rests in peace.~
+A remarkably well preserved body.  It looks only a few days dead.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+550 S
+50 BODY_HEAD|BODY_LEG BODY_HAND|BODY_FOOT 1d625+1197 3d6+34
+70000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog beauvais~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14448
+    say Ah, my pelican flask!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say you want to convert your silver to crude gold,
+    say the next step in your quest for pure gold.  You
+    say must complete the transmutation of the metal by
+    say the process of xanthosis. Take your silver and
+    say some theion hudor (or divine water), give it to
+    say the Retort golem and speak the word Unwandelbarkeit.
+    say You can get the theion hudor in the pit below my
+    say crypt. Here is the key.
+    mpoload 14405
+    give orange $n
+    say As for the next step you will have to ask my master.
+    say Give him his goggles before speaking his name.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog angelus~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14450
+    say Ah, my brassier!  Thank you very much.
+    say You must have talked to my disciple. I assume
+    say now that you have learned to make gold that
+    say you would like to become a full-fledged, royal
+    say Alchemist! Unfortunately, I cannot help you there.
+    say The Oath of the Alchemist can only be administered
+    say by the living. Old Meldrum is too worn and tired
+    say for the task... My wife tried to learn the secrets
+    say of eternal life and other magic before I died.
+    say Perhaps she is still alive and could help. Find her,
+    say give her your golden nugget and speak her name. I
+    say would tell it to you, but my heart could never take
+    say it. How lonely the afterlife is...
+    sniff 
+    say You might try finding one of my old love letters.
+    say I hope that you find what you want.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog rupescissca~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14447
+    say Ah, my lab coat!  Thank you very much.
+    say You must have talked to my disciple.  I see that
+    say you want to convert your dragon's venom to white
+    say silver, the next step in your quest for gold. You
+    say must grow the silver out of the venom soil by the
+    say process of leukosis. Take your venom and some
+    say orpiment, give it to the Olembic Bottle golem and
+    say speak Zuruckkehren. Orpiment will catalyze the
+    say silver's growth. You can get it in the pit below
+    say my crypt. Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14405
+    give orange $n
+    say As for the next step you will have to ask my master.
+    say Give him his goggles before speaking his name.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>fight_prog 15~
+if position ($r) == pos_fighting
+  mpecho $I breaks a small vial.
+  mpechoat $r {160}Lightning shoots from the broken glass right at you!
+  mpquiet on
+  cast 'lightning breath' $r
+  mpquiet off
+endif
+~
+|
+#14413
+green alchemist master~
+the green corpse~
+A green master alchemist rests in peace.~
+A remarkably well preserved body.  It looks only a few days dead.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+550 S
+50 BODY_HEAD|BODY_LEG BODY_HAND|BODY_FOOT 1d625+1197 3d6+34
+70000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog rupescissca~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14449
+    say Ah, my goggles!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say you want to purify your crude gold into finished
+    say gold, the last step in your quest for gold.  You
+    say must burn away all of the impurities in your sample.
+    say Take your crude gold and some liquid air, give it to
+    say the Cupel golem and speak the word Geduldspiel. You
+    say can get the air in the pit below my crypt.
+    say Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14408
+    give green $n
+    say As for the next step you will have to ask my master.
+    say Give him his brassier before speaking his name.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog libavius~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14446
+    say Ah, my toothbrush!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say you want to convert your dragon's venom to white
+    say silver, the next step in your quest for gold.
+    say You must grow the silver out of the venom soil by
+    say the process of leukosis. Take your venom and some
+    say orpiment, give it to the Olembic Bottle golem and
+    say speak Umfahren. Orpiment will catalyze the silver's
+    say growth. You can get it in the pit below my crypt.
+    say Here is the key.
+    mpquiet on
+    cast 'giant strength' $n
+    mpquiet off
+    mpoload 14408
+    give green $n
+    say As for the next step you will have to ask my master.
+    say Give him his goggles before speaking his name.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog angelus~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14448
+    say Ah, my pelican flask!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say now that you have learned how to make gold
+    say you would like to become a full-fledged, royal
+    say Alchemist! Unfortunately, I cannot help you there.
+    say The Oath of the Alchemist can only be administered
+    say by the living. Old Meldrum is too worn and tired
+    say for the task... My wife tried to learn the secrets
+    say of eternal life and other magic before I died.
+    say Perhaps she is still alive and could help. Find her,
+    say give her your golden nugget and speak her name. I
+    say would tell it to you, but my heart could never take
+    say it. How lonely the afterlife is...
+    sniff 
+    say You might try finding one of my old love letters.
+    say I hope that you find what you want.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>fight_prog 15~
+if position ($r) == pos_fighting
+  mpecho $I breaks a small vial.
+  mpechoat $r A green gas blows over you!
+  mpquiet on
+  cast 'gas breath' $r
+  mpquiet off
+endif
+~
+|
+#14414
+red alchemist master~
+the red corpse~
+A red master alchemist rests in peace.~
+A remarkably well preserved body.  It looks only a few days dead.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_RACE
+AFF_DETECT_INVIS|AFF_SANCTUARY
+550 S
+50 BODY_HEAD|BODY_LEG BODY_HAND|BODY_FOOT 1d625+1197 3d6+34
+70000 RACE_GNOME
+POS_RESTING POS_RESTING SEX_MALE
+>speech_prog angelus~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14450
+    say Ah, my brassier!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say now that you have learned to make gold that
+    say you would like to become a full-fledged, royal
+    say Alchemist! Unfortunately, I cannot help you there.
+    say The Oath of the Alchemist can only be administered
+    say by the living. Old Meldrum is too worn and tired
+    say for the task... My wife tried to learn the secrets
+    say of eternal life and other magic before I died.
+    say Perhaps she is still alive and could help. Find her,
+    say give her your golden nugget and speak her name. I
+    say would tell it to you, but my heart could never take
+    say it. How lonely the afterlife is...
+    sniff 
+    say You might try finding one of my old love letters.
+    say I hope that you find what you want.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog albertus~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14447
+    say Ah, my lab coat!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say you want to purify your crude gold into finished
+    say gold, the last step in your quest for gold.  You
+    say must burn away all of the impurities in your sample.
+    say Take your crude gold and some liquid air, give it to
+    say the Cupel golem and speak the word Verwirrung. You
+    say can get the air in the pit below my crypt.
+    say Here is the key.
+    mpoload 14409
+    give red $n
+    say As for the next step you will have to ask my master.
+    say Give him his brassier before speaking his name and he
+    say may help you.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>speech_prog libavius~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14449
+    say Ah, my goggles!  Thank you very much.
+    say You must have talked to my disciple. I see that
+    say you want to convert your silver to crude gold, the
+    say next step in your quest for pure gold.  You must
+    say complete the transmutation of the metal by the
+    say process of xanthosis. Take your silver and some
+    say theion hudor (or divine water), give it to the
+    say Retort golem and speak the word Zyanwasserstoffsaure.
+    say You can get the theion hudor in the pit below my
+    say crypt. Here is the key.
+    mpoload 14409
+    give red $n
+    say As for the next step you will have to ask my master.
+    say Give him his toothbrush before speaking his name and
+    say he may help you.
+    mpjunk all
+  else
+    say LEAVE ME ALONE!
+    mpkill $n
+  endif
+else
+  say LEAVE ME ALONE!
+  mpkill $n
+endif
+~
+>fight_prog 15~
+if position ($r) == pos_fighting
+  mpecho $I breaks a small vial.
+  mpechoat $r Flames shoot out at you!
+  mpquiet on
+  cast 'fire breath' $r
+  mpquiet off
+endif
+~
+|
+#14415
+melting pot~
+the pot golem~
+A melting-mixing pot golem is wandering around here.~
+The pot is very big and could hold a great deal of material.  It seems
+eager to melt and mix something.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-5 S
+50 BODY_LEG BODY_TORSO|BODY_LEG 1d625+1197 3d6+34
+7000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog schwindel~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14423
+    if hasobjnum ($i) == 14418
+      if hasobjnum ($i) == 14424
+        if hasobjnum ($i) == 14426
+          mpjunk all
+          mpquiet on
+          cast 'giant strength' $n
+          mpquiet off
+          mpoload 14428
+          mpecho $I mixes up the ingredients.
+          mpecho $I delivers a portion of Lion's blood.
+          give blood $n
+          if quest (2,1,$n) == 0
+            mpmset $n quest 2 1 1
+          endif
+        else
+          mpecho $I doesn't seem to have the right ingredients.
+        endif
+      else
+        mpecho $I doesn't seem to have the right ingredients.
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog tuchtig~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14423
+    if hasobjnum ($i) == 14418
+      if hasobjnum ($i) == 14424
+        if hasobjnum ($i) == 14426
+          mpjunk all
+          mpquiet on
+          cast 'giant strength' $n
+          mpquiet off
+          mpoload 14428
+          mpecho $I mixes up the ingredients.
+          mpecho $I delivers a portion of Lion's blood.
+          give blood $n
+          if quest (2,1,$n) == 0
+            mpmset $n quest 2 1 1
+          endif
+        else
+          mpecho $I doesn't seem to have the right ingredients.
+        endif
+      else
+        mpecho $I doesn't seem to have the right ingredients.
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog zauberkunst~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14423
+    if hasobjnum ($i) == 14418
+      if hasobjnum ($i) == 14424
+        if hasobjnum ($i) == 14426
+          mpjunk all
+          mpquiet on
+          cast 'giant strength' $n
+          mpquiet off
+          mpoload 14428
+          mpecho $I mixes up the ingredients.
+          mpecho $I delivers a portion of Lion's blood.
+          give blood $n
+          if quest (2,1,$n) == 0
+            mpmset $n quest 2 1 1
+          endif
+        else
+          mpecho $I doesn't seem to have the right ingredients.
+        endif
+      else
+        mpecho $I doesn't seem to have the right ingredients.
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+|
+#14416
+walking furnace~
+the hot furnace~
+A hot furnace is walking around here.~
+The furnace keeps itself at a very high temperature.  It seems eager to
+heat up something.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-5 S
+50 BODY_LEG BODY_TORSO|BODY_LEG 1d625+1197 3d6+34
+7000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog burgschaft~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14428
+    if hasobjnum ($i) == 14429
+      mpjunk all
+      mpoload 14430
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I heats up the lion's blood.
+      mpecho $I delivers a portion of black Dragon's Venom.
+      give venom $n
+      if quest (3,1,$n) == 0
+        mpmset $n quest 3 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog schrecklich~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14428
+    if hasobjnum ($i) == 14429
+      mpjunk all
+      mpoload 14430
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I heats up the lion's blood.
+      mpecho $I delivers a portion of black Dragon's Venom.
+      give venom $n
+      if quest (3,1,$n) == 0
+        mpmset $n quest 3 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog vernunft~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14428
+    if hasobjnum ($i) == 14429
+      mpjunk all
+      mpoload 14430
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I heats up the lion's blood.
+      mpecho $I delivers a portion of black Dragon's Venom.
+      give venom $n
+      if quest (3,1,$n) == 0
+        mpmset $n quest 3 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>death_prog 99~
+mpecho The golem's fire goes out.
+~
+|
+#14417
+olembic bottle~
+the bottle~
+An olembic bottle is walking around here.~
+The bottle has a wide bottom with small legs and a long neck.  It's joy
+is to crystallize metals out of amorphous material.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-5 S
+50 BODY_FOOT BODY_TORSO|BODY_FOOT 1d625+1197 3d6+34
+7000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog frohlockend~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14430
+    if hasobjnum ($i) == 14431
+      mpjunk all
+      mpoload 14432
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to produce some silver out of the Dragon's Venom.
+      give silver $n
+      if quest (4,1,$n) == 0
+        mpmset $n quest 4 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog umfahren~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14430
+    if hasobjnum ($i) == 14431
+      mpjunk all
+      mpoload 14432
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to produce some silver out of the Dragon's Venom.
+      give silver $n
+      if quest (4,1,$n) == 0
+        mpmset $n quest 4 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog zuruckkehren~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14430
+    if hasobjnum ($i) == 14431
+      mpjunk all
+      mpoload 14432
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to produce some silver out of the Dragon's Venom.
+      give silver $n
+      if quest (4,1,$n) == 0
+        mpmset $n quest 4 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>death_prog 99~
+mpecho The olembic bottle smashes into many small pieces.
+~
+|
+#14418
+retort~
+the retort~
+A retort is walking around here.~
+The retort looks like what you would expect, except that it is walking
+around looking for something.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-5 S
+50 BODY_FOOT BODY_TORSO|BODY_FOOT 1d625+1197 3d6+34
+7000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog unwandelbarkeit~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14432
+    if hasobjnum ($i) == 14433
+      mpjunk all
+      mpoload 14434
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to convert the silver into crude gold!
+      give gold $n
+      if quest (5,1,$n) == 0
+        mpmset $n quest 5 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog distillierblase~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14432
+    if hasobjnum ($i) == 14433
+      mpjunk all
+      mpoload 14434
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to convert the silver into crude gold!
+      give gold $n
+      if quest (5,1,$n) == 0
+        mpmset $n quest 5 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog zyanwasserstoffsaure~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14432
+    if hasobjnum ($i) == 14433
+      mpjunk all
+      mpoload 14434
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to convert the silver into crude gold!
+      give gold $n
+      if quest (5,1,$n) == 0
+        mpmset $n quest 5 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>death_prog 99~
+mpecho The retort smashes into many small pieces.
+~
+|
+#14419
+cupel~
+the cupel~
+A self-heating cupel is walking around here.~
+The cupel is a large porcelain cup with legs and an eternal flame underneath
+for heating itself.
+~
+ACT_BODY
+AFF_DETECT_INVIS|AFF_SANCTUARY
+-5 S
+50 BODY_FOOT BODY_TORSO|BODY_FOOT 1d625+1197 3d6+34
+7000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog geduldspiel~
+if quest (0,2,$n) == 1
+  if hasobjnum ($i) == 14434
+    if hasobjnum ($i) == 14435
+      mpjunk all
+      mpoload 14436
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to purify your gold!
+      give golden $n
+      if quest (6,1,$n) == 0
+        mpmset $n quest 6 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog verwirrung~
+if quest (0,2,$n) == 2
+  if hasobjnum ($i) == 14434
+    if hasobjnum ($i) == 14435
+      mpjunk all
+      mpoload 14436
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to purify your gold!
+      give golden $n
+      if quest (6,1,$n) == 0
+        mpmset $n quest 6 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>speech_prog konigsfischer~
+if quest (0,2,$n) == 3
+  if hasobjnum ($i) == 14434
+    if hasobjnum ($i) == 14435
+      mpjunk all
+      mpoload 14436
+      mpquiet on
+      cast 'giant strength' $n
+      mpquiet off
+      mpecho $I manages to purify your gold!
+      give golden $n
+      if quest (6,1,$n) == 0
+        mpmset $n quest 6 1 1
+      endif
+    else
+      mpecho $I doesn't seem to have the right ingredients.
+    endif
+  else
+    mpecho $I doesn't seem to have the right ingredients.
+  endif
+else
+  mpecho $I does not respond.
+endif
+~
+>death_prog 99~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+mpecho $I is smashed into many small pieces.
+~
+|
+#14420
+old female gnome~
+the old lady~
+An old female gnome wanders here, mumbling something to herself.~
+She appears to be very old and quite blind.  She doesn't see you at all.
+~
+ACT_SMART|ACT_BODY|ACT_RACE
+AFF_SANCTUARY
+750 S
+5 BODY_HAND BODY_HEAD|BODY_HAND 1d6+27 1d5+3
+70 RACE_GNOME
+POS_STANDING POS_STANDING SEX_FEMALE
+>speech_prog avilenna~
+if quest (8,1,$n) == 1
+  say Greetings, fellow guild member.
+  say Do you have any gold for me?
+  smile 
+else
+  if hasobjnum ($i) == 14436
+    mpjunk all
+    mpecho The old woman holds the gold in the palms of her gnarled hands.
+    mpecho The gold changes shape and shrinks in her grasp.
+    look $n
+    say I see the proper qualities of an alchemist
+    say in your soul. I will administer the oath of the
+    say alchemists. If you take it, you will be a member of
+    say the alchemist's guild and receive the symbol of our
+    say organization as well as all of the benefits!
+    say Do you swear allegiance to the Guild of Alchemists
+    say of the Transcendental Empire of Gnomes? Do you
+    say guarantee your silence in all matters alchemical?
+    say Will you keep your knowledge of gold making secret
+    say from the outside world?
+    say Please answer with either I ACCEPT or I DECLINE.
+    if quest (7,1,$n) == 0
+      mpmset $n quest 7 1 1
+    endif
+  else
+    if quest (10,3,$n) > 0
+      look $n
+      say I can tell you know much about alchemy.
+      say Bring me some gold and I will teach you
+      say something marvelous.
+    endif
+  endif
+endif
+~
+>speech_prog accept~
+if quest (7,2,$n) == 1
+  mpmset $n quest 8 1 1
+  smile 
+  if class ($n) > 3
+    mpoload 14400
+  else
+    mpoload 14499
+  endif
+  mpquiet on
+  cast 'giant strength' $n
+  cast 'remove curse'
+  mpquiet off
+  give medallion $n
+  shout Welcome to the alchemist's guild $n!
+  say Wear this medallian with pride and remember your oath.
+  say It is more than just a symbol.
+  bow 
+  say Good luck in your experiments, fellow alchemist
+else
+  say Accept what?
+endif
+~
+>speech_prog decline~
+if quest (7,1,$n) == 1
+  if quest (8,1,$n) != 1
+    mpmset $n quest 10 3 0
+    mpmset $n quest 7 1 0
+    mpmset $n quest 0 2 0
+    say I am sorry to hear that.  Please leave this house
+    say I have stripped you of all your knowledge of alchemy
+    mpecho $I turns and looks away.
+  endif
+endif
+~
+|
+#14421
+pit viper blue~
+the pit viper~
+A multi-colored pit viper is coiled here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpecho The viper's fangs dig deep!  You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpquiet on
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpecho The pit viper falls dead.  You can now see what it was hiding.
+  mpoload 14431
+endif
+if quest (0,2,$n) == 2
+  mpecho The pit viper falls dead.  You can now see what it was protecting.
+  mpoload 14433
+endif
+if quest (0,2,$n) == 3
+  mpecho The pit viper falls dead.  You can now see what it was concealing.
+  mpoload 14435
+endif
+if quest (0,2,$n) == 0
+  mpecho The pit viper falls dead.  You can now see what it was obscuring.
+endif
+~
+|
+#14422
+pit viper orange~
+the pit viper~
+A multi-colored pit viper is coiled here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpecho The viper's fangs dig deep!  You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpquiet on
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpecho The pit viper falls dead.  You can now see what it was hiding.
+  mpoload 14433
+endif
+if quest (0,2,$n) == 2
+  mpecho The pit viper falls dead.  You can now see what it was protecting.
+  mpoload 14461
+endif
+if quest (0,2,$n) == 3
+  mpecho The pit viper falls dead.  You can now see what it was concealing.
+  mpoload 14431
+endif
+if quest (0,2,$n) == 0
+  mpecho The pit viper falls dead.  You can now see what it was obscuring.
+endif
+~
+|
+#14423
+pit viper green~
+the pit viper~
+A multi-colored pit viper is coiled here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpecho The viper's fangs dig deep!  You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpquiet on
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpecho The pit viper falls dead.  You can now see what it was hiding.
+  mpoload 14435
+endif
+if quest (0,2,$n) == 2
+  mpecho The pit viper falls dead.  You can now see what it was protecting.
+  mpoload 14431
+endif
+if quest (0,2,$n) == 3
+  mpecho The pit viper falls dead.  You can now see what it was concealing.
+  mpoload 14461
+endif
+if quest (0,2,$n) == 0
+  mpecho The pit viper falls dead.  You can now see what it was obscuring.
+endif
+~
+|
+#14424
+pit viper red~
+the pit viper~
+A multi-colored pit viper is coiled here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpecho The viper's fangs dig deep!  You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpquiet on
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpecho The pit viper falls dead.  You can now see what it was hiding.
+  mpoload 14461
+endif
+if quest (0,2,$n) == 2
+  mpecho The pit viper falls dead.  You can now see what it was protecting.
+  mpoload 14435
+endif
+if quest (0,2,$n) == 3
+  mpecho The pit viper falls dead.  You can now see what it was concealing.
+  mpoload 14433
+endif
+if quest (0,2,$n) == 0
+  mpecho The pit viper falls dead.  You can now see what it was obscuring.
+endif
+~
+|
+#14425
+pit viper yellow~
+the pit viper~
+A multi-colored pit viper is coiled here.~
+The serpent would be 20 feet long if stretched out.  You wouldn't want to be
+caught in its coils!
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_BODY
+AFF_DETECT_INVIS
+250 S
+32 BODY_HEAD|BODY_TAIL BODY_MOUTH|BODY_TAIL 3d5+600 2d5+23
+500 0
+POS_RESTING POS_RESTING SEX_NEUTRAL
+>rand_prog 20~
+mpecho The viper follows you with its black eyes.
+~
+>fight_prog 20~
+if rand (25)
+  mpecho The viper's fangs dig deep!  You don't feel so well.
+  mpquiet on
+  cast 'poison' $r
+  mpquiet off
+else
+  if rand (33)
+    mpecho The viper crushes you with its coils!
+    mpquiet on
+    cast 'cause critical' $r
+    mpquiet off
+  else
+    if rand (50)
+      mpecho The viper gazes into your eyes!
+      mpquiet on
+      cast 'weaken' $r
+      mpquiet off
+    else
+      mpecho The viper spits into your eyes!
+      mpquiet on
+      cast 'blindness' $r
+      mpquiet off
+    endif
+  endif
+endif
+~
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpecho The pit viper falls dead.  You can now see what it was hiding.
+  mpoload 14429
+endif
+if quest (0,2,$n) == 2
+  mpecho The pit viper falls dead.  You can now see what it was protecting.
+  mpoload 14429
+endif
+if quest (0,2,$n) == 3
+  mpecho The pit viper falls dead.  You can now see what it was concealing.
+  mpoload 14429
+endif
+if quest (0,2,$n) == 0
+  mpecho The pit viper falls dead.  You can now see what it was obscuring.
+endif
+~
+|
+#14426
+giant yellow bat~
+the giant yellow bat~
+A giant yellow bat swoops here.~
+It is not very different from a normal bat, except in its size, strength
+and color.
+~
+ACT_WIMPY|ACT_BODY
+AFF_DETECT_INVIS|AFF_FLYING|AFF_HUNT
+-300 S
+26 BODY_EYE|BODY_WING BODY_MOUTH|BODY_WING|BODY_CLAW 4d7+500 3d6+17
+1100 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 99~
+if quest (0,2,$n) == 1
+  mpoload 14422
+  mpecho The bat quivers and falls dead.
+endif
+if quest (0,2,$n) == 2
+  mpoload 14464
+  mpecho The bat quivers and falls dead.
+endif
+if quest (0,2,$n) == 3
+  mpoload 14465
+  mpecho The bat quivers and falls dead.
+endif
+if quest (0,2,$n) == 0
+  mpoload 14468
+  mpecho The bat quivers and falls dead.
+endif
+~
+|
+#14427
+alchemist apprentice~
+the apprentice~
+An alchemist's apprentice is collecting some minerals here.~
+The apprentice is older than you would expect.  Shouldn't he be done with
+his training by now?
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY|ACT_RACE
+0
+150 S
+20 BODY_HEAD|BODY_ARM BODY_LEG 2d25+330 3d6+14
+7500 RACE_HUMAN
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 10~
+if rand (50)
+  say I wish I could find the materials to make Gold!
+else
+  mpecho The apprentice notices an interesting crystal and picks it up.
+endif
+~
+>speech_prog gold~
+say I am training to be an alchemist.  One day I will
+say live in luxury when I can make my own gold.  My
+say Master is living in the back of a potion shop not
+say far from here. Follow the path between the two
+say boulders to get there. I use the Stone trail to
+say find my way to the boulders.
+~
+>speech_prog master~
+say He was once a great alchemist and a lord in the
+say old empire.  He knows how to make Gold, but he
+say won't tell me. Maybe you would have better luck
+say talking to him.
+~
+>speech_prog stone~
+say Each step you take should lead to a spot with more
+say stones.  Look up when you find the five stone marker.
+say Ta-dah! You're there.
+smile 
+~
+|
+#14428
+surly young gnome~
+the young gnome~
+A surly young gnome ignores you here.~
+By his manner you can tell that this young snipe is not the owner of this
+shop.  Only a relative would put up with such a bad employee.
+~
+ACT_SENTINEL|ACT_SMART
+0
+-50 S
+10 0 0 1d25+81 2d6+5
+10 0
+POS_RESTING POS_RESTING SEX_MALE
+>rand_prog 10~
+if rand (50)
+  mpecho The surly young gnome sneaks a peek at a magazine.
+else
+  mpecho The surly young gnome hums a little tune.
+endif
+endif
+~
+>speech_prog meldrum~
+say What, you want to see the old fool? I'll sell
+say you the key to the back room where he is now.
+say I doubt if you will make any sense of what he
+say says, however.
+~
+>speech_prog gold~
+say You want to make some gold?
+say I have some catalyst right here that will change
+say ordinary rocks into gold.  I would love to sell
+say you some.  Just pour the catalyst into a bag of
+say stones and shake it up. Instant Wealth!
+~
+|
+#0
+
+
+#SHOPS
+14428 ITEM_TYPE_KEY ITEM_TYPE_POTION ITEM_TYPE_DRINK_CON ITEM_TYPE_TREASURE ITEM_TYPE_NOTHING  100  50  6 18
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#14400
+alchemist guild medallion~
+the alchemist's medallion~
+An official alchemist's guild membership medallion lies here.~
+An oversized disk made out of pure gold hanging from a heavy chain.
+Inscribed on one face is the Alchemist's Creed:
+
+    The alchemist will always strive to protect the
+    secrets of the guild.
+
+It also mentions the ability to use a command called "BAR" that will
+enable you to create a gold bar worth 100,000 coins from the gold you
+carry on your person. On the other side is a portrait of Nicosia, whom
+everyone knows as the first Queen of the Tregganu Dynasty who united the
+seven historic tribes of the gnomes to defend their homeland in the
+Lampertium Wars.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+14 0 0 0 0 0 0 0
+25 1000000 50
+A APPLY_HIT 40 0
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+P 1
+TRIG_UNKNOWN 100 bar
+OPROG_IF OIF_USER_GOLD > 999999 2 8
+P 2
+TRIG_VOID
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 3 10
+P 3
+TRIG_VOID
+OPROG_ECHO
+You rub the medallion in your hands.~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You concentrate on the medallion.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmadd self gold -100000
+mpoload 14480~
+P 3
+TRIG_VOID
+OPROG_ECHO
+You create a bar of gold!~
+P 8
+TRIG_VOID
+OPROG_ECHO
+You do not have enough gold to do that.~
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must wear the medallion to do that.~
+#14401
+rusty key~
+the rusty key~
+A rusty key balances on edge here.~
+The rusty key obviously hasn't been turned in a lock for a long time.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+1 10 1
+#14402
+fireproof cabinet~
+a fireproof cabinet~
+A fireproof cabinet sits in the corner here.~
+The cabinet has a small keyhole.
+Painted on the outside of the cabinet are the words:
+Caution:  Flammable Materials.
+In case of fire do not open this cabinet.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE
+25 CONT_LOCKED 14411 0 0 0 0 0
+250 10 1
+#14403
+skeleton key~
+the skeleton key~
+A skeleton key lies here.~
+The skeleton key is designed to open many household locks.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+1 10 1
+#14404
+massive key~
+the massive key~
+A massive key lies here.~
+The massive key is designed to open very large and strong locks.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+32 0 0 0 0 0 0 0
+10 10 1
+#14405
+orange key~
+the orange key~
+An orange key lies here.~
+The orange key is made of a material that you can't recognize.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14406
+blue key~
+the blue key~
+A blue key lies here.~
+The blue key is made of a material that you can't recognize.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14407
+indigo key~
+the indigo key~
+An indigo key lies here.~
+The indigo key is made of a material that you can't recognize.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14408
+green key~
+the green key~
+A green key lies here.~
+The green key is made of a material that you can't recognize.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14409
+red key~
+the red key~
+A red key lies here.~
+The red key is made of a material that you can't recognize.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14410
+yellow key~
+the yellow key~
+A yellow key lies here.~
+The yellow key is made of a material that you can't recognize
+(i.e. not gold).
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+2 10 1
+#14411
+small key~
+the small key~
+A small key lies here.~
+The small key is good for opening small locks.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+8 0 0 0 0 0 0 0
+1 10 1
+#14412
+slime~
+the sink slime~
+Slime lines the edges of the sink here.~
+It is green and has a slightly musty odor.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_NOREMOVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+-4 0 0 0 0 0 0 0
+3 10 7
+#14413
+residue tar~
+the chemical residue~
+A sticky chemical residue covers the floor here.~
+It is a mixture of the many liquids and solids from the broken bottles.
+The various substances have reacted with each other, leaving only this
+sticky black tar behind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+20 10 1
+#14414
+spirits~
+the wood spirits~
+A bottle of wood spirits lies here.~
+The label says:  Liberated from the largest of oak trees with a dash of
+holly.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+3 3 LIQ_SALTWATER 0 0 0 0 0
+3 150 1
+#14415
+alcohol~
+the grain alcohol~
+A bottle of grain alcohol sits here.~
+The label says:  Liberated from a mixture of 3 parts wheat, 1 part rye
+and 1 part barley.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 5 LIQ_FIREWATER 0 0 0 0 0
+5 200 1
+#14416
+water~
+the distilled water~
+A bottle of distilled water sits here.~
+The label says:  Liberated from sewer water under a full moon.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 5 LIQ_WATER 0 0 0 0 0
+5 10 1
+#14417
+lye~
+the lye~
+A bottle of lye sits here.~
+The label says:  Prepared by the following method:
+    One a dark night with a strong wind, limestone is heated in a furnace.
+Water is poured onto the resulting solid (quick lime) which causes the
+water to boil for a time.  After cooling, the newly obtained slaked lime
+is mixed with soda ash.  The reconstituted limestone is filtered away to
+give lye.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 200 1
+#14418
+salt peter~
+the salt peter~
+A bottle of salt peter sits here.~
+The label says:  Mined in the high caves of the Carthage Mountains.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 200 1
+#14419
+trash can~
+the trash can~
+A trash can sits next to the desk here.~
+A very ornate receptacle for keeping unneeded pieces of paper.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+5 0 -1 0 0 0 0 0
+100 20 1
+#14420
+desk drawer~
+the desk~
+A desk with only one remaining drawer is here.~
+Once a fine desk make of cherry wood, it is now covered with claw marks.
+All but one of the drawers have been pulled out and torn apart.  One of
+the legs has been chewed like a bone.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+5 CONT_PICKPROOF 14411 0 0 0 0 0
+250 20 1
+#14421
+rosy paper~
+a rosy piece of paper~
+A rosy piece of paper sits here.~
+A very expensive grade of paper, tinted a rosy color, has some writing on
+it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+writing~
+Dear RUPESCISSA,
+
+    I am pleased to inform you that you have been chosen from among scores
+of applicants to receive the job as my apprentice.  Should you choose to
+accept this offer, you will be bound to serve me until you have laid me
+to rest in the family crypt.  In return I will teach you all of the
+secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him all
+that you know, so that my knowledge will not be lost in the mists of the
+future.  I am looking forward to your arrival at my estate.
+
+                      ANGELUS,  Master Red Alchemist
+~
+#14422
+thick paper~
+a thick piece of paper~
+A thick piece of paper sits here.~
+A very expensive grade of paper has some writing on it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+writing~
+Dear ALBERTUS,
+
+    I am pleased to inform you that you have been chosen from among
+scores of applicants to receive the job as my apprentice  Should you
+choose to accept this offer, you will be bound to serve me until you have
+laid me to rest in the family crypt.  In return I will teach you all of
+the secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him
+all that you know, just as my master RUPESCISSCA did before me, so that
+the knowledge of our line will not be lost in the mists of the future.  I
+am looking forward to your arrival at my estate.
+
+                      BEAUVAIS,  Master Orange Alchemist
+~
+#14423
+chunk lead~
+the chunk of lead~
+A chunk of lead sits on the floor here.~
+It is gray and irregularly shaped.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE
+WEAPONTYPE_MACE 1 4 WEAPON_CRUSH 0 0 0 0
+15 10 1
+#14424
+stomach medicine~
+the stomach medicine~
+A bottle of stomach medicine is here.~
+A big brown bottle with a label.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+10 200 1
+E
+label~
+The label says:  To induce vomiting take only one spoonful.
+            Warning:  Contains 76% Alum.  Use sparingly.
+~
+#14425
+aspirin tablet~
+the tablet of aspirin~
+An aspirin tablet lies here.~
+A small white pill with the word 'ASPIRIN' printed on it.
+~
+ITEM_TYPE_PILL
+0
+ITEM_WEAR_TAKE
+15 55 0 0 0 0 0 0
+1 500 18
+S 1 'cure light'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14426
+thermometer~
+the thermometer~
+A thermometer hangs from the ceiling here.~
+A long glass tube with markings you can't make out. Inside is some
+silvery liquid.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 200 1
+#14427
+bread butter~
+the bread and butter~
+A thick piece of bread loaded with rich creamy butter is here.~
+It sure looks good!
+~
+ITEM_TYPE_FOOD
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE
+3 0 0 0 0 0 0 0
+2 200 1
+#14428
+lion's blood~
+the lion's blood~
+A large amount of lion's blood is here.~
+A complex mixture of metal and salts.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+25 10 1
+#14429
+pile coke~
+the pile of coke~
+A pile of coke sits here.~
+Soft black rocks.  They would burn really well.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+25 20 1
+#14430
+dragon's venom~
+the dragon's venom~
+Some dragon's venom sits here.~
+The base metal has been reduced to its basic constituents.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+25 10 1
+#14431
+orpiment~
+the orpiment~
+An orpiment potion sits here.~
+The bottle is green.  You can't tell what's inside.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 24 0 0 0 0 0 0
+1 2000 13
+S 1 'blindness'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14432
+white silver~
+the white silver~
+A piece of white silver sits here.~
+The silver is very white...is it silver at all?
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+25 50000 1
+#14433
+bottle thion hudor~
+the thion hudor~
+A bottle of thion hudor sits here.~
+A yellow liquid.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+1 1 LIQ_WATER 0 0 0 0 0
+10 200 1
+#14434
+crude gold ingot~
+the crude gold~
+An ingot of crude gold sits here.~
+You see flecks of gold in the stone matrix.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+25 2000 1
+#14435
+liquefied air~
+the liquefied air~
+Some liquefied air sits here.~
+A strong potion bottle holds air that has been concentrated into
+liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 131 0 0 0 0 0 0
+5 5000 21
+S 1 'harm'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14436
+golden nugget~
+the golden nugget~
+A golden nugget sits here.~
+This is real gold...and a lot of it!  Homemade and of the highest quality.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+30 100000 1
+#14437
+golden dust~
+the golden dust~
+Golden dust covers everything here.~
+On closer examination you see that it is not gold, just ground brimstone.
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 10 1
+#14438
+bed~
+the bed~
+A torn up bed is here.~
+The fine bed is now a piece of junk.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+5 CONT_CLOSEABLE -1 0 0 0 0 0
+53 20 1
+#14439
+cabinet medicine~
+the medicine cabinet~
+A medicine cabinet is here.~
+The medicine cabinet has a mirror on the front.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 CONT_CLOSEABLE -1 0 0 0 0 0
+5 20 4
+E
+mirror~
+A scary face looks back at you.
+~
+#14440
+sink pump~
+the pump in the sink~
+A pump with a sink is here.~
+You could probably get some water out of the pump if you wanted.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+25 10 1
+#14441
+brass tub~
+the brass tub~
+A large brass tub sits here.~
+It is big and heavy. It would be hard to lift.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+400 75 1
+#14442
+ice box~
+the ice box~
+An ice box sits here.~
+The ice box is pretty solid.  It has taken a lot of abuse from
+creatures trying to open it.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+20 CONT_CLOSEABLE -1 0 0 0 0 0
+150 20 2
+#14443
+dirty glass~
+the dirty glass~
+A dirty glass sits on the floor sits here.~
+There is something in the bottom of the dirty glass.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 -1 0 0 0 0 0
+3 10 1
+#14444
+spider~
+the dead spider~
+A dead spider is here.~
+It's certainly dead.   Hungry?.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 0 0 0 0 0 0 0
+1 50 35
+#14445
+binder~
+the paper binder~
+A paper binder is here.~
+The paper binder binds a big sheaf of papers in a random order.
+You might find something useful inside.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 CONT_CLOSEABLE -1 0 0 0 0 0
+150 20 2
+#14446
+tooth brush toothbrush~
+the toothbrush~
+A toothbrush is here.~
+The toothbrush is certainly past its prime.  The bristles are all bent and
+yellowed.  You decide that if you wanted to brush your teeth, you should
+get a different brush.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 10 15
+#14447
+filthy labcoat coat~
+the filthy labcoat~
+A filthy labcoat lies crumpled on the floor.~
+A large baggy coat (once white, now many colors), worn in the laboratory
+to protect one's clothes from chemical spills.  This one is wearing more
+alchemestry than most adepts will ever know about.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+1 0 0 0 0 0 0 0
+2 50000 30
+A APPLY_INT 3 0
+#14448
+pelican flask~
+the pelican flask~
+A pelican flask sits here.~
+The pelican flask is a piece of glass alchemical apparatus.  It has a
+round bottom and a long narrow neck which comes out of the top of the
+flask and curves to a dripping tip that points downward outside the
+radius of the body of the flask.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+5 0 LIQ_WATER 0 0 0 0 0
+5 5000 15
+#14449
+goggles pair~
+the goggles~
+A pair of goggles sits here.~
+They appear to be some sort of eye protection for laboratory use.  They
+are made of a strong, but flexible material that you do not recognize.
+The lenses in the front are very opaque.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+8 0 0 0 0 0 0 0
+2 10000 30
+A APPLY_HIT 20 0
+#14450
+fiery brassier handles~
+the fiery brassier~
+A fiery brassier sits here.~
+The brassier is used as a source of heat...and this one is still hot.
+You can hold it by the handles and not get burned.
+~
+ITEM_TYPE_WAND
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 3 1 103 0 0 0 0
+10 25000 25
+S 3 'fireball'
+#14451
+benzylidenebenzenesulfonamide sulfonamide~
+the benzylidenebenzenesulfonamide~
+A flask of benzylidenebenzenesulfonamide bubbles here.~
+A foul smelling green liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 9 215 190 0 0 0 0
+2 45000 30
+S 1 'armor'
+S 2 'shield'
+S 3 'protection evil'
+#14452
+aminopropyltriethoxysilane silane~
+the aminopropyltriethoxysilane~
+A flask of aminopropyltriethoxysilane bubbles here.~
+A foul smelling clear liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 55 0 0 0 0 0 0
+2 40000 30
+S 1 'cure light'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14453
+thymolphthalein phthalein~
+the thymolphthalein~
+A flask of thymolphthalein bubbles here.~
+A foul smelling blue liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 55 0 0 0 0 0 0
+2 40000 30
+S 1 'cure light'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14454
+eicosafluorononane nonane~
+the eicosafluorononane~
+A flask of eicosafluorononane bubbles here.~
+A foul smelling clear liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+35 170 0 0 0 0 0 0
+2 40000 30
+S 1 'mirror image'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14455
+yohimbine~
+the yohimbine~
+A flask of yohimbine bubbles here.~
+A foul smelling yellowish liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 186 0 0 0 0 0 0
+2 4000 20
+S 1 'poison'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14456
+benzyloxytryptamine amine~
+the benzyloxytryptamine~
+A flask of benzyloxytryptamine bubbles here.~
+A foul smelling clear liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 119 0 0 0 0 0 0
+2 20000 30
+S 1 'giant strength'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14457
+hematoxylin~
+the hematoxylin~
+A flask of hematoxylin bubbles here.~
+A foul smelling clear liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 56 0 0 0 0 0 0
+2 20000 15
+S 1 'cure poison'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14458
+auramine~
+the auramine~
+A flask of auramine bubbles here.~
+A foul smelling clear liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 23 0 0 0 0 0 0
+2 20000 15
+S 1 'bless'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14459
+eriochrome~
+the eriochrome~
+A flask of eriochrome bubbles here.~
+A foul smelling turbid liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 53 0 0 0 0 0 0
+2 20000 15
+S 1 'cure blindness'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14460
+calmagite~
+the calmagite~
+A flask of calmagite bubbles here.~
+A foul smelling pink liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+15 219 0 0 0 0 0 0
+2 20000 15
+S 1 'sleep'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14461
+cheap paper~
+a cheap piece of paper~
+A cheap piece of paper sits here.~
+A very cheap grade of paper, ripped and chewed on, has some writing on it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+writing~
+My Dear Wife,
+
+You are the sprinkle that creates the potion of my love, the
+eerie magic spoken only by unknown spirits but which brings
+a sense of calm to my child-like vision. I am innocent and
+free Avilenna, since I met you. It is like a perfectly
+concocted mixture of science and sentiment.
+
+           With the purest of love,
+
+                   ANGELUS,  Master Alchemist
+~
+#14462
+rosy paper~
+a rosy piece of paper~
+A rosy piece of paper sits here.~
+A very expensive grade of paper, tinted a rosy color, has some printing on
+it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+printing~
+Dear ALBERTUS,
+
+    I am pleased to inform you that you have been chosen from among scores
+of applicants to receive the job as my apprentice.  Should you choose to
+accept this offer, you will be bound to serve me until you have laid me
+to rest in the family crypt.  In return I will teach you all of the
+secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him
+all that you know, so that my knowledge will not be lost in the mists of
+the future.  I am looking forward to your arrival at my estate.
+
+                      ANGELUS,  Master Orange Alchemist
+~
+#14463
+rosy paper~
+a rosy piece of paper~
+A rosy piece of paper sits here.~
+A very expensive grade of paper, tinted a rosy color, has some printing on
+it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+printing~
+Dear BEAUVAIS,
+
+    I am pleased to inform you that you have been chosen from among scores
+of applicants to receive the job as my apprentice.  Should you choose to
+accept this offer, you will be bound to serve me until you have laid me
+to rest in the family crypt.  In return I will teach you all of the
+secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him
+all that you know, so that my knowledge will not be lost in the mists of
+the future.  I am looking forward to your arrival at my estate.
+
+                      ANGELUS,  Master Green Alchemist
+~
+#14464
+thick paper~
+a thick piece of paper~
+A thick piece of paper sits here.~
+A very expensive grade of paper has some markings on it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+markings~
+Dear LIBAVIUS,
+
+    I am pleased to inform you that you have been chosen from among scores
+of applicants to receive the job as my apprentice.  Should you choose to
+accept this offer, you will be bound to serve me until you have laid me
+to rest in the family crypt.  In return I will teach you all of the
+secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him
+all that you know, just as my master ALBERTUS did before me, so that
+the knowledge of our line will not be lost in the mists of the future.  I
+am looking forward to your arrival at my estate.
+
+                      RUPESCISSCA,  Master Blue Alchemist
+~
+#14465
+thick paper~
+a thick piece of paper~
+A thick piece of paper sits here.~
+A very expensive grade of paper has some markings on it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+markings~
+Dear RUPESCISSCA,
+
+    I am pleased to inform you that you have been chosen from among
+scores of applicants to receive the job as my apprentice. Should you
+choose to accept this offer, you will be bound to serve me until you have
+laid me to rest in the family crypt.  In return I will teach you all of
+the secrets of alchemy and make you sole heir to all of my fortunes and
+titles.  Upon my death you will take on a new apprentice and teach him
+all that you know, just as my master BEAUVAIS did before me, so that
+the knowledge of our line will not be lost in the mists of the future.  I
+am looking forward to your arrival at my estate.
+
+                      LIBAVIUS,  Master Red Alchemist
+~
+#14466
+squalene~
+the squalene~
+A flask of squalene bubbles here.~
+A foul smelling colorless liquid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 200 0 0 0 0 0 0
+2 3500 35
+S 1 'remove curse'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14467
+bloody staff~
+the bloody staff~
+A bloody staff lies on the ground here.~
+The staff is made of stout wood and has seen a lot of use.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_STAFF 2 10 WEAPON_POUND 0 0 0 0
+25 50000 25
+A APPLY_SAVING_BREATH -3 0
+#14468
+sheet paper~
+a sheet of paper~
+A sheet of paper sits here.~
+A sheet of paper has some marks on it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+marks~
+Memo # 68
+Note: Please keep all memos on file in order!
+
+
+Health Warning:
+
+It has been found that the furnace golem has been releasing a great deal
+of fumes during its operation.  A request has been placed for a repair-
+gnome to fix this small problem.  In the meantime, it is suggested that
+anyone using the furnace eat a large piece of bread covered with lots of
+butter to lessen the effect of the fumes.  The management  does not want
+to see a repeat of the BERTHOLLET incident (see memo #67).
+
+                 The Management
+~
+#14469
+small vial~
+the small vial~
+A small vial of liquid lies here.~
+A foul smelling colorless liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 24 0 0 0 0 0 0
+2 3500 35
+S 1 'blindness'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14470
+green elixir life~
+the elixir of life~
+A green bottle labeled "the elixir of life" sits here.~
+A foul smelling green liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+30 219 38 0 0 0 0 0
+2 100000 30
+S 1 'sleep'
+S 2 'change sex'
+S 3 '-1 slot'
+#14471
+gold catalyst vial~
+the gold making catalyst~
+A small vial of gold making catalyst is here.~
+A golden colored liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 24 0 0 0 0 0 0
+2 75000 20
+S 1 'blindness'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14472
+curse potion~
+the curse potion~
+A curse potion is here.~
+A black colored liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 113 58 0 0 0 0 0
+2 75000 20
+S 1 'fly'
+S 2 'curse'
+S 3 '-1 slot'
+#14473
+spring tonic~
+the spring tonic~
+A bottle of spring tonic lies here.~
+A bottle of dark liquid.  The label reads:
+
+  Cleans out your system and prepares you for a busy day!
+  Extends life!
+~
+ITEM_TYPE_DRINK_CON
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+2 2 LIQ_WHISKY 0 0 0 0 0
+2 5000 15
+#14474
+crypt cloak~
+the crypt keeper's cloak~
+A dark colored cloak lies here.~
+The cloak is very old indeed!
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_ABOUT
+12 0 0 0 0 0 0 0
+15 200000 43
+A APPLY_SAVING_SPELL -4 0
+A APPLY_DEX 2 0
+#14475
+bright key~
+the bright key~
+A key that shines in the light sits here.~
+It is brighter than you think.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+4 0 0 0 0 0 0 0
+3 100000 20
+#14476
+turtle juice~
+the turtle juice~
+A bottle of turtle juice sits here.~
+A bottle of dark liquid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+20 235 0 0 0 0 0 0
+2 50000 20
+S 1 'stone skin'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#14477
+bag of rocks~
+the bag of rocks~
+A bag of rocks sits here.~
+Inside the bag are rocks of various colors and shapes collected from the
+surrounding area.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+25 0 0 0 0 0 0 0
+1 10 1
+#14478
+proclamation~
+an ornate proclamation~
+An ornate proclamation in a glass case stands here.~
+The proclamation has some ornate script written upon it.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+E
+script~
+By Order of His Most Royal Highness
+{070}
+               Heifetz Ugarteche Korzybski Reuchlin Landowska
+                              Lord of N'Djamena
+                         Prince of Peraea and Galati
+                    Overseer of Skagerak and Shang-ch'iu
+                                     and
+                 King of the Transendental Empire of Gnomes
+{300}
+The common-gnome previously known as Angelus is hereby granted the title
+in saecula saeculorum First Earl of Sochi, Keeper of the Royal Ravens, and
+Emperial Alchemist of the Transendental Empire of Gnomes in recognition
+of his supergnomish efforts in wresting the Ancient Crown of the Gnome
+Empire from The Onychophoran Troglodyte. May he and his heirs serve pro
+rege, lege et grege throughout novus ordo seclorum, building a monumentum
+aere perennuis in service to gnomekind.
+{070}
+                            signed this 14th day
+                            of the 13th month
+                            of the 45th year
+                            of his highness's
+                            most beautific reign
+~
+#14479
+scorched ring black~
+the scorched ring of black~
+A ring scorched black sits here.~
+The ring has spent a long time in a very hot place. You would have thought
+that it would have been destroyed by the heat.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+3 0 0 0 0 0 0 0
+1 200000 10
+A APPLY_CON 2 0
+#14480
+gold bar~
+a bar of gold~
+A bar of gold sits here.~
+The gold looks to be worth about one million coins. You can cash it into
+coins by typing: MELT. Note that typically 5 percent of the value will be
+lost when melted.
+~
+ITEM_TYPE_TREASURE
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+10 1000000 20
+P 1
+TRIG_UNKNOWN 100 melt
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 10
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_GOLD < 94000000 3 11
+P 3
+TRIG_VOID
+OPROG_ECHO
+You melt the bar of gold and add 95,000 coins to your wealth.~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmadd self gold 95000~
+P 3
+TRIG_VOID
+OPROG_JUNK
+P 10
+TRIG_VOID
+OPROG_ECHO
+You must hold the bar in order to melt it.~
+P 11
+TRIG_VOID
+OPROG_ECHO
+You have too much gold already to do that.~
+#14499
+alchemist guild medallion~
+the alchemist's medallion~
+An official alchemist's guild membership medallion lies here.~
+An oversized disk made out of pure gold hanging from a heavy chain.
+Inscribed on one face is the Alchemist's Creed:
+
+    The alchemist will always strive to protect the
+    secrets of the guild.
+
+It also mentions the ability to use a command called "BAR" that will
+enable you to create a gold bar worth 1,000,000 coins from the gold you
+carry on your person. On the other side is a portrait of Nicosia, whom
+everyone knows as the first Queen of the Tregganu Dynasty who united the
+seven historic tribes of the gnomes to defend their homeland in the
+Lampertium Wars.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+25 978000 50
+A APPLY_DAMROLL 6 0
+A APPLY_DEX 1 0
+A APPLY_STR 1 0
+#0
+
+
+#ROOMS
+#14400
+mob chute~
+You shouldn't be here
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+North~
+~
+0 -1 14411
+DDIR_EAST
+East~
+~
+0 -1 14412
+DDIR_SOUTH
+South~
+~
+0 -1 14413
+DDIR_WEST
+West~
+~
+0 -1 14414
+DDIR_UP
+Up~
+~
+0 -1 14415
+DDIR_DOWN
+Down~
+~
+0 -1 14416
+#14401
+The Plateau Entrance~
+As you continue up the path you notice that there is little vegetation..
+In fact there is practically no plant life to be seen within a mile or so
+of where you are.  Here and there are large areas of bare rock colored
+green, red and black.  The road continues east and down.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Through the smog to the east you see a small hut north of the road.~
+~
+0 -1 14402
+DDIR_DOWN
+You can return down to the barren hills.~
+~
+0 -1 14454
+#14402
+By The Hut~
+The vegetation is completely gone.  Strange metal contraptions stand rusting
+next to a small hut to the north. A large SIGN hangs next to the door to
+the hut.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+A small simple hut.~
+door~
+EX_ISDOOR|EX_CLOSED -1 14444
+DDIR_EAST
+You see nothing though the smog to the east.~
+~
+0 -1 14404
+DDIR_WEST
+You see nothing though the smog to the west.~
+~
+0 -1 14401
+E
+hut~
+The hut is very small.
+~
+E
+metal contraptions~
+You have no idea what they are or what they may be for.
+~
+E
+sign large~
+The old faded sign says:
+{070}
+                   Meldrum's Discount Potions and Elixirs
+                       Serving the Area for 25 years.
+                   Specializing in health maintenance and
+                        the Transmutation of metals.
+{300}
+                     ##################################
+                     #Special Sale!  Limited Time only#
+                     ##################################
+~
+#14403
+Meldrum's Room~
+As you enter you are overpowered by the burning smell of brimstone and
+rotten eggs. Incense burners are working overtime in the four corners of
+the room creating the haze.  Through the smoky gloom you can see a small
+straw pallet and a flea ridden blanket.  Sitting on the blanket is a
+forlorn old man. At first he looks at you sternly, but then his eyes
+soften and he beckons you forward. You can exit to the south through the
+door.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+To the South is back in the shop.~
+south door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14475 14444
+E
+blanket~
+The blanket is full of fleas.
+~
+E
+straw pallet bed~
+The straw is a little stale.  Any smell it may have is covered up by the
+incense.
+~
+E
+incense burners~
+You don't want to get too close.  Yellow smoke pours out of them.
+~
+E
+old man~
+The years of mixing chemicals has taken its toll on him.  His skin is
+driedout and has many scars.  He is 3/4 blind and coughs up blood
+occasionally.  These afflictions he bears without complaint.  Something
+else seems to have broken his spirit.  You get the impression that he
+wants to tell you his TROUBLES.
+~
+#14404
+By the Mine~
+The smog is thickest  here.  To the north is some mining and smelting
+equipment.  Yellow smoke rises out of them.  To the south is the opening of a
+mine shaft.  A note is stuck onto the iron grate covering the entrance. You can
+travel east or west on the pathway.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+Through the smog to the east you see the door to a large mansion.~
+~
+0 -1 14407
+DDIR_SOUTH
+A dark mine stretches beyond an iron grate covering the hole.~
+grate iron~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14401 14405
+DDIR_WEST
+To the west the road is thick with smog.~
+~
+0 -1 14402
+E
+smelting mining equipment~
+There is enough equipment to keep 50 workers busy.  None of it has been
+used in a long time.
+~
+E
+note~
+The note says:
+This mine closed by order of the Fraternal Union of Dwarven Miners, as
+decreed by Emperor, Dwarven Chieftain.
+
+BEWARE!  This area has been invaded by living rock!
+~
+#14405
+Mine Entrance~
+The roof of the tunnel is held up with rotting timbers.  They may not
+last much longer.  You can exit the mine to the north or continue deeper
+to the south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_HILLS
+DDIR_NORTH
+You see the road outside the mine to the north.~
+door~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14401 14404
+DDIR_SOUTH
+Pitch black.~
+~
+0 -1 14406
+E
+rotting timbers~
+When you look closely, you see termites at work.
+~
+E
+roof~
+The roof is starting to sag.
+~
+#14406
+Cave In~
+A section of the roof has fallen in, blocking the tunnel.  All of the
+stone seems to be hard granite, except one large gray boulder.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_HILLS
+DDIR_NORTH
+North is the mine entrance.~
+~
+0 -1 14405
+#14407
+In Front of the Mansion~
+The house is obviously several hundred years old.  It was once beautiful
+and was owned by very rich and powerful people.  Today it is in great
+disrepair, with the north and south wings collapsed.  Only the oldest
+central portion remains.  The older builders must have known some tricks
+that were lost to later generations.  There is a mailbox and a footmat.
+A notice cut from wood has been hung beside the door.  On the door is a
+strange carving.You can leave to the west or enter the house to the east.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+To the east is the entrance door to the house.~
+door entrance~
+EX_ISDOOR|EX_CLOSED -1 14408
+DDIR_WEST
+To the west it is too smoggy to discern anything.~
+~
+0 -1 14404
+E
+mailbox~
+The mailbox says:
+Home of Meldrum the Master Alchemist
+*Creator of the Aural Blanket
+*Founder of the Lindsay Society
+~
+E
+strange carving door~
+The carving:
+               \  /
+                \/
+                /\
+               /  \
+              O    O
+              |    |
+              |    |
+            //\    /\\
+           //  \  /  \\
+           O    \/    O
+~
+E
+mailbox~
+The lettering on the mailbox proclaims that this is Meldrum's address.
+There seems to be something in a crack behind the mailbox.
+~
+E
+crack something~
+On closer examination you can see that there is nothing behind the
+mailbox but some dust.
+~
+E
+footmat~
+The footmat says:    GO AWAY!   Retail sales in the hut only.
+~
+E
+notice wood~
+It says:
+
+By order of the Imperial Gnomish Health Commission:
+
+These premises are hereby closed because of rodent infestation until
+further notice.
+~
+#14408
+Entrance Hall~
+The house has not been the domicile of bipeds in many years.  Dust an inch
+thick covers everything.  The tracks of mice criss-cross the floor and
+walls(?!).  A long hallway leads east with doors hanging at acute angles
+from their hinges along each wall.  You may go north or south through
+open doorways,east down the hall, or outside to the west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is a round door to a darkened room in the house.~
+round~
+EX_ISDOOR -1 14411
+DDIR_EAST
+The hallway continues to the east.~
+~
+0 -1 14409
+DDIR_SOUTH
+To the south is a square door to a darkened room in the house.~
+square~
+EX_ISDOOR -1 14414
+DDIR_WEST
+The front porch.~
+door entrance~
+EX_ISDOOR|EX_CLOSED -1 14407
+E
+tracks~
+The creatures that made these tracks appear to have very long claws!
+~
+#14409
+Middle of Hall~
+A long hallway leads east and west with doors hanging at acute angles from
+their hinges along each wall.  You may go north, south, east or west.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is a round door to a darkened room in the house.~
+round~
+EX_ISDOOR -1 14412
+DDIR_EAST
+The hallway continues to the east.~
+~
+0 -1 14410
+DDIR_SOUTH
+To the south is a sqare door to a darkened room in the house.~
+square~
+EX_ISDOOR -1 14415
+DDIR_WEST
+The hallway continues to the west.~
+~
+0 -1 14408
+#14410
+Foot of the Stairs~
+Two more doorways lead north and south.  A staircase leads upstairs.  The
+handrail for the stairs has been torn from the wall.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is a round door to a darkened room in the house.~
+round~
+EX_ISDOOR -1 14413
+DDIR_SOUTH
+To the south is a sqare door to a darkened room in the house.~
+square~
+EX_ISDOOR -1 14416
+DDIR_WEST
+The hallway continues west.~
+~
+0 -1 14409
+DDIR_UP
+Stairs lead up.~
+stairs door~
+EX_ISDOOR|EX_CLOSED -1 14418
+E
+handrail~
+It's gone!  All you see is the holes in the wall where the screws held
+it in.
+~
+E
+wall~
+A wall with holes where the handrail used to be.
+~
+E
+holes~
+The holes contain only air.
+~
+#14411
+Storage Room~
+This appears to have been the room where the owner of the house kept his
+alchemical reagents.  Almost all of the bottles are smashed on the ground.
+A thick sticky residue covers the floor.  You can read some of the labels
+from the broken bottles.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+To the south is the hallway.~
+door round~
+EX_ISDOOR -1 14408
+E
+broken bottles~
+Careful! Don't cut yourself on the broken glass.
+~
+E
+labels~
+You dig around and find a few labels that you can read:
+Sansobar---highest purity
+Glowing Arsenic
+Shadows (crude)
+Fermented Killer Bee Honey
+Putrefied Wood
+
+The rest of the labels are in an alphabet that you have never seen before.
+~
+#14412
+Bedroom~
+This appears to have been the room where the owner of the house slept.
+The satin sheets are torn to rags, and the mattress has been emptied of
+its feathers.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+To the south is the hallway.~
+door round~
+EX_ISDOOR -1 14409
+E
+feathers~
+They are nowhere to be seen.
+~
+#14413
+Bathroom~
+This is your basic luxury bathroom.  There is a sink with a pump and a
+medicine cabinet above it.  Next to the commode is a large brass tub.
+You are not used to seeing bath tubs that are round, but maybe it fit the
+shape of a previous owner better than the oblong kind that most people
+use. The door to the hallway is south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+To the south is the hallway.~
+door round~
+EX_ISDOOR -1 14410
+DDIR_DOWN
+It's a tight fit down the toilet, but you could squeeze down if you
+really wanted to do so.~
+commode toilet~
+EX_ISDOOR|EX_CLOSED -1 14443
+#14414
+Study~
+This appears to have been the room where the owner of the house kept his
+important papers.  They are now spread around on the floor and many are
+ripped into small pieces.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is the hallway.~
+door square~
+EX_ISDOOR -1 14408
+#14415
+Biological Lab~
+This appears to have been the room where the owner of the house did his
+animal experiments.  Some of the numerous cages contain skeletons of
+creatures you have never even dreamed about.  A few other cages are
+ripped apart,  apparently from the inside!  You can exit to the north
+through the square door.  There is a small door to the south.  Next to
+the small door is a note.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is the hallway.~
+door square~
+EX_ISDOOR -1 14409
+DDIR_SOUTH
+To the south you see a small door.~
+small~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14403 14417
+E
+skeletons creatures~
+All of the skeletons are deformed and the creatures appear to have died in
+agony.  You start to recognize some as overgrown versions of familiar
+woodland creatures.
+~
+E
+cages~
+The cages were constructed of stout oak planks reinforced with iron bands.
+Whatever broke its way our of these enclosures needed plenty of strength
+and the will (or anger) to use it to free themselves.
+~
+E
+note~
+The note reads:
+   Don't forget and leave your keys in the desk again!
+
+           Renwaldo
+~
+#14416
+Kitchen~
+This appears to have been the room where the owner of the house cooked
+his food.  Any food out in the open has been cleaned away by scavengers.
+The sink is encrusted with mold and slime:  you don't want to go near it.
+  You can exit to the north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north is the hallway.~
+door square~
+EX_ISDOOR -1 14410
+E
+sink~
+The sink looks even worse up close.
+~
+#14417
+Staircase to Cellar~
+This staircase is dark, steep and narrow. Don't loose your balance!  You
+can walk down the stairs or go north.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north through a small door is the bio lab.~
+small~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14403 14415
+DDIR_DOWN
+Down the stairs it is very quiet.~
+~
+0 -1 14422
+#14418
+Top of the Stairs~
+The attic is one open room stacked to the rafters with the accumulated
+junk of several generations of researchers.  It functioned as a library
+of sorts, but without any organization.  In the past it would have taken
+weeks to find anything here.  Now files and cabinets have been torn open.
+Papers and empty sample vials are spread all over the area. A strange
+green light filters through the wreckage of the room.  You can go back
+down, north or west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north are some more boxes and trash.~
+~
+0 -1 14421
+DDIR_WEST
+To the west are some more boxes and trash.~
+~
+0 -1 14419
+DDIR_DOWN
+You can go down the stairs to the main floor.~
+door~
+EX_ISDOOR|EX_CLOSED -1 14410
+E
+vials~
+All the vials are empty.
+~
+E
+papers~
+You can't understand the language of the papers.
+~
+#14419
+Among the Junk Piles~
+The attic is one open room stacked to the rafters with the accumulated
+junk ofseveral generations of researchers.  It functioned as a library of
+sorts, but without any organization. In the past it would have taken weeks
+to find anything here.  Now files and cabinets have been torn open.
+Papers and empty sample vials are spread all over the area. A strange
+green light filters through the wreckage of the room.  You can walk north
+or east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+To the north are some more boxes and trash.~
+~
+0 -1 14420
+DDIR_EAST
+To the east is the top of the stairs.~
+~
+0 -1 14418
+E
+vials~
+All the vials are empty.
+~
+E
+papers~
+You can't understand the language of the papers.
+~
+#14420
+Among the Junk Piles~
+The attic is one open room stacked to the rafters with the accumulated
+junk of several generations of researchers.  It functioned as a library
+of sorts, but without any organization.  In the past it would have taken
+weeks to find anything here.  Now files and cabinets have been torn open.
+Papers and empty sample vials are spread all over the area. A strange
+green light filters through the wreckage of the room.  You can walk
+south or east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+To the east are some more boxes and trash.~
+~
+0 -1 14421
+DDIR_SOUTH
+To the south are some more boxes and trash.~
+~
+0 -1 14419
+E
+vials~
+All the vials are empty.
+~
+E
+papers~
+You can't understand the language of most of the papers.  One sheet
+catches your eye, however. It doesn't make much sense, but as least you
+recognize the words.
+
+Chinese Wisdom:
+
+     Gold is incorruptible and therefore the most valuable of things.
+The men of Art, feeding on it attain longevity...hoary hair regains it
+blackness and new teeth grow where fallen ones used to be.  If an old man,
+he will once more become a youth.  If an old woman, she will regain her
+maidenhood.  Such transformations make one immune from worldly miseries.
+~
+#14421
+Among the Junk Piles~
+The attic is one open room stacked to the rafters with the accumulated
+junk of several generations of researchers.  It functioned as a library
+of sorts, but without any organization.  In the past it would have taken
+weeks to find anything here.  Now files and cabinets have been torn open.
+Papers and empty sample vials are spread all over the area. A strange
+green light filters through the wreckage of the room.  You can walk
+south or west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+To the south is the top of the stairs.~
+~
+0 -1 14418
+DDIR_WEST
+To the west are some more boxes and trash.~
+~
+0 -1 14420
+E
+vials~
+All the vials are empty.
+~
+E
+papers~
+You can't understand the language of the papers.
+~
+#14422
+Entrance to Alchemical Lab~
+In contrast with the rest of the house that you have seen so far, this
+area appears to be clean an tidy (and well lit).  The room is rather large
+and you can see strange shapes moving about in other parts of the room.
+There also appears to be writing on many of the walls.
+Exits are back up the stairs to safety, east, west and south.
+~
+0 ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a well lit corner to the east.~
+~
+0 -1 14423
+DDIR_SOUTH
+You see a well lit area to the south.~
+~
+0 -1 14425
+DDIR_WEST
+You see a well lit corner to the west.~
+~
+0 -1 14427
+DDIR_UP
+Back up the stairs to safety.~
+~
+0 -1 14417
+#14423
+Alchemical Lab~
+A well lit work area for conducting experiments.  Most of the small
+equipment has been smashed or carried away, but some large pieces seem to
+be walking around. A note is painted on the east wall and a message is
+scratched in the north wall.  Exits are to the south and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a well lit corner to the south.~
+~
+0 -1 14424
+DDIR_WEST
+You see the lab entrance to the west.~
+~
+0 -1 14422
+E
+message~
+Secret Message #1
+
+Gtsfu_d_soub_i_hseh__eautg_tgsa.h_t_stnelohaay_tfsd.owdra_otprfcysetw_
+_mvn_e_rwm_dneoinnp__eotevnj_m_i.cshoenci
+~
+E
+note~
+Experiment # 28
+In a small container (such as a pelican flask or drinking glass) place one
+draught of Auramine and 3 drams of lye.  After 5 minutes recite the
+following words:
+       PARACELSUS  IATROCHEM
+~
+#14424
+Alchemical Lab~
+A well lit work area for conducting experiments.  Most of the small
+equipment has been smashed or carried away, but some large pieces seem to
+be walking around. A note is painted on the south wall and a message is
+scratched in the east wall.  Exits are to the north and the west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a well lit corner to the north.~
+~
+0 -1 14423
+DDIR_WEST
+You see a well lit area to the west.~
+~
+0 -1 14425
+E
+note~
+Experiment #187
+A strip of paper is soaked with wood spirits and set ablaze with a
+brazier.  The ashes are collected and dissolved in water and drunk.
+~
+E
+message~
+Secret Message #4
+
+en_yrenh__t_relm_rhoot_telhAlceIvrehn_tws__ooip_horTeos_iedew_aem_kesln_l
+aiuonydong_Ae__aeaad_i_ocfceeAe__rmAet
+~
+#14425
+Alchemical Lab~
+A well lit work area for conducting experiments.  Most of the small
+equipment has been smashed or carried away, but some large pieces seem to
+be walking around. A large ornate plaque is affixed to the south wall.
+Exits are to the north, east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the lab entrance to the north.~
+~
+0 -1 14422
+DDIR_EAST
+You see a well lit corner to the east.~
+~
+0 -1 14424
+DDIR_WEST
+You see a well lit corner to the west.~
+~
+0 -1 14426
+E
+plaque~
+It reads:
+My dear fellow seeker,
+    Here is the mystery:  the serpent Ouroboros, this composition which
+in its ensemble is devoured and melted, dissolved, and transformed by the
+fermentation or putrefaction.  It becomes a deep green and the color of
+gold is derived from it. It is from it that is derived the red called the
+color of cinnabar.  This is the cinnabar of the philosophers.  Its stomach
+and back are the color of saffron, its head is a deep green.  Its four
+feet constitute the tetrasomie. Its three ears are the three sublimed
+vapors.  The One furnishes the Other its blood and the One gives birth to
+the Other: nature rejoices in nature;  and that not for a nature opposed
+to such another nature but for one and the same nature proceeding of
+itself by the process with trouble and great effort.  But thou, my dear
+friend, apply thy intelligence to these matters and thou wilt not fall
+into error;  but work seriously, and without negligence, until thou hast
+seen the end.  A serpent is stretched guarding this temple and he who has
+subdued it commences by sacrificing it, then roasts it, and after removing
+its flesh up to the bones makes of it a step to the entrance of the
+temple.  Mount upon it and thou shalt find the object sought, for the
+priest at first a man of copper has changed color and nature and has
+become a man of silver; a few days later, if thou wish, thou wilt find
+him changed to a man of gold.
+
+                       Bolos of Mendes
+
+
+A glowing note is attached to the bottom which reads:
+
+     Please follow my friend Bolos' instructions carefully in preparing
+your gold.  He has been very kind to explicitly spell out the process of
+transmutation for us.  Follow his instructions very carefully.
+
+ Angelus, Master Alchemist of the Transcendental Empire of Gnomes
+~
+#14426
+Alchemical Lab~
+A well lit work area for conducting experiments.  Most of the small
+equipment has been smashed or carried away, but some large pieces seem to
+be walking around.  A note is painted on the south wall and a message is
+scratched in the west wall.  Exits are to the north and east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a well lit corner to the north.~
+~
+0 -1 14427
+DDIR_EAST
+You see a well lit area to the east.~
+~
+0 -1 14425
+E
+message~
+Secret Message #3
+
+ri._'rit,usetnaetaifm_nshot_e_v_awtt_e__lfebt_se__e_sheejbnhos_h_teh
+iogeing_y_lageut_ladehn_uoce_eoudr_h,euy_hs
+~
+E
+note~
+It reads:
+
+Amorgo's Numerology of Annihilation.
+
+>From out of the pit of Orusteous come the five disciples of malevolence.
+The first is the jackal sporting green stockings.  The twelve toes of the
+jackal are the various effluvium of the purple invertebrate overlord.
+The second disciple is the red saw grass of wretchedness whose sorrow is
+the sorrow of the damned.  The third to appear is the blue oleum beast.
+Its four spigots of desperation, destitution, desolation and despoliation
+disgorge the fantasies of the three Sulwesi Witches. The fourth is the
+Orange Reblochon of Tessera whose six bourgeois conspirators make up the
+council of Sorbiodunum.  Woe be to the being who crosses the two-fold
+threshold of her shrine in the Tuomotu Mountains.  The last is the Golden
+Alpaca. In the beginning of the universe was the pledge and the pledge was
+the Alpaca and the pledge encompassed the whole world.  On the day of the
+Annihilation, five disciples will range across the land;  five disciples
+will probe the souls of the evanescent world; only four disciples will
+deliver the Hudibrastic Chimera into the hands of the Quezalten Slayer.
+The Golden One will return to the pit and leave the world to its fate
+unless the Ancient Crown of the Gnome Empire is returned to the
+Onychophoran Troglodyte.
+~
+#14427
+Alchemical Lab~
+A well lit work area for conducting experiments.  Most of the small
+equipment has been smashed or carried away, but some large pieces seem to
+be walking around.  A note is painted on the north wall and a message is
+scratched in the west wall.
+Exits are to the south and east.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a well lit area to the east.~
+~
+0 -1 14422
+DDIR_SOUTH
+You see a well lit corner to the south.~
+~
+0 -1 14426
+E
+message~
+Secret Message #2
+egIoeagiym_aadciscgrrhj__danurs_einiooha_tlrrnioirsh__imcy__eolmns__edoA
+e.vpue_el_gtvnaskrml_reabt_hs_rutJnalm.
+~
+E
+note~
+Experiment #8756
+Combine the wing of a large bat, golden dust and distilled water and in a
+large tub.  After one hour (the mixture having turned a dark blue if done
+correctly) green slime is added.  After a long period of effervescence,
+the residue is collected and recrystallized from grain alcohol to give
+the final product which is highly valued by the people who dwell in the
+Plains of Viliot.
+~
+#14428
+End of the Sewer Pipe~
+A small hole in the floor carries any water present deeper into the earth,
+however you are too big to continue further down.  As your eyes get
+accustomed to the darkness, you see that you are at the head of a rough
+hewn passage, water at your feet.  The eastern and western walls are
+lined with heavily chained and locked portcullises There are two such
+portcullises directly to the east and west.  You can continue south down
+the hall, or try to get back up the sewer pipe.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A heavy green portcullis blocks the way east.  Closer examination
+reveals lettering carved into the stone.  You interpret it as follows:
+
+    Here lies the carcass of the Green Master Alchemist
+    Placed with loving care by his apprentice BEAUVAIS
+    This 14th day of the 3rd month in the year %#@&^~
+green~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14437
+DDIR_SOUTH
+The rough cavern continues south.~
+~
+0 -1 14429
+DDIR_WEST
+A heavy orange portcullis blocks the way west.  Closer examination
+reveals lettering carved into the stone.  You interpret it as follows:
+
+    Here lies the corpse of the Orange Master Alchemist
+    Placed with loving care by his apprentice ALBERTUS
+    This 7th day of the 5th month in the year !&*%#~
+orange~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14431
+DDIR_UP
+You can barely see some light at the top of the pipe.~
+~
+0 -1 14443
+#14429
+Center of the Cavern~
+You see that you are in the middle of a rough hewn passage.  The eastern
+and western walls are lined with heavily chained and locked portcullises.
+There are two such portcullises directly to the east and west.  You can
+also continue north or south along the passage.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+There is a puddle on the ground to the north.~
+~
+0 -1 14428
+DDIR_EAST
+A heavy red portcullis blocks the way east.  Closer examination
+reveals lettering carved into the stone.  You interpret it as follows:
+
+    Here lies the cadaver of the Red Master Alchemist
+    Placed with loving care by his apprentice RUPESCISSCA
+    This 22nd day of the 8th month in the year *$%&@~
+red~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14439
+DDIR_SOUTH
+The rough cavern continues south.~
+~
+0 -1 14430
+DDIR_WEST
+A heavy blue portcullis blocks the way west.  Closer examination
+reveals lettering carved into the stone.  You interpret it as follows:
+
+    Here lies the body of the Blue Master Alchemist
+    Placed with loving care by his apprentice LIBAVIUS
+    This 29th day of the 2nd month in the year *@%#$~
+blue~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14433
+#14430
+South end of the Cavern~
+You see that you are at the end of a rough hewn passage.  The eastern and
+western walls are lined with heavily chained and locked portcullises.
+There are two such portcullises directly to the east and west.  You can
+also continue north along the passage.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+The cavern continues north.~
+~
+0 -1 14429
+DDIR_EAST
+A heavy yellow portcullis blocks the way east.  Closer examination
+reveals lettering carved into the stone.  You interpret it as follows:
+
+    Here lies the remains of the Yellow Master Alchemist
+    Placed with loving care by his apprentice MELDRUM
+    This 35th day of the 12th month in the year #@$#&~
+yellow~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14441
+DDIR_WEST
+A heavy indigo portcullis blocks the way west.  However, it is not locked
+and chained like all of the other portcullises. Only a small lock holds
+the door closed. Closer examination reveals a flattened stone, suitable
+for carving.~
+indigo~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14404 14435
+#14431
+Orange Tomb~
+A body draped in orange robes lies on an alter in the middle of the
+chamber.  Near the back is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A heavy portcullis stands in the way east.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14428
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14405 14432
+E
+alter orange~
+The alter is made of orange stone.  Perhaps it is a rare type of MARBLE.
+~
+#14432
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the orange chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14405 14431
+#14433
+Blue Tomb~
+A body draped in Blue robes lies on an alter in the middle of the chamber.
+Near the back is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A heavy portcullis stands in the way east.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14404 14429
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14406 14434
+E
+alter blue~
+The alter is made of blue stone.  Perhaps it is AZURITE.
+~
+#14434
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the blue chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14406 14433
+#14435
+Indigo Tomb~
+An empty indigo alter sits in the middle of the chamber.  Near the back
+is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+A heavy indigo portcullis stands in the way east.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED -1 14430
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14407 14436
+E
+alter indigo~
+The alter is made of indigo stone.  Perhaps it is a type of metamorphosed
+SHALE.
+~
+#14436
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the indigo chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14407 14435
+#14437
+Green Tomb~
+A body draped in green robes lies on an alter in the middle of the
+chamber.  Near the back is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+A heavy portcullis stands in the way west.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14428
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14408 14438
+E
+alter green~
+The alter is made of green stone.  Perhaps it is a type of MALACHITE.
+~
+#14438
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the green chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14408 14437
+#14439
+Red Tomb~
+A body draped in red robes lies on an alter in the middle of the chamber.
+Near the back is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+A heavy portcullis stands in the way west.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14429
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14409 14440
+E
+alter red~
+The alter is made of red stone.  Perhaps it is a type of HEMATITE.
+~
+#14440
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the red chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14409 14439
+#14441
+Yellow Tomb~
+A body draped in yellow robes lies on an alter in the middle of the
+chamber.  Near the back is a steaming hole covered by a grate.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+A heavy portcullis stands in the way west.~
+portcullis~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF 14404 14430
+DDIR_DOWN
+A heavy grate blocks the way down into the smoky hole.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14410 14442
+E
+alter yellow~
+The alter is made of yellow metal.  Is it gold?????   On closer inspection
+you see that it is the common alloy of zinc an copper, namely BRONZE.
+~
+#14442
+Smoky Pit~
+This is basically a pit dug into the rock.  What is that in the corner?
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Handholds allow you to return past the grate to the yellow chamber.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14410 14441
+#14443
+Stinky Tunnel~
+This is a man-made tunnel through the rock.  It is getting narrower, but
+does seem to open into a chamber further down.  You can also return to the
+bathroom.
+~
+0 ROOM_DARK|ROOM_NO_MOB|ROOM_INDOORS SECT_INSIDE
+DDIR_UP
+Hand holds allow you to return to the bathroom through the toilet.~
+toilet~
+EX_ISDOOR|EX_CLOSED -1 14413
+DDIR_DOWN
+The tunnel down opens to a larger room.~
+~
+0 -1 14428
+#14444
+Meldrum's Potion Shoppe~
+This shop has never seen better days.  It appears to have been thrown
+together very quickly with no thought of the ambiance.  It is dirty, drab
+and disorganized.  Foul smelling yellow fumes leak out from under the door
+to the north. Shelves containing many differently sized bottles and jars
+line the walls.  Some contain liquids, some powders, and some the pickled
+bodies of miscellaneous creatures; in whole or in part.  A surly young
+gnome works the counter, if that is what you call what he is doing.  He
+spends most of his time picking his teeth.  If you put up a fuss, he might
+show you the items for sale.  A sign hangs on the wall.  You can exit to
+the south through the entrance. A small door is on the north wall.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_HILLS
+DDIR_NORTH
+You see a small door to the north.~
+small~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 14475 14403
+DDIR_SOUTH
+The road.~
+~
+0 -1 14402
+E
+sign~
+Welcome to Meldrum's Potion Shoppe
+Feel free to browse or ask our helpful staff to list our wares!
+~
+E
+bottles jars~
+You are afraid to touch any of the containers...they are covered with a
+thick layer of yellow dust which you can not identify.
+~
+#14445
+The Barren Path~
+The path is getting rougher and the going tougher.  The path continues
+north onto a hill and south back down to the stream.  A small, humble
+sign is posted by the path.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+Through the smog to the north you see barren, rocky hills.~
+~
+0 -1 14446
+DDIR_SOUTH
+To the south the path leads back to the stream.~
+~
+0 -1 14455
+E
+sign humble small~
+The sign says:
+                Welcome to the Alchemist's Workshop
+                    Created by Psilocin  7/1995
+                              Ver 1.5
+
+                            Thanks to
+                  Presto for help with coding hints
+                                and
+       Fullofit (aka Emperor) for Beta-testing and suggestions.
+~
+#14446
+The Barren Hills~
+It is difficult to see very far through the yellow smog.  Something in
+the air is irritating your lungs.  Where could it be coming from?  A
+single purple stone lies on the ground here. You can proceed north, south,
+east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14447
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14451
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14445
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14452
+#14447
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  Two purple stones lie
+on the ground here.  You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14448
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14450
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14446
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14453
+#14448
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs. Where could it be coming from?  Three purple stones
+lie on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14446
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14449
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14447
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14452
+#14449
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  Four purple stones
+lie on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14451
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14454
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14450
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14448
+#14450
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  Three purple stones
+lie on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14449
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14453
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14451
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14447
+#14451
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  Two purple stones
+lie on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14450
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14452
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14453
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14446
+#14452
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  A single purple stone
+lies on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14453
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14446
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14453
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14451
+#14453
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs. Where could it be coming from?  A single purple stone
+lies on the ground here. You can proceed north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14452
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14447
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14452
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14450
+#14454
+The Barren Hills~
+It is difficult to see very far through the smog.  Something in the air is
+irritating your lungs.  Where could it be coming from?  Five purple stones
+lie on the ground here.  Paths lead north, south, east or west.
+~
+0 0 SECT_HILLS
+DDIR_NORTH
+To the north you see smog.~
+~
+0 -1 14452
+DDIR_EAST
+To the east you see smog.~
+~
+0 -1 14448
+DDIR_SOUTH
+To the south you see smog.~
+~
+0 -1 14453
+DDIR_WEST
+To the west you see smog.~
+~
+0 -1 14449
+DDIR_UP
+You can barely make out a path up a hill between two boulders onto
+a plateau.~
+~
+0 -1 14401
+#14455
+On the Stream~
+The stream is cold and frigid, yet it supports plenty of life beneath its
+surface.  A trickle of water comes from a crack in a rock face to the east
+and flows west.To the south is an embankment that you cannot climb.
+A small path leads away from the stream to the north.
+~
+0 ROOM_NO_MOB SECT_OCEAN
+DDIR_NORTH
+A small path leading into the hills.~
+~
+0 -1 14445
+DDIR_WEST
+Following the flow of the stream.~
+~
+0 -1 1520
+#0
+
+
+#RESETS
+M 14428 100 14444
+G 14470  75 0
+G 14471  75 0
+G 14472 475 0
+G 14473  75 0
+G 14475  50 0
+G 14476 500 0
+M 14409 100 14403
+G 14460  50 0
+M 14410 100 14441
+G 14451 500 0
+G 14469  50 0
+G 14410   1 0
+M 14411 100 14433
+G 14452 500 0
+G 14469  50 0
+G 14406   1 0
+M 14412 100 14431
+G 14453 500 0
+G 14469  50 0
+G 14405   1 0
+M 14413 100 14437
+G 14454 500 0
+G 14469  50 0
+G 14408   1 0
+M 14414 100 14439
+G 14455 200 0
+G 14469  50 0
+G 14409   1 0
+M 14415 100 14426
+G 14456 500 0
+M 14416 100 14427
+G 14456 500 0
+G 14479 200 0
+M 14417 100 14425
+G 14456 500 0
+M 14418 100 14423
+G 14456 500 0
+M 14419 100 14424
+G 14456 500 0
+M 14420 100 14400
+G 14460  50 0
+M 14421 100 14434
+G 14466 500 0
+M 14422 100 14432
+G 14466 500 0
+M 14423 100 14438
+G 14466 500 0
+M 14424 100 14440
+G 14466 500 0
+M 14425 100 14442
+G 14466 500 0
+M 14408 100 14436
+G 14466 500 0
+M 14405 100 14428
+M 14405 100 14435
+M 14405 100 14429
+M 14405 100 14429
+M 14405 100 14430
+M 14405 100 14430
+M 14405 100 14430
+M 14405 100 14428
+M 14407 100 14428
+G 14404 100 0
+E 14467  50 WEAR_WIELD
+E 14474  50 WEAR_ABOUT
+M 14406 100 14406
+G 14423 500 0
+M 14426 100 14420
+G 14458 500 0
+M 14404 100 14420
+M 14404 100 14420
+M 14404 100 14421
+M 14404 100 14421
+M 14404 100 14419
+M 14404 100 14419
+G 14450 100 0
+M 14403 100 14419
+M 14404 100 14418
+M 14404 100 14418
+M 14402 100 14400
+G 14457 500 0
+M 14401 100 14400
+G 14459 500 0
+M 14401 100 14415
+G 14448 100 0
+M 14401 100 14413
+G 14446 500 0
+M 14401 100 14416
+O 14412   1 14416
+M 14401 100 14414
+G 14447 200 0
+M 14401 100 14412
+G 14426 100 0
+M 14401 100 14408
+M 14401 100 14408
+M 14401 100 14409
+M 14401 100 14410
+M 14401 100 14411
+M 14401 100 14417
+M 14400 100 14401
+M 14400 100 14402
+M 14400 100 14404
+M 14400 100 14407
+M 14400 100 14405
+D 14402 DIR_NORTH DOOR_CLOSED
+D 14403 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 14404 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 14405 DIR_NORTH DOOR_CLOSED_LOCKED
+D 14407 DIR_EAST  DOOR_CLOSED
+D 14408 DIR_WEST  DOOR_CLOSED
+D 14408 DIR_NORTH DOOR_OPEN
+D 14408 DIR_SOUTH DOOR_OPEN
+D 14409 DIR_NORTH DOOR_OPEN
+D 14409 DIR_SOUTH DOOR_OPEN
+D 14410 DIR_NORTH DOOR_OPEN
+D 14410 DIR_SOUTH DOOR_OPEN
+D 14410 DIR_UP    DOOR_CLOSED
+D 14411 DIR_SOUTH DOOR_OPEN
+D 14412 DIR_SOUTH DOOR_OPEN
+D 14413 DIR_SOUTH DOOR_OPEN
+D 14413 DIR_DOWN  DOOR_CLOSED
+D 14414 DIR_NORTH DOOR_OPEN
+D 14415 DIR_NORTH DOOR_OPEN
+D 14415 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 14416 DIR_NORTH DOOR_OPEN
+D 14417 DIR_NORTH DOOR_CLOSED_LOCKED
+D 14418 DIR_DOWN  DOOR_CLOSED
+D 14428 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14428 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14429 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14429 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14430 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14430 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14431 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14431 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14432 DIR_UP    DOOR_CLOSED_LOCKED
+D 14433 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14433 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14434 DIR_UP    DOOR_CLOSED_LOCKED
+D 14435 DIR_EAST  DOOR_CLOSED_LOCKED
+D 14435 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14436 DIR_UP    DOOR_CLOSED_LOCKED
+D 14437 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14437 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14438 DIR_UP    DOOR_CLOSED_LOCKED
+D 14439 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14439 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14440 DIR_UP    DOOR_CLOSED_LOCKED
+D 14441 DIR_WEST  DOOR_CLOSED_LOCKED
+D 14441 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 14442 DIR_UP    DOOR_CLOSED_LOCKED
+D 14443 DIR_UP    DOOR_CLOSED
+D 14444 DIR_NORTH DOOR_CLOSED_LOCKED
+O 14439   1 14413
+P 14424   2 14439
+P 14425   1 14439
+O 14438   1 14412
+P 14411   1 14438
+O 14437   1 14408
+O 14440   1 14416
+O 14441   1 14413
+O 14442   1 14416
+P 14427   1 14442
+O 14443   3 14416
+P 14444  50 14443
+O 14402   1 14411
+P 14414   1 14402
+P 14415   1 14402
+P 14416   1 14402
+P 14417   3 14402
+P 14418   3 14402
+O 14419   1 14414
+O 14445   1 14414
+P 14468   1 14445
+O 14420   1 14414
+P 14449   1 14420
+P 14403   1 14420
+O 14413   1 14411
+M 14401 100 14446
+M 14401 100 14450
+M 14401 100 14448
+M 14401 100 14452
+M 14401 100 14454
+M 14427 100 14447
+G 14469  50 0
+G 14477  50 0
+M 14427 100 14453
+G 14469  50 0
+G 14477  50 0
+G 14407  10 0
+M 14427 100 14451
+G 14469  50 0
+G 14477  50 0
+M 14427 100 14450
+G 14469  50 0
+G 14477  50 0
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

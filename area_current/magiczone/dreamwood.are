@@ -1,0 +1,4593 @@
+#AREA Dreamwood~
+#AUTHORS Covenant~
+#VERSION 4
+#RANGES 20 95 1 95
+#OLC_RANGES 42200 42299
+#FLAGS AFLAG_NOCASTLE|AFLAG_NORIP|AFLAG_NOSUMMON
+
+
+#HELPS
+0 DREAMWOOD~
+{138}
+                                  Dreamwood
+{308}
+An area of magic and dreams, the Dreamwood is an extraordinarily peaceful part
+of the woods near the City of Eternity where the dreamlike atmosphere is said to
+assist in meditation and other deep thoughts. It is thus ever-popular with the
+philosophers and poets of the Realms, and even some famous travelling mages have
+been known to stop there to exchange gossip and trade items acquired on their
+travels. The richness of the animal life in the area is also legendary. Finally,
+rumour has it that the entrance to the Realm of Dream is to be found in this
+area.
+
+{128}  (A) {058}Quests
+{128}  (B) {058}Creator's Notes
+{a}DREAMWOODQUESTS
+{b}DREAMWOODNOTES
+~
+
+0 DREAMWOODNOTES~
+{138}
+                               Creator's Notes
+{308}
+1. I have tried to make the area as complete as possible. What this means in
+mudding terms is that I have tried to make it possible to 'examine' every object
+mentioned in a room description. Some of the clues you will need are provided
+by these objects, so be sure to examine everything!
+
+2. I realise the quests in this area are pretty short and simple. This is my
+first area so give me a break :P The next one will be much more complex, I
+promise!
+
+3. The area is designed to be an interesting alternative to leveling in the
+Tethyr tavern. There are additional complications though, in the form of some
+wandering mobs who might interfere in your fights. The denizens of the Realm of
+Dream may also change your tanking style ...
+~
+
+0 DREAMWOODQUESTS~
+{138}
+                                   Quests
+{308} 
+There is one quest for some mid-level damage eq.
+There is one high-level quest for some damage eq and some mana eq.
+~
+
+0 $~
+
+
+#MOBILES
+#42201
+Morpheus Avatar Figure~
+the avatar of Morpheus~
+There is an eerie hooded figure standing between the two portals.~
+This being is of indeterminate sex and race wearing a hooded robe of the deepest
+black. Despite peering into the hood you cannot make out any features.
+~
+ACT_SENTINEL|ACT_TRAIN|ACT_PRACTICE|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+120 0 0 100d10+10000 10d10+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+say Greetings $n, do you wish to enter the Realm of Dream?
+~
+>speech_prog yes ok okay~
+nod 
+say Very well.
+say I shall notify Lord Morpheus of your arrival.
+say Do you wish to experience the positive energy of Yin, or the negative energy of Yang?
+~
+>speech_prog Yin~
+if level ($n) <= 50
+  open w
+  say You may proceed.
+  cast 'ethereal travel' $n
+else
+  if level ($n) > 50
+    say You are too mighty to require my assistance, $n. Find your own way in!
+    grin $n
+  endif
+endif
+~
+>speech_prog Yang~
+if level ($n) <= 50
+  open e
+  cast 'astral projection' $n
+  say You may proceed.
+else
+  if level ($n) > 50
+    say You are too mighty to require my assistance, $n. Find your own way in!
+    grin 
+  endif
+endif
+~
+>kill_prog 100~
+mpareaecho {118}$n's dreams have ended before they even began!
+shout MUHAHAHAHAHA!
+~
+>speech_prog morpheus~
+say Lord Morpheus is the Lord of Dream, a vassal of Lord Chaos and ruler here in his stead. He presides over his Realm at the Center of the Dreaming.
+emote shivers.
+say Hmmm ... I don't think I should be discussing Lord Morpehus any further.
+~
+|
+#42202
+Common Dreamer~
+a common dreamer~
+A common dreamer is stuck in a nightmare here.~
+This translucent figure is the spirit of an ordinary person who through a
+particularly intense nightmare has found their way into the Dreamworld. The
+expression on his face suggests something terrifying and you can tell from his
+posture that he is rooted to the spot. Despite his immobility he seems able to
+slightly manipulate the fabric of this realm in order to simulate a little
+magic.
+~
+ACT_SENTINEL|ACT_WEAK|ACT_BODY
+AFF_BLIND|AFF_FLYING|AFF_PASS_DOOR
+0 S
+35 0 BODY_EYE 10d10+640 1d3+22
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'cause serious'
+if rand (40)
+  cast 'cause serious'
+endif
+if rand (20)
+  cast 'cause serious'
+endif
+~
+>repop_prog 100~
+mpmset self dam 1d3+0
+mpecho $I emerges from the depths of your imagination.
+~
+|
+#42203
+Apprentice Dreamwalker~
+an apprentice dreamwalker~
+An Apprentice Dreamwalker is learning to dreamwalk here.~
+This individual is easier to make out that the common dreamers since his body
+seems slightly more substantial. He wears a look of trepidation on his face but
+seems determined to master his emotions. He is able to move about the
+Dreamworld, albeit slowly. Being able to move suggests he has made some progress
+in manipulating the fabric of this realm and can effect a few spells.
+~
+ACT_WEAK|ACT_BODY
+AFF_TRUESIGHT|AFF_FLYING|AFF_PASS_DOOR
+0 S
+40 0 BODY_EYE 10d10+860 1d3+27
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'cause serious'
+if rand (60)
+  cast 'cause serious'
+endif
+if rand (20)
+  cast 'cause serious'
+endif
+if rand (5)
+  cast 'paralyzing embrace'
+endif
+~
+>repop_prog 100~
+mpmset self dam 0d0+1
+mpecho $I emerges from the depths of your imagination.
+~
+|
+#42204
+Dreamwalker Adept~
+a dreamwalker adept~
+A Dreamwalker Adept is moving purposefully here.~
+Here stands someone who has achieved proficiency in the art of Dreamwalking. His
+form is virtually solid with only a slight shimmer visible when he moves around.
+He looks like he knows what he is doing as he moves purposefully across the
+plain. Being able to move moderately swiftly suggests he has made noticeable
+progress in manipulating the fabric of this realm.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_FLYING|AFF_PASS_DOOR
+0 S
+50 0 BODY_EYE 10d10+1400 1d3+36
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'cause serious'
+if rand (80)
+  cast 'cause serious'
+endif
+if rand (40)
+  cast 'cause serious'
+endif
+if rand (10)
+  cast 'paralyzing embrace'
+endif
+~
+>repop_prog 100~
+mpmset self dam 1d3+0
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 5~
+if quest (0,1,$n) == 1
+  if quest (1,1,$n) == 0
+    mpoload 42227
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 1 1 1
+  endif
+endif
+if quest (4,1,$n) == 1
+  if quest (5,1,$n) == 0
+    mpoload 42230
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 5 1 1
+  endif
+endif
+~
+>death_prog 10~
+if rand (50)
+  mpoload 42210
+else
+  mpoload 42215
+endif
+mpquiet on
+cast 'remove curse'
+mpquiet off
+~
+|
+#42205
+Senior Dreamwalker~
+a senior dreamwalker~
+A Senior Dreamwalker surveys his surroundings here.~
+You can see from observing this individual's very solid physical manifestation
+that this is one of the rare few who achieve sufficient proficiency in the art
+of Dreamwalking to totally transport their real bodies to the realm of dreams.
+Unlike the lower orders he seems fully aware of your presence. You can see that
+he has also learnt to somewhat manipulate the fabric of this realm to simulate
+spell-casting.
+~
+ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_FLYING|AFF_PASS_DOOR
+0 S
+60 0 BODY_EYE 10d10+2090 1d3+47
+25000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'cause serious'
+if rand (80)
+  cast 'cause serious'
+endif
+if rand (40)
+  cast 'cause serious'
+endif
+if rand (20)
+  cast 'paralyzing embrace'
+endif
+~
+>repop_prog 100~
+mpmset self dam 1d3+0
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 10~
+if quest (0,1,$n) == 1
+  if quest (2,1,$n) == 0
+    mpoload 42228
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 2 1 1
+  endif
+endif
+if quest (4,1,$n) == 1
+  if quest (6,1,$n) == 0
+    mpoload 42231
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 6 1 1
+  endif
+endif
+~
+>death_prog 5~
+if rand (50)
+  mpoload 42217
+else
+  mpoload 42216
+endif
+mpquiet on
+cast 'remove curse'
+mpquiet off
+~
+|
+#42206
+Dreammaster~
+a dreammaster~
+A Dreammaster is directing dreams here.~
+The band of silver around the hems of this figures' robes indicate mastery of
+the dreamworld. Not only is his body fully substantial but, as you can see from
+the glow of magic around him, he has also learnt to somewhat manipulate the
+fabric of this realm according to his own desires. His movement is also
+noticeably swifter than that of the others.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_FLYING
+0 S
+70 0 BODY_EYE 10d10+2930 1d3+58
+60000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'magic missile'
+cast 'magic missile'
+if rand (35)
+  cast 'paralyzing embrace'
+endif
+if rand (18)
+  cast 'color spray'
+endif
+~
+>repop_prog 100~
+mpmset self dam 0d0+1
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 10~
+if quest (0,1,$n) == 1
+  if quest (3,1,$n) == 0
+    mpoload 42229
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 3 1 1
+  endif
+endif
+if quest (4,1,$n) == 1
+  if quest (7,1,$n) == 0
+    mpoload 42232
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 7 1 1
+  endif
+endif
+~
+|
+#42207
+Grand Dreammaster~
+a grand dreammaster~
+A Grand Dreammaster conducts important business here.~
+From the looks of the gold-trimmed robes this character is wearing, he must be
+one of the very few known Dreammasters. As you would expect he appears to have
+fully materialised in this realm and has total control over his environment. The
+glow of spells around his body and the fact that he is actually flying signify a
+great mastery of the Dreamworld. The thought of what he could do if he was ever
+faced with combat in this realm beggars the imagination.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_SNEAK|AFF_FLYING
+0 S
+80 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND 10d10+3930 1d3+71
+120000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'magic missile'
+cast 'magic missile'
+if rand (40)
+  cast 'paralyzing embrace'
+endif
+if rand (20)
+  cast 'color spray'
+endif
+if rand (10)
+  cast 'color spray'
+endif
+~
+>repop_prog 100~
+mpmset self dam 0d0+1
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 10~
+if quest (0,1,$n) == 1
+  if quest (3,1,$n) == 0
+    mpoload 42229
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 3 1 1
+  endif
+endif
+if quest (4,1,$n) == 1
+  if quest (7,1,$n) == 0
+    mpoload 42232
+    mpecho The dreamwalker's dying thoughts coalesce into a piece of Dream.
+    mpmset $n quest 7 1 1
+  endif
+endif
+~
+|
+#42208
+Nightmare~
+a nightmare~
+A Nightmare is haunting dreams here.~
+You are looking at the stuff of nightmares! The creature seems to be an
+amalgamation of all the worst things you can imagine. It has tentacles, claws,
+horns and only one huge blood-red eye which glares at you balefully. Long
+tendrils of saliva dribble out of the creatures foul-smelling mouth.
+~
+ACT_SCAVENGER|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_INVISIBLE|AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PASS_DOOR
+0 S
+45 BODY_EYE|BODY_TAIL|BODY_TENTACLE|BODY_CLAW BODY_EYE|BODY_TENTACLE|BODY_CLAW 10d10+1750 6d10+15
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>kill_prog 100~
+mpareaecho {118}A Nightmare has ended the dreams of $n!
+shout MUHAHAHAHAHA!
+~
+>death_prog 100~
+if quest (16,2,$n) == 2
+  if rand (25)
+    mpoload 42248
+    scream 
+    drop i42248
+    say You have shown great fortitude!
+    growl 
+    break
+  endif
+  say You call that boldness?! Keep trying!
+  cackle 
+endif
+~
+|
+#42209
+Morpheus~
+the Lord of Dream~
+Morpheus, the Lord of Dream floats here.~
+Before you stands the mighty Morpheus, the Lord of Dream. He appears to be a
+fantastically large human with skin like alabaster and a mop of jet black hair.
+His eyes seem to glitter in the dim light until you get closer and see a
+multitude of stars reflected in them.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_FLYING|AFF_HUNT|AFF_HASTE
+0 S
+150 BODY_HEAD|BODY_EYE|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_EYE|BODY_LEG|BODY_WING|BODY_FOOT 100d100+27000 10d10+200
+300000 0
+POS_SITTING POS_SITTING SEX_MALE
+>fight_prog 50~
+say You dare to challenge the power of Dream?!
+shout Chaos! Aid thy servant!
+mpecho {108}You perceive Chaos' hand sheltering his faithful servant.
+mpmadd self currhp 1000
+mpecho Some of Morpheus's wounds close!
+~
+>fight_prog 100~
+say Feel the wrath of Dream!!!
+emote manipulates the fabric of Dream!
+cast 'color spray'
+cast 'snake dart'
+if rand (40)
+  cast 'energy drain'
+endif
+if rand (20)
+  cast 'energy drain'
+endif
+if rand (10)
+  cast 'nightmare'
+endif
+~
+>death_prog 100~
+clap 
+say Congratulations! You have conquered Nightmares and learnt to dream a Dream of Power thus proving both your intellect and your might at arms. You have earned the title of Dreammaster! I salute you!
+cap $n
+mpmset $n long Dreammaster $n is radiating wisdom here.
+mpecho {108}You awaken from your dream. As you slowly come to your senses you realise you are still in the grotto!
+mptransfer pcs 42200
+mpquiet on
+remove all
+mpat 42200 drop all
+mpquiet off
+~
+|
+#42210
+Grand Dreammaster~
+a grand dreammaster~
+A Grand Dreammaster conducts important business here.~
+From the looks of the gold-trimmed robes this character is wearing, he must be
+one of the very few known Dreammasters. As you would expect he appears to have
+fully materialised in this realm and has total control over his environment. The
+glow of spells around his body and the fact that he is actually flying signify a
+great mastery of the Dreamworld. The thought of what he could do if he was ever
+faced with combat in this realm beggars the imagination.
+~
+ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY|AFF_SNEAK|AFF_FLYING
+0 S
+65 0 0 10d10+3000 10d10+50
+120000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 5~
+emote coughs lightly to attract your attention.
+say Greetings traveller, could I interest you in any supplies?
+~
+>speech_prog yes ok okay~
+say Very well.
+mpforce $n list
+~
+|
+#42211
+EtherealPortalLocker~
+EtherealPortalLocker~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+50 0 0 1d1+1500 1d1+40
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpquiet on
+lock portal
+mpquiet off
+mpecho The view back through the portal shimmers before turning grey again.
+~
+|
+#42212
+EtherealShrineTransportMob~
+EtherealShrineTransportMob~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+95 0 0 1d1+5900 1d1+95
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 25~
+if position ($r) == pos_sleeping
+  mpquiet on
+  wake $r
+  mpquiet off
+  mpechoat $r As you fall into a deeper sleep you feel yourself leaving your body behind ...
+  mpquiet on
+  mpforce $r sleep
+  mptransfer $r 42201
+  mpquiet off
+endif
+~
+|
+#42213
+Nightgaunt~
+a nightgaunt~
+A dark and loathesome creature stands here.~
+This demon is one of the servitors of Morpheus.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+120 BODY_HEAD|BODY_TORSO|BODY_WING|BODY_TAIL|BODY_TENTACLE BODY_EYE|BODY_WING|BODY_TAIL|BODY_TENTACLE 10d10+10000 10d10+100
+200000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42214
+Hellhound~
+a hellhound~
+An enormous fire-breathing wolf stands here growling.~
+An enormous fire-breathing wolf stands here growling.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+120 BODY_HEAD|BODY_LEG|BODY_TAIL|BODY_FOOT BODY_MOUTH|BODY_TAIL|BODY_CLAW|BODY_FOOT 10d10+10000 10d10+100
+150000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42215
+Devourer Minds~
+the Devourer of Minds~
+An apparition of a giant disembodied eyeball floats here.~
+An apparition of a giant disembodied eyeball floats here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+120 BODY_EYE BODY_EYE 10d10+12500 10d10+80
+120000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'energy drain'
+cast 'energy drain'
+if rand (40)
+  cast 'vampiric touch'
+endif
+if rand (20)
+  cast 'psionic shockwave'
+endif
+if rand (10)
+  cast 'nightmare'
+endif
+~
+>repop_prog 100~
+mpmset self dam 0d0+1
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 100~
+unlock Symbol
+open symbol
+~
+|
+#42216
+Dreadlord~
+the Dreadlord~
+A being shrouded by a cloud of oily smoke radiates malevolence here.~
+A being shrouded by a cloud of oily smoke radiates malevolence here.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SANCTUARY
+0 S
+120 BODY_TORSO|BODY_LEG|BODY_TENTACLE BODY_MOUTH|BODY_EYE|BODY_TENTACLE 10d10+12500 10d10+80
+240000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 100~
+emote manipulates the fabric of Dream!
+cast 'color spray'
+cast 'color spray'
+if rand (40)
+  cast 'acid blast'
+endif
+if rand (20)
+  cast 'gas breath'
+endif
+if rand (10)
+  cast 'black aura'
+endif
+~
+>repop_prog 100~
+mpmset self dam 0d0+1
+mpecho $I emerges from the depths of your imagination.
+~
+>death_prog 100~
+open symbol
+mpjunk i42225
+~
+|
+#42217
+EtherealSymbolLocker~
+EtherealSymbolLocker~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpquiet on
+lock e
+lock w
+mpquiet off
+mpecho The symbol of Yin and Yang crashes shut with a hollow boom!
+~
+|
+#42218
+embodiment yin nimbus shimmer~
+the embodiment of Yin~
+A glowing white nimbus shimmers in the air before you.~
+A shimmering white aura hovers in the air here. Despite the energies it
+radiating bombarding your senses, you notice that it is humming faintly as if
+waiting for something. 
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_FLYING|AFF_PASS_DOOR
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if rand (5)
+  say You have reached the pinnacle of Yin. The Center of this Realm is within your grasp!
+endif
+if quest (0,4,$n) == 15
+  say You have compiled the necessary knowledge to move Beyond!
+  if quest (8,1,$n) == 0
+    if hasobjnum ($n) == 42227
+      if hasobjnum ($n) == 42228
+        if hasobjnum ($n) == 42229
+          mpmset $n quest 8 1 1
+          shout REVEAL YOUR KNOWLEDGE!
+          mpechoat $n You feel an irresistable compulsion to hand the Dreampieces over.
+          mpjunkperson $n i42227
+          mpjunkperson $n i42228
+          mpjunkperson $n i42229
+          mpechoat $n You give the three dreampieces to the Embodiment of Yin.
+          mpechoaround $n $n hands three dreampieces over to the Embodiment of Yin.
+          say As a reward for your researches take this Symbol, it may be of assistance to you in the future.
+          mpoload 42233
+          give i42233 $n
+        endif
+      endif
+    endif
+  endif
+  say In order to travel Beyond Yin a being with the knowledge must be at the Pinnacle of Yin and intone the words, 'I have the Power to travel Beyond Yin!'
+endif
+~
+>speech_prog center~
+if quest (0,4,$n) == 0
+  say The Center of Dream is the abode of Morpheus, the Lord of this Realm. To reach it you have to learn to harness enough of the power of Yin in order to move Beyond. Do you wish to make the attempt?
+endif
+~
+>speech_prog yes~
+if quest (0,4,$n) == 0
+  mpmset $n quest 0 4 1
+  say Go forth and search the souls of those who profess to wield power here. Some of them have banded together and between them gathered the necessary knowledge to progress Beyond.
+  say Now begone! Return when you have discovered what you need to know.
+endif
+~
+>speech_prog p I have the Power to travel beyond Yin!~
+if quest (8,1,$n) == 1
+  emote flares with brilliant light!
+  mpareaecho {108}$n has discovered the path Beyond Yin!
+  mptransfer pcs 42263
+endif
+~
+|
+#42219
+embodiment yang nimbus shimmer~
+the embodiment of Yang~
+A glowing black nimbus shimmers in the air before you.~
+A shimmering black aura hovers in the air here. Despite the energies it
+radiating bombarding your senses, you notice that it is humming faintly as if
+waiting for something. 
+~
+ACT_SENTINEL|ACT_SMART
+AFF_TRUESIGHT|AFF_FLYING|AFF_PASS_DOOR
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if rand (5)
+  say You have reached the pinnacle of Yang. The Center of this Realm is within your grasp!
+endif
+if quest (4,4,$n) == 15
+  say You have compiled the necessary knowledge to move Beyond!
+  if quest (12,1,$n) == 0
+    if hasobjnum ($n) == 42230
+      if hasobjnum ($n) == 42231
+        if hasobjnum ($n) == 42232
+          mpmset $n quest 12 1 1
+          shout REVEAL YOUR KNOWLEDGE!
+          mpechoat $n You feel an irresistable compulsion to hand the Dreampieces over.
+          mpjunkperson $n i42230
+          mpjunkperson $n i42231
+          mpjunkperson $n i42232
+          mpechoat $n You give the three dreampieces to the Embodiment of Yang.
+          mpechoaround $n $n hands three dreampieces over to the Embodiment of Yang.
+          say As a reward for your researches take this Symbol, it may be of assistance to you in the future.
+          mpoload 42233
+          give i42233 $n
+        endif
+      endif
+    endif
+  endif
+  say In order to travel Beyond Yang a being with the knowledge must be at the Pinnacle of Yang and intone the words, 'I have the Power to travel Beyond Yang!'
+endif
+~
+>speech_prog center~
+if quest (4,4,$n) == 0
+  say The Center of Dream is the abode of Morpheus, the Lord of this Realm. To reach it you have to learn to harness enough of the power of Yang in order to move Beyond. Do you wish to make the attempt?
+endif
+~
+>speech_prog yes~
+if quest (4,4,$n) == 0
+  mpmset $n quest 4 1 1
+  say Go forth and search the souls of those who profess to wield power here. Some of them have banded together and between them gathered the necessary knowledge to progress Beyond.
+endif
+~
+>speech_prog p I have the Power to travel beyond Yang!~
+if quest (12,1,$n) == 1
+  emote flares with brilliant light!
+  mpareaecho {108}$n has discovered the path Beyond Yang!
+  mptransfer pcs 42267
+endif
+~
+|
+#42220
+OtherDoorMob1~
+OtherDoorMob1~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p By the Power of my Mind, I invoke this Symbol!~
+if hasobjnum ($n) == 42233
+  if quest (8,1,$n) == 1
+    mpecho {108}You hear a grinding noise in the distance.
+    mpquiet on
+    mpat 42267 open mosaic
+    mpquiet off
+    mpat 42267 mpecho {108}You hear a grinding noise as the Circular Mosaic rolls across the opening.
+  endif
+endif
+~
+|
+#42221
+OtherDoorMob2~
+OtherDoorMob2~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p By the Power of my Mind, I invoke this Symbol!~
+if hasobjnum ($n) == 42233
+  if quest (12,1,$n) == 1
+    mpecho {108}You hear a grinding noise in the distance.
+    mpquiet on
+    mpat 42263 open mosaic
+    mpquiet off
+    mpat 42263 mpecho {108}You hear a grinding noise as the Circular Mosaic rolls across the opening.
+  endif
+endif
+~
+|
+#42222
+MosaicDoorCloser1~
+MosaicDoorCloser1~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {108}As you pass through the doorway the Circular Mosaic rolls back into place.
+mpquiet on
+lock n
+lock e
+mpquiet off
+~
+>speech_prog p By the Power of my Mind, I invoke this Symbol!~
+if hasobjnum ($n) == 42233
+  if quest (8,1,$n) == 1
+    mpecho {108}You hear a grinding noise in the distance.
+    mpquiet on
+    mpat 42266 open w
+    mpquiet off
+    mpat 42266 mpecho {108}You hear a grinding noise as the Circular Mosaic rolls aside revealing a doorway to the west.
+  endif
+endif
+~
+|
+#42223
+MosaicDoorCloser2~
+MosaicDoorCloser2~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {108}As you pass through the doorway the Circular Mosaic rolls back into place.
+mpquiet on
+lock s
+lock w
+mpquiet off
+~
+>speech_prog p By the Power of my Mind, I invoke this Symbol!~
+if hasobjnum ($n) == 42233
+  if quest (12,1,$n) == 1
+    mpecho {108}You hear a grinding noise in the distance.
+    mpquiet on
+    mpat 42264 open e
+    mpquiet off
+    mpat 42264 mpecho {108}You hear a grinding noise as the Circular Mosaic rolls aside revealing a doorway to the east.
+  endif
+endif
+~
+|
+#42224
+rabbit~
+a rabbit~
+A rabbit hops about here.~
+This rabbit is small and fluffy and hops about seemingly unconcerned by your
+presence.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+19 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_FOOT 10d10+150 1d16+4
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42225
+fox~
+a fox~
+A fox slinks through the tall grass here.~
+This fox has red fur and a long bushy tail. Although he looks remarkably well
+fed none of the numerous rabbits you have seen seem to be concerned.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+22 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_MOUTH 10d10+375 1d16+6
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42226
+badger~
+a badger~
+A badger snuffles about in the undergrowth here.~
+This badger is grey and white and has a powerful compact body. His talons look
+particularly intimidating.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+24 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_CLAW 10d10+270 1d16+8
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42227
+deer~
+a deer~
+A deer is grazing here.~
+This deer is brown with white dappling. It looks are you without concern before
+continuing to feed.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+26 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_FOOT 10d10+320 1d16+9
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42228
+wild boar~
+a wild boar~
+A wild boar rumbles through the undergrowth here.~
+This boar is enormous and covered with dark bristly fur. Its tusks are several
+inches long and drip saliva as it regards you with interest.
+~
+ACT_BODY
+0
+0 S
+28 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_HORN 10d10+380 1d16+10
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#42229
+bear~
+a bear~
+A bear is looking very sleepy here.~
+This bear is enormous but looks suprising unthreatening. It looks very relaxed
+in the pleasant afternoon sun.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+30 BODY_HEAD|BODY_LEG|BODY_FOOT BODY_MOUTH|BODY_CLAW 10d10+450 1d16+12
+0 0
+POS_SLEEPING POS_SLEEPING SEX_NEUTRAL
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#42230
+travelling mage wizened man~
+a travelling mage~
+A wizened old man has set up camp here.~
+This wizened old man has a weatherbeaten face and wears a travel-stained set of
+plain robes. His eyes twinkle merrily as he watches you approaching.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT
+0 S
+95 BODY_TORSO|BODY_LEG|BODY_FOOT BODY_HAND|BODY_FOOT 10d10+6000 1d1+95
+190000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog yes ok items~
+say On this occasion I have a small selection of items. Here, take a look at my current inventory.
+mpforce $n list
+~
+>greet_prog 100~
+if quest (16,2,$n) == 0
+  if rand (10)
+    say Welcome to my camp! Have a seat and warm yourself by the fire. I am Grotius Longstriger, a trader in rare goods. Perhaps I can interest you in some items from faraway lands?
+  endif
+endif
+if hasobjnum ($n) == 42240
+or hasobjnum ($n) == 42241
+or hasobjnum ($n) == 42242
+or hasobjnum ($n) == 42243
+  if quest (16,2,$n) == 0
+    mpmset $n quest 16 2 1
+  endif
+endif
+if quest (16,2,$n) == 1
+  smile $n
+  tell $n Now that you have purchased some of my wares, perhaps I can do you a favour on the quiet.
+  tell $n I was speaking to a sage of great repute on my last trip to Kentish Town, and he tells me there is a creature of nightmare living in the Realm of Dream. Apparently if one boldly confronts the creature one can obtain some of the Stuff of Nightmares. Obtain some and return here and I will make it worth your while.
+  wink $n
+  mpmset $n quest 16 2 2
+endif
+if quest (16,2,$n) == 2
+  if hasobjnum ($n) == 42248
+    grin $n
+    tell $n Excellent! You have faced down the Nightmare. Give the Stuff to me!
+  endif
+endif
+if quest (16,2,$n) == 3
+  cap $n
+endif
+~
+>give_prog i42248~
+if quest (16,2,$n) == 2
+  cackle 
+  tell $n You have done well. Thanks for patronising my wares, and here is what I promised you earlier.
+  mpoload 42208
+  mpoload 42209
+  give i42208 $n
+  give i42209 $n
+  shake $n
+  mpmset $n quest 16 2 3
+else
+  tell $n You have done well. Thanks for patronising my wares.
+endif
+mpjunk i42248
+~
+|
+#42231
+EtherealFountainMob~
+EtherealFountainMob~
+~
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+95 0 0 10d10+6000 1d1+100
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>act_prog p from a huge fountain of positive energy.~
+if isaffected ($n) != giant
+  mpquiet on
+  cast 'giant strength' $n
+  mpquiet off
+  mpechoat $n {148}The power of Yang floods your muscles with power!
+endif
+~
+>act_prog p from a huge fountain of negative energy.~
+if isaffected ($n) != bless
+  mpquiet on
+  cast bless $n
+  mpquiet off
+  mpechoat $n {168}The power of Yin caresses you and bestows its blessing!
+endif
+~
+|
+#42232
+MosaicDoorCloser3~
+MosaicDoorCloser3~
+~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>group_greet_prog 100~
+mpecho {108}As you pass through the doorway the Circular Mosaic rolls back into place.
+mpquiet on
+lock mosaic
+mpquiet off
+~
+|
+#0
+
+
+#SHOPS
+42210 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+42230 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#42200
+spring~
+a spring~
+A tiny spring bubbles out of the rocks here.~
+A tiny spring bubbles out of the rocks beneath the shrine. It forms a small pool
+of cool clear water before trickling away in a small stream.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+E
+stream~
+As you idly survey the tiny stream, a slight discolouration of one pebble
+catches your eye.
+~
+E
+pebble~
+You flip over the pebble to reveal some words scratched onto the underside.
+~
+E
+words~
+Covenant's First Area (tm) :P - February 2003
+~
+E
+underside~
+There are some words on it.
+~
+#42202
+fountain~
+a huge fountain of positive energy~
+A huge fountain of positive energy towers above you.~
+This gargantuan fountain of otherworldly power sears a path through the air as
+it reaches to the heavens. The blazing white light is too bright to look at. You
+feel an incredible vitality emanating from it.
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_GLOW
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+#42203
+fountain~
+a huge fountain of negative energy~
+A huge fountain of negative energy towers above you.~
+This gargantuan fountain of otherworldly power sears a path through the air as
+it reaches to the heavens. The deathly black ichor seems to absorb all light
+making it incredibly hard to focus on. You feel an incredible vitality emanating
+from it.
+~
+ITEM_TYPE_FOUNTAIN
+ITEM_FLAG_DARK
+0
+0 0 LIQ_WATER 0 0 0 0 0
+10000 10 1
+#42204
+Gold-hemmed Dreamcoat~
+gold-hemmed Dreamcoat~
+A robe with a gold hem lies in a heap here.~
+This is a robe of midnight black with a exquisite cloth-of-gold hem.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_ABOUT
+11 0 0 0 0 0 0 0
+10 40000 65
+A APPLY_MANA 90 0
+A APPLY_DAMROLL 5 0
+#42205
+Silver-hemmed Dreamcoat~
+silver-hemmed Dreamcoat~
+A robe with a silver hem lies in a heap here.~
+This is a robe of midnight black with a exquisite cloth-of-gold hem.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+10 30000 55
+A APPLY_MANA 75 0
+A APPLY_DAMROLL 4 0
+#42206
+Ourobouros Band~
+Ourobouros band~
+A coiled metal snake eating its own tail is here.~
+This appears to be a bicep or wrist band made of some type of coppery material.
+It is shaped like a snake eating its own tail and is warm to the touch.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS|ITEM_WEAR_WRIST
+10 0 0 0 0 0 0 0
+15 10 55
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 4 0
+#42207
+Tapestry Dreams~
+Tapestry of Dreams~
+A beautiful tapestry lies in a crumpled heap here.~
+This tapestry is a work of art. It shimmers with iridescent colours and
+cloth-of-gold thread. It depicts a scene of a sunset over a field of sheep.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+11 0 0 0 0 0 0 0
+30 1000000 65
+A APPLY_MANA 90 0
+A APPLY_DAMROLL 5 0
+#42208
+Mask terror terrormask~
+mask of Terror~
+A black leathery mask lies here.~
+This mask appears to be made of some type of cured hide. It is a deep black in
+colour and has a slight rubbery texture. Most strangely there are five tentacles
+sprouting from the mask's mouth.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+10 0 0 0 0 0 0 0
+10 100000 55
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 4 0
+#42209
+cowl nightmares nightmarecowl~
+a cowl of nightmares~
+A cloak of midnight black has been discarded here.~
+This is a short hooded cloak which only covers the head and shoulders. It is
+midnight black and from its leathery feel seems to be made of some sort of
+animal hide.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_INVIS|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+10 0 0 0 0 0 0 0
+10 100000 55
+A APPLY_HITROLL 7 0
+A APPLY_DAMROLL 4 0
+#42210
+Sandpouch Pouch~
+a sandpouch~
+A leather pouch full of sand sits here.~
+This small leather pouch is full of the finest white sand you have ever seen.
+The grains are almost too small to be seen with the naked eye.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST|ITEM_WEAR_HOLD
+6 0 0 0 0 0 0 0
+3 10 25
+A APPLY_HITROLL 5 0
+A APPLY_DAMROLL 3 0
+#42211
+Wings Morpheus~
+Wings of Morpheus~
+A pair of leathery wings lie here.~
+This pair of black leathery wings are cracked and worn and appear to be very
+old. Each wing has a sleeve made to fit a humanoid arm.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+11 0 0 0 0 0 0 0
+25 5000000 94
+A APPLY_HITROLL 11 0
+A APPLY_DAMROLL 7 0
+#42212
+Morpheus' Marauders~
+Morpheus' Marauders~
+A pair of black horned sabatons have been left here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+11 0 0 0 0 0 0 0
+40 10 94
+A APPLY_HITROLL 11 0
+A APPLY_DAMROLL 7 0
+#42213
+Technicolour Dreamcoat~
+Technicolour Dreamcoat~
+A deep black robe with a multicoloured hem has been left here.~
+This is a robe of midnight black with a dazzling array of colours worked into
+the hems. The contrast between the hem and the dark fabric of the robe is
+blinding. You notice that the fabric of the robe makes absolutely no sound as
+you rub it between your fingers.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_NODROP|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_NOREMOVE|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+8 0 0 0 0 0 0 0
+1 5000000 95
+A APPLY_MANA 120 0
+A APPLY_DAMROLL 8 0
+A APPLY_HITROLL 6 0
+#42214
+Scroll Returning~
+a scroll of returning~
+A scrap of paper lies here.~
+This appears to be a variant of a scroll of recall.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+5 266 0 0 0 0 0 0
+1 100 5
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42215
+Sandpouch Pouch~
+a sandpouch~
+A leather pouch full of sand sits here.~
+This small leather pouch is full of the finest black sand you have ever seen.
+The grains are almost too small to be seen with the naked eye.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_DARK|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST|ITEM_WEAR_HOLD
+12 0 0 0 0 0 0 0
+3 10 25
+A APPLY_HITROLL -3 0
+A APPLY_HITROLL -3 0
+A APPLY_CON -3 0
+#42216
+Stake Dreams~
+a stake of dreams~
+A wooden stake has been discarded here.~
+This is a long wooden stake made of white oak.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_DARK|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WEAPON 4 12 WEAPON_PIERCE 0 0 0 0
+3 150000 45
+#42217
+Hourglass~
+an hourglass~
+An ornate hourglass sits here.~
+This is an ornate glass hourglass with a tarnished copper frame. The sand inside
+is sparkling white.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+2 10 45
+A APPLY_INT 3 0
+A APPLY_WIS 3 0
+A APPLY_CON 3 0
+#42220
+PortalKey Key~
+the Key of Dreams~
+An ornate obsidian key lies here.~
+This ornate obsidian key is covered with runes and glyphs.
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 2000000 50
+#42221
+potion yang~
+a potion of Yang~
+A glass vial of jet black fluid lies here.~
+This is a glass vial with a cork stopper. It is full of a jet black viscous
+fluid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+40 12 0 0 0 0 0 0
+1 5000 20
+S 1 'astral projection'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42222
+potion yin~
+a potion of Yin~
+A glass vial of pure white fluid lies here.~
+This is a glass vial with a cork stopper. It is full of a pure white viscous
+fluid.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+40 95 0 0 0 0 0 0
+1 5000 20
+S 1 'ethereal travel'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42223
+scroll yang~
+a scroll of Yang~
+A rolled up scroll of white parchment is here.~
+This is a rolled up piece of white parchment. Unrolling it you see some runes
+written in a jet black ink.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+40 12 0 0 0 0 0 0
+1 5000 20
+S 1 'astral projection'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42224
+scroll yin~
+a scroll of Yin~
+A rolled up scroll of black parchment is here.~
+This is a rolled up piece of black parchment. Unrolling it you see some runes
+written in a luminous white ink.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+40 95 0 0 0 0 0 0
+1 5000 20
+S 1 'ethereal travel'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42225
+DreadlordKey Key Yang~
+the Key to Yang~
+An obsidian key is here.~
+This is an exquisitely carved key of obsidian.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 500000 50
+#42226
+DevourerKey Key Yin~
+the Key to Yin~
+An alabaster key lies here.~
+This is an exquisitely carved alabaster key.
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_INVENTORY
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 500000 50
+#42227
+distilled piece dreampiece white alabaster yinpiece1~
+the first Dreampiece of distilled Yin~
+A white piece of alabaster lies here.~
+This chunk of alabaster is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_INT 3 0
+#42228
+name distilled piece dreampiece white alabaster yinpiece2~
+the second Dreampiece of distilled Yin~
+A white piece of alabaster lies here.~
+This chunk of alabaster is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_INT 3 0
+#42229
+distilled piece dreampiece white alabaster yinpiece3~
+the third Dreampiece of distilled Yin~
+A white piece of alabaster lies here.~
+This chunk of alabaster is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_INT 3 0
+#42230
+distilled piece dreampiece black obsidian yangpiece1~
+the first Dreampiece of distilled Yang~
+A black piece of obsidian lies here.~
+This chunk of obsidian is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_WIS 3 0
+#42231
+distilled piece dreampiece black obsidian yangpiece2~
+the second Dreampiece of distilled Yang~
+A black piece of obsidian lies here.~
+This chunk of obsidian is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_WIS 3 0
+#42232
+distilled piece dreampiece black obsidian yangpiece3~
+the third Dreampiece of distilled Yang~
+A black piece of obsidian lies here.~
+This chunk of obsidian is the distillation of thoughts of a powerful
+Dreamwalker. Mere proximity to it is enough for the knowledge contained therein
+to slowly permeate your mind.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+5 1000000 30
+A APPLY_WIS 3 0
+#42233
+Dreamsymbol symbol dream~
+a symbol of dream~
+A compete yin and yang symbol lies here.~
+This is a complete yin and yang symbol made of alabaster and obsidian.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+10 2000000 1
+P 1
+TRIG_UNKNOWN 100 Yin
+OPROG_IF OIF_USER_ROOM_NUM = 42263 5 2
+P 2
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 42264 5 6
+P 3
+TRIG_UNKNOWN 100 Yang
+OPROG_IF OIF_USER_ROOM_NUM = 42267 5 4
+P 4
+TRIG_VOID
+OPROG_IF OIF_USER_ROOM_NUM = 42266 5 6
+P 5
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self The Symbol of Dream flares up with a blinding light!
+mpechoaround self The Symbol of Dream flares brightly in $I's hands
+say By the Power of my Mind, I invoke this Symbol!~
+P 6
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpechoat self The Symbol of Dream briefly vibrates before returning to its dormant state.
+mpechoaround self The Symbol of Dream vibrates in $I's hands.~
+#42234
+nest~
+the nest~
+~
+You see a tangled nest in the cavity. You are about to dismiss it as irrelevant
+when the glint of silver catches your eye. This must be a magpies nest!
+~
+ITEM_TYPE_CONTAINER
+0
+0
+75 0 -1 0 0 0 0 0
+10000 10 1
+#42235
+ashes~
+the ashes~
+~
+The ashes are cold and dank.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+75 0 0 0 0 0 0 0
+1 10 1
+#42236
+hollow section~
+the hollow section~
+~
+This section of the log is hollow!
+~
+ITEM_TYPE_CONTAINER
+0
+0
+75 0 0 0 0 0 0 0
+1 10 1
+#42237
+Unmarked stave~
+an unmarked stave~
+An unmarked stave.~
+This wooden stave is unmarked by fire.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+3 1000 25
+A APPLY_HIT 25 0
+A APPLY_AC -5 0
+#42238
+oaken branch~
+an oaken branch~
+An oaken branch lies here.~
+This is a hefty branch of solid white oak.
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_MACE 4 5 WEAPON_POUND 0 0 0 0
+12 100 15
+#42239
+white gold bracelet~
+a white gold bracelet~
+A shiny bracelet lies here.~
+This white gold bracelet has been polished to an incredible sheen. There are a
+few indecipherable runes inscribed on the outer edge.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+7 0 0 0 0 0 0 0
+1 50000 20
+A APPLY_MANA 35 0
+#42240
+kentish braided copper bracelet~
+a Kentish braided copper bracelet~
+A bracelet of braided copper lies here.~
+This braceleet was made by the fabled coppersmiths of Kentish town. You shudder
+to think of the distance it has travelled to get to this part of the world.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+3 80000 15
+A APPLY_WIS 2 0
+#42241
+kentish braided copper ring~
+a Kentish braided copper ring~
+A ring of braided copper lies here.~
+This ring was made by the fabled coppersmiths of Kentish town. You shudder to
+think of the distance it has travelled to get to this part of the world.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+5 0 0 0 0 0 0 0
+1 65000 15
+A APPLY_INT 2 0
+#42242
+andoran leather belt~
+a belt of Andoran leather~
+A fine leather belt with intricate detailing lies here.~
+This belt was fashioned by the world-famous Tanner's Guild of Andor. You never
+expected to see a sample of the famed Andoran leather outside Andor itself.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+3 50000 15
+#42243
+shoes andoran leather~
+a pair of shoes of Andoran leather~
+Some shoes of finely tooled leather lie here.~
+These shoes were fashioned by the world-famous Tanner's Guild of Andor. You
+never expected to see a sample of the famed Andoran leather outside Andor
+itself.
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+8 0 0 0 0 0 0 0
+3 55000 15
+#42244
+scroll vision~
+a scroll of vision~
+A scroll lies here.~
+An unexceptional scroll with some magic writings on it.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 65 64 0 0 0 0 0
+1 2000 20
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 '-1 slot'
+#42245
+potion vision~
+a potion of vision~
+A clear potion lies here.~
+A potion vial of clear fluid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 65 64 0 0 0 0 0
+1 2500 20
+S 1 'detect invis'
+S 2 'detect hidden'
+S 3 '-1 slot'
+#42246
+scroll sanctuary~
+a scroll of sanctuary~
+A scroll lies here.~
+An very short scroll with some magical writings on it.
+~
+ITEM_TYPE_SCROLL
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 210 0 0 0 0 0 0
+1 2100 20
+S 1 'sanctuary'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42247
+potion sanctuary~
+a potion of sanctuary~
+A white potion lies here.~
+A potion vial of white fluid.
+~
+ITEM_TYPE_POTION
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+30 210 0 0 0 0 0 0
+1 2750 20
+S 1 'sanctuary'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#42248
+stuff nightmares~
+the stuff of nightmares~
+The stuff of nightmares is here.~
+YECH! This is the stuff of nightmares. 
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 20
+A APPLY_DEX -3 0
+#42249
+Magpie Egg~
+a magpie egg~
+A speckled egg rests here.~
+This egg is speckled and looks like the egg of a smallish bird.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+5 0 0 0 0 0 0 0
+1 200 1
+#0
+
+
+#ROOMS
+#42200
+Small grotto~
+As you enter this moss-covered grotto you are almost overwhelmed by a feeling of
+tranquility. There is a small shrine here containing a battered wooden statue of
+Chaos. A natural spring bubbles out of the rocks beneath the shrine and
+trickles away in a small stream. This looks like an ideal location to camp for
+the night.  
+~
+0 ROOM_SAFE SECT_FOREST
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42279
+E
+statue~
+A small wooden statue of Chaos rests here. The wood is dark with age and is
+covered in moss. Who knows how long travellers have sought Chaos' shelter in
+this grotto?
+~
+E
+shrine~
+This shrine consists of a small hollow carved into the natural stone above the
+spring. A few mossy rocks are arranged in a half circle around the hollow. The
+shrine contains an ancient cracked wooden statue.
+~
+#42201
+Passing into the realm of Dreams~
+The last thing you remember is falling asleep. You awake to find yourself as a
+disembodied form floating in a mist-filled area of indeterminate size. You
+cannot make out any details except that the smoke seems to be less dense above
+you.
+~
+0 ROOM_NO_SAVE SECT_INSIDE
+DDIR_UP
+The smoks seems to be less dense up there.~
+~
+0 -1 42202
+#42202
+Entering the realm of Dreams~
+Your headlong rush into the unknown has resulted in you materialising on an
+apparently featureless plain. As far as the eye can see nothing is visible
+except for two huge portals and a large chessboard built into a hefty granite
+stand. The portals are equidistant from the chessboard and are apparently
+constructed from smoke.
+~
+0 ROOM_NO_SAVE SECT_INSIDE
+DDIR_EAST
+Through the portal you see nothing but a endless grey void.~
+portal~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42220 42204
+DDIR_WEST
+Through the portal you see nothing but a endless grey void.~
+portal~
+EX_ISDOOR|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42220 42203
+E
+portal~
+The portals are seemingly constructed of an oily black smoke which twists and
+writhes while somehow holding a generally rectangular shape. Through the portals
+you see nothing but a endless grey void.
+~
+E
+king~
+The King wears an expression of surrender. He seems to be in a bad position.
+~
+E
+queen~
+The Queen wears an expression of triumph. She looks to have a strong line of
+attack.
+~
+E
+position~
+The King is about to be checkmated by the two black knights coming at him from
+different directions.
+~
+E
+line attack~
+The Queen is part of a two-pronged attack which looks like it will result in the
+capture of the White King.
+~
+E
+chessboard granite stand~
+While the stand appears hewn from a single block of granite and is stunning in
+its simplicity, the chessboard is of the finest construction. Alabaster and
+Obsidian pieces stand on an inlaid glass and mother-of-pearl chessboard. Leaning
+closer to examine it you notice the White King is under attack from the Black
+Queen.
+~
+E
+knight knights~
+The two knights have cornered the King in a pincer move.
+~
+#42203
+An endless void of white~
+You find yourself in an endless void of white. You look in all directions but it
+seems to continue forever. The only distinguishing landmark is a portal made of
+black oily smoke which seems to float in mid-air. As your eyes become accustomed
+to the overwhelming light you perceive that the void seems to be less intense
+above you.
+~
+0 ROOM_NO_MOB SECT_ETHEREAL
+DDIR_EAST
+Through the portal you see nothing but a endless grey void.~
+portal~
+EX_ISDOOR|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42220 42202
+DDIR_UP
+The void seems to be less intense up there.~
+~
+0 -1 42241
+E
+portal~
+The portal is seemingly constructed of an oily black smoke which twists and
+writhes while somehow holding a generally rectangular shape. Through the portal
+you see nothing but a endless grey void.
+~
+#42204
+An endless void of black~
+You find yourself in an endless void of black. You look in all directions but it
+seems to continue forever. The only distinguishing landmark is a portal made of
+black oily smoke which seems to float in mid-air. As your eyes become accustomed
+to the lack of light you perceive that the void seems to be less intense above
+you.
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_WEST
+Through the portal you see nothing but a endless grey void.~
+portal~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42220 42202
+DDIR_UP
+The void seems to be less intense up there.~
+~
+0 -1 42220
+E
+portal~
+The portal is seemingly constructed of an oily black smoke which twists and
+writhes while somehow holding a generally rectangular shape. Through the portal
+you see nothing but a endless grey void.
+~
+#42205
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42210
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42206
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42206
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42271
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42270
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42205
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42207
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42212
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42208
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42270
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42208
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. Far to the north you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42213
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42207
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42209
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42216
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42210
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42210
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42217
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42271
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42205
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42209
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42211
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42218
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42212
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42270
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42271
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42212
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42219
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42213
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42207
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42211
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42213
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. To the north you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the convergence that direction.~
+~
+0 -1 42220
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42214
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42208
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42212
+#42214
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42221
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42213
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42215
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42223
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42216
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42216
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42224
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42217
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42209
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42215
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42217
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42225
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42272
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42210
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42216
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42218
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. Far to the east you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42273
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42219
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42211
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42272
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42219
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. To the east you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42227
+DDIR_EAST
+You see the convergence that direction.~
+~
+0 -1 42220
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42212
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42218
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42220
+The convergence~
+You have arrived at some sort of nexus where the convergence of yang surges with
+mindboggling fury, reaching a tumultuous crescendo before turning white and
+forming a gargantuan fountain of pure positive energy which soars into the skies
+above you. You lean back and strain to see the top of the fountain but to no
+avail.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42228
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42221
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42213
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42219
+DDIR_UP
+Your gaze follows the fountain upwards until you can no longer make out any details.~
+~
+0 -1 42258
+#42221
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. To the west you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42229
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42222
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42214
+DDIR_WEST
+You see the convergence that direction.~
+~
+0 -1 42220
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42222
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. Far to the west you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42230
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42221
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42223
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42231
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42224
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42215
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42224
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42232
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42225
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42216
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42223
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42225
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. Far to the north you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42233
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42226
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42217
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42224
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42226
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42234
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42273
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42272
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42225
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42227
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42235
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42228
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42219
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42273
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42228
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. To the south you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42236
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42229
+DDIR_SOUTH
+You see the convergence that direction.~
+~
+0 -1 42220
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42227
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42229
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42237
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42230
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42221
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42228
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42230
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42238
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42222
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42229
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42231
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42239
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42232
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42223
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42232
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42240
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42233
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42224
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42231
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42233
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. To the north you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the convergence that direction.~
+~
+0 -1 42241
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42234
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42225
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42232
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42234
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42242
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42274
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42226
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42233
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42235
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42275
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42236
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42227
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42274
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42236
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. Far to the south you can see a
+phenomenally tall white tower which disappears into the clouds.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42244
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42237
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42228
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42235
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42237
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42245
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42238
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42229
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42236
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42238
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42246
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42230
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42237
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42239
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. Far to the east you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42240
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42231
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42240
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. To the east you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42247
+DDIR_EAST
+You see the convergence that direction.~
+~
+0 -1 42241
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42232
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42239
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42241
+The convergence~
+You have arrived at some sort of nexus where the convergence of yin surges with
+incredible power, reaching a frenzied boil before turning black and forming a
+gargantuan fountain of pure negative energy which soars into the skies above
+you. You lean back and strain to see the top of the fountain but to no avail.
+~
+0 ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42248
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42242
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42233
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42240
+DDIR_UP
+Your gaze follows the fountain upwards until you can no longer make out any details.~
+~
+0 -1 42257
+#42242
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. To the west you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42249
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42243
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42234
+DDIR_WEST
+You see the convergence that direction.~
+~
+0 -1 42241
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42243
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. Far to the west you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42250
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42275
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42274
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42242
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42244
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42251
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42245
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42236
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42275
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42245
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42252
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42246
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42237
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42244
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42246
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42238
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42245
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42247
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42248
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42240
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42248
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. To the south you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42253
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42249
+DDIR_SOUTH
+You see the convergence that direction.~
+~
+0 -1 42241
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42247
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42249
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42254
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42250
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42242
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42248
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42250
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42277
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42276
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42243
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42249
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42251
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42256
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42252
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42244
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42276
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42252
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42245
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42251
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42253
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. Far to the south you can see a
+phenomenally tall black tower which disappears into the clouds.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42254
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42248
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42254
+An endless plain of Yin~
+You are standing on a featureless plain of the purest white which stretches as
+far as the eye can see. The ground appears to consist of some type of incredibly
+white alabaster polished until it almost glows. 
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42277
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42249
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42253
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface.
+~
+#42255
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42256
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42276
+DDIR_WEST
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42277
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42256
+An endless plain of Yang~
+You are standing on a featureless plain of the deepest black which stretches as
+far as the eye can see. The ground appears to consist of some type of highly
+reflective obsidian polished to an amazing shine. 
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42251
+DDIR_WEST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42255
+E
+ground~
+Looking closer you can see the faint signs of old bloodstains marring the
+otherwise perfectly reflective surface. 
+~
+#42257
+Alongside a fountain of Yin~
+You are travelling upwards alongside the soul destroying black fountain of Yin.
+Black motes of negative energy and crackling lightning dance in the air around
+you.
+~
+0 ROOM_NO_MOB SECT_AIR
+DDIR_UP
+You can see the pinnacle above you.~
+~
+0 -1 42259
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42241
+#42258
+Alongside a fountain of Yang~
+You are travelling upwards alongside the unbelievably energetic fountain of
+Yang. Snow white tendrils of power crackle and lash the air around you.
+~
+0 ROOM_NO_MOB SECT_AIR
+DDIR_UP
+You can see the pinnacle above you.~
+~
+0 -1 42260
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42220
+#42259
+Alongside a fountain of Yin~
+You are travelling upwards alongside the soul destroying black fountain of Yin.
+Black motes of negative energy and crackling lightning dance in the air around
+you.
+~
+0 0 SECT_AIR
+DDIR_UP
+You can see the pinnacle above you.~
+~
+0 -1 42261
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42257
+#42260
+Alongside a fountain of Yang~
+You are travelling upwards alongside the unbelievably energetic fountain of
+Yang. Snow white tendrils of power crackle and lash the air around you.
+~
+0 0 SECT_AIR
+DDIR_UP
+You can see the pinnacle above you.~
+~
+0 -1 42262
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42258
+#42261
+The Pinnacle of Yin~
+You have reached the dizzying heights of the Pinnacle of Yin. The Realm of Dream
+seems to be miles below you as you fight off the overwhelming feelings of dread
+brought on by massive exposure to the power of Yin.
+~
+0 ROOM_SAFE SECT_ETHEREAL
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42259
+#42262
+The Pinnacle of Yang~
+You have reached the dizzying heights of the Pinnacle of Yang. The Realm of
+Dream seems to be miles below you as you revel in the glorious life-affirming
+energies of Yang.
+~
+0 ROOM_SAFE SECT_ASTRAL
+DDIR_DOWN
+Looking downwards you can see the convergence in the distance.~
+~
+0 -1 42260
+#42263
+Beyond Yin~
+After the soul-draining power of the Pinnacle of Yin this room feels strangely
+revitalising. Upon further reflection you discern that the power of Yin is no
+longer so overwhelming. You seem to be approaching an area of equilibrium
+between the opposing forces. On the southern wall of this room is a huge
+circular slab of stone bearing a mosaic of the swirling Yin and Yang symbol of
+Morpheus. However only the white half of the symbol is inlaid. The circular
+walls of this room appear to be made of the smoothest alabaster and show an
+incredibly beautiful painting of a stark white-sand desert.
+~
+0 0 SECT_CITY
+DDIR_SOUTH
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42264
+E
+inscription~
+To truly find oneself one must find balance. Harness the power of Yin to achieve
+progress.
+~
+E
+desert~
+The desert is stunningly beautiful in its starkness.
+~
+E
+symbol yin yang slab stone ~
+Only the white half of the symbol is present. There is an empty space where the black half should be inlaid. Your closer examination also reveals an inscription around the outer edge of the symbol.
+~
+#42264
+Approaching the center~
+After passing through the opening left by the rolling slab of stone you find
+youself in another circular room. The walls are again made of the smoothest
+alabaster but this time they are bare of paint. Your feeling of equilibrium
+increases. There is another circular slab of stone inlaid with the yin and yang
+symbol on the eastern wall.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42263
+DDIR_EAST
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42297
+E
+symbol yin yang slab stone ~
+Only the white half of the symbol is present. There is an empty space where the black half should be inlaid. Your closer examination also reveals an inscription around the outer edge of the symbol.
+~
+E
+inscription~
+To truly find oneself one must find balance. Harness the power of Yin to achieve progress.
+~
+#42265
+Entering the Dream of Morpheus~
+You have reached the Center, the one place where Yin and Yang are perfectly
+balanced. You find yourself in the middle of a beautiful pastoral scene of
+rolling hills with a small stream winding its way past you. There are trees
+dotted around and the sound of birdsong fills the air. Through your hat you can
+feel the warmth of the noon sun high in the sky above you. Atop a nearby hill
+you see a small thatched cottage. According to legend this is the dwelling place
+of Morpheus, the Lord of Dream. 
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_FIELD
+DDIR_EAST
+This double doorway comprises a Yin and Yang symbol where one door is white and one door is black.~
+symbol~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42298
+DDIR_WEST
+This double doorway comprises a Yin and Yang symbol where one door is white and one door is black.~
+symbol~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42297
+DDIR_UP
+Looking up the hill you can see the cottage.~
+~
+0 -1 42268
+E
+trees tree~
+There are various fruit trees interspersed amongst other trees you cannot
+identify.
+~
+E
+cottage~
+The cottage is atop a nearby hill. It has brilliant white walls and a
+weatherworn thatched roof. A wisp of smoke ascends from the chimney.
+~
+#42266
+Approaching the center~
+After passing through the opening left by the rolling slab of stone you find
+youself in another circular room. The walls are again made of the smoothest
+alabaster but this time they are bare of paint. Your feeling of equilibrium
+increases. There is another circular slab of stone inlaid with the yin and yang
+symbol on the western wall.
+~
+0 0 SECT_INSIDE
+DDIR_SOUTH
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42267
+DDIR_WEST
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42298
+E
+symbol yin yang slab stone ~
+Only the black half of the symbol is present. There is an empty space where the white half should be inlaid. Your closer examination also reveals an inscription around the outer edge of the symbol.
+~
+E
+inscription~
+To truly find oneself one must find balance. Harness the power of Yang to achieve progress.
+~
+#42267
+Beyond Yang~
+After the overwhelming fury of the Pinnacle of Yang this room feels strangely
+peaceful. Upon further reflection you discern that the power of Yang is no
+longer so overwhelming. You seem to be approaching an area of equilibrium
+between the opposing forces. On the northern wall of this room is a huge
+circular slab of stone bearing a mosaic of the swirling Yin and Yang symbol of
+Morpheus. However only the black half of the symbol is inlaid. The circular
+walls of this room appear to be made of obsidian and show an incredibly accurate
+map of the night sky. Some of the stars have notes etched into the obsidian
+beside them.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42266
+E
+stars~
+Apart from one sentence of familiar script, most of the etchings are in unknown
+languages.
+~
+E
+sentence script~
+The sentence reads 'The Realm of Dream'.
+~
+E
+inscription ~
+To truly find oneself one must find balance. Harness the power of Yang to
+achieve progress.
+~
+E
+symbol yin yang slab stone ~
+Only the black half of the symbol is present. There is an empty space where the white half should be inlaid. Your closer examination also reveals an inscription around the outer edge of the symbol.
+~
+#42268
+The Dream of Morpheus~
+As you wander up the hill you feel your perspective changing. The landscape
+seems to expand as you move forwards. Within seconds the reasons for your climb
+up this hill fade into distant memory. Your entire life seems to consist of a
+pleasant walk up a hill in the late afternoon sun. The pleasant image of the
+thatched white cottage with its lovely little garden fills your forward vision.
+The cottage's scarred oaken door stands ajar as if in welcome.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_HILLS
+DDIR_NORTH
+The battered oaken door has seen better days.~
+oaken door~
+EX_ISDOOR -1 42269
+E
+garden~
+The garden appears to be a tidy little herb garden.
+~
+E
+cottage~
+The cottage is even more welcoming from this vantage point. The paint is still
+brilliant white, but you can now make out little signs of life, such as the
+dried flowers propped up in one windowsill, and the birdfeeder hanging off one
+of the eaves.
+~
+#42269
+Morpheus's Abode, The Center of Dream~
+You walk into this humble cottage not quite knowing what to expect. As your eyes
+adjust to the gloom you see a homely scene. A small log fire is burning in the
+fireplace with a blackened kettle hanging over it. A battered wooden writing
+table sits under the single window, and there is a rough woven rug on the floor.
+A large overstuffed armchair has been positioned by the fire.
+~
+0 ROOM_NO_RECALL|ROOM_NO_SAVE SECT_INSIDE
+DDIR_SOUTH
+The battered oaken door has seen better days.~
+oaken door~
+EX_ISDOOR -1 42268
+E
+fire fireplace~
+The fire crackles merrily in the fireplace. It all looks perfectly normal until
+you notice that the fire is unnaturally quiet, lacking the crackling and popping
+sounds of a real fire.
+~
+E
+table wooden writing~
+This table consists simply of four legs and a flat surface. There are no
+drawers.
+~
+E
+surface~
+Scratched into the surface are some words.
+~
+E
+words~
+This has been my first ever area. I have tried to make an interesting leveling
+area with a couple of decent and not-too-complicated quests. Since one of my pet
+peeves has always been very basic room descriptions I have tried to include
+lots of things to look at and examine, based on the text in room descriptons.
+Many of the clues for this quest were in there, so hopefully you enjoyed reading
+them all (including the red herrings hehe). Although I have consciously kept it
+relatively straightforward and not totally obscure like some other quests I
+could name.
+ 
+I hope you enjoyed everything, and hopefully the leveling here will be decent
+enough to make you come back in the future.
+ 
+Covenant, February 2003
+~
+E
+kettle~
+This kettle has turned totally black from years (or centuries perhaps?) of use.
+~
+E
+rug woven~
+This rug is made of woven rope. It looks more functional than comfortable.
+~
+E
+armchair~
+The armchair looks very comfortable.
+~
+E
+window~
+The window looks out over the Realm.
+~
+#42270
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42211
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42207
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42206
+#42271
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42272
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42211
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42206
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42210
+#42272
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42226
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42218
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42271
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42217
+#42273
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42274
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42227
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42218
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42226
+#42274
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42243
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42235
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42273
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42234
+#42275
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42276
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42244
+DDIR_SOUTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42235
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42243
+#42276
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_NORTH
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42255
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42251
+DDIR_SOUTH
+You see the riot of colours and movement that is the border between Yin and Yang.~
+~
+0 -1 42275
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42250
+#42277
+Floating between Yin and Yang~
+This area is rumbling and shaking from some ever-increasing disturbance. The
+forces of Yin to your east and Yang to your west are coming together here with
+surreal consequences. One moment the white alabaster floor seems to spill over
+an obsidian section, yet at others the white fades away to reveal black. Despite
+the constant shifting of colours and lines the border between the two seems to
+revert to the original shape after various permutations. The constant barrage 
+of opposing forces would be lethal to anyone in physical form. 
+~
+0 ROOM_NO_MOB SECT_ASTRAL
+DDIR_EAST
+An endless plain of Yang lies in that direction.~
+~
+0 -1 42255
+DDIR_SOUTH
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42250
+DDIR_WEST
+An endless plain of Yin lies in that direction.~
+~
+0 -1 42254
+#42278
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see some quiet woods.~
+~
+0 -1 42279
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42282
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42279
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A small grotto in the woods.~
+~
+0 -1 42200
+DDIR_SOUTH
+You see a clearing in the woods.~
+~
+0 -1 42283
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42278
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42280
+Tranquil clearing~
+This clearing looks like it has been often used as a campsite. There is an old
+firepit near the center of the clearing with two large logs loosely arranged
+around it. There is a feeling of peace in the air.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+You see huge tree.~
+~
+0 -1 42285
+E
+Firepit~
+This firepit hasn't been used for several weeks at least. The ashes are cold and
+dank with age.
+~
+E
+log logs ~
+The log is old and decaying. Tapping it reveals one section to be hollow.
+~
+#42281
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see some quiet woods.~
+~
+0 -1 42282
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42282
+Beneath a mighty oak~
+Another huge oak rears its crown above the forest canopy here. It provides
+generous cover from the heavens, be it rain or shine. Dappled sunlight dances
+across the grassy earth as a light breeze whistles through the leaves.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see some quiet woods.~
+~
+0 -1 42278
+DDIR_EAST
+You see a clearing in the woods.~
+~
+0 -1 42283
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42287
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42281
+DDIR_UP
+You look up into the branches of a mighty oak.~
+~
+0 -1 42294
+E
+Earth Grass~
+The soil looks incredibly rich.
+~
+E
+Leaves~
+The leaves are green and lush.
+~
+#42283
+Tranquil clearing~
+This meadow is covered in lush tall grass, with bright flowers forming a
+technicolour carpet. A mild breeze ripples across the grass with a rustling
+noise.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see some quiet woods.~
+~
+0 -1 42279
+DDIR_EAST
+You see a clearing in the woods.~
+~
+0 -1 42284
+DDIR_SOUTH
+You see a clearing in the woods.~
+~
+0 -1 42288
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42282
+E
+Flowers~
+You see many sunflowers, interspersed with the occasional clump of bluebells.
+~
+E
+Grass~
+The grass is verdant green and knee-high for a human.
+~
+#42284
+Tranquil clearing~
+This meadow is covered in lush tall grass, with bright flowers forming a
+technicolour carpet. A mild breeze ripples across the grass with a rustling
+noise.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see some quiet woods.~
+~
+0 -1 42285
+DDIR_SOUTH
+You see a huge tree.~
+~
+0 -1 42289
+DDIR_WEST
+You see a clearing in the woods.~
+~
+0 -1 42283
+E
+Flowers~
+You see many sunflowers, interspersed with the occasional clump of bluebells.
+~
+E
+Grass~
+The grass is verdant green and knee-high for a human.
+~
+#42285
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a clearing in the woods.~
+~
+0 -1 42280
+DDIR_EAST
+You see a huge tree.~
+~
+0 -1 42286
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42290
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42284
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42286
+Beneath a mighty oak~
+This immense oak spreads its limbs as if in supplication to the overhead sun. It
+provides generous cover from the heavens, be it rain or shine. Dappled sunlight
+dances across the grassy earth as a light breeze whistles through the leaves.
+~
+0 0 SECT_FOREST
+DDIR_WEST
+You see a huge tree.~
+~
+0 -1 42285
+DDIR_UP
+You look up into the branches of a mighty oak.~
+~
+0 -1 42296
+E
+Earth Grass~
+The soil looks incredibly rich.
+~
+E
+Leaves~
+The leaves are mostly green although some look to be starting to turn.
+~
+#42287
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see some quiet woods.~
+~
+0 -1 42282
+DDIR_EAST
+You see a clearing in the woods.~
+~
+0 -1 42288
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42292
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42288
+Tranquil clearing~
+This meadow is covered in lush tall grass, with bright flowers forming a
+technicolour carpet. A mild breeze ripples across the grass with a rustling
+noise.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+You see a clearing in the woods.~
+~
+0 -1 42283
+DDIR_EAST
+You see a huge tree.~
+~
+0 -1 42289
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42287
+E
+Flowers~
+You see many sunflowers, interspersed with the occasional clump of bluebells.
+~
+E
+Grass~
+The grass is verdant green and knee-high for a human.
+~
+#42289
+Beneath a mighty oak~
+This immense oak spreads its limbs as if in supplication to the overhead sun. It
+provides generous cover from the heavens, be it rain or shine. Dappled sunlight
+dances across the grassy earth as a light breeze whistles through the leaves.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a clearing in the woods.~
+~
+0 -1 42284
+DDIR_EAST
+You see some quiet woods.~
+~
+0 -1 42290
+DDIR_SOUTH
+You see some quiet woods.~
+~
+0 -1 42293
+DDIR_WEST
+You see a clearing in the woods.~
+~
+0 -1 42288
+DDIR_UP
+You look up into the branches of a mighty oak.~
+~
+0 -1 42295
+E
+Earth Grass~
+The soil looks incredibly rich.
+~
+E
+leaves~
+The leaves are green and lush.
+~
+#42290
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see some quiet woods.~
+~
+0 -1 42285
+DDIR_WEST
+You see a huge tree.~
+~
+0 -1 42289
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42291
+Entering the Dreamwood~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_EAST
+You see some quiet woods.~
+~
+0 -1 42292
+DDIR_WEST
+You see a path winding through the woods.~
+~
+0 -1 27272
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42292
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see some quiet woods.~
+~
+0 -1 42287
+DDIR_WEST
+You see some quiet woods.~
+~
+0 -1 42291
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42293
+Quiet woodland~
+Despite the dense tree cover, these woods are light and airy, with dappled
+sunlight dancing across the leaf-covered earth. The trees here look ancient,
+with gnarled roots and mossy boles. 
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+You see a huge tree.~
+~
+0 -1 42289
+E
+Roots~
+The roots are like gnarled old ropes plunging into the earth.
+~
+E
+Boles~
+The boles of these trees are thick and covered in moss.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Earth~
+The soil looks incredibly rich.
+~
+#42294
+Junction of branches~
+After a brief climb you find yourself at the junction of five great branches.
+The trunk is covered with moss and fungi. A nearby knothole reveals the faint
+signs of rot beneath the bark of this mighty tree.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_DOWN
+~
+~
+0 -1 42282
+E
+fungi~
+The fungi is some type of large wood fungus.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Knothole~
+This knothole was once the location of a great limb. Now all that remains is a
+dark cavity.
+~
+E
+Bark~
+The bark is very rough and looks ancient.
+~
+E
+Cavity~
+The cavity is quite shallow and quite empty.
+~
+#42295
+Junction of branches~
+After a brief climb you find yourself at the junction of five great branches.
+The trunk is covered with moss and fungi. A nearby knothole reveals the faint
+signs of rot beneath the bark of this mighty tree.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_DOWN
+~
+~
+0 -1 42289
+E
+fungi~
+The fungi is some type of large wood fungus.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Knothole~
+This knothole was once the location of a great limb. Now all that remains is a
+dark cavity.
+~
+E
+Bark~
+The bark is very rough and looks ancient.
+~
+E
+cavity~
+Inside the cavity is a bird's nest!
+~
+#42296
+Junction of branches~
+After a brief climb you find yourself at the junction of five great branches.
+The trunk is covered with moss and fungi. A nearby knothole reveals the faint
+signs of rot beneath the bark of this mighty tree.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_DOWN
+~
+~
+0 -1 42286
+E
+fungi~
+The fungi is some type of large wood fungus.
+~
+E
+Moss~
+The moss is emerald green and makes the trees slippery and difficult to climb.
+~
+E
+Knothole~
+This knothole was once the location of a great limb. Now all that remains is a
+dark cavity.
+~
+E
+Bark~
+The bark is very rough and looks ancient.
+~
+E
+cavity~
+The cavity is quite shallow and quite empty.
+~
+#42297
+Approaching the center~
+After passing through the Mosaic Portal your body shimmers briefly as you find
+yourself in a featureless room full of chaotic light and mutating dimensions.
+There is a huge Yin and Yang symbol on the wall which appears to be a doorway
+but you cannot see a way of opening it.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+This double doorway comprises a Yin and Yang symbol where one door is white and one door is black.~
+symbol~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42265
+DDIR_WEST
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42226 42264
+#42298
+Approaching the center~
+After passing through the Mosaic Portal your body shimmers briefly as you find
+yourself in a featureless room full of chaotic light and mutating dimensions.
+There is a huge Yin and Yang symbol on the wall which appears to be a doorway
+but you cannot see a way of opening it.
+~
+0 0 SECT_INSIDE
+DDIR_EAST
+This door closes when the circular mosaic rolls in front of it.~
+circular mosaic~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42266
+DDIR_WEST
+This double doorway comprises a Yin and Yang symbol where one door is white and one door is black.~
+symbol~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED|EX_PICKPROOF|EX_BASHPROOF|EX_MAGICPROOF|EX_PASSPROOF 42225 42265
+#0
+
+
+#RESETS
+M 42224 100 42200
+M 42225 100 42200
+O 42200 100 42200
+M 42201 100 42202
+G 42220 500 0
+O 42203 100 42241
+O 42202 100 42220
+M 42207 100 42220
+E 42204 100 WEAR_ABOUT
+E 42207 100 WEAR_HOLD
+M 42206 100 42220
+E 42205 100 WEAR_ABOUT
+E 42206 100 WEAR_WRIST_L
+M 42207 100 42241
+E 42207 100 WEAR_HOLD
+E 42204 100 WEAR_ABOUT
+M 42206 100 42241
+E 42206 100 WEAR_WRIST_L
+E 42205 100 WEAR_ABOUT
+M 42202 100 42253
+M 42202 100 42254
+M 42202 100 42255
+M 42202 100 42256
+M 42202 100 42252
+M 42202 100 42251
+M 42202 100 42250
+M 42202 100 42249
+M 42202 100 42248
+M 42202 100 42247
+M 42202 100 42239
+M 42202 100 42240
+M 42202 100 42242
+M 42202 100 42243
+M 42202 100 42244
+M 42202 100 42245
+M 42202 100 42246
+M 42202 100 42238
+M 42202 100 42237
+M 42202 100 42236
+M 42202 100 42235
+M 42202 100 42234
+M 42202 100 42233
+M 42202 100 42232
+M 42202 100 42231
+M 42202 100 42223
+M 42202 100 42224
+M 42202 100 42225
+M 42202 100 42226
+M 42202 100 42227
+M 42202 100 42228
+M 42202 100 42229
+M 42202 100 42230
+M 42202 100 42222
+M 42202 100 42221
+M 42202 100 42219
+M 42202 100 42218
+M 42202 100 42217
+M 42202 100 42216
+M 42202 100 42215
+M 42202 100 42209
+M 42202 100 42210
+M 42202 100 42211
+M 42202 100 42212
+M 42202 100 42213
+M 42202 100 42214
+M 42202 100 42208
+M 42202 100 42207
+M 42202 100 42206
+M 42202 100 42205
+M 42203 100 42208
+M 42203 100 42205
+M 42203 100 42215
+M 42203 100 42239
+M 42203 100 42253
+M 42203 100 42256
+M 42203 100 42244
+M 42203 100 42246
+M 42203 100 42222
+M 42204 100 42219
+M 42204 100 42235
+M 42204 100 42237
+M 42204 100 42242
+M 42205 100 42209
+M 42205 100 42214
+M 42205 100 42252
+M 42205 100 42247
+M 42204 100 42224
+M 42204 100 42226
+M 42208 100 42234
+M 42203 100 42217
+M 42210 100 42227
+G 42224 500 0
+G 42223 500 0
+G 42222 500 0
+G 42221 500 0
+G 42214 100 0
+M 42211 100 42203
+G 42220 100 0
+M 42211 100 42204
+G 42220 100 0
+M 42212 100 42200
+M 42209 100 42269
+E 42211   1 WEAR_ARMS
+E 42212   1 WEAR_LEGS
+E 42213   1 WEAR_ABOUT
+M 42221 100 42267
+G 42225 100 0
+G 42226 100 0
+M 42214 100 42267
+M 42220 100 42263
+G 42226 100 0
+G 42225 100 0
+M 42213 100 42263
+M 42217 100 42265
+G 42226 100 0
+G 42225 100 0
+M 42208 100 42211
+M 42219 100 42262
+M 42218 100 42261
+M 42222 100 42264
+G 42225 100 0
+G 42226 100 0
+M 42223 100 42266
+G 42226 100 0
+G 42225 100 0
+M 42224 100 42280
+M 42229 100 42280
+O 42235 100 42280
+P 42237 100 42235
+O 42236 100 42280
+P 42238 100 42236
+O 42234 100 42295
+P 42249 100 42234
+P 42249 100 42234
+P 42249 100 42234
+P 42239 100 42234
+M 42226 100 42281
+M 42229 100 42281
+M 42226 100 42283
+M 42228 100 42286
+M 42224 100 42290
+M 42225 100 42290
+M 42228 100 42290
+M 42224 100 42288
+M 42224 100 42288
+M 42225 100 42288
+M 42230 100 42293
+G 42247 100 0
+G 42246 100 0
+G 42245 100 0
+G 42244 100 0
+G 42243 100 0
+G 42242 100 0
+G 42241 100 0
+G 42240 100 0
+G 42214 100 0
+M 42224 100 42287
+M 42227 100 42287
+M 42226 100 42292
+M 42227 100 42292
+M 42224 100 42278
+M 42227 100 42278
+M 42224 100 42279
+M 42227 100 42279
+M 42224 100 42284
+M 42224 100 42285
+M 42224 100 42289
+M 42226 100 42289
+M 42225 100 42291
+M 42224 100 42282
+M 42231 100 42220
+M 42231 100 42241
+D 42263 DIR_SOUTH DOOR_CLOSED_LOCKED
+D 42264 DIR_EAST  DOOR_CLOSED_LOCKED
+D 42266 DIR_WEST  DOOR_CLOSED_LOCKED
+D 42265 DIR_EAST  DOOR_CLOSED_LOCKED
+D 42265 DIR_WEST  DOOR_CLOSED_LOCKED
+D 42267 DIR_NORTH DOOR_CLOSED_LOCKED
+M 42216 100 42298
+G 42225 100 0
+D 42298 DIR_WEST  DOOR_CLOSED_LOCKED
+M 42215 100 42297
+G 42226 100 0
+D 42297 DIR_EAST  DOOR_CLOSED_LOCKED
+M 42214 100 42264
+M 42213 100 42266
+M 42232 100 42298
+G 42225 100 0
+M 42232 100 42297
+G 42226 100 0
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,927 @@
+#AREA Forest of Arden~
+#AUTHORS Desmond~
+#VERSION 4
+#RANGES 30 60 1 95
+#FLAGS AFLAG_NODEBUG
+
+
+#HELPS
+0 ARDEN KOLVIR AMBER~
+{128}
+                                Amber Region
+{308}
+The Amber Region consists of:
+
+Forest of Arden and Mount Kolvir
+
+I make no claim of originality for these areas. All the ideas come from the
+Chronicles of Amber novels by Roger Zelazny. Also in the course of creating
+these areas I have made reference to the Amber Role Playing Game by Erick
+Wujcik and The Visual Guide to Castle Amber by Zelazny and Neil Randall.
+Anyone who enjoyed this area, I encourage you to go out and find the books.
+They are fascinating reading.
+							-- Desmond
+~
+
+0 $~
+
+
+#MOBILES
+#10100
+hound hellhound~
+the huge, fearsome hellhound~
+A huge, fearsome hellhound slams into you!~
+The hound is a part of Julian's forest defenses. It vaguely resembles a pit-
+bull, but is the size of a pony.
+~
+ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+-350 S
+30 0 0 30d2+600 3d8+25
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#10101
+ranger~
+the forest ranger~
+A stealthy, forest ranger patrols the forest here.~
+The ranger is a scout and soldier in Prince Julian's army. He looks like a
+formidable opponent.
+~
+ACT_SCAVENGER
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HIDE|AFF_CLEAR
+400 S
+35 0 0 30d3+750 1d9+20
+10000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10102
+ranger~
+the forest ranger~
+A stealthy, forest ranger is sleeping here.~
+The ranger is a scout and soldier in Prince Julian's army. Even in his current
+state of repose, he still looks like a formidable opponent.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_CLEAR|AFF_HUNT
+400 S
+35 0 0 30d3+950 1d38+8
+10000 0
+POS_SLEEPING POS_SLEEPING SEX_MALE
+#10103
+captain~
+the captain of the rangers~
+The captain of the rangers is here directing scouting duties.~
+The captain of the rangers is an older man but obviously a powerful warrior.
+He must be the best if Julian put him in charge.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_PROTECT_EVIL|AFF_HUNT
+450 S
+45 0 0 1d600+1146 1d49+13
+20000 0
+POS_STANDING POS_STANDING SEX_MALE
+#10104
+hawk bird shadowhawk~
+the shadowhawk~
+One of Julian's pet shadowhawks is perched here.~
+The shadowhawk is jet-black and has a five-foot wingspan. You take special
+notice of its wicked talons. Julian can communicate telepathically with all
+of the shadowhawks. They are his eyes and ears throughout the forest.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_FLYING
+-20 S
+40 0 0 1d484+912 1d40+29
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#10105
+hound hellhound mama mother~
+the terrifying, mama hellhound~
+A terrifying, mama hellhound leaps to the defense of her young.~
+The hound is a part of Julian's forest defenses. It vaguely resembles a pit-
+bull, but is the size of a pony.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+-10 S
+40 0 0 1d484+912 3d8+30
+0 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#10106
+hound hellhound baby~
+the ugly, baby hellhound~
+A ugly, baby hellhound nips at your heels.~
+The hound is a future part of Julian's forest defenses. It vaguely resembles
+a pit-bull.... and is the size of one too!
+~
+ACT_SENTINEL|ACT_AGGRESSIVE
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+-10 S
+20 0 0 30d2+250 1d20+13
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#10107
+Julian prince ruler lord~
+Julian~
+Prince Julian, Lord of the Forest of Arden sits here astride his
+powerful mount Morgenstern.~
+Julian is a tall, dark haired man... although perhaps he is more than a man.
+He wears white scale armor that looks invulnerable to any attack and his lance
+points unwaveringly at your throat. You are suddenly very aware of your own
+mortality.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_SANCTUARY|AFF_PROTECT_EVIL|AFF_HUNT
+-200 S
+50 0 0 50d5+2500 1d55+16
+30000 0
+POS_STANDING POS_STANDING SEX_MALE
+>greet_prog 90~
+if iskiller ($n)
+  say Foul Murderer! Prepare to meet your doom!
+  mpkill $n
+else
+  say Greetings $n. You appear to be a friend of the Realm.
+  mpoload 10101
+  mpecho Julian gestures and a key appears in his hand.
+  say I will let you through the gate.
+  unlock gate
+  open gate
+  say Go forth for the glory of Amber!
+  if hasobjnum ($n) == 10101
+    mpjunk i10101
+  else
+    give key $n
+  endif
+endif
+~
+|
+#10108
+horse morgenstern~
+Morgenstern~
+A steel grey horse named Morgenstern stands here.~
+Morgenstern is the most powerful horse to ever live! He is nine feet tall at
+the shoulder and his skin is steel grey. He has the speed of a hurricane and
+the strength of a pile driver. Morgenstern could probably crush you all by
+himself.
+~
+ACT_SENTINEL
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+-800 S
+45 0 0 50d3+1600 20d2+20
+0 0
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#10101
+simple key~
+a simple key~
+A simple looking key has been left here.~
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+E
+simple key~
+This key looks way too simple for such a complex lock.
+~
+#10102
+shiny sword blade~
+shiny blade~
+A shiny blade lies in the dust here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 7 3 WEAPON_SLASH 0 0 0 0
+20 38000 36
+A APPLY_DEX 1 0
+A APPLY_DAMROLL 4 0
+#10103
+white scale armor~
+a suit of white scale armor~
+A half-suit of white scale armor lies here. It looks almost indestructible.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+10 0 0 0 0 0 0 0
+75 1000000 45
+A APPLY_STR 3 0
+A APPLY_HIT 30 0
+#10104
+white scale arm~
+a pair of white scale arm guards~
+A pair of white scale arm guards lie here. They look almost indestructible.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_ARMS
+10 0 0 0 0 0 0 0
+50 750000 45
+A APPLY_DEX 3 0
+A APPLY_HIT 30 0
+#10105
+white scale leg~
+a pair of white scale leg guards~
+A pair of white scale leg guards lie here. They look almost indestructible.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_GOOD|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+10 0 0 0 0 0 0 0
+50 750000 45
+A APPLY_CON 3 0
+A APPLY_HIT 30 0
+#10106
+ivory lance~
+an ivory lance~
+An long, ivory lance lies abandoned on the ground.
+It looks VERY sharp.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_HUM|ITEM_FLAG_EPICAL
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SPEAR 8 7 WEAPON_PIERCE 0 0 0 0
+25 500000 50
+#0
+
+
+#ROOMS
+#10100
+~
+~
+0 ROOM_NO_MOB|ROOM_NO_RECALL SECT_INSIDE
+#10101
+Forest of Arden~
+You have entered the majestic Forest of Arden! One-hundred foot tall trees
+stand all around you as far as the eye can see. The colors and texture of this
+beautiful wood somehow seem more vibrant than any place you've ever been in
+your life. There is little undergrowth that you can see. Just as you begin to
+relax, the chilling sound of baying hounds fills the air! The forest continues
+to the east, while the slope below you fades into the shadows.
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10102
+#10102
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10104
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10103
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10101
+#10103
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10102
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10106
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10102
+#10104
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10103
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10109
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10102
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10102
+#10105
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10102
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10103
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10106
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10106
+#10106
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10107
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10104
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10108
+#10107
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10106
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10104
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10109
+#10108
+A Clearing~
+There is a man-made clearing in the forest here. To the south, a permanent
+camp site has been erected. You can re-enter the forest through the east.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10107
+DDIR_SOUTH
+You see Julian's camp.~
+~
+0 -1 10111
+#10109
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10110
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10107
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10103
+#10110
+Arden Road~
+You are striding along the road of Arden. It is a wide, well-beaten dirt path
+that seems well used. It is curious then, that not a soul is to be seen. The
+road leads east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10122
+DDIR_EAST
+You see the Arden road.~
+~
+0 -1 10118
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10107
+DDIR_WEST
+You see the Arden road.~
+~
+0 -1 10115
+#10111
+Center of Camp~
+You stand in the middle of a large campground of rangers. Although most forest
+rangers are solitary people, these men appear to have been welded together
+by an iron hand. To the east and west are living quarters for the men, while
+a large pavillion is set to the south. A pennant flying from the top of the
+pavillion bears the standard of a striking hawk.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10108
+DDIR_EAST
+You see a barracks tent.~
+~
+0 -1 10112
+DDIR_SOUTH
+You see a grand pavillion.~
+~
+0 -1 10114
+DDIR_WEST
+You see a barracks tent.~
+~
+0 -1 10113
+#10112
+East Barracks Tent~
+The tent is a large, permanent structure that can house up to twenty men. It
+is littered with gear and equipment. The only exit is back to the west.
+~
+0 0 SECT_CITY
+DDIR_WEST
+You see the center of the camp.~
+~
+0 -1 10111
+#10113
+West Barracks Tent~
+The tent is a large, permanent structure that can house up to twenty men. It
+is littered with gear and equipment. The only exit is back to the east.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the center of the camp.~
+~
+0 -1 10111
+#10114
+Julian's Headquarters~
+This is the headquarters of Julian, one of the nine Princes of Amber and Lord
+of the Forest of Arden. There is a table placed in the center of the pavillion
+where councils of war can be held. On the wall to the north is a huge map of
+the forest and the surrounding area. The only exit is to the north.
+There is a note lying on the table.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the center of the camp.~
+~
+0 -1 10111
+E
+note~
+Prince Julian,
+Be faithful in your defense of the forest. I have received omens of an attack
+by the forces of chaos. If Arden should fall, even fabled Amber could be
+destroyed. Duty before all.
+						King Oberon
+~
+E
+map~
+Map of the region around Amber
+    ------------------------------------------------------------------
+    | %%  & & & & & & &                             |   | 5 |        |
+    | %%%  & & & & & & & &             ^ ^ ^ ^ ^ ^  |    \-/  ^ ^ ^  |
+    | %%%%  & & & & & & & &           ^ ^ ^    -----|    #|#  ^ ^ ^  |
+    | %%%  & & & & & & & &   ^ ^ ^ ^ ^ ^ ^ ^ ^ |   # # # #|# # # # # |
+    | %%% & & & & & & & & ^ ^ ^ ^ ^ ^ ^ ^  /---|----------4--------- |
+    | %% & & & & & & & & ^ ^ ^ ^ ^ ^  /---/  ^     #|# # # # # #|# # |
+    | %%%-----------------X----------/ ^ ^ ^ 2 ^ ^  #  ^ ^ ^ ^  |    |
+    | %% & & & & & & & & ^ ^          ^ ^ ^ ^ ^ ^ ^   ^  /-----/  ^  |
+    | %%% & & & 1 & & & & ^ ^ ^ ^      ^ ^ ^ ^  /-------/  ^ ^ ^ ^   |
+    | %% & & & & & & & & ^ ^ ^ ^        ^ ^ ^  | ^ ^ ^ ^ ^ ^ ^ ^ ^   |
+    | % & & & & & & & & & ^ ^ ^ ^              |      ^ ^ ^ ^ ^ ^    |
+    | %  & & & & & & & & ^ ^ ^ ^ ^          3  |       ^ ^ ^ ^ ^ ^   |
+    | %%  & & & & & & & ^ ^ ^ ^ ^ ^            |        ^ ^ ^ ^ ^    |
+    |                                                                |
+    |            & = forest     ^ = mountain      % = sea            |
+    |                # = residential       - = roads                 |
+    |-----------------------------------------------------------------
+    KEY: 1 - Forest of Arden, 2 - Mount Kolvir, 3 - Valley of Garnath
+		   4 - City of Amber, 5 - Castle Amber
+~
+#10115
+Arden Road~
+You are striding along the road of Arden. It is a wide, well-beaten dirt path
+that seems well used. It is curious then, that not a soul is to be seen. The
+road leads east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10121
+DDIR_EAST
+You see the Arden road.~
+~
+0 -1 10110
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10102
+DDIR_WEST
+You see the Arden road.~
+~
+0 -1 10116
+#10116
+Arden Road~
+You are striding along the road of Arden. It is a wide, well-beaten dirt path
+that seems well used. It is curious then, that not a soul is to be seen. The
+road leads east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10123
+DDIR_EAST
+You see the Arden road.~
+~
+0 -1 10115
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10103
+DDIR_WEST
+You see a sandy beach.~
+~
+0 -1 10117
+#10117
+Sandy Beach~
+The road appears to end at an empty beach. Although the beach is beautiful and
+the sea is a sparkling colbalt color, for some reason you don't think the road
+was built for sunbathers. The only exit appears to be back to the east.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+You see the Arden road.~
+~
+0 -1 10116
+DDIR_WEST
+~
+~
+0 -1 17889
+#10118
+Arden Road~
+You are striding along the road of Arden. It is a wide, well-beaten dirt path
+that seems well used. It is curious then, that not a soul is to be seen. The
+road leads east and west.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10123
+DDIR_EAST
+You see the Arden road.~
+~
+0 -1 10119
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10103
+DDIR_WEST
+You see the Arden road.~
+~
+0 -1 10110
+#10119
+Arden Road~
+You are striding along the road of Arden. It is a wide, well-beaten dirt path
+that seems well used. It is curious then, that not a soul is to be seen. The
+road leads east and west.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10121
+DDIR_EAST
+You see a road block ahead.~
+~
+0 -1 10120
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10105
+DDIR_WEST
+You see the Arden road.~
+~
+0 -1 10118
+#10120
+Road Block~
+Permanent looking stone barricades block off both sides of the road here.
+A gate bars you from continuing along the road. You had better hope that you
+actually belong here.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 17442
+DDIR_EAST
+You see Mount Kolvir far in the distance.~
+gate~
+EX_ISDOOR 10101 10125
+DDIR_WEST
+You see the Arden road.~
+~
+0 -1 10119
+#10121
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10122
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10122
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10115
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10124
+#10122
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10123
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10123
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10124
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10121
+#10123
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10121
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10122
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10118
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10122
+#10124
+Lost in the Forest~
+The lack of undergrowth and distinguishing landmarks is hampering your ability
+to find a path. Every tree looks exactly the same and the sky is hidden by the
+leafy boughs. The forest stretches on in every direction.
+~
+0 ROOM_MAZE SECT_FOREST
+DDIR_NORTH
+The forest stretches onward.~
+~
+0 -1 10121
+DDIR_EAST
+The forest stretches onward.~
+~
+0 -1 10126
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10123
+#10125
+Road to Amber~
+Now that you have successfully negotiated past the road block you find
+yourself upon the road to Amber. The road runs toward Mount Kolvir, which
+is currently far in the distance. Blue glowing runes begin along the sides
+of the road and appear to be warding off danger.
+~
+0 ROOM_NO_MOB SECT_FIELD
+DDIR_EAST
+~
+~
+0 -1 10301
+DDIR_WEST
+You see the blockade.~
+gate~
+EX_ISDOOR 10101 10120
+#10126
+Lost in the Forest~
+This area of the forest does seem different from the rest. To the south you
+can continue to search through the forest. More intriguing though is a small
+cave mouth that opens up to the east.
+~
+0 ROOM_NO_MOB|ROOM_MAZE SECT_FOREST
+DDIR_EAST
+You see a small cave.~
+~
+0 -1 10127
+DDIR_SOUTH
+The forest stretches onward.~
+~
+0 -1 10121
+#10127
+Lair~
+Maybe you shouldn't have investigated this place after all. It appears to be
+the lair of some very smelly animals. You can beat a hasty retreat to the west
+or continue farther into the cave to the south.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FIELD
+DDIR_SOUTH
+You can't see a thing!~
+~
+0 -1 10128
+DDIR_WEST
+The forest stretches onward.~
+~
+0 -1 10126
+#10128
+Hellhound Lair~
+Now you know you should have gotten out. This appears to be a breeding ground
+for those nasty hellhounds! You can leave through the north.
+~
+0 ROOM_DARK|ROOM_INDOORS SECT_FIELD
+DDIR_NORTH
+You can't see a thing!~
+~
+0 -1 10127
+#0
+
+
+#RESETS
+M 10101 100 10102
+E 10102  20 WEAR_WIELD
+M 10101 100 10102
+E 10102  20 WEAR_WIELD
+M 10100 100 10103
+M 10100 100 10104
+M 10100 100 10105
+M 10100 100 10107
+M 10101 100 10108
+E 10102  20 WEAR_WIELD
+M 10101 100 10109
+E 10102  20 WEAR_WIELD
+M 10100 100 10110
+M 10101 100 10111
+E 10102  20 WEAR_WIELD
+M 10101 100 10111
+E 10102  20 WEAR_WIELD
+M 10103 100 10111
+E 10102  20 WEAR_WIELD
+M 10101 100 10112
+E 10102  20 WEAR_WIELD
+M 10102 100 10112
+E 10102  20 WEAR_WIELD
+M 10102 100 10112
+E 10102  20 WEAR_WIELD
+M 10102 100 10112
+E 10102  20 WEAR_WIELD
+M 10101 100 10113
+E 10102  20 WEAR_WIELD
+M 10102 100 10113
+E 10102  20 WEAR_WIELD
+M 10102 100 10113
+E 10102  20 WEAR_WIELD
+M 10102 100 10113
+E 10102  20 WEAR_WIELD
+M 10101 100 10114
+E 10102  20 WEAR_WIELD
+M 10104 100 10114
+M 10100 100 10116
+M 10100 100 10119
+M 10107 100 10120
+E 10103   1 WEAR_BODY
+E 10104   1 WEAR_ARMS
+E 10105   1 WEAR_LEGS
+E 10106   1 WEAR_WIELD
+G 10101   2 0
+M 10108 100 10120
+M 10100 100 10121
+M 10101 100 10124
+E 10102  20 WEAR_WIELD
+M 10101 100 10124
+E 10102  20 WEAR_WIELD
+M 10100 100 10127
+M 10105 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+M 10106 100 10128
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

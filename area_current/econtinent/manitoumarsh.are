@@ -1,0 +1,2743 @@
+#AREA Manitou Marsh~
+#AUTHORS Covenant~
+#VERSION 4
+#RANGES 15 25 1 95
+#OLC_RANGES 1000 1099
+
+
+#HELPS
+0 "MANITOU MARSH"~
+{138}                                Manitou Marsh{300}
+
+Manitou Marsh is a fetid swamp situated on the eastern continent of the realms.
+It is reputed to be the home of a terrible undead creature known as the Manitou,
+however those who have ventured there report no sign of the beast. Legends say
+that the Manitou was an evil chieftan of a tribe living in the marshes who was
+responsible for the drowning of his entire tribe in order to further his own
+lifespan. The evil chieftan might have wreaked further havoc but a mighty
+warlock confronted him and in retribution imprisoned him inside the corpse of
+his very first victim.
+
+{128}  (A) {058}Quests{300}
+{128}  (B) {058}Creator's Notes{300}
+{a}MANITOUMARSHQUESTS
+{b}MANITOUMARSHNOTES
+~
+
+0 MANITOUMARSHQUESTS~
+{138}                                  Quests{300}
+
+There are two little quests in this area, one has no fighting at all and rewards
+you with a nice low level pair of gloves, the other involves discovering and
+slaying a monster - could it be the Manitou? :) - for a couple of pieces of nice
+armor.
+~
+
+0 MANITOUMARSHNOTES~
+{138}                              Creator's Notes{300}
+
+This area is designed to be a fun little area for new players of Storms of Time.
+There is lots of equipment to improve fighting skills, but be warned you will
+not find it all in one trip to the area. If you spend some time leveling in the
+area you should find almost everything.
+~
+
+0 $~
+
+
+#MOBILES
+#1000
+hermit m1000~
+a hermit~
+A wild-eyed hermit is standing here.~
+This wiry little man has a wild mane of dirty brown hair and is wearing a simple
+cotton smock. The smock was once white but is now a dull grey with brown and
+green stains everywhere. The man's eyes roam about wildly as he watches you with
+suspiscion.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+0
+400 S
+45 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d506+956 1d45+12
+12000 0
+POS_STANDING POS_STANDING SEX_MALE
+>delay_prog 10~
+say An adventurer once told me he had found the tomb, but that it was locked.
+say The key must be in these marshes somewhere! Perhaps one of the creatures in this marsh has found it ...
+say Good luck $X!
+~
+>delay_prog 9~
+say It is said that only by removing the corpse's skull from the tomb and intoning the ritual phrase "By my power I release thee" can it be freed.
+say I wouldn't advise it though. The Manitou is a fearsome beast.
+wink $X
+mpdelay self 5 10 $X
+~
+>delay_prog 8~
+say The Manitou is a foul beast that lives in this marsh.
+say I've heard that there is an underground tomb around here somewhere.
+say It was trapped inside a corpse by a mighty warlock millennia ago.
+mpdelay self 5 9 $X
+~
+>speech_prog manitou~
+if delayed ($i)
+  break
+endif
+if quest (8,4,$n) == 1
+  say Eh? The Manitou? You've heard about that I see ...
+  emote mutters to himself for a few seconds.
+  mpmset $n quest 8 4 2
+  mpdelay self 5 8 $n
+endif
+~
+>greet_prog 100~
+if quest (4,4,$n) == 11
+  say Ah, good to see you again $n!
+endif
+~
+>delay_prog 7~
+mpecho The hermit spoons out a bowl of stew and wolfs it down!
+say Ahhh! That was fantastic!
+hug $X
+mpmset $X quest 4 4 11
+say Thank you very much $X! I haven't enjoyed a meal so much in years!
+say Hmm, I found these on a corpse in the marsh years ago.
+say Why don't you take them as a reward.
+mpoload 1045
+give i1045 $X
+smile 
+~
+>delay_prog 6~
+mpecho The hermit gives the stew a final stir.
+mpdelay self 5 7 $X
+~
+>give_prog i1032~
+if quest (4,4,$n) == 9
+  say Fantastic! Sorrel gives rabbit stew the BEST flavour!
+  emote tears up the sorrel leaves and sprinkles them into the stew.
+  mpjunk i1032
+  mpmset $n quest 4 4 10
+  mpdelay self 5 6 $n
+else
+  say What are you give me that for?
+  give i1032 $n
+endif
+~
+>delay_prog 5~
+say There should be some sorrel growing in the marsh, I've found some before.
+say It usually grows in the shallower parts of the marsh ...
+say Bring me some please.
+smile $X
+~
+>give_prog i1031~
+if quest (4,4,$n) == 7
+  clap 
+  say Aha! Now we're cookin'!
+  emote dumps the vegetables into the cook pot.
+  say All I need now are some herbs.
+  mpjunk i1031
+  mpdelay self 3 5 $n
+  mpmset $n quest 4 4 8
+else
+  say What are you giving me that for?
+  give i1031 $n
+endif
+~
+>speech_prog pull~
+if quest (4,4,$n) == 7
+  say Yes, go and PULL some vegetables out of my patch.
+endif
+~
+>speech_prog ok okay yes yep yeah~
+if quest (4,4,$n) == 6
+  say Great!
+  say I'm going to make some rabbit stew. But I'll need some vegetables!
+  say Go and PULL some for me!
+  mpmset $n quest 4 4 7
+endif
+~
+>delay_prog 4~
+emote heaves the cook pot onto the fire and give it a stir.
+say Now that you've ridded my fields of that darn rabbit, perhaps you could help me again?
+~
+>delay_prog 3~
+emote snaps the rabbit's neck and rapidly skins it.
+emote quarters the rabbit and tosses the pieces into a cook pot of water.
+mpdelay self 3 4 $X
+~
+>give_prog i1024~
+if quest (4,4,$n) == 4
+  mpquiet on
+  open i1024
+  get i1025 i1024
+  get i1028 i1024
+  get i1029 i1024
+  mpquiet off
+  emote peers into the cage.
+  if hasobjnum ($i) == 1025
+  or hasobjnum ($i) == 1028
+  or hasobjnum ($i) == 1029
+    mpjunk i1025
+    mpjunk i1028
+    mpjunk i1029
+    mpjunk i1024
+    say Great! You've caught the little bugger.
+    emote eyes the rabbit hungrily.
+    say I haven't had rabbit for years!
+    mpmset $n quest 4 4 6
+    mpdelay self 3 3 $n
+  else
+    ponder 
+    say There's no rabbit in here ...
+    grumble $n
+    give i1024 $n
+  endif
+else
+  say What are you giving me that for?
+  give i1024 $n
+endif
+~
+>time_prog 4~
+mpat 1026 mppurge m1009
+mpquiet on
+mpat 1026 get i1029 i1026
+mpjunk i1029
+~
+>time_prog 20~
+mpat 1026 mpmload 1009
+~
+>speech_prog ok okay yes yep yeah~
+if quest (4,4,$n) == 3
+  say Great!
+  say You'll need a cage!
+  mpoload 1024
+  give i1024 $n
+  say Remember, the rabbit only seems to appear at night!
+  mpmset $n quest 4 4 4
+  if time () >= 20
+  or time () <= 3
+    mpat 1026 mpmload 1009
+  endif
+endif
+~
+>delay_prog 2~
+say It looks like a rabbit has somehow made its way onto my island.
+say Will you catch it for me? It'll help me out, and rabbit is ... well ...
+emote licks his lips.
+~
+>delay_prog 1~
+say Hmm, I wonder if you are able to help me.
+say I'm having a little trouble with pests eating my veggies.
+say But it always happens at night, and I'm a deep sleeper.
+mpdelay self 3 2 $X
+~
+>speech_prog ~
+if delayed ($i)
+  break
+endif
+if quest (4,4,$n) == 1
+  smile 
+  say Good to meet you, $1.
+  ponder 
+  mpmset $n quest 4 4 3
+  mpdelay self 3 1 $n
+endif
+~
+>greet_prog 100~
+if quest (4,4,$n) == 0
+  say Ahh, greetings stranger. It's not often I meet newcomers around here.
+  say And what might your name be?
+  mpmset $n quest 4 4 1
+endif
+~
+>repop_prog 100~
+mpmset self dam 1d2+0
+~
+>fight_prog 100~
+cast 'cause serious'
+if rand (70)
+  cast 'magic missile'
+endif
+if rand (18)
+  cast 'faerie fire'
+endif
+if rand (9)
+  cast 'weaken'
+endif
+~
+>give_prog rabbit~
+mpecho The rabbit twists and turns before leaping out of $I's hand!
+mpecho The rabbit falls down to the ground where it quickly hops away and disappears into the undergrowth.
+say I thought I clearly instructed you to put the rabbit into the cage..
+sigh loudly $n
+mpjunk all.rabbit
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#1001
+lost adventurer m1001~
+a lost adventurer~
+A lost adventurer slogs through the marsh here.~
+This young man looks weary as he slogs through the marshes. His hair is dank
+with sweat and he grimaces with each step through the stinking water. From his
+mismatched equipment you suspect he is quite new at adventuring and has been
+lured to this marsh by tales of easy treasure.
+~
+ACT_SCAVENGER|ACT_WIMPY|ACT_SMART|ACT_BODY
+0
+200 S
+33 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_HAND|BODY_FOOT BODY_HAND|BODY_FOOT 1d272+499 1d33+7
+55000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog manitou~
+if quest (8,4,$n) <= 1)
+  say Yeah, the Manitou. It is reputed to be a terrible creature that lies dormant in a corpse.
+  say There's a hermit living in this marsh somewhere, ask him about it.
+  mpmset $n quest 8 4 1
+endif
+~
+>greet_prog 20~
+if quest (8,4,$n) <= 1
+  say Have you seen the Manitou anywhere?
+  say I heard it haunted this marsh but I havent been able to find it.
+  mpmset $n quest 8 4 1
+~
+>death_prog 33~
+if quest (8,4,$n) == 2
+  mpecho As he falls to the ground, the adventurer's fist opens revealing a key!
+  mpoload 1035
+  say You have slain me ...
+  say I never even discovered a use for this key I found in these marshes ...
+endif
+~
+>repop_prog 100~
+mpdelay self 1 1
+if rand (6)
+  get i1023
+  wear i1023
+else
+  if rand (7)
+    get i1022
+    wear i1022
+  else
+    if rand (8)
+      get i1021
+      wear i1021
+    else
+      if rand (9)
+        get i1020
+        wear i1020
+      else
+        if rand (10)
+          get i1019
+          wear i1019
+        else
+          if rand (11)
+            get i1018
+            wear i1018
+          else
+            if rand (12)
+              get i1017
+              wear i1017
+            else
+              if rand (14)
+                get i1016
+                wear i1016
+              else
+                if rand (16)
+                  get i1015
+                  wear i1015
+                else
+                  if rand (20)
+                    get i1014
+                    wear i1014
+                  else
+                    if rand (25)
+                      get i1013
+                      wear i1013
+                    else
+                      if rand (33)
+                        get i1012
+                        wear i1012
+                      else
+                        if rand (50)
+                          get i1011
+                          wear i1011
+~
+>delay_prog 1~
+mpdelay self 1 2
+if rand (6)
+  get i1023
+  wear i1023
+else
+  if rand (7)
+    get i1022
+    wear i1022
+  else
+    if rand (8)
+      get i1021
+      wear i1021
+    else
+      if rand (9)
+        get i1020
+        wear i1020
+      else
+        if rand (10)
+          get i1019
+          wear i1019
+        else
+          if rand (11)
+            get i1018
+            wear i1018
+          else
+            if rand (12)
+              get i1017
+              wear i1017
+            else
+              if rand (14)
+                get i1016
+                wear i1016
+              else
+                if rand (16)
+                  get i1015
+                  wear i1015
+                else
+                  if rand (20)
+                    get i1014
+                    wear i1014
+                  else
+                    if rand (25)
+                      get i1013
+                      wear i1013
+                    else
+                      if rand (33)
+                        get i1012
+                        wear i1012
+                      else
+                        if rand (50)
+                          get i1011
+                          wear i1011
+~
+>delay_prog 2~
+if rand (6)
+  get i1023
+  wear i1023
+else
+  if rand (7)
+    get i1022
+    wear i1022
+  else
+    if rand (8)
+      get i1021
+      wear i1021
+    else
+      if rand (9)
+        get i1020
+        wear i1020
+      else
+        if rand (10)
+          get i1019
+          wear i1019
+        else
+          if rand (11)
+            get i1018
+            wear i1018
+          else
+            if rand (12)
+              get i1017
+              wear i1017
+            else
+              if rand (14)
+                get i1016
+                wear i1016
+              else
+                if rand (16)
+                  get i1015
+                  wear i1015
+                else
+                  if rand (20)
+                    get i1014
+                    wear i1014
+                  else
+                    if rand (25)
+                      get i1013
+                      wear i1013
+                    else
+                      if rand (33)
+                        get i1012
+                        wear i1012
+                      else
+                        if rand (50)
+                          get i1011
+                          wear i1011
+~
+|
+#1002
+zombie m1002~
+a zombie~
+The zombie corpse of a drowned tribesman shambles around.~
+This animated corpse is putrid with decay and absolutely reeks to high heaven.
+Its flesh has turned a vile shade of blue and parts of its body appear to have
+been nibbled at by small creatures.
+~
+ACT_BODY|ACT_UNDEAD
+AFF_BLIND
+0 S
+25 BODY_HEAD|BODY_LEG|BODY_ARM BODY_MOUTH|BODY_HAND 1d156+283 1d25+5
+4000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1003
+will wisp blue flame m1003~
+a will o' the wisp~
+An electric blue flame dances above the marsh water here.~
+This flickering ball of electric blue flame is floating erratically a few feet
+above the water. It slowly moves through the marsh without any regard for your
+presence.
+~
+ACT_SMART|ACT_BODY
+AFF_BLIND|AFF_SNEAK
+0 S
+28 0 BODY_TENTACLE 1d196+356 1d28+5
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1004
+marsh hag crone m1004~
+a marsh hag~
+A green-skinned old crone cackles madly here.~
+At first this old crone seems to be a lost old woman, however as you get closer
+you notice that she has green skin and red glowing eyes! Once she notices your
+presence she begins to stare at you, sending a shiver down your spine.
+~
+ACT_BODY
+AFF_BLIND
+-200 S
+30 BODY_LEG|BODY_ARM BODY_EYE 1d225+410 1d30+6
+35000 0
+POS_STANDING POS_STANDING SEX_FEMALE
+#1005
+slime worm m1005~
+a slime worm~
+A disguting worm slithers in the mud here.~
+This disgusting worm-like creature is several feet long and pulsates as it moves
+through the slime. It has no apparent eyes but its small mouth is full of
+needle-like teeth.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+24 BODY_HEAD|BODY_TORSO BODY_MOUTH 1d144+261 1d24+4
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1006
+bogman m1006~
+a bogman~
+A bogman skulks through the gloom here.~
+This small humanoid has dark brown skin and is completely hairless. It appears
+to be totally sexless, and its large yellow eyes gaze at you with
+incomprehension. It is half-dressed in some crude clothing made of tree bark.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+27 BODY_HEAD|BODY_LEG|BODY_ARM BODY_HAND 1d182+331 1d27+5
+8000 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1007
+carrion crawler caterpillar m1007~
+a carrion crawler~
+A giant caterpillar-like creature snuffles about here.~
+This odd creature looks like a giant caterpillar with a slimy set of tentacles
+protruding from its snout. It's large pale blue eys are insectoid in appearance
+and its many feet enable it to walk atop the mud.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+30 BODY_HEAD|BODY_TENTACLE|BODY_FOOT BODY_TENTACLE 1d225+410 1d30+6
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>fight_prog 20~
+mpechoat $r As the carrion crawler's tenticles lash at you you feel a lethargy flood into your limbs!
+mpechoaround $r The carrion crawler's tentacles drain strength from $r!
+mpquiet on
+cast 'petrifying touch' $r
+cast 'chill touch' $r
+mpquiet off
+~
+|
+#1008
+shambling mound m1008~
+a shambling mound~
+A mound of rotting vegetation shambles along here.~
+This mound of rotting vegetation is alive! A foul miasma drifts along with it.
+The mound shambles along blindly through the marsh absorbing organic matter as
+it passes over it.
+~
+ACT_BODY
+AFF_BLIND
+0 S
+32 BODY_TRUNK BODY_TENTACLE 1d256+468 1d32+7
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+#1009
+rabbit m1009~
+a rabbit~
+A floppy-eared rabbit hops about here.~
+This rabbit is white with black patches and has floppy pink ears. It hops around
+sniffing at the vegetable patch.
+~
+ACT_SENTINEL|ACT_BODY
+AFF_TRUESIGHT
+0 S
+10 BODY_HEAD|BODY_LEG BODY_FOOT 1d25+51 1d10+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>rand_prog 50~
+if quest (4,4,$r) == 4
+  mpecho The rabbit scampers away as it notices you. It's hiding in the gooseberry bush!
+  mpoload 1029
+  mpquiet on
+  put i1029 i1026
+  mpquiet off
+  mppurge self
+else
+  mpecho The rabbit darts away into the undergrowth as it notices you.
+  mppurge self
+endif
+~
+>greet_prog 100~
+if quest (4,4,$n) == 4
+  mpecho The rabbit scampers away as you approach. It's hiding in the gooseberry bush!
+  mpoload 1029
+  mpquiet on
+  put i1029 i1026
+  mpquiet off
+  mppurge self
+else
+  mpecho The rabbit darts away into the undergrowth as you approach.
+  mppurge self
+endif
+~
+|
+#1010
+EthMobPortalSpam m1010~
+EthMobPortalSpam~
+EthMobPortalSpam~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (0,4,$n) == 1
+  mpechoat $n You land in a heap on the ground after sliding down the hollow tree trunk!
+  mpechoaround $n $n slides down the muddy slope and lands in a heap!
+endif
+~
+|
+#1011
+EthMobPortalBitSetter m1011~
+EthMobPortalBitSetter~
+EthMobPortalBitSetter~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpmset $n quest 0 4 1
+~
+|
+#1012
+EthMobPortalBitEraser m1012~
+EthMobPortalBitEraser~
+EthMobPortalBitEraser~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+mpmset $n quest 0 4 0
+~
+|
+#1014
+EthMobHerbLoader m1014~
+EthMobHerbLoader~
+EthMobHerbLoader~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>greet_prog 100~
+if quest (4,4,$n) == 8
+  mpoload 1032
+  mpquiet on
+  drop i1032
+  mpquiet off
+  mpechoat $n You stumble across some sorrel growing here!
+  mpmset $n quest 4 4 9
+endif
+~
+|
+#1015
+EthMobGypsyTraderLoader m1015~
+EthMobGyspyTraderLoader~
+EthMobGyspyTraderLoader~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>delay_prog 1~
+mpecho The traveller digs a shallow hole and builds a small fire.
+mpoload 1043
+mpforce m1016 say Ah, greetings fellow travellers. I almost didn't notice you in the gloom.
+mpforce m1016 say I trust you don't object to sharing this clearing?
+mpforce m1016 smile
+mpmset m1016 quest 0 4 1
+~
+>time_prog 19~
+mpecho As night falls another traveller walks into this clearing and sets up camp.
+mpat 1044 mpforce m1016 mpgoto 1005
+mpdelay self 7 1
+~
+>delay_prog 2~
+mpforce m1016 say I'll be seeing you! May you always find your destination!
+mpforce m1016 emote trudges out of the clearing.
+mpforce m1016 mpgoto 1044
+~
+>time_prog 5~
+mpforce m1016 say Well then! There's enough light for me to resume my travels.
+mpforce m1016 emote extinguishes the remains of his campfire.
+mppurge i1043
+mpforce m1016 emote bustles about the camp preparing to travel.
+mpdelay self 7 2
+~
+|
+#1016
+gypsy trader m1016~
+a gypsy trader~
+A travelling gypsy is camping here.~
+This gypsy is dressed in a motley collection of mis-matched clothing. His
+trousers have been patched countless times and he wears a rope for a belt. His
+tanned face lights up into a smile as he sees you.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY
+AFF_TRUESIGHT|AFF_SNEAK
+0 S
+40 0 0 1d400+746 1d40+10
+80000 0
+POS_STANDING POS_STANDING SEX_MALE
+>speech_prog no nope not~
+if quest (0,4,self) == 1
+  say Great!
+  say I'm a travelling trader you see. Just on my way to Midgaard to stock up.
+  say I have a few odds and ends for sale if you're interested.
+  mpmset self quest 0 4 2
+endif
+~
+>speech_prog yes yep yeah ok okay interested~
+if quest (0,4,self) == 2
+  say I've got a few supplies left, what would you like?
+  mpforce $n list
+  mpmset self quest 0 4 0
+endif
+~
+|
+#1017
+EthMobManitouLoader m1017~
+EthMobManitouLoader~
+EthMobManitouLoader~
+~
+ACT_SENTINEL
+AFF_ETHEREAL
+0 S
+1 0 0 0d0+10 0d0+2
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>delay_prog 2~
+mpecho The smoke coalesces into a dark figure in the gloom!
+mpat 1044 mpforce m1018 mpgoto 1040
+mpforce m1018 cackle
+mpforce m1018 say You have released me! Now feel my wrath!
+mpforce m1018 kill $X
+~
+>delay_prog 1~
+mpecho Foul smoke begins to pour out of the skull's eyesockets!
+mpdelay self 4 2 $X
+~
+>speech_prog p By my power I release thee~
+if quest (8,4,$n) == 2
+  if hasobjnum ($n) == 1047
+    mpecho The ground shudders and trembles as you intone the ritual phrase!
+    mpdelay self 4 1 $n
+    mpmset $n quest 8 4 3
+  endif
+endif
+~
+|
+#1018
+manitou m1018~
+the Manitou~
+The Manitou looms in the darkness here!~
+Ugh! This disgusting creature is covered in slime and ichor. Its humanoid body
+is stretched out of all proportion giving it a ghastly appearance. Its skin is
+rotting away and you can see maggots moving around in the rents in its flesh.
+~
+ACT_SENTINEL|ACT_SMART|ACT_BODY|ACT_UNDEAD
+AFF_SNEAK|AFF_PASS_DOOR
+-500 S
+37 BODY_HEAD|BODY_LEG|BODY_ARM|BODY_CLAW BODY_EYE|BODY_CLAW 1d342+633 1d37+8
+0 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>repop_prog 100~
+stealth 
+~
+>fight_prog 100~
+mpquiet on
+cast 'weaken'
+mpquiet off
+mpecho The Manitou drains your strength!
+~
+|
+#0
+
+
+#SHOPS
+1016 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#1000
+ObeliskObj~
+ObeliskObject~
+ObeliskObject~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#1001
+Gnarled Oak Tree~
+the gnarled oak tree~
+A gnarled oak tree has partially rotted away here.~
+This gnarled old oak tree is clearly dead. Half of it has rotted away leaving a
+dark cavernous opening in the massive trunk. The hole is large enough for a
+human to enter.
+~
+ITEM_TYPE_PORTAL
+0
+0
+-1 0 GATE_STEP_INTO 1036 0 0 0 0
+1 10 1
+#1002
+fire fireplace river rocks~
+a fireplace~
+A fire burning on a platform of river rocks is here.~
+This fireplace has been built out of a platform of river rocks with a further
+ring of rocks surrounding the burning wood.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_GLOW
+0
+50 0 0 5 0 0 0 0
+1 10 1
+#1003
+wooden hut~
+the wooden hut~
+A wooden hut stands atop the platform here.~
+This hut is made of oak boards joined together with pegs and lengths of rope.
+The roof consists of pounded tree bark draped over lengths of rope. Despite the
+simple appearance, a quick glance through the doorway reveals a dry and cozy
+sleeping chamber.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 0 0 5 0 0 0 0
+1 10 1
+#1004
+simple wooden framed bed~
+a simple wooden framed bed~
+A simple wooden framed bed heaped with rushes.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#1005
+water barrel~
+the water barrel~
+A water barrel stands at the base of the willow trees.~
+This water barrel is full of slightly cloudy water.
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#1006
+ashes~
+the cold ash~
+~
+The ashes are cold, but were left recently enough so that rain and wind have not
+yet had time to disperse them.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 0 0 5 0 0 0 0
+1 10 1
+#1007
+bloodstone ring~
+a bloodstone ring~
+An ornate silver ring set with a large bloodstone lies here.~
+This ornate silver ring is set with a large bloodstone. The workmanship looks
+very old and the gemstone is cracked and scarred, apparently from exposure to
+great heat. Oddly enough the silver appears undamaged.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FINGER
+1 0 0 0 0 0 0 0
+1 75000 18
+A APPLY_HIT 20 0
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#1008
+hump organic debris~
+the organic debris~
+~
+Ugh! This lump of floating matter stinks of decay, but while examining it you
+see the glint of metal!
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 0 0 5 0 0 0 0
+1 10 1
+#1009
+long thin titanium chain~
+a long thin titanium chain~
+A long and incredibly fine length of chain lies here.~
+This length of chain is constructed in the same fashion as a normal chain, but
+it is as thin as an arrowshaft! The chain is long enough to stretch around your
+waist, but if you prefer would also be thin and light enough to wrap several
+times around your neck.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WAIST
+7 0 0 0 0 0 0 0
+1 10 22
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+A APPLY_STR 1 0
+#1010
+stone sarcophagus~
+a stone sarcophagus~
+A stone sarcophagus lies undisturbed here.~
+This solid stone sarcophagus looks as if it has lain here undisturbed for
+millenia. It resembles a stone coffin with a large slab of stone acting as a
+lid. Mud is strewn about all it. On one side of the stone lid you see a large
+keyhole.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 CONT_CLOSEABLE|CONT_PICKPROOF|CONT_CLOSED|CONT_LOCKED 1035 5 0 0 0 0
+1 10 1
+#1011
+ancient shortsword~
+an ancient shortsword~
+An ancient shortsword lies here.~
+This shortsword must surely be a relic of war from many generations ago. The
+archaic design resembles something you have seen in old paintings of yesteryear.
+This sword would probably be worth a decent sum to a collector.
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 5 5 WEAPON_STAB 0 0 0 0
+3 130000 23
+#1012
+wooden shield~
+a wooden shield~
+A wooden shield lies here.~
+This shield is made of heavy strips of wood fastened together with iron banding.
+It would provide fairly good protection.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+7 0 0 0 0 0 0 0
+5 8000 20
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 3 0
+#1013
+fur-lined helm~
+a fur-lined helm~
+A fur-lined steel helm~
+This plain steel helm has a fur lining to provide a cushion from blows to the
+head.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+7 0 0 0 0 0 0 0
+3 9000 18
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#1014
+leather cuirbolli overshirt~
+a leather cuirbolli~
+A leather overshirt lies here.~
+This large leather shirt is designed to be worn over normal clothing and provide
+some protection from edged weapons.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+8 12000 20
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 2 0
+#1015
+fur-lined boots~
+a pair of fur-lined boots~
+A pair of fur-lined leather boots rest here.~
+These leather boots have a soft fur-lining and are designed to be warm in
+addition to protecting your feet. One of the side effects is that they quickly
+start to smell.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_FEET
+3 0 0 0 0 0 0 0
+2 6000 17
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 2 0
+A APPLY_MOVE 20 0
+#1016
+canvas backpack~
+a canvas backpack~
+A canvas backpack has been discarded here.~
+This canvas backpack has a drawstring around the mouth and a leather flap which
+folds over to keep rain out.
+~
+ITEM_TYPE_CONTAINER
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+200 0 0 50 0 0 0 0
+6 7000 16
+A APPLY_HITROLL 2 0
+A APPLY_DAMROLL 2 0
+#1017
+leather archery bracer~
+a leather archery bracer~
+A leather bracer lies here.~
+This unusually long leather bracer is designed to be worn on the left forearm to
+protect an archer's forearm from the recoiling bowstring after an arrow has been
+loosed.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+3 0 0 0 0 0 0 0
+2 14000 19
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_DEX 2 0
+#1018
+leather kneepads~
+a pair of leather kneepads~
+A pair of leather kneepads lie here.~
+These leather kneepads are designed to be fastened around the knees over regular
+clothing. The leather extends a handspan above and below the knee.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_LEGS
+3 0 0 0 0 0 0 0
+1 7500 20
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 3 0
+#1019
+storm lantern~
+a storm lantern~
+A shuttered storm lantern has been left here.~
+This shuttered lantern is designed to be used in high winds. The wick is in an
+enclosure which has one glass face and is capable of remaining alight even in
+the strongest winds.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 -1 0 0 0 0 0
+3 20000 20
+A APPLY_HITROLL 4 0
+A APPLY_DAMROLL 2 0
+#1020
+walking staff willow sapling~
+a walking staff~
+A walking staff made of a springy willow sapling lies here.~
+This willow sapling has been stripped down into a handy walking staff. Someone
+has engraved a few simple designs onto the shaft, perhaps to give it a better
+grip.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+3 0 0 0 0 0 0 0
+2 5000 17
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 2 0
+A APPLY_MOVE 20 0
+#1021
+fur-lined gloves~
+a pair of fur-lined gloves~
+A pair of fur-lined leather gloves rest here.~
+These leather gloves have a soft fur-lining and are designed to be warm in
+addition to protecting your hands.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+7 0 0 0 0 0 0 0
+2 9000 17
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 2 0
+#1022
+iron-bound leather bracer~
+an iron-bound leather bracer~
+An iron-bound leather bracer lies here.~
+This sturdy leather bracer is designed to be worn on the swordarm as an extra
+degree of protection while sparring.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WRIST
+5 0 0 0 0 0 0 0
+4 14000 20
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 3 0
+#1023
+leather neckguard~
+a leather neckguard~
+A leather neckguard lies here.~
+This large leather collar is designed to be worn around the neck and provide
+some protection from decapitation.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+3 8000 18
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 1 0
+#1024
+wicker cage~
+a wicker cage~
+A wicker cage has been left here.~
+This cage is made of woven wicker. It has a large hinged door with a simple
+latch.
+~
+ITEM_TYPE_CONTAINER
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+50 CONT_CLOSEABLE|CONT_CLOSED 0 10 0 0 0 0
+1 2000 1
+#1025
+rabbit~
+a rabbit~
+A rabbit peers out at you.~
+You've caught the rabbit! It is trembling violently and looks ready to make a
+dash for freedom.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 100
+OPROG_GOD_COMMAND
+mpechoat self The rabbit twists and leaps out of your hand!
+mpechoaround self As $I is holding the rabbit it twists and bucks and leaps out of $s hand!
+mpecho The rabbit quickly hops away and disappears into the undergrowth.
+mpjunk i1025
+~
+#1026
+gooseberry bush~
+a gooseberry bush~
+~
+This smallish bush is laden with sour-smelling furry green berries.
+~
+ITEM_TYPE_CONTAINER
+0
+0
+50 0 0 20 0 0 0 0
+1 10 1
+#1027
+gooseberry~
+a gooseberry~
+A gooseberry has fallen to the ground here.~
+This fuzzy berry is pale green and about the size of an acorn. It smells
+extremely sour.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+3 0 0 0 0 0 0 0
+1 100 1
+#1028
+rabbit~
+a rabbit~
+A rabbit peers out at you.~
+You've caught the rabbit! It is trembling violently and looks ready to make a
+dash for freedom.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 100
+OPROG_GOD_COMMAND
+mpechoat self The rabbit twists and turns in your hands in its attempts to escape!
+mpechoat self You had better do something, it's about to get away from you!
+mpechoaround self The rabbit twists and turns in $I's hand ... $e almost lost it there!
+mpoload 1025
+mpjunk i1028
+~
+#1029
+rabbit~
+a rabbit~
+A rabbit peers out at you.~
+You've caught the rabbit! It is trembling violently and looks ready to make a
+dash for freedom.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+10 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_TICK 100
+OPROG_GOD_COMMAND
+mpechoat self The rabbit twists and turns in your hands in its attempts to escape!
+mpechoat self You manage to hold onto it for now ...
+mpechoaround self The rabbit twists and turns in $I's hand but $e keeps a good grip on it.
+mpoload 1028
+mpjunk i1029
+~
+#1030
+EthObjPickSpam~
+EthObjPickSpam~
+EthObjPickSpam~
+~
+ITEM_TYPE_FURNITURE
+ITEM_FLAG_ETHEREAL
+0
+0 0 0 0 0 0 0 0
+1 10 1
+P 1
+TRIG_ROOM_UNKNOWN 100 pull
+OPROG_PLAYER_QUEST_IF 4 4 = 7 3 2
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho You don't have permission to pull up any of these vegetables!
+~
+P 3
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpecho You quickly move around the small field, pulling up all the good sized carrots and potatoes!
+mpoload 1031
+~
+#1031
+carrots potatoes~
+some carrots and potatoes~
+Some freshly unearthed carrots and potatoes lie here.~
+These roots have evidently been freshly unearthed, judging from the clumps of
+soil still clinging to them.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+15 0 0 0 0 0 0 0
+1 10 1
+#1032
+sorrel plant~
+a sorrel plant~
+A scraggly sorrel plant grows in the shallows here.~
+This sorrel plant normally grows in a few inches of water. The leaves look fresh
+and succulent.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 1000 1
+#1033
+archaic ringmail~
+an archaic suit of ringmail~
+A suit of ringmail of an ancient design lies here.~
+This suit of ringmail must be some kind of antique! The design and construction
+is something you've seen in old battle murals. Despite its obvious age, it seems
+to be exceptionally well made. You can see some tiny runes scratched into the
+rings.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+5 0 0 0 0 0 0 0
+1 40000 25
+E
+runes~
+These runes are obviously magicaly but are indecipherable to you.
+~
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 3 0
+A APPLY_HIT 25 0
+#1034
+burning log~
+a burning log~
+A split log burning at one end lies here.~
+This log has been split in the traditional manner and from the looks of it has
+recently been in a fire.
+~
+ITEM_TYPE_LIGHT
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 100 0 0 0 0 0
+1 10 1
+#1035
+stone key~
+a stone key~
+An ornately carved stone key lies forgotten here.~
+This ornately carved stone key is green with moss. It must have been lying in
+this marsh for centuries!
+~
+ITEM_TYPE_KEY
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+1 10 1
+#1036
+tattered scroll recall~
+a tattered scroll of recall~
+A tattered scroll lies here.~
+This tattered scroll is made of vellum and has a few runes scrawled on it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+10 266 0 0 0 0 0 0
+1 250 10
+S 1 'word of recall'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#1037
+scroll might~
+a scroll of might~
+A scroll lies on the ground here.~
+This scroll is made of vellum and has a few runes scrawled on it.
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE
+21 119 210 215 0 0 0 0
+1 4000 17
+S 1 'giant strength'
+S 2 'sanctuary'
+S 3 'shield'
+#1038
+potion might~
+a potion of might~
+A potion of might has been left here.~
+This tiny potion vial contains a cloudy white substance. A sword has been
+painted onto the glass.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+21 119 210 215 0 0 0 0
+1 5000 17
+S 1 'giant strength'
+S 2 'sanctuary'
+S 3 'shield'
+#1039
+fortitude potion~
+a potion of fortitude~
+A potion of amber fluid lies here.~
+This glass potion vial is full of a viscous amber fluid. Painted onto the glass
+in red paint is what appears to be a stylised drop of blood.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+25 134 56 200 0 0 0 0
+1 7000 20
+S 1 'heal'
+S 2 'cure poison'
+S 3 'remove curse'
+#1040
+battlelord potion~
+a battlelord potion~
+A potion vial of silver fluid lies here.~
+This glass vial contains a silvery fluid which glimmers in the light. Painted
+onto the bottle is the image of a sword.
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE
+25 23 207 0 0 0 0 0
+1 8000 20
+S 1 'bless'
+S 2 'righteous fury'
+S 3 '-1 slot'
+#1041
+beef jerky~
+a strip of beef jerky~
+A strip of dried meat lies here.~
+This strip of meat has been dried until it is like leather. Given enough chewing
+and plentiful water it would be just about edible.
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+13 0 0 0 0 0 0 0
+1 150 10
+#1042
+waterhorn~
+a waterhorn~
+A large ramshorn with a cork stopper lies here.~
+This large ramshorn has been polished to a shine. A large cork stopper is
+inserted into the open end.
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+10 10 LIQ_WATER 0 0 0 0 0
+1 900 10
+#1043
+campfire~
+a small campfire~
+A small campfire burns here.~
+This small campfire has been well built and appears to have been recently lit. A
+tin pot containing simmering water leans against the coals.
+~
+ITEM_TYPE_TRASH
+ITEM_FLAG_GLOW
+0
+0 0 0 0 0 0 0 0
+1 10 1
+#1044
+archaic ringmail coif~
+an archaic ringmail coif~
+An archaic ringmail coif lies here.~
+This ringmail headgear must be some kind of antique! The design and construction
+is something you've seen in old battle murals. Despite its obvious age, it seems
+to be exceptionally well made. You can see some tiny runes scratched into the
+rings.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_GLOW|ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HEAD
+5 0 0 0 0 0 0 0
+1 25000 25
+E
+runes~
+These runes are obviously magicaly but are indecipherable to you.
+~
+A APPLY_HITROLL 1 0
+A APPLY_DAMROLL 3 0
+A APPLY_HIT 25 0
+#1045
+titanium barred gloves~
+a pair of titanium barred gloves~
+A pair of leather gloves reinforced with metal rods lies here.~
+These leather gloves have hinged metal rods extending down the backs of the
+fingers to provide extra protection.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HANDS
+4 0 0 0 0 0 0 0
+1 30000 20
+A APPLY_HITROLL 3 0
+A APPLY_DAMROLL 3 0
+A APPLY_STR 2 0
+#1046
+skeleton~
+a decapitated skeleton~
+A decapitated skeleton lies here.~
+This skeleton must be ancient. The bones are dry and brittle and covered in
+lichen and moss. The corpse appears to have been decapitated prior to being
+entombed.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+30 10 1
+#1047
+skull~
+a mouldering skull~
+An ancient mouldering skull lies here.~
+This skull must be ancient. The bone is dry and brittle and covered in lichen
+and moss.
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+30 10 1
+#1048
+bark skirt~
+a bark skirt~
+A skirt made of tree bark lies here.~
+This skirt has been crudely fashioned from a large piece of tree bark.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+8 0 0 0 0 0 0 0
+3 1500 15
+A APPLY_HIT 5 0
+#1049
+bark tunic~
+a bark tunic~
+A tunic made of tree bark lies here.~
+This tunic has been crudely fashoned from a large piece of tree bark.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+8 0 0 0 0 0 0 0
+4 1700 15
+A APPLY_HIT 5 0
+#1050
+bark cloak~
+a bark cloak~
+A cloak made of tree bark lies here.~
+This cloak has been crudely fashioned from a large piece of tree bark.
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+8 0 0 0 0 0 0 0
+4 1900 15
+A APPLY_HIT 5 0
+#0
+
+
+#ROOMS
+#1000
+Entering a mangrove forest~
+This mangrove forest is dark and gloomy, and the stunted mangroves seem to crowd
+in on you as you walk along the narrow path. You feel like something is peering
+out at you from the undergrowth.
+~
+0 0 SECT_FOREST
+DDIR_EAST
+The path through the mangroves continues~
+~
+0 -1 1001
+DDIR_WEST
+~
+~
+0 -1 17529
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+#1001
+A mangrove forest~
+This mangrove forest is dark and gloomy, and the stunted mangroves seem to crowd
+in on you as you walk along the narrow path. You feel like something is peering
+out at you from the undergrowth.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+A clearing in the mangrove forest.~
+~
+0 -1 1005
+DDIR_EAST
+The path through the mangroves continues~
+~
+0 -1 1002
+DDIR_WEST
+The path through the mangroves continues~
+~
+0 -1 1000
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+#1002
+The edge of a marsh~
+You are standing on the edge of a fetid marsh! To the east all you can see is
+oily water unbroken except for a few sickly mangroves and the occasional hump of
+floating organic debris. The dry path to the west suddenly looks terribly
+inviting...
+~
+0 ROOM_NO_MOB SECT_FOREST
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1003
+DDIR_WEST
+The path through the mangroves continues.~
+~
+0 -1 1001
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+#1003
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1004
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1007
+DDIR_WEST
+The edge of the marsh is in that direction.~
+~
+0 -1 1002
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1004
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1006
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1008
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1003
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1005
+A clearing in the mangrove forest~
+This clearing in the mangrove forest is brighter than the path, but is still
+claustrophobic. The stunted mangroves are arrayed in a ring around and virtually
+equidistant from a large stone obelisk in the center of the clearing. It is
+almost as if the obelisk keeps the mangroves at bay. You see several old
+firepits dotted around this clearing.
+~
+0 ROOM_SAFE SECT_FOREST
+DDIR_SOUTH
+The path through the mangroves continues~
+~
+0 -1 1001
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+firepits~
+Several small firepits are dotted around this clearing. Most of them are merely
+scorched holes in the earth, but one of them must be more recent and still has
+ashes in it.
+~
+#1006
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1021
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1004
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1007
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1003
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1010
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1008
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. In most directions the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris, however to the east you see the edge of what seems to be dry
+land!
+~
+0 ROOM_NO_MOB SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1004
+DDIR_EAST
+You see an island in the marsh.~
+~
+0 -1 1009
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1009
+An island in the marsh~
+This hummock of land is apparently the only dry land in this entire marsh. The
+few willow trees on this island make a welcome change from the endless mangroves
+you saw earlier. Oddly enough there seems to be signs of cultivated vegetables
+here - you can see what look like old furrows in the earth, although nothing
+appears to be growing there at the moment.
+~
+0 0 SECT_FIELD
+DDIR_EAST
+The island continues to the east.~
+~
+0 -1 1026
+DDIR_SOUTH
+The island continues to the south.~
+~
+0 -1 1027
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1008
+E
+furrows earth~
+The furrows in the earth look like they were ploughed several seasons ago but
+have since been abandoned.
+~
+E
+willow~
+The willow trees show the classic drooping shape of their species with the tips
+of their branches touching the marsh waters.
+~
+#1010
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1007
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1011
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1011
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1012
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1010
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1012
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1011
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1013
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1013
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1014
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1012
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1014
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1015
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1013
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1015
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1016
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1014
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1016
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1017
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1015
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1017
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1023
+DDIR_EAST
+The marsh gets shallower in that direction.~
+~
+0 -1 1024
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1016
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1018
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1019
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1022
+DDIR_WEST
+The marsh gets shallower in that direction.~
+~
+0 -1 1025
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1019
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1018
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1020
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+#1020
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1019
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1021
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1021
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1020
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1006
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1022
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1029
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1023
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1018
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1023
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1022
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1017
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1024
+The edge of the marsh~
+The water here seems shallower than the rest of the marsh. As you stagger up the
+muddy incline you find yourself walking into a dark clearing amidst an
+impenetrable wall of mangrove trees. There is an old dead oak tree here with a
+dark hollow where half of it has rotted away.
+~
+0 ROOM_NO_MOB SECT_SWAMP
+DDIR_WEST
+~
+~
+0 -1 1017
+E
+mangrove trees~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+#1025
+A fetid marsh~
+The water here seems shallower than the rest of the marsh. As you stagger up the
+muddy incline you find yourself walking into a dark clearing amidst an
+impenetrable wall of mangrove trees.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+~
+~
+0 -1 1018
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1026
+An island in the marsh~
+This part of the island is definitely inhabited! There are freshly turned
+furrows in the earth here, but something seems wrong with the crops you see
+poking above the soil. The makeshift field is bordered by drooping willow trees
+which nicely block out the ugly view of the marsh. A lone gooseberry bush has
+been planted here at the edge of the field.
+~
+0 0 SECT_FIELD
+DDIR_SOUTH
+The island continues to the south.~
+~
+0 -1 1028
+DDIR_WEST
+The island continues to the west.~
+~
+0 -1 1009
+E
+willow trees~
+The willow trees show the classic drooping shape of their species with the tips
+of their branches touching the marsh waters.
+~
+E
+furrows earth field~
+The furrows in the earth looking freshly ploughed. The earth is dark and rich.
+~
+E
+crops~
+The crops here consist of root vegetables such as carrots and potatoes, but they
+all appear to have been half eaten by something!
+~
+#1027
+An island in the marsh~
+This part of the island is definitely inhabited! There are freshly turned
+furrows in the earth here, and you can see the leaves of various root crops
+poking above the soil. The makeshift field is bordered by drooping willow trees
+which nicely block out the ugly view of the marsh.
+~
+0 0 SECT_FIELD
+DDIR_NORTH
+~
+~
+0 -1 1009
+DDIR_EAST
+The island continues to the north.~
+~
+0 -1 1028
+E
+willow trees~
+The willow trees show the classic drooping shape of their species with the tips
+of their branches touching the marsh waters.
+~
+E
+furrows earth field~
+The furrows in the earth looking freshly ploughed. The earth is dark and rich.
+~
+E
+crops~
+The fields seem to be full of root crops such as carrots and potatoes.
+~
+#1028
+An island in the marsh~
+In this corner of the island three willow trees appear to have been trained to
+grow into one large intertwining structure. In the junction of the branches
+above you see what is clearly a man-made platform with a small wooden hut built
+atop it. A rope ladder hangs from the edge of the platform.
+~
+0 0 SECT_FOREST
+DDIR_NORTH
+The island continues to the north.~
+~
+0 -1 1026
+DDIR_WEST
+The island continues to the west~
+~
+0 -1 1027
+DDIR_UP
+You see a small hut on a platform.~
+~
+0 -1 1042
+E
+willow trees~
+These three trees have been trained to grow into an interlocking structure.
+~
+E
+rope ladder~
+This rope ladder looks to be quite strong despite its homemade appearance.
+~
+E
+platform~
+The platform is made of planks of oak. You wonder where the wood came from.
+~
+E
+wooden hut~
+The hut appears to be made of hardwood boards. The construction is plain but
+well executed.
+~
+#1029
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1030
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1022
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1030
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1031
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1029
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1031
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1030
+DDIR_EAST
+The marsh stretches into the distance.~
+~
+0 -1 1032
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1032
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_SOUTH
+The marsh stretches into the distance.~
+~
+0 -1 1033
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1031
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1033
+A fetid marsh~
+You are standing waist deep in a fetid marsh! The water is disgustingly warm and
+the mud underfoot makes walking difficult. All around you the oily water is
+unbroken except for a few sickly mangroves and the occasional hump of floating
+organic debris.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1032
+DDIR_EAST
+The marsh gets shallow in that direction.~
+~
+0 -1 1035
+DDIR_SOUTH
+The marsh gets shallow in that direction.~
+~
+0 -1 1034
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1034
+A fetid marsh~
+The water here seems shallower than the rest of the marsh. As you stagger up the
+muddy incline you find yourself walking into a dark clearing amidst an
+impenetrable wall of mangrove trees.
+~
+0 0 SECT_SWAMP
+DDIR_NORTH
+The marsh stretches into the distance.~
+~
+0 -1 1033
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1035
+A fetid marsh~
+The water here seems shallower than the rest of the marsh. As you stagger up the
+muddy incline you find yourself walking into a dark clearing amidst an
+impenetrable wall of mangrove trees.
+~
+0 0 SECT_SWAMP
+DDIR_WEST
+The marsh stretches into the distance.~
+~
+0 -1 1033
+E
+mangroves~
+These mangroves are unusually short and stunted, even for mangrove trees.
+~
+E
+organic debris hump~
+Ugh! This lump of floating matter stinks of decay.
+~
+#1036
+A muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The muddy cave continues.~
+~
+0 -1 1037
+DDIR_UP
+Through the dark tunnel you can see the sky.~
+~
+0 -1 1024
+#1037
+A muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The muddy cave continues.~
+~
+0 -1 1038
+DDIR_SOUTH
+The muddy cave continues.~
+~
+0 -1 1039
+DDIR_WEST
+The muddy cave continues.~
+~
+0 -1 1036
+#1038
+A muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_EAST
+The muddy cave continues.~
+~
+0 -1 1041
+DDIR_WEST
+The muddy cave continues.~
+~
+0 -1 1037
+#1039
+A muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The muddy cave continues.~
+~
+0 -1 1037
+DDIR_EAST
+The muddy cave comes to an end.~
+~
+0 -1 1040
+#1040
+The muddy ruins of a stone room~
+The muddy cave has opened out into what is apparently the ruins of a cellar or
+basement or something similar. You can make out ancient blocks of stone showing
+through the mud covering one wall. This room appears to have been buried in a
+mudslide years ago. You feel a sense of forboding in this place.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_WEST
+The muddy cave continues.~
+~
+0 -1 1039
+#1041
+A muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_NORTH
+The muddy cave comes to an end.~
+~
+0 -1 1043
+DDIR_WEST
+The muddy cave continues.~
+~
+0 -1 1038
+#1042
+A treehouse~
+This wooden platform has a little wooden hut built atop it. Considering the
+desolate location the construction is surprisingly well-thought out. Little
+signs of habitation are dotted around the platform, including hooks for hanging
+clothing and cooking utensils, and a fireplace made of river rocks. A rope
+ladder hangs off the side of the platform.
+~
+0 ROOM_NO_MOB|ROOM_PRIVATE SECT_FOREST
+DDIR_DOWN
+Looking down you see the island in the marsh.~
+~
+0 -1 1028
+E
+ladder rope~
+This rope ladder looks to be quite strong despite its homemade appearance.
+~
+E
+cooking utensils~
+You see several tin pots and a small clay bowl with a wooden handle.
+~
+E
+platform~
+The platform is made of planks of oak. You wonder where the wood came from.
+~
+E
+hooks clothing~
+A hat and threadbare cloak hang on one of the hooks.
+~
+E
+clay~
+A tiny inscription has been scratched into the clay pot.
+~
+E
+inscription~
+Covenant's third area (tm) :P
+~
+#1043
+The end of a muddy cave~
+This muddy cave is small enough that only a dwarf or gnome would feel
+comfortable in it. Droplets of dingy water drip from the ceiling, and the mud
+squelches underfoot. The cave comes to an end here.
+~
+0 0 SECT_UNDER_GROUND
+DDIR_SOUTH
+The muddy cave continues.~
+~
+0 -1 1041
+#1044
+A fetid marsh~
+Mob chute for lost adventurer, to randomize eq and randomize repop location.
+~
+0 0 SECT_INSIDE
+DDIR_NORTH
+~
+~
+0 -1 1023
+DDIR_EAST
+~
+~
+0 -1 1031
+DDIR_SOUTH
+~
+~
+0 -1 1019
+DDIR_WEST
+~
+~
+0 -1 1004
+DDIR_UP
+~
+~
+0 -1 1011
+DDIR_DOWN
+~
+~
+0 -1 1015
+#0
+
+
+#RESETS
+M 1015 100 1005
+O 1006 100 1005
+P 1007 100 1006
+M 1002 100 1024
+M 1011 100 1024
+O 1001 100 1024
+M 1000 100 1042
+O 1002 100 1042
+P 1034 100 1002
+P 1034 100 1002
+P 1034 100 1002
+O 1003 100 1042
+P 1004 100 1003
+O 1005 100 1028
+M 1003 100 1019
+O 1008 100 1019
+P 1009 100 1008
+M 1017 100 1040
+O 1010 100 1040
+P 1047 100 1010
+P 1046 100 1010
+M 1018 100 1044
+E 1044 100 WEAR_HEAD
+E 1033 100 WEAR_BODY
+M 1016 100 1044
+G 1040 100 0
+G 1039 100 0
+G 1038 100 0
+G 1037 100 0
+G 1036 100 0
+G 1042 100 0
+G 1041 100 0
+O 1023  10 1044
+O 1022  10 1044
+O 1021  10 1044
+O 1020  10 1044
+O 1019  10 1044
+O 1018  10 1044
+O 1017  10 1044
+O 1016  10 1044
+O 1015  10 1044
+O 1014  10 1044
+O 1013  10 1044
+O 1012  10 1044
+O 1011  10 1044
+M 1001 100 1044
+M 1001 100 1044
+M 1001 100 1044
+M 1005 100 1004
+M 1003 100 1004
+M 1006 100 1036
+E 1048 100 WEAR_WAIST
+M 1010 100 1036
+M 1002 100 1017
+M 1012 100 1017
+M 1006 100 1037
+E 1049 100 WEAR_BODY
+M 1012 100 1037
+O 1026 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+P 1027 100 1026
+O 1030 100 1027
+M 1003 100 1035
+M 1014 100 1035
+M 1003 100 1012
+M 1007 100 1012
+M 1007 100 1023
+M 1005 100 1031
+M 1007 100 1031
+M 1005 100 1021
+M 1007 100 1021
+M 1002 100 1006
+M 1005 100 1020
+M 1002 100 1020
+M 1005 100 1022
+M 1002 100 1022
+M 1002 100 1034
+M 1002 100 1014
+M 1005 100 1007
+M 1002 100 1007
+M 1005 100 1011
+M 1004 100 1013
+M 1005 100 1013
+M 1005 100 1016
+M 1005 100 1032
+M 1005 100 1025
+M 1003 100 1030
+M 1008 100 1018
+M 1004 100 1018
+M 1004 100 1010
+M 1002 100 1029
+M 1006 100 1038
+E 1050 100 WEAR_NECK_A
+M 1006 100 1041
+E 1049 100 WEAR_BODY
+M 1006 100 1043
+E 1048 100 WEAR_WAIST
+M 1006 100 1039
+E 1050 100 WEAR_NECK_A
+M 1008 100 1015
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea

@@ -1,0 +1,2294 @@
+#AREA Red Knights' Castle~
+#AUTHORS Presto~
+#VERSION 4
+#RANGES 65 95 60 95
+#FLAGS AFLAG_NODEBUG|AFLAG_NOTELEPORT
+
+
+#HELPS
+0 'RED KNIGHTS CASTLE'~
+{128}                            Red Knights's Castle
+{308}
+This castle is home to an elite order of knights; The Red Knights.
+You may join them if you wish, but you must complete a quest to earn
+their trust.  Once a member of the red knights, you will gain several
+friends and other bonuses inaccessible to non-members.  There is no
+way out of the order once you become a member.
+~
+
+0 $~
+
+
+#MOBILES
+#13400
+knight red~
+a Red Knight~
+There's a knight dressed in red armor here.~
+This man is clearly a member of the Order of the Red Knights.
+He wears red platemail, and bears a red shield and sword.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_HUNT
+500 S
+70 0 0 1d1+3540 1d70+25
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 7
+  bow $n
+~
+|
+#13401
+king~
+the King~
+The King is here.~
+The King is dressed in red robes.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+0 S
+95 0 0 1d2256+7613 5d5+85
+188024 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 1
+  say Thank you for coming, $n.  I need your help.  To be brief,
+  say there is a traitor in my court.  He poisoned me, but my healer
+  say saved me.  I will not rest again until you bring me his head.
+  say There is a friend of mine that I think may help you.  He lives
+  say in the caverns beneath the courtyard.  If you bring him a
+  say valuable gift, he will help you.  He's partial to blue gems.
+  say Here is a key that will allow you into the caverns.
+  mpoload 13405
+  give key $n
+  mpjunk key
+  mpmset $n quest 0 4 2
+endif
+if quest (0,4,$n) == 7
+  say Greetings, Sir $n.
+endif
+~
+>fight_prog 50~
+mpat 13407 mpforce knight mpgoto 13412
+mpecho A Red Knight arrives to assist his king.
+~
+>give_prog i13403~
+if quest (0,4,$n) == 6
+  say So, my own advisor was the traitor.  How could I have
+  say been so blind?  For your valor in this matter, I dub
+  say you Sir $n, Knight of the Realm.  You now have access
+  say to the third level of the castle.  Thank you.
+  mpmset $n quest 0 4 7
+  mpoload 13406
+  give band $n
+  say This band is a bonus gift.  Keep it well.
+endif
+mpjunk i13403
+~
+|
+#13402
+advisor~
+the King's Advisor~
+The King's Advisor is here.~
+This man looks pretty old and twisted.  His eyes bear an evil look.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+-1000 S
+70 0 0 1d1+3318 1d70+25
+5000 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 100~
+if quest (0,4,$n) == 5
+  mpoload 13403
+  mpmset $n quest 0 4 6
+  mpquiet on
+  drop head
+  mpquiet off
+  mpecho The advisor loses his head.
+  mppurge self
+  break
+else
+  if quest (0,4,$n) == 6
+    emote is DEAD!
+    mpoload 13403
+    mpquiet on
+    drop head
+    mpquiet off
+    mpecho The advisor loses his head.
+    mppurge self
+    break
+  endif
+endif
+~
+|
+#13403
+healer~
+the Healer~
+The personal healer of the red knights is here.~
+This healer is dressed in red robes.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 1d1+9999 1d1+99
+134278 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 75~
+cast 'cure serious' $r
+~
+|
+#13404
+warrior myconid~
+a Myconid Warrior~
+A Myconid Warrior is here, watching for intruders.~
+This myconid warrior is very tall, and wields a very heavy whip.
+~
+ACT_SENTINEL|ACT_SCAVENGER|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+500 S
+70 0 0 1d1+3147 3d10+45
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 2
+  say Greetings, $n.  We heard of your coming.  If you 
+  say follow the cavern, you'll come to our leader's chamber.
+  mpmset $n quest 0 4 3
+endif
+~
+|
+#13405
+leader myconid~
+the Myconid Leader~
+The Myconid Leader is here.~
+The leader is dressed in red robes.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+1000 S
+95 0 0 1d2256+7613 5d5+85
+103678 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 3
+  say Welcome $n.  Have you brought me anything?
+endif
+~
+>speech_prog yes~
+say Then may I have it?
+~
+>speech_prog no~
+say I'm partial to blue gems.  Diamonds are my favorite.
+~
+>give_prog I13423~
+if quest (0,4,$n) == 3
+  say Thank you.  It's just what I wanted.  I'm not totally
+  say sure who the traitor is, but I can feel his evil 
+  say at work.  There is one man I know who may be able to
+  say help you.  The priest in the cathedral has the skills
+  say you are looking for to pinpoint the traitor.
+  say Just say to him "The Myconid Leader sent me."
+  mpmset $n quest 0 4 4
+  mpjunk i13423
+endif
+~
+>death_prog 100~
+if hasobjnum ($n) == 30900
+or hasobjnum ($n) == 30966
+or hasobjnum ($n) == 30967
+or hasobjnum ($n) == 30968
+or hasobjnum ($n) == 30969
+  if quest (30,1,$n) == 0
+    mpmset $n quest 30 1 1
+    mpoload 30914
+    mpforce $n HELP GUILDTOKEN
+    mpquiet on
+    cast 'giant strength' $n
+    give i30914 $n
+    mpquiet off
+  endif
+endif
+~
+|
+#13406
+priest~
+the Castle Priest~
+The priest of this castle is here.~
+The priest is dressed in red robes, and bears a red cross on a chain
+around his neck.
+~
+ACT_SENTINEL|ACT_SMART
+0
+1000 S
+95 0 0 10d100+8000 1d95+46
+143720 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 4
+  say Greetings, $n.  May I help you?
+endif
+~
+>speech_prog p The Myconid Leader sent me.~
+if quest (0,4,$n) == 4
+  say Ahhh.  You wish for me to locate the dark traitor for
+  say you.  I have already done so.  The king's own advisor
+  say is the one you seek.
+  mpmset $n quest 0 4 5
+endif
+~
+|
+#13407
+cook~
+the Castle Cook~
+The castle cook is here selling his best foods.~
+The cook is dressed in a red apron.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+131529 0
+POS_STANDING POS_STANDING SEX_MALE
+>rand_prog 65~
+say All-you-can-eat if you give me 100 coins.
+~
+>bribe_prog 100~
+if level ($n) != 95
+  mpmset $n full 48
+  mpmset $n thirst 48
+endif
+say There you go, $n.  Have a nice day.
+~
+|
+#13408
+cook personal~
+the Cook~
+The personal cook of the order is here selling his finest foods.~
+The cook is dressed in a red apron.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+158552 0
+POS_STANDING POS_STANDING SEX_MALE
+#13409
+knight~
+short~
+Long~
+Description
+~
+ACT_SENTINEL|ACT_SMART
+AFF_ETHEREAL
+0 S
+1 0 0 1d0+10 1d1+1
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>speech_prog p I call upon the order for assistance.~
+mpmload 13410
+mpforce redk follow $n
+mpmset redk name knight
+mppurge self 
+~
+|
+#13410
+redk~
+a Red Knight~
+A knight dressed in red armor stands here.~
+This knight looks quite strong.
+~
+ACT_SMART
+0
+0 S
+25 0 0 0d0+450 1d5+19
+1 0
+POS_STANDING POS_STANDING SEX_NEUTRAL
+>death_prog 100~
+mpecho The knight vanishes.
+mppurge self
+~
+|
+#13411
+supplier personal~
+the Supplier~
+The personal supplier of the order is here.~
+The supplier is dressed in red clothing.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+110544 0
+POS_STANDING POS_STANDING SEX_MALE
+#13412
+armorer personal~
+the Armorer~
+The personal armorer of the order is here selling his wares.~
+The armorer is dressed in red armor.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+141233 0
+POS_STANDING POS_STANDING SEX_MALE
+#13413
+weaponsmith personal~
+the Weaponsmith~
+The personal weaponsmith of the order is here selling his crafts.~
+The weaponsmith is dressed in red armor.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+107316 0
+POS_STANDING POS_STANDING SEX_MALE
+#13414
+magician~
+the Magician~
+The castle magician is here selling potions and scrolls.~
+The magician is dressed in red robes.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 1d95+46
+152799 0
+POS_STANDING POS_STANDING SEX_MALE
+#13415
+bandit~
+a bandit~
+A bandit is here, ready to waylay you!~
+This bandit looks extremely evil.
+~
+ACT_SENTINEL|ACT_AGGRESSIVE|ACT_SMART
+AFF_STEALTH
+-1000 S
+50 0 0 1d625+1197 3d10+25
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+#13416
+gate keeper~
+the Gate keeper~
+The gate keeper of the castle is here.~
+The gate keeper is dressed in red armor.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN
+0 S
+85 0 0 10d100+5000 1d85+37
+82105 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 0
+  say Greetings, $n.  The King has been expecting you.
+  say You'll find him in his chamber on the second level
+  say of the castle.
+  mpmset $n quest 0 4 1
+else
+  if quest (0,4,$n) == 7
+    say Greetings, Sir $n.
+  endif
+endif
+~
+|
+#13417
+noble~
+a Noble~
+A noble is here, as a guest of the king.~
+The noble is dressed in red robes.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+50 0 0 1d625+1197 3d10+35
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+>death_prog 20~
+mpoload 13423
+~
+|
+#13418
+knight red~
+a Red Knight~
+There's a knight dressed in red armor here.~
+This man is clearly a member of the Order of the Red Knights.
+He wears red platemail, and bears a red shield and sword.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+500 S
+70 0 0 1d1+3611 1d70+25
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 7
+  tell $n Greetings, Sir $n.  Do you wish to ascend?
+endif
+~
+>speech_prog yes yeah~
+if quest (0,4,$n) == 7
+  tell $n Very Well.
+  mpat 13400 mpecho Sir $n arrives from below.
+  mptransfer $n 13400
+  mpat 13400 mpforce $n look
+  mpecho $n ascends the stairs.
+endif
+~
+>rand_prog 50~
+mpquiet on
+mpgoto 13413
+mpquiet off
+~
+|
+#13419
+knight red~
+a Red Knight~
+There's a knight dressed in red armor here.~
+This man is clearly a member of the Order of the Red Knights.
+He wears red platemail, and bears a red shield and sword.
+~
+ACT_SENTINEL|ACT_SMART
+AFF_DETECT_INVIS|AFF_DETECT_HIDDEN|AFF_HUNT
+500 S
+70 0 0 1d1+3593 1d70+25
+32874 0
+POS_STANDING POS_STANDING SEX_MALE
+>all_greet_prog 100~
+if quest (0,4,$n) == 7
+  tell $n Greetings, Sir $n.  Do you wish to ascend?
+endif
+~
+>speech_prog yes yeah~
+if quest (0,4,$n) == 7
+  tell $n Very Well.
+  mpat 13410 mpecho Sir $n arrives from below.
+  mptransfer $n 13410
+  mpat 13410 mpforce $n look
+  mpecho $n ascends the stairs.
+endif
+~
+>rand_prog 50~
+mpquiet on
+mpgoto 13431
+mpquiet off
+~
+|
+#13420
+supplier~
+the Supplier~
+The castle supplier is here dressed in red robes.~
+The supplier is dressed in red clothing.
+~
+ACT_SENTINEL|ACT_SMART
+0
+0 S
+95 0 0 10d100+8000 3d20+70
+116556 0
+POS_STANDING POS_STANDING SEX_MALE
+#0
+
+
+#SHOPS
+13408 ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+13411 ITEM_TYPE_TREASURE ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+13412 ITEM_TYPE_ARMOR ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+13413 ITEM_TYPE_WEAPON ITEM_TYPE_AMMO ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+13414 ITEM_TYPE_SCROLL ITEM_TYPE_POTION ITEM_TYPE_WAND ITEM_TYPE_STAFF ITEM_TYPE_NOTHING  100  50  0 23
+13420 ITEM_TYPE_TREASURE ITEM_TYPE_LIGHT ITEM_TYPE_CONTAINER ITEM_TYPE_NOTHING ITEM_TYPE_NOTHING  100  50  0 23
+0
+
+
+#SPECIALS
+S
+
+
+#OBJECTS
+#13400
+sword red~
+a red sword~
+A red sword lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_INVENTORY|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SWORD 7 7 WEAPON_SLASH 0 0 0 0
+10 250000 73
+#13401
+platemail red~
+a red suit of platemail~
+A red suit of platemail lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_BODY
+17 0 0 0 0 0 0 0
+25 250000 65
+#13402
+shield red~
+a red shield~
+A red shield lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_SHIELD
+17 0 0 0 0 0 0 0
+12 250000 65
+#13403
+head~
+the advisor's head~
+The head of the king's advisor lies on the ground here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+3 10 1
+#13404
+fountain~
+a fountain~
+A small, cool fountain sets on the floor here.~
+~
+ITEM_TYPE_FOUNTAIN
+0
+0
+0 0 LIQ_WATER 0 0 0 0 0
+1 10 1
+#13405
+key~
+a large black key~
+A large black key lies on the ground here.~
+~
+ITEM_TYPE_KEY
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 10 1
+#13406
+band~
+the band of the red knights~
+A large red band lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK|ITEM_WEAR_WRIST
+17 0 0 0 0 0 0 0
+5 10 65
+A APPLY_DEX 2 0
+#13407
+statue~
+a statue of the king~
+A massive statue of the King stands here.~
+~
+ITEM_TYPE_TRASH
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+statue~
+The statue is twice the size of a human.  There is a caption at the
+bottom of the statue worth reading.
+~
+E
+caption~
+The caption:
+                        +---------------------+
+                        | Red Knights' Castle |
+                        | =================== |
+                        |   Presto  6/12/95   |
+                        +---------------------+
+~
+#13408
+whip~
+a red whip~
+A large red whip lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_WHIP 6 6 WEAPON_WHIP 0 0 0 0
+5 25000 43
+#13409
+chain~
+a chain with a red cross~
+A chain with a red cross attached lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+ITEM_FLAG_MAGIC|ITEM_FLAG_ANTI_EVIL|ITEM_FLAG_ANTI_NEUTRAL|ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_NECK
+17 0 0 0 0 0 0 0
+2 1032569 65
+A APPLY_DEX 2 0
+A APPLY_DAMROLL 2 0
+#13410
+table~
+a table~
+The private table of the Red Knights is here.~
+~
+ITEM_TYPE_FURNITURE
+0
+0
+0 0 0 0 0 0 0 0
+1 10 1
+E
+map~
+The Map:
+
+     *===================================================================*
+     | Level 0 |       Level 1       |     Level 2     |     Level 3     |
+     |---------+---------------------+-----------------+-----------------|
+     |         |    _____     ___    |  _____     ___  |    _            |
+     |         |  _| | | |___|_  |   | | | | |___|   | |  _| |           |
+     |  _____  | |  _________   _|_  | | |  _______  | | |_  |      ___  |
+     | |  _  | | |_           _   _| | |_  |     |   | | |_  |     |   | |
+     | |___| | |   |_|_|     | |  _| |   |_|     |_| | |   |_|     |_  | |
+     | |_____| |       |_   ___|_|   |           |___| |           |___| |
+     |         |        _| |         |                 |                 |
+     |         |       |___|         |                 |                 |
+     |         |                     |                 |                 |
+     *===================================================================*
+~
+E
+table~
+There's a map lying on the table.
+~
+#13411
+robes red~
+red robes~
+A set of red robes lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_ABOUT
+17 0 0 0 0 0 0 0
+10 10000 73
+#13412
+apron red~
+a red apron~
+A red apron lies on the ground here.~
+~
+ITEM_TYPE_ARMOR
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_WAIST
+17 0 0 0 0 0 0 0
+10 10000 73
+#13413
+horn red~
+a red horn~
+A red horn lies on the ground here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+2 500000 50
+E
+horn~
+Once blown, a member of the order of the red knights will come to assist you.
+The knight will remain for one fight and become a member of your party.  
+Hold the horn and then type "blow" to activate the horn.
+~
+P 1
+TRIG_UNKNOWN 100 blow
+OPROG_IF OIF_WEAR_LOC ! WEAR_NONE 2 3
+P 2
+TRIG_VOID
+OPROG_GOD_COMMAND
+mpmload 13409 
+ say I call upon the order for assistance.~
+P 2
+TRIG_VOID
+OPROG_ECHO
+Your horn shatters with a shower of sparks.~
+P 2
+TRIG_VOID
+OPROG_JUNK
+P 3
+TRIG_VOID
+OPROG_ECHO
+You must be holding the horn when you blow it.~
+#13414
+scroll haste~
+a scroll of haste~
+A scroll of haste lies on the ground here.~
+~
+ITEM_TYPE_SCROLL
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 132 0 0 0 0 0 0
+1 100000 65
+S 1 'haste'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13415
+potion haste~
+a potion of haste~
+A potion of haste lies on the ground here.~
+~
+ITEM_TYPE_POTION
+0
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+80 132 0 0 0 0 0 0
+1 100000 65
+S 1 'haste'
+S 2 '-1 slot'
+S 3 '-1 slot'
+#13416
+sack lunch~
+a lunch sack~
+A sack lies on the ground here.~
+~
+ITEM_TYPE_TRASH
+0
+ITEM_WEAR_TAKE
+0 0 0 0 0 0 0 0
+3 100 65
+E
+sack lunch~
+To get a meal, type "lunchtime".
+~
+P 1
+TRIG_UNKNOWN 100 lunchtime
+OPROG_GOD_COMMAND
+MPOLOAD 13417 
+ MPOLOAD 13418 
+ MPOLOAD 13417~
+P 1
+TRIG_VOID
+OPROG_ECHO
+You reach in and pull out two pieces of fried chicken and a glass of lemonade.~
+P 1
+TRIG_VOID
+OPROG_JUNK
+#13417
+chicken fried~
+fried chicken~
+A bunch of fried chicken lies here.~
+~
+ITEM_TYPE_FOOD
+0
+ITEM_WEAR_TAKE
+12 0 0 0 0 0 0 0
+5 100 65
+#13418
+lemonade glass~
+a glass of lemonade~
+A cool glass of ice cold lemonade lies on the ground here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+3 3 LIQ_LEMONADE 0 0 0 0 0
+2 100 65
+#13419
+torch~
+a torch~
+A torch lies on the ground here.~
+~
+ITEM_TYPE_LIGHT
+0
+ITEM_WEAR_TAKE
+0 0 24 0 0 0 0 0
+2 30 65
+#13420
+canteen~
+a canteen~
+A canteen lies on the ground here.~
+~
+ITEM_TYPE_DRINK_CON
+0
+ITEM_WEAR_TAKE
+15 15 LIQ_WATER 0 0 0 0 0
+10 50 65
+#13421
+bow red~
+a red bow~
+A massive red bow lies on the ground here.~
+~
+ITEM_TYPE_WEAPON
+ITEM_FLAG_AUTO_ENGRAVE
+ITEM_WEAR_TAKE|ITEM_WEAR_WIELD
+WEAPONTYPE_SHORTBOW 7 7 WEAPON_BLAST 0 0 0 0
+10 10000 65
+C
+whack~
+FLAG_CLASS_RANGER|FLAG_CLASS_GLADIATOR|FLAG_CLASS_MARAUDER|FLAG_CLASS_NINJA|FLAG_CLASS_ELEMENTALIST|FLAG_CLASS_ILLUSIONIST|FLAG_CLASS_MONK|FLAG_CLASS_NECROMANCER
+#13422
+arrow red~
+a red arrow~
+A large red arrow lies here.~
+~
+ITEM_TYPE_AMMO
+0
+ITEM_WEAR_TAKE
+10 16 20 4 0 0 0 0
+1 200 65
+#13423
+diamond blue~
+a blue diamond~
+A blue diamond lies on the ground here.~
+~
+ITEM_TYPE_TREASURE
+ITEM_FLAG_GLOW
+ITEM_WEAR_TAKE|ITEM_WEAR_HOLD
+0 0 0 0 0 0 0 0
+1 1000000 1
+#0
+
+
+#ROOMS
+#13400
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead down to the second level in the castle.  To
+the south you can see a hallway that is well guarded by knights.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the hallway.~
+~
+0 -1 13402
+DDIR_DOWN
+You see the base of the stairs.~
+~
+0 -1 13413
+#13401
+The Weapons Shop~
+This is the weapons shop for the Order of the Red Knights.
+The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the hallway.~
+~
+0 -1 13402
+#13402
+A Hallway~
+You're in the hallway outside the weapons shop to the west.  Only members of
+the order of the red knights may enter.  The hallway extends to the south.
+There are some stairs to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see some stairs leading down.~
+~
+0 -1 13400
+DDIR_SOUTH
+You see the hallway.~
+~
+0 -1 13404
+DDIR_WEST
+You see the weapons shop.~
+~
+0 -1 13401
+#13403
+The Armor Shop~
+This is the armor shop for the Order of the Red Knights.
+The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the hallway.~
+~
+0 -1 13404
+#13404
+Hallway~
+You're in the hallway outside the armor shop to the west.  Only members of
+the order of the red knights may enter.  The hallway extends to the north.
+The guard room for the order is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the hallway.~
+~
+0 -1 13402
+DDIR_SOUTH
+You see the guard room.~
+~
+0 -1 13407
+DDIR_WEST
+You see the armor shop.~
+~
+0 -1 13403
+#13405
+Secret Chamber of the Red Knights~
+You're in the top chamber of the eastern tower of the castle, which is made
+up entirely of the secret chamber of the red knights.  Only members of the
+order are permitted to enter.  The exit is located at the southeast corner
+of the chamber.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_EAST
+You see more of the chamber.~
+~
+0 -1 13406
+DDIR_SOUTH
+You see more of the chamber.~
+~
+0 -1 13408
+#13406
+Secret Chamber of the Red Knights~
+You're in the top chamber of the eastern tower of the castle, which is made
+up entirely of the secret chamber of the red knights.  Only members of the
+order are permitted to enter.  The exit is located at the southeast corner
+of the chamber.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_SOUTH
+You see more of the chamber.~
+~
+0 -1 13409
+DDIR_WEST
+You see more of the chamber.~
+~
+0 -1 13405
+#13407
+The Guard Room~
+This is the guard room for the order of the red knights.  Whenever there is
+a call for assistance from the knights, this room is where they come from.
+The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the hallway.~
+~
+0 -1 13404
+#13408
+Secret Chamber of the Red Knights~
+You're in the top chamber of the eastern tower of the castle, which is made
+up entirely of the secret chamber of the red knights.  Only members of the
+order are permitted to enter.  The exit is located at the southeast corner
+of the chamber.
+~
+0 ROOM_INDOORS|ROOM_SAFE SECT_INSIDE
+DDIR_NORTH
+You see more of the chamber.~
+~
+0 -1 13405
+DDIR_EAST
+You see more of the chamber.~
+~
+0 -1 13409
+#13409
+Secret Chamber of the Red Knights~
+You're in the top chamber of the eastern tower of the castle, which is made
+up entirely of the secret chamber of the red knights.  Only members of the
+order are permitted to enter.  The exit is located at the southeast corner
+of the chamber.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the chamber.~
+~
+0 -1 13406
+DDIR_SOUTH
+You see the exit.~
+~
+0 -1 13411
+DDIR_WEST
+You see more of the chamber.~
+~
+0 -1 13408
+#13410
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead down to the second level in the castle.  To
+the east you can see a short corridor.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a short corridor.~
+~
+0 -1 13411
+DDIR_DOWN
+You see the base of the stairs.~
+~
+0 -1 13431
+#13411
+Outside a Large Room~
+You're in a short corridor outside the top room in the tower, to the north.
+To the west you can see some stairs leading down.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a large room.~
+~
+0 -1 13409
+DDIR_WEST
+You see some stairs leading down.~
+~
+0 -1 13410
+#13412
+The King's Chamber~
+You're in the King's bedroom.  There's a huge bed in the northeast corner,
+and a large window in the west wall.  There is a hallway to the south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the hallway.~
+~
+0 -1 13417
+#13413
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead up to the top level in the castle.  To
+the south you can see hallways running south and east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a hallway.~
+~
+0 -1 13418
+#13414
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead down to the ground level of the castle.  To
+the south you can see a hallway running east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a hallway.~
+~
+0 -1 13419
+DDIR_DOWN
+You see the ground level of the castle.~
+~
+0 -1 13435
+#13415
+The Dining Chamber~
+You're in the north-west corner of a very large dining room.  You see an
+extremely large round table in the middle of the room.  It looks like it
+could seat a hundred knights.  The chamber continues east and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the chamber.~
+~
+0 -1 13416
+DDIR_SOUTH
+You see more of the chamber.~
+~
+0 -1 13422
+#13416
+The Dining Chamber~
+You're in the north-east corner of a very large dining room.  You see an
+extremely large round table in the middle of the room.  It looks like it
+could seat a hundred knights.  The chamber continues west and south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see more of the chamber.~
+~
+0 -1 13423
+DDIR_WEST
+You see more of the chamber.~
+~
+0 -1 13415
+#13417
+Outside the King's Room~
+You stand in a small anti-chamber to the King's room, to the north.
+It's very-well guarded.  South is a junction connecting this hallway to
+the hallway leading to the throne room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the King's chamber.~
+~
+0 -1 13412
+DDIR_SOUTH
+You see a small junction in the hallway.~
+~
+0 -1 13424
+#13418
+An East-West Hallway~
+This hallway (obviously) runs from the east to the west.  To the far
+east you can see the main dining hall of the castle.  Off in the
+distance to the south you can make out the throne room.  To the north
+you can see a stairway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see some stairs.~
+~
+0 -1 13413
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13419
+DDIR_SOUTH
+You see the hallway to the throne room.~
+~
+0 -1 13425
+#13419
+An East-West Hallway~
+This hallway (obviously) runs from the east to the west.  To the far
+east you can see the main dining hall of the castle.  To the west you
+see more of the hallway.  To the north you can see a stairway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see some stairs.~
+~
+0 -1 13414
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13420
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13418
+#13420
+An East-West Hallway~
+This hallway (obviously) runs from the east to the west.  To the far
+east you can see the main dining hall of the castle.  To the west you
+see more of the hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13421
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13419
+#13421
+An East-West Hallway~
+This hallway (obviously) runs from the east to the west.  To the far
+east you can see the main dining hall of the castle.  To the west you
+see more of the hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the dining chamber.~
+~
+0 -1 13422
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13420
+#13422
+The Dining Chamber~
+You're in the south-west corner of a very large dining room.  You see an
+extremely large round table in the middle of the room.  It looks like it
+could seat a hundred knights.  The chamber continues north and east.  To
+the west you can see a hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the chamber.~
+~
+0 -1 13415
+DDIR_EAST
+You see more of the chamber.~
+~
+0 -1 13423
+DDIR_WEST
+You see the hallway.~
+~
+0 -1 13421
+#13423
+The Dining Chamber~
+You're in the south-east corner of a very large dining room.  You see an
+extremely large round table in the middle of the room.  It looks like it
+could seat a hundred knights.  The chamber continues north and west.  To
+the south you can see a hallway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the chamber.~
+~
+0 -1 13416
+DDIR_SOUTH
+You see the hallway.~
+~
+0 -1 13427
+DDIR_WEST
+You see more of the chamber.~
+~
+0 -1 13422
+#13424
+A Short Hallway~
+You're in a hallway between the throne room and the king's chamber.  To
+the east you see the hallway outside the throne room.  To the north you
+see the hallway outside the king's chamber.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the king's chamber off in the distance.~
+~
+0 -1 13417
+DDIR_EAST
+You see the hallway outside the throne room.~
+~
+0 -1 13425
+#13425
+Outside the Throne Room~
+You're in a short hallway outside the throne room of the castle, to the
+south.  To the north you can see more of the hallway.  To the west you
+can see a hallway on the way to the king's chamber.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway running east and west.~
+~
+0 -1 13418
+DDIR_SOUTH
+You see the throne room.~
+~
+0 -1 13428
+DDIR_WEST
+You see a short hallway.~
+~
+0 -1 13424
+#13426
+A Small Lobby~
+You're in a small lobby outside a stairwell to the south.  To the east
+you can see a small chamber outside the castle dining room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see a chamber outside the dining room.~
+~
+0 -1 13427
+DDIR_SOUTH
+You see some stairs leading down.~
+~
+0 -1 13429
+#13427
+Outside the Dining Chamber~
+You're in a small chamber outside the castle dining room, to the north.
+To the south and east are a couple short hallways leading to some
+stairways.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the dining chamber.~
+~
+0 -1 13423
+DDIR_SOUTH
+You see a short hallway.~
+~
+0 -1 13430
+DDIR_WEST
+You see a lobby outside a stairwell.~
+~
+0 -1 13426
+#13428
+Throne Room~
+You're in the castle throne room.  The walls are completely red.
+Against the south wall is the king's throne.  It's vacant at the moment
+for some reason.  In the east and west walls are windows.  The exit is
+to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the hallway leading to the throne room.~
+~
+0 -1 13425
+#13429
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead down to the ground level of the castle.  To
+the north you can see a lobby outside the stairway.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a small lobby.~
+~
+0 -1 13426
+DDIR_DOWN
+You see the ground level.~
+~
+0 -1 13460
+#13430
+A Short Hallway~
+You're in a short hallway between some stairwells and the dining
+chamber, which is way to the north.  To the south the hallway continues
+to a stairwell.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the dining room off in the distance.~
+~
+0 -1 13427
+DDIR_SOUTH
+You see more of the hallway.~
+~
+0 -1 13432
+#13431
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead up the top level of the castle.  To the
+east you can see a small lobby.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the lobby.~
+~
+0 -1 13432
+#13432
+A Small Lobby~
+You're in a small lobby outside a stairwell to the west.  To the north
+you can see a short hallway leading to the castle dining room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the hallway.~
+~
+0 -1 13430
+DDIR_WEST
+You see some stairs.~
+~
+0 -1 13431
+#13433
+A Guest Room~
+This room is fairly large.  There's one large bed against the north
+wall, and an empty chest against the east wall.  The door is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13439
+#13434
+A Guest Room~
+This room is fairly large.  There's one large bed against the north
+wall, and an empty chest against the east wall.  The door is south.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13440
+#13435
+Stairs~
+The stairs here lead up to the second level of the castle.  To the south is
+a really long hallway running east to west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see a long hallway.~
+~
+0 -1 13441
+DDIR_UP
+You see the second level of the castle.~
+~
+0 -1 13414
+#13436
+The Castle Cathedral~
+You've walked into a very large, quiet room.  Rows of pews line the
+room, with the alter against the far west wall. The entrance to the
+cathedral is to the east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the lobby.~
+~
+0 -1 13437
+#13437
+The Cathedral Lobby~
+You're in a small lobby with a few benches set here and there for people
+to sit on.  To the west you can clearly make out the cathedral.  South
+is a long hallway running east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the long hallway.~
+~
+0 -1 13445
+DDIR_WEST
+You see the cathedral.~
+~
+0 -1 13436
+#13438
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west. From
+one end of the hallway you can't even make out the other end.  The hallway
+continues east.  South is another hallway, though much shorter.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13439
+DDIR_SOUTH
+You see another hallway.~
+~
+0 -1 13446
+#13439
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.  To the north is a guest room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13433
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13440
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13438
+#13440
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.  To the north is a guest room.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13434
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13441
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13439
+#13441
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.  To the north you can see some stairs.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see some stairs.~
+~
+0 -1 13435
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13442
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13440
+#13442
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13443
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13441
+#13443
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13444
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13442
+#13444
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues both east and west.  To the south you see the hallway leading to
+the castle shops.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13445
+DDIR_SOUTH
+You see another hallway.~
+~
+0 -1 13452
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13443
+#13445
+The Castle Hallway~
+You find yourself in an incredibly long hallway running east to west.  From
+one end of the hallway you can't even make out the other end.  The hallway
+continues to the west.  To the north you see a small lobby outside the
+castle cathedral.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the lobby.~
+~
+0 -1 13437
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13444
+#13446
+A Short Hallway~
+This hallway leads between the castle courtyard and the main castle hallway.
+To the north is the main castle hallway.  Off to the east you can see the
+courtyard and the surrounding walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the castle hallway.~
+~
+0 -1 13438
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13447
+#13447
+A Short Hallway~
+This hallway leads between the castle courtyard and the main castle hallway.
+To the south you can see a guest room.  Off to the east you can see the
+courtyard and the surrounding walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the hallway.~
+~
+0 -1 13448
+DDIR_SOUTH
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13455
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13446
+#13448
+A Short Hallway~
+This hallway leads between the castle courtyard and the main castle hallway.
+To the south you can see a guest room.  Just to the east you can see the
+courtyard and the surrounding walls.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the courtyard.~
+~
+0 -1 13449
+DDIR_SOUTH
+You see a guest room.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13456
+DDIR_WEST
+You see more of the hallway.~
+~
+0 -1 13447
+#13449
+Northwest Corner of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the east and south.  To the west is a short hallway.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the courtyard.~
+~
+0 -1 13450
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13457
+DDIR_WEST
+You see a short hallway.~
+~
+0 -1 13448
+#13450
+Northern End of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the east, west and south.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the courtyard.~
+~
+0 -1 13451
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13458
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13449
+#13451
+Northeast Corner of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the west and south.  To the east is a hallway leading to the
+castle shops.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see the hallway.~
+~
+0 -1 13452
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13459
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13450
+#13452
+A Hallway~
+You're in a hallway between the courtyard and the castle shops.  The
+courtyard lies to the west.  The shops are to the east.  To the north
+you can see a long hallway running east to west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see the long hallway.~
+~
+0 -1 13444
+DDIR_EAST
+You see the castle shops.~
+~
+0 -1 13453
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 13451
+#13453
+The Hallway by the Shops~
+This hallway seems well-trodden.  To the east you can clearly see the
+castle kitchen, where the cook makes all the food for visitors and
+members of the court.  To the west is a hallway.  To the south the
+hallway continues.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see the kitchen.~
+~
+0 -1 13454
+DDIR_SOUTH
+You see more of the hallway.~
+~
+0 -1 13461
+DDIR_WEST
+You see the courtyard a short distance away.~
+~
+0 -1 13452
+#13454
+The Kitchen~
+It sure smells good in here!  You're in the castle's kitchen. There's a
+large, plump man here selling all the food you could possibly wish to
+eat.  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a hallway.~
+~
+0 -1 13453
+#13455
+A Guest Room~
+This room is fairly large.  There's one large bed against the south
+wall, and an empty chest against the east wall.  The door is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13447
+#13456
+A Guest Room~
+This room is fairly large.  There's one large bed against the south
+wall, and an empty chest against the east wall.  The door is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13448
+#13457
+Western End of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the north, east and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13449
+DDIR_EAST
+You see the center of the courtyard.~
+~
+0 -1 13458
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13463
+#13458
+Center of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends in the four cardinal directions.  Looking down you see a grate.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13450
+DDIR_EAST
+You see more of the courtyard.~
+~
+0 -1 13459
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13464
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13457
+DDIR_DOWN
+You see a grate.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 13405 13472
+#13459
+Eastern End of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the north, west and south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13451
+DDIR_SOUTH
+You see more of the courtyard.~
+~
+0 -1 13465
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13458
+#13460
+Stairs~
+The stairs are made of brown wooden boards cut from the great oak trees
+out in the forest.  They lead up to the second level of the castle.  To
+the south you can see some stables.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_SOUTH
+You see the stables.~
+~
+0 -1 13466
+DDIR_UP
+You see the next level.~
+~
+0 -1 13429
+#13461
+The Hallway by the Shops~
+This hallway seems well-trodden.  To the east you can clearly see the
+castle equipment shop.  To the south is the magic shop.  The hallway
+continues to the north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see more of the hallway.~
+~
+0 -1 13453
+DDIR_EAST
+You see the equipment shop.~
+~
+0 -1 13462
+DDIR_SOUTH
+You see the magic shop.~
+~
+0 -1 13467
+#13462
+The Equipment Shop~
+You're in the equipment shop.  This is where you'll find all the
+standard equipment that might come in handy while adventuring, like
+torches and canteens.  The exit is west.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_WEST
+You see a hallway.~
+~
+0 -1 13461
+#13463
+Southwest Corner of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the north and east.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13457
+DDIR_EAST
+You see more of the courtyard.~
+~
+0 -1 13464
+#13464
+Southern End of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the north, east and west.  The castle gate is south.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13458
+DDIR_EAST
+You see more of the courtyard.~
+~
+0 -1 13465
+DDIR_SOUTH
+You see the castle gate.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 13477
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13463
+#13465
+Southeast Corner of the Courtyard~
+You're in the courtyard of the castle of the Red Knights, an elite order of
+knights created to serve as guardians of the Northern Continent and protect
+it from any evil creatures that decide to invade the realm.  The courtyard
+extends to the north and west.  To the east you can see some stables.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the courtyard.~
+~
+0 -1 13459
+DDIR_EAST
+You see some stables.~
+~
+0 -1 13466
+DDIR_WEST
+You see more of the courtyard.~
+~
+0 -1 13464
+#13466
+The Stables~
+The floor of this room is covered with straw.  This is the castle
+stables.  To the north you can see some stairs leading up.  To the west
+is the castle courtyard.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see some stairs.~
+~
+0 -1 13460
+DDIR_WEST
+You see the courtyard.~
+~
+0 -1 13465
+#13467
+The Magic Shop~
+Welcome to the castle magic shop.  The room isn't very large.  There's a
+counter near the south wall, and a bunch of scrolls and potions are
+lined on the wall.  The exit is north.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_NORTH
+You see a hallway.~
+~
+0 -1 13461
+#13468
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the south and east.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_EAST
+You see more of the cavern.~
+~
+0 -1 13469
+DDIR_SOUTH
+You see more of the cavern.~
+~
+0 -1 13471
+#13469
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the east and west.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_EAST
+You see more of the cavern.~
+~
+0 -1 13470
+DDIR_WEST
+You see more of the cavern.~
+~
+0 -1 13468
+#13470
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the south and west.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_SOUTH
+You see more of the cavern.~
+~
+0 -1 13473
+DDIR_WEST
+You see more of the cavern.~
+~
+0 -1 13469
+#13471
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the north and east.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+You see more of the cavern.~
+~
+0 -1 13468
+DDIR_EAST
+You see the entrance to the cavern.~
+~
+0 -1 13472
+#13472
+Entrance to a Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the east.  Up is a grate to the castle courtyard.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_WEST
+You see more of the cavern.~
+~
+0 -1 13471
+DDIR_UP
+You see the castle courtyard.~
+grate~
+EX_ISDOOR|EX_CLOSED|EX_LOCKED 13405 13458
+#13473
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the north and south.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+You see more of the cavern.~
+~
+0 -1 13470
+DDIR_SOUTH
+You see more of the cavern.~
+~
+0 -1 13476
+#13474
+A Lighted Cavern~
+You're in a lighted cavern.  The light is coming from a couple torches on
+the east and west walls.  This appears to be the final chamber in the
+caverns.  The exit is east.
+~
+0 ROOM_INDOORS SECT_INSIDE
+DDIR_EAST
+You see more of the cavern.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13475
+#13475
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the east and west.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_EAST
+You see more of the cavern.~
+~
+0 -1 13476
+DDIR_WEST
+You see more of the cavern.~
+door~
+EX_ISDOOR|EX_CLOSED -1 13474
+#13476
+A Dark Cavern~
+You're in a dark cavern.  It's extremely dark and damp.  When you look
+down you realize you're standing in six inches of water.  The cavern
+continues to the north and west.
+~
+0 ROOM_DARK SECT_INSIDE
+DDIR_NORTH
+You see more of the cavern.~
+~
+0 -1 13473
+DDIR_WEST
+You see more of the cavern.~
+~
+0 -1 13475
+#13477
+Outside the Red Knights' Castle~
+You stand outside an extremely large castle, to the north.  To the south
+you see the path you came up, leading to the castle, lined with great
+oak trees on both sides.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see the courtyard of the castle.~
+gate~
+EX_ISDOOR|EX_CLOSED -1 13464
+DDIR_SOUTH
+You see a forest trail.~
+~
+0 -1 13478
+#13478
+A Forest Trail~
+You're on a forest trail.  You're surrounded by great oak trees.  The
+trail continues to the north and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see a castle.~
+~
+0 -1 13477
+DDIR_WEST
+You see more of the trail.~
+~
+0 -1 13479
+#13479
+A Forest Trail~
+You're on a forest trail.  You're surrounded by great oak trees.  The
+trail continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the trail.~
+~
+0 -1 13478
+DDIR_WEST
+You see more of the trail.~
+~
+0 -1 13480
+#13480
+A Forest Trail~
+You're on a forest trail.  You're surrounded by great oak trees.  The
+trail continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the trail.~
+~
+0 -1 13479
+DDIR_WEST
+You see more of the trail.~
+~
+0 -1 13481
+#13481
+A Forest Trail~
+You're on a forest trail.  You're surrounded by great oak trees.  The
+trail continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_EAST
+You see more of the trail.~
+~
+0 -1 13480
+DDIR_SOUTH
+You see more of the trail.~
+~
+0 -1 13482
+#13482
+A Forest Trail~
+You're on a forest trail.  You're surrounded by great oak trees.  The
+trail continues to the east and west.
+~
+0 0 SECT_CITY
+DDIR_NORTH
+You see more of the trail.~
+~
+0 -1 13481
+DDIR_WEST
+You see more of the trail.~
+~
+0 -1 11867
+#0
+
+
+#RESETS
+M 13400 100 13463
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13465
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13449
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13451
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13444
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13446
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13424
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13425
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13430
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13407
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13407
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13400 100 13407
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13401 100 13412
+E 13411 100 WEAR_ABOUT
+M 13402 100 13428
+E 13411 100 WEAR_ABOUT
+M 13403 100 13406
+E 13411 100 WEAR_ABOUT
+M 13404 100 13468
+E 13408 100 WEAR_WIELD
+M 13404 100 13469
+E 13408 100 WEAR_WIELD
+M 13404 100 13470
+E 13408 100 WEAR_WIELD
+M 13404 100 13471
+E 13408 100 WEAR_WIELD
+M 13404 100 13473
+E 13408 100 WEAR_WIELD
+M 13404 100 13475
+E 13408 100 WEAR_WIELD
+M 13404 100 13476
+E 13408 100 WEAR_WIELD
+M 13405 100 13474
+E 13411 100 WEAR_ABOUT
+M 13406 100 13436
+E 13411 100 WEAR_ABOUT
+E 13409 100 WEAR_NECK_A
+M 13407 100 13454
+E 13412 100 WEAR_WAIST
+M 13408 100 13405
+E 13412 100 WEAR_WAIST
+G 13416 100 0
+M 13411 100 13408
+E 13411 100 WEAR_ABOUT
+G 13413   2 0
+M 13412 100 13403
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+G 13401 100 0
+G 13402 100 0
+M 13413 100 13401
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+G 13400 100 0
+G 13421 100 0
+G 13422 100 0
+M 13414 100 13467
+E 13411 100 WEAR_ABOUT
+G 13414 100 0
+G 13415 100 0
+M 13415 100 13479
+M 13415 100 13479
+M 13415 100 13479
+M 13416 100 13477
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13417 100 13433
+E 13411 100 WEAR_ABOUT
+M 13417 100 13434
+E 13411 100 WEAR_ABOUT
+M 13417 100 13455
+E 13411 100 WEAR_ABOUT
+M 13417 100 13456
+E 13411 100 WEAR_ABOUT
+M 13418 100 13413
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13419 100 13431
+E 13400 100 WEAR_WIELD
+E 13401 100 WEAR_BODY
+E 13402 100 WEAR_SHIELD
+M 13420 100 13462
+E 13411 100 WEAR_ABOUT
+G 13419 100 0
+G 13420 100 0
+D 13433 DIR_SOUTH DOOR_CLOSED
+D 13439 DIR_NORTH DOOR_CLOSED
+D 13434 DIR_SOUTH DOOR_CLOSED
+D 13440 DIR_NORTH DOOR_CLOSED
+D 13447 DIR_SOUTH DOOR_CLOSED
+D 13455 DIR_NORTH DOOR_CLOSED
+D 13448 DIR_SOUTH DOOR_CLOSED
+D 13456 DIR_NORTH DOOR_CLOSED
+D 13458 DIR_DOWN  DOOR_CLOSED_LOCKED
+D 13472 DIR_UP    DOOR_CLOSED_LOCKED
+D 13474 DIR_EAST  DOOR_CLOSED
+D 13475 DIR_WEST  DOOR_CLOSED
+O 13404   2 13454
+O 13404   2 13405
+O 13407   1 13458
+O 13410   1 13409
+S
+
+
+#$
+
+XXXXXXXXXX
+#Savearea
