@@ -125,7 +125,7 @@ int msdp_update_var(DESCRIPTOR_DATA *d, char *var, char *fmt, ...)
 
 void msdp_update_var_instant(DESCRIPTOR_DATA *d, char *var, char *fmt, ...)
 {
-	char buf[MAX_STRING_LENGTH];
+	char buf[MAX_STRING_LENGTH], out[MAX_STRING_LENGTH];
 	int index, length;
 	va_list args;
 
@@ -154,9 +154,9 @@ void msdp_update_var_instant(DESCRIPTOR_DATA *d, char *var, char *fmt, ...)
 
 	if (HAS_BIT(d->mth->msdp_data[index]->flags, MSDP_FLAG_REPORTED))
 	{
-		length = sprintf(buf, "%c%c%c%c%s%c%s%c%c", IAC, SB, TELOPT_MSDP, MSDP_VAR, msdp_table[index].name, MSDP_VAL, buf, IAC, SE);
+		length = sprintf(out, "%c%c%c%c%s%c%s%c%c", IAC, SB, TELOPT_MSDP, MSDP_VAR, msdp_table[index].name, MSDP_VAL, buf, IAC, SE);
 
-		write_msdp_to_descriptor(d, buf, length);
+		write_msdp_to_descriptor(d, out, length);
 	}
 }
 
